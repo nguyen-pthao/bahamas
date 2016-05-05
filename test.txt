@@ -1,6 +1,0 @@
-hello guys
-<<<<<<< HEAD
-123123123123
-=======
-wa wa wa wa
->>>>>>> 9b8564cab23d8af5644c26af35cd9556e9383cb1
