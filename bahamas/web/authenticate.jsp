@@ -13,6 +13,13 @@
     if (username.equals("zuerst")) {
         if (password.equals("test123")) {
             session.setAttribute("user", "admin");
+            if (request.getParameter("rememberme") == null) {
+                //do nothing
+            } else {
+                Cookie c = new Cookie("username", username);
+                c.setMaxAge(24 * 60 * 60);
+                response.addCookie(c);
+            }
             response.sendRedirect("index.jsp");
         } else {
             String errorMsg = "Invalid username/password.";
