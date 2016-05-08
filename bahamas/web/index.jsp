@@ -1,9 +1,11 @@
+<%@include file="protectuser.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Bahamas | Fuck you</title>
+  <title>TWC2 | Bahamas </title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -33,7 +35,7 @@
     <!-- Logo -->
     <a href="index.jsp" class="logo">
       <!-- mini logo for sidebar mini 50x50 pixels -->
-      <span class="logo-mini"><b>Bahamas</b></span>
+      <span class="logo-mini"><b>B</b>hms</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>TWC2</b>//Bahamas</span>
     </a>
@@ -168,7 +170,7 @@
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href="logout.jsp" class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
