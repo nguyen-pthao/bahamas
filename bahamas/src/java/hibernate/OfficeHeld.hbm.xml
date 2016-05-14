@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14 May, 2016 6:30:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.OfficeHeld" table="office_held" catalog="bahamas" optimistic-lock="version">
+        <id name="officeId" type="int">
+            <column name="OFFICE_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="officeHeldName" type="string">
+            <column name="OFFICE_HELD_NAME" length="50" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="200" />
+        </property>
+    </class>
+</hibernate-mapping>

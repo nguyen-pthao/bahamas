@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="bahamas"/>
+  <table-filter match-name="membership_class"/>
+  <table-filter match-name="payment_mode"/>
+  <table-filter match-name="team_affiliation"/>
+  <table-filter match-name="role"/>
+  <table-filter match-name="notice"/>
+  <table-filter match-name="event_location"/>
+  <table-filter match-name="contact"/>
+  <table-filter match-name="event_role_assignment"/>
+  <table-filter match-name="appreciation"/>
+  <table-filter match-name="donation"/>
+  <table-filter match-name="office_held"/>
+  <table-filter match-name="type_of_contact"/>
+  <table-filter match-name="mode_of_sending_receipt"/>
+  <table-filter match-name="language"/>
+  <table-filter match-name="training"/>
+  <table-filter match-name="event_class"/>
+  <table-filter match-name="permission_level"/>
+  <table-filter match-name="lsa_class"/>
+  <table-filter match-name="event"/>
+</hibernate-reverse-engineering>

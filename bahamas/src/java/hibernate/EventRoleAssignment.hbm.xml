@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14 May, 2016 6:30:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.EventRoleAssignment" table="event_role_assignment" catalog="bahamas" optimistic-lock="version">
+        <id name="roleId" type="int">
+            <column name="ROLE_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="eventId" type="int">
+            <column name="EVENT_ID" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

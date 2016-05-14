@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 14 May, 2016 6:30:32 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Event" table="event" catalog="bahamas" optimistic-lock="version">
+        <id name="eventId" type="int">
+            <column name="EVENT_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="createdBy" type="java.lang.Integer">
+            <column name="CREATED_BY" />
+        </property>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" />
+        </property>
+        <property name="eventTitle" type="string">
+            <column name="EVENT_TITLE" length="200" not-null="true" />
+        </property>
+        <property name="explainIfOther" type="string">
+            <column name="EXPLAIN_IF_OTHER" length="200" />
+        </property>
+        <property name="eventDate" type="date">
+            <column name="EVENT_DATE" length="10" not-null="true" />
+        </property>
+        <property name="eventTimeStart" type="timestamp">
+            <column name="EVENT_TIME_START" length="19" not-null="true" />
+        </property>
+        <property name="eventTimeEnd" type="timestamp">
+            <column name="EVENT_TIME_END" length="19" not-null="true" />
+        </property>
+        <property name="sendReminder" type="string">
+            <column name="SEND_REMINDER" length="1" not-null="true" />
+        </property>
+        <property name="eventDescription" type="string">
+            <column name="EVENT_DESCRIPTION" length="2000" />
+        </property>
+        <property name="minimumParticipations" type="java.lang.Integer">
+            <column name="MINIMUM_PARTICIPATIONS" />
+        </property>
+        <property name="eventClassName" type="string">
+            <column name="EVENT_CLASS_NAME" length="50" />
+        </property>
+        <property name="eventLocationName" type="string">
+            <column name="EVENT_LOCATION_NAME" length="50" not-null="true" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>
