@@ -45,7 +45,7 @@
         </div>
         <div class="login-box">
             <div class="login-logo-b">
-                <a href="login.jsp"><b>Bahamas</b></a>
+                <a href="login.jsp"><span style="color: #595959"><b>Bahamas</b></span></a>
             </div>
             <div class="login-logo">
                 <a href="login.jsp">Relationship Management System</a>

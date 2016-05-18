@@ -12,7 +12,8 @@
 
     if (username.equals("admin")) {
         if (password.equals("123")) {
-            session.setAttribute("user", "admin");
+            session.setAttribute("user", "Huxley");
+            session.setAttribute("userLevel", "admin");
             if (request.getParameter("rememberme") == null) {
                 //do nothing
             } else {
@@ -28,7 +29,8 @@
         }
     } else if(username.equals("novice")){
         if(password.equals("123")){
-            session.setAttribute("user", "novice");
+            session.setAttribute("user", "Si Hao");
+            session.setAttribute("userLevel", "novice");
             if (request.getParameter("rememberme") == null) {
                 //do nothing
             } else {
@@ -44,7 +46,8 @@
         }
     } else if(username.equals("user")){
         if(password.equals("123")){
-            session.setAttribute("user", "user");
+            session.setAttribute("user", "Darryl");
+            session.setAttribute("userLevel", "user");
             if (request.getParameter("rememberme") == null) {
                 //do nothing
             } else {

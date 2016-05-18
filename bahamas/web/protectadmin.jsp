@@ -4,8 +4,8 @@
     Author     : Marcus
 --%>
 <%
-    String userName = (String)session.getAttribute("user");
-    if(!userName.equals("admin")){
+    String userLevel = (String)session.getAttribute("userLevel");
+    if(!userLevel.equals("admin")){
         response.sendRedirect("user.jsp");
     }
     
