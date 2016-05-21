@@ -230,7 +230,7 @@
                             <ul class="treeview-menu" style="padding: 10px">                              
                                 <li><a href="javascript: void(0)"><i class="fa fa-calendar-plus-o"></i><span> Upcoming Event</span></a></li>
                                 <li><a href="javascript: void(0)"><i class="fa fa-calendar-times-o"></i><span> Past Event</span></a></li>
-                                <li><a href="javascript: void(0)"><i class="fa fa-plus-square"></i><span> Create New Event</span></a></li>
+                                <li><a href="javascript: void(0)"id="createevent"><i class="fa fa-plus-square"></i><span> Create New Event</span></a></li>
                                 <li  style="padding-bottom: 5px">
                                     <form action="#" method="get" class="sidebar-form">
                                         <div class="input-group">
@@ -290,8 +290,7 @@
                     <!-- Default box -->
                     <div class="box">
                         <div class="box-header with-border">
-                            <h3 class="box-title">To be completed</h3>
-
+                         
                             <div class="box-tools pull-right">
                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                     <i class="fa fa-minus"></i></button>
@@ -299,12 +298,11 @@
                                     <i class="fa fa-times"></i></button>
                             </div>
                         </div>
-                        <div class="box-body">
-                            To be continued...
+                        <div class="box-body" id="content">
+                            
                         </div>
                         <!-- /.box-body -->
                         <div class="box-footer">
-                            To be continued...
                         </div>
                         <!-- /.box-footer-->
                     </div>
@@ -390,5 +388,14 @@
         </div>
         <!-- ./wrapper -->
     </div>
+    <script>
+        $('document').ready(function(){
+           $('#createevent').on('click',function(){
+               $('#content').load('event.jsp #add-new-event');
+           }); 
+            
+        });
+            
+    </script>
 </body>
 </html>
