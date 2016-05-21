@@ -6,7 +6,6 @@
 package bahamas.struts2;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.impl.ContactDAOImpl;
 import bahamas.entity.Contact;
 import com.opensymphony.xwork2.ActionSupport;
 import com.opensymphony.xwork2.ModelDriven;
@@ -22,7 +21,7 @@ public class ContactAction extends ActionSupport implements ModelDriven {
 
     Contact contact = new Contact();
     List<Contact> contactList = new ArrayList<Contact>();
-    ContactDAO contactDAO = new ContactDAOImpl();
+    ContactDAO contactDAO = new ContactDAO();
 
     public String execute() throws Exception {
         return SUCCESS;
@@ -62,6 +61,12 @@ public class ContactAction extends ActionSupport implements ModelDriven {
 
         return SUCCESS;
 
+    }
+    
+    //find contact with username
+    public Contact retreiveByUsername(String username){
+        Contact c = contactDAO.retrieveContact(username);
+        return c;
     }
 
 }

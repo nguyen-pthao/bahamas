@@ -6,16 +6,36 @@
 package bahamas.dao;
 
 import bahamas.entity.Contact;
+import com.googlecode.s2hibernate.struts2.plugin.annotations.SessionTarget;
+import com.googlecode.s2hibernate.struts2.plugin.annotations.TransactionTarget;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
 /**
  *
  * @author Marcus
  */
-public interface ContactDAO {
+public class ContactDAO {
 
-    void addContact(Contact contact);
-	
-	List<Contact> listContact();
+    @SessionTarget
+    Session session;
+
+    @TransactionTarget
+    Transaction transaction;
+
+    public void addContact(Contact contact) {
+        session.save(contact);
+    }
+
+    public List<Contact> listContact() {
+        return session.createQuery("from Contact").list();
+    }
+
+    public Contact retrieveContact(String username) {
+        return (Contact) session.load(Contact.class, username);
+    }
+
 }
