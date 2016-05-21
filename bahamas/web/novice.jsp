@@ -21,19 +21,19 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="style/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="style/css/skins/_all-skins.min.css">
 
         <!-- SlimScroll -->
         <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
         <script src="plugins/fastclick/fastclick.js"></script>
         <!-- AdminLTE App -->
-        <script src="dist/js/app.min.js"></script>
+        <script src="style/js/app.min.js"></script>
         <!-- AdminLTE for demo purposes -->
-        <script src="dist/js/demo.js"></script>
+        <script src="style/js/demo.js"></script>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -80,7 +80,7 @@
                                             <li><!-- start message -->
                                                 <a href="#">
                                                     <div class="pull-left">
-                                                        <img src="dist/img/sihao.jpg" class="img-circle" alt="User Image">
+                                                        <img src="style/img/sihao.jpg" class="img-circle" alt="User Image">
                                                     </div>
                                                     <h4>
                                                         Support Team
@@ -151,13 +151,13 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="dist/img/sihao.jpg" class="user-image" alt="User Image">
+                                    <img src="style/img/sihao.jpg" class="user-image" alt="User Image">
                                     <span class="hidden-xs"><%out.println("Welcome " + name);%></span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="dist/img/sihao.jpg" class="img-circle" alt="User Image">
+                                        <img src="style/img/sihao.jpg" class="img-circle" alt="User Image">
                                         <p>
                                             <%out.println(name);%>
                                             <small>Member since Apr. 2016</small>
@@ -192,7 +192,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="dist/img/sihao.jpg" class="img-circle" alt="User Image">
+                            <img src="style/img/sihao.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <br>

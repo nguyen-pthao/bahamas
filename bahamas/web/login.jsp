@@ -26,7 +26,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
         
         <!-- Theme style -->
-        <link rel="stylesheet" href="dist/css/AdminLTE.css">
+        <link rel="stylesheet" href="style/css/AdminLTE.css">
         <!-- iCheck -->
         <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
 
@@ -41,7 +41,7 @@
     <body class="hold-transition login-page">
         <div class="twc2-logo" align="center">
             <!--twc2-logo-->
-            <img src="dist/img/Picture1.png" alt="twc2-logo" height="270" width="230"/>
+            <img src="style/img/Picture1.png" alt="twc2-logo" height="270" width="230"/>
         </div>
         <div class="login-box">
             <div class="login-logo">
