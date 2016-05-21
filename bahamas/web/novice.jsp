@@ -159,7 +159,7 @@
                                     <li class="user-header">
                                         <img src="dist/img/sihao.jpg" class="img-circle" alt="User Image">
                                         <p>
-                                            <%out.println(name + " - " + position);%>
+                                            <%out.println(name);%>
                                             <small>Member since Apr. 2016</small>
                                         </p>
                                     </li>                                  
@@ -195,8 +195,8 @@
                             <img src="dist/img/sihao.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p><a href="#"><%out.println(name);%></p>
-                            <i class="fa fa-circle text-success"></i> Online</a>
+                            <br>
+                            <p><a href="novice.jsp"><%out.println(name);%></a></p>
                         </div>    
                     </div>                   
                     <!-- sidebar menu: : style can be found in sidebar.less -->

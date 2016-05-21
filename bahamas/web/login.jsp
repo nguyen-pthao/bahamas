@@ -44,9 +44,6 @@
             <img src="dist/img/Picture1.png" alt="twc2-logo" height="270" width="230"/>
         </div>
         <div class="login-box">
-            <div class="login-logo-b">
-                <a href="login.jsp"><span style="color: #595959"><b>Bahamas</b></span></a>
-            </div>
             <div class="login-logo">
                 <a href="login.jsp">Relationship Management System</a>
             </div>
@@ -65,11 +62,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-8">
-                            <div class="checkbox icheck">
-                                <label>
-                                    <input name="rememberme" type="checkbox"> Remember Me
-                                </label>
-                            </div>
+                            
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-4">
@@ -78,9 +71,6 @@
                         <!-- /.col -->
                     </div>
                 </form>
-
-                <!-- /.social-auth-links -->
-                <a href="register.html" class="text-center">Register a new membership</a>
 
             </div>
             <!-- /.login-box-body -->

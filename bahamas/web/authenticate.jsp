@@ -14,13 +14,6 @@
         if (password.equals("123")) {
             session.setAttribute("user", "Huxley");
             session.setAttribute("userLevel", "admin");
-            if (request.getParameter("rememberme") == null) {
-                //do nothing
-            } else {
-                Cookie c = new Cookie("username", username);
-                c.setMaxAge(24 * 60 * 60);
-                response.addCookie(c);
-            }
             response.sendRedirect("admin.jsp");
         } else{
             String errorMsg = "Invalid username/password.";
@@ -31,13 +24,6 @@
         if(password.equals("123")){
             session.setAttribute("user", "Si Hao");
             session.setAttribute("userLevel", "novice");
-            if (request.getParameter("rememberme") == null) {
-                //do nothing
-            } else {
-                Cookie c = new Cookie("username", username);
-                c.setMaxAge(24 * 60 * 60);
-                response.addCookie(c);
-            }
             response.sendRedirect("novice.jsp");
         } else{
             String errorMsg = "Invalid username/password.";
@@ -48,13 +34,6 @@
         if(password.equals("123")){
             session.setAttribute("user", "Darryl");
             session.setAttribute("userLevel", "user");
-            if (request.getParameter("rememberme") == null) {
-                //do nothing
-            } else {
-                Cookie c = new Cookie("username", username);
-                c.setMaxAge(24 * 60 * 60);
-                response.addCookie(c);
-            }
             response.sendRedirect("user.jsp");
         } else{
             String errorMsg = "Invalid username/password.";
