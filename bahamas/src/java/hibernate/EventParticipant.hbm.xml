@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.EventParticipant" table="event_participant" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.EventParticipantId">
+            <key-property name="contactId" type="int">
+                <column name="CONTACT_ID" />
+            </key-property>
+            <key-property name="eventId" type="int">
+                <column name="EVENT_ID" />
+            </key-property>
+            <key-property name="roleId" type="int">
+                <column name="ROLE_ID" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="contactByAwarderId" class="hibernate.Contact" fetch="select">
+            <column name="AWARDER_ID" />
+        </many-to-one>
+        <many-to-one name="contactByContactId" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="event" class="hibernate.Event" update="false" insert="false" fetch="select">
+            <column name="EVENT_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="roleList" class="hibernate.RoleList" update="false" insert="false" fetch="select">
+            <column name="ROLE_ID" not-null="true" />
+        </many-to-one>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" />
+        </property>
+        <property name="pullout" type="string">
+            <column name="PULLOUT" length="1" />
+        </property>
+        <property name="datePullout" type="date">
+            <column name="DATE_PULLOUT" length="10" />
+        </property>
+        <property name="reason" type="string">
+            <column name="REASON" length="1000" />
+        </property>
+        <property name="hoursServed" type="java.lang.Float">
+            <column name="HOURS_SERVED" precision="12" scale="0" />
+        </property>
+        <property name="serviceComment" type="string">
+            <column name="SERVICE_COMMENT" length="1000" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>

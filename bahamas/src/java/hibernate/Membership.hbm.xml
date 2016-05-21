@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Membership" table="membership" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.MembershipId">
+            <key-property name="contactId" type="int">
+                <column name="CONTACT_ID" />
+            </key-property>
+            <key-property name="dateCreated" type="date">
+                <column name="DATE_CREATED" length="10" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="contact" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="membershipClassList" class="hibernate.MembershipClassList" fetch="select">
+            <column name="MEMBERSHIP_CLASS_NAME" length="50" />
+        </many-to-one>
+        <many-to-one name="modeOfSendingReceiptList" class="hibernate.ModeOfSendingReceiptList" fetch="select">
+            <column name="RECEIPT_MODE_NAME" length="50" />
+        </many-to-one>
+        <many-to-one name="paymentModeList" class="hibernate.PaymentModeList" fetch="select">
+            <column name="PAYMENT_MODE_NAME" length="50" />
+        </many-to-one>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="explainIfOtherClass" type="string">
+            <column name="EXPLAIN_IF_OTHER_CLASS" length="50" />
+        </property>
+        <property name="startMembership" type="date">
+            <column name="START_MEMBERSHIP" length="10" />
+        </property>
+        <property name="endMembership" type="date">
+            <column name="END_MEMBERSHIP" length="10" />
+        </property>
+        <property name="subscriptionAmount" type="java.lang.Float">
+            <column name="SUBSCRIPTION_AMOUNT" precision="12" scale="0" />
+        </property>
+        <property name="explainIfOtherPayment" type="string">
+            <column name="EXPLAIN_IF_OTHER_PAYMENT" length="50" />
+        </property>
+        <property name="extTransactionRef" type="string">
+            <column name="EXT_TRANSACTION_REF" length="50" />
+        </property>
+        <property name="receiptNumber" type="string">
+            <column name="RECEIPT_NUMBER" length="50" />
+        </property>
+        <property name="receiptDate" type="date">
+            <column name="RECEIPT_DATE" length="10" />
+        </property>
+        <property name="explainIfOtherReceipt" type="string">
+            <column name="EXPLAIN_IF_OTHER_RECEIPT" length="200" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>

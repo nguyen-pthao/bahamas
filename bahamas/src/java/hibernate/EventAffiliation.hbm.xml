@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.EventAffiliation" table="event_affiliation" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.EventAffiliationId">
+            <key-property name="eventId" type="int">
+                <column name="EVENT_ID" />
+            </key-property>
+            <key-property name="teamName" type="string">
+                <column name="TEAM_NAME" length="50" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="event" class="hibernate.Event" update="false" insert="false" fetch="select">
+            <column name="EVENT_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="teamAffiliationList" class="hibernate.TeamAffiliationList" update="false" insert="false" fetch="select">
+            <column name="TEAM_NAME" length="50" not-null="true" />
+        </many-to-one>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" />
+        </property>
+        <property name="explainIfOther" type="string">
+            <column name="EXPLAIN_IF_OTHER" length="200" />
+        </property>
+        <property name="dateObsolete" type="date">
+            <column name="DATE_OBSOLETE" length="10" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>

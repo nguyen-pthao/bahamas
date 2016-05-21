@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Address" table="address" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.AddressId">
+            <key-property name="contactId" type="int">
+                <column name="CONTACT_ID" />
+            </key-property>
+            <key-property name="address" type="string">
+                <column name="ADDRESS" length="100" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="contact" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="country" type="string">
+            <column name="COUNTRY" length="50" />
+        </property>
+        <property name="zipcode" type="string">
+            <column name="ZIPCODE" length="20" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+        <property name="dateObsolete" type="date">
+            <column name="DATE_OBSOLETE" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

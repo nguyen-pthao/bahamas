@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.RoleList" table="role_list" catalog="bahamas" optimistic-lock="version">
+        <id name="roleId" type="int">
+            <column name="ROLE_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="roleDescription" type="string">
+            <column name="ROLE_DESCRIPTION" length="200" />
+        </property>
+        <set name="events" table="event_role_assignment" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="ROLE_ID" not-null="true" />
+            </key>
+            <many-to-many entity-name="hibernate.Event">
+                <column name="EVENT_ID" not-null="true" />
+            </many-to-many>
+        </set>
+        <set name="eventParticipants" table="event_participant" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ROLE_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.EventParticipant" />
+        </set>
+    </class>
+</hibernate-mapping>

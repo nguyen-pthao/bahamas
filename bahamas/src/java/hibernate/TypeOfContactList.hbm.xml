@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.TypeOfContactList" table="type_of_contact_list" catalog="bahamas" optimistic-lock="version">
+        <id name="contactType" type="string">
+            <column name="CONTACT_TYPE" length="50" />
+            <generator class="assigned" />
+        </id>
+        <set name="contacts" table="contact" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_TYPE" length="50" />
+            </key>
+            <one-to-many class="hibernate.Contact" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Donation" table="donation" catalog="bahamas" optimistic-lock="version">
+        <id name="donationId" type="int">
+            <column name="DONATION_ID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="contact" class="hibernate.Contact" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="paymentModeList" class="hibernate.PaymentModeList" fetch="select">
+            <column name="PAYMENT_MODE_NAME" length="50" not-null="true" />
+        </many-to-one>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="dateReceived" type="date">
+            <column name="DATE_RECEIVED" length="10" not-null="true" />
+        </property>
+        <property name="donationAmount" type="float">
+            <column name="DONATION_AMOUNT" precision="12" scale="0" not-null="true" />
+        </property>
+        <property name="explainIfOtherPayment" type="string">
+            <column name="EXPLAIN_IF_OTHER_PAYMENT" length="200" />
+        </property>
+        <property name="extTransactionRef" type="string">
+            <column name="EXT_TRANSACTION_REF" length="50" />
+        </property>
+        <property name="receiptNumber" type="string">
+            <column name="RECEIPT_NUMBER" length="50" />
+        </property>
+        <property name="receiptDate" type="date">
+            <column name="RECEIPT_DATE" length="10" />
+        </property>
+        <property name="explainIfOtherReceipt" type="string">
+            <column name="EXPLAIN_IF_OTHER_RECEIPT" length="200" />
+        </property>
+        <property name="donorInstructions" type="string">
+            <column name="DONOR_INSTRUCTIONS" length="1000" />
+        </property>
+        <property name="allocation1" type="string">
+            <column name="ALLOCATION_1" length="200" />
+        </property>
+        <property name="subamount1" type="java.lang.Float">
+            <column name="SUBAMOUNT_1" precision="12" scale="0" />
+        </property>
+        <property name="allocation2" type="string">
+            <column name="ALLOCATION_2" length="200" />
+        </property>
+        <property name="subamount2" type="java.lang.Float">
+            <column name="SUBAMOUNT_2" precision="12" scale="0" />
+        </property>
+        <property name="allocation3" type="string">
+            <column name="ALLOCATION_3" length="200" />
+        </property>
+        <property name="subamount3" type="java.lang.Float">
+            <column name="SUBAMOUNT_3" precision="12" scale="0" />
+        </property>
+        <property name="associatedOccasion" type="string">
+            <column name="ASSOCIATED_OCCASION" length="500" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.OfficeList" table="office_list" catalog="bahamas" optimistic-lock="version">
+        <id name="officeId" type="int">
+            <column name="OFFICE_ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="officeHeldName" type="string">
+            <column name="OFFICE_HELD_NAME" length="50" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" length="200" />
+        </property>
+        <set name="officeHelds" table="office_held" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="OFFICE_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.OfficeHeld" />
+        </set>
+    </class>
+</hibernate-mapping>

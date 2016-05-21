@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.TeamJoin" table="team_join" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.TeamJoinId">
+            <key-property name="contactId" type="int">
+                <column name="CONTACT_ID" />
+            </key-property>
+            <key-property name="teamName" type="string">
+                <column name="TEAM_NAME" length="50" />
+            </key-property>
+            <key-property name="permission" type="string">
+                <column name="PERMISSION" length="50" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="contact" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="permissionLevelList" class="hibernate.PermissionLevelList" update="false" insert="false" fetch="select">
+            <column name="PERMISSION" length="50" not-null="true" />
+        </many-to-one>
+        <many-to-one name="teamAffiliationList" class="hibernate.TeamAffiliationList" update="false" insert="false" fetch="select">
+            <column name="TEAM_NAME" length="50" not-null="true" />
+        </many-to-one>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" not-null="true" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="explainIfOther" type="string">
+            <column name="EXPLAIN_IF_OTHER" length="200" />
+        </property>
+        <property name="subteam" type="string">
+            <column name="SUBTEAM" length="50" />
+        </property>
+        <property name="dateObsolete" type="date">
+            <column name="DATE_OBSOLETE" length="10" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>

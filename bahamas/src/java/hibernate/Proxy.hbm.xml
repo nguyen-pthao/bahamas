@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Proxy" table="proxy" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.ProxyId">
+            <key-property name="contactId" type="int">
+                <column name="CONTACT_ID" />
+            </key-property>
+            <key-property name="proxyId" type="int">
+                <column name="PROXY_ID" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="contactByProxyId" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="PROXY_ID" not-null="true" />
+        </many-to-one>
+        <many-to-one name="contactByContactId" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="proxyStanding" type="string">
+            <column name="PROXY_STANDING" length="500" />
+        </property>
+        <property name="dateObsolete" type="date">
+            <column name="DATE_OBSOLETE" length="10" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+    </class>
+</hibernate-mapping>

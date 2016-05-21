@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Email" table="email" catalog="bahamas" optimistic-lock="version">
+        <composite-id name="id" class="hibernate.EmailId">
+            <key-property name="contactId" type="int">
+                <column name="CONTACT_ID" />
+            </key-property>
+            <key-property name="email" type="string">
+                <column name="EMAIL" length="50" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="contact" class="hibernate.Contact" update="false" insert="false" fetch="select">
+            <column name="CONTACT_ID" not-null="true" />
+        </many-to-one>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+        <property name="dateObsolete" type="date">
+            <column name="DATE_OBSOLETE" length="10" />
+        </property>
+    </class>
+</hibernate-mapping>

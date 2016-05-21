@@ -1,0 +1,159 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 21 May, 2016 5:04:23 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="hibernate.Contact" table="contact" catalog="bahamas" optimistic-lock="version">
+        <id name="contactId" type="int">
+            <column name="CONTACT_ID" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="typeOfContactList" class="hibernate.TypeOfContactList" fetch="select">
+            <column name="CONTACT_TYPE" length="50" />
+        </many-to-one>
+        <property name="username" type="string">
+            <column name="USERNAME" length="50" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" length="20" />
+        </property>
+        <property name="isadmin" type="string">
+            <column name="ISADMIN" length="1" />
+        </property>
+        <property name="deactivated" type="string">
+            <column name="DEACTIVATED" length="1" />
+        </property>
+        <property name="dateCreated" type="date">
+            <column name="DATE_CREATED" length="10" />
+        </property>
+        <property name="createdBy" type="string">
+            <column name="CREATED_BY" length="50" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="50" />
+        </property>
+        <property name="altName" type="string">
+            <column name="ALT_NAME" length="50" />
+        </property>
+        <property name="explainIfOther" type="string">
+            <column name="EXPLAIN_IF_OTHER" length="200" />
+        </property>
+        <property name="profession" type="string">
+            <column name="PROFESSION" length="200" />
+        </property>
+        <property name="jobTitle" type="string">
+            <column name="JOB_TITLE" length="50" />
+        </property>
+        <property name="nricFin" type="string">
+            <column name="NRIC_FIN" length="9" />
+        </property>
+        <property name="gender" type="string">
+            <column name="GENDER" length="1" />
+        </property>
+        <property name="nationality" type="string">
+            <column name="NATIONALITY" length="20" />
+        </property>
+        <property name="dateOfBirth" type="date">
+            <column name="DATE_OF_BIRTH" length="10" />
+        </property>
+        <property name="profilePic" type="string">
+            <column name="PROFILE_PIC" length="500" />
+        </property>
+        <property name="remarks" type="string">
+            <column name="REMARKS" length="1000" />
+        </property>
+        <property name="notification" type="string">
+            <column name="NOTIFICATION" length="1" />
+        </property>
+        <set name="teamJoins" table="team_join" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.TeamJoin" />
+        </set>
+        <set name="languageAssignments" table="language_assignment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.LanguageAssignment" />
+        </set>
+        <set name="emails" table="email" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Email" />
+        </set>
+        <set name="memberships" table="membership" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Membership" />
+        </set>
+        <set name="officeHelds" table="office_held" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.OfficeHeld" />
+        </set>
+        <set name="donations" table="donation" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Donation" />
+        </set>
+        <set name="phones" table="phone" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Phone" />
+        </set>
+        <set name="addresses" table="address" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Address" />
+        </set>
+        <set name="skillAssignments" table="skill_assignment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.SkillAssignment" />
+        </set>
+        <set name="proxiesForProxyId" table="proxy" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PROXY_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Proxy" />
+        </set>
+        <set name="appreciations" table="appreciation" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Appreciation" />
+        </set>
+        <set name="proxiesForContactId" table="proxy" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.Proxy" />
+        </set>
+        <set name="eventParticipantsForAwarderId" table="event_participant" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="AWARDER_ID" />
+            </key>
+            <one-to-many class="hibernate.EventParticipant" />
+        </set>
+        <set name="trainingCertificateds" table="training_certificated" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CERTIFIED_BY" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.TrainingCertificated" />
+        </set>
+        <set name="eventParticipantsForContactId" table="event_participant" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="CONTACT_ID" not-null="true" />
+            </key>
+            <one-to-many class="hibernate.EventParticipant" />
+        </set>
+    </class>
+</hibernate-mapping>
