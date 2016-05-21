@@ -276,7 +276,7 @@
             <!-- =============================================== -->
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+            <div class="content-wrapper"  id="content">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h3>
@@ -298,7 +298,7 @@
                                     <i class="fa fa-times"></i></button>
                             </div>
                         </div>
-                        <div class="box-body" id="content">
+                        <div class="box-body">
                             
                         </div>
                         <!-- /.box-body -->

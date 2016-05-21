@@ -46,77 +46,108 @@
     </head>
     <!-- /.box -->
     <!-- general form elements disabled -->
-    <div class="container" id="add-new-event">
-        <div class="box-header with-border">
-            <h3 class="box-title">Create Event</h3>
-        </div>
-        <!-- /.box-header -->
-        <div class="box-body">
-            <form role="form">
-                <!-- select iterated events-->
-                <div class="form-group">
-                    <label>Iterated Events</label>
-                    <select class="form-control">
-                        <option>option 1</option>
-                        <option>option 2</option>
-                        <option>option 3</option>
-                        <option>option 4</option>
-                        <option>option 5</option>
-                    </select>
-                </div>
-                <!-- text input -->
-                <div class="form-group">
-                    <label>Event Title</label>
-                    <input type="text" class="form-control" placeholder="Enter ...">
-                </div>
-                <div class="form-group">
+    <div class="content-wrapper" style='margin: 0px'  id="add-new-event">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <h3>
+                <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(27, 120, 118, 0.76); color: white">
+                    <li><i class="fa fa-calendar-plus-o"></i> Event</li>
+                </ol>                    
+            </h3>
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <!-- Default box -->
+            <div class="box">
+                <div class="box-header with-border">
 
-
-                    <label>Date - Start/End</label>
-                    <div class="input-group">
-                        <div class="input-group-addon">
-                            <i class="fa fa-clock-o"></i>
-                        </div>
-                        <input type="text" class="form-control pull-right" id="reservationtime">
-                    </div>
-                    <!-- /.input group -->
-                </div>
-
-                <!-- Explain if other event -->
-                <div class="form-group">
-                    <label>Explain if others</label>
-                    <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
-                </div>
-                <!-- checkbox -->
-                <div class="form-group">
-                    <div class="checkbox">
-                        <label>
-                            <input type="checkbox">
-                            Send Reminder
-                        </label>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                            <i class="fa fa-minus"></i></button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip" title="Remove">
+                            <i class="fa fa-times"></i></button>
                     </div>
                 </div>
-                <!-- Event Location -->
-                <div class="form-group">
-                    <label>Select</label>
-                    <select class="form-control">
-                        <option>option 1</option>
-                        <option>option 2</option>
-                        <option>option 3</option>
-                        <option>option 4</option>
-                        <option>option 5</option>
-                    </select>
+                <div class="container">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Create Event</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <form role="form">
+                            <!-- select iterated events-->
+                            <div class="form-group">
+                                <label>Iterated Events</label>
+                                <select class="form-control">
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                    <option>option 4</option>
+                                    <option>option 5</option>
+                                </select>
+                            </div>
+                            <!-- text input -->
+                            <div class="form-group">
+                                <label>Event Title</label>
+                                <input type="text" class="form-control" placeholder="Enter ...">
+                            </div>
+                            <div class="form-group">
+
+
+                                <label>Date - Start/End</label>
+                                <div class="input-group">
+                                    <div class="input-group-addon">
+                                        <i class="fa fa-clock-o"></i>
+                                    </div>
+                                    <input type="text" class="form-control pull-right" id="reservationtime">
+                                </div>
+                                <!-- /.input group -->
+                            </div>
+
+                            <!-- Explain if other event -->
+                            <div class="form-group">
+                                <label>Explain if others</label>
+                                <textarea class="form-control" rows="3" placeholder="Enter ..."></textarea>
+                            </div>
+                            <!-- checkbox -->
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox">
+                                        Send Reminder
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Event Location -->
+                            <div class="form-group">
+                                <label>Select</label>
+                                <select class="form-control">
+                                    <option>option 1</option>
+                                    <option>option 2</option>
+                                    <option>option 3</option>
+                                    <option>option 4</option>
+                                    <option>option 5</option>
+                                </select>
+                            </div>
+                            <div align='right'>
+                                <button type="submit" class="btn btn-primary">Create</button>
+                            </div>
+                    </div>
+                    </form>
                 </div>
-                <div align='right'>
-                    <button type="submit" class="btn btn-primary">Create</button>
+                <!-- /.box-body -->
+                <div class="box-footer">
                 </div>
-        </div>
-    </form>
-</div>
-<!-- /.box-body -->
-<script>
-    //Date range picker with time picker
-    $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
-</script>
+                <!-- /.box-footer-->
+            </div>
+            <!-- /.box -->
+
+        </section>
+        <!-- /.content -->
+    </div>
+    <script>
+        //Date range picker with time picker
+        $('#reservationtime').daterangepicker({timePicker: true, timePickerIncrement: 30, format: 'MM/DD/YYYY h:mm A'});
+    </script>
 </body>
 </html>
