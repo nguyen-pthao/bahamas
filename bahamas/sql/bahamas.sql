@@ -1,9 +1,3 @@
-<<<<<<< HEAD
-
-DROP SCHEMA IF EXISTS bahamas
-CREATE SCHEMA IF NOT EXISTS bahamas
-USE bahamas
-=======
 -- phpMyAdmin SQL Dump
 -- version 4.0.10.12
 -- http://www.phpmyadmin.net
@@ -31,7 +25,6 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `ADDRESS`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `ADDRESS` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -45,15 +38,12 @@ CREATE TABLE IF NOT EXISTS `ADDRESS` (
   PRIMARY KEY (`CONTACT_ID`,`ADDRESS`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `APPRECIATION`
 --
 
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 CREATE TABLE IF NOT EXISTS `APPRECIATION` (
   `APPRECIATION_ID` int(11) NOT NULL,
   `CONTACT_ID` int(11) NOT NULL,
@@ -69,15 +59,12 @@ CREATE TABLE IF NOT EXISTS `APPRECIATION` (
   KEY `APPRECIATION_FK1` (`CONTACT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `AUDITLOG`
 --
 
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 CREATE TABLE IF NOT EXISTS `AUDITLOG` (
   `AUDITLOG_ID` int(11) NOT NULL,
   `USERNAME` varchar(50) NOT NULL,
@@ -86,15 +73,12 @@ CREATE TABLE IF NOT EXISTS `AUDITLOG` (
   PRIMARY KEY (`AUDITLOG_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `CONTACT`
 --
 
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 CREATE TABLE IF NOT EXISTS `CONTACT` (
   `CONTACT_ID` int(11) NOT NULL,
   `CONTACT_TYPE` varchar(50) DEFAULT NULL,
@@ -120,15 +104,12 @@ CREATE TABLE IF NOT EXISTS `CONTACT` (
   KEY `CONTACT_FK1` (`CONTACT_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `DONATION`
 --
 
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 CREATE TABLE IF NOT EXISTS `DONATION` (
   `DONATION_ID` int(11) NOT NULL,
   `CONTACT_ID` int(11) NOT NULL,
@@ -156,14 +137,11 @@ CREATE TABLE IF NOT EXISTS `DONATION` (
   KEY `DONATION_FK2` (`PAYMENT_MODE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EMAIL`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EMAIL` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -175,14 +153,11 @@ CREATE TABLE IF NOT EXISTS `EMAIL` (
   PRIMARY KEY (`CONTACT_ID`,`EMAIL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EVENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EVENT` (
   `EVENT_ID` int(11) NOT NULL,
@@ -203,15 +178,11 @@ CREATE TABLE IF NOT EXISTS `EVENT` (
   KEY `EVENT_FK2` (`EVENT_LOCATION_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EVENT_AFFILIATION`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EVENT_AFFILIATION` (
   `EVENT_ID` int(11) NOT NULL,
@@ -225,27 +196,20 @@ CREATE TABLE IF NOT EXISTS `EVENT_AFFILIATION` (
   KEY `EVENT_AFFILIATION_FK2` (`TEAM_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EVENT_CLASS_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EVENT_CLASS_LIST` (
   `EVENT_CLASS_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`EVENT_CLASS_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `EVENT_CLASS_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `EVENT_CLASS_LIST` (`EVENT_CLASS_NAME`) VALUES
 ('Cancelled'),
@@ -254,28 +218,20 @@ INSERT INTO `EVENT_CLASS_LIST` (`EVENT_CLASS_NAME`) VALUES
 ('Other'),
 ('Training');
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EVENT_LOCATION_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EVENT_LOCATION_LIST` (
   `EVENT_LOCATION_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`EVENT_LOCATION_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `EVENT_LOCATION_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `EVENT_LOCATION_LIST` (`EVENT_LOCATION_NAME`) VALUES
 ('Alankar'),
@@ -285,15 +241,11 @@ INSERT INTO `EVENT_LOCATION_LIST` (`EVENT_LOCATION_NAME`) VALUES
 ('TWC2 DaySpace'),
 ('TWC2 office');
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EVENT_PARTICIPANT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EVENT_PARTICIPANT` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -314,15 +266,11 @@ CREATE TABLE IF NOT EXISTS `EVENT_PARTICIPANT` (
   KEY `EVENT_PARTICIPANT_FK4` (`EVENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `EVENT_ROLE_ASSIGNMENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `EVENT_ROLE_ASSIGNMENT` (
   `ROLE_ID` int(11) NOT NULL,
@@ -331,15 +279,11 @@ CREATE TABLE IF NOT EXISTS `EVENT_ROLE_ASSIGNMENT` (
   KEY `EVENT_ROLE_ASSIGNMENT_FK2` (`EVENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `LANGUAGE_ASSIGNMENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `LANGUAGE_ASSIGNMENT` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -354,28 +298,20 @@ CREATE TABLE IF NOT EXISTS `LANGUAGE_ASSIGNMENT` (
   KEY `LANGUAGE_ASSIGNMENT_FK3` (`LANGUAGE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `LANGUAGE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `LANGUAGE_LIST` (
   `LANGUAGE_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`LANGUAGE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `LANGUAGE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `LANGUAGE_LIST` (`LANGUAGE_NAME`) VALUES
 ('Bengali'),
@@ -393,26 +329,20 @@ INSERT INTO `LANGUAGE_LIST` (`LANGUAGE_NAME`) VALUES
 ('Telugu'),
 ('Vietnamese');
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `LSA_CLASS_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `LSA_CLASS_LIST` (
   `SKILL_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`SKILL_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 --
 -- Dumping data for table `LSA_CLASS_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `LSA_CLASS_LIST` (`SKILL_NAME`) VALUES
 ('Academia'),
@@ -433,15 +363,11 @@ INSERT INTO `LSA_CLASS_LIST` (`SKILL_NAME`) VALUES
 ('Physio'),
 ('Pro-bono lawyer');
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `MEMBERSHIP`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `MEMBERSHIP` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -466,28 +392,21 @@ CREATE TABLE IF NOT EXISTS `MEMBERSHIP` (
   KEY `MEMBERSHIP_FK5` (`PAYMENT_MODE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `MEMBERSHIP_CLASS_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `MEMBERSHIP_CLASS_LIST` (
   `MEMBERSHIP_CLASS_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`MEMBERSHIP_CLASS_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 --
 -- Dumping data for table `MEMBERSHIP_CLASS_LIST`
 --
 
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 INSERT INTO `MEMBERSHIP_CLASS_LIST` (`MEMBERSHIP_CLASS_NAME`) VALUES
 ('Associate'),
 ('Discounted'),
@@ -495,27 +414,20 @@ INSERT INTO `MEMBERSHIP_CLASS_LIST` (`MEMBERSHIP_CLASS_NAME`) VALUES
 ('Ordinary'),
 ('Other');
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `MODE_OF_SENDING_RECEIPT_LIST`
 --
 
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 CREATE TABLE IF NOT EXISTS `MODE_OF_SENDING_RECEIPT_LIST` (
   `RECEIPT_MODE_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`RECEIPT_MODE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `MODE_OF_SENDING_RECEIPT_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `MODE_OF_SENDING_RECEIPT_LIST` (`RECEIPT_MODE_NAME`) VALUES
 ('Email'),
@@ -523,15 +435,11 @@ INSERT INTO `MODE_OF_SENDING_RECEIPT_LIST` (`RECEIPT_MODE_NAME`) VALUES
 ('Other'),
 ('Post');
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `NOTICE`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `NOTICE` (
   `NOTICE_ID` int(11) NOT NULL,
@@ -546,15 +454,11 @@ CREATE TABLE IF NOT EXISTS `NOTICE` (
   KEY `NOTICE_FK1` (`EVENT_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `OFFICE_HELD`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `OFFICE_HELD` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -568,15 +472,11 @@ CREATE TABLE IF NOT EXISTS `OFFICE_HELD` (
   KEY `PERIOD_FK3` (`OFFICE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `OFFICE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `OFFICE_LIST` (
   `OFFICE_ID` int(11) NOT NULL,
@@ -585,12 +485,9 @@ CREATE TABLE IF NOT EXISTS `OFFICE_LIST` (
   PRIMARY KEY (`OFFICE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 --
 -- Dumping data for table `OFFICE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `OFFICE_LIST` (`OFFICE_ID`, `OFFICE_HELD_NAME`, `DESCRIPTION`) VALUES
 (1, 'President', NULL),
@@ -599,27 +496,20 @@ INSERT INTO `OFFICE_LIST` (`OFFICE_ID`, `OFFICE_HELD_NAME`, `DESCRIPTION`) VALUE
 (4, 'Treasurer', NULL),
 (5, 'Staff', NULL);
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `PAYMENT_MODE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `PAYMENT_MODE_LIST` (
   `PAYMENT_MODE_NAME` varchar(50) NOT NULL,
   PRIMARY KEY (`PAYMENT_MODE_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 --
 -- Dumping data for table `PAYMENT_MODE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `PAYMENT_MODE_LIST` (`PAYMENT_MODE_NAME`) VALUES
 ('Bank direct'),
@@ -628,15 +518,11 @@ INSERT INTO `PAYMENT_MODE_LIST` (`PAYMENT_MODE_NAME`) VALUES
 ('Giving Sg'),
 ('Other');
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `PERMISSION_LEVEL_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `PERMISSION_LEVEL_LIST` (
   `PERMISSION` varchar(50) NOT NULL,
@@ -644,28 +530,20 @@ CREATE TABLE IF NOT EXISTS `PERMISSION_LEVEL_LIST` (
   PRIMARY KEY (`PERMISSION`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `PERMISSION_LEVEL_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `PERMISSION_LEVEL_LIST` (`PERMISSION`, `DESCRIPTION`) VALUES
 ('Associate', NULL),
 ('Event leader', NULL),
 ('Team manager', NULL);
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `PHONE`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `PHONE` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -678,14 +556,11 @@ CREATE TABLE IF NOT EXISTS `PHONE` (
   PRIMARY KEY (`CONTACT_ID`,`PHONE_NUMBER`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `PROXY`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `PROXY` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -698,15 +573,11 @@ CREATE TABLE IF NOT EXISTS `PROXY` (
   KEY `PROXY_FK2` (`PROXY_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `ROLE_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `ROLE_LIST` (
   `ROLE_ID` int(11) NOT NULL,
@@ -714,15 +585,11 @@ CREATE TABLE IF NOT EXISTS `ROLE_LIST` (
   PRIMARY KEY (`ROLE_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `SKILL_ASSIGNMENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `SKILL_ASSIGNMENT` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -736,15 +603,11 @@ CREATE TABLE IF NOT EXISTS `SKILL_ASSIGNMENT` (
   KEY `SKILL_ASSIGNMENT_FK3` (`SKILL_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `TEAM_AFFILIATION_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `TEAM_AFFILIATION_LIST` (
   `TEAM_NAME` varchar(50) NOT NULL,
@@ -752,13 +615,9 @@ CREATE TABLE IF NOT EXISTS `TEAM_AFFILIATION_LIST` (
   PRIMARY KEY (`TEAM_NAME`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `TEAM_AFFILIATION_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `TEAM_AFFILIATION_LIST` (`TEAM_NAME`, `DESCRIPTION`) VALUES
 ('Casework', NULL),
@@ -776,15 +635,11 @@ INSERT INTO `TEAM_AFFILIATION_LIST` (`TEAM_NAME`, `DESCRIPTION`) VALUES
 ('Roof', NULL),
 ('TCRP', NULL);
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `TEAM_JOIN`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `TEAM_JOIN` (
   `CONTACT_ID` int(11) NOT NULL,
@@ -801,15 +656,11 @@ CREATE TABLE IF NOT EXISTS `TEAM_JOIN` (
   KEY `TEAM_JOIN_FK3` (`PERMISSION`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `TRAINING_CERTIFICATED`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `TRAINING_CERTIFICATED` (
   `CERTIFICATION_ID` int(11) NOT NULL,
@@ -824,27 +675,20 @@ CREATE TABLE IF NOT EXISTS `TRAINING_CERTIFICATED` (
   KEY `TRAINING_CERTIFICATED_FK2` (`TRAINING_COURSE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-=======
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `TYPE_OF_CONTACT_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 CREATE TABLE IF NOT EXISTS `TYPE_OF_CONTACT_LIST` (
   `CONTACT_TYPE` varchar(50) NOT NULL,
   PRIMARY KEY (`CONTACT_TYPE`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-<<<<<<< HEAD
-
-=======
 --
 -- Dumping data for table `TYPE_OF_CONTACT_LIST`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 
 INSERT INTO `TYPE_OF_CONTACT_LIST` (`CONTACT_TYPE`) VALUES
 ('Corporate'),
@@ -870,21 +714,6 @@ INSERT INTO `TYPE_OF_CONTACT_LIST` (`CONTACT_TYPE`) VALUES
 ('Product supplier'),
 ('Religious');
 
-<<<<<<< HEAD
-
-ALTER TABLE `ADDRESS`
-  ADD CONSTRAINT `ADDRESS_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`);
-
-
-ALTER TABLE `APPRECIATION`
-  ADD CONSTRAINT `APPRECIATION_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`);
-
-
-ALTER TABLE `CONTACT`
-  ADD CONSTRAINT `CONTACT_FK1` FOREIGN KEY (`CONTACT_TYPE`) REFERENCES `TYPE_OF_CONTACT_LIST` (`CONTACT_TYPE`);
-
-
-=======
 --
 -- Constraints for dumped tables
 --
@@ -910,18 +739,10 @@ ALTER TABLE `CONTACT`
 --
 -- Constraints for table `DONATION`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `DONATION`
   ADD CONSTRAINT `DONATION_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `DONATION_FK2` FOREIGN KEY (`PAYMENT_MODE_NAME`) REFERENCES `PAYMENT_MODE_LIST` (`PAYMENT_MODE_NAME`);
 
-<<<<<<< HEAD
-
-ALTER TABLE `EMAIL`
-  ADD CONSTRAINT `EMAIL_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`);
-
-
-=======
 --
 -- Constraints for table `EMAIL`
 --
@@ -931,78 +752,49 @@ ALTER TABLE `EMAIL`
 --
 -- Constraints for table `EVENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `EVENT`
   ADD CONSTRAINT `EVENT_FK1` FOREIGN KEY (`EVENT_CLASS_NAME`) REFERENCES `EVENT_CLASS_LIST` (`EVENT_CLASS_NAME`),
   ADD CONSTRAINT `EVENT_FK2` FOREIGN KEY (`EVENT_LOCATION_NAME`) REFERENCES `EVENT_LOCATION_LIST` (`EVENT_LOCATION_NAME`);
 
-<<<<<<< HEAD
-
-=======
 --
 -- Constraints for table `EVENT_AFFILIATION`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `EVENT_AFFILIATION`
   ADD CONSTRAINT `EVENT_AFFILIATION_FK1` FOREIGN KEY (`EVENT_ID`) REFERENCES `EVENT` (`EVENT_ID`),
   ADD CONSTRAINT `EVENT_AFFILIATION_FK2` FOREIGN KEY (`TEAM_NAME`) REFERENCES `TEAM_AFFILIATION_LIST` (`TEAM_NAME`);
 
-<<<<<<< HEAD
-
-=======
 --
 -- Constraints for table `EVENT_PARTICIPANT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `EVENT_PARTICIPANT`
   ADD CONSTRAINT `EVENT_PARTICIPANT_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `EVENT_PARTICIPANT_FK2` FOREIGN KEY (`AWARDER_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `EVENT_PARTICIPANT_FK3` FOREIGN KEY (`ROLE_ID`) REFERENCES `ROLE_LIST` (`ROLE_ID`),
   ADD CONSTRAINT `EVENT_PARTICIPANT_FK4` FOREIGN KEY (`EVENT_ID`) REFERENCES `EVENT` (`EVENT_ID`);
 
-<<<<<<< HEAD
-
-=======
 --
 -- Constraints for table `EVENT_ROLE_ASSIGNMENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `EVENT_ROLE_ASSIGNMENT`
   ADD CONSTRAINT `EVENT_ROLE_ASSIGNMENT_FK1` FOREIGN KEY (`ROLE_ID`) REFERENCES `ROLE_LIST` (`ROLE_ID`),
   ADD CONSTRAINT `EVENT_ROLE_ASSIGNMENT_FK2` FOREIGN KEY (`EVENT_ID`) REFERENCES `EVENT` (`EVENT_ID`);
 
-<<<<<<< HEAD
-
-=======
 --
 -- Constraints for table `LANGUAGE_ASSIGNMENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `LANGUAGE_ASSIGNMENT`
   ADD CONSTRAINT `LANGUAGE_ASSIGNMENT_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `LANGUAGE_ASSIGNMENT_FK3` FOREIGN KEY (`LANGUAGE_NAME`) REFERENCES `LANGUAGE_LIST` (`LANGUAGE_NAME`);
 
-<<<<<<< HEAD
-
-
-=======
 --
 -- Constraints for table `MEMBERSHIP`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `MEMBERSHIP`
   ADD CONSTRAINT `MEMBERSHIP_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `MEMBERSHIP_FK3` FOREIGN KEY (`RECEIPT_MODE_NAME`) REFERENCES `MODE_OF_SENDING_RECEIPT_LIST` (`RECEIPT_MODE_NAME`),
   ADD CONSTRAINT `MEMBERSHIP_FK4` FOREIGN KEY (`MEMBERSHIP_CLASS_NAME`) REFERENCES `MEMBERSHIP_CLASS_LIST` (`MEMBERSHIP_CLASS_NAME`),
   ADD CONSTRAINT `MEMBERSHIP_FK5` FOREIGN KEY (`PAYMENT_MODE_NAME`) REFERENCES `PAYMENT_MODE_LIST` (`PAYMENT_MODE_NAME`);
 
-<<<<<<< HEAD
-
-ALTER TABLE `NOTICE`
-  ADD CONSTRAINT `NOTICE_FK1` FOREIGN KEY (`EVENT_ID`) REFERENCES `EVENT` (`EVENT_ID`);
-
-
-=======
 --
 -- Constraints for table `NOTICE`
 --
@@ -1012,18 +804,10 @@ ALTER TABLE `NOTICE`
 --
 -- Constraints for table `OFFICE_HELD`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `OFFICE_HELD`
   ADD CONSTRAINT `PERIOD_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `PERIOD_FK3` FOREIGN KEY (`OFFICE_ID`) REFERENCES `OFFICE_LIST` (`OFFICE_ID`);
 
-<<<<<<< HEAD
-
-ALTER TABLE `PHONE`
-  ADD CONSTRAINT `PHONE_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`);
-
-
-=======
 --
 -- Constraints for table `PHONE`
 --
@@ -1033,39 +817,25 @@ ALTER TABLE `PHONE`
 --
 -- Constraints for table `PROXY`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `PROXY`
   ADD CONSTRAINT `PROXY_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `PROXY_FK2` FOREIGN KEY (`PROXY_ID`) REFERENCES `CONTACT` (`CONTACT_ID`);
 
-<<<<<<< HEAD
-
-=======
 --
 -- Constraints for table `SKILL_ASSIGNMENT`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `SKILL_ASSIGNMENT`
   ADD CONSTRAINT `SKILL_ASSIGNMENT_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `SKILL_ASSIGNMENT_FK3` FOREIGN KEY (`SKILL_NAME`) REFERENCES `LSA_CLASS_LIST` (`SKILL_NAME`);
 
-<<<<<<< HEAD
-=======
 --
 -- Constraints for table `TEAM_JOIN`
 --
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
 ALTER TABLE `TEAM_JOIN`
   ADD CONSTRAINT `TEAM_JOIN_FK1` FOREIGN KEY (`CONTACT_ID`) REFERENCES `CONTACT` (`CONTACT_ID`),
   ADD CONSTRAINT `TEAM_JOIN_FK2` FOREIGN KEY (`TEAM_NAME`) REFERENCES `TEAM_AFFILIATION_LIST` (`TEAM_NAME`),
   ADD CONSTRAINT `TEAM_JOIN_FK3` FOREIGN KEY (`PERMISSION`) REFERENCES `PERMISSION_LEVEL_LIST` (`PERMISSION`);
 
-<<<<<<< HEAD
-
-ALTER TABLE `TRAINING_CERTIFICATED`
-  ADD CONSTRAINT `TRAINING_CERTIFICATED_FK1` FOREIGN KEY (`CERTIFIED_BY`) REFERENCES `CONTACT` (`CONTACT_ID`),
-  ADD CONSTRAINT `TRAINING_CERTIFICATED_FK2` FOREIGN KEY (`TRAINING_COURSE`) REFERENCES `EVENT` (`EVENT_ID`);
-=======
 --
 -- Constraints for table `TRAINING_CERTIFICATED`
 --
@@ -1076,4 +846,3 @@ ALTER TABLE `TRAINING_CERTIFICATED`
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
->>>>>>> 43b5a4fe9f9a6a8386b4f2b72896ade8688b0633
