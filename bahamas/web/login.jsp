@@ -51,13 +51,13 @@
             <div class="login-box-body">
                 <p class="login-box-msg">Sign in to start your session</p>
 
-                <form action="authenticate.jsp" role="form" method="post">
+                <form action="login" role="form" method="post">
                     <div class="form-group has-feedback">
-                        <input type="text" name="username" class="form-control" placeholder="Username/Email">
+                        <input type="text" name="contact.username" class="form-control" placeholder="Username/Email">
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input name="password" type="password" class="form-control" placeholder="Password">
+                        <input name="contact.password" type="password" class="form-control" placeholder="Password">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">

@@ -6,13 +6,15 @@
 package bahamas.dao;
 
 import bahamas.entity.Contact;
-import com.googlecode.s2hibernate.struts2.plugin.annotations.SessionTarget;
-import com.googlecode.s2hibernate.struts2.plugin.annotations.TransactionTarget;
+import bahamas.util.HibernateUtil;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+
+import com.googlecode.s2hibernate.struts2.plugin.annotations.SessionTarget;
+import com.googlecode.s2hibernate.struts2.plugin.annotations.TransactionTarget;
+import org.hibernate.Query;
 
 /**
  *
@@ -20,22 +22,21 @@ import org.hibernate.Transaction;
  */
 public class ContactDAO {
 
-    @SessionTarget
-    Session session;
+    private Session session = HibernateUtil.getSession();
 
-    @TransactionTarget
-    Transaction transaction;
+    public Contact getLogin(String username, String password) {
 
-    public void addContact(Contact contact) {
-        session.save(contact);
+        String sql = "from Contact where username=:username and password=:password";
+        Query query = session.createQuery(sql);
+        query.setParameter("username", username);
+        query.setParameter("password", password);
+        List<Contact> list = query.list();
+        
+        if (list.size() > 0) {
+            session.close();
+            return list.get(0);
+        }
+        session.close();
+        return null;
     }
-
-    public List<Contact> listContact() {
-        return session.createQuery("from Contact").list();
-    }
-
-    public Contact retrieveContact(String username) {
-        return (Contact) session.load(Contact.class, username);
-    }
-
 }

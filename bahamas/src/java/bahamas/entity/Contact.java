@@ -5,18 +5,30 @@
  */
 package bahamas.entity;
 
-import java.util.Date;
+import java.util.*;
+import javax.persistence.*;
 
 /**
  *
- * @author Marcus
+ * @author HUXLEY
  */
+@Entity
+@Table(name="contact")
 public class Contact {
+    
+    @Id
+    @GeneratedValue
     private int contactId;
+   
     private String contactType;
-    private String permission;
+    
+    @Column(name="USERNAME")
     private String username;
+    
+    @Column(name="PASSWORD")
     private String password;
+    
+    private String isAdmin;
     private String deactivated;
     private Date dateCreated;
     private String createdBy;
@@ -25,10 +37,10 @@ public class Contact {
     private String explainIfOther;
     private String profession;
     private String jobTitle;
-    private String nric;
+    private String nricFin;
     private String gender;
     private String nationality;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String profilePic;
     private String remarks;
 
@@ -48,14 +60,6 @@ public class Contact {
         this.contactType = contactType;
     }
 
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
     public String getUsername() {
         return username;
     }
@@ -70,6 +74,14 @@ public class Contact {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     public String getDeactivated() {
@@ -136,12 +148,12 @@ public class Contact {
         this.jobTitle = jobTitle;
     }
 
-    public String getNric() {
-        return nric;
+    public String getNricFin() {
+        return nricFin;
     }
 
-    public void setNric(String nric) {
-        this.nric = nric;
+    public void setNricFin(String nricFin) {
+        this.nricFin = nricFin;
     }
 
     public String getGender() {
@@ -160,11 +172,11 @@ public class Contact {
         this.nationality = nationality;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 
@@ -183,8 +195,7 @@ public class Contact {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-           
     
     
-           
+    
 }

@@ -1,4 +1,4 @@
-    <%@include file="protectadmin.jsp" %>
+
 
 <!DOCTYPE html>
 <html>
