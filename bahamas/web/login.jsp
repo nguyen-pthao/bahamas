@@ -41,7 +41,7 @@
     <body class="hold-transition login-page">
         <div class="twc2-logo" align="center">
             <!--twc2-logo-->
-            <img src="style/img/Picture1.png" alt="twc2-logo" height="270" width="230"/>
+            <img src="style/img/Picture1.png" alt="twc2-logo" height="370" width="350"/>
         </div>
         <div class="login-box">
             <div class="login-logo">
