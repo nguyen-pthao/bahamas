@@ -6,28 +6,13 @@
 package bahamas.entity;
 
 import java.util.*;
-import javax.persistence.*;
 
-/**
- *
- * @author HUXLEY
- */
-@Entity
-@Table(name="contact")
 public class Contact {
     
-    @Id
-    @GeneratedValue
-    private int contactId;
-   
+    private int contactId; 
     private String contactType;
-    
-    @Column(name="USERNAME")
     private String username;
-    
-    @Column(name="PASSWORD")
-    private String password;
-    
+    private String password;  
     private String isAdmin;
     private String deactivated;
     private Date dateCreated;
