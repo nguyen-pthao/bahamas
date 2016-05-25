@@ -9,6 +9,6 @@ package bahamas.entity;
  *
  * @author HUXLEY
  */
-public class contact {
+public class Contact {
     
 }
