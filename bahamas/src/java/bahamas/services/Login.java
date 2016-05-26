@@ -5,6 +5,14 @@
  */
 package bahamas.services;
 
+import bahamas.dao.ContactDAO;
+import bahamas.entity.Contact;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import is203.JWTUtility;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -34,15 +42,45 @@ public class Login extends HttpServlet {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet login</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet login at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+            
+            JsonObject json = new JsonObject();
+            JsonArray errorArray = new JsonArray();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonPrimitive invalid = new JsonPrimitive("invalid username/password");
+            String username = request.getParameter("username");
+            String password = request.getParameter("password");
+            errorArray.add(invalid);
+            
+            if (username == null || password == null) {
+                json.addProperty("status", "error");
+                //json.addProperty("messages", "invalid username/password");
+                json.add("messages", errorArray);
+                out.println(gson.toJson(json));
+                return;
+            }
+            
+            ContactDAO contactDAO = new ContactDAO();
+            Contact contact = contactDAO.retrieveStudentByUsername(username);
+            
+            if (contact != null) {
+                String serverPassword = contact.getPassword();
+                if (serverPassword.equals(password)) {
+                    String token = JWTUtility.sign("jsonJSONjsonJSON", username);
+                    json.addProperty("status", "success");
+                    if(contact.isIsAdmin()){
+                        json.addProperty("userType", "admin");
+                    }else{
+                        json.addProperty("userType", "I will update you guys later");
+                    }
+                    json.addProperty("token", token);
+                    out.println(gson.toJson(json));
+                    return;
+                }
+            }
+            json.addProperty("status", "error");
+            //json.addProperty("messages", "invalid username/password");
+            json.add("messages", errorArray);
+            out.print(gson.toJson(json));
         }
     }
 
