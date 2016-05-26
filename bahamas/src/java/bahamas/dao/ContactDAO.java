@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.util;
+package bahamas.dao;
 
 /**
  *
  * @author HUXLEY
  */
-public class validation {
+public class ContactDAO {
     
 }

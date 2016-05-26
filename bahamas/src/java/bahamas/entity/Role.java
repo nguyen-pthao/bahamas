@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.entity;
 
 /**
  *
- * @author HUXLEY
+ * @author huxley.goh
  */
-public class contactDAO {
+public class Role {
+    
+    private long roleId;
+    private String roleDescription;
+    
     
 }

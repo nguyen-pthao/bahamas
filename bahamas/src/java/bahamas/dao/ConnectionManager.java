@@ -1,4 +1,4 @@
-package is203.dao;
+package bahamas.dao;
 
 import java.sql.*;
 import java.util.Properties;
@@ -10,18 +10,16 @@ import java.util.logging.Logger;
  * A class that manages connections to the database. It also has a utility
  * method that close connections, statements and resultsets
  */
-public class ConnectionManager 
-{
+public class ConnectionManager {
 
     private static final String PROPS_FILENAME = "/connection.properties";
     private static String dbUser;
     private static String dbPassword;
     private static String dbURL;
 
-    static 
-    {
+    static {
         //if (!readOpenshiftDatabaseProperties()) {
-            readLocalDatabaseProperties();
+        readLocalDatabaseProperties();
         //}
 
         initDBDriver();
@@ -50,14 +48,14 @@ public class ConnectionManager
         dbURL += "?useUnicode=yes&characterEncoding=UTF-8";
         return true;
     }
-    */
+     */
     /**
      * read local database properties
      *
      */
     private static void readLocalDatabaseProperties() {
         try {
-      // Retrieve properties from connection.properties via the CLASSPATH
+            // Retrieve properties from connection.properties via the CLASSPATH
             // WEB-INF/classes is on the CLASSPATH
             InputStream is = ConnectionManager.class.getResourceAsStream(PROPS_FILENAME);
             Properties props = new Properties();
@@ -83,7 +81,7 @@ public class ConnectionManager
     }
 
     /**
-     *Initialize database driver 
+     * Initialize database driver
      *
      */
     private static void initDBDriver() {
