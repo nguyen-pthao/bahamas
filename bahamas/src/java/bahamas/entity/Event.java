@@ -31,7 +31,7 @@ public class Event {
     
     private ArrayList<Role> roleList;
     
-    private ArrayList<Team> teamAffliated;
+    private ArrayList<EventAffiliation> teamAffliated;
     private boolean workerRelated;
     private String remarks;
     
