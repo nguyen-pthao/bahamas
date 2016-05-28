@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.ContactDAO;
 import bahamas.entity.Contact;
+import bahamas.util.Authenticator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -60,12 +61,13 @@ public class Login extends HttpServlet {
             }
             
             ContactDAO contactDAO = new ContactDAO();
-            Contact contact = contactDAO.retrieveStudentByUsername(username);
+            Authenticator authenticator = new Authenticator();
+            Contact contact = contactDAO.retrieveContactByUsername(username);
             
             if (contact != null) {
                 String serverPassword = contact.getPassword();
-                if (serverPassword.equals(password)) {
-                    String token = JWTUtility.sign("jsonJSONjsonJSON", username);
+                if (serverPassword.equals(password) && !contact.isDeactivated()) {
+                    String token = Authenticator.signedToken(username);
                     json.addProperty("status", "success");
                     if(contact.isIsAdmin()){
                         json.addProperty("userType", "admin");
