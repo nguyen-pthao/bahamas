@@ -62,7 +62,7 @@ public class Login extends HttpServlet {
             
             ContactDAO contactDAO = new ContactDAO();
             Authenticator authenticator = new Authenticator();
-            Contact contact = contactDAO.retrieveStudentByUsername(username);
+            Contact contact = contactDAO.retrieveContactByUsername(username);
             
             if (contact != null) {
                 String serverPassword = contact.getPassword();

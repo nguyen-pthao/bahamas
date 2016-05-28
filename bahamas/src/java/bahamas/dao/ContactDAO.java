@@ -84,13 +84,13 @@ public class ContactDAO {
         } catch (ParseException e) {
 		e.printStackTrace();
 	} catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
     }
     
-    public Contact retrieveStudentByUsername(String usernameInput){
+    public Contact retrieveContactByUsername(String usernameInput){
         
         contactList = new ArrayList();
         Connection conn = null;
@@ -158,7 +158,7 @@ public class ContactDAO {
     
     /**
      *retrieve contact list
-     * @return ArrayList of Students
+     * @return ArrayList of Contacts
      */
     public ArrayList<Contact> retrieveContactList() {
         return contactList;
