@@ -160,7 +160,7 @@ public class ContactDAO {
      *retrieve contact list
      * @return ArrayList of Students
      */
-    public ArrayList<Contact> retrieveStudentList() {
+    public ArrayList<Contact> retrieveContactList() {
         return contactList;
     }
     
