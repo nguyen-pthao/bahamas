@@ -148,7 +148,7 @@ public class ContactDAO {
         } catch (ParseException e) {
 		e.printStackTrace();
 	} catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
