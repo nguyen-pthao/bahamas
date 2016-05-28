@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  *
  * @author HUXLEY
@@ -49,7 +50,7 @@ public class Login extends HttpServlet {
             JsonObject json = new JsonObject();
             JsonArray errorArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+            DateFormat formatter = new SimpleDateFormat("dd MMM yyyy");
             JsonPrimitive invalid = new JsonPrimitive("invalid username/password");
             String username = request.getParameter("username");
             String password = request.getParameter("password");
