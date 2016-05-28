@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.entity.AuditLog;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import com.google.gson.Gson;
@@ -75,7 +76,7 @@ public class Login extends HttpServlet {
                 if (serverPassword.equals(password) && !contact.isDeactivated()) {
                     
                     AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
-                    
+
                     String token = Authenticator.signedToken(username);
                     json.addProperty("status", "success");
                     json.addProperty("token", token);
