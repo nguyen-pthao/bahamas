@@ -5,6 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.ContactDAO;
+import bahamas.entity.Contact;
+import bahamas.util.Authenticator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -33,16 +39,33 @@ public class RetrieveContact extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet RetrieveContact</title>");
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet RetrieveContact at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+
+            JsonObject json = new JsonObject();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            String token = request.getParameter("token");
+            if (!Authenticator.verifyToken(token)) {
+                json.addProperty("message", "invalid token");
+                out.println(gson.toJson(json));
+
+            } else {
+                //Verified
+
+                //Validation
+                //Create new contact object
+                Contact newContact = new Contact();
+
+                ContactDAO contactDAO = new ContactDAO();
+                if (contactDAO.addContact(newContact)) {
+                    json.addProperty("message", "success");
+                    out.println(gson.toJson(json));
+                } else {
+                    json.addProperty("message", "failed");
+                    out.println(gson.toJson(json));
+                }
+
+            }
+
         }
     }
 

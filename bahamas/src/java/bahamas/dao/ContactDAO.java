@@ -23,18 +23,22 @@ import java.util.logging.Logger;
  * @author HUXLEY
  */
 public class ContactDAO {
-    
+
     private ArrayList<Contact> contactList;
-    
-    public ContactDAO(){
-        
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMMMM-yyyy");
+
+    public ContactDAO() {
+    }
+
+    public ArrayList<Contact> retriveAllContact() {
+
         contactList = new ArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         Date startDate = null;
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
@@ -44,21 +48,21 @@ public class ContactDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int contactId = Integer.parseInt(rs.getString(1));
                 String contactType = rs.getString(2);
                 String username = rs.getString(3);
                 String password = rs.getString(4);
                 boolean isAdmin = false;
-                if (rs.getString(5).equals("Y")){
+                if (rs.getString(5).equals("Y")) {
                     isAdmin = true;
                 }
                 boolean deactivated = true;
-                if (rs.getString(6).equals("N")){
+                if (rs.getString(6).equals("N")) {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
-                Date dateCreated = (Date)formatter.parse(dateStr);
+                Date dateCreated = (Date) formatter.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -72,26 +76,41 @@ public class ContactDAO {
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = true;
-                if (rs.getString(20).equals("N")){
+                if (rs.getString(20).equals("N")) {
                     deactivated = false;
                 }
-                
+
                 Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 if (contact != null) {
                     contactList.add(contact);
                 }
+
             }
+
         } catch (ParseException e) {
+<<<<<<< HEAD
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+=======
 		e.printStackTrace();
 	} catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
+>>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
+        return contactList;
     }
+<<<<<<< HEAD
+
+    public Contact retrieveStudentByUsername(String usernameInput) {
+
+=======
     
-    public Contact retrieveStudentByUsername(String usernameInput){
+    public Contact retrieveContactByUsername(String usernameInput){
         
+>>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
         contactList = new ArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -99,7 +118,7 @@ public class ContactDAO {
         //SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
@@ -110,17 +129,17 @@ public class ContactDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int contactId = Integer.parseInt(rs.getString(1));
                 String contactType = rs.getString(2);
                 String username = rs.getString(3);
                 String password = rs.getString(4);
                 boolean isAdmin = false;
-                if (rs.getString(5).equals("Y")){
+                if (rs.getString(5).equals("Y")) {
                     isAdmin = true;
                 }
                 boolean deactivated = true;
-                if (rs.getString(6).equals("N")){
+                if (rs.getString(6).equals("N")) {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
@@ -138,30 +157,82 @@ public class ContactDAO {
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = true;
-                if (rs.getString(20).equals("N")){
+                if (rs.getString(20).equals("N")) {
                     deactivated = false;
                 }
-                
+
                 Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 return contact;
             }
         } catch (ParseException e) {
+<<<<<<< HEAD
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+=======
 		e.printStackTrace();
 	} catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
+>>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
         return null;
     }
+<<<<<<< HEAD
+
+    public static boolean addContact(Contact c) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO contact (CONTACT_TYPE,ISADMIN,"
+                    + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,"
+                    + "REMARKS,NOTIFICATION) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+            stmt.setString(1, c.getContactType());
+            stmt.setBoolean(2, c.isIsAdmin());
+            stmt.setDate(3, new java.sql.Date(c.getDateCreated().getTime()));
+            stmt.setString(4, c.getCreatedBy());
+            stmt.setString(5, c.getName());
+            stmt.setString(6, c.getAltName());
+            stmt.setString(7, c.getExplainIfOther());
+            stmt.setString(8, c.getProfession());
+            stmt.setString(9, c.getJobTitle());
+            stmt.setString(10, c.getNric());
+            stmt.setString(11, c.getGender());
+            stmt.setString(12, c.getNationality());
+            stmt.setString(13, c.getDateOfBirth());
+            stmt.setString(14, c.getProfilePic());
+            stmt.setString(15, c.getRemarks());
+            stmt.setString(16, c.getNationality());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+=======
     
     
     /**
      *retrieve contact list
-     * @return ArrayList of Students
+     * @return ArrayList of Contacts
      */
-    public ArrayList<Contact> retrieveStudentList() {
+    public ArrayList<Contact> retrieveContactList() {
         return contactList;
+>>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
     }
-    
+
 }
