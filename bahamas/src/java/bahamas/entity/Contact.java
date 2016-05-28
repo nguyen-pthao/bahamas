@@ -34,11 +34,9 @@ public class Contact {
     private String gender;
     private String nationality;
     private String dateOfBirth;
-    // will store the directory to the picture
     private String profilePic;
     private String remarks;
-    private boolean notification;
-    private ArrayList<TeamJoin> teamJoinList;
+    
     private ArrayList<Phone> phoneList;
     private ArrayList<Address> addressList;
     private ArrayList<Email> emailList;
@@ -50,6 +48,8 @@ public class Contact {
     private ArrayList<EventParticipation> eventParticipationList;
     private ArrayList<Appreciation> appreciationList;
     private ArrayList<Donation> donationList;
+    private boolean notification;
+     private ArrayList<TeamJoin> teamJoinList;
     
     // certification that a contact have
     private ArrayList<TrainingCertified> certificationList;

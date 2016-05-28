@@ -20,17 +20,19 @@ public class TrainingCertified {
     private String trainingCourse;
     private Date trainingDate;
     private String remarks;
-    private ArrayList<Contact> participantList;
+    
+    private Contact participant;
+    private Event event;
     private Contact certifier;
 
-    public TrainingCertified(int certificationID, String createdBy, String explainIfOther, String trainingCourse, Date trainingDate, String remarks, ArrayList<Contact> participantList, Contact certifier) {
+    public TrainingCertified(int certificationID, String createdBy, String explainIfOther, String trainingCourse, Date trainingDate, String remarks, Contact participant, Contact certifier) {
         this.certificationID = certificationID;
         this.createdBy = createdBy;
         this.explainIfOther = explainIfOther;
         this.trainingCourse = trainingCourse;
         this.trainingDate = trainingDate;
         this.remarks = remarks;
-        this.participantList = participantList;
+        this.participant = participant;
         this.certifier = certifier;
     }
 
@@ -82,12 +84,12 @@ public class TrainingCertified {
         this.remarks = remarks;
     }
 
-    public ArrayList<Contact> getParticipantList() {
-        return participantList;
+    public Contact getParticipant() {
+        return participant;
     }
 
-    public void setParticipantList(ArrayList<Contact> participantList) {
-        this.participantList = participantList;
+    public void setParticipant(Contact participant) {
+        this.participant = participant;
     }
 
     public Contact getCertifier() {
