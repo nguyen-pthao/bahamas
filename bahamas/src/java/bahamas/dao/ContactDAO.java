@@ -30,13 +30,13 @@ public class ContactDAO {
     public ContactDAO() {
     }
 
-    public ArrayList<Contact> retriveAllContact() {
+    public ArrayList<Contact> retrieveAllContact() {
 
-        contactList = new ArrayList();
+        contactList = new ArrayList<Contact>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
+        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
         Date startDate = null;
 
         try {
@@ -62,7 +62,7 @@ public class ContactDAO {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
-                Date dateCreated = (Date) formatter.parse(dateStr);
+                Date dateCreated = format.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -86,11 +86,11 @@ public class ContactDAO {
                 }
 
             }
-
+            
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
@@ -156,7 +156,7 @@ public class ContactDAO {
 
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
