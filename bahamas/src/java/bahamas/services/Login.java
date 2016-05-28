@@ -16,6 +16,8 @@ import com.google.gson.JsonPrimitive;
 import is203.JWTUtility;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,6 +49,7 @@ public class Login extends HttpServlet {
             JsonObject json = new JsonObject();
             JsonArray errorArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
             JsonPrimitive invalid = new JsonPrimitive("invalid username/password");
             String username = request.getParameter("username");
             String password = request.getParameter("password");
@@ -69,12 +72,30 @@ public class Login extends HttpServlet {
                 if (serverPassword.equals(password) && !contact.isDeactivated()) {
                     String token = Authenticator.signedToken(username);
                     json.addProperty("status", "success");
+                    json.addProperty("token", token);
+                    JsonObject jsonContactObj = new JsonObject();
                     if(contact.isIsAdmin()){
                         json.addProperty("userType", "admin");
                     }else{
                         json.addProperty("userType", "I will update you guys later");
                     }
-                    json.addProperty("token", token);
+                    
+                    jsonContactObj.addProperty("contactType", contact.getContactType());
+                    jsonContactObj.addProperty("dateCreated", formatter.format(contact.getDateCreated()));
+                    jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
+                    jsonContactObj.addProperty("name", contact.getName());
+                    jsonContactObj.addProperty("altName", contact.getAltName());
+                    jsonContactObj.addProperty("explainIfOther", contact.getExplainIfOther());
+                    jsonContactObj.addProperty("profession", contact.getProfession());
+                    jsonContactObj.addProperty("jobTitle", contact.getJobTitle());
+                    jsonContactObj.addProperty("nric", contact.getNric());
+                    jsonContactObj.addProperty("gender", contact.getGender());
+                    jsonContactObj.addProperty("nationality", contact.getNationality());
+                    jsonContactObj.addProperty("dateOfBirth", contact.getDateOfBirth());
+                    jsonContactObj.addProperty("profilePic", contact.getProfilePic());
+                    jsonContactObj.addProperty("remarks", contact.getRemarks());
+                    json.add("contact", jsonContactObj);
+                    
                     out.println(gson.toJson(json));
                     return;
                 }
