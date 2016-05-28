@@ -26,12 +26,13 @@ public class Validator {
 
     private static Pattern pattern;
     private static Matcher matcher;
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
-    private static final String TIME_FORMAT = "HH:mm:ss";
+
+    private static final String DATE_FORMAT = "dd-MMMMM-yyyy HH:mm:ss";
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT);
+
     /*
      This class should contain all the validation rules for every unique fields present in the DB
      */
-
     /**
      * <p>
      * Return a boolean value on whether inputted email is valid
@@ -76,6 +77,7 @@ public class Validator {
         return false;
     }
 
+    /*
     public static boolean validTimestamp(String dateTimestamp) {
 
         String[] arr = dateTimestamp.split(" ");
@@ -86,7 +88,7 @@ public class Validator {
         }
         return false;
     }
-
+    */
     /**
      * <p>
      * Return a boolean value on whether inputted String contains blank field
@@ -134,6 +136,7 @@ public class Validator {
      * @param time the email address
      * @return boolean value, true if time is valid
      */
+    /*
     public static boolean isTimeValid(String time) {
         if (time.length() == TIME_FORMAT.length()) {
             try {
@@ -146,7 +149,7 @@ public class Validator {
         }
         return false;
     }
-
+    */
     /**
      * <p>
      * Return a boolean value on whether inputted name is valid

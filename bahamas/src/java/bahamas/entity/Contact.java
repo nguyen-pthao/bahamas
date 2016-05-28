@@ -139,6 +139,26 @@ public class Contact {
         this.remarks = remarks;
     }
 
+    public Contact(String contactType, boolean isAdmin, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, String dateOfBirth, String profilePic, String remarks) {
+        this.contactType = contactType;
+        this.isAdmin = isAdmin;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.name = name;
+        this.altName = altName;
+        this.explainIfOther = explainIfOther;
+        this.profession = profession;
+        this.jobTitle = jobTitle;
+        this.nric = nric;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.dateOfBirth = dateOfBirth;
+        this.profilePic = profilePic;
+        this.remarks = remarks;
+    }
+
+    
+    
     public int getContactId() {
         return contactId;
     }

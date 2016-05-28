@@ -40,31 +40,6 @@ public class RetrieveContact extends HttpServlet {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            JsonObject json = new JsonObject();
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            String token = request.getParameter("token");
-            if (!Authenticator.verifyToken(token)) {
-                json.addProperty("message", "invalid token");
-                out.println(gson.toJson(json));
-
-            } else {
-                //Verified
-
-                //Validation
-                //Create new contact object
-                Contact newContact = new Contact();
-
-                ContactDAO contactDAO = new ContactDAO();
-                if (contactDAO.addContact(newContact)) {
-                    json.addProperty("message", "success");
-                    out.println(gson.toJson(json));
-                } else {
-                    json.addProperty("message", "failed");
-                    out.println(gson.toJson(json));
-                }
-
-            }
 
         }
     }

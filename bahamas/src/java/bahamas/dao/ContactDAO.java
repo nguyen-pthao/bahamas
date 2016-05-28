@@ -88,29 +88,17 @@ public class ContactDAO {
             }
 
         } catch (ParseException e) {
-<<<<<<< HEAD
             e.printStackTrace();
         } catch (SQLException ex) {
             Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
-=======
-		e.printStackTrace();
-	} catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
->>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
+            ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
         return contactList;
     }
-<<<<<<< HEAD
 
-    public Contact retrieveStudentByUsername(String usernameInput) {
-
-=======
-    
-    public Contact retrieveContactByUsername(String usernameInput){
-        
->>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
+    public Contact retrieveContactByUsername(String usernameInput) {
         contactList = new ArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -165,21 +153,16 @@ public class ContactDAO {
                 return contact;
             }
         } catch (ParseException e) {
-<<<<<<< HEAD
+
             e.printStackTrace();
         } catch (SQLException ex) {
             Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
-=======
-		e.printStackTrace();
-	} catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create contact from database data", ex);
->>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
+            ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
         return null;
     }
-<<<<<<< HEAD
 
     public static boolean addContact(Contact c) {
         Connection conn = null;
@@ -194,7 +177,7 @@ public class ContactDAO {
             stmt = conn.prepareStatement("INSERT INTO contact (CONTACT_TYPE,ISADMIN,"
                     + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,"
-                    + "REMARKS,NOTIFICATION) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "REMARKS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             stmt.setString(1, c.getContactType());
             stmt.setBoolean(2, c.isIsAdmin());
@@ -211,7 +194,7 @@ public class ContactDAO {
             stmt.setString(13, c.getDateOfBirth());
             stmt.setString(14, c.getProfilePic());
             stmt.setString(15, c.getRemarks());
-            stmt.setString(16, c.getNationality());
+          
 
             result = stmt.executeUpdate();
 
@@ -222,17 +205,8 @@ public class ContactDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return false;
-=======
+            return false;
+        }
     
-    
-    /**
-     *retrieve contact list
-     * @return ArrayList of Contacts
-     */
-    public ArrayList<Contact> retrieveContactList() {
-        return contactList;
->>>>>>> 969a4a33a1582f36956b5a36c34eac615295ded6
-    }
 
 }

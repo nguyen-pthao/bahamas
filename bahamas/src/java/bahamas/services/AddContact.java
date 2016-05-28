@@ -5,8 +5,15 @@
  */
 package bahamas.services;
 
+import bahamas.dao.ContactDAO;
+import bahamas.entity.Contact;
+import bahamas.util.Authenticator;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,30 +40,50 @@ public class AddContact extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddContact</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddContact at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+            JsonObject json = new JsonObject();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            
+            /*          
+            String token = request.getParameter("token");
+            if (!Authenticator.verifyToken(token)) {
+                json.addProperty("message", "invalid token");
+                out.println(gson.toJson(json));
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            } else {
+                //Verified
+             */
+            //Validation
+            //Create new contact object
+            Date date = new Date();
+            Contact newContact = new Contact("TWC2", false, date, "AlexWu",
+                    "TestUser", "Test", "Explaination", "Student",
+                    "Year4", "S9112334D", "M", "Singapore", "12/12/12", "picture",
+                    "suck shit");
+
+            ContactDAO contactDAO = new ContactDAO();
+            if (contactDAO.addContact(newContact)) {
+                json.addProperty("message", "success");
+                out.println(gson.toJson(json));
+            } else {
+                json.addProperty("message", "failed");
+                out.println(gson.toJson(json));
+            }
+
+        //}
+    }
+}
+
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+/**
+ * Handles the HTTP <code>GET</code> method.
+ *
+ * @param request servlet request
+ * @param response servlet response
+ * @throws ServletException if a servlet-specific error occurs
+ * @throws IOException if an I/O error occurs
+ */
+@Override
+        protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -70,7 +97,7 @@ public class AddContact extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+        protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
@@ -81,7 +108,7 @@ public class AddContact extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+        public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
