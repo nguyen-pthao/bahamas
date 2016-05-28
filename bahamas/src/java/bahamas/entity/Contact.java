@@ -57,6 +57,8 @@ public class Contact {
     private ArrayList<TrainingCertified> certificationAwarderList;
     
     
+    public Contact(){}
+    
     //created by Si Hao
     public Contact(int contactId, String contactType, String username, String password, boolean isAdmin, boolean deactivated, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, String dateOfBirth, String profilePic, String remarks, boolean notification) {
         this.contactId = contactId;
