@@ -54,10 +54,11 @@ public class AddContact extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            Date date = new Date();
-            Contact newContact = new Contact("TWC2", false, date, "AlexWu",
+            Date cdate = new Date();
+            Date bdate = new Date();
+            Contact newContact = new Contact("TWC2", false, cdate, "AlexWu",
                     "TestUser", "Test", "Explaination", "Student",
-                    "Year4", "S9112334D", "M", "Singapore", "12/12/12", "picture",
+                    "Year4", "S9112334D", "M", "Singapore",bdate, "picture",
                     "suck shit");
 
             ContactDAO contactDAO = new ContactDAO();

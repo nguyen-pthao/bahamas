@@ -5,25 +5,27 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.entity.AuditLog;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
+import bahamas.util.PasswordHash;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import is203.JWTUtility;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 /**
  *
@@ -46,7 +48,7 @@ public class Login extends HttpServlet {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            
+
             JsonObject json = new JsonObject();
             JsonArray errorArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -55,7 +57,7 @@ public class Login extends HttpServlet {
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             errorArray.add(invalid);
-            
+
             if (username == null || password == null) {
                 json.addProperty("status", "error");
                 //json.addProperty("messages", "invalid username/password");
@@ -63,24 +65,27 @@ public class Login extends HttpServlet {
                 out.println(gson.toJson(json));
                 return;
             }
-            
+
             ContactDAO contactDAO = new ContactDAO();
-            Authenticator authenticator = new Authenticator();
             Contact contact = contactDAO.retrieveContactByUsername(username);
-            
+
             if (contact != null) {
+                //String serverPassword = PasswordHash.hashPassword(contact.getPassword());
                 String serverPassword = contact.getPassword();
                 if (serverPassword.equals(password) && !contact.isDeactivated()) {
+                    
+                    AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
+
                     String token = Authenticator.signedToken(username);
                     json.addProperty("status", "success");
                     json.addProperty("token", token);
                     JsonObject jsonContactObj = new JsonObject();
-                    if(contact.isIsAdmin()){
+                    if (contact.isIsAdmin()) {
                         json.addProperty("userType", "admin");
-                    }else{
+                    } else {
                         json.addProperty("userType", "I will update you guys later");
                     }
-                    
+
                     jsonContactObj.addProperty("contactType", contact.getContactType());
                     jsonContactObj.addProperty("dateCreated", formatter.format(contact.getDateCreated()));
                     jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
@@ -92,11 +97,11 @@ public class Login extends HttpServlet {
                     jsonContactObj.addProperty("nric", contact.getNric());
                     jsonContactObj.addProperty("gender", contact.getGender());
                     jsonContactObj.addProperty("nationality", contact.getNationality());
-                    jsonContactObj.addProperty("dateOfBirth", contact.getDateOfBirth());
+                    jsonContactObj.addProperty("dateOfBirth", formatter.format(contact.getDateOfBirth()));
                     jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                     jsonContactObj.addProperty("remarks", contact.getRemarks());
                     json.add("contact", jsonContactObj);
-                    
+
                     out.println(gson.toJson(json));
                     return;
                 }
@@ -147,4 +152,5 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
+  
 }

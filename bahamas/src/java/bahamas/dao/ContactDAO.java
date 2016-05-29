@@ -25,19 +25,19 @@ import java.util.logging.Logger;
 public class ContactDAO {
 
     private ArrayList<Contact> contactList;
-    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMMMM-yyyy");
+    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public ContactDAO() {
     }
 
-    public ArrayList<Contact> retriveAllContact() {
+    public ArrayList<Contact> retrieveAllContact() {
 
         contactList = new ArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date startDate = null;
+
+        contactList = new ArrayList<Contact>();
 
         try {
             conn = ConnectionManager.getConnection();
@@ -62,7 +62,8 @@ public class ContactDAO {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
-                Date dateCreated = (Date) formatter.parse(dateStr);
+                Date dateCreated = sdf.parse(dateStr);
+
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -72,7 +73,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                String dateOfBirth = rs.getString(17);
+                Date dateOfBirth = sdf.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = true;
@@ -81,16 +82,14 @@ public class ContactDAO {
                 }
 
                 Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
-                if (contact != null) {
-                    contactList.add(contact);
-                }
+                contactList.add(contact);
 
             }
 
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
@@ -103,9 +102,6 @@ public class ContactDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        //SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = null;
 
         try {
             conn = ConnectionManager.getConnection();
@@ -131,7 +127,7 @@ public class ContactDAO {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
-                Date dateCreated = format.parse(dateStr);
+                Date dateCreated = sdf.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -141,7 +137,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                String dateOfBirth = rs.getString(17);
+                Date dateOfBirth = sdf.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = true;
@@ -156,7 +152,7 @@ public class ContactDAO {
 
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
@@ -191,10 +187,9 @@ public class ContactDAO {
             stmt.setString(10, c.getNric());
             stmt.setString(11, c.getGender());
             stmt.setString(12, c.getNationality());
-            stmt.setString(13, c.getDateOfBirth());
+            stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
             stmt.setString(14, c.getProfilePic());
             stmt.setString(15, c.getRemarks());
-          
 
             result = stmt.executeUpdate();
 
@@ -205,8 +200,7 @@ public class ContactDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-            return false;
-        }
-    
+        return false;
+    }
 
 }

@@ -27,7 +27,7 @@ public class Validator {
     private static Pattern pattern;
     private static Matcher matcher;
 
-    private static final String DATE_FORMAT = "dd-MMMMM-yyyy HH:mm:ss";
+    private static final String DATE_FORMAT = "dd-MMMM-yyyy HH:mm:ss";
     private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT);
 
     /*
@@ -349,4 +349,222 @@ public class Validator {
         return false;
     }
 
+     /**
+     * <p>
+     * Return a boolean value on whether inputted occasion is valid
+     * </p>
+     *
+     * @param occasion the occasion
+     * @return boolean value, true if occasion is valid
+     */
+    public static boolean validOccasion(String occasion) {
+        return (occasion.length() >= 0 && occasion.length() <= 500);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted subteam is valid
+     * </p>
+     *
+     * @param subteam the subteam
+     * @return boolean value, true if subteam is valid
+     */
+    public static boolean validSubteam(String subteam) {
+        return (subteam.length() >= 0 && subteam.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted permission is valid
+     * </p>
+     *
+     * @param permission the permission
+     * @return boolean value, true if permission is valid
+     */
+    public static boolean validPermission(String permission) {
+        return (permission.length() >= 1 && permission.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted team is valid
+     * </p>
+     *
+     * @param team the team
+     * @return boolean value, true if team is valid
+     */
+    public static boolean validTeam(String team) {
+        return (team.length() >= 1 && team.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted course is valid
+     * </p>
+     *
+     * @param course the course
+     * @return boolean value, true if course is valid
+     */
+    public static boolean validCourse(String course) {
+        return (course.length() >= 0 && course.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted trainer is valid
+     * </p>
+     *
+     * @param trainer the trainer
+     * @return boolean value, true if trainer is valid
+     */
+    public static boolean validTrainer(String trainer) {
+        return (trainer.length() >= 0 && trainer.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted comments is valid
+     * </p>
+     *
+     * @param comments the comments
+     * @return boolean value, true if comments is valid
+     */
+    public static boolean validComments(String comments) {
+        return (comments.length() >= 0 && comments.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted gesture is valid
+     * </p>
+     *
+     * @param gesture the gesture
+     * @return boolean value, true if gesture is valid
+     */
+    public static boolean validGesture(String gesture) {
+        return (gesture.length() >= 0 && gesture.length() <= 500);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted appreciationBy is valid
+     * </p>
+     *
+     * @param appreciationBy the appreciationBy
+     * @return boolean value, true if appreciationBy is valid
+     */
+    public static boolean validAppreciationBy(String appreciationBy) {
+        return (appreciationBy.length() >= 0 && appreciationBy.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted proxyStanding is valid
+     * </p>
+     *
+     * @param proxyStanding the proxyStanding
+     * @return boolean value, true if proxyStanding is valid
+     */
+    public static boolean validProxyStanding(String proxyStanding) {
+        return (proxyStanding.length() >= 0 && proxyStanding.length() <= 500);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted proxyOf is valid
+     * </p>
+     *
+     * @param proxyOf the proxyOf
+     * @return boolean value, true if proxyOf is valid
+     */
+    public static boolean validProxyOf(String proxyOf) {
+        return (proxyOf.length() >= 0 && proxyOf.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted language is valid
+     * </p>
+     *
+     * @param language the language
+     * @return boolean value, true if language is valid
+     */
+    public static boolean validLanguage(String language) {
+        return (language.length() >= 1 && language.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted speakWrite is valid
+     * </p>
+     *
+     * @param speakWrite the speakWrite
+     * @return boolean value, true if speakWrite is valid
+     */
+    public static boolean validSpeakWrite(String speakWrite) {
+        return (speakWrite.length() >= 0 && speakWrite.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted skill is valid
+     * </p>
+     *
+     * @param skill the skill
+     * @return boolean value, true if skill is valid
+     */
+    public static boolean validSkill(String skill) {
+        return (skill.length() >= 1 && skill.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted eventTitle is valid
+     * </p>
+     *
+     * @param eventTitle the eventTitle
+     * @return boolean value, true if eventTitle is valid
+     */
+    public static boolean validEventTitle(String eventTitle) {
+        return (eventTitle.length() >= 1 && eventTitle.length() <= 200);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted eventClass is valid
+     * </p>
+     *
+     * @param eventClass the eventClass
+     * @return boolean value, true if eventClass is valid
+     */
+    public static boolean validEventClass(String eventClass) {
+        return (eventClass.length() >= 1 && eventClass.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted eventRole is valid
+     * </p>
+     *
+     * @param eventRole the eventRole
+     * @return boolean value, true if eventRole is valid
+     */
+    public static boolean validEventRole(String eventRole) {
+        return (eventRole.length() >= 1 && eventRole.length() <= 50);
+    }
+    
+    /**
+     * <p>
+     * Return a boolean value on whether inputted eventRoleDescription is valid
+     * </p>
+     *
+     * @param eventRoleDescription the eventRoleDescription
+     * @return boolean value, true if eventRoleDescription is valid
+     */
+    public static boolean validEventRoleDescription(String eventRoleDescription) {
+        return (eventRoleDescription.length() >= 0 && eventRoleDescription.length() <= 200);
+    }
+    
+    
+    
 }
