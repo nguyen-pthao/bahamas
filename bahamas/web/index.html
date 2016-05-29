@@ -1,16 +1,73 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-<html>
+<html ng-app="bahamas">
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <title>Welcome to Bahamas</title>
+        <!-- Bootstrap 3.3.6 -->
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <!--jQuery library--> 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+         <!--Latest compiled JavaScript--> 
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <!--AngularJS-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <!--Angular ngRoute JS-->
+         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+        <!-- Ionicons -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="style/css/cover.css">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]--> 
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="site-wrapper">
+            <div class="site-wrapper-inner">
+                <div class="cover-container">
+                    <div class="masthead clearfix">
+                        <div class="inner">
+                            <nav>
+                                <ul class="nav masthead-nav">
+                                    <li class="active"><a href="http://twc2.org.sg/">TWC2</a></li>
+                                    <li><a href="#">Bahamas Project</a></li>
+                                    <li><a href="#">About us</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="inner cover">
+                        <h1 class="cover-heading" style="font-size: 48px">Welcome to Bahamas</h1>
+                        <p class="lead">
+                        <img src="style/img/Picture1.png" alt="twc2-logo" height="270" width="230"/>
+                        </p>
+                        <p class="lead">
+                            <a href="login.html" class="btn btn-lg btn-default">Login and Register</a>
+                        </p>
+                    </div>
+                    <div class="mastfoot">
+                        <div class="inner">
+                            <p>&copy 2016 Zuerst. All rights reserved.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="./app/app.js"></script>
+        <script src="./app/controllers/LoginController.js"></script>
+        <script src="./app/controllers/AdminController.js"></script>
+        <script src="./app/controllers/UserController.js"></script>
+        <script src="./app/controllers/NoviceController.js"></script>
     </body>
 </html>
