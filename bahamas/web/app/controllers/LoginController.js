@@ -1,6 +1,6 @@
 //Created by Thao Nguyen
 
-var app = angular.module('bahamasLogin', []);
+var app = angular.module('bahamasLogin');
 //PLEASE DELETE COMMENTS WHEN YOU'RE DONE
 //
 //There're multiple ways of declaring a module by either assigning it to a variable or just call it directly
@@ -58,8 +58,9 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                     var getUsername = session.getSession("username");
                     var getToken = session.getSession("token");
                     var getUserType = session.getSession("userType");
-                    $window.location.href = location.origin + '/bahamas/app/views/' + getUserType.toString() + '.html';
-                }
+                    $window.location.href = $scope.location.origin + getUserType.toString();
+                    //$window.location.href = 'admin';
+                }   
             } else {
                 $scope.error = true;
             }
@@ -72,32 +73,5 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
 
 }]);
 
-app.factory('session', ['$window', function ($window) {
-    return {
-        setSession: function(key, value) {
-            try {
-                if ($window.Storage) {
-                    $window.sessionStorage.setItem(key, value);
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (error) {
-                window.alert(error, error.message);
-            }
-        }, 
-        getSession: function (key) {
-            try {
-                if ($window.Storage) {
-                    return $window.sessionStorage.getItem(key);
-                } else {
-                    return false;
-                }
-            } catch (error) {
-                window.alert(error, error.message);
-            }
-        }
-    };
 
-}]);
 

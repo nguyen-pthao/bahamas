@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>TWC2 | Bahamas </title>
+        <title>TWC2 Bahamas Admin </title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
@@ -20,27 +20,27 @@
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
         <!-- Theme style -->
-        <link rel="stylesheet" href="style/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="../../style/css/AdminLTE.min.css">
         <!-- AdminLTE Skins. Choose a skin from the css/skins
              folder instead of downloading all of them to reduce the load. -->
-        <link rel="stylesheet" href="style/css/skins/_all-skins.min.css">
+        <link rel="stylesheet" href="../../style/css/skins/_all-skins.min.css">
         <!-- SlimScroll -->
-        <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+        <script src="../../plugins/slimScroll/jquery.slimscroll.min.js"></script>
         <!-- FastClick -->
-        <script src="plugins/fastclick/fastclick.js"></script>
+        <script src="../../plugins/fastclick/fastclick.js"></script>
         <!-- daterange picker -->
-        <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+        <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker-bs3.css">
         <!--bootstrap datepicker--> 
-        <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+        <link rel="stylesheet" href="../../plugins/datepicker/datepicker3.css">
         <!-- bootstrap daterange picker -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
-        <script src="plugins/daterangepicker/daterangepicker.js"></script>
+        <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
         <!-- bootstrap datepicker -->       
-        <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
         <!-- AdminLTE App -->
-        <script src="style/js/app.min.js"></script>
-        
-        <script src="app/services/SessionService.js"></script>
+        <script src="../../style/js/app.min.js"></script>
+        <script src="../controllers/AdminController.js"></script>
+        <script src="../services/SessionService.js"></script>
 <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">-->
 <!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>-->
 <!--<script   src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>-->
@@ -56,7 +56,7 @@
         <div class="wrapper">
             <header class="main-header">
                 <!-- Logo -->
-                <a href="#" class="logo" style="background-color: #2A6D94">
+                <a href="#" class="logo" style="background-color: #377ec4">
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>B</b>hms</span>
                     <!-- logo for regular state and mobile devices -->
@@ -64,7 +64,7 @@
                 </a>
 
                 <!-- Header Navbar: style can be found in header.less -->
-                <nav class="navbar navbar-static-top" style="background-color: rgb(77, 148, 192);">
+                <nav class="navbar navbar-static-top" style="background-color: rgb(17, 78, 116);">
                     <!-- Sidebar toggle button-->
                     <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                         <span class="sr-only">Toggle navigation</span>
@@ -85,7 +85,7 @@
                                             <li><!-- start message -->
                                                 <a href="#">
                                                     <div class="pull-left">
-                                                        <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
+                                                        <img src="../../style/img/huxley.jpg" class="img-circle" alt="User Image">
                                                     </div>
                                                     <h4>
                                                         Support Team
@@ -156,13 +156,13 @@
                             <!-- User Account: style can be found in dropdown.less -->
                             <li class="dropdown user user-menu">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                                    <img src="style/img/huxley.jpg" class="user-image" alt="User Image">
+                                    <img src="../../style/img/huxley.jpg" class="user-image" alt="User Image">
                                     <span class="hidden-xs">{{user.username}}</span>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <!-- User image -->
                                     <li class="user-header">
-                                        <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
+                                        <img src="../../style/img/huxley.jpg" class="img-circle" alt="User Image">
                                         <p>
                                             {{user.username}} - {{user.userType}}
                                             <small>Member since Apr. 2016</small>
@@ -197,7 +197,7 @@
                     <!-- Sidebar user panel -->
                     <div class="user-panel">
                         <div class="pull-left image">
-                            <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
+                            <img src="../../style/img/huxley.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
                             <p><a href="admin.jsp">{{user.username}}</p>
