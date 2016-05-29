@@ -7,7 +7,7 @@ var app = angular.module('bahamasLogin', []);
 //When a module is already declared, please remove [] in the argument.
 //any built-in variables such as $scope, $http, $location are considered dependency to be used by the controller
 //and thus need to be injected in controller declaration.
-app.controller('loginController', ['$scope', '$http', '$location', 'session', '$timeout', '$window', function ($scope, $http, $location, session, $timeout, $window) {
+app.controller('loginController', ['$scope', '$http', '$location', 'session', '$window', function ($scope, $http, $location, session, $window) {
     $scope.error = false;
     var authorisedUser = {
         'username': "",
@@ -15,13 +15,10 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
         'userType': ""
     };
     $scope.user = {
-        'username': "",
-        'password': ""
+        'username': '',
+        'password': ''
     };
 
-    var getUsername = "";
-    var getToken = "";
-    var getUserType = "";
 //It would be a better practice to separate this method in a login service but forgive my lack of knowledge, I just insert it in here.    
     $scope.loginUser = function () {
 //in Angular controller, only object in $scope would be shown,
@@ -55,12 +52,12 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                     var storeUsername = session.setSession('username', authorisedUser.username);
                     var storeToken = session.setSession('token', authorisedUser.token);
                     var storeUserType = session.setSession('userType', authorisedUser.userType);
-                    //console.log(storeUsername + " " + storeToken + " " + storeUserType);
+                    console.log(storeUsername + " " + storeToken + " " + storeUserType);
                     
 //this is just for testing, feel free to delete.
-                    getUsername = session.getSession("username");
-                    getToken = session.getSession("token");
-                    getUserType = session.getSession("userType");
+                    var getUsername = session.getSession("username");
+                    var getToken = session.getSession("token");
+                    var getUserType = session.getSession("userType");
                     $window.location.href = location.origin + '/bahamas/app/views/' + getUserType.toString() + '.html';
                 }
             } else {
@@ -75,6 +72,32 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
 
 }]);
 
-app.controller('logoutController', ['$location', 'session', function($location, session) {
-    session.terminateSession();    
+app.factory('session', ['$window', function ($window) {
+    return {
+        setSession: function(key, value) {
+            try {
+                if ($window.Storage) {
+                    $window.sessionStorage.setItem(key, value);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (error) {
+                window.alert(error, error.message);
+            }
+        }, 
+        getSession: function (key) {
+            try {
+                if ($window.Storage) {
+                    return $window.sessionStorage.getItem(key);
+                } else {
+                    return false;
+                }
+            } catch (error) {
+                window.alert(error, error.message);
+            }
+        }
+    };
+
 }]);
+

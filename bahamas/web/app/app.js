@@ -53,7 +53,7 @@ app.config(function($routeProvider) {
 
 app.run(['$rootScope', '$location', 'loginController', function($rootScope, $location, loginController) {
     $rootScope.$on('$routeChangeStart', function(event) {
-       loginController.init();
+ //      loginController.init();
        var permission = loginController.getSession('userType');
        
        if(permission === "") {
