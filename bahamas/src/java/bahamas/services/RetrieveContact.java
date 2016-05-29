@@ -10,9 +10,13 @@ import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -25,6 +29,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "RetrieveContact", urlPatterns = {"/contact.retrieve"})
 public class RetrieveContact extends HttpServlet {
+
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMMMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,8 +45,58 @@ public class RetrieveContact extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            JsonObject json = new JsonObject();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonArray resultArray = new JsonArray();
 
+            /*          
+            String token = request.getParameter("token");
+            if (!Authenticator.verifyToken(token)) {
+                json.addProperty("message", "invalid token");
+                out.println(gson.toJson(json));
 
+            } else {
+                //Verified
+             */
+            //Validation
+            //Create new contact object
+            ContactDAO contactDAO = new ContactDAO();
+            ArrayList<Contact> contactList = contactDAO.retriveAllContact();
+
+            if (!contactList.isEmpty()) {
+                json.addProperty("message", "success");
+
+                for (Contact c : contactList) {
+                  
+                    JsonObject jsonContactObj = new JsonObject();
+                    jsonContactObj.addProperty("username", c.getUsername());
+                    jsonContactObj.addProperty("password", c.getPassword());
+
+                    jsonContactObj.addProperty("contactType", c.getContactType());
+                    jsonContactObj.addProperty("dateCreated", sdf.format(c.getDateCreated()));
+                    jsonContactObj.addProperty("createdBy", c.getCreatedBy());
+                    jsonContactObj.addProperty("name", c.getName());
+                    jsonContactObj.addProperty("altName", c.getAltName());
+                    jsonContactObj.addProperty("explainIfOther", c.getExplainIfOther());
+                    jsonContactObj.addProperty("profession", c.getProfession());
+                    jsonContactObj.addProperty("jobTitle", c.getJobTitle());
+                    jsonContactObj.addProperty("nric", c.getNric());
+                    jsonContactObj.addProperty("gender", c.getGender());
+                    jsonContactObj.addProperty("nationality", c.getNationality());
+                    jsonContactObj.addProperty("dateOfBirth", c.getDateOfBirth());
+                    jsonContactObj.addProperty("profilePic", c.getProfilePic());
+                    jsonContactObj.addProperty("remarks", c.getRemarks());
+                    json.add("contact " +c.getContactId(), json);
+                    
+                }
+
+                out.println(gson.toJson(json));
+            } else {
+                json.addProperty("message", "failed");
+                out.println(gson.toJson(json));
+            }
+
+            //}
         }
     }
 

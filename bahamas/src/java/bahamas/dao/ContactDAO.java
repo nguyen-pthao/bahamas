@@ -25,7 +25,7 @@ import java.util.logging.Logger;
 public class ContactDAO {
 
     private ArrayList<Contact> contactList;
-    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMMMM-yyyy");
+    private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
     public ContactDAO() {
     }
@@ -36,8 +36,6 @@ public class ContactDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        DateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-        Date startDate = null;
 
         try {
             conn = ConnectionManager.getConnection();
@@ -62,7 +60,7 @@ public class ContactDAO {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
-                Date dateCreated = (Date) formatter.parse(dateStr);
+                Date dateCreated = sdf.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -72,7 +70,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                String dateOfBirth = rs.getString(17);
+                String dateOfBirth = sdf.format(sdf.parse(rs.getString(17)));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = true;
@@ -103,9 +101,6 @@ public class ContactDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        //SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
-        Date startDate = null;
 
         try {
             conn = ConnectionManager.getConnection();
@@ -131,7 +126,7 @@ public class ContactDAO {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
-                Date dateCreated = format.parse(dateStr);
+                Date dateCreated = sdf.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -141,7 +136,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                String dateOfBirth = rs.getString(17);
+                String dateOfBirth = sdf.format(sdf.parse(rs.getString(17)));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = true;
@@ -194,7 +189,6 @@ public class ContactDAO {
             stmt.setString(13, c.getDateOfBirth());
             stmt.setString(14, c.getProfilePic());
             stmt.setString(15, c.getRemarks());
-          
 
             result = stmt.executeUpdate();
 
@@ -205,8 +199,7 @@ public class ContactDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-            return false;
-        }
-    
+        return false;
+    }
 
 }
