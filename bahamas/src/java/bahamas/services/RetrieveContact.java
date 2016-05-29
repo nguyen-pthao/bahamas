@@ -47,7 +47,7 @@ public class RetrieveContact extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            JsonArray resultArray = new JsonArray();
+
 
             /*          
             String token = request.getParameter("token");
@@ -61,14 +61,17 @@ public class RetrieveContact extends HttpServlet {
             //Validation
             //Create new contact object
             ContactDAO contactDAO = new ContactDAO();
-            ArrayList<Contact> contactList = contactDAO.retriveAllContact();
+            ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
 
             if (!contactList.isEmpty()) {
                 json.addProperty("message", "success");
 
+                JsonArray contactArray = new JsonArray();
+                JsonObject jsonContactObj;
+
                 for (Contact c : contactList) {
-                  
-                    JsonObject jsonContactObj = new JsonObject();
+
+                    jsonContactObj = new JsonObject();
                     jsonContactObj.addProperty("username", c.getUsername());
                     jsonContactObj.addProperty("password", c.getPassword());
 
@@ -83,13 +86,13 @@ public class RetrieveContact extends HttpServlet {
                     jsonContactObj.addProperty("nric", c.getNric());
                     jsonContactObj.addProperty("gender", c.getGender());
                     jsonContactObj.addProperty("nationality", c.getNationality());
-                    jsonContactObj.addProperty("dateOfBirth", c.getDateOfBirth());
+                    jsonContactObj.addProperty("dateOfBirth", sdf.format(c.getDateOfBirth()));
                     jsonContactObj.addProperty("profilePic", c.getProfilePic());
                     jsonContactObj.addProperty("remarks", c.getRemarks());
-                    json.add("contact " +c.getContactId(), json);
-                    
-                }
+                    contactArray.add(jsonContactObj);
 
+                }
+                json.add("contact", contactArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");

@@ -33,7 +33,7 @@ public class Contact {
     private String nric;
     private String gender;
     private String nationality;
-    private String dateOfBirth;
+    private Date dateOfBirth;
     private String profilePic;
     private String remarks;
     
@@ -60,7 +60,7 @@ public class Contact {
     public Contact(){}
     
     //created by Si Hao
-    public Contact(int contactId, String contactType, String username, String password, boolean isAdmin, boolean deactivated, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, String dateOfBirth, String profilePic, String remarks, boolean notification) {
+    public Contact(int contactId, String contactType, String username, String password, boolean isAdmin, boolean deactivated, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, Date dateOfBirth, String profilePic, String remarks, boolean notification) {
         this.contactId = contactId;
         this.contactType = contactType;
         this.username = username;
@@ -84,7 +84,7 @@ public class Contact {
     }
 
     //note by Si Hao: to be removed
-    public Contact(int contactId, String username, String password, boolean deactivated, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, String dateOfBirth, String profilePic, String remarks, boolean isAdmin, ArrayList<TeamJoin> teamJoinList, String contactType, ArrayList<Phone> phoneList, ArrayList<Address> addressList, ArrayList<Email> emailList, ArrayList<OfficeHeld> officeHeldList, ArrayList<Proxy> proxyList, ArrayList<Membership> membershipList, ArrayList<LanguageAssignment> languageAssignmentList, ArrayList<SkillAssignment> skillAssignmentList, ArrayList<EventParticipation> eventParticipationList, ArrayList<Appreciation> appreciationList, ArrayList<Donation> donationList, ArrayList<TrainingCertified> certificationList, ArrayList<TrainingCertified> certificationAwarderList) {
+    public Contact(int contactId, String username, String password, boolean deactivated, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, Date dateOfBirth, String profilePic, String remarks, boolean isAdmin, ArrayList<TeamJoin> teamJoinList, String contactType, ArrayList<Phone> phoneList, ArrayList<Address> addressList, ArrayList<Email> emailList, ArrayList<OfficeHeld> officeHeldList, ArrayList<Proxy> proxyList, ArrayList<Membership> membershipList, ArrayList<LanguageAssignment> languageAssignmentList, ArrayList<SkillAssignment> skillAssignmentList, ArrayList<EventParticipation> eventParticipationList, ArrayList<Appreciation> appreciationList, ArrayList<Donation> donationList, ArrayList<TrainingCertified> certificationList, ArrayList<TrainingCertified> certificationAwarderList) {
         this.contactId = contactId;
         this.username = username;
         this.password = password;
@@ -122,7 +122,7 @@ public class Contact {
 
     // note by Si Hao: to be removed
     //user with no login credentials
-    public Contact(int contactId, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, String dateOfBirth, String profilePic, String remarks) {
+    public Contact(int contactId, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, Date dateOfBirth, String profilePic, String remarks) {
         this.contactId = contactId;
         this.dateCreated = dateCreated;
         this.createdBy = createdBy;
@@ -139,7 +139,7 @@ public class Contact {
         this.remarks = remarks;
     }
 
-    public Contact(String contactType, boolean isAdmin, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, String dateOfBirth, String profilePic, String remarks) {
+    public Contact(String contactType, boolean isAdmin, Date dateCreated, String createdBy, String name, String altName, String explainIfOther, String profession, String jobTitle, String nric, String gender, String nationality, Date dateOfBirth, String profilePic, String remarks) {
         this.contactType = contactType;
         this.isAdmin = isAdmin;
         this.dateCreated = dateCreated;
@@ -271,11 +271,11 @@ public class Contact {
         this.nationality = nationality;
     }
 
-    public String getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(String dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

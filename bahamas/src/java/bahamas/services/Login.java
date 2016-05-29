@@ -70,7 +70,8 @@ public class Login extends HttpServlet {
             Contact contact = contactDAO.retrieveContactByUsername(username);
 
             if (contact != null) {
-                String serverPassword = PasswordHash.hashPassword(contact.getPassword());
+                //String serverPassword = PasswordHash.hashPassword(contact.getPassword());
+                String serverPassword = contact.getPassword();
                 if (serverPassword.equals(password) && !contact.isDeactivated()) {
                     
                     AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
@@ -96,7 +97,7 @@ public class Login extends HttpServlet {
                     jsonContactObj.addProperty("nric", contact.getNric());
                     jsonContactObj.addProperty("gender", contact.getGender());
                     jsonContactObj.addProperty("nationality", contact.getNationality());
-                    jsonContactObj.addProperty("dateOfBirth", contact.getDateOfBirth());
+                    jsonContactObj.addProperty("dateOfBirth", formatter.format(contact.getDateOfBirth()));
                     jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                     jsonContactObj.addProperty("remarks", contact.getRemarks());
                     json.add("contact", jsonContactObj);
