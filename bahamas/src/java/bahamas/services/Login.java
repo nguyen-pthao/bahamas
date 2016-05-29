@@ -5,7 +5,9 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.entity.AuditLog;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
@@ -18,6 +20,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -69,6 +72,9 @@ public class Login extends HttpServlet {
             if (contact != null) {
                 String serverPassword = PasswordHash.hashPassword(contact.getPassword());
                 if (serverPassword.equals(password) && !contact.isDeactivated()) {
+                    
+                    AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
+
                     String token = Authenticator.signedToken(username);
                     json.addProperty("status", "success");
                     json.addProperty("token", token);

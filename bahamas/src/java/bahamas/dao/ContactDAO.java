@@ -25,17 +25,30 @@ import java.util.logging.Logger;
 public class ContactDAO {
 
     private ArrayList<Contact> contactList;
+<<<<<<< HEAD
     private static final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+=======
+    Connection conn = null;
+    PreparedStatement stmt = null;
+    ResultSet rs = null;
+    SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMMMM-yyyy");
+>>>>>>> 34a47db001db96778f330b967d9fd3e09ceca732
 
     public ContactDAO() {
     }
 
-    public ArrayList<Contact> retriveAllContact() {
+    public ArrayList<Contact> retrieveAllContact() {
 
+<<<<<<< HEAD
         contactList = new ArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+=======
+        contactList = new ArrayList<Contact>();
+        Date startDate = null;
+>>>>>>> 34a47db001db96778f330b967d9fd3e09ceca732
 
         try {
             conn = ConnectionManager.getConnection();
@@ -60,7 +73,11 @@ public class ContactDAO {
                     deactivated = false;
                 }
                 String dateStr = rs.getString(7);
+<<<<<<< HEAD
                 Date dateCreated = sdf.parse(dateStr);
+=======
+                Date dateCreated = format.parse(dateStr);
+>>>>>>> 34a47db001db96778f330b967d9fd3e09ceca732
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -88,7 +105,7 @@ public class ContactDAO {
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
@@ -98,9 +115,13 @@ public class ContactDAO {
 
     public Contact retrieveContactByUsername(String usernameInput) {
         contactList = new ArrayList();
+<<<<<<< HEAD
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+=======
+        Date startDate = null;
+>>>>>>> 34a47db001db96778f330b967d9fd3e09ceca732
 
         try {
             conn = ConnectionManager.getConnection();
@@ -151,7 +172,7 @@ public class ContactDAO {
 
             e.printStackTrace();
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to create student from database data", ex);
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
