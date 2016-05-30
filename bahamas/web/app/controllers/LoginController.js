@@ -55,10 +55,10 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                     console.log(storeUsername + " " + storeToken + " " + storeUserType);
                     
 //this is just for testing, feel free to delete.
-                    var getUsername = session.getSession("username");
-                    var getToken = session.getSession("token");
-                    var getUserType = session.getSession("userType");
-                    $window.location.href = $scope.location.origin + getUserType.toString();
+//                    var getUsername = session.getSession("username");
+//                    var getToken = session.getSession("token");
+//                    var getUserType = session.getSession("userType");
+//                    $window.location.href = $scope.location.origin + getUserType.toString();
                     //$window.location.href = 'admin';
                 }   
             } else {

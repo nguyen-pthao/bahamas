@@ -3198,7 +3198,7 @@ table.text-center th {
  */
  .twc2-logo,
  .register-logo{
-	 margin-top: 80px;
+     margin-top: 80px;
  }
  .login-logo-b,
  .register-logo{
@@ -3219,7 +3219,7 @@ table.text-center th {
 }
 .login-page,
 .register-page {
-  background: #d2d6de;
+  background: #cce6ff;
 }
 .login-box,
 .register-box {
