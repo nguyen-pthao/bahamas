@@ -146,19 +146,19 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
     $scope.submitNewContact = function() {
         //console.log($scope.user);
         //console.log($scope.contact);
-        $scope.dataSubmit = [
-        $scope.user.token, 
-        $scope.contact.name,
-        $scope.contact.altName,
-        $scope.contact.contactType,
-        $scope.contact.otherExplanation,
-        $scope.contact.profession,
-        $scope.contact.jobTitle,
-        $scope.contact.nric,
-        $scope.contact.gender,
-        $scope.contact.nationality,
-        $scope.contact.remarks
-        ];
+        $scope.dataSubmit = {
+            "token":   $scope.user.token, 
+            "name":    $scope.contact.name,
+            "altName":    $scope.contact.altName,
+            "contactType":    $scope.contact.contactType,
+            "otherExplanation":    $scope.contact.otherExplanation,
+            "profession":    $scope.contact.profession,
+            "jobTitle":    $scope.contact.jobTitle,
+            "nric":    $scope.contact.nric,
+            "gender":   $scope.contact.gender,
+            "nationality":    $scope.contact.nationality,
+            "remarks":    $scope.contact.remarks
+        };
         
         $scope.location = $location.path();
         var url = location.origin + "/bahamas/contact.add?";
