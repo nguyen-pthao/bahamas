@@ -164,4 +164,11 @@ app.controller('AdminController', ['$scope', '$location', 'session', function ($
             });
         };
 
+        $scope.logout = function () {
+            session.terminateSession();
+            console.log("success");
+            var url = location.origin + "/bahamas/login.html";
+            $window.location.href = url;
+        };
+
     }]);
