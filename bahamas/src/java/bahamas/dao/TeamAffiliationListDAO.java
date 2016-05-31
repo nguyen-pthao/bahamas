@@ -17,38 +17,38 @@ import java.util.logging.Logger;
  *
  * @author Marcus
  */
-public class ModeOfSendingReceiptListDAO {
+public class TeamAffiliationListDAO {
     
-    private ArrayList<String> modeOfSendingReceiptList;
+    private ArrayList<String> teamAffiliationList;
     
 
-    public ModeOfSendingReceiptListDAO() {
+    public TeamAffiliationListDAO() {
     }
     
-    public ArrayList<String> retrieveMOSRList() {
+    public ArrayList<String> retrieveTeamAffiliationList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        modeOfSendingReceiptList = new ArrayList<String>();
+        teamAffiliationList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM MODE_OF_SENDING_RECEIPT_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM TEAM_AFFILIATION_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                modeOfSendingReceiptList.add(rs.getString(1));
+                teamAffiliationList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ModeOfSendingReceiptListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve mode of sending receipt list from database data", ex);
+            Logger.getLogger(TeamAffiliationListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve team affiliation list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return modeOfSendingReceiptList;
+        return teamAffiliationList;
     }
     
 }
