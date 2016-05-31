@@ -5,8 +5,8 @@
  */
 package bahamas.services;
 
-import bahamas.dao.LSAClassListDAO;
-import bahamas.dao.LanguageListDAO;
+
+import bahamas.dao.EventClassListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -24,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "LSAClassList", urlPatterns = {"/LSAClassList"})
-public class LSAClassList extends HttpServlet {
+@WebServlet(name = "EventClassList", urlPatterns = {"/EventClassList"})
+public class EventClassList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -55,24 +55,24 @@ public class LSAClassList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            LSAClassListDAO lsaClassListDAO = new LSAClassListDAO();
-            ArrayList<String> LSAClassList = lsaClassListDAO.retrieveLSAClassList();
+            EventClassListDAO eventClassListDAO = new EventClassListDAO();
+            ArrayList<String> eventClassList = eventClassListDAO.retrieveEventClassList();
 
-            if (!LSAClassList.isEmpty()) {
+            if (!eventClassList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray LSAClassArray = new JsonArray();
-                JsonObject jsonLSAClassObj;
+                JsonArray eventClassArray = new JsonArray();
+                JsonObject jsonEventClassObj;
 
-                for (String s : LSAClassList) {
+                for (String s : eventClassList) {
 
-                    jsonLSAClassObj = new JsonObject();
-                    jsonLSAClassObj.addProperty("lsaClass", s);
+                    jsonEventClassObj = new JsonObject();
+                    jsonEventClassObj.addProperty("eventClass", s);
 
-                    LSAClassArray.add(jsonLSAClassObj);
+                    eventClassArray.add(jsonEventClassObj);
 
                 }
-                json.add("lsaClassList", LSAClassArray);
+                json.add("eventClassList", eventClassArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
