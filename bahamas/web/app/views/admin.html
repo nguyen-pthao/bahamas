@@ -175,7 +175,6 @@
                                             <a href="javascript: (0)" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <!-- <a href="/logout" class="btn btn-default btn-flat">Sign out</a>-->
                                             <button class="btn btn-default btn-flat" ng-click="logout()">Sign out</button>
                                         </div>
                                     </li>
@@ -193,7 +192,7 @@
             <!-- =============================================== -->
 
             <!-- Left side column. contains the sidebar -->
-            <aside class="main-sidebar">
+            <aside class="main-sidebar" style='position:fixed'>
                 <!-- sidebar: style can be found in sidebar.less -->
                 <section class="sidebar">
                     <!-- Sidebar user panel -->
@@ -202,8 +201,8 @@
                             <img src="../../style/img/huxley.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p><a href="#">{{user.username}}</p>
-                            {{user.userType}}</a>
+                            <p><a ng-click="backHome()">{{user.username}}</a></p>
+                            {{user.userType}}
                         </div>    
                     </div>                   
                     <!-- sidebar menu: : style can be found in sidebar.less -->
@@ -226,7 +225,7 @@
                                         </div>
                                     </form>
                                 </li>
-                                <li><a href="javascript: void(0)" id="create-contact"><i class="fa fa-user-plus"></i><span> Create New Contact</span></a></li>
+                                <li><a href="javascript: void(0)" id="create-contact" ng-click='showContactForm()'><i class="fa fa-user-plus"></i><span> Create New Contact</span></a></li>
                             </ul>
                         </li>
                         <!-- Event information -->
@@ -271,13 +270,18 @@
                         </li>
 
                     </ul>
+                    <div style="color: white; position: absolute; bottom: 0">
+                        <span style="padding-left: 12px">
+                            &copy 2016 Zuerst. All rights reserved. 
+                        </span>
+                    </div>    
                 </section>
                 <!-- /.sidebar -->
             </aside>
             <!-- =============================================== -->
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper" id="content">
+            <div class="content-wrapper" id="content" ng-include src="newContact">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
                     <h3>
@@ -392,24 +396,25 @@
         <!-- ./wrapper -->
         <script>
             $(document).ready(function () {
-                $('#create-contact').on('click', function () {
-                    $('#content').load('createContact.html #add-new-contact', function () {
-                        //Date picker
-                        $('#membership-duration-picker, #office-duration-picker').daterangepicker();
-
-                        $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
-                           #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
-                           #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
-                           #contact-donation-date-received-picker, #contact-donation-date-of-receipt-picker,\n\
-                           #proxy-date-obsolete-picker, #skills-assets-date-obsolete-picker,\n\
-                           #languages-date-obsolete-picker').datepicker({
-                            //dateFormat: "yy-mm-dd"
-                            autoclose: true
-                        });
-                        //window.alert("hello");
-                    });
-                });
+                //$('#create-contact').on('click', function(){
+                //$('#content').load('createContact.html #add-new-contact', function(){
+                //Date picker
+                
+//                $('#membership-duration-picker, #office-duration-picker').daterangepicker();
+//
+//                $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
+//                           #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
+//                           #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
+//                           #contact-donation-date-received-picker, #contact-donation-date-of-receipt-picker,\n\
+//                           #proxy-date-obsolete-picker, #skills-assets-date-obsolete-picker,\n\
+//                           #languages-date-obsolete-picker').datepicker({
+//                    //dateFormat: "yy-mm-dd"
+//                    autoclose: true
+//                });
+                //window.alert("hello");
             });
+            //});
+            //});
         </script>
     </body>
 </html>

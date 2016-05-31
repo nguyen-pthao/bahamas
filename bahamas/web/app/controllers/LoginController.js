@@ -16,7 +16,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
    
     $scope.loginUser = function () {
         $scope.location = $location.path();
-        var url = location.origin + "/bahamas/login?";
+        var url = location.origin + "/bahamas/login";
 
         $http({
             method: 'POST',

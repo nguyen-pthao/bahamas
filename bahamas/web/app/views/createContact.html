@@ -17,7 +17,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i> Homepage <i class="fa fa-chevron-right small"></i> Contact Management </li>
+                        <li><i class="fa fa-home"></i><a ng-click="backHome()" style="color: white"> Homepage</a> <i class="fa fa-chevron-right small"></i> Contact Management </li>
                     </ol>                    
                 </h3>
             </section>
@@ -38,66 +38,66 @@ and open the template in the editor.
                         <div class="box box-primary" style="border-top-color: #70103F">      
                             <!-- form start -->
                             <form id="contact-new-contact-form" role="form" ng-submit='submitNewContact()'>
-                                
+
                                 <!--Compulsory information section-->
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label>Name</label>
-                                        <input type="text" ng-model="contact.name" class="form-control" required> 
+                                        <input type="text" ng-model="contact.name" class="form-control" > 
                                     </div>
                                     <div class="form-group">
                                         <label>Alternative Name</label>
-                                        <input type="text" ng-model="contact.altName" class="form-control" required> 
+                                        <input type="text" ng-model="contact.altName" class="form-control" > 
                                     </div>
                                     <div class="form-group">
                                         <label>Contact type</label>
-                                        <select ng-mdodel="contact.contactType" class="form-control" required>
+                                        <select ng-model="contact.contactType" class="form-control">
                                             Call API to insert dropdown list
                                         </select>        
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="contact.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="contact.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Profession</label>
-                                        <input type="text" ng-mdodel="contact.profession" class="form-control" required> 
+                                        <input type="text" ng-model="contact.profession" class="form-control" > 
                                     </div>
                                     <div class="form-group">
                                         <label>Job title</label>
-                                        <input type="text" ng-mdodel="contact.jobTitle" class="form-control" required> 
+                                        <input type="text" ng-model="contact.jobTitle" class="form-control" > 
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>NRIC/FIN</label>
-                                            <input type="text" ng-mdodel="contact.nric" class="form-control" required> 
+                                            <input type="text" ng-model="contact.nric" class="form-control"> 
                                         </div>    
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Gender</label>
-                                            <select ng-mdodel="contact.gender" class="form-control" required>
+                                            <select ng-model="contact.gender" class="form-control" >
                                                 <option value="Male">Male</option>
                                                 <option value="Female">Female</option>
                                             </select> 
                                         </div>  
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                                             <label>Nationality</label>
-                                            <input type="text" ng-mdodel="contact.nationality" class="form-control" required>  
+                                            <input type="text" ng-model="contact.nationality" class="form-control" >  
                                         </div>    
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+<!--                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>Date created</label>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="contact.dateCreated" class="form-control pull-right" id="contact-date-of-birth-picker">
+                                                <input type="text" ng-model="contact.dateCreated" class="form-control pull-right" id="contact-date-of-birth-picker">
                                             </div>
                                         </div>
-                                    </div>                      
+                                    </div>                      -->
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="contact.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="contact.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
 
                                     <!--Phone information section-->
@@ -109,21 +109,21 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="phone.dateOsoleted" class="form-control pull-right" id="contact-phone-date-obsolete-picker">
+                                                <input type="text" ng-model="phone.dateOsoleted" class="form-control pull-right" id="contact-phone-date-obsolete-picker">
                                             </div>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px; margin-bottom: 15px">
                                             <label>Country code</label>
-                                            <input type="number" ng-mdodel="phone.countryCode" class="form-control" value="65">        
+                                            <input type="number" ng-model="phone.countryCode" class="form-control" value="65">        
                                         </div>
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Phone number</label>
-                                            <input type="number" ng-mdodel="phone.number" class="form-control">
+                                            <input type="number" ng-model="phone.number" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="phone.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="phone.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
 
                                     <!--Email information section-->
@@ -135,17 +135,17 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="email.dateObsoleted" class="form-control pull-right" id="contact-email-date-obsolete-picker">
+                                                <input type="text" ng-model="email.dateObsoleted" class="form-control pull-right" id="contact-email-date-obsolete-picker">
                                             </div>
                                         </div>
                                     </div> 
                                     <div class="form-group">    
                                         <label>Email address</label>
-                                        <input type="text" ng-mdodel="email.address" class="form-control">        
+                                        <input type="text" ng-model="email.address" class="form-control">        
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="email.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="email.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
 
                                     <!--Address information section-->
@@ -157,27 +157,27 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="address.dateObsoleted" class="form-control pull-right" id="contact-address-obsolete-picker">
+                                                <input type="text" ng-model="address.dateObsoleted" class="form-control pull-right" id="contact-address-obsolete-picker">
                                             </div>
                                         </div>
                                     </div>  
                                     <div class="form-group">
                                         <label>Address</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="address.addressInput" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="address.addressInput" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Country</label>
-                                            <input type="text" class="form-control" ng-mdodel="address.country" value="Singapore">
+                                            <input type="text" class="form-control" ng-model="address.country" value="Singapore">
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px; margin-bottom: 15px">
                                             <label>Zipcode</label>
-                                            <input type="number" class="form-control" ng-mdodel="zipcode-address">
+                                            <input type="number" class="form-control" ng-model="address.zipcode">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="address.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="address.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
 
                                     <!--Membership information section-->
@@ -186,18 +186,18 @@ and open the template in the editor.
                                     <div class="form-group">
                                         <div class="col-md-6" style="padding: 0px; margin-bottom: 15px">
                                             <label>Membership class</label>
-                                            <select ng-mdodel="membership.type" class="form-control">
+                                            <select ng-model="membership.type" class="form-control">
                                                 Call backend API to retrieve dropdown list
                                             </select>
                                         </div>
                                         <div class="col-md-offset-1 col-md-5" style="padding: 0px; margin-bottom: 15px">
                                             <label>Subscription amount</label>
-                                            <input type="number" class="form-control" ng-mdodel="membership.subscriptionAmount">
+                                            <input type="number" class="form-control" ng-model="membership.subscriptionAmount">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="membership.otherSubscriptionExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="membership.otherSubscriptionExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Membership start date & end date</label>
@@ -205,35 +205,35 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" ng-mdodel='membership.startEndDate' class="form-control pull-right" id="membership-duration-picker">
+                                            <input type="text" ng-model='membership.startEndDate' class="form-control pull-right" id="membership-duration-picker">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>Payment mode</label>
-                                            <select ng-mdodel="membership.paymentMode" class="form-control">
+                                            <select ng-model="membership.paymentMode" class="form-control">
                                                 Call backend API to retrieve dropdown list
                                             </select>  
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="membership.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="membership.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-6" style="padding: 0px">
                                             <label>External Transaction Reference</label>
-                                            <input type='text' ng-mdodel="membership.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
+                                            <input type='text' ng-model="membership.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
                                         </div>    
                                         <div class="col-md-offset-1 col-md-5" style="padding: 0px">
                                             <label>Receipt number</label>
-                                            <input type='text' ng-mdodel="membership.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
+                                            <input type='text' ng-model="membership.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-6" style="padding: 0px">
                                             <label>Mode of sending receipt</label>
-                                            <select ng-mdodel='membership.modeSendingReceipt' class='form-control'>
+                                            <select ng-model='membership.modeSendingReceipt' class='form-control'>
                                                 Call backend API to retrieve dropdown list
                                             </select>
                                         </div>    
@@ -243,25 +243,25 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="membership.dateReceipt" class="form-control pull-right" id="contact-date-of-receipt-picker">
+                                                <input type="text" ng-model="membership.dateReceipt" class="form-control pull-right" id="contact-date-of-receipt-picker">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="membership.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="membership.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
                                         <textarea form="contact-new-contact-form" name="membership.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    
+
                                     <!--Office held information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Office held &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    
+
                                     <div class="col-md-12" style="padding: 0px; margin-bottom: 15px">
                                         <label>Office held</label>
-                                        <select ng-mdodel='officeHeld.office' class='form-control'>
+                                        <select ng-model='officeHeld.office' class='form-control'>
                                             Call backend API to retrieve dropdown list
                                         </select>
                                     </div> 
@@ -271,14 +271,14 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" ng-mdodel='officeHeld.startEndDate' class="form-control pull-right" id="office-duration-picker">
+                                            <input type="text" ng-model='officeHeld.startEndDate' class="form-control pull-right" id="office-duration-picker">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="officeHeld.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="officeHeld.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    
+
                                     <!--Donation information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Donation &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
                                     <div class="form-group">
@@ -288,38 +288,38 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="donation.dateReceived" class="form-control pull-right" id="contact-donation-date-received-picker">
+                                                <input type="text" ng-model="donation.dateReceived" class="form-control pull-right" id="contact-donation-date-received-picker">
                                             </div>
                                         </div>
                                         <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
                                             <label>Donation amount</label>
-                                            <input type="number" step='any' ng-mdodel="donation.amount" class="form-control" value='0.00'>        
+                                            <input type="number" step='any' ng-model="donation.amount" class="form-control" value='0.00'>        
                                         </div>
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Payment mode</label>
-                                            <select ng-mdodel="donation.paymentMode" class="form-control">
-                                            Call API to retrieve dropdown list
+                                            <select ng-model="donation.paymentMode" class="form-control">
+                                                Call API to retrieve dropdown list
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="donation.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-6" style="padding: 0px">
                                             <label>External Transaction Reference</label>
-                                            <input type='text' ng-mdodel="donation.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
+                                            <input type='text' ng-model="donation.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
                                         </div>    
                                         <div class="col-md-offset-1 col-md-5" style="padding: 0px">
                                             <label>Receipt number</label>
-                                            <input type='text' ng-mdodel="donation.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
+                                            <input type='text' ng-model="donation.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-6" style="padding: 0px">
                                             <label>Mode of sending receipt</label>
-                                            <select ng-mdodel='donation.modeSendingReceipt' class='form-control'>
+                                            <select ng-model='donation.modeSendingReceipt' class='form-control'>
                                                 Call backend API to retrieve dropdown list
                                             </select>
                                         </div>    
@@ -329,92 +329,92 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="donation.dateReceipt" class="form-control pull-right" id="contact-donation-date-of-receipt-picker">
+                                                <input type="text" ng-model="donation.dateReceipt" class="form-control pull-right" id="contact-donation-date-of-receipt-picker">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="donation.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Donor's instructions</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="donation.donorInstruction" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.donorInstruction" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class='form-group col-md-12' style='padding: 0px'>
                                         <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
                                             <label>Allocation 1</label>
-                                            <textarea form="contact-new-contact-form" ng-mdodel="donation.subscriptionAllocation1" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation1" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                         <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
                                             <label>Subamount 1</label>
-                                            <input type="number" step='any' class="form-control" ng-mdodel="donation.subscriptionSubamount1">
+                                            <input type="number" step='any' class="form-control" ng-model="donation.subscriptionSubamount1">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12' style='padding: 0px'>
                                         <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
                                             <label>Allocation 2</label>
-                                            <textarea form="contact-new-contact-form" ng-mdodel="donation.subscriptionAllocation2" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation2" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                         <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
                                             <label>Subamount 2</label>
-                                            <input type="number" step='any' class="form-control" ng-mdodel="donation.subscriptionSubamount2">
+                                            <input type="number" step='any' class="form-control" ng-model="donation.subscriptionSubamount2">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12' style='padding: 0px'>
                                         <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
                                             <label>Allocation 3</label>
-                                            <textarea form="contact-new-contact-form" ng-mdodel="donation.subscriptionAllocation3" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation3" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                         <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
                                             <label>Subamount 3</label>
-                                            <input type="number" class="form-control" ng-mdodel="donation.subscriptionSubamount3">
+                                            <input type="number" class="form-control" ng-model="donation.subscriptionSubamount3">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Associated occasion</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="donation.associatedOccasion" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.associatedOccasion" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="donation.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.remarks" style='widtnh: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    
+
                                     <!--Team joined information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Team joined &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    
+
                                     <div class="form-group col-md-12" style="padding: 0px;">
                                         <div class="col-md-4" style="padding: 0px;">
                                             <label>Team affiliation</label>
-                                            <select ng-mdodel="teamJoined.teamAffiliation" class="form-control">
+                                            <select ng-model="teamJoined.teamAffiliation" class="form-control">
                                                 Call API to insert dropdown list
                                             </select>
                                         </div>
                                     </div> 
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="teamJoined.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="teamJoined.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px;">
                                         <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Subteam</label>
-                                            <input type="text" class="form-control" ng-mdodel="teamJoined.subteam">
+                                            <input type="text" class="form-control" ng-model="teamJoined.subteam">
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
                                             <label>Permission</label>
-                                            <select ng-mdodel="teamJoinedpermission" class="form-control">
+                                            <select ng-model="teamJoinedpermission" class="form-control">
                                                 Call API to insert dropdown list
                                             </select>
                                         </div>
                                     </div> 
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="teamJoined.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="teamJoined.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    
+
                                     <!--Proxy information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Proxy &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    
+
                                     <div class="form-group col-md-12" style='padding: 0px'>
                                         <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Date discovered to be obsolete</label>
@@ -422,26 +422,26 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="proxy.dateObsoleted" class="form-control pull-right" id="proxy-date-obsolete-picker">
+                                                <input type="text" ng-model="proxy.dateObsoleted" class="form-control pull-right" id="proxy-date-obsolete-picker">
                                             </div>
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
                                             <label>This contact is a proxy/reprentative of</label>
-                                            <input type="text" ng-mdodel="proxy.rep" class="form-control">        
+                                            <input type="text" ng-model="proxy.represent" class="form-control">        
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Proxy standing (what is his/her relationship to above?)</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="proxy.standing" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="proxy.standing" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="proxy.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="proxy.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    
+
                                     <!--Languages information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Languages &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    
+
                                     <div class="form-group col-md-12" style='padding: 0px'>
                                         <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Date discovered to be obsolete</label>
@@ -449,36 +449,36 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="languages.dateObsoleted" class="form-control pull-right" id="languages-date-obsolete-picker">
+                                                <input type="text" ng-model="languages.dateObsoleted" class="form-control pull-right" id="languages-date-obsolete-picker">
                                             </div>
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
                                             <label>Language</label>
-                                            <select ng-mdodel="languages.language" class="form-control">
+                                            <select ng-model="languages.language" class="form-control">
                                                 Call API to insert dropdown list
                                             </select>        
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="languages.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="languages.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-bottom: 15px">
                                         <div class="col-md-4" style="padding: 0px;">
                                             <label>Speak/Write?</label>
-                                            <select ng-mdodel="languages.speakWrite" class="form-control">
+                                            <select ng-model="languages.speakWrite" class="form-control">
                                                 Call API to insert dropdown list
                                             </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="languages.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="languages.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    
+
                                     <!--Skills, assets information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Skills, assets &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    
+
                                     <div class="form-group col-md-12" style='padding: 0px'>
                                         <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
                                             <label>Date discovered to be obsolete</label>
@@ -486,23 +486,23 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-mdodel="skillsAssets.dateObsoleted" class="form-control pull-right" id="skills-assets-date-obsolete-picker">
+                                                <input type="text" ng-model="skillsAssets.dateObsoleted" class="form-control pull-right" id="skills-assets-date-obsolete-picker">
                                             </div>
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
                                             <label>Skills or assets</label>
-                                            <select ng-mdodel="skillsAssets.skillsAssetsInput" class="form-control">
+                                            <select ng-model="skillsAssets.skillsAssetsInput" class="form-control">
                                                 Call API to insert dropdown list
                                             </select>        
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="skillsAssets.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="skillsAssets.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-mdodel="skillsAssets.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea form="contact-new-contact-form" ng-model="skillsAssets.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                     <!-- /.box-body -->
                                     <div class="box-footer">
@@ -517,7 +517,29 @@ and open the template in the editor.
                 <!-- /.box -->
         </div>
     </section>
-    <!-- /.content -->  
+    <!-- /.content -->
 </div>
+<script>
+        $(document).ready(function () {
+            $scope.membership.startEndDate.daterangepicker();
+            //$('#create-contact').on('click', function(){
+            //$('#content').load('createContact.html #add-new-contact', function(){
+            //Date picker
+//            $('#membership-duration-picker, #office-duration-picker').daterangepicker();
+//
+//            $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
+//                       #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
+//                       #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
+//                       #contact-donation-date-received-picker, #contact-donation-date-of-receipt-picker,\n\
+//                       #proxy-date-obsolete-picker, #skills-assets-date-obsolete-picker,\n\
+//                       #languages-date-obsolete-picker').datepicker({
+//                //dateFormat: "yy-mm-dd"
+//                autoclose: true
+//            });
+            //window.alert("hello");
+        });
+            //});
+            //});
+</script>
 </body>
 </html>
