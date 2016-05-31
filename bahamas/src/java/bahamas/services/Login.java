@@ -34,6 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
 
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -50,18 +52,14 @@ public class Login extends HttpServlet {
             /* TODO output your page here. You may use following sample code. */
 
             JsonObject json = new JsonObject();
-            JsonArray errorArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            DateFormat formatter = new SimpleDateFormat("dd-MMM-yyyy");
-            JsonPrimitive invalid = new JsonPrimitive("invalid username/password");
+
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            errorArray.add(invalid);
 
             if (username == null || password == null) {
                 json.addProperty("status", "error");
-                //json.addProperty("messages", "invalid username/password");
-                json.add("messages", errorArray);
+                json.addProperty("messages", "invalid username/password");
                 out.println(gson.toJson(json));
                 return;
             }
@@ -73,7 +71,7 @@ public class Login extends HttpServlet {
                 //String serverPassword = PasswordHash.hashPassword(contact.getPassword());
                 String serverPassword = contact.getPassword();
                 if (serverPassword.equals(password) && !contact.isDeactivated()) {
-                    
+
                     AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
 
                     String token = Authenticator.signedToken(username);
@@ -87,7 +85,7 @@ public class Login extends HttpServlet {
                     }
 
                     jsonContactObj.addProperty("contactType", contact.getContactType());
-                    jsonContactObj.addProperty("dateCreated", formatter.format(contact.getDateCreated()));
+                    jsonContactObj.addProperty("dateCreated", sdf.format(contact.getDateCreated()));
                     jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
                     jsonContactObj.addProperty("name", contact.getName());
                     jsonContactObj.addProperty("altName", contact.getAltName());
@@ -97,7 +95,7 @@ public class Login extends HttpServlet {
                     jsonContactObj.addProperty("nric", contact.getNric());
                     jsonContactObj.addProperty("gender", contact.getGender());
                     jsonContactObj.addProperty("nationality", contact.getNationality());
-                    jsonContactObj.addProperty("dateOfBirth", formatter.format(contact.getDateOfBirth()));
+                    jsonContactObj.addProperty("dateOfBirth", sdf.format(contact.getDateOfBirth()));
                     jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                     jsonContactObj.addProperty("remarks", contact.getRemarks());
                     json.add("contact", jsonContactObj);
@@ -106,9 +104,9 @@ public class Login extends HttpServlet {
                     return;
                 }
             }
+            
             json.addProperty("status", "error");
-            //json.addProperty("messages", "invalid username/password");
-            json.add("messages", errorArray);
+            json.addProperty("messages", "invalid username/password");          
             out.print(gson.toJson(json));
         }
     }
@@ -152,5 +150,4 @@ public class Login extends HttpServlet {
         return "Short description";
     }// </editor-fold>
 
-  
 }

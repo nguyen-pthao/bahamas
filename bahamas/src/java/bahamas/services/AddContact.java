@@ -53,12 +53,14 @@ public class AddContact extends HttpServlet {
             } catch (Exception e) {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
+                return;
             }
 
             String jsonLine = sb.toString();
             if (jsonLine == null || jsonLine.isEmpty()) {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
+              
             } else {
                 //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
@@ -70,7 +72,7 @@ public class AddContact extends HttpServlet {
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
-
+                 
                 } else {
                     //Verified token
 

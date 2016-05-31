@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "RetrieveContact", urlPatterns = {"/contact.retrieve"})
 public class RetrieveContact extends HttpServlet {
 
-    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMMMM-yyyy");
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -94,6 +94,7 @@ public class RetrieveContact extends HttpServlet {
                 }
                 json.add("contact", contactArray);
                 out.println(gson.toJson(json));
+               
             } else {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
