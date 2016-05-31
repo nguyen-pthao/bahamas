@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class LSAClassListDAO {
     
-    private ArrayList<String> LSAClassList;
+    private ArrayList<String> lsaClassList;
     
 
     public LSAClassListDAO() {
