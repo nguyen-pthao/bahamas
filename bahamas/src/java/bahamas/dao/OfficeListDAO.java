@@ -17,38 +17,38 @@ import java.util.logging.Logger;
  *
  * @author Darryl Mok
  */
-public class EventLocationListDAO {
+public class OfficeListDAO {
     
-    private ArrayList<String> eventLocationList;
+    private ArrayList<String> officeList;
     
 
-    public EventLocationListDAO() {
+    public OfficeListDAO() {
     }
     
-    public ArrayList<String> retrieveEventLocationList() {
+    public ArrayList<String> retrieveOfficeList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        eventLocationList = new ArrayList<String>();
+        officeList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM EVENT_LOCATION_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM OFFICE_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                eventLocationList.add(rs.getString(1));
+                officeList.add(rs.getString(2));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(EventLocationListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Event Location list from database data", ex);
+            Logger.getLogger(OfficeListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Office list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return eventLocationList;
+        return officeList;
     }
     
 }
