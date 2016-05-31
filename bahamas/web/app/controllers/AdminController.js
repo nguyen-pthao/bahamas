@@ -6,7 +6,7 @@
 
 var app = angular.module('Admin', ['bahamas']);
 
-app.controller('AdminController', ['$scope', '$location', 'session', function ($scope, $location, session) {
+app.controller('AdminController', ['$scope', '$location', 'session', '$window', function ($scope, $location, session) {
         $scope.user = {
             name: "userInfo",
             username: session.getSession('username'),
