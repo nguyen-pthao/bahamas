@@ -39,6 +39,7 @@
         <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
         <!-- AdminLTE App -->
         <script src="../../style/js/app.min.js"></script>
+        
         <script src="../controllers/AdminController.js"></script>
         <script src="../services/SessionService.js"></script>
 <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">-->
@@ -51,7 +52,7 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-    <body class="hold-transition skin-blue sidebar-mini" ng-body="AdminController">
+    <body class="hold-transition skin-blue sidebar-mini" ng-controller="AdminController">
         <!-- Site wrapper -->
         <div class="wrapper">
             <header class="main-header">
@@ -263,7 +264,7 @@
                         </li>
                         <!-- Audit Log -->
                         <li class="treeview">
-                            <a href="#">
+                            <a href="#/novice">
                                 <i class="fa fa-pencil-square-o"></i> <span>Audit Log</span>
                             </a>
                         </li>
@@ -396,15 +397,16 @@
         <script>
             $(document).ready(function (){
                 $('#create-contact').on('click', function(){
-                    $('#content').load('contact.jsp #add-new-contact', function(){
+                    $('#content').load('createContact.html #add-new-contact', function(){
                     //Date picker
-                        $('#membership-duration-picker').daterangepicker();
+                        $('#membership-duration-picker, #office-duration-picker').daterangepicker();
                         
-                        $('#contact-date-created-picker, #contact-date-of-birth-picker,\n\
-                           #contact-phone-date-created-picker, #contact-phone-date-obsolete-picker,\n\
-                           #contact-email-date-created-picker, #email-date-obsolete-picker,\n\
-                           #contact-address-created-picker, #contact-address-obsolete-picker,\n\
-                           #membership-created-picker').datepicker({
+                        $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
+                           #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
+                           #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
+                           #contact-donation-date-received-picker, #contact-donation-date-of-receipt-picker,\n\
+                           #proxy-date-obsolete-picker, #skills-assets-date-obsolete-picker,\n\
+                           #languages-date-obsolete-picker').datepicker({
                             //dateFormat: "yy-mm-dd"
                             autoclose: true
                         });

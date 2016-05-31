@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-var app = angular.module('bahamasLogin');
+var app = angular.module('bahamas');
 
 app.controller('logoutController', ['$scope', '$location', 'session', function($scope, $location, session) {
     $scope.logout = function() {

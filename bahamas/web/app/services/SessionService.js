@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-var app = angular.module('bahamasLogin', []);
+var app = angular.module('bahamas', []);
 
 app.factory('session', ['$window', function ($window) {
+    var user;
     return {
         setSession: function(key, value) {
             try {

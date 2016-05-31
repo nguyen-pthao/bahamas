@@ -5,18 +5,20 @@
 -->
 
 <!DOCTYPE html>
-<html ng-app="bahamasLogin">
+<html ng-app="bahamas">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <title>Bahamas | Log in</title>
         <!-- Tell the browser to be responsive to screen width -->
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-            
+
         <!-- Bootstrap 3.3.6 -->
         <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <!--Angular Bootstrap-->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <!--AngularJS-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
+        <!--Angular ngRoute JS-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-route.js"></script>
         <!--jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
         <!--Latest compiled JavaScript -->
@@ -25,7 +27,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
         <!-- Ionicons -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-        
+
         <!-- Theme style -->
         <link rel="stylesheet" href="style/css/AdminLTE.css">
         <!-- iCheck -->
@@ -38,11 +40,10 @@
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]--> 
     </head>
-    
     <body class="hold-transition login-page" ng-controller="loginController">
         <div class="twc2-logo" align="center">
             <!--twc2-logo-->
-            <img src="style/img/Picture1.png" alt="twc2-logo" height="350" width="370"/>
+            <img src="style/img/Picture1.png" alt="twc2-logo" height="270" width="230"/>
         </div>
         <div class="login-box">
             <div class="login-logo">
@@ -64,7 +65,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-8">
-                            
+
                         </div>
                         <!-- /.col -->
                         <div class="col-xs-4">
@@ -86,18 +87,23 @@
 
         <!-- iCheck -->
         <script src="plugins/iCheck/icheck.min.js"></script>
-        
+
         <script>
-            $(function () {
-                $('input').iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue',
-                    increaseArea: '20%' // optional
-                });
-            });
+                                $(function () {
+                                    $('input').iCheck({
+                                        checkboxClass: 'icheckbox_square-blue',
+                                        radioClass: 'iradio_square-blue',
+                                        increaseArea: '20%' // optional
+                                    });
+                                });
         </script>
-        <script src="app/services/SessionService.js"></script>
-        <script src="app/controllers/LoginController.js"></script>
+        <!--        <script src="./app/app.js"></script>-->
+        <script src="./app/services/SessionService.js"></script>
+        <script src="./app/controllers/LoginController.js"></script>
+
+        <script src="./app/controllers/AdminController.js"></script>
+        <script src="./app/controllers/UserController.js"></script>
+        <script src="./app/controllers/NoviceController.js"></script>
     </body>
 </html>
 
