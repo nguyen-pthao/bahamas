@@ -6,7 +6,7 @@
 
 var app = angular.module('Admin', ['bahamas']);
 
-app.controller('AdminController', ['$scope', '$location', 'session', '$window', function ($scope, $location, session) {
+app.controller('AdminController', ['$scope', '$location', 'session', '$window', function ($scope, $location, session, $window) {
         $scope.user = {
             name: "userInfo",
             username: session.getSession('username'),
@@ -154,7 +154,7 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
                 //URL to be inserted
                 url: '',
                 headers: {'Content-Type': 'application/json'},
-                data: dataSubmit
+                data: JSON.stringify(dataSubmit)
             }).success(function (response) {
                 console.log("success");
                 //return "Successful passing";
