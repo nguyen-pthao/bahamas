@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.LSAClassListDAO;
 import bahamas.dao.LanguageListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -23,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "LanguageList", urlPatterns = {"/LanguageList"})
-public class LanguageList extends HttpServlet {
+@WebServlet(name = "LSAClassList", urlPatterns = {"/LSAClassList"})
+public class LSAClassList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,7 +38,6 @@ public class LanguageList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -54,24 +54,24 @@ public class LanguageList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            LanguageListDAO languageListDAO = new LanguageListDAO();
-            ArrayList<String> languageList = languageListDAO.retrieveLanguageList();
+            LSAClassListDAO lsaClassListDAO = new LSAClassListDAO();
+            ArrayList<String> LSAClassList = lsaClassListDAO.retrieveLSAClassList();
 
-            if (!languageList.isEmpty()) {
+            if (!LSAClassList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray languageArray = new JsonArray();
-                JsonObject jsonLanguageObj;
+                JsonArray LSAClassArray = new JsonArray();
+                JsonObject jsonLSAClassObj;
 
-                for (String s : languageList) {
+                for (String s : LSAClassList) {
 
-                    jsonLanguageObj = new JsonObject();
-                    jsonLanguageObj.addProperty("language", s);
+                    jsonLSAClassObj = new JsonObject();
+                    jsonLSAClassObj.addProperty("lsaClass", s);
 
-                    languageArray.add(jsonLanguageObj);
+                    LSAClassArray.add(jsonLSAClassObj);
 
                 }
-                json.add("languageList", languageArray);
+                json.add("lsaClassList", LSAClassArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
