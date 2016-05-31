@@ -41,7 +41,7 @@ public class Authenticator {
         }
     }
 
-    public static boolean verifyToken(String token) {
+    public static String verifyToken(String token) {
         String username = null;
         try {
             InputStream is = Authenticator.class.getResourceAsStream(PROPS_FILENAME);
@@ -51,19 +51,14 @@ public class Authenticator {
             String key = props.getProperty("secret.key");
             username = JWTUtility.verify(token,key);
             
-            if(username == null){
-                return false;
-            }
-            else{
-                return true;
-            }
+            return username;
 
         } catch (Exception ex) {
             String message = "Unable to load '" + PROPS_FILENAME + "'.";
 
             System.out.println(message);
             Logger.getLogger(Authenticator.class.getName()).log(Level.SEVERE, message, ex);
-            return false;
+            return null;
         }
 
     }
