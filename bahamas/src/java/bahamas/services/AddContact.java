@@ -9,6 +9,7 @@ import bahamas.dao.ContactDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import com.google.gson.*;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Date;
@@ -41,18 +42,31 @@ public class AddContact extends HttpServlet {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            //Parse json object
-            String jsonLine = request.getParameter("data");
+            //Retrieve the json string as a reader 
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = request.getReader();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (Exception e) {
+                json.addProperty("message", "failed");
+                out.println(gson.toJson(json));
+            }
+
+            String jsonLine = sb.toString();
             if (jsonLine == null || jsonLine.isEmpty()) {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
             } else {
+                //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = jobject.get("token").toString();
                 String username = Authenticator.verifyToken(token);
-                
+
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -72,7 +86,6 @@ public class AddContact extends HttpServlet {
                     String remarks = jobject.get("remarks").toString();
 
                     //Validation of fields
-                    
                     //Create new contact object
                     Contact newContact = new Contact();
                     newContact.setName(name);
@@ -87,7 +100,7 @@ public class AddContact extends HttpServlet {
                     newContact.setRemarks(remarks);
                     newContact.setDateCreated(new Date());
                     newContact.setCreatedBy(username);
-                   
+
                     if (ContactDAO.addContact(newContact)) {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));

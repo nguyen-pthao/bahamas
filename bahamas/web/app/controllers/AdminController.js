@@ -170,7 +170,7 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
             headers: {'Content-Type': 'application/json'},
             data: JSON.stringify($scope.dataSubmit)
         }).success(function (response) {
-            console.log("success");
+            console.log(response);
             //return "Successful passing";
         }).error(function (response) {
             console.log("fail");
