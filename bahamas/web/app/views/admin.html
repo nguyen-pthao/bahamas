@@ -39,12 +39,13 @@
         <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
         <!-- AdminLTE App -->
         <script src="../../style/js/app.min.js"></script>
-        
+
         <script src="../controllers/AdminController.js"></script>
+        <script src="../controllers/LogoutController.js"</script>
         <script src="../services/SessionService.js"></script>
-<!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">-->
-<!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>-->
-<!--<script   src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>-->
+        <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">-->
+        <!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>-->
+        <!--<script   src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>-->
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -175,7 +176,7 @@
                                             <a href="javascript: (0)" class="btn btn-default btn-flat">Profile</a>
                                         </div>
                                         <div class="pull-right">
-                                            <a href="/logout" class="btn btn-default btn-flat">Sign out</a>
+                                            <a href="#" class="btn btn-default btn-flat">Sign out</a>
                                         </div>
                                     </li>
                                 </ul>
@@ -201,7 +202,7 @@
                             <img src="../../style/img/huxley.jpg" class="img-circle" alt="User Image">
                         </div>
                         <div class="pull-left info">
-                            <p><a href="admin.jsp">{{user.username}}</p>
+                            <p><a href="#">{{user.username}}</p>
                             {{user.userType}}</a>
                         </div>    
                     </div>                   
@@ -270,11 +271,6 @@
                         </li>
 
                     </ul>
-                    <div style="color: white; position: absolute; bottom: 0">
-                        <span style="padding-left: 12px">
-                            &copy 2016 Zuerst. All rights reserved. 
-                        </span>
-                    </div>    
                 </section>
                 <!-- /.sidebar -->
             </aside>
@@ -395,12 +391,12 @@
         </div>
         <!-- ./wrapper -->
         <script>
-            $(document).ready(function (){
-                $('#create-contact').on('click', function(){
-                    $('#content').load('createContact.html #add-new-contact', function(){
-                    //Date picker
+            $(document).ready(function () {
+                $('#create-contact').on('click', function () {
+                    $('#content').load('createContact.html #add-new-contact', function () {
+                        //Date picker
                         $('#membership-duration-picker, #office-duration-picker').daterangepicker();
-                        
+
                         $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
                            #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
                            #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
@@ -411,7 +407,7 @@
                             autoclose: true
                         });
                         //window.alert("hello");
-                    }); 
+                    });
                 });
             });
         </script>
