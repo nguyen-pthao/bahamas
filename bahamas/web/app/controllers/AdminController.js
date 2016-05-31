@@ -142,25 +142,24 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
         $scope.newContact = 'homepage.html';
     };
     
-    $scope.dataSubmit = [
-        $scope.user, 
-        $scope.contact, 
-        $scope.phone,
-        $scope.email,
-        $scope.address,
-        $scope.membership,
-        $scope.officeHeld,
-        $scope.donation,
-        $scope.teamJoined,
-        $scope.proxy,
-        $scope.languages,
-        $scope.skillsAssets
-    ];
     
-    //console.log(JSON.stringify($scope.dataSubmit));
     $scope.submitNewContact = function() {
-        console.log($scope.user);
-        console.log($scope.contact);
+        //console.log($scope.user);
+        //console.log($scope.contact);
+        $scope.dataSubmit = [
+        $scope.user.token, 
+        $scope.contact.name,
+        $scope.contact.altName,
+        $scope.contact.contactType,
+        $scope.contact.otherExplanation,
+        $scope.contact.profession,
+        $scope.contact.jobTitle,
+        $scope.contact.nric,
+        $scope.contact.gender,
+        $scope.contact.nationality,
+        $scope.contact.remarks
+        ];
+        
         $scope.location = $location.path();
         var url = location.origin + "/bahamas/contact.add?";
         
@@ -177,6 +176,7 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
             console.log("fail");
             //return "Fail to pass values";
         });
+        console.log(JSON.stringify($scope.dataSubmit));
     };
     
     $scope.logout = function() {
