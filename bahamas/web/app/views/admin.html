@@ -28,19 +28,20 @@
         <script src="../../plugins/fastclick/fastclick.js"></script>
         <!-- daterange picker -->
         <link rel="stylesheet" href="../../plugins/daterangepicker/daterangepicker-bs3.css">
-        <!--bootstrap datepicker--> 
+<!--        bootstrap datepicker -->
         <link rel="stylesheet" href="../../plugins/datepicker/datepicker3.css">
-        <!-- bootstrap daterange picker -->
+<!--         bootstrap daterange picker -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.11.2/moment.min.js"></script>
         <script src="../../plugins/daterangepicker/daterangepicker.js"></script>
-        <!-- bootstrap datepicker -->       
+<!--         bootstrap datepicker        -->
         <script src="../../plugins/datepicker/bootstrap-datepicker.js"></script>
         <!-- AdminLTE App -->
         <script src="../../style/js/app.min.js"></script>
-         <!--Angular Bootstrap-->
-        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+        <!--AngularJS-->
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.js"></script>
         <script src="../controllers/AdminController.js"></script>
         <script src="../services/SessionService.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore.js"></script>
         <!--<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0-rc.2/themes/smoothness/jquery-ui.css">-->
         <!--    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.11/jquery-ui.min.js"></script>-->
         <!--<script   src="https://code.jquery.com/ui/1.12.0-rc.2/jquery-ui.min.js"></script>-->
@@ -269,7 +270,11 @@
                         </li>
 
                     </ul>
-                  
+                    <div style="color: white; position: absolute; bottom: 0">
+                        <span style="padding-left: 12px">
+                            &copy 2016 Zuerst. All rights reserved. 
+                        </span>
+                    </div>    
                 </section>
                 <!-- /.sidebar -->
             </aside>
@@ -393,10 +398,9 @@
             $(document).ready(function () {
                 $('#create-contact').on('click', function(){
                 $('#content').load('createContact.html #add-new-contact', function(){
-                //Date picker
-                
-                $('#membership-duration-picker, #office-duration-picker').daterangepicker();
-
+                $('#membership-duration-picker, #office-duration-picker').daterangepicker({
+                    format: 'DD-MMM-YYYY'
+                });
                 $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
                            #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
                            #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
@@ -406,7 +410,6 @@
                     format: "dd-M-yyyy",
                     autoclose: true
                 });
-                //window.alert("hello");
             });
             });
             });

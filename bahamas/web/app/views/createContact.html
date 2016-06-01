@@ -4,14 +4,13 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
-<!--<script src="../controllers/AdminController.js" type="text/javascript"></script>-->
-<!--<html>
+<html>
     <head>
         <title>Create New Contact</title>
-        <meta charse="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
     </head>
-    <body>-->
+    <body>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" style="margin:0px" id="add-new-contact">
             <!-- Content Header (Page header) -->
@@ -35,11 +34,10 @@ and open the template in the editor.
                                 <i class="fa fa-times"></i></button>
                         </div>
                     </div>
-                    <div class="box-body">
-                        <div class="box box-primary" style="border-top-color: #70103F">      
-                            <!-- form start -->
-                            <form id="contact-new-contact-form" role="form" ng-submit='submitNewContact()'>
-
+                    <!-- form start -->
+                    <form id="contact-new-contact-form" role="form" ng-submit='submitNewContact()'>
+                        <div class="box-body" ng-switch on="selection">
+                            <div class="box box-primary" style="border-top-color: #70103F" ng-switch-default="Page 1">     
                                 <!--Compulsory information section-->
                                 <div class="box-body">
                                     <div class="form-group">
@@ -50,11 +48,11 @@ and open the template in the editor.
                                         <label>Alternative Name</label>
                                         <input type="text" ng-model="contact.altName" class="form-control" > 
                                     </div>
-                                    <div class="form-group" ng-init="loadContactList()">
-                                        <label>Contact Type</label>
-                                        <select class="form-control" ng-model="contact.contactType">
-                                            <option ng-repeat="contactType in contactTypeListData" value={{contactType.contactType}}>{{contactType.contactType}}</option>
-                                        </select>
+                                    <div class="form-group">
+                                        <label>Contact type</label>
+                                        <select ng-model="contact.contactType" class="form-control">
+                                            Call API to insert dropdown list
+                                        </select>        
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
@@ -76,8 +74,8 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Gender</label>
                                             <select ng-model="contact.gender" class="form-control" >
-                                                <option value="M">Male</option>
-                                                <option value="F">Female</option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
                                             </select> 
                                         </div>  
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px">
@@ -87,7 +85,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
-                                            <label>Date Of Birth</label>
+                                            <label>Date of birth</label>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -95,454 +93,455 @@ and open the template in the editor.
                                                 <input type="text" ng-model="contact.dateOfBirth" class="form-control pull-right" id="contact-date-of-birth-picker">
                                             </div>
                                         </div>
-                                    </div>  
+                                    </div>                      
                                     <div class="form-group">
                                         <label>Remarks</label>
                                         <textarea form="contact-new-contact-form" ng-model="contact.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-
-                                    <!--Phone information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Phone &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    <div class="form-group">
-                                        <div class="col-md-4" style="padding: 0px">
-                                            <label>Date discovered to be obsolete</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="phone.dateOsoleted" class="form-control pull-right" id="contact-phone-date-obsolete-picker">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Country code</label>
-                                            <input type="number" ng-model="phone.countryCode" class="form-control" value="65">        
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Phone number</label>
-                                            <input type="number" ng-model="phone.number" class="form-control">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="phone.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-
-                                    <!--Email information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Email &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    <div class="form-group col-md-12" style="padding: 0px;">
-                                        <div class="col-md-4" style="padding: 0px;">
-                                            <label>Date discovered to be obsolete</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="email.dateObsoleted" class="form-control pull-right" id="contact-email-date-obsolete-picker">
-                                            </div>
-                                        </div>
-                                    </div> 
-                                    <div class="form-group">    
-                                        <label>Email address</label>
-                                        <input type="text" ng-model="email.address" class="form-control">        
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="email.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-
-                                    <!--Address information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Address &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-4" style="padding: 0px">
-                                            <label>Date discovered to be obsolete</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="address.dateObsoleted" class="form-control pull-right" id="contact-address-obsolete-picker">
-                                            </div>
-                                        </div>
-                                    </div>  
-                                    <div class="form-group">
-                                        <label>Address</label>
-                                        <textarea form="contact-new-contact-form" ng-model="address.addressInput" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Country</label>
-                                            <input type="text" class="form-control" ng-model="address.country" value="Singapore">
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Zipcode</label>
-                                            <input type="number" class="form-control" ng-model="address.zipcode">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="address.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-
-                                    <!--Membership information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Membership &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-
-                                    <div class="form-group" ng-init="loadMembershipClassList()">
-                                        <div class="col-md-6" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Membership class</label>
-
-                                            <select class="form-control" ng-model="membership.type">
-                                                <option ng-repeat="membershipClass in membershipClassListData">{{membershipClass.membershipClass}}</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-5" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Subscription amount</label>
-                                            <input type="number" class="form-control" ng-model="membership.subscriptionAmount">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="membership.otherSubscriptionExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Membership start date & end date</label>
-                                        <div class="input-group">
+                                </div>
+                            </div>
+                            <div class="box box-primary" ng-switch-when="Page 2">   
+                                <!--Phone information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Phone &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+                                <div class="form-group">
+                                    <div class="col-md-4" style="padding: 0px">
+                                        <label>Date discovered to be obsolete</label>
+                                        <div class="input-group date">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" ng-model='membership.startEndDate' class="form-control pull-right" id="membership-duration-picker">
+                                            <input type="text" ng-model="phone.dateOsoleted" class="form-control pull-right" id="contact-phone-date-obsolete-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="form-group" ng-init="loadPaymentModeList()">
-                                            <label>Payment mode</label>
-                                            <select class="form-control" ng-model="membership.paymentMode">
-                                                <option ng-repeat="paymentMode in paymentModeListData">{{paymentMode.paymentMode}}</option>
-                                            </select>
-                                        </div>
+                                    <div class="col-md-offset-1 col-md-2" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Country code</label>
+                                        <input type="number" ng-model="phone.countryCode" class="form-control" value="65">        
                                     </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="membership.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Phone number</label>
+                                        <input type="number" ng-model="phone.number" class="form-control">
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-6" style="padding: 0px">
-                                            <label>External Transaction Reference</label>
-                                            <input type='text' ng-model="membership.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
-                                        </div>    
-                                        <div class="col-md-offset-1 col-md-5" style="padding: 0px">
-                                            <label>Receipt number</label>
-                                            <input type='text' ng-model="membership.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
-                                        </div>
-                                    </div>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-6" style="padding: 0px" ng-init="loadMOSRList()">
-                                            <label>Mode of sending receipt</label>
-                                            <select class="form-control" ng-model="modeSendingReceipt">
-                                                <option ng-repeat="mosr in mosrListData">{{mosr.modeOfSendingReceipt}}</option>
-                                            </select>
-                                        </div>    
-                                        <div class="col-md-offset-1 col-md-5" style="padding: 0px">
-                                            <label>Date of receipt</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="membership.dateReceipt" class="form-control pull-right" id="contact-date-of-receipt-picker">
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="phone.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+
+                                <!--Email information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Email &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+                                <div class="form-group col-md-12" style="padding: 0px;">
+                                    <div class="col-md-4" style="padding: 0px;">
+                                        <label>Date discovered to be obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
+                                            <input type="text" ng-model="email.dateObsoleted" class="form-control pull-right" id="contact-email-date-obsolete-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="membership.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" name="membership.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
+                                </div> 
+                                <div class="form-group">    
+                                    <label>Email address</label>
+                                    <input type="text" ng-model="email.address" class="form-control">        
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="email.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
 
-                                    <!--Office held information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Office held &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+                                <!--Address information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Address &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-4" style="padding: 0px">
+                                        <label>Date discovered to be obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" ng-model="address.dateObsoleted" class="form-control pull-right" id="contact-address-obsolete-picker">
+                                        </div>
+                                    </div>
+                                </div>  
+                                <div class="form-group">
+                                    <label>Address</label>
+                                    <textarea form="contact-new-contact-form" ng-model="address.addressInput" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Country</label>
+                                        <input type="text" class="form-control" ng-model="address.country" value="Singapore">
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-2" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Zipcode</label>
+                                        <input type="number" class="form-control" ng-model="address.zipcode">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="address.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                            </div>
+                            <div class="box box-primary" ng-switch-when="Page 3">
+                                <!--Membership information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Membership &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
-                                    <div class="col-md-12" style="padding: 0px; margin-bottom: 15px" ng-init="loadOfficeHeldList()">
-                                        <label>Office Held</label>
-                                        <select class="form-control" ng-model="officeHeld.office">
-                                            <option ng-repeat="officeHeld in officeHeldListData">{{officeHeld.office}}</option>
+                                <div class="form-group">
+                                    <div class="col-md-6" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Membership class</label>
+                                        <select ng-model="membership.type" class="form-control">
+                                            Call backend API to retrieve dropdown list
                                         </select>
-                                    </div> 
-                                    <div class="form-group">
-                                        <label>Office start date & end date</label>
-                                        <div class="input-group">
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-5" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Subscription amount</label>
+                                        <input type="number" class="form-control" ng-model="membership.subscriptionAmount">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="membership.otherSubscriptionExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Membership start date & end date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" ng-model='membership.startEndDate' class="form-control pull-right" id="membership-duration-picker">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-4" style="padding: 0px">
+                                        <label>Payment mode</label>
+                                        <select ng-model="membership.paymentMode" class="form-control">
+                                            Call backend API to retrieve dropdown list
+                                        </select>  
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="membership.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-6" style="padding: 0px">
+                                        <label>External Transaction Reference</label>
+                                        <input type='text' ng-model="membership.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>    
+                                    <div class="col-md-offset-1 col-md-5" style="padding: 0px">
+                                        <label>Receipt number</label>
+                                        <input type='text' ng-model="membership.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-6" style="padding: 0px">
+                                        <label>Mode of sending receipt</label>
+                                        <select ng-model='membership.modeSendingReceipt' class='form-control'>
+                                            Call backend API to retrieve dropdown list
+                                        </select>
+                                    </div>    
+                                    <div class="col-md-offset-1 col-md-5" style="padding: 0px">
+                                        <label>Date of receipt</label>
+                                        <div class="input-group date">
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" ng-model='officeHeld.startEndDate' class="form-control pull-right" id="office-duration-picker">
+                                            <input type="text" ng-model="membership.dateReceipt" class="form-control pull-right" id="contact-date-of-receipt-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="officeHeld.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="membership.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" name="membership.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                            </div>
+                            <div class="box box-primary" ng-switch-when="Page 4">
+                                <!--Office held information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Office held &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
-                                    <!--Donation information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Donation &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-                                    <div class="form-group">
-                                        <div class="col-md-3" style="padding: 0px;">
-                                            <label>Date received</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="donation.dateReceived" class="form-control pull-right" id="contact-donation-date-received-picker">
+                                <div class="col-md-12" style="padding: 0px; margin-bottom: 15px">
+                                    <label>Office held</label>
+                                    <select ng-model='officeHeld.office' class='form-control'>
+                                        Call backend API to retrieve dropdown list
+                                    </select>
+                                </div> 
+                                <div class="form-group">
+                                    <label>Office start date & end date</label>
+                                    <div class="input-group">
+                                        <div class="input-group-addon">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                        <input type="text" ng-model='officeHeld.startEndDate' class="form-control pull-right" id="office-duration-picker">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="officeHeld.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+
+
+                                <!--Proxy information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Proxy &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+
+                                <div class="form-group col-md-12" style='padding: 0px'>
+                                    <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Date discovered to be obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Donation amount</label>
-                                            <input type="number" step='any' ng-model="donation.amount" class="form-control" value='0.00'>        
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px" ng-init="loadPaymentModeList()">
-                                            <label>Payment mode</label>
-                                            <select class="form-control" ng-model="donation.paymentMode">
-                                                <option ng-repeat="paymentMode in paymentModeListData">{{paymentMode.paymentMode}}</option>
-                                            </select>
+                                            <input type="text" ng-model="proxy.dateObsoleted" class="form-control pull-right" id="proxy-date-obsolete-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="donation.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
+                                        <label>This contact is a proxy/reprentative of</label>
+                                        <input type="text" ng-model="proxy.represent" class="form-control">        
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-6" style="padding: 0px">
-                                            <label>External Transaction Reference</label>
-                                            <input type='text' ng-model="donation.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
-                                        </div>    
-                                        <div class="col-md-offset-1 col-md-5" style="padding: 0px">
-                                            <label>Receipt number</label>
-                                            <input type='text' ng-model="donation.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Proxy standing (what is his/her relationship to above?)</label>
+                                    <textarea form="contact-new-contact-form" ng-model="proxy.standing" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="proxy.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+
+
+                                <!--Team joined information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Team joined &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+
+                                <div class="form-group col-md-12" style="padding: 0px;">
+                                    <div class="col-md-4" style="padding: 0px;">
+                                        <label>Team affiliation</label>
+                                        <select ng-model="teamJoined.teamAffiliation" class="form-control">
+                                            Call API to insert dropdown list
+                                        </select>
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-6" style="padding: 0px" ng-init="loadMOSRList()">
-                                            <label>Mode of sending receipt</label>
-                                            <select class="form-control" ng-model="donation.modeSendingReceipt">
-                                                <option ng-repeat="mosr in mosrListData">{{mosr.modeOfSendingReceipt}}</option>
-                                            </select>
-                                        </div>    
-                                        <div class="col-md-offset-1 col-md-5" style="padding: 0px">
-                                            <label>Date of receipt</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="donation.dateReceipt" class="form-control pull-right" id="contact-donation-date-of-receipt-picker">
+                                </div> 
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="teamJoined.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px;">
+                                    <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Subteam</label>
+                                        <input type="text" class="form-control" ng-model="teamJoined.subteam">
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Permission</label>
+                                        <select ng-model="teamJoinedpermission" class="form-control">
+                                            Call API to insert dropdown list
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="teamJoined.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+
+                            </div>
+                            <div class="box box-primary" ng-switch-when="Page 5">      
+                                <!--Donation information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Donation &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+                                <div class="form-group">
+                                    <div class="col-md-3" style="padding: 0px;">
+                                        <label>Date received</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
+                                            <input type="text" ng-model="donation.dateReceived" class="form-control pull-right" id="contact-donation-date-received-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="donation.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Donation amount</label>
+                                        <input type="number" step='any' ng-model="donation.amount" class="form-control" value='0.00'>        
                                     </div>
-                                    <div class="form-group">
-                                        <label>Donor's instructions</label>
-                                        <textarea form="contact-new-contact-form" ng-model="donation.donorInstruction" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Payment mode</label>
+                                        <select ng-model="donation.paymentMode" class="form-control">
+                                            Call API to retrieve dropdown list
+                                        </select>
                                     </div>
-                                    <div class='form-group col-md-12' style='padding: 0px'>
-                                        <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
-                                            <label>Allocation 1</label>
-                                            <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation1" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Subamount 1</label>
-                                            <input type="number" step='any' class="form-control" ng-model="donation.subscriptionSubamount1">
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="donation.otherPaymentModeExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-6" style="padding: 0px">
+                                        <label>External Transaction Reference</label>
+                                        <input type='text' ng-model="donation.externalTransactionRef" class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>    
+                                    <div class="col-md-offset-1 col-md-5" style="padding: 0px">
+                                        <label>Receipt number</label>
+                                        <input type='text' ng-model="donation.receiptNumber" class='form-control' contenteditable="true" spellcheck="true">
                                     </div>
-                                    <div class='form-group col-md-12' style='padding: 0px'>
-                                        <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
-                                            <label>Allocation 2</label>
-                                            <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation2" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Subamount 2</label>
-                                            <input type="number" step='any' class="form-control" ng-model="donation.subscriptionSubamount2">
-                                        </div>
-                                    </div>
-                                    <div class='form-group col-md-12' style='padding: 0px'>
-                                        <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
-                                            <label>Allocation 3</label>
-                                            <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation3" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Subamount 3</label>
-                                            <input type="number" class="form-control" ng-model="donation.subscriptionSubamount3">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Associated occasion</label>
-                                        <textarea form="contact-new-contact-form" ng-model="donation.associatedOccasion" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="donation.remarks" style='widtnh: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-
-                                    <!--Team joined information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Team joined &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-
-                                    <div class="form-group col-md-12" style="padding: 0px;">
-                                        <div class="col-md-4" style="padding: 0px;" ng-init="loadTeamAffiliationList()">
-                                            <label>Team affiliation</label>
-                                            <select class="form-control" ng-model="teamJoined.teamAffiliation">
-                                                <option ng-repeat="ta in teamAffiliationListData">{{ta.teamAffiliation}}</option>
-                                            </select>
-                                        </div>
-                                    </div> 
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="teamJoined.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="form-group col-md-12" style="padding: 0px;">
-                                        <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Subteam</label>
-                                            <input type="text" class="form-control" ng-model="teamJoined.subteam">
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadPermissionList()">
-                                            <label>Permission Level</label>
-                                            <select class="form-control" ng-model="teamJoined.permission">
-                                                <option ng-repeat="permission in permissionLevelListData">{{permission.permissionLevel}}</option>
-                                            </select>
-                                        </div>
-                                    </div> 
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="teamJoined.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-
-                                    <!--Proxy information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Proxy &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-
-                                    <div class="form-group col-md-12" style='padding: 0px'>
-                                        <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Date discovered to be obsolete</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="proxy.dateObsoleted" class="form-control pull-right" id="proxy-date-obsolete-picker">
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px">
+                                    <div class="col-md-6" style="padding: 0px">
+                                        <label>Mode of sending receipt</label>
+                                        <select ng-model='donation.modeSendingReceipt' class='form-control'>
+                                            Call backend API to retrieve dropdown list
+                                        </select>
+                                    </div>    
+                                    <div class="col-md-offset-1 col-md-5" style="padding: 0px">
+                                        <label>Date of receipt</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
-                                            <label>This contact is a proxy/reprentative of</label>
-                                            <input type="text" ng-model="proxy.represent" class="form-control">        
+                                            <input type="text" ng-model="donation.dateReceipt" class="form-control pull-right" id="contact-donation-date-of-receipt-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Proxy standing (what is his/her relationship to above?)</label>
-                                        <textarea form="contact-new-contact-form" ng-model="proxy.standing" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="donation.otherModeSendingReceiptExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Donor's instructions</label>
+                                    <textarea form="contact-new-contact-form" ng-model="donation.donorInstruction" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class='form-group col-md-12' style='padding: 0px'>
+                                    <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
+                                        <label>Allocation 1</label>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation1" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="proxy.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Subamount 1</label>
+                                        <input type="number" step='any' class="form-control" ng-model="donation.subscriptionSubamount1">
                                     </div>
+                                </div>
+                                <div class='form-group col-md-12' style='padding: 0px'>
+                                    <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
+                                        <label>Allocation 2</label>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation2" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Subamount 2</label>
+                                        <input type="number" step='any' class="form-control" ng-model="donation.subscriptionSubamount2">
+                                    </div>
+                                </div>
+                                <div class='form-group col-md-12' style='padding: 0px'>
+                                    <div class='col-md-8'  style='padding: 0px; margin-bottom: 15px'>
+                                        <label>Allocation 3</label>
+                                        <textarea form="contact-new-contact-form" ng-model="donation.subscriptionAllocation3" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-3" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Subamount 3</label>
+                                        <input type="number" class="form-control" ng-model="donation.subscriptionSubamount3">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Associated occasion</label>
+                                    <textarea form="contact-new-contact-form" ng-model="donation.associatedOccasion" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="donation.remarks" style='widtnh: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                            </div>
+                            <div class="box box-primary" ng-switch-when="Page 6">
+                                <!--Languages information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Languages &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
-                                    <!--Languages information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Languages &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
-
-                                    <div class="form-group col-md-12" style='padding: 0px'>
-                                        <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Date discovered to be obsolete</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="languages.dateObsoleted" class="form-control pull-right" id="languages-date-obsolete-picker">
+                                <div class="form-group col-md-12" style='padding: 0px'>
+                                    <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Date discovered to be obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadLanguageList()">
-                                            <label>Language</label>
-                                            <select class="form-control" ng-model="languages.language">
-                                                <option ng-repeat="language in languageListData">{{language.language}}</option>
-                                            </select>    
+                                            <input type="text" ng-model="languages.dateObsoleted" class="form-control pull-right" id="languages-date-obsolete-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="languages.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Language</label>
+                                        <select ng-model="languages.language" class="form-control">
+                                            Call API to insert dropdown list
+                                        </select>        
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px; margin-bottom: 15px">
-                                        <div class="col-md-4" style="padding: 0px;">
-                                            <label>Speak/Write?</label>
-                                            <select class="form-control" ng-model="languages.speakWrite">
-                                                <option>Speak only</option>
-                                                <option>Speak & write</option>
-                                            </select>
-                                        </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="languages.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group col-md-12" style="padding: 0px; margin-bottom: 15px">
+                                    <div class="col-md-4" style="padding: 0px;">
+                                        <label>Speak/Write?</label>
+                                        <select ng-model="languages.speakWrite" class="form-control">
+                                            Call API to insert dropdown list
+                                        </select>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="languages.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="languages.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
 
-                                    <!--Skills, assets information section-->
-                                    <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Skills, assets &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
+                                <!--Skills, assets information section-->
+                                <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Skills, assets &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
-                                    <div class="form-group col-md-12" style='padding: 0px'>
-                                        <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Date discovered to be obsolete</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="skillsAssets.dateObsoleted" class="form-control pull-right" id="skills-assets-date-obsolete-picker">
+                                <div class="form-group col-md-12" style='padding: 0px'>
+                                    <div class="col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Date discovered to be obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
                                             </div>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadLSAClassList()">
-                                            <label>Skills or assets</label>
-                                            <select class="form-control" ng-model="skillsAssets.skillsAssetsInput">
-                                                <option ng-repeat="lsa in lsaClassListData">{{lsa.lsaClass}}</option>
-                                            </select>  
+                                            <input type="text" ng-model="skillsAssets.dateObsoleted" class="form-control pull-right" id="skills-assets-date-obsolete-picker">
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea form="contact-new-contact-form" ng-model="skillsAssets.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
+                                        <label>Skills or assets</label>
+                                        <select ng-model="skillsAssets.skillsAssetsInput" class="form-control">
+                                            Call API to insert dropdown list
+                                        </select>        
                                     </div>
-                                    <div class="form-group">
-                                        <label>Remarks</label>
-                                        <textarea form="contact-new-contact-form" ng-model="skillsAssets.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <!-- /.box-body -->
-                                    <div class="box-footer">
-                                        <center><button type="submit" class="btn btn-primary">Save new contact</button></center>
-                                    </div>
-                            </form>
+                                </div>
+                                <div class="form-group">
+                                    <label>Explain if above is 'Other'</label>
+                                    <textarea form="contact-new-contact-form" ng-model="skillsAssets.otherExplanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label>Remarks</label>
+                                    <textarea form="contact-new-contact-form" ng-model="skillsAssets.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    <center><button type="submit" class="btn btn-primary">Save new contact</button></center>
+                                </div>
+                            </div>
                         </div>
                         <!-- /.box -->
-                    </div>
-                    <!-- /.box-body -->
+                        <!--                </div>-->
+                        <!-- /.box-body -->
+                        <!--        </div>-->
+                        <div class="box-footer">
+                            <ul class="nav nav-pills nav-justified steps" ng-init="noOfPages">
+                                <li ng-repeat="page in noOfPages" ng-class="{active: $index == getCurrentPage()}" style="border-top-color: transparent">
+                                    <a href="javascript:void(0)">{{page}}</a> 
+                                </li>
+                            </ul>
+                            <center>
+                                <a href="javascript:void(0);" class="btn bg-maroon" ng-click="previousStep()" style="width: 110px">
+                                    <i class="m-icon-swapleft"></i> Previous page </a> &nbsp;
+                                <a href="javascript:void(0);" class="btn bg-navy" ng-click="nextStep()" style="width: 110px">
+                                    Next page <i class="m-icon-swapright m-icon-white"></i>
+                                </a>
+                            </center>
+                        </div>
+                    </form>
+                    <!-- /.box-footer-->
+                    <!-- /.box -->
                 </div>
-                <!-- /.box -->
+            </section>
+            <!-- /.content -->
         </div>
-    </section>
-    <!-- /.content -->
-</div>
-<script>
-//    $(document).ready(function () {
-//        $scope.membership.startEndDate.daterangepicker();
-//        //$('#create-contact').on('click', function(){
-//        //$('#content').load('createContact.html #add-new-contact', function(){
-//        //Date picker
-////            $('#membership-duration-picker, #office-duration-picker').daterangepicker();
-////
-////            $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
-////                       #contact-email-date-obsolete-picker,#contact-address-obsolete-picker,\n\
-////                       #contact-membership-created-picker, #contact-date-of-receipt-picker,\n\
-////                       #contact-donation-date-received-picker, #contact-donation-date-of-receipt-picker,\n\
-////                       #proxy-date-obsolete-picker, #skills-assets-date-obsolete-picker,\n\
-////                       #languages-date-obsolete-picker').datepicker({
-////                //dateFormat: "yy-mm-dd"
-////                autoclose: true
-////            });
-//        //window.alert("hello");
-//    });
-    //});
-    //});
-</script>
-<!--</body>
-</html>-->
+    </body>
+</html>
