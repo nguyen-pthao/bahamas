@@ -27,7 +27,7 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
             nric: "",
             gender: "",
             nationality: "",
-            dateCreated: "",
+            dateOfBirth: "",
             remarks: ""
         };
 
@@ -158,6 +158,7 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
                 "nric": $scope.contact.nric,
                 "gender": $scope.contact.gender,
                 "nationality": $scope.contact.nationality,
+                "dateOfBirth": $scope.contact.dateOfBirth,
                 "remarks": $scope.contact.remarks
             };
 
