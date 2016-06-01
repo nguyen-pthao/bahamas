@@ -12,6 +12,8 @@ import com.google.gson.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -25,6 +27,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "AddContact", urlPatterns = {"/contact.add"})
 public class AddContact extends HttpServlet {
+
+    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -86,7 +90,17 @@ public class AddContact extends HttpServlet {
                     String gender = jobject.get("gender").getAsString();
                     String nationality = jobject.get("nationality").getAsString();
                     String remarks = jobject.get("remarks").getAsString();
+                    String dateOfBirth = jobject.get("dateOfBirth").getAsString();
 
+                    Date dob = null;
+                    try {
+                        dob = sdf.parse(dateOfBirth);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                        json.addProperty("message", "failed");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
                     //Validation of fields
                     //Create new contact object
                     Contact newContact = new Contact();
@@ -102,7 +116,7 @@ public class AddContact extends HttpServlet {
                     newContact.setRemarks(remarks);
                     newContact.setDateCreated(new Date());
                     newContact.setCreatedBy(username);
-                    newContact.setDateOfBirth(new Date(1999, 12, 21));
+                    newContact.setDateOfBirth(dob);
 
                     if (ContactDAO.addContact(newContact)) {
                         json.addProperty("message", "success");
