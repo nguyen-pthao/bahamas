@@ -4,6 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<script src="../controllers/AdminController.js" type="text/javascript"></script>
 <html>
     <head>
         <title>Create New Contact</title>
@@ -49,11 +50,12 @@ and open the template in the editor.
                                         <label>Alternative Name</label>
                                         <input type="text" ng-model="contact.altName" class="form-control" > 
                                     </div>
-                                    <div class="form-group">
-                                        <label>Contact type</label>
-                                        <select ng-model="contact.contactType" class="form-control">
-                                            Call API to insert dropdown list
-                                        </select>        
+                                    <div class="form-group" ng-init="loadContactList()">
+                                        <label>Contact Type</label>
+                                        
+                                        <select class="form-control">
+                                            <option ng-repeat="contactType in contactTypeListData">{{contactType.contactType}}</option>
+                                        </select>
                                     </div>
                                     <div class="form-group">
                                         <label>Explain if above is 'Other'</label>
@@ -84,17 +86,17 @@ and open the template in the editor.
                                             <input type="text" ng-model="contact.nationality" class="form-control" >  
                                         </div>    
                                     </div>
-<!--                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
-                                        <div class="col-md-4" style="padding: 0px">
-                                            <label>Date created</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type="text" ng-model="contact.dateCreated" class="form-control pull-right" id="contact-date-of-birth-picker">
-                                            </div>
-                                        </div>
-                                    </div>                      -->
+                                    <!--                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+                                                                            <div class="col-md-4" style="padding: 0px">
+                                                                                <label>Date created</label>
+                                                                                <div class="input-group date">
+                                                                                    <div class="input-group-addon">
+                                                                                        <i class="fa fa-calendar"></i>
+                                                                                    </div>
+                                                                                    <input type="text" ng-model="contact.dateCreated" class="form-control pull-right" id="contact-date-of-birth-picker">
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>                      -->
                                     <div class="form-group">
                                         <label>Remarks</label>
                                         <textarea form="contact-new-contact-form" ng-model="contact.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
@@ -183,11 +185,12 @@ and open the template in the editor.
                                     <!--Membership information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Membership &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
-                                    <div class="form-group">
+                                    <div class="form-group" ng-init="loadMembershipClassList()">
                                         <div class="col-md-6" style="padding: 0px; margin-bottom: 15px">
                                             <label>Membership class</label>
-                                            <select ng-model="membership.type" class="form-control">
-                                                Call backend API to retrieve dropdown list
+              
+                                            <select class="form-control">
+                                                <option ng-repeat="membershipClass in membershipClassListData">{{membershipClass.membershipClass}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-offset-1 col-md-5" style="padding: 0px; margin-bottom: 15px">
@@ -209,11 +212,12 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-4" style="padding: 0px">
+                                        <div class="form-group" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label>
-                                            <select ng-model="membership.paymentMode" class="form-control">
-                                                Call backend API to retrieve dropdown list
-                                            </select>  
+                                      
+                                            <select class="form-control">
+                                                <option ng-repeat="paymentMode in paymentModeListData">{{paymentMode.paymentMode}}</option>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -231,10 +235,11 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-6" style="padding: 0px">
+                                        <div class="col-md-6" style="padding: 0px" ng-init="loadMOSRList()">
                                             <label>Mode of sending receipt</label>
-                                            <select ng-model='membership.modeSendingReceipt' class='form-control'>
-                                                Call backend API to retrieve dropdown list
+                                         
+                                            <select class="form-control">
+                                                <option ng-repeat="mosr in mosrListData">{{mosr.modeOfSendingReceipt}}</option>
                                             </select>
                                         </div>    
                                         <div class="col-md-offset-1 col-md-5" style="padding: 0px">
@@ -259,10 +264,11 @@ and open the template in the editor.
                                     <!--Office held information section-->
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Office held &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
-                                    <div class="col-md-12" style="padding: 0px; margin-bottom: 15px">
-                                        <label>Office held</label>
-                                        <select ng-model='officeHeld.office' class='form-control'>
-                                            Call backend API to retrieve dropdown list
+                                    <div class="col-md-12" style="padding: 0px; margin-bottom: 15px" ng-init="loadOfficeHeldList()">
+                                        <label>Office Held</label>
+                                     
+                                        <select class="form-control">
+                                            <option ng-repeat="officeHeld in officeHeldListData">{{officeHeld.office}}</option>
                                         </select>
                                     </div> 
                                     <div class="form-group">
@@ -295,10 +301,11 @@ and open the template in the editor.
                                             <label>Donation amount</label>
                                             <input type="number" step='any' ng-model="donation.amount" class="form-control" value='0.00'>        
                                         </div>
-                                        <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px">
+                                        <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label>
-                                            <select ng-model="donation.paymentMode" class="form-control">
-                                                Call API to retrieve dropdown list
+                                         
+                                            <select class="form-control">
+                                                <option ng-repeat="paymentMode in paymentModeListData">{{paymentMode.paymentMode}}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -317,10 +324,11 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px">
-                                        <div class="col-md-6" style="padding: 0px">
+                                        <div class="col-md-6" style="padding: 0px" ng-init="loadMOSRList()">
                                             <label>Mode of sending receipt</label>
-                                            <select ng-model='donation.modeSendingReceipt' class='form-control'>
-                                                Call backend API to retrieve dropdown list
+                                        
+                                            <select class="form-control">
+                                                <option ng-repeat="mosr in mosrListData">{{mosr.modeOfSendingReceipt}}</option>
                                             </select>
                                         </div>    
                                         <div class="col-md-offset-1 col-md-5" style="padding: 0px">
@@ -384,10 +392,11 @@ and open the template in the editor.
                                     <h3 style="background-color: #70103F; color: white ; padding-left: 10px">Team joined &nbsp; &nbsp; <small style="color: #DBDBDB">Can leave blank</small></h3>
 
                                     <div class="form-group col-md-12" style="padding: 0px;">
-                                        <div class="col-md-4" style="padding: 0px;">
+                                        <div class="col-md-4" style="padding: 0px;" ng-init="loadTeamAffiliationList()">
                                             <label>Team affiliation</label>
-                                            <select ng-model="teamJoined.teamAffiliation" class="form-control">
-                                                Call API to insert dropdown list
+                                         
+                                            <select class="form-control">
+                                                <option ng-repeat="ta in teamAffiliationListData">{{ta.teamAffiliation}}</option>
                                             </select>
                                         </div>
                                     </div> 
@@ -400,10 +409,11 @@ and open the template in the editor.
                                             <label>Subteam</label>
                                             <input type="text" class="form-control" ng-model="teamJoined.subteam">
                                         </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
-                                            <label>Permission</label>
-                                            <select ng-model="teamJoinedpermission" class="form-control">
-                                                Call API to insert dropdown list
+                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadPermissionList()">
+                                            <label>Permission Level</label>
+                                          
+                                            <select class="form-control">
+                                                <option ng-repeat="permission in permissionLevelListData">{{permission.permissionLevel}}</option>
                                             </select>
                                         </div>
                                     </div> 
@@ -452,11 +462,12 @@ and open the template in the editor.
                                                 <input type="text" ng-model="languages.dateObsoleted" class="form-control pull-right" id="languages-date-obsolete-picker">
                                             </div>
                                         </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
+                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadLanguageList()">
                                             <label>Language</label>
-                                            <select ng-model="languages.language" class="form-control">
-                                                Call API to insert dropdown list
-                                            </select>        
+                                         
+                                            <select class="form-control">
+                                                <option ng-repeat="language in languageListData">{{language.language}}</option>
+                                            </select>    
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -466,8 +477,9 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px; margin-bottom: 15px">
                                         <div class="col-md-4" style="padding: 0px;">
                                             <label>Speak/Write?</label>
-                                            <select ng-model="languages.speakWrite" class="form-control">
-                                                Call API to insert dropdown list
+                                            <select class="form-control">
+                                                <option>Speak only</option>
+                                                <option>Speak & write</option>
                                             </select>
                                         </div>
                                     </div>
@@ -489,11 +501,12 @@ and open the template in the editor.
                                                 <input type="text" ng-model="skillsAssets.dateObsoleted" class="form-control pull-right" id="skills-assets-date-obsolete-picker">
                                             </div>
                                         </div>
-                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px">
+                                        <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadLSAClassList()">
                                             <label>Skills or assets</label>
-                                            <select ng-model="skillsAssets.skillsAssetsInput" class="form-control">
-                                                Call API to insert dropdown list
-                                            </select>        
+                                         
+                                            <select class="form-control">
+                                                <option ng-repeat="lsa in lsaClassListData">{{lsa.lsaClass}}</option>
+                                            </select>  
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -520,11 +533,11 @@ and open the template in the editor.
     <!-- /.content -->
 </div>
 <script>
-        $(document).ready(function () {
-            $scope.membership.startEndDate.daterangepicker();
-            //$('#create-contact').on('click', function(){
-            //$('#content').load('createContact.html #add-new-contact', function(){
-            //Date picker
+    $(document).ready(function () {
+        $scope.membership.startEndDate.daterangepicker();
+        //$('#create-contact').on('click', function(){
+        //$('#content').load('createContact.html #add-new-contact', function(){
+        //Date picker
 //            $('#membership-duration-picker, #office-duration-picker').daterangepicker();
 //
 //            $('#contact-date-of-birth-picker,#contact-phone-date-obsolete-picker,\n\
@@ -536,10 +549,10 @@ and open the template in the editor.
 //                //dateFormat: "yy-mm-dd"
 //                autoclose: true
 //            });
-            //window.alert("hello");
-        });
-            //});
-            //});
+        //window.alert("hello");
+    });
+    //});
+    //});
 </script>
 </body>
 </html>
