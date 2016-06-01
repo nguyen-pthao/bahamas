@@ -60,32 +60,32 @@ public class AddContact extends HttpServlet {
             if (jsonLine == null || jsonLine.isEmpty()) {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
-              
+
             } else {
                 //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").toString();
+                String token = jobject.get("token").getAsString();
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
-                 
+
                 } else {
                     //Verified token
 
-                    String name = jobject.get("name").toString();
-                    String altName = jobject.get("altName").toString();
-                    String contactType = jobject.get("contactType").toString();
-                    String otherExplanation = jobject.get("otherExplanation").toString();
-                    String profession = jobject.get("profession").toString();
-                    String jobTitle = jobject.get("jobTitle").toString();
-                    String nric = jobject.get("nric").toString();
-                    String gender = jobject.get("gender").toString();
-                    String nationality = jobject.get("nationality").toString();
-                    String remarks = jobject.get("remarks").toString();
+                    String name = jobject.get("name").getAsString();
+                    String altName = jobject.get("altName").getAsString();
+                    String contactType = jobject.get("contactType").getAsString();
+                    String otherExplanation = jobject.get("otherExplanation").getAsString();
+                    String profession = jobject.get("profession").getAsString();
+                    String jobTitle = jobject.get("jobTitle").getAsString();
+                    String nric = jobject.get("nric").getAsString();
+                    String gender = jobject.get("gender").getAsString();
+                    String nationality = jobject.get("nationality").getAsString();
+                    String remarks = jobject.get("remarks").getAsString();
 
                     //Validation of fields
                     //Create new contact object
@@ -102,6 +102,7 @@ public class AddContact extends HttpServlet {
                     newContact.setRemarks(remarks);
                     newContact.setDateCreated(new Date());
                     newContact.setCreatedBy(username);
+                    newContact.setDateOfBirth(new Date(1999, 12, 21));
 
                     if (ContactDAO.addContact(newContact)) {
                         json.addProperty("message", "success");
