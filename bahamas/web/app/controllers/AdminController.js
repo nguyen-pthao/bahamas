@@ -105,6 +105,7 @@ app.controller('AdminController', ['$scope', '$location', 'session', '$window', 
             teamAffiliation: "",
             otherExplanation: "",
             subteam: "",
+            permission: "",
             remarks: ""
         };
 

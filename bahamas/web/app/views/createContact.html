@@ -8,7 +8,7 @@ and open the template in the editor.
 <html>
     <head>
         <title>Create New Contact</title>
-        <meta charset="UTF-8">
+        <meta charse="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
@@ -52,9 +52,8 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group" ng-init="loadContactList()">
                                         <label>Contact Type</label>
-                                        
-                                        <select class="form-control">
-                                            <option ng-repeat="contactType in contactTypeListData">{{contactType.contactType}}</option>
+                                        <select class="form-control" ng-model="contact.contactType">
+                                            <option ng-repeat="contactType in contactTypeListData" value={{contactType.contactType}}>{{contactType.contactType}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -188,8 +187,8 @@ and open the template in the editor.
                                     <div class="form-group" ng-init="loadMembershipClassList()">
                                         <div class="col-md-6" style="padding: 0px; margin-bottom: 15px">
                                             <label>Membership class</label>
-              
-                                            <select class="form-control">
+
+                                            <select class="form-control" ng-model="membership.type">
                                                 <option ng-repeat="membershipClass in membershipClassListData">{{membershipClass.membershipClass}}</option>
                                             </select>
                                         </div>
@@ -214,8 +213,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="form-group" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label>
-                                      
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="membership.paymentMode">
                                                 <option ng-repeat="paymentMode in paymentModeListData">{{paymentMode.paymentMode}}</option>
                                             </select>
                                         </div>
@@ -237,8 +235,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-6" style="padding: 0px" ng-init="loadMOSRList()">
                                             <label>Mode of sending receipt</label>
-                                         
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="modeSendingReceipt">
                                                 <option ng-repeat="mosr in mosrListData">{{mosr.modeOfSendingReceipt}}</option>
                                             </select>
                                         </div>    
@@ -266,8 +263,7 @@ and open the template in the editor.
 
                                     <div class="col-md-12" style="padding: 0px; margin-bottom: 15px" ng-init="loadOfficeHeldList()">
                                         <label>Office Held</label>
-                                     
-                                        <select class="form-control">
+                                        <select class="form-control" ng-model="officeHeld.office">
                                             <option ng-repeat="officeHeld in officeHeldListData">{{officeHeld.office}}</option>
                                         </select>
                                     </div> 
@@ -303,8 +299,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px; margin-bottom: 15px" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label>
-                                         
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="donation.paymentMode">
                                                 <option ng-repeat="paymentMode in paymentModeListData">{{paymentMode.paymentMode}}</option>
                                             </select>
                                         </div>
@@ -326,8 +321,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px">
                                         <div class="col-md-6" style="padding: 0px" ng-init="loadMOSRList()">
                                             <label>Mode of sending receipt</label>
-                                        
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="donation.modeSendingReceipt">
                                                 <option ng-repeat="mosr in mosrListData">{{mosr.modeOfSendingReceipt}}</option>
                                             </select>
                                         </div>    
@@ -394,8 +388,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px;">
                                         <div class="col-md-4" style="padding: 0px;" ng-init="loadTeamAffiliationList()">
                                             <label>Team affiliation</label>
-                                         
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="teamJoined.teamAffiliation">
                                                 <option ng-repeat="ta in teamAffiliationListData">{{ta.teamAffiliation}}</option>
                                             </select>
                                         </div>
@@ -411,8 +404,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadPermissionList()">
                                             <label>Permission Level</label>
-                                          
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="teamJoined.permission">
                                                 <option ng-repeat="permission in permissionLevelListData">{{permission.permissionLevel}}</option>
                                             </select>
                                         </div>
@@ -464,8 +456,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadLanguageList()">
                                             <label>Language</label>
-                                         
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="languages.language">
                                                 <option ng-repeat="language in languageListData">{{language.language}}</option>
                                             </select>    
                                         </div>
@@ -477,7 +468,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px; margin-bottom: 15px">
                                         <div class="col-md-4" style="padding: 0px;">
                                             <label>Speak/Write?</label>
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="languages.speakWrite">
                                                 <option>Speak only</option>
                                                 <option>Speak & write</option>
                                             </select>
@@ -503,8 +494,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-7" style="padding: 0px; margin-bottom: 15px" ng-init="loadLSAClassList()">
                                             <label>Skills or assets</label>
-                                         
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="skillsAssets.skillsAssetsInput">
                                                 <option ng-repeat="lsa in lsaClassListData">{{lsa.lsaClass}}</option>
                                             </select>  
                                         </div>
