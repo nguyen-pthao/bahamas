@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "EventLocationList", urlPatterns = {"/EventLocationList"})
+@WebServlet(name = "EventLocationList", urlPatterns = {"/eventlocationlist"})
 public class EventLocationList extends HttpServlet {
 
     /**

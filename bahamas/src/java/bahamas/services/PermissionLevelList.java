@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Marcus
  */
-@WebServlet(name = "PermissionLevelList", urlPatterns = {"/PermissionLevelList"})
+@WebServlet(name = "PermissionLevelList", urlPatterns = {"/permissionlevellist"})
 public class PermissionLevelList extends HttpServlet {
 
     /**

@@ -14,8 +14,11 @@ import bahamas.util.PasswordHash;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.DateFormat;
@@ -37,8 +40,7 @@ public class Login extends HttpServlet {
     private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -49,11 +51,11 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
+// To be removed after login is changed to using JSON object, VVV BELOW VVVV
+/*
             String username = request.getParameter("username");
             String password = request.getParameter("password");
 
@@ -104,10 +106,99 @@ public class Login extends HttpServlet {
                     return;
                 }
             }
-            
+
             json.addProperty("status", "error");
-            json.addProperty("messages", "invalid username/password");          
+            json.addProperty("messages", "invalid username/password");
             out.print(gson.toJson(json));
+*/
+// To be removed after using JSON Object ^^^ABOVE^^^^
+            
+            
+            //Uncomment BELOW for login taking JSON object
+            //Retrieve the json string as a reader 
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = request.getReader();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (Exception e) {
+                json.addProperty("message", "failed");
+                out.println(gson.toJson(json));
+                return;
+            }
+
+            String jsonLine = sb.toString();
+            if (jsonLine == null || jsonLine.isEmpty()) {
+                json.addProperty("message", "failed");
+                out.println(gson.toJson(json));
+
+            } else {
+
+                //Parse json object
+                JsonElement jelement = new JsonParser().parse(jsonLine);
+                JsonObject jobject = jelement.getAsJsonObject();
+
+                String username = jobject.get("username").getAsString();
+                String password = jobject.get("password").getAsString();
+
+                if (username == null || password == null) {
+                    json.addProperty("status", "error");
+                    json.addProperty("messages", "invalid username/password");
+                    out.println(gson.toJson(json));
+                    return;
+                } else {
+                    //Verified username and password not null
+
+                    ContactDAO contactDAO = new ContactDAO();
+                    Contact contact = contactDAO.retrieveContactByUsername(username);
+
+                    if (contact != null) {
+                        //String serverPassword = PasswordHash.hashPassword(contact.getPassword());
+                        String serverPassword = contact.getPassword();
+                        if (serverPassword.equals(password) && !contact.isDeactivated()) {
+
+                            AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
+
+                            String token = Authenticator.signedToken(username);
+                            json.addProperty("status", "success");
+                            json.addProperty("token", token);
+                            JsonObject jsonContactObj = new JsonObject();
+                            if (contact.isIsAdmin()) {
+                                json.addProperty("userType", "admin");
+                            } else {
+                                json.addProperty("userType", "I will update you guys later");
+                            }
+
+                            jsonContactObj.addProperty("contactType", contact.getContactType());
+                            jsonContactObj.addProperty("dateCreated", sdf.format(contact.getDateCreated()));
+                            jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
+                            jsonContactObj.addProperty("name", contact.getName());
+                            jsonContactObj.addProperty("altName", contact.getAltName());
+                            jsonContactObj.addProperty("explainIfOther", contact.getExplainIfOther());
+                            jsonContactObj.addProperty("profession", contact.getProfession());
+                            jsonContactObj.addProperty("jobTitle", contact.getJobTitle());
+                            jsonContactObj.addProperty("nric", contact.getNric());
+                            jsonContactObj.addProperty("gender", contact.getGender());
+                            jsonContactObj.addProperty("nationality", contact.getNationality());
+                            jsonContactObj.addProperty("dateOfBirth", sdf.format(contact.getDateOfBirth()));
+                            jsonContactObj.addProperty("profilePic", contact.getProfilePic());
+                            jsonContactObj.addProperty("remarks", contact.getRemarks());
+                            json.add("contact", jsonContactObj);
+
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                    }
+
+                }
+                json.addProperty("status", "error");
+                json.addProperty("messages", "invalid username/password");
+                out.print(gson.toJson(json));
+            }
+
+            // Uncomment ABOVE for login taking JSON object
         }
     }
 

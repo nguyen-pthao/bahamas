@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "MembershipClassList", urlPatterns = {"/membershipClassList"})
+@WebServlet(name = "MembershipClassList", urlPatterns = {"/membershipclasslist"})
 public class MembershipClassList extends HttpServlet {
 
     /**

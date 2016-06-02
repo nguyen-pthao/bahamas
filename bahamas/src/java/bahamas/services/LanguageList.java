@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "LanguageList", urlPatterns = {"/LanguageList"})
+@WebServlet(name = "LanguageList", urlPatterns = {"/languagelist"})
 public class LanguageList extends HttpServlet {
 
     /**

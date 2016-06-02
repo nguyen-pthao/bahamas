@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Marcus Ong
  */
-@WebServlet(name = "ModeOfSendingReceiptList", urlPatterns = {"/ModeOfSendingReceiptList"})
+@WebServlet(name = "ModeOfSendingReceiptList", urlPatterns = {"/modeofsendingreceiptList"})
 public class ModeOfSendingReceiptList extends HttpServlet {
 
     /**

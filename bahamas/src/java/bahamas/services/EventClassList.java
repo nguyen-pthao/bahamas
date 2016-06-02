@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "EventClassList", urlPatterns = {"/EventClassList"})
+@WebServlet(name = "EventClassList", urlPatterns = {"/eventclasslist"})
 public class EventClassList extends HttpServlet {
 
     /**

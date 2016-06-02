@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "PaymentModeList", urlPatterns = {"/PaymentModeList"})
+@WebServlet(name = "PaymentModeList", urlPatterns = {"/paymentmodelist"})
 public class PaymentModeList extends HttpServlet {
 
     /**

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "LSAClassList", urlPatterns = {"/LSAClassList"})
+@WebServlet(name = "LSAClassList", urlPatterns = {"/lsaclasslist"})
 public class LSAClassList extends HttpServlet {
 
     /**
