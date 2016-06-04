@@ -53,17 +53,10 @@ public class ContactDAO {
                 String contactType = rs.getString(2);
                 String username = rs.getString(3);
                 String password = rs.getString(4);
-                boolean isAdmin = false;
-                if (rs.getString(5).equals("Y")) {
-                    isAdmin = true;
-                }
-                boolean deactivated = true;
-                if (rs.getString(6).equals("N")) {
-                    deactivated = false;
-                }
+                boolean isAdmin = rs.getBoolean(5);
+                boolean deactivated = rs.getBoolean(6);
                 String dateStr = rs.getString(7);
                 Date dateCreated = sdf.parse(dateStr);
-
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -76,10 +69,7 @@ public class ContactDAO {
                 Date dateOfBirth = sdf.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
-                boolean notification = true;
-                if (rs.getString(20).equals("N")) {
-                    deactivated = false;
-                }
+                boolean notification = rs.getBoolean(20);
 
                 Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 contactList.add(contact);
@@ -118,14 +108,8 @@ public class ContactDAO {
                 String contactType = rs.getString(2);
                 String username = rs.getString(3);
                 String password = rs.getString(4);
-                boolean isAdmin = false;
-                if (rs.getString(5).equals("Y")) {
-                    isAdmin = true;
-                }
-                boolean deactivated = true;
-                if (rs.getString(6).equals("N")) {
-                    deactivated = false;
-                }
+                boolean isAdmin = rs.getBoolean(5);
+                boolean deactivated = rs.getBoolean(6);
                 String dateStr = rs.getString(7);
                 Date dateCreated = sdf.parse(dateStr);
                 String createdBy = rs.getString(8);
@@ -140,10 +124,7 @@ public class ContactDAO {
                 Date dateOfBirth = sdf.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
-                boolean notification = true;
-                if (rs.getString(20).equals("N")) {
-                    deactivated = false;
-                }
+                boolean notification = rs.getBoolean(20);
 
                 Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 return contact;

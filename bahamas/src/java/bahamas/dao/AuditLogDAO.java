@@ -35,7 +35,7 @@ public class AuditLogDAO {
             
             //new Timestamp(date.getTime())
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO auditlog (USERNAME, DATE, OPERATION) VALUES (?,?,?)");
+            stmt = conn.prepareStatement("INSERT INTO AUDITLOG (USERNAME, DATE, OPERATION) VALUES (?,?,?)");
             stmt.setString(1, username);
             stmt.setTimestamp(2, date);
             stmt.setString(3, actionType.toUpperCase() + "-" + actionMsg);

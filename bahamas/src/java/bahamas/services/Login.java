@@ -94,7 +94,7 @@ public class Login extends HttpServlet {
                     Contact contact = contactDAO.retrieveContactByUsername(username);
 
                     if (contact != null) {
-                        //String serverPassword = PasswordHash.hashPassword(contact.getPassword());
+                        password = PasswordHash.hashPassword(password);
                         String serverPassword = contact.getPassword();
                         if (serverPassword.equals(password) && !contact.isDeactivated()) {
 
