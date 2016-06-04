@@ -53,68 +53,7 @@ public class Login extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-// To be removed after login is changed to using JSON object, VVV BELOW VVVV
-/*
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-
-            if (username == null || password == null) {
-                json.addProperty("status", "error");
-                json.addProperty("messages", "invalid username/password");
-                out.println(gson.toJson(json));
-                return;
-            }
-
-            ContactDAO contactDAO = new ContactDAO();
-            Contact contact = contactDAO.retrieveContactByUsername(username);
-
-            if (contact != null) {
-                //String serverPassword = PasswordHash.hashPassword(contact.getPassword());
-                String serverPassword = contact.getPassword();
-                if (serverPassword.equals(password) && !contact.isDeactivated()) {
-
-                    AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
-
-                    String token = Authenticator.signedToken(username);
-                    json.addProperty("status", "success");
-                    json.addProperty("token", token);
-                    JsonObject jsonContactObj = new JsonObject();
-                    if (contact.isIsAdmin()) {
-                        json.addProperty("userType", "admin");
-                    } else {
-                        json.addProperty("userType", "I will update you guys later");
-                    }
-
-                    jsonContactObj.addProperty("contactType", contact.getContactType());
-                    jsonContactObj.addProperty("dateCreated", sdf.format(contact.getDateCreated()));
-                    jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
-                    jsonContactObj.addProperty("name", contact.getName());
-                    jsonContactObj.addProperty("altName", contact.getAltName());
-                    jsonContactObj.addProperty("explainIfOther", contact.getExplainIfOther());
-                    jsonContactObj.addProperty("profession", contact.getProfession());
-                    jsonContactObj.addProperty("jobTitle", contact.getJobTitle());
-                    jsonContactObj.addProperty("nric", contact.getNric());
-                    jsonContactObj.addProperty("gender", contact.getGender());
-                    jsonContactObj.addProperty("nationality", contact.getNationality());
-                    jsonContactObj.addProperty("dateOfBirth", sdf.format(contact.getDateOfBirth()));
-                    jsonContactObj.addProperty("profilePic", contact.getProfilePic());
-                    jsonContactObj.addProperty("remarks", contact.getRemarks());
-                    json.add("contact", jsonContactObj);
-
-                    out.println(gson.toJson(json));
-                    return;
-                }
-            }
-
-            json.addProperty("status", "error");
-            json.addProperty("messages", "invalid username/password");
-            out.print(gson.toJson(json));
-*/
-// To be removed after using JSON Object ^^^ABOVE^^^^
             
-            
-            //Uncomment BELOW for login taking JSON object
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
             try {
