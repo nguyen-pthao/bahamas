@@ -44,7 +44,7 @@ public class ContactDAO {
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "from contact");
+                    + "from CONTACT");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -108,7 +108,7 @@ public class ContactDAO {
             stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "FROM contact WHERE username = (?)");
+                    + "FROM CONTACT WHERE USERNAME = (?)");
             stmt.setString(1, usernameInput);
 
             rs = stmt.executeQuery();
@@ -170,7 +170,7 @@ public class ContactDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO contact (CONTACT_TYPE,ISADMIN,"
+            stmt = conn.prepareStatement("INSERT INTO CONTACT (CONTACT_TYPE,ISADMIN,"
                     + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,"
                     + "REMARKS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
