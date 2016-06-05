@@ -31,8 +31,9 @@ import javax.servlet.http.HttpServletResponse;
 public class RetrieveContact extends HttpServlet {
 
     private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
-
-    /**
+   
+    
+     /*
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -60,6 +61,12 @@ public class RetrieveContact extends HttpServlet {
              */
             //Validation
             //Create new contact object
+            
+            /*
+            username  = token
+            boolean t = checkRole(cid,teamid,p)
+            RoleCheckDAO
+            */
             ContactDAO contactDAO = new ContactDAO();
             ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
 
