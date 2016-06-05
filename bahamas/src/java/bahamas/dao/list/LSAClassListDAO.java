@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,38 +18,38 @@ import java.util.logging.Logger;
  *
  * @author Darryl Mok
  */
-public class EventLocationListDAO {
+public class LSAClassListDAO {
     
-    private ArrayList<String> eventLocationList;
+    private ArrayList<String> lsaClassList;
     
 
-    public EventLocationListDAO() {
+    public LSAClassListDAO() {
     }
     
-    public ArrayList<String> retrieveEventLocationList() {
+    public ArrayList<String> retrieveLSAClassList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        eventLocationList = new ArrayList<String>();
+        lsaClassList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM EVENT_LOCATION_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM LSA_CLASS_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                eventLocationList.add(rs.getString(1));
+                lsaClassList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(EventLocationListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Event Location list from database data", ex);
+            Logger.getLogger(LSAClassListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LSA Class list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return eventLocationList;
+        return lsaClassList;
     }
     
 }

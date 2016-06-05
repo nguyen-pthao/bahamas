@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,40 +16,40 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Darryl Mok
+ * @author Marcus
  */
-public class LSAClassListDAO {
+public class TeamAffiliationListDAO {
     
-    private ArrayList<String> lsaClassList;
+    private ArrayList<String> teamAffiliationList;
     
 
-    public LSAClassListDAO() {
+    public TeamAffiliationListDAO() {
     }
     
-    public ArrayList<String> retrieveLSAClassList() {
+    public ArrayList<String> retrieveTeamAffiliationList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        lsaClassList = new ArrayList<String>();
+        teamAffiliationList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM LSA_CLASS_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM TEAM_AFFILIATION_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                lsaClassList.add(rs.getString(1));
+                teamAffiliationList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(LSAClassListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LSA Class list from database data", ex);
+            Logger.getLogger(TeamAffiliationListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve team affiliation list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return lsaClassList;
+        return teamAffiliationList;
     }
     
 }

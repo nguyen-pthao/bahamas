@@ -5,7 +5,7 @@
  */
 package bahamas.services;
 
-import bahamas.dao.PermissionLevelListDAO;
+import bahamas.dao.list.PermissionLevelListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

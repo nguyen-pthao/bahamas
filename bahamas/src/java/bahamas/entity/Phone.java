@@ -12,22 +12,33 @@ import java.util.Date;
  * @author Darryl Mok
  */
 public class Phone {
-    private Date dateCreated;
+
+    private Contact contact;
+    private Date dateCreated = new java.util.Date();
     private int countryCode;
-    private String phoneNumber;
+    private int phoneNumber;
     private String remarks;
     private String createdBy;
     private Date dateObsolete;
 
-    public Phone(Date dateCreated, int countryCode, String phoneNumber, String remarks, String createdBy, Date dateObsolete) {
-        this.dateCreated = dateCreated;
+    public Phone(Contact contact,int countryCode, int phoneNumber, String createdBy) {
+        this.contact = contact;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
-        this.remarks = remarks;
         this.createdBy = createdBy;
-        this.dateObsolete = dateObsolete;
+
     }
 
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    
+    
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -44,11 +55,11 @@ public class Phone {
         this.countryCode = countryCode;
     }
 
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
+    public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 
@@ -75,7 +86,5 @@ public class Phone {
     public void setDateObsolete(Date dateObsolete) {
         this.dateObsolete = dateObsolete;
     }
-    
-    
-           
+
 }

@@ -5,8 +5,8 @@
  */
 package bahamas.services;
 
-import bahamas.dao.ContactDAO;
-import bahamas.entity.Contact;
+import bahamas.dao.*;
+import bahamas.entity.*;
 import bahamas.util.Authenticator;
 import com.google.gson.*;
 import java.io.BufferedReader;
@@ -81,16 +81,22 @@ public class AddContact extends HttpServlet {
                     //Verified token
 
                     String name = jobject.get("name").getAsString();
-                    String altName = jobject.get("altName").getAsString();
-                    String contactType = jobject.get("contactType").getAsString();
-                    String otherExplanation = jobject.get("otherExplanation").getAsString();
+                    String altName = jobject.get("alt-name").getAsString();
+                    String contactType = jobject.get("contact-type").getAsString();
+                    String otherExplanation = jobject.get("explain-if-other").getAsString();
                     String profession = jobject.get("profession").getAsString();
-                    String jobTitle = jobject.get("jobTitle").getAsString();
-                    String nric = jobject.get("nric").getAsString();
+                    String jobTitle = jobject.get("job-title").getAsString();
+                    String nric = jobject.get("nric-fin").getAsString();
                     String gender = jobject.get("gender").getAsString();
                     String nationality = jobject.get("nationality").getAsString();
-                    String remarks = jobject.get("remarks").getAsString();
-                    String dateOfBirth = jobject.get("dateOfBirth").getAsString();
+                    String dateOfBirth = jobject.get("date-of-birth").getAsString();
+                    //String remarks = jobject.get("remarks").getAsString();
+                    int countryCode = jobject.get("country-code").getAsInt();
+                    int phoneNumber = jobject.get("phone-number").getAsInt();
+                    String email = jobject.get("email").getAsString();
+                    String country = jobject.get("country").getAsString();
+                    int zipCode = jobject.get("zipcode").getAsInt();
+                    String address = jobject.get("address").getAsString();
 
                     Date dob = null;
                     try {
@@ -102,28 +108,37 @@ public class AddContact extends HttpServlet {
                         return;
                     }
                     //Validation of fields
-                    //Create new contact object
-                    Contact newContact = new Contact();
-                    newContact.setName(name);
-                    newContact.setAltName(altName);
-                    newContact.setContactType(contactType);
-                    newContact.setExplainIfOther(otherExplanation);
-                    newContact.setProfession(profession);
-                    newContact.setJobTitle(jobTitle);
-                    newContact.setNric(nric);
-                    newContact.setGender(gender);
-                    newContact.setNationality(nationality);
-                    newContact.setRemarks(remarks);
-                    newContact.setDateCreated(new Date());
-                    newContact.setCreatedBy(username);
-                    newContact.setDateOfBirth(dob);
 
-                    if (ContactDAO.addContact(newContact)) {
-                        json.addProperty("message", "success");
-                        out.println(gson.toJson(json));
-                    } else {
+                    //Create new contact object
+                    Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
+                            jobTitle, nric, gender, nationality, dob);
+
+                    int newContactId = ContactDAO.addContact(newContact);
+
+                    if (newContactId <= 0) {
                         json.addProperty("message", "failed");
                         out.println(gson.toJson(json));
+                        return;
+                    } else {
+
+                        newContact.setContactId(newContactId);
+                        //Create new phone/address/email object
+                        Phone newPhone = new Phone(newContact, countryCode, phoneNumber, username);
+                        Email newEmail = new Email(newContact, email, username);
+                        Address newAddress = new Address(newContact, country, zipCode, address, username);
+
+                        boolean addPhone = PhoneDAO.addPhone(newPhone);
+                        boolean addEmail = EmailDAO.addEmail(newEmail);
+                        boolean addAddress = AddressDAO.addAddress(newAddress);
+
+                        if (addPhone && addEmail && addAddress) {
+                            json.addProperty("message", "success");
+                            out.println(gson.toJson(json));
+                        } else {
+                            json.addProperty("message", "failed");
+                            out.println(gson.toJson(json));
+                        }
+
                     }
 
                 }

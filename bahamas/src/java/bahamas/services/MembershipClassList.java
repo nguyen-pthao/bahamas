@@ -5,7 +5,7 @@
  */
 package bahamas.services;
 
-import bahamas.dao.MembershipClassListDAO;
+import bahamas.dao.list.MembershipClassListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

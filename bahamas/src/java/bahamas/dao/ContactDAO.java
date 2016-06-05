@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -141,20 +142,20 @@ public class ContactDAO {
         return null;
     }
 
-    public static boolean addContact(Contact c) {
+    public static int addContact(Contact c) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        int result = 0;
+        int autoIncKeyFromApi = -1;
 
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO CONTACT (CONTACT_TYPE,ISADMIN,"
                     + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,"
-                    + "REMARKS) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, c.getContactType());
             stmt.setBoolean(2, c.isIsAdmin());
@@ -170,18 +171,21 @@ public class ContactDAO {
             stmt.setString(12, c.getNationality());
             stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
             stmt.setString(14, c.getProfilePic());
-            stmt.setString(15, c.getRemarks());
+           
+            stmt.executeUpdate();
+            rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                autoIncKeyFromApi = rs.getInt(1);
+            }
 
-            result = stmt.executeUpdate();
-
-            return result == 1;
+            return autoIncKeyFromApi;
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return false;
+        return autoIncKeyFromApi;
     }
 
 }

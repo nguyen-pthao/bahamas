@@ -3,56 +3,53 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
-
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
- * @author Darryl Mok
+ * @author Marcus
  */
-public class LanguageListDAO {
+public class PermissionLevelListDAO {
     
-    private ArrayList<String> languageList;
+    private ArrayList<String> permissionLevelList;
     
 
-    public LanguageListDAO() {
+    public PermissionLevelListDAO() {
     }
     
-    public ArrayList<String> retrieveLanguageList() {
+    public ArrayList<String> retrievePermissionLevelList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        languageList = new ArrayList<String>();
+        permissionLevelList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM LANGUAGE_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM PERMISSION_LEVEL_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                languageList.add(rs.getString(1));
+                permissionLevelList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(LanguageListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve language list from database data", ex);
+            Logger.getLogger(PermissionLevelListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve permission level list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return languageList;
+        return permissionLevelList;
     }
-    
     
 }

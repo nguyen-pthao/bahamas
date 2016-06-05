@@ -5,7 +5,7 @@
  */
 package bahamas.services;
 
-import bahamas.dao.ContactTypeListDAO;
+import bahamas.dao.list.ContactTypeListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,38 +18,36 @@ import java.util.logging.Logger;
  *
  * @author Darryl Mok
  */
-public class OfficeListDAO {
-    
-    private ArrayList<String> officeList;
+public class EventClassListDAO {
+    private ArrayList<String> eventClassList;
     
 
-    public OfficeListDAO() {
+    public EventClassListDAO() {
     }
     
-    public ArrayList<String> retrieveOfficeList() {
+    public ArrayList<String> retrieveEventClassList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        officeList = new ArrayList<String>();
+        eventClassList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM OFFICE_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM EVENT_CLASS_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                officeList.add(rs.getString(2));
+                eventClassList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(OfficeListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Office list from database data", ex);
+            Logger.getLogger(EventClassListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Event Class list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return officeList;
+        return eventClassList;
     }
-    
 }

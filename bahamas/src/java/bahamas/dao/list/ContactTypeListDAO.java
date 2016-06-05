@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import bahamas.entity.Contact;
 import bahamas.entity.ContactTypeList;
 import java.sql.Connection;

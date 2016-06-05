@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,36 +18,38 @@ import java.util.logging.Logger;
  *
  * @author Darryl Mok
  */
-public class EventClassListDAO {
-    private ArrayList<String> eventClassList;
+public class PaymentModeListDAO {
+    
+    private ArrayList<String> paymentModeList;
     
 
-    public EventClassListDAO() {
+    public PaymentModeListDAO() {
     }
     
-    public ArrayList<String> retrieveEventClassList() {
+    public ArrayList<String> retrievePaymentModeList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        eventClassList = new ArrayList<String>();
+        paymentModeList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM EVENT_CLASS_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM PAYMENT_MODE_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                eventClassList.add(rs.getString(1));
+                paymentModeList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(EventClassListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Event Class list from database data", ex);
+            Logger.getLogger(PaymentModeListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve payment mode list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return eventClassList;
+        return paymentModeList;
     }
+    
 }

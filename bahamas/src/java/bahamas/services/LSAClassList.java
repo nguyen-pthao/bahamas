@@ -5,8 +5,8 @@
  */
 package bahamas.services;
 
-import bahamas.dao.LSAClassListDAO;
-import bahamas.dao.LanguageListDAO;
+import bahamas.dao.list.LSAClassListDAO;
+import bahamas.dao.list.LanguageListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

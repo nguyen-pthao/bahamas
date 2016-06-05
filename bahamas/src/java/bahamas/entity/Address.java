@@ -12,7 +12,9 @@ import java.util.Date;
  * @author Darryl Mok
  */
 public class Address {
-    private Date dateCreated;
+
+    private Contact contact;
+    private Date dateCreated = new java.util.Date();
     private int zipcode;
     private String address;
     private String country;
@@ -20,16 +22,25 @@ public class Address {
     private String createdBy;
     private Date dateObsolete;
 
-    public Address(Date dateCreated, int zipcode, String address, String country, String remarks, String createdBy, Date dateObsolete) {
-        this.dateCreated = dateCreated;
+    public Address(Contact contact, String country, int zipcode, String address, String createdBy) {
+        this.contact = contact;
         this.zipcode = zipcode;
         this.address = address;
         this.country = country;
-        this.remarks = remarks;
         this.createdBy = createdBy;
-        this.dateObsolete = dateObsolete;
     }
 
+    
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
+    }
+
+    
+    
     public Date getDateCreated() {
         return dateCreated;
     }
@@ -85,6 +96,5 @@ public class Address {
     public void setDateObsolete(Date dateObsolete) {
         this.dateObsolete = dateObsolete;
     }
-    
-    
+
 }

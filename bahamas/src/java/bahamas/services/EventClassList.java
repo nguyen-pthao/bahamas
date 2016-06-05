@@ -6,7 +6,7 @@
 package bahamas.services;
 
 
-import bahamas.dao.EventClassListDAO;
+import bahamas.dao.list.EventClassListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;

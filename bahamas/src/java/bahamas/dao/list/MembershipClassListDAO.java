@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,40 +16,36 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Marcus
+ * @author tan.si.hao
  */
-public class ModeOfSendingReceiptListDAO {
+public class MembershipClassListDAO {
     
-    private ArrayList<String> modeOfSendingReceiptList;
+    private ArrayList<String> membershipClassList;
     
-
-    public ModeOfSendingReceiptListDAO() {
-    }
-    
-    public ArrayList<String> retrieveMOSRList() {
+    public ArrayList<String> retrieveMembershipClassList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        modeOfSendingReceiptList = new ArrayList<String>();
+        membershipClassList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM MODE_OF_SENDING_RECEIPT_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM MEMBERSHIP_CLASS_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                modeOfSendingReceiptList.add(rs.getString(1));
+                membershipClassList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(ModeOfSendingReceiptListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve mode of sending receipt list from database data", ex);
+            Logger.getLogger(MembershipClassListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Membership Class list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return modeOfSendingReceiptList;
+        return membershipClassList;
     }
     
 }

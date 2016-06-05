@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -17,38 +18,38 @@ import java.util.logging.Logger;
  *
  * @author Darryl Mok
  */
-public class PaymentModeListDAO {
+public class OfficeListDAO {
     
-    private ArrayList<String> paymentModeList;
+    private ArrayList<String> officeList;
     
 
-    public PaymentModeListDAO() {
+    public OfficeListDAO() {
     }
     
-    public ArrayList<String> retrievePaymentModeList() {
+    public ArrayList<String> retrieveOfficeList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        paymentModeList = new ArrayList<String>();
+        officeList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM PAYMENT_MODE_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM OFFICE_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                paymentModeList.add(rs.getString(1));
+                officeList.add(rs.getString(2));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(PaymentModeListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve payment mode list from database data", ex);
+            Logger.getLogger(OfficeListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Office list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return paymentModeList;
+        return officeList;
     }
     
 }

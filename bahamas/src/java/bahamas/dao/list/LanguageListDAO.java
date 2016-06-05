@@ -3,48 +3,57 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.dao;
+package bahamas.dao.list;
 
+
+import bahamas.dao.ConnectionManager;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
 /**
  *
- * @author tan.si.hao
+ * @author Darryl Mok
  */
-public class MembershipClassListDAO {
+public class LanguageListDAO {
     
-    private ArrayList<String> membershipClassList;
+    private ArrayList<String> languageList;
     
-    public ArrayList<String> retrieveMembershipClassList() {
+
+    public LanguageListDAO() {
+    }
+    
+    public ArrayList<String> retrieveLanguageList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        membershipClassList = new ArrayList<String>();
+        languageList = new ArrayList<String>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM MEMBERSHIP_CLASS_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM LANGUAGE_LIST");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                membershipClassList.add(rs.getString(1));
+                languageList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(MembershipClassListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Membership Class list from database data", ex);
+            Logger.getLogger(LanguageListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve language list from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return membershipClassList;
+        return languageList;
     }
+    
     
 }
