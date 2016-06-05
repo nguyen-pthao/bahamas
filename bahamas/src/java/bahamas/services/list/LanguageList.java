@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.TeamAffiliationListDAO;
+import bahamas.dao.list.LanguageListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Marcus
+ * @author Darryl Mok
  */
-@WebServlet(name = "TeamAffiliationList", urlPatterns = {"/teamaffiliationlist"})
-public class TeamAffiliationList extends HttpServlet {
+@WebServlet(name = "LanguageList", urlPatterns = {"/languagelist"})
+public class LanguageList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,24 +54,24 @@ public class TeamAffiliationList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            TeamAffiliationListDAO teamAffiliationListDAO = new TeamAffiliationListDAO();
-            ArrayList<String> teamAffiliationList = teamAffiliationListDAO.retrieveTeamAffiliationList();
+            LanguageListDAO languageListDAO = new LanguageListDAO();
+            ArrayList<String> languageList = languageListDAO.retrieveLanguageList();
 
-            if (!teamAffiliationList.isEmpty()) {
+            if (!languageList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray teamAffiliationListArray = new JsonArray();
-                JsonObject jsonTeamAffiliationListArrayObj;
+                JsonArray languageArray = new JsonArray();
+                JsonObject jsonLanguageObj;
 
-                for (String s : teamAffiliationList) {
+                for (String s : languageList) {
 
-                    jsonTeamAffiliationListArrayObj = new JsonObject();
-                    jsonTeamAffiliationListArrayObj.addProperty("teamAffiliation", s);
+                    jsonLanguageObj = new JsonObject();
+                    jsonLanguageObj.addProperty("language", s);
 
-                    teamAffiliationListArray.add(jsonTeamAffiliationListArrayObj);
+                    languageArray.add(jsonLanguageObj);
 
                 }
-                json.add("teamAffiliationList", teamAffiliationListArray);
+                json.add("languageList", languageArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");

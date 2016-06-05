@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.PaymentModeListDAO;
+
+import bahamas.dao.list.EventClassListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -23,8 +24,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "PaymentModeList", urlPatterns = {"/paymentmodelist"})
-public class PaymentModeList extends HttpServlet {
+@WebServlet(name = "EventClassList", urlPatterns = {"/eventclasslist"})
+public class EventClassList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,24 +55,24 @@ public class PaymentModeList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            PaymentModeListDAO paymentModeListDAO = new PaymentModeListDAO();
-            ArrayList<String> paymentModeList = paymentModeListDAO.retrievePaymentModeList();
+            EventClassListDAO eventClassListDAO = new EventClassListDAO();
+            ArrayList<String> eventClassList = eventClassListDAO.retrieveEventClassList();
 
-            if (!paymentModeList.isEmpty()) {
+            if (!eventClassList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray paymentModeListArray = new JsonArray();
-                JsonObject jsonPaymentModeListArrayObj;
+                JsonArray eventClassArray = new JsonArray();
+                JsonObject jsonEventClassObj;
 
-                for (String s : paymentModeList) {
+                for (String s : eventClassList) {
 
-                    jsonPaymentModeListArrayObj = new JsonObject();
-                    jsonPaymentModeListArrayObj.addProperty("paymentMode", s);
+                    jsonEventClassObj = new JsonObject();
+                    jsonEventClassObj.addProperty("eventClass", s);
 
-                    paymentModeListArray.add(jsonPaymentModeListArrayObj);
+                    eventClassArray.add(jsonEventClassObj);
 
                 }
-                json.add("paymentModeList", paymentModeListArray);
+                json.add("eventClassList", eventClassArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");

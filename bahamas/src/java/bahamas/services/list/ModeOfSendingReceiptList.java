@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.PermissionLevelListDAO;
+import bahamas.dao.list.ModeOfSendingReceiptListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Marcus
+ * @author Marcus Ong
  */
-@WebServlet(name = "PermissionLevelList", urlPatterns = {"/permissionlevellist"})
-public class PermissionLevelList extends HttpServlet {
+@WebServlet(name = "ModeOfSendingReceiptList", urlPatterns = {"/modeofsendingreceiptList"})
+public class ModeOfSendingReceiptList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,39 +44,40 @@ public class PermissionLevelList extends HttpServlet {
 
 
             /*          
-             String token = request.getParameter("token");
-             if (!Authenticator.verifyToken(token)) {
-             json.addProperty("message", "invalid token");
-             out.println(gson.toJson(json));
+            String token = request.getParameter("token");
+            if (!Authenticator.verifyToken(token)) {
+                json.addProperty("message", "invalid token");
+                out.println(gson.toJson(json));
 
-             } else {
-             //Verified
+            } else {
+                //Verified
              */
             //Validation
             //Create new contact object
-            PermissionLevelListDAO permissionLevelListDAO = new PermissionLevelListDAO();
-            ArrayList<String> permissionLevelList = permissionLevelListDAO.retrievePermissionLevelList();
+            ModeOfSendingReceiptListDAO modeOfSendingReceiptListDAO = new ModeOfSendingReceiptListDAO();
+            ArrayList<String>  mosrList = modeOfSendingReceiptListDAO.retrieveMOSRList();
 
-            if (!permissionLevelList.isEmpty()) {
+            if (!mosrList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray permissionLevelListArray = new JsonArray();
-                JsonObject jsonPermissionLevelListArrayObj;
+                JsonArray mosrArray = new JsonArray();
+                JsonObject jsonMOSRObj;
 
-                for (String s : permissionLevelList) {
+                for (String s : mosrList) {
 
-                    jsonPermissionLevelListArrayObj = new JsonObject();
-                    jsonPermissionLevelListArrayObj.addProperty("permissionLevel", s);
-
-                    permissionLevelListArray.add(jsonPermissionLevelListArrayObj);
+                    jsonMOSRObj = new JsonObject();
+                    jsonMOSRObj.addProperty("modeOfSendingReceipt", s);
+                    
+                    mosrArray.add(jsonMOSRObj);
 
                 }
-                json.add("permissionLevelList", permissionLevelListArray);
+                json.add("mode", mosrArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
             }
+
         }
     }
 

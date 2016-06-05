@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.ModeOfSendingReceiptListDAO;
+import bahamas.dao.list.EventLocationListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Marcus Ong
+ * @author Darryl Mok
  */
-@WebServlet(name = "ModeOfSendingReceiptList", urlPatterns = {"/modeofsendingreceiptList"})
-public class ModeOfSendingReceiptList extends HttpServlet {
+@WebServlet(name = "EventLocationList", urlPatterns = {"/eventlocationlist"})
+public class EventLocationList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,40 +44,39 @@ public class ModeOfSendingReceiptList extends HttpServlet {
 
 
             /*          
-            String token = request.getParameter("token");
-            if (!Authenticator.verifyToken(token)) {
-                json.addProperty("message", "invalid token");
-                out.println(gson.toJson(json));
+             String token = request.getParameter("token");
+             if (!Authenticator.verifyToken(token)) {
+             json.addProperty("message", "invalid token");
+             out.println(gson.toJson(json));
 
-            } else {
-                //Verified
+             } else {
+             //Verified
              */
             //Validation
             //Create new contact object
-            ModeOfSendingReceiptListDAO modeOfSendingReceiptListDAO = new ModeOfSendingReceiptListDAO();
-            ArrayList<String>  mosrList = modeOfSendingReceiptListDAO.retrieveMOSRList();
+            EventLocationListDAO eventLocationListDAO = new EventLocationListDAO();
+            ArrayList<String> eventLocationList = eventLocationListDAO.retrieveEventLocationList();
 
-            if (!mosrList.isEmpty()) {
+            if (!eventLocationList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray mosrArray = new JsonArray();
-                JsonObject jsonMOSRObj;
+                JsonArray eventLocationArray = new JsonArray();
+                JsonObject jsonLocationClassObj;
 
-                for (String s : mosrList) {
+                for (String s : eventLocationList) {
 
-                    jsonMOSRObj = new JsonObject();
-                    jsonMOSRObj.addProperty("modeOfSendingReceipt", s);
-                    
-                    mosrArray.add(jsonMOSRObj);
+                    jsonLocationClassObj = new JsonObject();
+                    jsonLocationClassObj.addProperty("eventLocation", s);
+
+                    eventLocationArray.add(jsonLocationClassObj);
 
                 }
-                json.add("mode", mosrArray);
+                json.add("eventLocationList", eventLocationArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
             }
-
         }
     }
 

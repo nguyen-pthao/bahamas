@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.ContactTypeListDAO;
+import bahamas.dao.list.PermissionLevelListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Darryl Mok
+ * @author Marcus
  */
-@WebServlet(name = "ContactTypeList", urlPatterns = {"/contacttypelist"})
-public class ContactTypeList extends HttpServlet {
+@WebServlet(name = "PermissionLevelList", urlPatterns = {"/permissionlevellist"})
+public class PermissionLevelList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,40 +44,39 @@ public class ContactTypeList extends HttpServlet {
 
 
             /*          
-            String token = request.getParameter("token");
-            if (!Authenticator.verifyToken(token)) {
-                json.addProperty("message", "invalid token");
-                out.println(gson.toJson(json));
+             String token = request.getParameter("token");
+             if (!Authenticator.verifyToken(token)) {
+             json.addProperty("message", "invalid token");
+             out.println(gson.toJson(json));
 
-            } else {
-                //Verified
+             } else {
+             //Verified
              */
             //Validation
             //Create new contact object
-            ContactTypeListDAO contactTypeListDAO = new ContactTypeListDAO();
-            ArrayList<String> contactTypeList = contactTypeListDAO.retrieveAllContactTypeList();
+            PermissionLevelListDAO permissionLevelListDAO = new PermissionLevelListDAO();
+            ArrayList<String> permissionLevelList = permissionLevelListDAO.retrievePermissionLevelList();
 
-            if (!contactTypeList.isEmpty()) {
+            if (!permissionLevelList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray contactTypeArray = new JsonArray();
-                JsonObject jsonContactTypeObj;
+                JsonArray permissionLevelListArray = new JsonArray();
+                JsonObject jsonPermissionLevelListArrayObj;
 
-                for (String s : contactTypeList) {
+                for (String s : permissionLevelList) {
 
-                    jsonContactTypeObj = new JsonObject();
-                    jsonContactTypeObj.addProperty("contactType", s);
-                    
-                    contactTypeArray.add(jsonContactTypeObj);
+                    jsonPermissionLevelListArrayObj = new JsonObject();
+                    jsonPermissionLevelListArrayObj.addProperty("permissionLevel", s);
+
+                    permissionLevelListArray.add(jsonPermissionLevelListArrayObj);
 
                 }
-                json.add("contact", contactTypeArray);
+                json.add("permissionLevelList", permissionLevelListArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
             }
-
         }
     }
 

@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.EventLocationListDAO;
+import bahamas.dao.list.TeamAffiliationListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -21,10 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Darryl Mok
+ * @author Marcus
  */
-@WebServlet(name = "EventLocationList", urlPatterns = {"/eventlocationlist"})
-public class EventLocationList extends HttpServlet {
+@WebServlet(name = "TeamAffiliationList", urlPatterns = {"/teamaffiliationlist"})
+public class TeamAffiliationList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,24 +54,24 @@ public class EventLocationList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            EventLocationListDAO eventLocationListDAO = new EventLocationListDAO();
-            ArrayList<String> eventLocationList = eventLocationListDAO.retrieveEventLocationList();
+            TeamAffiliationListDAO teamAffiliationListDAO = new TeamAffiliationListDAO();
+            ArrayList<String> teamAffiliationList = teamAffiliationListDAO.retrieveTeamAffiliationList();
 
-            if (!eventLocationList.isEmpty()) {
+            if (!teamAffiliationList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray eventLocationArray = new JsonArray();
-                JsonObject jsonLocationClassObj;
+                JsonArray teamAffiliationListArray = new JsonArray();
+                JsonObject jsonTeamAffiliationListArrayObj;
 
-                for (String s : eventLocationList) {
+                for (String s : teamAffiliationList) {
 
-                    jsonLocationClassObj = new JsonObject();
-                    jsonLocationClassObj.addProperty("eventLocation", s);
+                    jsonTeamAffiliationListArrayObj = new JsonObject();
+                    jsonTeamAffiliationListArrayObj.addProperty("teamAffiliation", s);
 
-                    eventLocationArray.add(jsonLocationClassObj);
+                    teamAffiliationListArray.add(jsonTeamAffiliationListArrayObj);
 
                 }
-                json.add("eventLocationList", eventLocationArray);
+                json.add("teamAffiliationList", teamAffiliationListArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");

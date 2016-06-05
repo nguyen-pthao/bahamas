@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.LSAClassListDAO;
-import bahamas.dao.list.LanguageListDAO;
+import bahamas.dao.list.ContactTypeListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -24,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "LSAClassList", urlPatterns = {"/lsaclasslist"})
-public class LSAClassList extends HttpServlet {
+@WebServlet(name = "ContactTypeList", urlPatterns = {"/contacttypelist"})
+public class ContactTypeList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -45,39 +44,40 @@ public class LSAClassList extends HttpServlet {
 
 
             /*          
-             String token = request.getParameter("token");
-             if (!Authenticator.verifyToken(token)) {
-             json.addProperty("message", "invalid token");
-             out.println(gson.toJson(json));
+            String token = request.getParameter("token");
+            if (!Authenticator.verifyToken(token)) {
+                json.addProperty("message", "invalid token");
+                out.println(gson.toJson(json));
 
-             } else {
-             //Verified
+            } else {
+                //Verified
              */
             //Validation
             //Create new contact object
-            LSAClassListDAO lsaClassListDAO = new LSAClassListDAO();
-            ArrayList<String> LSAClassList = lsaClassListDAO.retrieveLSAClassList();
+            ContactTypeListDAO contactTypeListDAO = new ContactTypeListDAO();
+            ArrayList<String> contactTypeList = contactTypeListDAO.retrieveAllContactTypeList();
 
-            if (!LSAClassList.isEmpty()) {
+            if (!contactTypeList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray LSAClassArray = new JsonArray();
-                JsonObject jsonLSAClassObj;
+                JsonArray contactTypeArray = new JsonArray();
+                JsonObject jsonContactTypeObj;
 
-                for (String s : LSAClassList) {
+                for (String s : contactTypeList) {
 
-                    jsonLSAClassObj = new JsonObject();
-                    jsonLSAClassObj.addProperty("lsaClass", s);
-
-                    LSAClassArray.add(jsonLSAClassObj);
+                    jsonContactTypeObj = new JsonObject();
+                    jsonContactTypeObj.addProperty("contactType", s);
+                    
+                    contactTypeArray.add(jsonContactTypeObj);
 
                 }
-                json.add("lsaClassList", LSAClassArray);
+                json.add("contact", contactTypeArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
             }
+
         }
     }
 

@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-
-import bahamas.dao.list.EventClassListDAO;
+import bahamas.dao.list.MembershipClassListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -22,14 +21,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Darryl Mok
+ * @author tan.si.hao
  */
-@WebServlet(name = "EventClassList", urlPatterns = {"/eventclasslist"})
-public class EventClassList extends HttpServlet {
+@WebServlet(name = "MembershipClassList", urlPatterns = {"/membershipclasslist"})
+public class MembershipClassList extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -38,11 +36,10 @@ public class EventClassList extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/JSON;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
 
             /*          
              String token = request.getParameter("token");
@@ -55,29 +52,32 @@ public class EventClassList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            EventClassListDAO eventClassListDAO = new EventClassListDAO();
-            ArrayList<String> eventClassList = eventClassListDAO.retrieveEventClassList();
+            MembershipClassListDAO membershipClassListDAO = new MembershipClassListDAO();
+            ArrayList<String> membershipClassList = membershipClassListDAO.retrieveMembershipClassList();
 
-            if (!eventClassList.isEmpty()) {
+            if (!membershipClassList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray eventClassArray = new JsonArray();
-                JsonObject jsonEventClassObj;
+                JsonArray membershipClassArray = new JsonArray();
+                JsonObject jsonMembershipClassObj;
 
-                for (String s : eventClassList) {
+                for (String s : membershipClassList) {
 
-                    jsonEventClassObj = new JsonObject();
-                    jsonEventClassObj.addProperty("eventClass", s);
+                    jsonMembershipClassObj = new JsonObject();
+                    jsonMembershipClassObj.addProperty("membershipClass", s);
 
-                    eventClassArray.add(jsonEventClassObj);
+                    membershipClassArray.add(jsonMembershipClassObj);
 
                 }
-                json.add("eventClassList", eventClassArray);
+                json.add("membershipClassList", membershipClassArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
                 out.println(gson.toJson(json));
             }
+            
+            
+            
         }
     }
 

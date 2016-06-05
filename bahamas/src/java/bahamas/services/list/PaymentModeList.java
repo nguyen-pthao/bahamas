@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
+package bahamas.services.list;
 
-import bahamas.dao.list.OfficeListDAO;
+import bahamas.dao.list.PaymentModeListDAO;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -23,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "OfficeList", urlPatterns = {"/officelist"})
-public class OfficeList extends HttpServlet {
+@WebServlet(name = "PaymentModeList", urlPatterns = {"/paymentmodelist"})
+public class PaymentModeList extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -54,24 +54,24 @@ public class OfficeList extends HttpServlet {
              */
             //Validation
             //Create new contact object
-            OfficeListDAO officeListDAO = new OfficeListDAO();
-            ArrayList<String> officeList = officeListDAO.retrieveOfficeList();
+            PaymentModeListDAO paymentModeListDAO = new PaymentModeListDAO();
+            ArrayList<String> paymentModeList = paymentModeListDAO.retrievePaymentModeList();
 
-            if (!officeList.isEmpty()) {
+            if (!paymentModeList.isEmpty()) {
                 json.addProperty("message", "success");
 
-                JsonArray officeListArray = new JsonArray();
-                JsonObject jsonOfficeListObj;
+                JsonArray paymentModeListArray = new JsonArray();
+                JsonObject jsonPaymentModeListArrayObj;
 
-                for (String s : officeList) {
+                for (String s : paymentModeList) {
 
-                    jsonOfficeListObj = new JsonObject();
-                    jsonOfficeListObj.addProperty("office", s);
+                    jsonPaymentModeListArrayObj = new JsonObject();
+                    jsonPaymentModeListArrayObj.addProperty("paymentMode", s);
 
-                    officeListArray.add(jsonOfficeListObj);
+                    paymentModeListArray.add(jsonPaymentModeListArrayObj);
 
                 }
-                json.add("officeList", officeListArray);
+                json.add("paymentModeList", paymentModeListArray);
                 out.println(gson.toJson(json));
             } else {
                 json.addProperty("message", "failed");
