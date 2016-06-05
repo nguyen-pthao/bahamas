@@ -50,12 +50,12 @@ insert into LANGUAGE_LIST(LANGUAGE_NAME) value
 ('Other');
 
 #OFFICE_LIST
-insert into OFFICE_LIST(OFFICE_ID,OFFICE_HELD_NAME,DESCRIPTION) value
-(1,'President','DESCRIPTION of President'),
-(2,'Vice-president','DESCRIPTION of Vice-president'),
-(3,'Secretary','DESCRIPTION of Secretary'),
-(4,'Treasurer','DESCRIPTION of Treasurer'),
-(5,'Staff','DESCRIPTION of Staff');
+insert into OFFICE_LIST(OFFICE_HELD_NAME) value
+('President'),
+('Vice-president'),
+('Secretary'),
+('Treasurer'),
+('Staff');
 
 #MODE_OF_SENDING_RECEIPT_LIST
 insert into MODE_OF_SENDING_RECEIPT_LIST(RECEIPT_MODE_NAME) value
