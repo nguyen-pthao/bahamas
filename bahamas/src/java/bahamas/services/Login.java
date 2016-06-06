@@ -7,8 +7,10 @@ package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.AuditLog;
 import bahamas.entity.Contact;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
 import com.google.gson.Gson;
@@ -24,6 +26,7 @@ import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -81,7 +84,8 @@ public class Login extends HttpServlet {
 
                 String username = jobject.get("username").getAsString();
                 String password = jobject.get("password").getAsString();
-
+                ArrayList<TeamJoin> teamJoinList;
+                
                 if (username == null || password == null) {
                     json.addProperty("status", "error");
                     json.addProperty("messages", "invalid username/password");
@@ -92,7 +96,9 @@ public class Login extends HttpServlet {
 
                     ContactDAO contactDAO = new ContactDAO();
                     Contact contact = contactDAO.retrieveContactByUsername(username);
-
+                    teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(username);
+                    contact.setTeamJoinList(teamJoinList);
+                    
                     if (contact != null) {
                         password = PasswordHash.hashPassword(password);
                         String serverPassword = contact.getPassword();
@@ -104,6 +110,9 @@ public class Login extends HttpServlet {
                             json.addProperty("status", "success");
                             json.addProperty("token", token);
                             JsonObject jsonContactObj = new JsonObject();
+                            JsonArray jsonTeamObjList = new JsonArray();
+                            //JsonObject jsonTeamObj = new JsonObject();
+                            
                             if (contact.isIsAdmin()) {
                                 json.addProperty("userType", "admin");
                             } else {
@@ -125,7 +134,29 @@ public class Login extends HttpServlet {
                             jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                             jsonContactObj.addProperty("remarks", contact.getRemarks());
                             json.add("contact", jsonContactObj);
-
+                            
+                            if(teamJoinList != null && !teamJoinList.isEmpty()){
+                                Iterator iter = teamJoinList.iterator();
+                                while(iter.hasNext()){
+                                    JsonObject jsonTeamObj = new JsonObject();
+                                    TeamJoin teamjoin = (TeamJoin)iter.next();
+                                    jsonTeamObj.addProperty("teamName",teamjoin.getTeamName());
+                                    jsonTeamObj.addProperty("permission",teamjoin.getPermission());
+                                    jsonTeamObj.addProperty("subTeam",teamjoin.getSubTeam());
+                                    jsonTeamObj.addProperty("explainIfOthers",teamjoin.getExplainIfOthers());
+                                    jsonTeamObj.addProperty("createdBy",teamjoin.getCreatedBy());
+                                    jsonTeamObj.addProperty("dateCreated",sdf.format(teamjoin.getDateCreated()));
+                                    jsonTeamObj.addProperty("remarks",teamjoin.getRemarks());
+                                    if(teamjoin.getDateObsolete() != null){
+                                        jsonTeamObj.addProperty("dateObsolete",sdf.format(teamjoin.getDateObsolete()));
+                                    }
+                                    jsonTeamObjList.add(jsonTeamObj);
+                                    
+                                }
+                                json.add("teams", jsonTeamObjList);
+                            }
+                            
+                            
                             out.println(gson.toJson(json));
                             return;
                         }

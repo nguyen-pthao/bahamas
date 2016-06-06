@@ -83,26 +83,26 @@ public class Contact {
             String profession, String jobTitle, String nric, String gender,
             String nationality, Date dateOfBirth, String profilePic, String remarks,
             boolean notification) {
-        this.contactId = contactId;
-        this.contactType = contactType;
-        this.username = username;
-        this.password = password;
-        this.isAdmin = isAdmin;
-        this.deactivated = deactivated;
-        this.dateCreated = dateCreated;
-        this.createdBy = createdBy;
-        this.name = name;
-        this.altName = altName;
-        this.explainIfOther = explainIfOther;
-        this.profession = profession;
-        this.jobTitle = jobTitle;
-        this.nric = nric;
-        this.gender = gender;
-        this.nationality = nationality;
-        this.dateOfBirth = dateOfBirth;
-        this.profilePic = profilePic;
-        this.remarks = remarks;
-        this.notification = notification;
+            this.contactId = contactId;
+            this.contactType = contactType;
+            this.username = username;
+            this.password = password;
+            this.isAdmin = admin;
+            this.deactivated = deactivated;
+            this.dateCreated = dateCreated;
+            this.createdBy = createdBy;
+            this.name = name;
+            this.altName = altName;
+            this.explainIfOther = explainIfOther;
+            this.profession = profession;
+            this.jobTitle = jobTitle;
+            this.nric = nric;
+            this.gender = gender;
+            this.nationality = nationality;
+            this.dateOfBirth = dateOfBirth;
+            this.profilePic = profilePic;
+            this.remarks = remarks;
+            this.notification = notification;
     }
 
     public int getContactId() {

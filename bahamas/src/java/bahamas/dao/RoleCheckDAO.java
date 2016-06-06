@@ -30,7 +30,7 @@ public class RoleCheckDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN WHERE (DATE_OBSOLETE = '0000-00-00' "
-                    + "OR DATE_OBSOLETE = '') AND CONTACT_ID = (?) AND TEAM_NAME = (?) AND PERMISSION = (?) ");
+                    + "OR DATE_OBSOLETE = '' OR DATE_OBSOLETE IS NULL) AND CONTACT_ID = (?) AND TEAM_NAME = (?) AND PERMISSION = (?) ");
             stmt.setString(1, Integer.toString(cid));
             stmt.setString(2, teamName);
             stmt.setString(3, permission);
@@ -45,7 +45,7 @@ public class RoleCheckDAO {
             
             
         } catch (SQLException ex) {
-            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve TEAMJOIN from database data", ex);
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve TEAMJOIN from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
