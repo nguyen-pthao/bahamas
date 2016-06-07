@@ -14,7 +14,7 @@ import java.util.*;
 public class Event {
     
     private long eventId;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private Date eventStart;
     private Date eventEnd;
     private String eventTitle;

@@ -15,7 +15,7 @@ public class TeamJoin {
 
     private String username;
     private String teamName;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private String createdBy;
     private String explainIfOthers;
     private String subTeam;

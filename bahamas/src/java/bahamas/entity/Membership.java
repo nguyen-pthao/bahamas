@@ -17,7 +17,7 @@ public class Membership {
     private String receiptModeName;
     private String membershipClassName;
     private String paymentModeName;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private String explainIfOtherClass;
     private Date startMembership;
     private Date endMembership;

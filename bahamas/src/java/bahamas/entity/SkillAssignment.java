@@ -15,7 +15,7 @@ public class SkillAssignment {
     
     private Contact contact;
     private String skillName;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private String explainIfOther;
     private Date dateObsolete;
     private String remarks;

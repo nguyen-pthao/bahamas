@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class OfficeHeld {
     private Contact contact;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private Date startOffice;
     private Date endOffice;
     private String remarks;

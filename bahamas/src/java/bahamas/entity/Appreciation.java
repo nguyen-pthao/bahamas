@@ -15,7 +15,7 @@ public class Appreciation {
     
     private Contact contact;
     private int appreciationId;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private String appraisalComments;
     private String appraisalBy;
     private Date appraisalDate;

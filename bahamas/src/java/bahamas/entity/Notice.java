@@ -14,7 +14,7 @@ import java.util.Date;
 public class Notice {
     
     private long noticeId;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private boolean activelyPushout;
     private String messageTitle;
     private String messageContent;

@@ -15,7 +15,7 @@ public class LanguageAssignment {
     
     private Contact contact;
     private String language;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private String explainIfOther;
     private Date dateObsolete;
     private String proficiency;

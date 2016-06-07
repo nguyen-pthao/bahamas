@@ -12,10 +12,10 @@ import java.util.Date;
  * @author tan.si.hao
  */
 public class AuditLog {
-    
+
     private String auditLogID;
     private String username;
-    private Date operationDate;
+    private Date operationDate = new java.util.Date();
     private String operation;
 
     public AuditLog(String auditLogID, String username, Date operationDate, String operation) {
@@ -56,7 +56,5 @@ public class AuditLog {
     public void setOperation(String operation) {
         this.operation = operation;
     }
-    
-    
-    
+
 }

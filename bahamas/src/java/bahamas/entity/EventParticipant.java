@@ -17,7 +17,7 @@ public class EventParticipant {
     private Contact awarder;
     private int roleID;
     private Event event;
-    private Date dateCreated;
+    private Date dateCreated=new java.util.Date();
     private int role;
     private boolean pullout;
     private Date datepullout;

@@ -12,8 +12,8 @@ import java.util.Date;
  * @author Darryl Mok
  */
 public class Proxy {
-    
-    private Date dateCreated;
+
+    private Date dateCreated = new java.util.Date();
     private String proxyStanding;
     private String remarks;
     private String createdBy;
@@ -86,9 +86,5 @@ public class Proxy {
     public void setOrganisationRepresentative(Contact organisationRepresentative) {
         this.organisationRepresentative = organisationRepresentative;
     }
-    
-    
-    
-    
-    
+
 }
