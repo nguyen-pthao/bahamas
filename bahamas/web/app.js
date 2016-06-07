@@ -5,69 +5,92 @@
 // */
 'use strict';
 
-var app = angular.module('bahamas', ['Admin','User','Novice','ngRoute']);
+var app = angular.module('bahamas', ['ui.router', 'ngAnimate']);
 
-app.config(['$routeProvider', function($routeProvider) {
-    $routeProvider
-    .when('/login', {
-        templateUrl: 'login.html',
-        controller: 'loginController'
-    }).when('/admin', {
-        templateUrl: './app/views/admin.html',
-        controller: 'AdminController',
-        resolve: {
-            access: ['session', function(session) {
-                var user = session.getSession('userType');
-                if (user === 'admin') {
-                    return true;
-                } else {
-                    return false;
-                }
-            }]
-        }
-    }).when('/user', {
-        templateUrl: './app/views/user.html',
-        controller: 'UserController',
-        resolve: {
-            access: ['session', function(session) {
-                var user = session.getSession('userType');
-                if (user === 'user') {
-                    return true;
-                } else {
-                    return false;
-                }
-            }]
-        }
-        
-    }).when ('/novice', {
-        templateUrl: './app/views/novice.html',
-        controller: 'NoviceController',
-        resolve: {
-            access: ['session', function(session) {
-                var user = session.getSession('userType');
-                if (user === 'novice') {
-                    return true;
-                } else {
-                    return false;
-                }
-            }]
-        }
-    }).when ('/logout', {
-        templateUrl: 'unAuthorized.html',
-        controller: 'logoutController'
-        
-    }).when ('/unAuthorized', {
-        templateUrl: 'unAuthorized.html'
-        
-    }).otherwise({
-        redirectTo: '/login'
-    });
-}]);
+app.config(function ($stateProvider, $urlRouterProvider) {
 
-app.run(['$rootScope', '$location', '$window', 'session', function($rootScope, $location, $window, session) {
-    $rootScope.$on('$routeChangeStart', function(event) {
-       //session.init();
-       //console.log("start");
-    });
-}]);
+    $urlRouterProvider.otherwise("/login");
+
+    $stateProvider
+            .state('login', {
+                url: '/login',
+                templateUrl: 'login.html',
+                controller: 'loginController',
+                resolve: {
+                    access: [function () {
+                            console.log('login');
+                            //session.terminateSession();
+                            return true;
+                        }
+                    ]
+                }
+            })
+            .state('admin', {
+                url: '/admin',
+                templateUrl: 'app/views/admin.html',
+//                controller: 'AdminController',
+                resolve: {
+                    access: ['session', function (session) {
+                            var user = session.getSession('userType');
+                            if (user === 'admin') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    ]
+                }
+            })
+            .state('user', {
+                url: '/user',
+                templateUrl: './app/views/user.html',
+                controller: 'UserController',
+                resolve: {
+                    access: ['session', function (session) {
+                            var user = session.getSession('userType');
+                            if (user === 'novice') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    ]
+                }
+            })
+            .state('novice', {
+                url: '/novice',
+                templateUrl: './app/views/novice.html',
+                controller: 'NoviceController',
+                resolve: {
+                    access: ['session', function (session) {
+                            var user = session.getSession('userType');
+                            if (user === 'user') {
+                                return true;
+                            } else {
+                                return false;
+                            }
+                        }
+                    ]
+                }
+            })
+            .state('unauthorized', {
+                url: '/unauthorized',
+                templateUrl: 'unAuthorized.html'
+            })
+            .state('admin.addContact', {
+                url: '/addContact',
+                templateUrl: 'app/views/contact/createContact.html',
+                controller: 'createContact'
+            });
+});
+
+app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
+
+        var user = session.getSession('userType');
+        console.log(user);
+        $rootScope.$on('$stateChangeStart', function (event) {
+            console.log('state change');
+
+        });
+    }]);
 
