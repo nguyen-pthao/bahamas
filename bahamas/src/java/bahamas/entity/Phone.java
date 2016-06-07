@@ -29,6 +29,16 @@ public class Phone {
 
     }
 
+    public Phone(Contact contact, int countryCode, int phoneNumber, String remarks, String createdBy) {
+        this.contact = contact;
+        this.countryCode = countryCode;
+        this.phoneNumber = phoneNumber;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+    }
+
+    
+    
     public Contact getContact() {
         return contact;
     }

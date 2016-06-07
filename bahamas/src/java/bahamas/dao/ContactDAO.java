@@ -142,6 +142,60 @@ public class ContactDAO {
         return null;
     }
 
+    public Contact retrieveContactById(int id) {
+        contactList = new ArrayList();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
+                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                    + "FROM CONTACT WHERE CONTACT_ID = (?)");
+            stmt.setInt(1, id);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                boolean isAdmin = rs.getBoolean(5);
+                boolean deactivated = rs.getBoolean(6);
+                String dateStr = rs.getString(7);
+                Date dateCreated = sdf.parse(dateStr);
+                String createdBy = rs.getString(8);
+                String name = rs.getString(9);
+                String altName = rs.getString(10);
+                String explainIfOther = rs.getString(11);
+                String profession = rs.getString(12);
+                String jobTitle = rs.getString(13);
+                String nric = rs.getString(14);
+                String gender = rs.getString(15);
+                String nationality = rs.getString(16);
+                Date dateOfBirth = sdf.parse(rs.getString(17));
+                String profilePic = rs.getString(18);
+                String remarks = rs.getString(19);
+                boolean notification = rs.getBoolean(20);
+
+                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                return contact;
+            }
+        } catch (ParseException e) {
+
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return null;
+    }
+
     public static int addContact(Contact c) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -171,7 +225,7 @@ public class ContactDAO {
             stmt.setString(12, c.getNationality());
             stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
             stmt.setString(14, c.getProfilePic());
-           
+
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
             if (rs.next()) {

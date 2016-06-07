@@ -80,7 +80,7 @@ public class RetrieveContact extends HttpServlet {
 
                     jsonContactObj = new JsonObject();
                     jsonContactObj.addProperty("username", c.getUsername());
-                    jsonContactObj.addProperty("password", c.getPassword());
+                    //jsonContactObj.addProperty("password", c.getPassword());
 
                     jsonContactObj.addProperty("contactType", c.getContactType());
                     jsonContactObj.addProperty("dateCreated", sdf.format(c.getDateCreated()));
