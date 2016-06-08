@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="bahamas">
     <head></head>
     <body>
         <div class="hold-transition skin-blue sidebar-mini">
@@ -124,8 +124,8 @@
                                             <div class="pull-left">
                                                 <a href="javascript: (0)" class="btn btn-default btn-flat">Profile</a>
                                             </div>
-                                            <div class="pull-right">
-                                                <button class="btn btn-default btn-flat" ng-click="logout()">Sign out</button>
+                                            <div class="pull-right" ng-controller="logoutController">
+                                                <button class="btn btn-default btn-flat" ng-click="logoutUser()">Sign out</button>
                                             </div>
                                         </li>
                                     </ul>
@@ -220,11 +220,6 @@
                             </li>
 
                         </ul>
-                        <div style="color: white; position: absolute; bottom: 0">
-                            <span style="padding-left: 12px">
-                                &copy 2016 Zuerst. All rights reserved. 
-                            </span>
-                        </div>    
                     </section>
                     <!-- /.sidebar -->
                 </aside>

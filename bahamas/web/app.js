@@ -18,7 +18,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'loginController',
                 resolve: {
                     access: [function () {
-                            console.log('login');
                             //session.terminateSession();
                             return true;
                         }
@@ -28,7 +27,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('admin', {
                 url: '/admin',
                 templateUrl: 'app/views/admin.html',
-//                controller: 'AdminController',
                 resolve: {
                     access: ['session', function (session) {
                             var user = session.getSession('userType');
@@ -39,7 +37,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                             }
                         }
                     ]
-                }
+                },
+//                data: {
+//                    isAdmin: true,
+//                    redirectTo: 'login'
+//                }
             })
             .state('user', {
                 url: '/user',
@@ -84,13 +86,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             });
 });
 
-app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
-
+app.run(['$rootScope', '$location', 'session', '$state', 'authorization', function ($rootScope, $location, session, $state, authorization) {
         var user = session.getSession('userType');
-        console.log(user);
-        $rootScope.$on('$stateChangeStart', function (event) {
-            console.log('state change');
-
+        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+//            if (!authorization.isAdmin && _.has(toState, 'data.authorization') && _.has(toState, 'data.redirectTo')) {
+//                $state.go(toState.data.redirectTo);
+//            }
+            var test = authorization.isAdmin;
+            console.log(test + " hello");
         });
     }]);
 
