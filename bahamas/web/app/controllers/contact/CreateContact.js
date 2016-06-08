@@ -46,6 +46,7 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
 
         $scope.submitContactInfo = function () {
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//            var url = "http://rms.twc2.org.sg/bahamas/contact.add";
             var url = "http://localhost:8084/bahamas/contact.add";
             console.log($scope.contactInfo);
             $http({

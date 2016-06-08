@@ -16,6 +16,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
    
     $scope.loginUser = function () {
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//      var url = "http://rms.twc2.org.sg/bahamas/login";
         var url = "http://localhost:8084/bahamas/login";
         
         $http({
