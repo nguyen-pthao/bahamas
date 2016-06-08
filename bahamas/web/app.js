@@ -15,65 +15,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('login', {
                 url: '/login',
                 templateUrl: 'login.html',
-                controller: 'loginController',
-                resolve: {
-                    access: [function () {
-                            //session.terminateSession();
-                            return true;
-                        }
-                    ]
-                }
+                controller: 'loginController'
             })
             .state('admin', {
                 url: '/admin',
-                templateUrl: 'app/views/admin.html',
-                resolve: {
-                    access: ['session', function (session) {
-                            var user = session.getSession('userType');
-                            if (user === 'admin') {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    ]
-                },
-//                data: {
-//                    isAdmin: true,
-//                    redirectTo: 'login'
-//                }
+                templateUrl: 'app/views/admin.html'
             })
             .state('user', {
                 url: '/user',
                 templateUrl: './app/views/user.html',
-                controller: 'UserController',
-                resolve: {
-                    access: ['session', function (session) {
-                            var user = session.getSession('userType');
-                            if (user === 'novice') {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    ]
-                }
+                controller: 'UserController'
             })
             .state('novice', {
                 url: '/novice',
                 templateUrl: './app/views/novice.html',
-                controller: 'NoviceController',
-                resolve: {
-                    access: ['session', function (session) {
-                            var user = session.getSession('userType');
-                            if (user === 'user') {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        }
-                    ]
-                }
+                controller: 'NoviceController'
             })
             .state('unauthorized', {
                 url: '/unauthorized',
@@ -86,14 +42,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             });
 });
 
-app.run(['$rootScope', '$location', 'session', '$state', 'authorization', function ($rootScope, $location, session, $state, authorization) {
-        var user = session.getSession('userType');
-        $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-//            if (!authorization.isAdmin && _.has(toState, 'data.authorization') && _.has(toState, 'data.redirectTo')) {
-//                $state.go(toState.data.redirectTo);
-//            }
-            var test = authorization.isAdmin;
-            console.log(test + " hello");
+app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
+        $rootScope.$on('$stateChangeStart', function (event, targetScope) {
+            if(targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')){
+                event.preventDefault();
+                session.terminateSession();
+                $state.go('login');
+            }
+            if(targetScope.url === '/admin' && (session.getSession('userType') !== 'admin')){
+                event.preventDefault();
+                session.terminateSession();
+                $state.go('login');
+            }
         });
     }]);
 

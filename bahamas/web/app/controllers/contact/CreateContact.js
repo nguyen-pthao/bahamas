@@ -23,6 +23,8 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
             'token': session.getSession("token"),
             'name': '',
             'altname': '',
+            'username': '',
+            'password': '',
             'contacttype': '',
             'explainifother': '',
             'profession': '',
@@ -31,22 +33,18 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
             'gender': '',
             'nationality': '',
             'dateofbirth': '',
-            'remarks1': '',
+            'remarks': '',
             'countrycode': '65',
             'phonenumber': '',
-            'phoneremarks': '',
             'email': '',
-            'emailremarks': '',
             'country': '',
             'zipcode': '',
             'address': '',
-            'addressremarks': ''
-
         };
 
         $scope.submitContactInfo = function () {
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//            var url = "http://rms.twc2.org.sg/bahamas/contact.add";
+//          var url = "http://rms.twc2.org.sg/bahamas/contact.add";
             var url = "http://localhost:8084/bahamas/contact.add";
             console.log($scope.contactInfo);
             $http({
@@ -55,7 +53,10 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
                 headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify($scope.contactInfo)
             }).success(function (response) {
-                
+                var seeResponse = response;
+//                if(seeResponse === "success"){
+                    console.log(response.message);
+//                }
             }).error(function () {
                 window.alert("Fail to send request!");
             });

@@ -45,7 +45,7 @@ public class AddContact extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
+            
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
             try {
@@ -79,23 +79,26 @@ public class AddContact extends HttpServlet {
 
                 } else {
                     //Verified token
-
+                    
                     String name = jobject.get("name").getAsString();
-                    String altName = jobject.get("alt-name").getAsString();
-                    String contactType = jobject.get("contact-type").getAsString();
-                    String otherExplanation = jobject.get("explain-if-other").getAsString();
+                    String altName = jobject.get("altname").getAsString();
+                    //to be removed!!!!
+                    String userName = jobject.get("username").getAsString();
+                    String passWord = jobject.get("password").getAsString();
+                    String contactType = jobject.get("contacttype").getAsString();
+                    String otherExplanation = jobject.get("explainifother").getAsString();
                     String profession = jobject.get("profession").getAsString();
-                    String jobTitle = jobject.get("job-title").getAsString();
-                    String nric = jobject.get("nric-fin").getAsString();
+                    String jobTitle = jobject.get("jobtitle").getAsString();
+                    String nric = jobject.get("nricfin").getAsString();
                     String gender = jobject.get("gender").getAsString();
                     String nationality = jobject.get("nationality").getAsString();
-                    String dateOfBirth = jobject.get("date-of-birth").getAsString();
-                    //String remarks = jobject.get("remarks").getAsString();
-                    int countryCode = jobject.get("country-code").getAsInt();
-                    int phoneNumber = jobject.get("phone-number").getAsInt();
+                    String dateOfBirth = jobject.get("dateofbirth").getAsString();
+                    String remarks = jobject.get("remarks").getAsString();
+                    int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
+                    int phoneNumber = Integer.parseInt(jobject.get("phonenumber").getAsString());
                     String email = jobject.get("email").getAsString();
                     String country = jobject.get("country").getAsString();
-                    int zipCode = jobject.get("zipcode").getAsInt();
+                    int zipCode = Integer.parseInt(jobject.get("zipcode").getAsString());
                     String address = jobject.get("address").getAsString();
 
                     Date dob = null;

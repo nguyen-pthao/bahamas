@@ -2,7 +2,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('loginController', ['$scope', '$http', '$location', 'session', '$window', '$state', 'authorization', function ($scope, $http, $location, session, $window, $state, authorization) {
+app.controller('loginController', ['$scope', '$http', '$location', 'session', '$window', '$state', function ($scope, $http, $location, session, $window, $state) {
     $scope.error = false;
     var authorisedUser = {
         'username': "",
@@ -40,10 +40,8 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                     var getToken = session.getSession("token");
                     var getUserType = session.getSession("userType");
                     
-                    if(authorisedUser.userType ==="admin"){
-                        authorization.setAdmin(getUserType.toString());
-                    }
-                    //$state.go(getUserType.toString());
+                 
+                    $state.go(getUserType.toString());
                 }   
             } else {
                 $scope.error = true;
