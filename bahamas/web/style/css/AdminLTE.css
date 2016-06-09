@@ -4893,6 +4893,12 @@ table.text-center th {
 .chart canvas {
   width: 100% !important;
 }
+.control-label,
+.required {
+    color: #e02222;
+    font-size: 12px;
+    padding-left: 2px
+}
 /*
  * Misc: print
  * -----------

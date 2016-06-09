@@ -8,6 +8,32 @@
 
 var app = angular.module('bahamas');
 
+app.directive('compare', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function(scope, elem, attrs, ngModel) {
+            if (!ngModel) {
+                return;
+            }
+            
+            scope.$watch(attrs.ngModel, function () {
+                validate();
+            });
+
+            attrs.$observe('compare', function (val) {
+                validate();
+            });
+
+            var validate = function () {
+                var val1 = ngModel.$viewValue;
+                var val2 = attrs.compare;
+                ngModel.$setValidity('compare', !val1 || !val2 || val1 === val2);
+            };
+        }
+    };
+});
+
 app.controller('createContact', ['$scope', '$http', '$location', 'session', '$window', '$state', function ($scope, $http, $location, session, $window, $state) {
 
         $scope.loadContactTypeList = function () {
@@ -47,14 +73,20 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
                 };
             });
         };
-
+		
+		$scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]';
+        //notice that \d won't work but \\d
+        $scope.phoneRegex = '[0-9]\\d{0,19}';
+        $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$';
+		
         $scope.contactInfo = {
             'token': session.getSession("token"),
             'name': '',
             'altname': '',
             'username': '',
             'password': '',
-            'contacttype': '',
+			'confirmpassword': '',
+            'contacttype': 'Individual',
             'explainifother': '',
             'profession': '',
             'jobtitle': '',
