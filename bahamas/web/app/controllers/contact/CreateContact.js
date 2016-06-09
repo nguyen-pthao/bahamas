@@ -18,6 +18,35 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
             });
         };
 
+        $scope.loadCountryNames = function () {
+            var url = "https://restcountries.eu/rest/v1/all";
+            $http.get(url).then(function (response) {
+                $scope.countryNames = response.data;
+            });
+        };
+
+        $scope.loadCountryCodes = function () {
+            var url = "https://restcountries.eu/rest/v1/all";
+            var x = "";
+            $http.get(url).then(function (response) {
+                $scope.countryCodes = response.data;
+           
+                $scope.updateCountryNames = function (code) {
+                    x = " ";
+                    angular.forEach($scope.countryCodes, function (countryObj) {
+                        angular.forEach(countryObj.callingCodes, function (value, key) {
+                            if (value == code && value !== "") {
+//                                $scope.newCountryName = countryObj.name;
+                                   x = x + " " + countryObj.name;
+                            }
+                        });
+                    });
+                    $scope.newCountryName = x;
+  
+                  
+                };
+            });
+        };
 
         $scope.contactInfo = {
             'token': session.getSession("token"),
@@ -55,7 +84,7 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
             }).success(function (response) {
                 var seeResponse = response;
 //                if(seeResponse === "success"){
-                    console.log(response.message);
+                console.log(response.message);
 //                }
             }).error(function () {
                 window.alert("Fail to send request!");
