@@ -16,8 +16,8 @@ import java.sql.SQLException;
  * @author HUXLEY
  */
 public class EmailDAO {
-    
-      public static boolean addEmail(Email e) {
+
+    public static boolean addEmail(Email e) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -28,14 +28,18 @@ public class EmailDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO EMAIL (CONTACT_ID,"
-                    + "DATE_CREATED,CREATED_BY,EMAIL,REMARKS)"
-                    + " VALUES (?,?,?,?,?)");
+                    + "DATE_CREATED,CREATED_BY,EMAIL,REMARKS,DATE_OBSOLETE)"
+                    + " VALUES (?,?,?,?,?,?)");
 
             stmt.setInt(1, e.getContact().getContactId());
-            stmt.setDate(2, new java.sql.Date(e.getDateCreated().getTime()));
+            stmt.setTimestamp(2, new java.sql.Timestamp(e.getDateCreated().getTime()));
             stmt.setString(3, e.getCreatedBy());
             stmt.setString(4, e.getEmail());
             stmt.setString(5, e.getRemarks());
+
+            if (e.getDateObsolete() != null) {
+                stmt.setDate(6, new java.sql.Date(e.getDateObsolete().getTime()));
+            }
             
             result = stmt.executeUpdate();
 
@@ -48,6 +52,5 @@ public class EmailDAO {
         }
         return false;
     }
-    
-    
+
 }

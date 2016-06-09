@@ -34,16 +34,20 @@ public class PhoneDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO PHONE (CONTACT_ID,"
-                    + "DATE_CREATED,CREATED_BY,COUNTRY_CODE,PHONE_NUMBER,REMARKS)"
-                    + " VALUES (?,?,?,?,?,?)");
+                    + "DATE_CREATED,CREATED_BY,COUNTRY_CODE,PHONE_NUMBER,REMARKS,DATE_OBSOLETE)"
+                    + " VALUES (?,?,?,?,?,?,?)");
 
             stmt.setInt(1, p.getContact().getContactId());
-            stmt.setDate(2, new java.sql.Date(p.getDateCreated().getTime()));
+            stmt.setTimestamp(2, new java.sql.Timestamp(p.getDateCreated().getTime()));
             stmt.setString(3, p.getCreatedBy());
             stmt.setInt(4, p.getCountryCode());
             stmt.setInt(5, p.getPhoneNumber());
             stmt.setString(6, p.getRemarks());
-           
+            
+            if(p.getDateObsolete() != null){
+                stmt.setDate(7, new java.sql.Date(p.getDateObsolete().getTime()));
+            }   
+
             result = stmt.executeUpdate();
 
             return result == 1;

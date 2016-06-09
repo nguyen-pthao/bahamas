@@ -53,7 +53,7 @@ public class AuditLogDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat format = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date startDate = null;
         
         try {

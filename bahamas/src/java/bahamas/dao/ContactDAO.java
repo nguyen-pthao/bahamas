@@ -26,14 +26,13 @@ import java.util.logging.Logger;
 public class ContactDAO {
 
     private ArrayList<Contact> contactList;
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public ContactDAO() {
     }
 
     public ArrayList<Contact> retrieveAllContact() {
-
-        contactList = new ArrayList();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -57,7 +56,7 @@ public class ContactDAO {
                 boolean isAdmin = rs.getBoolean(5);
                 boolean deactivated = rs.getBoolean(6);
                 String dateStr = rs.getString(7);
-                Date dateCreated = sdf.parse(dateStr);
+                Date dateCreated = datetime.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -67,7 +66,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                Date dateOfBirth = sdf.parse(rs.getString(17));
+                Date dateOfBirth = date.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = rs.getBoolean(20);
@@ -88,8 +87,7 @@ public class ContactDAO {
         return contactList;
     }
 
-    public Contact retrieveContactByUsername(String usernameInput) {
-        contactList = new ArrayList();
+    public Contact retrieveContactByUsername(String usernameInput) {       
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -112,7 +110,7 @@ public class ContactDAO {
                 boolean isAdmin = rs.getBoolean(5);
                 boolean deactivated = rs.getBoolean(6);
                 String dateStr = rs.getString(7);
-                Date dateCreated = sdf.parse(dateStr);
+                Date dateCreated = datetime.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -122,7 +120,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                Date dateOfBirth = sdf.parse(rs.getString(17));
+                Date dateOfBirth = date.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = rs.getBoolean(20);
@@ -166,7 +164,7 @@ public class ContactDAO {
                 boolean isAdmin = rs.getBoolean(5);
                 boolean deactivated = rs.getBoolean(6);
                 String dateStr = rs.getString(7);
-                Date dateCreated = sdf.parse(dateStr);
+                Date dateCreated = datetime.parse(dateStr);
                 String createdBy = rs.getString(8);
                 String name = rs.getString(9);
                 String altName = rs.getString(10);
@@ -176,7 +174,7 @@ public class ContactDAO {
                 String nric = rs.getString(14);
                 String gender = rs.getString(15);
                 String nationality = rs.getString(16);
-                Date dateOfBirth = sdf.parse(rs.getString(17));
+                Date dateOfBirth = date.parse(rs.getString(17));
                 String profilePic = rs.getString(18);
                 String remarks = rs.getString(19);
                 boolean notification = rs.getBoolean(20);
@@ -185,7 +183,6 @@ public class ContactDAO {
                 return contact;
             }
         } catch (ParseException e) {
-
             e.printStackTrace();
         } catch (SQLException ex) {
             Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
@@ -208,12 +205,12 @@ public class ContactDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO CONTACT (CONTACT_TYPE,ISADMIN,"
                     + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,USERNAME,PASSWORD)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, c.getContactType());
             stmt.setBoolean(2, c.isIsAdmin());
-            stmt.setDate(3, new java.sql.Date(c.getDateCreated().getTime()));
+            stmt.setTimestamp(3, new java.sql.Timestamp(c.getDateCreated().getTime()));
             stmt.setString(4, c.getCreatedBy());
             stmt.setString(5, c.getName());
             stmt.setString(6, c.getAltName());
@@ -225,6 +222,9 @@ public class ContactDAO {
             stmt.setString(12, c.getNationality());
             stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
             stmt.setString(14, c.getProfilePic());
+            stmt.setString(15,c.getRemarks());
+            stmt.setString(16, c.getUsername());
+            stmt.setString(17,c.getPassword());       
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();

@@ -26,6 +26,14 @@ public class Email {
         this.createdBy = createdBy;
 
     }
+
+    public Email(Contact contact, String email, String createdBy, String remarks, Date dateObsolete) {
+        this.contact = contact;
+        this.email = email;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+    }
+    
     
     
     public Contact getContact() {

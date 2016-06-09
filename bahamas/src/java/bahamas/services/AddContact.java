@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.*;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
+import bahamas.util.PasswordHash;
 import com.google.gson.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -28,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AddContact", urlPatterns = {"/contact.add"})
 public class AddContact extends HttpServlet {
 
-    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -82,9 +83,13 @@ public class AddContact extends HttpServlet {
                     
                     String name = jobject.get("name").getAsString();
                     String altName = jobject.get("altname").getAsString();
+                    
                     //to be removed!!!!
-                    String userName = jobject.get("username").getAsString();
-                    String passWord = jobject.get("password").getAsString();
+                    String uName = jobject.get("username").getAsString();
+                    String password = jobject.get("password").getAsString();
+                    password = PasswordHash.hashPassword(password);
+                    //to be removed!!!!
+                    
                     String contactType = jobject.get("contacttype").getAsString();
                     String otherExplanation = jobject.get("explainifother").getAsString();
                     String profession = jobject.get("profession").getAsString();
@@ -103,7 +108,7 @@ public class AddContact extends HttpServlet {
 
                     Date dob = null;
                     try {
-                        dob = sdf.parse(dateOfBirth);
+                        dob = date.parse(dateOfBirth);
                     } catch (ParseException e) {
                         e.printStackTrace();
                         json.addProperty("message", "failed");
@@ -114,7 +119,7 @@ public class AddContact extends HttpServlet {
 
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
-                            jobTitle, nric, gender, nationality, dob);
+                            jobTitle, nric, gender, nationality, dob, remarks,uName, password);
 
                     int newContactId = ContactDAO.addContact(newContact);
 

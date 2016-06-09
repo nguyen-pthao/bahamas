@@ -28,17 +28,21 @@ public class AddressDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO ADDRESS (CONTACT_ID,"
-                    + "DATE_CREATED,CREATED_BY,ADDRESS,COUNTRY,ZIPCODE,REMARKS)"
-                    + " VALUES (?,?,?,?,?,?,?)");
+                    + "DATE_CREATED,CREATED_BY,ADDRESS,COUNTRY,ZIPCODE,REMARKS,DATE_OBSOLETE)"
+                    + " VALUES (?,?,?,?,?,?,?,?)");
 
             stmt.setInt(1, a.getContact().getContactId());
-            stmt.setDate(2, new java.sql.Date(a.getDateCreated().getTime()));
+            stmt.setTimestamp(2, new java.sql.Timestamp(a.getDateCreated().getTime()));
             stmt.setString(3, a.getCreatedBy());
             stmt.setString(4, a.getAddress());
             stmt.setString(5, a.getCountry());
             stmt.setInt(6, a.getZipcode());
-            stmt.setString(7,a.getRemarks());
-
+            stmt.setString(7, a.getRemarks());
+            
+            if (a.getDateObsolete() != null) {
+                stmt.setDate(8, new java.sql.Date(a.getDateObsolete().getTime()));
+            }
+            
             result = stmt.executeUpdate();
 
             return result == 1;

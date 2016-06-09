@@ -30,6 +30,17 @@ public class Address {
         this.createdBy = createdBy;
     }
 
+   
+      public Address(Contact contact, String country, int zipcode, String address, String createdBy, String remarks, Date dateObsolete) {
+        this.contact = contact;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.country = country;
+        this.createdBy = createdBy;
+        this.remarks = remarks;
+        this.dateObsolete = dateObsolete;
+    }
+    
     
     public Contact getContact() {
         return contact;

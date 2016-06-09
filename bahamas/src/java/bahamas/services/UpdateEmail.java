@@ -6,9 +6,9 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
-import bahamas.entity.Contact;
-import bahamas.entity.Phone;
+import bahamas.entity.*;
 import bahamas.util.Authenticator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,11 +31,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author huxley.goh
  */
-@WebServlet(name = "UpdatePhone", urlPatterns = {"/phone.update"})
-public class UpdatePhone extends HttpServlet {
+@WebServlet(name = "UpdateEmail", urlPatterns = {"/email.update"})
+public class UpdateEmail extends HttpServlet {
 
-      private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
-
+     private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -49,6 +48,8 @@ public class UpdatePhone extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -89,16 +90,15 @@ public class UpdatePhone extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                    Phone newPhone = null;
 
                     //Verification for add additional phone details (OWNSELF)
                     if (c == null || !c.getUsername().equals(username)) {
                         json.addProperty("message", "failed");
                         out.println(gson.toJson(json));
+                        return;
                     } else {
-                        int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
-                        int phoneNumber = jobject.get("phonenumber").getAsInt();
-                        String phoneRemarks = jobject.get("phoneremarks").getAsString();                    
+                        String email = jobject.get("email").getAsString();
+                        String emailRemarks = jobject.get("emailremarks").getAsString();
 
                         Date dateObsolete = null;
                         try {
@@ -110,9 +110,9 @@ public class UpdatePhone extends HttpServlet {
                             return;
                         }
 
-                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks,dateObsolete);
+                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
 
-                        if (PhoneDAO.addPhone(newPhone)) {
+                        if (EmailDAO.addEmail(newEmail)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
@@ -128,7 +128,7 @@ public class UpdatePhone extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

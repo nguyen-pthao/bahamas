@@ -21,7 +21,7 @@ public class Phone {
     private String createdBy;
     private Date dateObsolete;
 
-    public Phone(Contact contact,int countryCode, int phoneNumber, String createdBy) {
+    public Phone(Contact contact, int countryCode, int phoneNumber, String createdBy) {
         this.contact = contact;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
@@ -29,16 +29,16 @@ public class Phone {
 
     }
 
-    public Phone(Contact contact, int countryCode, int phoneNumber, String remarks, String createdBy) {
+    public Phone(Contact contact, int countryCode, int phoneNumber, String createdBy, String remarks, Date dateObsolete ) {
         this.contact = contact;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
         this.remarks = remarks;
         this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
+            
     }
 
-    
-    
     public Contact getContact() {
         return contact;
     }
@@ -47,8 +47,6 @@ public class Phone {
         this.contact = contact;
     }
 
-    
-    
     public Date getDateCreated() {
         return dateCreated;
     }
