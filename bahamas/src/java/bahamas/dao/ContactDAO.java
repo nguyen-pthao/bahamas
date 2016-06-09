@@ -41,7 +41,7 @@ public class ContactDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
+            stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,ISNOVICE,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                     + "from CONTACT");
@@ -54,24 +54,25 @@ public class ContactDAO {
                 String username = rs.getString(3);
                 String password = rs.getString(4);
                 boolean isAdmin = rs.getBoolean(5);
-                boolean deactivated = rs.getBoolean(6);
-                String dateStr = rs.getString(7);
+                boolean isNovice = rs.getBoolean(6);
+                boolean deactivated = rs.getBoolean(7);
+                String dateStr = rs.getString(8);
                 Date dateCreated = datetime.parse(dateStr);
-                String createdBy = rs.getString(8);
-                String name = rs.getString(9);
-                String altName = rs.getString(10);
-                String explainIfOther = rs.getString(11);
-                String profession = rs.getString(12);
-                String jobTitle = rs.getString(13);
-                String nric = rs.getString(14);
-                String gender = rs.getString(15);
-                String nationality = rs.getString(16);
-                Date dateOfBirth = date.parse(rs.getString(17));
-                String profilePic = rs.getString(18);
-                String remarks = rs.getString(19);
-                boolean notification = rs.getBoolean(20);
+                String createdBy = rs.getString(9);
+                String name = rs.getString(10);
+                String altName = rs.getString(11);
+                String explainIfOther = rs.getString(12);
+                String profession = rs.getString(13);
+                String jobTitle = rs.getString(14);
+                String nric = rs.getString(15);
+                String gender = rs.getString(16);
+                String nationality = rs.getString(17);
+                Date dateOfBirth = date.parse(rs.getString(18));
+                String profilePic = rs.getString(19);
+                String remarks = rs.getString(20);
+                boolean notification = rs.getBoolean(21);
 
-                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, isNovice , deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 contactList.add(contact);
 
             }
@@ -94,7 +95,7 @@ public class ContactDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,ISNOVICE,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                     + "FROM CONTACT WHERE USERNAME = (?)");
@@ -108,24 +109,25 @@ public class ContactDAO {
                 String username = rs.getString(3);
                 String password = rs.getString(4);
                 boolean isAdmin = rs.getBoolean(5);
-                boolean deactivated = rs.getBoolean(6);
-                String dateStr = rs.getString(7);
+                boolean isNovice = rs.getBoolean(6);
+                boolean deactivated = rs.getBoolean(7);
+                String dateStr = rs.getString(8);
                 Date dateCreated = datetime.parse(dateStr);
-                String createdBy = rs.getString(8);
-                String name = rs.getString(9);
-                String altName = rs.getString(10);
-                String explainIfOther = rs.getString(11);
-                String profession = rs.getString(12);
-                String jobTitle = rs.getString(13);
-                String nric = rs.getString(14);
-                String gender = rs.getString(15);
-                String nationality = rs.getString(16);
-                Date dateOfBirth = date.parse(rs.getString(17));
-                String profilePic = rs.getString(18);
-                String remarks = rs.getString(19);
-                boolean notification = rs.getBoolean(20);
+                String createdBy = rs.getString(9);
+                String name = rs.getString(10);
+                String altName = rs.getString(11);
+                String explainIfOther = rs.getString(12);
+                String profession = rs.getString(13);
+                String jobTitle = rs.getString(14);
+                String nric = rs.getString(15);
+                String gender = rs.getString(16);
+                String nationality = rs.getString(17);
+                Date dateOfBirth = date.parse(rs.getString(18));
+                String profilePic = rs.getString(19);
+                String remarks = rs.getString(20);
+                boolean notification = rs.getBoolean(21);
 
-                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 return contact;
             }
         } catch (ParseException e) {
@@ -148,7 +150,7 @@ public class ContactDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,"
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,ISNOVICE,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                     + "FROM CONTACT WHERE CONTACT_ID = (?)");
@@ -162,24 +164,25 @@ public class ContactDAO {
                 String username = rs.getString(3);
                 String password = rs.getString(4);
                 boolean isAdmin = rs.getBoolean(5);
-                boolean deactivated = rs.getBoolean(6);
-                String dateStr = rs.getString(7);
+                boolean isNovice = rs.getBoolean(6);
+                boolean deactivated = rs.getBoolean(7);
+                String dateStr = rs.getString(8);
                 Date dateCreated = datetime.parse(dateStr);
-                String createdBy = rs.getString(8);
-                String name = rs.getString(9);
-                String altName = rs.getString(10);
-                String explainIfOther = rs.getString(11);
-                String profession = rs.getString(12);
-                String jobTitle = rs.getString(13);
-                String nric = rs.getString(14);
-                String gender = rs.getString(15);
-                String nationality = rs.getString(16);
-                Date dateOfBirth = date.parse(rs.getString(17));
-                String profilePic = rs.getString(18);
-                String remarks = rs.getString(19);
-                boolean notification = rs.getBoolean(20);
+                String createdBy = rs.getString(9);
+                String name = rs.getString(10);
+                String altName = rs.getString(11);
+                String explainIfOther = rs.getString(12);
+                String profession = rs.getString(13);
+                String jobTitle = rs.getString(14);
+                String nric = rs.getString(15);
+                String gender = rs.getString(16);
+                String nationality = rs.getString(17);
+                Date dateOfBirth = date.parse(rs.getString(18));
+                String profilePic = rs.getString(19);
+                String remarks = rs.getString(20);
+                boolean notification = rs.getBoolean(21);
 
-                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                Contact contact = new Contact(contactId, contactType, username, password, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
                 return contact;
             }
         } catch (ParseException e) {
