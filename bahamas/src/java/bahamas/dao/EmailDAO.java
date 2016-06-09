@@ -39,6 +39,8 @@ public class EmailDAO {
 
             if (e.getDateObsolete() != null) {
                 stmt.setDate(6, new java.sql.Date(e.getDateObsolete().getTime()));
+            }else {
+                stmt.setDate(6, null);
             }
             
             result = stmt.executeUpdate();

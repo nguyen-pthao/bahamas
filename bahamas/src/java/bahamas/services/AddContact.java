@@ -109,12 +109,10 @@ public class AddContact extends HttpServlet {
                     Date dob = null;
                     try {
                         dob = date.parse(dateOfBirth);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                        json.addProperty("message", "failed");
-                        out.println(gson.toJson(json));
-                        return;
+                    } catch (Exception e) {
+                        e.printStackTrace();                       
                     }
+                    
                     //Validation of fields
 
                     //Create new contact object

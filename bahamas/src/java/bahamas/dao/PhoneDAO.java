@@ -43,10 +43,12 @@ public class PhoneDAO {
             stmt.setInt(4, p.getCountryCode());
             stmt.setInt(5, p.getPhoneNumber());
             stmt.setString(6, p.getRemarks());
-            
-            if(p.getDateObsolete() != null){
+
+            if (p.getDateObsolete() != null) {
                 stmt.setDate(7, new java.sql.Date(p.getDateObsolete().getTime()));
-            }   
+            } else {
+                stmt.setDate(7, null);
+            }
 
             result = stmt.executeUpdate();
 

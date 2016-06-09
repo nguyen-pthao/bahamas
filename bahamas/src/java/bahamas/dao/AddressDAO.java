@@ -38,11 +38,13 @@ public class AddressDAO {
             stmt.setString(5, a.getCountry());
             stmt.setInt(6, a.getZipcode());
             stmt.setString(7, a.getRemarks());
-            
+
             if (a.getDateObsolete() != null) {
                 stmt.setDate(8, new java.sql.Date(a.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(8, null);
             }
-            
+
             result = stmt.executeUpdate();
 
             return result == 1;

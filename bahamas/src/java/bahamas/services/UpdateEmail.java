@@ -100,14 +100,11 @@ public class UpdateEmail extends HttpServlet {
                         String email = jobject.get("email").getAsString();
                         String emailRemarks = jobject.get("emailremarks").getAsString();
 
-                        Date dateObsolete = null;
+                         Date dateObsolete = null;
                         try {
                             dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            json.addProperty("message", "failed");
-                            out.println(gson.toJson(json));
-                            return;
+                        } catch (Exception e) {
+                            e.printStackTrace();                                             
                         }
 
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);

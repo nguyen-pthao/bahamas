@@ -103,11 +103,8 @@ public class UpdatePhone extends HttpServlet {
                         Date dateObsolete = null;
                         try {
                             dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (ParseException e) {
-                            e.printStackTrace();
-                            json.addProperty("message", "failed");
-                            out.println(gson.toJson(json));
-                            return;
+                        } catch (Exception e) {
+                            e.printStackTrace();                                             
                         }
 
                         newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks,dateObsolete);

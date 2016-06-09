@@ -106,14 +106,11 @@ public class UpdateAddress extends HttpServlet {
                         Date dateObsolete = null;
                         try {
                             dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (ParseException e) {
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            json.addProperty("message", "failed");
-                            out.println(gson.toJson(json));
-                            return;
                         }
 
-                        Address newAddress = new Address(c, country, zipCode, address, 
+                        Address newAddress = new Address(c, country, zipCode, address,
                                 username, addressRemarks, dateObsolete);
 
                         if (AddressDAO.addAddress(newAddress)) {
