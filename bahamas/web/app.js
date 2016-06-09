@@ -39,17 +39,22 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/addContact',
                 templateUrl: 'app/views/contact/createContact.html',
                 controller: 'createContact'
-            });
+            })
+            .state('admin.viewContacts', {
+                url: '/viewContacts',
+                templateUrl: 'app/views/contact/viewContacts.html',
+                controller: 'viewContacts'
+            })
 });
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
         $rootScope.$on('$stateChangeStart', function (event, targetScope) {
-            if(targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')){
+            if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
                 event.preventDefault();
                 session.terminateSession();
                 $state.go('login');
             }
-            if(targetScope.url === '/admin' && (session.getSession('userType') !== 'admin')){
+            if (targetScope.url === '/admin' && (session.getSession('userType') !== 'admin')) {
                 event.preventDefault();
                 session.terminateSession();
                 $state.go('login');
