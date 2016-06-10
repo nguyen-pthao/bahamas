@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.AuditLog;
 import bahamas.entity.Contact;
@@ -113,12 +114,22 @@ public class Login extends HttpServlet {
                             JsonArray jsonTeamObjList = new JsonArray();
                             //JsonObject jsonTeamObj = new JsonObject();
                             
-                            if (contact.isIsAdmin()) {
+                            if(contact.isIsNovice()){
+                                json.addProperty("userType", "novice");
+                            } else if (contact.isIsAdmin()) {
                                 json.addProperty("userType", "admin");
                             } else {
-                                json.addProperty("userType", "I will update you guys later");
-                            }
+                                //Check if user is Team Leader, Event leader or Associate
+                                if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")){
+                                    json.addProperty("userType", "teammanager");
+                                }else if (RoleCheckDAO.checkRole(contact.getContactId(), "Event leader")) {
+                                    json.addProperty("userType", "eventleader");
+                                }else if (RoleCheckDAO.checkRole(contact.getContactId(), "Associate")) {
+                                    json.addProperty("userType", "associate");
+                                }
 
+                            }
+                            jsonContactObj.addProperty("cid", contact.getContactId());
                             jsonContactObj.addProperty("contactType", contact.getContactType());
                             jsonContactObj.addProperty("dateCreated", sdf.format(contact.getDateCreated()));
                             jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
@@ -133,7 +144,7 @@ public class Login extends HttpServlet {
                             jsonContactObj.addProperty("dateOfBirth", sdf.format(contact.getDateOfBirth()));
                             jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                             jsonContactObj.addProperty("remarks", contact.getRemarks());
-                            json.add("contact", jsonContactObj);
+                            //json.add("contact", jsonContactObj);
                             
                             if(teamJoinList != null && !teamJoinList.isEmpty()){
                                 Iterator iter = teamJoinList.iterator();
@@ -151,12 +162,13 @@ public class Login extends HttpServlet {
                                         jsonTeamObj.addProperty("dateObsolete",sdf.format(teamjoin.getDateObsolete()));
                                     }
                                     jsonTeamObjList.add(jsonTeamObj);
-                                    
+                                    jsonContactObj.add("teams", jsonTeamObjList);
                                 }
-                                json.add("teams", jsonTeamObjList);
+                                //json.add("teams", jsonTeamObjList);
+                                
                             }
                             
-                            
+                            json.add("contact", jsonContactObj);
                             out.println(gson.toJson(json));
                             return;
                         }
