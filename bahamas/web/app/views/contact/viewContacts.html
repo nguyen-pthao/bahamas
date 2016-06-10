@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px" id="add-new-contact">
+        <div class="content-wrapper" style="margin:0px" id="view-all-contacts">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -19,7 +19,8 @@ and open the template in the editor.
             <!-- Main content -->
             <section class="content">
                 <!-- Default box -->
-                <div class="box">
+                <!-- view contact starts -->
+                <div class="box" ng-init="retrieveAllContacts()">
                     <div class="box-header with-border">
                         <h3 class="box-title"> VIEW ALL CONTACTS </h3>
                         <div class="box-tools pull-right">
@@ -27,13 +28,63 @@ and open the template in the editor.
                                 <i class="fa fa-minus"></i></button>
                         </div>
                     </div>
-                </div>
-                <!-- view contact starts -->
-                    
-                <!-- view contact ends -->
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        
+                            <div>
+                                <label>
+                                  Show
+                                <select class="form-control" ng-model="itemsPerPage">
+                                    <option>1</option>
+                                    <option>3</option>
+                                    <option>5</option>
+                                    <option>7</option>
+                                    <option>9</option>
+                                    <option>All</option>
+                                </select>
+                                  Contacts
+                                </label>
+                            </div>
+                        
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="contactHeader in allContactObjectKeys">{{contactHeader}}</th>
+                                    <th></th>
+                                </tr>
+                                <!--                                <tr ng-repeat="contactHeader in allContactObjectKeys">
+                                                                    <th>{{contactHeader}}</th>
+                                                                </tr>-->
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="contact in filteredContacts">
+                                    <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
+                                    <td><a ui-sref="admin.addContact"><i class="fa fa-edit"></i></a><span> </span><a ui-sref="admin.addContact"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th ng-repeat="contactHeader in allContactObjectKeys">{{contactHeader}}</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div>
+                            <div style='float: right'>
+                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                            </div>
+                            <br/>
+                            <div style='float: left'>
+                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- view contact ends -->
             </section>
             <!-- /.content -->
         </div>
+
+
         <script>
             $(document).ready(function () {
                 $('#contact-date-of-birth-picker').datepicker({

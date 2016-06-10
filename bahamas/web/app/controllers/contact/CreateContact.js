@@ -68,8 +68,6 @@ app.controller('createContact', ['$scope', '$http', '$location', 'session', '$wi
                         });
                     });
                     $scope.newCountryName = x;
-  
-                  
                 };
             });
         };
