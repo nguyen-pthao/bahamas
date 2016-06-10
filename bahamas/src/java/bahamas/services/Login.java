@@ -97,10 +97,12 @@ public class Login extends HttpServlet {
 
                     ContactDAO contactDAO = new ContactDAO();
                     Contact contact = contactDAO.retrieveContactByUsername(username);
-                    teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(username);
-                    contact.setTeamJoinList(teamJoinList);
-                    
+  
                     if (contact != null) {
+                        
+                        teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(username);
+                        contact.setTeamJoinList(teamJoinList);
+                        
                         password = PasswordHash.hashPassword(password);
                         String serverPassword = contact.getPassword();
                         if (serverPassword.equals(password) && !contact.isDeactivated()) {
