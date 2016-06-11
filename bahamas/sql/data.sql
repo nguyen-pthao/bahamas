@@ -137,26 +137,28 @@ insert into TEAM_AFFILIATION_LIST(TEAM_NAME, DESCRIPTION) value
 
 
 #CONTACT
-insert into CONTACT(CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,ISADMIN,ISNOVICE,DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION) value
-(1, 'TWC2', 'admin1', '7c222fb2927d828af22f592134e8932480637c0d', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'Thao1', 'Cool Thao1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
-(2, 'TWC2', 'admin2', '7c222fb2927d828af22f592134e8932480637c0d', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'Thao2', 'Cool Thao2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
-(3, 'Religious', 'teammanager1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'tan1', 'Cool tan1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
-(4, 'Media local', 'teammanager2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'tan2', 'Cool tan2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
-(5, 'Educational', 'eventleader1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Goh1', 'Cool Goh1', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 1),
-(6, 'Employer', 'eventleader2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Goh2', 'Cool Goh2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
-(7, 'Event services', 'associate1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Mok1', 'Cool Mok1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
-(8, 'Government-linked', 'associate2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Mok2', 'Cool Mok2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
-(9, 'Legal', 'novice1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 1, 0, '2016-05-24 23:00:00', 'admin', 'Ong1', 'Cool Ong1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
-(10, 'Medical', 'novice2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 1, 0, '2016-05-24 23:00:00', 'admin', 'Ong2', 'Cool Ong2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0);
+insert into CONTACT(CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION) value
+(1, 'TWC2', 'admin1', 'GwvbMoaGY9yVMnOiMfujehEdmE7jLDXX8DZAM1uUcTw=','1/rqffBv5u4=', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'Thao1', 'Cool Thao1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1);
+
+#(2, 'TWC2', 'admin2', '7c222fb2927d828af22f592134e8932480637c0d', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'Thao2', 'Cool Thao2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
+#(3, 'Religious', 'teammanager1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'tan1', 'Cool tan1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
+#(4, 'Media local', 'teammanager2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'tan2', 'Cool tan2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
+#(5, 'Educational', 'eventleader1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Goh1', 'Cool Goh1', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 1),
+#(6, 'Employer', 'eventleader2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Goh2', 'Cool Goh2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
+#(7, 'Event services', 'associate1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Mok1', 'Cool Mok1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
+#(8, 'Government-linked', 'associate2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'Mok2', 'Cool Mok2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
+#(9, 'Legal', 'novice1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 1, 0, '2016-05-24 23:00:00', 'admin', 'Ong1', 'Cool Ong1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
+#(10, 'Medical', 'novice2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 1, 0, '2016-05-24 23:00:00', 'admin', 'Ong2', 'Cool Ong2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0);
 
 #TEAM_JOIN
 insert into TEAM_JOIN(CONTACT_ID, TEAM_NAME, DATE_CREATED, CREATED_BY, EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, REMARKS,PERMISSION) value
-(3, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Team manager'),
-(4, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Team manager'),
-(5, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Event leader'),
-(6, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Event leader'),
-(7, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Associate'),
-(8, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Associate');
+(1, 'Lifeline', '2016-05-24', 'admin1' , '', '', NULL, '', 'Team manager');
+
+#(4, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Team manager'),
+#(5, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Event leader'),
+#(6, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Event leader'),
+#(7, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Associate'),
+#(8, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Associate');
 
 
 

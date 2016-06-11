@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -44,7 +44,8 @@ public class Login extends HttpServlet {
     private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -57,7 +58,7 @@ public class Login extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            
+
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
             try {
@@ -86,7 +87,7 @@ public class Login extends HttpServlet {
                 String username = jobject.get("username").getAsString();
                 String password = jobject.get("password").getAsString();
                 ArrayList<TeamJoin> teamJoinList;
-                
+
                 if (username == null || password == null) {
                     json.addProperty("status", "error");
                     json.addProperty("messages", "invalid username/password");
@@ -97,15 +98,14 @@ public class Login extends HttpServlet {
 
                     ContactDAO contactDAO = new ContactDAO();
                     Contact contact = contactDAO.retrieveContactByUsername(username);
-  
+
                     if (contact != null) {
-                        
+
                         teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(username);
                         contact.setTeamJoinList(teamJoinList);
-                        
-                        password = PasswordHash.hashPassword(password);
-                        String serverPassword = contact.getPassword();
-                        if (serverPassword.equals(password) && !contact.isDeactivated()) {
+                      
+                        if (PasswordHash.verify(password, contact.getPassword(), contact.getSalt()) 
+                                && !contact.isDeactivated()) {
 
                             AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
 
@@ -115,21 +115,18 @@ public class Login extends HttpServlet {
                             JsonObject jsonContactObj = new JsonObject();
                             JsonArray jsonTeamObjList = new JsonArray();
                             //JsonObject jsonTeamObj = new JsonObject();
-                            
-                            if(contact.isIsNovice()){
+
+                            if (contact.isIsNovice()) {
                                 json.addProperty("userType", "novice");
                             } else if (contact.isIsAdmin()) {
                                 json.addProperty("userType", "admin");
-                            } else {
-                                //Check if user is Team Leader, Event leader or Associate
-                                if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")){
-                                    json.addProperty("userType", "teammanager");
-                                }else if (RoleCheckDAO.checkRole(contact.getContactId(), "Event leader")) {
-                                    json.addProperty("userType", "eventleader");
-                                }else if (RoleCheckDAO.checkRole(contact.getContactId(), "Associate")) {
-                                    json.addProperty("userType", "associate");
-                                }
-
+                            } else //Check if user is Team Leader, Event leader or Associate
+                            if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")) {
+                                json.addProperty("userType", "teammanager");
+                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Event leader")) {
+                                json.addProperty("userType", "eventleader");
+                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Associate")) {
+                                json.addProperty("userType", "associate");
                             }
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             jsonContactObj.addProperty("contactType", contact.getContactType());
@@ -147,29 +144,29 @@ public class Login extends HttpServlet {
                             jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                             jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
-                            
-                            if(teamJoinList != null && !teamJoinList.isEmpty()){
+
+                            if (teamJoinList != null && !teamJoinList.isEmpty()) {
                                 Iterator iter = teamJoinList.iterator();
-                                while(iter.hasNext()){
+                                while (iter.hasNext()) {
                                     JsonObject jsonTeamObj = new JsonObject();
-                                    TeamJoin teamjoin = (TeamJoin)iter.next();
-                                    jsonTeamObj.addProperty("teamName",teamjoin.getTeamName());
-                                    jsonTeamObj.addProperty("permission",teamjoin.getPermission());
-                                    jsonTeamObj.addProperty("subTeam",teamjoin.getSubTeam());
-                                    jsonTeamObj.addProperty("explainIfOthers",teamjoin.getExplainIfOthers());
-                                    jsonTeamObj.addProperty("createdBy",teamjoin.getCreatedBy());
-                                    jsonTeamObj.addProperty("dateCreated",sdf.format(teamjoin.getDateCreated()));
-                                    jsonTeamObj.addProperty("remarks",teamjoin.getRemarks());
-                                    if(teamjoin.getDateObsolete() != null){
-                                        jsonTeamObj.addProperty("dateObsolete",sdf.format(teamjoin.getDateObsolete()));
+                                    TeamJoin teamjoin = (TeamJoin) iter.next();
+                                    jsonTeamObj.addProperty("teamName", teamjoin.getTeamName());
+                                    jsonTeamObj.addProperty("permission", teamjoin.getPermission());
+                                    jsonTeamObj.addProperty("subTeam", teamjoin.getSubTeam());
+                                    jsonTeamObj.addProperty("explainIfOthers", teamjoin.getExplainIfOthers());
+                                    jsonTeamObj.addProperty("createdBy", teamjoin.getCreatedBy());
+                                    jsonTeamObj.addProperty("dateCreated", sdf.format(teamjoin.getDateCreated()));
+                                    jsonTeamObj.addProperty("remarks", teamjoin.getRemarks());
+                                    if (teamjoin.getDateObsolete() != null) {
+                                        jsonTeamObj.addProperty("dateObsolete", sdf.format(teamjoin.getDateObsolete()));
                                     }
                                     jsonTeamObjList.add(jsonTeamObj);
                                     jsonContactObj.add("teams", jsonTeamObjList);
                                 }
                                 //json.add("teams", jsonTeamObjList);
-                                
+
                             }
-                            
+
                             json.add("contact", jsonContactObj);
                             out.println(gson.toJson(json));
                             return;

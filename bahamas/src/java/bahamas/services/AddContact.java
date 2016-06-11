@@ -46,7 +46,7 @@ public class AddContact extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            
+
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
             try {
@@ -80,16 +80,26 @@ public class AddContact extends HttpServlet {
 
                 } else {
                     //Verified token
-                    
+
                     String name = jobject.get("name").getAsString();
                     String altName = jobject.get("altname").getAsString();
-                    
+
                     //to be removed!!!!
                     String uName = jobject.get("username").getAsString();
                     String password = jobject.get("password").getAsString();
-                    password = PasswordHash.hashPassword(password);
+                    String confirmPassword = jobject.get("confirmpassword").getAsString();
+
+                    if (!password.equals(confirmPassword)) {
+                        json.addProperty("message", "failed");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
+                    String[] store = PasswordHash.getHashAndSalt(password);
+                    password = store[0];
+                    String salt = store[1];
                     //to be removed!!!!
-                    
+
                     String contactType = jobject.get("contacttype").getAsString();
                     String otherExplanation = jobject.get("explainifother").getAsString();
                     String profession = jobject.get("profession").getAsString();
@@ -110,14 +120,13 @@ public class AddContact extends HttpServlet {
                     try {
                         dob = date.parse(dateOfBirth);
                     } catch (Exception e) {
-                        e.printStackTrace();                       
+                        e.printStackTrace();
                     }
-                    
-                    //Validation of fields
 
+                    //Validation of fields
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
-                            jobTitle, nric, gender, nationality, dob, remarks,uName, password);
+                            jobTitle, nric, gender, nationality, dob, remarks, uName, password, salt);
 
                     int newContactId = ContactDAO.addContact(newContact);
 
@@ -139,6 +148,7 @@ public class AddContact extends HttpServlet {
 
                         if (addPhone && addEmail && addAddress) {
                             json.addProperty("message", "success");
+                            json.addProperty("id", String.valueOf(newContactId));
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "failed");
