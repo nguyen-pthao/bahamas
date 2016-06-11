@@ -36,7 +36,6 @@ app.controller('createContact',
             function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage) {
 
                 $scope.backHome = function () {
-//                    $location.path('/homepage');
                       $state.go('admin.homepage');
                 };
 

@@ -8,16 +8,27 @@
 
 var app = angular.module('bahamas');
 
-app.controller('viewContacts', ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', function ($scope, $http, $location, session, $window, $state, $log) {
-        
+app.controller('viewContacts', 
+['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts', 
+    function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts) {
+
         $scope.backHome = function () {
-                      $state.go('admin.homepage');
-                };
-        
+            $state.go('admin.homepage');
+        };
+
         $scope.retrieveAllContacts = function () {
-            var url = "http://localhost:8084/bahamas/contact.retrieve";
+            console.log(angular.fromJson(session.getSession('contact')));
+            console.log(angular.fromJson(session.getSession('teams')));
+            var contactToRetrieve = {
+                'token': session.getSession('token'),
+                'cid': angular.fromJson(session.getSession('contact')).cid.toString(),
+                'teamname': angular.fromJson(session.getSession('teams'))[0].teamName,
+                'permission': 'admin'
+            };
+            console.log(contactToRetrieve);
             var allContactObjKey = [];
-            $http.get(url).then(function (response) {
+            loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
+                console.log(response);
                 $scope.allContactInfo = response.data.contact;
                 var firstContactObject = $scope.allContactInfo[0];
                 for (contactHeader in firstContactObject) {
