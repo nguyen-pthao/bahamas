@@ -45,6 +45,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
+            .state('admin.homepage', {
+                url: '/homepage',
+                templateUrl: 'app/views/homepage.html'
+            })
 });
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {

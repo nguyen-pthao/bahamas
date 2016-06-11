@@ -9,7 +9,11 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts', ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', function ($scope, $http, $location, session, $window, $state, $log) {
-
+        
+        $scope.backHome = function () {
+                      $state.go('admin.homepage');
+                };
+        
         $scope.retrieveAllContacts = function () {
             var url = "http://localhost:8084/bahamas/contact.retrieve";
             var allContactObjKey = [];
