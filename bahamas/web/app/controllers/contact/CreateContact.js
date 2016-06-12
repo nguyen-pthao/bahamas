@@ -92,11 +92,14 @@ app.controller('createContact',
                         };
                     });
                 };
-
-                $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]';
-                //notice that \d won't work but \\d
+                $scope.nameRegex = '[A-Za-z ]{0,50}';
+                $scope.professionRegex = '[A-Za-z ]{0,50}';
+                $scope.jobtitleRegex = '[A-Za-z ]{0,50}';
+                $scope.nationalityRegex = '[A-Za-z ]{0,50}';
+                $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
+                $scope.zipcodeRegex = '[0-9]\\d{0,19}';
 
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
