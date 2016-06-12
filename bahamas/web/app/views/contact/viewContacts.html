@@ -45,16 +45,12 @@ and open the template in the editor.
                                 </select>
                             </div>
                             </div>
-                        
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th ng-repeat="contactHeader in allContactObjectKeys">{{contactHeader}}</th>
                                     <th ng-if="isAuthorised"></th>
                                 </tr>
-                                <!--                                <tr ng-repeat="contactHeader in allContactObjectKeys">
-                                                                    <th>{{contactHeader}}</th>
-                                                                </tr>-->
                             </thead>
                             <tbody>
                                 <tr ng-repeat="contact in filteredContacts">
