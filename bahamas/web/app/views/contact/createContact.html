@@ -168,8 +168,7 @@ and open the template in the editor.
                                                     || (contactForm.phonenumber.$invalid || contactForm.phonenumber.$error.required || contactForm.phonenumber.$error.maxlength)
                                                     || (contactForm.email.$invalid || contactForm.email.$error.required || contactForm.email.$error.maxlength)
                                                     || (contactForm.address.$error.required || contactForm.address.$error.maxlength)
-                                                    || (contactForm.nationality.$invalid)
-                                        "
+                                                    || (contactForm.nationality.$invalid) || submitted"
                                         class="btn btn-primary" data-toggle="modal" data-target="#additionalForm">
                                             Save new contact
                                     </button></center>

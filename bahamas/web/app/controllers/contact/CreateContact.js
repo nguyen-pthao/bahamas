@@ -130,7 +130,7 @@ app.controller('createContact',
                     deliver: '',
                     contactId: ''
                 };
-
+                $scope.submitted = false;
                 $scope.submitContactInfo = function () {
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/contact.add";
@@ -145,6 +145,7 @@ app.controller('createContact',
                         console.log(response.message);
                         //TO BE MODIFIED
                         if (response.message == 'success') {
+                            $scope.submitted = true;
                             $scope.result.message = true;
                             $scope.result.deliver = 'Thank you very much for your time. Would you like to add additional information to your contact?';
                             $scope.result.contactId = response.id;
