@@ -9,7 +9,7 @@ var app = angular.module('bahamas');
 app.service('loadCountries', ['$http', function($http){
     this.retrieveCountries = function(){
         return $http({
-            method: 'GET',
+            method: 'POST',
             url: "https://restcountries.eu/rest/v1/all"
         });
     };

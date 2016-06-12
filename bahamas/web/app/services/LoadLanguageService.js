@@ -10,7 +10,7 @@ var app = angular.module('bahamas');
 app.service('loadLanguage',['$http', '$location', function($http, $location){    
     this.retrieveLanguage = function(){
         return $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8084/bahamas/languagelist'
         });
     }; 

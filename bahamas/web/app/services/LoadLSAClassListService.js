@@ -6,11 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadContactType',['$http', function($http){    
-    this.retrieveContactType = function(){
+app.service('loadLSAClass',['$http', function($http){    
+    this.retrieveLSAClass = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/contacttypelist'
+            url: 'http://localhost:8084/bahamas/lsaclasslist'
         });
     }; 
 }]);
+

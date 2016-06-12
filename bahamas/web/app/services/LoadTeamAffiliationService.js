@@ -12,7 +12,7 @@ app.service('loadTeamAffiliation',['$http', '$location', function($http, $locati
 //    var retrieveUrl = location.origin + "/bahamas/teamaffiliationlist";
     this.retrieveTeamAffiliation = function(){
         return $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8084/bahamas/teamaffiliationlist'
         });
     }; 
