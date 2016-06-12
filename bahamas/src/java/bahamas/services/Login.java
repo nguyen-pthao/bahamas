@@ -41,7 +41,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "login", urlPatterns = {"/login"})
 public class Login extends HttpServlet {
 
-    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+    private SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+    private SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -130,7 +131,7 @@ public class Login extends HttpServlet {
                             }
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             jsonContactObj.addProperty("contactType", contact.getContactType());
-                            jsonContactObj.addProperty("dateCreated", sdf.format(contact.getDateCreated()));
+                            jsonContactObj.addProperty("dateCreated", datetime.format(contact.getDateCreated()));
                             jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
                             jsonContactObj.addProperty("name", contact.getName());
                             jsonContactObj.addProperty("altName", contact.getAltName());
@@ -140,7 +141,7 @@ public class Login extends HttpServlet {
                             jsonContactObj.addProperty("nric", contact.getNric());
                             jsonContactObj.addProperty("gender", contact.getGender());
                             jsonContactObj.addProperty("nationality", contact.getNationality());
-                            jsonContactObj.addProperty("dateOfBirth", sdf.format(contact.getDateOfBirth()));
+                            jsonContactObj.addProperty("dateOfBirth", date.format(contact.getDateOfBirth()));
                             jsonContactObj.addProperty("profilePic", contact.getProfilePic());
                             jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
@@ -155,10 +156,10 @@ public class Login extends HttpServlet {
                                     jsonTeamObj.addProperty("subTeam", teamjoin.getSubTeam());
                                     jsonTeamObj.addProperty("explainIfOthers", teamjoin.getExplainIfOthers());
                                     jsonTeamObj.addProperty("createdBy", teamjoin.getCreatedBy());
-                                    jsonTeamObj.addProperty("dateCreated", sdf.format(teamjoin.getDateCreated()));
+                                    jsonTeamObj.addProperty("dateCreated", datetime.format(teamjoin.getDateCreated()));
                                     jsonTeamObj.addProperty("remarks", teamjoin.getRemarks());
                                     if (teamjoin.getDateObsolete() != null) {
-                                        jsonTeamObj.addProperty("dateObsolete", sdf.format(teamjoin.getDateObsolete()));
+                                        jsonTeamObj.addProperty("dateObsolete", date.format(teamjoin.getDateObsolete()));
                                     }
                                     jsonTeamObjList.add(jsonTeamObj);
                                     jsonContactObj.add("teams", jsonTeamObjList);
