@@ -91,9 +91,8 @@ public class UpdateAddress extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-
-                    //Verification for add additional phone details (OWNSELF)
-                    if (c == null || !c.getUsername().equals(username)) {
+                  
+                    if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
