@@ -87,8 +87,9 @@ public class RetrieveAuditLog extends HttpServlet {
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 int cidTemp = Integer.parseInt(cidString);
                 
+                
                 if (cidTemp == contact.getContactId() && contact.isIsAdmin()){
-                    
+                    AuditLogDAO.insertAuditLog(contact.getUsername(), "AUDIT LOG", "Access audit log");
                     ArrayList<AuditLog> AuditLogList = AuditLogDAO.retrieveAllAuditLog();
                     json.addProperty("message", "success");
                     
