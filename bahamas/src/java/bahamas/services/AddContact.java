@@ -135,7 +135,7 @@ public class AddContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-
+                        AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId);
                         newContact.setContactId(newContactId);
                         //Create new phone/address/email object
                         Phone newPhone = new Phone(newContact, countryCode, phoneNumber, username);
@@ -147,7 +147,6 @@ public class AddContact extends HttpServlet {
                         boolean addAddress = AddressDAO.addAddress(newAddress);
 
                         if (addPhone && addEmail && addAddress) {
-                            AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId);
                             json.addProperty("message", "success");
                             json.addProperty("id", String.valueOf(newContactId));
                             out.println(gson.toJson(json));
