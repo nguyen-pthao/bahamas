@@ -34,6 +34,9 @@ app.controller('viewAuditLog',
                         $scope.itemsPerPage = $scope.allAuditInfo.length;
 
                         $scope.itemsPerPageChanged = function () {
+                            if($scope.itemsPerPage == 'toAll'){
+                                $scope.itemsPerPage = $scope.allAuditInfo.length;
+                            }
                             var total = $scope.totalItems / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
                             $scope.$watch('currentPage + itemsPerPage', function () {
