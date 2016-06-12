@@ -17,13 +17,14 @@ app.controller('viewContacts',
         };
 
         $scope.retrieveAllContacts = function () {
-            console.log(angular.fromJson(session.getSession('contact')));
-            console.log(angular.fromJson(session.getSession('teams')));
+//            console.log(angular.fromJson(session.getSession('contact')));
+//            console.log(angular.fromJson(session.getSession('teams')));
             var contactToRetrieve = {
                 'token': session.getSession('token'),
-                'cid': angular.fromJson(session.getSession('contact')).cid.toString(),
-                'teamname': angular.fromJson(session.getSession('teams'))[0].teamName,
-                'permission': 'admin'
+                'cid': angular.fromJson(session.getSession('contact')).cid,
+//                'teamname': angular.fromJson(session.getSession('teams'))[0].teamName,
+                'teamname': "",
+                'permission': session.getSession('userType')
             };
             console.log(contactToRetrieve);
             var allContactObjKey = [];

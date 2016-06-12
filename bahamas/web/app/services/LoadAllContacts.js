@@ -10,7 +10,7 @@ app.service('loadAllContacts',['$http', function($http){
         
     this.retrieveAllContacts = function(toRetrieve){
         return $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8084/bahamas/contact.retrieve',
             data: JSON.stringify(toRetrieve)
         });

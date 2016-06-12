@@ -149,7 +149,7 @@ app.controller('createContact',
                             $scope.result.contactId = response.id;
                         } else {
                             $scope.result.success = false;
-                            $scope.result.message = 'It seems that there is some error in your form.<br>We would be much appreciated if you could spend time checking through all the data again.';
+                            $scope.result.message = 'It seems that there is some error in your form.We would be much appreciated if you could spend time checking through all the data again.';
                         }
                     }).error(function () {
                         window.alert("Fail to send request!");
