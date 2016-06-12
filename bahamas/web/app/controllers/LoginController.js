@@ -27,7 +27,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                 headers: {'Content-Type': 'application/json'},
                 data: JSON.stringify($scope.user)
             }).success(function (response) {
-
+                console.log(response);
                 var returnedUser = response;
                 if (returnedUser.message === "success") {
                     authorisedUser.username = $scope.user.username;
@@ -43,7 +43,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                         var storeUserType = session.setSession('userType', authorisedUser.userType);
                         var storeContact = session.setSession('contact', angular.toJson(authorisedUser.contact));
                         var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
-                        var getUserType = session.getSession("usertype");
+                        var getUserType = session.getSession("userType");
                         $state.go(getUserType.toString());
                     }
                 } else {

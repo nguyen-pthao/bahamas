@@ -24,7 +24,7 @@ app.controller('viewContacts',
                 'cid': angular.fromJson(session.getSession('contact')).cid,
 //                'teamname': angular.fromJson(session.getSession('teams'))[0].teamName,
                 'teamname': "",
-                'permission': session.getSession('usertype')
+                'permission': session.getSession('userType')
             };
             console.log(contactToRetrieve);
             var allContactObjKey = [];
@@ -36,7 +36,7 @@ app.controller('viewContacts',
                     allContactObjKey.push(contactHeader);
                 }
                 $scope.isAuthorised = true;
-                $scope.userType = session.getSession('usertype');
+                $scope.userType = session.getSession('userType');
                 if($scope.userType === 'novice'){
                     $scope.isAuthorised = false;
                 }
