@@ -40,7 +40,7 @@ app.controller('createContact',
                 };
 
                 $scope.addContact = function () {
-                    $state.go('admin.addContact');
+                    $state.reload('admin.addContact');
                 };
 
                 $scope.loadContactTypeList = function () {
@@ -98,10 +98,10 @@ app.controller('createContact',
                         };
                     });
                 };
-                $scope.nameRegex = '[A-Za-z ]{0,50}';
-                $scope.professionRegex = '[A-Za-z ]{0,50}';
-                $scope.jobtitleRegex = '[A-Za-z ]{0,50}';
-                $scope.nationalityRegex = '[A-Za-z ]{0,50}';
+                $scope.nameRegex = '[A-Za-z ]{0,49}';
+                $scope.professionRegex = '[A-Za-z ]{0,49}';
+                $scope.jobtitleRegex = '[A-Za-z ]{0,49}';
+                $scope.nationalityRegex = '[A-Za-z ]{0,49}';
                 $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
@@ -163,7 +163,9 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+                
+//                $scope.subteamRegex = '[A-Za-z ]{0,49}';
+                
                 $scope.additionalContactInfo = {
                     phoneInfo: {
                         token: session.getSession("token"),
@@ -218,7 +220,132 @@ app.controller('createContact',
                         dateobsolete: ''
                     }
                 };
-
+                $scope.submittedPhone = false;
+                $scope.addPhone = function() {
+//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//          var url = "http://rms.twc2.org.sg/bahamas/phone.update";
+                    var url = "http://localhost:8084/bahamas/phone.update";
+                    console.log($scope.additionalContactInfo.phoneInfo);
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.additionalContactInfo.phoneInfo)
+                    }).success(function (response) {
+                        console.log(response);
+                        if(response.message == 'success'){
+                            $scope.submittedPhone = true;
+                        }
+                    }).error(function() {
+                        window.alert("Fail to send request!");
+                    }); 
+                };
+                
+                $scope.submittedEmail = false;
+                $scope.addEmail = function() {
+//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//          var url = "http://rms.twc2.org.sg/bahamas/email.update";
+                    var url = "http://localhost:8084/bahamas/email.update";
+                    console.log($scope.additionalContactInfo.emailInfo);
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.additionalContactInfo.emailInfo)
+                    }).success(function (response) {
+                        console.log(response);
+                        if(response.message == 'success'){
+                            $scope.submittedEmail = true;
+                        }
+                    }).error(function() {
+                        window.alert("Fail to send request!");
+                    }); 
+                };
+                
+                $scope.submittedAddress = false;
+                $scope.addAddress = function() {
+//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//          var url = "http://rms.twc2.org.sg/bahamas/address.update";
+                    var url = "http://localhost:8084/bahamas/address.update";
+                    console.log($scope.additionalContactInfo.addressInfo);
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.additionalContactInfo.addressInfo)
+                    }).success(function (response) {
+                        console.log(response);
+                        if(response.message == 'success'){
+                            $scope.submittedAddress = true;
+                        }
+                    }).error(function() {
+                        window.alert("Fail to send request!");
+                    }); 
+                };
+                
+                $scope.submittedTeam = false;
+                $scope.addTeam = function() {
+//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//          var url = "http://rms.twc2.org.sg/bahamas/";
+                    var url = "http://localhost:8084/bahamas/";
+                    console.log($scope.additionalContactInfo.teamInfo);
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.additionalContactInfo.teamInfo)
+                    }).success(function (response) {
+                        console.log(response);
+                        if(response.message == 'success'){
+                            $scope.submittedTeam = true;
+                        }
+                    }).error(function() {
+                        window.alert("Fail to send request!");
+                    }); 
+                };
+                
+                $scope.submittedLanguage = false;
+                $scope.addLanguage = function() {
+//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//          var url = "http://rms.twc2.org.sg/bahamas/language.update";
+                    var url = "http://localhost:8084/bahamas/language.update";
+                    console.log($scope.additionalContactInfo.languageInfo);
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.additionalContactInfo.languageInfo)
+                    }).success(function (response) {
+                        console.log(response);
+                        if(response.message == 'success'){
+                            $scope.submittedLanguage = true;
+                        }
+                    }).error(function() {
+                        window.alert("Fail to send request!");
+                    }); 
+                };
+                
+                $scope.submittedLSA = false;
+                $scope.addSkillasset = function() {
+//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
+//          var url = "http://rms.twc2.org.sg/bahamas/skill.update";
+                    var url = "http://localhost:8084/bahamas/skill.update";
+                    console.log($scope.additionalContactInfo.skillassetInfo);
+                    $http({
+                        method: 'POST',
+                        url: url,
+                        headers: {'Content-Type': 'application/json'},
+                        data: JSON.stringify($scope.additionalContactInfo.skillassetInfo)
+                    }).success(function (response) {
+                        console.log(response);
+                        if(response.message == 'success'){
+                            $scope.submittedLSA = true;
+                        }
+                    }).error(function() {
+                        window.alert("Fail to send request!");
+                    }); 
+                };
+                
             }]);
 
 
