@@ -164,12 +164,12 @@ and open the template in the editor.
                                                 <span aria-hidden="true"></span>
                                             </button>
                                             <h4 ng-hide="result.success" class="modal-title" id="modalLabel" style="color:red">Error</h4>
-                                            <h4 ng-show="result.success" class="modal-title" id="modalLabel">{{result.message}}</h4>
+                                            <h4 ng-show="result.success" class="modal-title" id="modalLabel">{{result.deliver}}</h4>
                                         </div>
-                                        <div class="modal-body" ng-hide="result.success">
-                                            {{result.message}}
+                                        <div class="modal-body" ng-hide="result.message">
+                                            {{result.deliver}}
                                         </div>
-                                        <div class="modal-body" ng-show="result.success">
+                                        <div class="modal-body" ng-show="result.message">
                                             <div class='box-group' id='accordion'>
                                                 <form name='additionalContactForm'>
                                                 <div class='panel box box-primary' style="border-top-color: #70103F">

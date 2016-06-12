@@ -37,8 +37,9 @@ app.controller('viewContacts',
                 }
                 $scope.allContactObjectKeys = allContactObjKey;
                 $scope.totalItems = $scope.allContactInfo.length;
+                var allItems = $scope.allContactInfo.length;
                 $scope.currentPage = 1;
-                $scope.itemsPerPage = "1";
+                $scope.itemsPerPage = allItems;
                 var total = $scope.totalItems / $scope.itemsPerPage;
                 $scope.totalPages = Math.ceil(total);
                 $scope.$watch('currentPage + itemsPerPage', function () {

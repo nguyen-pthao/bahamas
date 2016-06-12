@@ -125,8 +125,8 @@ app.controller('createContact',
                 };
 
                 $scope.result = {
-                    success: true,
-                    message: '',
+                    message: true,
+                    deliver: '',
                     contactId: ''
                 };
 
@@ -141,15 +141,15 @@ app.controller('createContact',
                         headers: {'Content-Type': 'application/json'},
                         data: JSON.stringify($scope.contactInfo)
                     }).success(function (response) {
-                        console.log(response.status);
+                        console.log(response.message);
                         //TO BE MODIFIED
-                        if (response.status == 'success') {
-                            $scope.result.success = true;
-                            $scope.result.message = 'Thank you very much for your time.<br>Would you like to add additional information to your contact?';
+                        if (response.message == 'success') {
+                            $scope.result.message = true;
+                            $scope.result.deliver = 'Thank you very much for your time.<br>Would you like to add additional information to your contact?';
                             $scope.result.contactId = response.id;
                         } else {
-                            $scope.result.success = false;
-                            $scope.result.message = 'It seems that there is some error in your form.We would be much appreciated if you could spend time checking through all the data again.';
+                            $scope.result.message = false;
+                            $scope.result.deliver = 'It seems that there is some error in your form.We would be much appreciated if you could spend time checking through all the data again.';
                         }
                     }).error(function () {
                         window.alert("Fail to send request!");

@@ -29,7 +29,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
             }).success(function (response) {
 
                 var returnedUser = response;
-                if (returnedUser.status === "success") {
+                if (returnedUser.message === "success") {
                     authorisedUser.username = $scope.user.username;
                     authorisedUser.token = returnedUser.token;
                     authorisedUser.userType = returnedUser.userType;
