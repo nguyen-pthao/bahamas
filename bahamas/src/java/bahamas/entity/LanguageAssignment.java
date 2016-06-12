@@ -22,7 +22,7 @@ public class LanguageAssignment {
     private String remarks;
     private String createdBy;
 
-    public LanguageAssignment(Contact contact, String language, Date dateCreated, String explainIfOther, Date dateObsolete, String proficiency, String remarks, String createdBy) {
+    public LanguageAssignment(Contact contact, String language, String explainIfOther, Date dateObsolete, String proficiency, String remarks, String createdBy) {
         this.contact = contact;
         this.language = language;
         this.dateCreated = dateCreated;
