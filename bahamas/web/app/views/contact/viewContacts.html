@@ -35,7 +35,7 @@ and open the template in the editor.
                                    Show Entries:
                                 </label>
                                 <div class="col-md-2">
-                                <select class="form-control" ng-model="itemsPerPage">
+                                <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
                                     <option>1</option>
                                     <option>3</option>
                                     <option>5</option>
