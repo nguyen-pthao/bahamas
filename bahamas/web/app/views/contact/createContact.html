@@ -160,15 +160,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="nextForm()" 
-                                        ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength || contactForm.name.$invalid)
-                                                    || (contactForm.username.$error.required) 
-                                                    || (contactForm.password.$error.maxlength || contactForm.password.$error.minlength || contactForm.password.$error.required)
-                                                    || (contactForm.confirmpassword.$error.compare || contactForm.confirmpassword.$error.required)
-                                                    || (contactForm.nricfin.$invalid) || (contactForm.profession.$invalid) || (contactForm.jobtitle.$invalid)
-                                                    || (contactForm.phonenumber.$invalid || contactForm.phonenumber.$error.required || contactForm.phonenumber.$error.maxlength)
-                                                    || (contactForm.email.$invalid || contactForm.email.$error.required || contactForm.email.$error.maxlength)
-                                                    || (contactForm.address.$error.required || contactForm.address.$error.maxlength)
-                                                    || (contactForm.nationality.$invalid) || submitted"
+                                        
                                         class="btn btn-primary" data-toggle="modal" data-target="#additionalForm">
                                             Save new contact
                                     </button></center>
@@ -210,6 +202,8 @@ and open the template in the editor.
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                        <br><br>
+                                                        <center><button type="button" class="btn btn-primary" ng-click="addPhone()">Done</button></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
@@ -223,7 +217,9 @@ and open the template in the editor.
                                                         </div>
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.emailInfo.emailremarks" ng-maxlength="200" name="emailremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                        <span ng-show="additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>                                              
+                                                        <span ng-show="additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>     
+                                                        <br><br>
+                                                        <center><button type="button" class="btn btn-primary" ng-click="addEmail()">Done</button></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-primary'>
                                                         <uib-accordion-heading>                                                   
@@ -250,7 +246,9 @@ and open the template in the editor.
                                                         </div>
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.addressInfo.addressremarks" ng-maxlength="200" name="addressremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                        <span ng-show="additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>                                                         
+                                                        <span ng-show="additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>      
+                                                        <br><br>
+                                                        <center><button type="button" class="btn btn-primary" ng-click="addAddress()">Done</button></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
@@ -278,7 +276,9 @@ and open the template in the editor.
                                                         </div>
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.teamInfo.remarks" ng-maxlength="200" name="teamremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                        <span ng-show="additionalContactForm.teamremarks.$error.maxlength">Input field explanation is too long.</span>                                                       
+                                                        <span ng-show="additionalContactForm.teamremarks.$error.maxlength">Input field explanation is too long.</span>     
+                                                        <br><br>
+                                                        <center><button type="button" class="btn btn-primary" ng-click="addTeam()">Done</button></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-primary'>
                                                         <uib-accordion-heading>                                                   
@@ -300,25 +300,32 @@ and open the template in the editor.
                                                                 <option value="speak and write">Speak and write</option>
                                                             </select>     
                                                         </div>
+                                                        <br><br>
+                                                        <center><button type="button" class="btn btn-primary" ng-click="addLanguage()">Done</button></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
                                                             Skills and Assets
                                                         </uib-accordion-heading>
+                                                        <div class="form-group" ng-init="loadLSAList()">
+                                                            <label>Skills or Assets</label>
+                                                            <select class="form-control" ng-model="additionalContactInfo.skillassetInfo.skillasset">
+                                                                <option ng-repeat="lsa in LSAList">{{lsa.lsaClass}}</option>
+                                                            </select>     
+                                                        </div>
                                                         <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
-                                                        <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
-                                                        <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
+                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherLSA" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.additionalexplainifotherLSA.$error.maxlength">Input field explanation is too long.</span>
+                                                        <label>Remarks</label>
+                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.remarks" ng-maxlength="200" name="LSAremarks" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.LSAremarks.$error.maxlength">Input field remarks is too long.</span>
+                                                        <br><br>
+                                                        <center><button type="button" class="btn btn-primary" ng-click="addSkillasset()">Done</button></center>
                                                     </uib-accordion-group>
                                                 </form>
                                             </uib-accordion>
                                         </div>
-                                        <div class="modal-footer" ng-show="result.success">
+                                        <div class="modal-footer" ng-show="result.message">
                                             <button type="button" class="btn btn-primary" ng-click="addContact()" data-dismiss="modal">No thanks, I'm done.</button>
                                         </div>
                                     </div>

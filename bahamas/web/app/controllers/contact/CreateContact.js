@@ -32,15 +32,15 @@ app.directive('compare', function () {
 });
 
 app.controller('createContact',
-        ['$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage',
-            function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage) {
+        ['$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
+            function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
 
                 $scope.backHome = function () {
-                      $state.go('admin.homepage');
+                    $state.go('admin.homepage');
                 };
 
                 $scope.addContact = function () {
-                    $location.path('/addContact');
+                    $state.go('admin.addContact');
                 };
 
                 $scope.loadContactTypeList = function () {
@@ -64,6 +64,12 @@ app.controller('createContact',
                 $scope.loadLanguageList = function () {
                     loadLanguage.retrieveLanguage().then(function (response) {
                         $scope.languageList = response.data.languageList;
+                    });
+                };
+
+                $scope.loadLSAList = function () {
+                    loadLSAClass.retrieveLSAClass().then(function (response) {
+                        $scope.LSAList = response.data.lsaClassList;
                     });
                 };
 
@@ -212,9 +218,6 @@ app.controller('createContact',
                         dateobsolete: ''
                     }
                 };
-
-
-
 
             }]);
 
