@@ -10,7 +10,7 @@ var app = angular.module('bahamas');
 app.service('loadPermissionLevel',['$http',function($http){    
     this.retrievePermissionLevel = function(){
         return $http({
-            method: 'GET',
+            method: 'POST',
             url: 'http://localhost:8084/bahamas/permissionlevellist'
         });
     }; 

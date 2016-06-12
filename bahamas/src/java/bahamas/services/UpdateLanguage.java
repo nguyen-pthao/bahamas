@@ -5,15 +5,21 @@
  */
 package bahamas.services;
 
-import bahamas.dao.*;
-import bahamas.entity.*;
+import bahamas.dao.ContactDAO;
+import bahamas.dao.LanguageDAO;
+import bahamas.dao.SkillDAO;
+import bahamas.entity.Contact;
+import bahamas.entity.LanguageAssignment;
+import bahamas.entity.SkillAssignment;
 import bahamas.util.Authenticator;
-import bahamas.util.PasswordHash;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -26,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "AddContact", urlPatterns = {"/contact.add"})
-public class AddContact extends HttpServlet {
+@WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.update"})
+public class UpdateLanguage extends HttpServlet {
 
     private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
@@ -81,81 +87,42 @@ public class AddContact extends HttpServlet {
                 } else {
                     //Verified token
 
-                    String name = jobject.get("name").getAsString();
-                    String altName = jobject.get("altname").getAsString();
-
-                    //to be removed!!!!
-                    String uName = jobject.get("username").getAsString();
-                    String password = jobject.get("password").getAsString();
-                    String confirmPassword = jobject.get("confirmpassword").getAsString();
-
-                    if (!password.equals(confirmPassword)) {
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
-                        return;
-                    }
-                    
-                    String[] store = PasswordHash.getHashAndSalt(password);
-                    password = store[0];
-                    String salt = store[1];
-                    //to be removed!!!!
-
-                    String contactType = jobject.get("contacttype").getAsString();
-                    String otherExplanation = jobject.get("explainifother").getAsString();
-                    String profession = jobject.get("profession").getAsString();
-                    String jobTitle = jobject.get("jobtitle").getAsString();
-                    String nric = jobject.get("nricfin").getAsString();
-                    String gender = jobject.get("gender").getAsString();
-                    String nationality = jobject.get("nationality").getAsString();
-                    String dateOfBirth = jobject.get("dateofbirth").getAsString();
+                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
+                    String language = jobject.get("language").getAsString();
+                    String explainIfOther = jobject.get("explainifother").getAsString();
+                    String speakWrite = jobject.get("speakwrite").getAsString();
                     String remarks = jobject.get("remarks").getAsString();
-                    int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
-                    int phoneNumber = Integer.parseInt(jobject.get("phonenumber").getAsString());
-                    String email = jobject.get("email").getAsString();
-                    String country = jobject.get("country").getAsString();
-                    int zipCode = Integer.parseInt(jobject.get("zipcode").getAsString());
-                    String address = jobject.get("address").getAsString();
+                    
 
-                    Date dob = null;
+                    Date dateObsolete = null;
                     try {
-                        dob = date.parse(dateOfBirth);
+                        dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
 
                     //Validation of fields
-                    //Create new contact object
-                    Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
-                            jobTitle, nric, gender, nationality, dob, remarks, uName, password, salt);
+                    ContactDAO cDAO = new ContactDAO();
 
-                    int newContactId = ContactDAO.addContact(newContact);
+                    Contact c = cDAO.retrieveContactById(contactId);
 
-                    if (newContactId <= 0) {
+                    //Verification for add additional phone details (OWNSELF)
+                    if (c == null || !c.getUsername().equals(username)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
 
-                        newContact.setContactId(newContactId);
-                        //Create new phone/address/email object
-                        Phone newPhone = new Phone(newContact, countryCode, phoneNumber, username);
-                        Email newEmail = new Email(newContact, email, username);
-                        Address newAddress = new Address(newContact, country, zipCode, address, username);
+                        LanguageAssignment la = new LanguageAssignment(c,language,explainIfOther,
+                                dateObsolete,speakWrite,remarks,username);
 
-                        boolean addPhone = PhoneDAO.addPhone(newPhone);
-                        boolean addEmail = EmailDAO.addEmail(newEmail);
-                        boolean addAddress = AddressDAO.addAddress(newAddress);
-
-                        if (addPhone && addEmail && addAddress) {
-                            AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId);
+                        if (LanguageDAO.addLanguage(la)) {
                             json.addProperty("message", "success");
-                            json.addProperty("id", String.valueOf(newContactId));
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
-
                     }
 
                 }
@@ -165,7 +132,7 @@ public class AddContact extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

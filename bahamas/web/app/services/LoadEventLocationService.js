@@ -6,11 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadContactType',['$http', function($http){    
-    this.retrieveContactType = function(){
+app.service('loadEventLocation',['$http', function($http){    
+    this.retrieveEventLocation = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/contacttypelist'
+            url: 'http://localhost:8084/bahamas/eventlocationlist'
         });
     }; 
 }]);
+

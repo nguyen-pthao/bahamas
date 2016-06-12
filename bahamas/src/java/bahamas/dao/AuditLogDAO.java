@@ -58,7 +58,7 @@ public class AuditLogDAO {
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT AUDITLOG_ID, USERNAME, DATE, OPERATION FROM AUDITLOG");
+            stmt = conn.prepareStatement("SELECT AUDITLOG_ID, USERNAME, DATE, OPERATION FROM AUDITLOG ORDER BY DATE DESC");
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String auditLogID = rs.getString(1);

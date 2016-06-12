@@ -12,7 +12,7 @@ import java.util.Date;
  * @author tan.si.hao
  */
 public class SkillAssignment {
-    
+
     private Contact contact;
     private String skillName;
     private Date dateCreated = new java.util.Date();
@@ -21,10 +21,9 @@ public class SkillAssignment {
     private String remarks;
     private String createdBy;
 
-    public SkillAssignment(Contact contact, String skillName, Date dateCreated, String explainIfOther, Date dateObsolete, String remarks, String createdBy) {
+    public SkillAssignment(Contact contact, String skillName, String explainIfOther, Date dateObsolete, String remarks, String createdBy) {
         this.contact = contact;
         this.skillName = skillName;
-        this.dateCreated = dateCreated;
         this.explainIfOther = explainIfOther;
         this.dateObsolete = dateObsolete;
         this.remarks = remarks;
@@ -86,7 +85,5 @@ public class SkillAssignment {
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
     }
-    
-    
-    
+
 }

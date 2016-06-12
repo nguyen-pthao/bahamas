@@ -30,11 +30,11 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-                            
-                                <label class="col-md-12">
-                                    <span class="col-md-2">  Show Entries:
-                                    </span>
-                                    
+                            <div class="col-md-12" style="margin-bottom: 15px">
+                                <label class="col-md-1" style="padding: 0px">
+                                   Show Entries:
+                                </label>
+                                <div class="col-md-2">
                                 <select class="form-control" ng-model="itemsPerPage">
                                     <option>1</option>
                                     <option>3</option>
@@ -43,9 +43,8 @@ and open the template in the editor.
                                     <option>9</option>
                                     <option>All</option>
                                 </select>
-     
-                                </label>
-                            
+                            </div>
+                            </div>
                         
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>

@@ -46,14 +46,12 @@ app.controller('createContact',
                 $scope.loadContactTypeList = function () {
                     loadContactType.retrieveContactType().then(function (response) {
                         $scope.contactTypeList = response.data.contact;
-                        console.log($scope.contactTypeList);
                     });
                 };
 
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
-                        //console.log($scope.teamAffiliationList);
                     });
                 };
 
@@ -119,7 +117,7 @@ app.controller('createContact',
                     'countrycode': 65,
                     'phonenumber': '',
                     'email': '',
-                    'country': '',
+                    'country': 'Singapore',
                     'zipcode': '',
                     'address': ''
                 };
@@ -145,11 +143,11 @@ app.controller('createContact',
                         //TO BE MODIFIED
                         if (response.message == 'success') {
                             $scope.result.message = true;
-                            $scope.result.deliver = 'Thank you very much for your time.<br>Would you like to add additional information to your contact?';
+                            $scope.result.deliver = 'Thank you very much for your time. Would you like to add additional information to your contact?';
                             $scope.result.contactId = response.id;
                         } else {
                             $scope.result.message = false;
-                            $scope.result.deliver = 'It seems that there is some error in your form.We would be much appreciated if you could spend time checking through all the data again.';
+                            $scope.result.deliver = 'It seems that there is error in your form. We would be much appreciated if you could spend time checking through all the data again.';
                         }
                     }).error(function () {
                         window.alert("Fail to send request!");
