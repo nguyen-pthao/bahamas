@@ -117,31 +117,31 @@ public class Login extends HttpServlet {
                             //JsonObject jsonTeamObj = new JsonObject();
 
                             if (contact.isIsNovice()) {
-                                json.addProperty("userType", "novice");
+                                json.addProperty("usertype", "novice");
                             } else if (contact.isIsAdmin()) {
-                                json.addProperty("userType", "admin");
+                                json.addProperty("usertype", "admin");
                             } else //Check if user is Team Leader, Event leader or Associate
                             if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")) {
-                                json.addProperty("userType", "teammanager");
+                                json.addProperty("usertype", "teammanager");
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Event leader")) {
-                                json.addProperty("userType", "eventleader");
+                                json.addProperty("usertype", "eventleader");
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Associate")) {
-                                json.addProperty("userType", "associate");
+                                json.addProperty("usertype", "associate");
                             }
                             jsonContactObj.addProperty("cid", contact.getContactId());
-                            jsonContactObj.addProperty("contactType", contact.getContactType());
-                            jsonContactObj.addProperty("dateCreated", datetime.format(contact.getDateCreated()));
-                            jsonContactObj.addProperty("createdBy", contact.getCreatedBy());
+                            jsonContactObj.addProperty("contacttype", contact.getContactType());
+                            jsonContactObj.addProperty("datecreated", datetime.format(contact.getDateCreated()));
+                            jsonContactObj.addProperty("createdby", contact.getCreatedBy());
                             jsonContactObj.addProperty("name", contact.getName());
-                            jsonContactObj.addProperty("altName", contact.getAltName());
-                            jsonContactObj.addProperty("explainIfOther", contact.getExplainIfOther());
+                            jsonContactObj.addProperty("altname", contact.getAltName());
+                            jsonContactObj.addProperty("explainifother", contact.getExplainIfOther());
                             jsonContactObj.addProperty("profession", contact.getProfession());
-                            jsonContactObj.addProperty("jobTitle", contact.getJobTitle());
+                            jsonContactObj.addProperty("jobtitle", contact.getJobTitle());
                             jsonContactObj.addProperty("nric", contact.getNric());
                             jsonContactObj.addProperty("gender", contact.getGender());
                             jsonContactObj.addProperty("nationality", contact.getNationality());
-                            jsonContactObj.addProperty("dateOfBirth", date.format(contact.getDateOfBirth()));
-                            jsonContactObj.addProperty("profilePic", contact.getProfilePic());
+                            jsonContactObj.addProperty("dateofbirth", date.format(contact.getDateOfBirth()));
+                            jsonContactObj.addProperty("profilepic", contact.getProfilePic());
                             jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
 
@@ -150,15 +150,15 @@ public class Login extends HttpServlet {
                                 while (iter.hasNext()) {
                                     JsonObject jsonTeamObj = new JsonObject();
                                     TeamJoin teamjoin = (TeamJoin) iter.next();
-                                    jsonTeamObj.addProperty("teamName", teamjoin.getTeamName());
+                                    jsonTeamObj.addProperty("teamname", teamjoin.getTeamName());
                                     jsonTeamObj.addProperty("permission", teamjoin.getPermission());
-                                    jsonTeamObj.addProperty("subTeam", teamjoin.getSubTeam());
-                                    jsonTeamObj.addProperty("explainIfOthers", teamjoin.getExplainIfOthers());
-                                    jsonTeamObj.addProperty("createdBy", teamjoin.getCreatedBy());
-                                    jsonTeamObj.addProperty("dateCreated", datetime.format(teamjoin.getDateCreated()));
+                                    jsonTeamObj.addProperty("subteam", teamjoin.getSubTeam());
+                                    jsonTeamObj.addProperty("explainifothers", teamjoin.getExplainIfOthers());
+                                    jsonTeamObj.addProperty("createdby", teamjoin.getCreatedBy());
+                                    jsonTeamObj.addProperty("datecreated", datetime.format(teamjoin.getDateCreated()));
                                     jsonTeamObj.addProperty("remarks", teamjoin.getRemarks());
                                     if (teamjoin.getDateObsolete() != null) {
-                                        jsonTeamObj.addProperty("dateObsolete", date.format(teamjoin.getDateObsolete()));
+                                        jsonTeamObj.addProperty("dateobsolete", date.format(teamjoin.getDateObsolete()));
                                     }
                                     jsonTeamObjList.add(jsonTeamObj);
                                     jsonContactObj.add("teams", jsonTeamObjList);

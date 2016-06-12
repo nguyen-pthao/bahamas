@@ -74,7 +74,7 @@ public class RetrieveAuditLog extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = jobject.get("token").getAsString();
                 String cidString = jobject.get("cid").getAsString();
-                SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy 00:00:00");
+                SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
                 if ((token == null || token.isEmpty()) || (cidString == null || cidString.isEmpty()) ) {
                     json.addProperty("message", "fail");
@@ -87,8 +87,9 @@ public class RetrieveAuditLog extends HttpServlet {
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 int cidTemp = Integer.parseInt(cidString);
                 
+                
                 if (cidTemp == contact.getContactId() && contact.isIsAdmin()){
-                    
+                    AuditLogDAO.insertAuditLog(contact.getUsername(), "AUDIT LOG", "Access into audit log");
                     ArrayList<AuditLog> AuditLogList = AuditLogDAO.retrieveAllAuditLog();
                     json.addProperty("message", "success");
                     
