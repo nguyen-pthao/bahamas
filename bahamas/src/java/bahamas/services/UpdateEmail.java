@@ -62,14 +62,14 @@ public class UpdateEmail extends HttpServlet {
                     sb.append(line);
                 }
             } catch (Exception e) {
-                json.addProperty("message", "failed");
+                json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
                 return;
             }
 
             String jsonLine = sb.toString();
             if (jsonLine == null || jsonLine.isEmpty()) {
-                json.addProperty("message", "failed");
+                json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
 
             } else {
@@ -81,7 +81,7 @@ public class UpdateEmail extends HttpServlet {
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
-                    json.addProperty("message", "invalid token");
+                    json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
 
                 } else {
@@ -93,7 +93,7 @@ public class UpdateEmail extends HttpServlet {
 
                     //Verification for add additional phone details (OWNSELF)
                     if (c == null || !c.getUsername().equals(username)) {
-                        json.addProperty("message", "failed");
+                        json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
@@ -113,7 +113,7 @@ public class UpdateEmail extends HttpServlet {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "failed");
+                            json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
 

@@ -69,14 +69,14 @@ public class Login extends HttpServlet {
                     sb.append(line);
                 }
             } catch (Exception e) {
-                json.addProperty("message", "failed");
+                json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
                 return;
             }
 
             String jsonLine = sb.toString();
             if (jsonLine == null || jsonLine.isEmpty()) {
-                json.addProperty("message", "failed");
+                json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
 
             } else {
@@ -89,9 +89,8 @@ public class Login extends HttpServlet {
                 String password = jobject.get("password").getAsString();
                 ArrayList<TeamJoin> teamJoinList;
 
-                if (username == null || password == null) {
-                    json.addProperty("status", "error");
-                    json.addProperty("messages", "invalid username/password");
+                if (username == null || password == null) {                  
+                    json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
                 } else {
@@ -111,7 +110,7 @@ public class Login extends HttpServlet {
                             AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
 
                             String token = Authenticator.signedToken(username);
-                            json.addProperty("status", "success");
+                            json.addProperty("message", "success");
                             json.addProperty("token", token);
                             JsonObject jsonContactObj = new JsonObject();
                             JsonArray jsonTeamObjList = new JsonArray();
@@ -175,8 +174,7 @@ public class Login extends HttpServlet {
                     }
 
                 }
-                json.addProperty("status", "error");
-                json.addProperty("messages", "invalid username/password");
+                json.addProperty("message", "fail");              
                 out.print(gson.toJson(json));
             }
 
