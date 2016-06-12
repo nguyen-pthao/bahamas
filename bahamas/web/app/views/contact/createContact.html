@@ -46,16 +46,17 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group">
                                         <label>Username</label><span class="required">*</span>
-                                        <input type="text" ng-model="contactInfo.username" class="form-control" >
+                                        <input type="text" ng-model="contactInfo.username" ng-required="true" class="form-control" name="username">
+                                        <span ng-show="contactForm.username.$error.required && contactForm.username.$dirty" style="color: red">Username is required.</span>
                                     </div>
                                     <div class="form-group">
                                         <label>Password</label><span class="required">*</span>
-                                        <input type="password" ng-model="contactInfo.password" ng-minlength="8" ng-maxlength="20" compare="{{contactInfo.confirmpassword}}" name="password" class="form-control">
-                                        <span ng-show="contactForm.name.$error.maxlength || contactForm.name.$error.minlength">TWC2 password needs to be from 8 to 20 characters long.</span>
+                                        <input type="password" ng-model="contactInfo.password" ng-minlength="8" ng-maxlength="20" ng-required="true" compare="{{contactInfo.confirmpassword}}" name="password" class="form-control">
+                                        <span ng-show="contactForm.password.$error.maxlength || contactForm.password.$error.minlength">TWC2 password needs to be from 8 to 20 characters long.</span>
                                     </div>
                                     <div class="form-group">
                                         <label>Confirm Password</label>
-                                        <input type="password" ng-model="contactInfo.confirmpassword" compare="{{contactInfo.password}}" class="form-control" name="confirmpassword"> 
+                                        <input type="password" ng-model="contactInfo.confirmpassword" ng-required="true" compare="{{contactInfo.password}}" class="form-control" name="confirmpassword"> 
                                         <span ng-show="contactForm.confirmpassword.$error.compare" style="color: red">Confirmed password is not the same.</span>
                                     </div>
                                     <div class="form-group" ng-init="loadContactTypeList()">
@@ -153,7 +154,19 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-footer">
-                                    <center><button type="submit" ng-click="nextForm()" class="btn btn-primary" data-toggle="modal" data-target="#additionalForm">Save new contact</button></center>
+                                    <center><button type="submit" ng-click="nextForm()" 
+                                        ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength)
+                                                    || (contactForm.username.$error.required) 
+                                                    || (contactForm.password.$error.maxlength || contactForm.password.$error.minlength || contactForm.password.$error.required)
+                                                    || (contactForm.confirmpassword.$error.compare || contactForm.confirmpassword.$error.required)
+                                                    || (contactForm.nricfin.$invalid) 
+                                                    ||  (contactForm.phonenumber.$invalid || contactForm.phonenumber.$error.required || contactForm.phonenumber.$error.maxlength)
+                                                    || (contactForm.email.$invalid || contactForm.email.$error.required || contactForm.email.$error.maxlength)
+                                                    || (contactForm.address.$error.required || contactForm.address.$error.maxlength)
+                                          "
+                                        class="btn btn-primary" data-toggle="modal" data-target="#additionalForm">
+                                            Save new contact
+                                    </button></center>
                                 </div>
                             </form>
                             <div class="modal fade" id="additionalForm" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
@@ -163,167 +176,142 @@ and open the template in the editor.
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"></span>
                                             </button>
-                                            <h4 ng-hide="result.success" class="modal-title" id="modalLabel" style="color:red">Error</h4>
-                                            <h4 ng-show="result.success" class="modal-title" id="modalLabel">{{result.deliver}}</h4>
+                                            <h4 ng-hide="result.message" class="modal-title" id="modalLabel" style="color:red">Error</h4>
+                                            <h4 ng-show="result.message" class="modal-title" id="modalLabel">{{result.deliver}}</h4>
                                         </div>
                                         <div class="modal-body" ng-hide="result.message">
                                             {{result.deliver}}
                                         </div>
-                                        <div class="modal-body" ng-show="result.message">
-                                            <div class='box-group' id='accordion'>
+                                       <div class="modal-body" ng-show="result.message">
+                                            <uib-accordion class='panel-group' close-others="true">
                                                 <form name='additionalContactForm'>
-                                                <div class='panel box box-primary' style="border-top-color: #70103F">
-                                                    <div class='box-header with-border'>
-                                                        <h4 class='box-title'>
-                                                            <a data-toggle='collapse' data-parent='#accordion' href='#additionalPhoneInfo'>                                                   
-                                                                Additional phone number
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id='additionalPhoneInfo' class='panel-collapse collapse in'>
-                                                        <div class='box-body'>
-                                                            <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
-                                                                <div class="col-md-2" style="padding: 0px" ng-init="loadCountryCodes()">
-                                                                    <label>Country code</label>
-                                                                    <input type="number" class="form-control" ng-model="additionalContactInfo.phoneInfo.countrycode" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)">            
-                                                                    <span>{{newCountryName}}</span>
-                                                                </div>
-                                                                <div class="col-md-offset-1 col-md-4" style="padding: 0px">
-                                                                    <label>Phone number</label><span class="required">*</span>
-                                                                    <input type="text" ng-model="additionalContactInfo.phoneInfo.phonenumber" ng-pattern="phoneRegex" ng-maxlength='20' name="additionalphonenumber" class="form-control">
-                                                                    <span ng-show="additionalContactForm.additionalphonenumber.$invalid && additionalContactForm.additionalphonenumber.$dirty" style="color:red">Invalid phone number.</span>                                                                  
-                                                                    <span ng-show="additionalContactForm.additionalphonenumber.$error.maxlength" style='color:red'>Input field phone number is too long.</span>
-                                                                </div>
+                                                    <uib-accordion-group class='panel panel-primary'>
+                                                        <uib-accordion-heading>                                                   
+                                                            Additional phone number
+                                                        </uib-accordion-heading>
+                                                        <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+                                                            <div class="col-md-2" style="padding: 0px" ng-init="loadCountryCodes()">
+                                                                <label>Country code</label>
+                                                                <input type="number" class="form-control" ng-model="additionalContactInfo.phoneInfo.countrycode" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)">            
+                                                                <span>{{newCountryName}}</span>
                                                             </div>
-                                                            <label>Remarks</label>
-                                                            <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                            <span ng-show="additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                            <div class="col-md-offset-1 col-md-4" style="padding: 0px">
+                                                                <label>Phone number</label><span class="required">*</span>
+                                                                <input type="text" ng-model="additionalContactInfo.phoneInfo.phonenumber" ng-pattern="phoneRegex" ng-maxlength='20' name="additionalphonenumber" class="form-control">
+                                                                <span ng-show="additionalContactForm.additionalphonenumber.$invalid && additionalContactForm.additionalphonenumber.$dirty" style="color:red">Invalid phone number.</span>                                                                  
+                                                                <span ng-show="additionalContactForm.additionalphonenumber.$error.maxlength" style='color:red'>Input field phone number is too long.</span>
+                                                            </div>
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                <div class='panel box box-primary' style="border-top-color: #70103F">
-                                                    <div class='box-header with-border'>
-                                                        <h4 class='box-title'>
-                                                            <a data-toggle='collapse' data-parent='#accordion' href='#additionalEmailInfo'>                                                   
-                                                                Additional email information
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id='additionalEmailInfo' class='panel-collapse collapse'>
-                                                        <div class='box-body'>
-                                                            <div class="form-group">
-                                                                <label>Email</label>
-                                                                <input type="email" ng-model="additionalContactInfo.emailInfo.email" ng-pattern="emailRegex" ng-maxlength='50' name="additionalemail" class="form-control">
-                                                                <span ng-show="additionalContactForm.additionalemail.$invalid && additionalContactForm.additionalemail.$dirty" style="color:red">Invalid email.</span>
-                                                                <span ng-show="additionalContactForm.additionalemail.$error.maxlength" style='color:red'>Input field email is too long.</span> 
-                                                            </div>
-                                                            <label>Remarks</label>
-                                                            <textarea ng-model="additionalContactInfo.emailInfo.emailremarks" ng-maxlength="200" name="emailremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                            <span ng-show="additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                        <label>Remarks</label>
+                                                        <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                    </uib-accordion-group>
+                                                    <uib-accordion-group class='panel panel-default'>
+                                                        <uib-accordion-heading>                                                   
+                                                            Additional email information
+                                                        </uib-accordion-heading>
+                                                        <div class="form-group">
+                                                            <label>Email</label>
+                                                            <input type="email" ng-model="additionalContactInfo.emailInfo.email" ng-pattern="emailRegex" ng-maxlength='50' name="additionalemail" class="form-control">
+                                                            <span ng-show="additionalContactForm.additionalemail.$invalid && additionalContactForm.additionalemail.$dirty" style="color:red">Invalid email.</span>
+                                                            <span ng-show="additionalContactForm.additionalemail.$error.maxlength" style='color:red'>Input field email is too long.</span> 
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                <div class='panel box box-primary' style="border-top-color: #70103F">
-                                                    <div class='box-header with-border'>
-                                                        <h4 class='box-title'>
-                                                            <a data-toggle='collapse' data-parent='#accordion' href='#additionalAddressInfo'>                                                   
-                                                                Additional address information
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id='additionalAddressInfo' class='panel-collapse collapse'>
-                                                        <div class='box-body'>
-                                                            <div class="form-group" ng-init="loadCountryNames()">
-                                                                <label>Country</label>
-                                                                <select class="form-control" ng-model="additionalContactInfo.addressInfo.country">
-                                                                    <option ng-repeat="country in countryNames">{{country.name}}</option>
-                                                                </select> 
-                                                            </div>
-                                                            <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
-                                                                <div class="col-md-2" style="padding: 0px">
-                                                                    <label>Zipcode</label>
-                                                                    <input type="text" ng-model="additionalContactInfo.addressInfo.zipcode" ng-maxlength='20' name='additionalzipcode' class="form-control">
-                                                                    <span ng-show="additionalContactForm.additionalzipcode.$error.maxlength">Input field zipcode is too long.</span>
-                                                                </div>
-                                                            </div>          
-                                                            <div class="form-group">
-                                                                <label>Address</label><span class="required">*</span>
-                                                                <input type="text" ng-model="additionalContactInfo.addressInfo.address" ng-maxlength='1000' name='additionaladdress' class="form-control">
-                                                                <span ng-show="additionalContactForm.additionaladdress.$error.required && additionalContactForm.additionaladdress.$dirty" style="color: red">Address is required.</span>
-                                                                <span ng-show="additionalContactForm.additionaladdress.$error.maxlength" style='color:red'>Input field address is too long.</span>
-                                                            </div>
-                                                            <label>Remarks</label>
-                                                            <textarea ng-model="additionalContactInfo.addressInfo.addressremarks" ng-maxlength="200" name="addressremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                            <span ng-show="additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                        <label>Remarks</label>
+                                                        <textarea ng-model="additionalContactInfo.emailInfo.emailremarks" ng-maxlength="200" name="emailremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>                                              
+                                                    </uib-accordion-group>
+                                                    <uib-accordion-group class='panel panel-primary'>
+                                                        <uib-accordion-heading>                                                   
+                                                            Additional address information
+                                                        </uib-accordion-heading>
+                                                        <div class="form-group" ng-init="loadCountryNames()">
+                                                            <label>Country</label>
+                                                            <select class="form-control" ng-model="additionalContactInfo.addressInfo.country">
+                                                                <option ng-repeat="country in countryNames">{{country.name}}</option>
+                                                            </select> 
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                <div class='panel box box-primary' style="border-top-color: #70103F">
-                                                    <div class='box-header with-border'>
-                                                        <h4 class='box-title'>
-                                                            <a data-toggle='collapse' data-parent='#accordion' href='#additionalTeamInfo'>                                                   
-                                                                Join a team
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id='additionalTeamInfo' class='panel-collapse collapse'>
-                                                        <div class='box-body'>
-                                                            <div class="form-group" ng-init="loadTeamAffiliationList()">
-                                                                <label>Team Affiliation</label>
-                                                                <select class="form-control" ng-model="additionalContactInfo.teamInfo.team">
-                                                                    <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
-                                                                </select>     
+                                                        <div class="form-group col-md-12" style="padding: 0px">
+                                                            <div class="col-md-2" style="padding: 0px">
+                                                                <label>Zipcode</label>
+                                                                <input type="text" ng-model="additionalContactInfo.addressInfo.zipcode" ng-maxlength='20' name='additionalzipcode' class="form-control">
+                                                                <span ng-show="additionalContactForm.additionalzipcode.$error.maxlength">Input field zipcode is too long.</span>
                                                             </div>
-                                                            <label>Explain if above is 'Other'</label>
-                                                            <textarea ng-model="additionalContactInfo.teamInfo.explainifother" ng-maxlength="200" name="additionalexplainifother" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                            <span ng-show="additionalContactForm.additionalexplainifother.$error.maxlength">Input field explanation is too long.</span>
-                                                            <div class="form-group">
-                                                                <label>Subteam</label>
-                                                                <input type="text" ng-model="additionalContactInfo.teamInfo.subteam" ng-maxlength='50' name="subteam" class="form-control">
-                                                                <span ng-show="additionalContactForm.subteam.$error.maxlength" style='color:red'>Input field subteam is too long.</span> 
-                                                            </div>
-                                                            <div class="form-group" ng-init="loadPermissionLevelList()">
-                                                                <label>Permission Level</label>
-                                                                <select class="form-control" ng-model="additionalContactInfo.teamInfo.permissionlevel">
-                                                                    <option ng-repeat="permissionLevel in permissionLevelList">{{permissionLevel.permissionLevel}}</option>
-                                                                </select>     
-                                                            </div>
-                                                            <label>Remarks</label>
-                                                            <textarea ng-model="additionalContactInfo.teamInfo.remarks" ng-maxlength="200" name="teamremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                                            <span ng-show="additionalContactForm.teamremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                        </div>          
+                                                        <div class="form-group">
+                                                            <label>Address</label><span class="required">*</span>
+                                                            <input type="text" ng-model="additionalContactInfo.addressInfo.address" ng-maxlength='1000' name='additionaladdress' class="form-control">
+                                                            <span ng-show="additionalContactForm.additionaladdress.$error.required && additionalContactForm.additionaladdress.$dirty" style="color: red">Address is required.</span>
+                                                            <span ng-show="additionalContactForm.additionaladdress.$error.maxlength" style='color:red'>Input field address is too long.</span>
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                <div class='panel box box-primary' style="border-top-color: #70103F">
-                                                    <div class='box-header with-border'>
-                                                        <h4 class='box-title'>
-                                                            <a data-toggle='collapse' data-parent='#accordion' href='#additionalLanguagesInfo'>                                                   
-                                                                Languages Information
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id='additionalLanguagesInfo' class='panel-collapse collapse'>
-                                                        <div class='box-body'>
-                                                            
+                                                        <label>Remarks</label>
+                                                        <textarea ng-model="additionalContactInfo.addressInfo.addressremarks" ng-maxlength="200" name="addressremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>                                                         
+                                                    </uib-accordion-group>
+                                                    <uib-accordion-group class='panel panel-default'>
+                                                        <uib-accordion-heading>                                                   
+                                                            Join a team
+                                                        </uib-accordion-heading>
+                                                        <div class="form-group" ng-init="loadTeamAffiliationList()">
+                                                            <label>Team Affiliation</label>
+                                                            <select class="form-control" ng-model="additionalContactInfo.teamInfo.team">
+                                                                <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                                            </select>     
                                                         </div>
-                                                    </div> 
-                                                </div>
-                                                <div class='panel box box-primary' style="border-top-color: #70103F">
-                                                    <div class='box-header with-border'>
-                                                        <h4 class='box-title'>
-                                                            <a data-toggle='collapse' data-parent='#accordion' href='#additionalSkillAssetInfo'>                                                   
-                                                                Skills and Assets
-                                                            </a>
-                                                        </h4>
-                                                    </div>
-                                                    <div id='additionalSkillAssetInfo' class='panel-collapse collapse'>
-                                                        <div class='box-body'>
-
+                                                        <label>Explain if above is 'Other'</label>
+                                                        <textarea ng-model="additionalContactInfo.teamInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherT" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.additionalexplainifotherT.$error.maxlength">Input field explanation is too long.</span>
+                                                        <div class="form-group">
+                                                            <label>Subteam</label>
+                                                            <input type="text" ng-model="additionalContactInfo.teamInfo.subteam" ng-maxlength='50' name="subteam" class="form-control">
+                                                            <span ng-show="additionalContactForm.subteam.$error.maxlength" style='color:red'>Input field subteam is too long.</span> 
                                                         </div>
-                                                    </div> 
-                                                </div>
+                                                        <div class="form-group" ng-init="loadPermissionLevelList()">
+                                                            <label>Permission Level</label>
+                                                            <select class="form-control" ng-model="additionalContactInfo.teamInfo.permissionlevel">
+                                                                <option ng-repeat="permissionLevel in permissionLevelList">{{permissionLevel.permissionLevel}}</option>
+                                                            </select>     
+                                                        </div>
+                                                        <label>Remarks</label>
+                                                        <textarea ng-model="additionalContactInfo.teamInfo.remarks" ng-maxlength="200" name="teamremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.teamremarks.$error.maxlength">Input field explanation is too long.</span>                                                       
+                                                    </uib-accordion-group>
+                                                    <uib-accordion-group class='panel panel-primary'>
+                                                        <uib-accordion-heading>                                                   
+                                                            Languages Information
+                                                        </uib-accordion-heading>
+                                                        <div class="form-group" ng-init="loadLanguageList()">
+                                                            <label>Language</label>
+                                                            <select class="form-control" ng-model="additionalContactInfo.languageInfo.language">
+                                                                <option ng-repeat="language in languageList">{{language.language}}</option>
+                                                            </select>     
+                                                        </div>
+                                                        <label>Explain if above is 'Other'</label>
+                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
+                                                        <div class="form-group">
+                                                            <label>Speak/Write?</label>
+                                                            <select class="form-control" ng-model="additionalContactInfo.languageInfo.speakwrite">
+                                                                <option value="speak only">Speak only</option>
+                                                                <option value="speak and write">Speak and write</option>
+                                                            </select>     
+                                                        </div>
+                                                    </uib-accordion-group>
+                                                    <uib-accordion-group class='panel panel-default'>
+                                                        <uib-accordion-heading>                                                   
+                                                            Skills and Assets
+                                                        </uib-accordion-heading>
+                                                        <label>Explain if above is 'Other'</label>
+                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
+                                                        <label>Explain if above is 'Other'</label>
+                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
+                                                        <label>Explain if above is 'Other'</label>
+                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <span ng-show="additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
+                                                    </uib-accordion-group>
                                                 </form>
-                                            </div>
+                                            </uib-accordion>
                                         </div>
                                         <div class="modal-footer" ng-show="result.success">
                                             <button type="button" class="btn btn-primary" ng-click="addContact()" data-dismiss="modal">No thanks, I'm done.</button>
