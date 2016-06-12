@@ -94,7 +94,7 @@ public class AddContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-
+                    
                     String[] store = PasswordHash.getHashAndSalt(password);
                     password = store[0];
                     String salt = store[1];
@@ -147,6 +147,7 @@ public class AddContact extends HttpServlet {
                         boolean addAddress = AddressDAO.addAddress(newAddress);
 
                         if (addPhone && addEmail && addAddress) {
+                            AuditLogDAO.insertAuditLog(username, "CONTACT", "Create contact");
                             json.addProperty("message", "success");
                             json.addProperty("id", String.valueOf(newContactId));
                             out.println(gson.toJson(json));
