@@ -152,18 +152,18 @@ public class RetrieveContact extends HttpServlet {
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", c.getName());
-            jsonContactObj.addProperty("altName", c.getAltName());
+            jsonContactObj.addProperty("altname", c.getAltName());
             jsonContactObj.addProperty("phone", "not completed");
             jsonContactObj.addProperty("email", "not completed");
-            jsonContactObj.addProperty("contactType", c.getContactType());
-            jsonContactObj.addProperty("explainIfOther", c.getExplainIfOther());
-            jsonContactObj.addProperty("contactType", c.getContactType());
+            jsonContactObj.addProperty("contacttype", c.getContactType());
+            jsonContactObj.addProperty("explainifother", c.getExplainIfOther());
+            jsonContactObj.addProperty("contacttype", c.getContactType());
             jsonContactObj.addProperty("profession", c.getProfession());
-            jsonContactObj.addProperty("jobTitle", c.getJobTitle());
+            jsonContactObj.addProperty("jobtitle", c.getJobTitle());
             jsonContactObj.addProperty("nric", c.getNric());
             jsonContactObj.addProperty("gender", c.getGender());
             jsonContactObj.addProperty("nationality", c.getNationality());
-            jsonContactObj.addProperty("dateOfBirth", sdf.format(c.getDateOfBirth()));
+            jsonContactObj.addProperty("dateofbirth", sdf.format(c.getDateOfBirth()));
             jsonContactObj.addProperty("address", "not completed");
             jsonContactObj.addProperty("remarks", c.getRemarks());
             //jsonContactObj.addProperty("username", c.getName());
@@ -187,7 +187,7 @@ public class RetrieveContact extends HttpServlet {
             jsonContactObj = new JsonObject();
 
             jsonContactObj.addProperty("name", c.getName());
-            jsonContactObj.addProperty("altName", c.getAltName());
+            jsonContactObj.addProperty("altname", c.getAltName());
             //jsonContactObj.addProperty("phone", "not completed");
             jsonContactObj.addProperty("email", "not completed");
             //jsonContactObj.addProperty("contactType", c.getContactType());
