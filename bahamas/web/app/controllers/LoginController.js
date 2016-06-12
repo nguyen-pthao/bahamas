@@ -32,7 +32,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                 if (returnedUser.message === "success") {
                     authorisedUser.username = $scope.user.username;
                     authorisedUser.token = returnedUser.token;
-                    authorisedUser.userType = returnedUser.userType;
+                    authorisedUser.userType = returnedUser.usertype;
                     authorisedUser.contact = returnedUser.contact;
                     authorisedUser.teams = returnedUser.contact.teams;
 
@@ -43,7 +43,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
                         var storeUserType = session.setSession('userType', authorisedUser.userType);
                         var storeContact = session.setSession('contact', angular.toJson(authorisedUser.contact));
                         var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
-                        var getUserType = session.getSession("userType");
+                        var getUserType = session.getSession("usertype");
                         $state.go(getUserType.toString());
                     }
                 } else {

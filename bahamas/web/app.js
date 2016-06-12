@@ -28,8 +28,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('novice', {
                 url: '/novice',
-                templateUrl: './app/views/novice.html',
-                controller: 'NoviceController'
+                templateUrl: 'app/views/novice.html',
             })
             .state('unauthorized', {
                 url: '/unauthorized',
@@ -48,6 +47,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('admin.homepage', {
                 url: '/homepage',
                 templateUrl: 'app/views/homepage.html'
+            })
+            .state('novice.viewContacts', {
+                url: '/viewContacts',
+                templateUrl: 'app/views/contact/viewContacts.html',
+                controller: 'viewContacts'
             })
 });
 

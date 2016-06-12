@@ -24,7 +24,7 @@ app.controller('viewContacts',
                 'cid': angular.fromJson(session.getSession('contact')).cid,
 //                'teamname': angular.fromJson(session.getSession('teams'))[0].teamName,
                 'teamname': "",
-                'permission': session.getSession('userType')
+                'permission': session.getSession('usertype')
             };
             console.log(contactToRetrieve);
             var allContactObjKey = [];
@@ -35,11 +35,16 @@ app.controller('viewContacts',
                 for (contactHeader in firstContactObject) {
                     allContactObjKey.push(contactHeader);
                 }
+                $scope.isAuthorised = true;
+                $scope.userType = session.getSession('usertype');
+                if($scope.userType === 'novice'){
+                    $scope.isAuthorised = false;
+                }
                 $scope.allContactObjectKeys = allContactObjKey;
                 $scope.totalItems = $scope.allContactInfo.length;
-                var allItems = $scope.allContactInfo.length;
+//                var allItems = $scope.allContactInfo.length;
                 $scope.currentPage = 1;
-                $scope.itemsPerPage = allItems;
+                $scope.itemsPerPage =  3;
                 var total = $scope.totalItems / $scope.itemsPerPage;
                 $scope.totalPages = Math.ceil(total);
                 $scope.$watch('currentPage + itemsPerPage', function () {

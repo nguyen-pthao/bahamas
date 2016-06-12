@@ -51,7 +51,7 @@ and open the template in the editor.
                             <thead>
                                 <tr>
                                     <th ng-repeat="contactHeader in allContactObjectKeys">{{contactHeader}}</th>
-                                    <th></th>
+                                    <th ng-if="isAuthorised"></th>
                                 </tr>
                                 <!--                                <tr ng-repeat="contactHeader in allContactObjectKeys">
                                                                     <th>{{contactHeader}}</th>
@@ -60,13 +60,13 @@ and open the template in the editor.
                             <tbody>
                                 <tr ng-repeat="contact in filteredContacts">
                                     <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
-                                    <td><a ui-sref="admin.addContact"><i class="fa fa-edit"></i></a><span> </span><a ui-sref="admin.addContact"><i class="fa fa-trash"></i></a></td>
+                                    <td ng-if="isAuthorised"><a ui-sref="admin.addContact"><i class="fa fa-edit"></i></a><span> </span><a ui-sref="admin.addContact"><i class="fa fa-trash"></i></a></td>
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
                                     <th ng-repeat="contactHeader in allContactObjectKeys">{{contactHeader}}</th>
-                                    <th></th>
+                                    <th ng-if="isAuthorised"></th>
                                 </tr>
                             </tfoot>
                         </table>
