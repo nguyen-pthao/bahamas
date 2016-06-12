@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="margin:0px" id="view-audit">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
+                        <li><i class="fa fa-home"></i><a ng-click="backHome()" style="color: white"> Homepage</a> <i class="fa fa-chevron-right small"></i> Audit Log </li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <!-- view contact starts -->
+                <div class="box" ng-init="retrieveAllAuditLog()">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"> AUDIT LOG </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">                        
+                            <div class="col-md-12" style="margin-bottom: 15px">
+                                <label class="col-md-1" style="padding: 0px">
+                                   Show Entries:
+                                </label>
+                                <div class="col-md-2">
+                                <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
+                                    <option>1</option>
+                                    <option>3</option>
+                                    <option>5</option>
+                                    <option>7</option>
+                                    <option>9</option>
+                                    <option>All</option>
+                                </select>
+                            </div>
+                            </div>
+                        
+                        <table id="example1" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="auditHeader in allAuditObjectKeys">{{auditHeader}}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="audit in filteredAudit">
+                                    <td ng-repeat="auditInfo in audit">{{auditInfo}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th ng-repeat="auditHeader in allAuditObjectKeys">{{auditHeader}}</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <div>
+                            <div style='float: right'>
+                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                            </div>
+                            <br/>
+                            <div style='float: left'>
+                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- view contact ends -->
+            </section>
+            <!-- /.content -->
+        </div>
+
+
+        <script>
+            $(document).ready(function () {
+                $('#contact-date-of-birth-picker').datepicker({
+                    format: "dd-M-yyyy",
+                    autoclose: true
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -48,6 +48,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/homepage',
                 templateUrl: 'app/views/homepage.html'
             })
+            .state('admin.audit', {
+                url: '/auditlog',
+                templateUrl: 'app/views/auditlog/viewAuditLog.html'
+            })
             .state('novice.viewContacts', {
                 url: '/viewContacts',
                 templateUrl: 'app/views/contact/viewContacts.html',
