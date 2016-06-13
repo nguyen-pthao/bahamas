@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i><a ng-click="backHome()" style="color: white"> Homepage</a> <i class="fa fa-chevron-right small"></i> Contact Management </li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage</a> <i class="fa fa-chevron-right small"></i> Contact Management </li>
                     </ol>                    
                 </h3>
             </section>
@@ -188,7 +188,18 @@ and open the template in the editor.
                                             {{result.deliver}}
                                         </div>
                                         <div class="modal-body" ng-show="result.message">
-                                            <uib-accordion class='panel-group' close-others="true">
+<!--                                            <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+                                                <div class="col-md-6" style="padding: 0px">
+                                                    <label>Date discovered to be obsolete</label>
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type="text" ng-model="additionalContactInfo.phoneInfo.dateobsolete" class="form-control pull-right" id="phone-date-obsolete-picker">
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <uib-accordion class='panel-group' close-others="true"> 
                                                 <form name='additionalContactForm'>
                                                     <uib-accordion-group class='panel panel-primary'>
                                                         <uib-accordion-heading>                                                   
@@ -210,6 +221,17 @@ and open the template in the editor.
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
+                                                        <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+                                                            <div class="col-md-6" style="padding: 0px">
+                                                                <label>Date discovered to be obsolete</label>
+                                                                <div class="input-group date">
+                                                                    <div class="input-group-addon">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </div>
+                                                                    <input type="text" ng-model="additionalContactInfo.phoneInfo.dateobsolete" class="form-control pull-right" id="phone-date-obsolete-picker-2">
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addPhone()" 
                                                                         ng-disabled="additionalContactForm.additionalphonenumber.$invalid || additionalContactForm.additionalphonenumber.$error.required
@@ -364,7 +386,7 @@ and open the template in the editor.
                                             </uib-accordion>
                                         </div>
                                         <div class="modal-footer" ng-show="result.message">
-                                            <button type="button" class="btn btn-primary" ng-click="addContact()" data-dismiss="modal">No thanks, I'm done.</button>
+                                            <button type="button" class="btn btn-primary" ng-click="addContact()" data-dismiss="modal">Thank you, I'm done.</button>
                                         </div>
                                     </div>
                                 </div>
@@ -378,9 +400,10 @@ and open the template in the editor.
             </section>
             <!-- /.content -->
         </div>
+        
         <script>
             $(document).ready(function () {
-                $('#contact-date-of-birth-picker').datepicker({
+                $('#contact-date-of-birth-picker, #phone-date-obsolete-picker, #phone-date-obsolete-picker-2').datepicker({
                     format: "dd-M-yyyy",
                     autoclose: true
                 });

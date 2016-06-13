@@ -132,7 +132,7 @@ app.controller('createContact',
                 };
 
                 $scope.result = {
-                    message: true,
+                    message: false,
                     deliver: '',
                     contactId: ''
                 };
@@ -155,6 +155,7 @@ app.controller('createContact',
                             $scope.result.message = true;
                             $scope.result.deliver = 'Thank you very much for your time. Would you like to add additional information to your contact?';
                             $scope.result.contactId = response.id;
+//                            console.log($scope.result.contactId);
                         } else {
                             $scope.result.message = false;
                             $scope.result.deliver = 'It seems that there is error in your form. We would be much appreciated if you could spend time checking through all the data again.';
@@ -222,6 +223,7 @@ app.controller('createContact',
                 };
                 $scope.submittedPhone = false;
                 $scope.addPhone = function() {
+                    $scope.additionalContactInfo.phoneInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/phone.update";
                     var url = "http://localhost:8084/bahamas/phone.update";
@@ -243,6 +245,7 @@ app.controller('createContact',
                 
                 $scope.submittedEmail = false;
                 $scope.addEmail = function() {
+                    $scope.additionalContactInfo.emailInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/email.update";
                     var url = "http://localhost:8084/bahamas/email.update";
@@ -264,6 +267,7 @@ app.controller('createContact',
                 
                 $scope.submittedAddress = false;
                 $scope.addAddress = function() {
+                    $scope.additionalContactInfo.addressInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/address.update";
                     var url = "http://localhost:8084/bahamas/address.update";
@@ -285,6 +289,7 @@ app.controller('createContact',
                 
                 $scope.submittedTeam = false;
                 $scope.addTeam = function() {
+                    $scope.additionalContactInfo.teamInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/";
                     var url = "http://localhost:8084/bahamas/";
@@ -306,6 +311,7 @@ app.controller('createContact',
                 
                 $scope.submittedLanguage = false;
                 $scope.addLanguage = function() {
+                    $scope.additionalContactInfo.languageInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/language.update";
                     var url = "http://localhost:8084/bahamas/language.update";
@@ -327,6 +333,7 @@ app.controller('createContact',
                 
                 $scope.submittedLSA = false;
                 $scope.addSkillasset = function() {
+                     $scope.additionalContactInfo.skillassetInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/skill.update";
                     var url = "http://localhost:8084/bahamas/skill.update";

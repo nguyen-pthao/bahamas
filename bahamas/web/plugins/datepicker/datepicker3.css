@@ -11,6 +11,7 @@
   padding: 4px;
   border-radius: 4px;
   direction: ltr;
+  z-index: 1151 !important;
   /*.dow {
 		border-top: 1px solid #ddd !important;
 	}*/
