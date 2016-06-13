@@ -34,16 +34,16 @@ and open the template in the editor.
                                 <label class="col-md-1" style="padding: 0px">
                                    Show Entries:
                                 </label>
-                                <div class="col-md-2">
-                                <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
-                                    <option>1</option>
-                                    <option>3</option>
-                                    <option>5</option>
-                                    <option>7</option>
-                                    <option>9</option>
-                                    <option value="toAll">All</option>
-                                </select>
-                            </div>
+                                <div class="col-md-1" style="padding: 0px">
+                                    <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
+                                        <option>1</option>
+                                        <option>3</option>
+                                        <option>5</option>
+                                        <option>7</option>
+                                        <option>9</option>
+                                        <option value="toAll">All</option>
+                                    </select>
+                                </div>
                             </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
@@ -55,7 +55,7 @@ and open the template in the editor.
                             <tbody>
                                 <tr ng-repeat="contact in filteredContacts">
                                     <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
-                                    <td ng-if="isAuthorised"><a ui-sref="admin.addContact"><i class="fa fa-edit"></i></a><span> </span><a ui-sref="admin.addContact"><i class="fa fa-trash"></i></a></td>
+                                    <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg"></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg"></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
