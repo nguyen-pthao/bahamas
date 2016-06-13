@@ -41,12 +41,13 @@ app.controller('viewContacts',
                         $scope.userType = session.getSession('userType');
                         if ($scope.userType === 'novice') {
                             $scope.isAuthorised = false;
+                        }else if($scope.userType === 'associate'){
+                            $scope.isAuthorised = false;
                         }
                         $scope.allContactObjectKeys = allContactObjKey;
                         $scope.totalItems = $scope.allContactInfo.length;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = $scope.allContactInfo.length;
-
                         $scope.itemsPerPageChanged = function () {
                             if($scope.itemsPerPage == 'toAll'){
                                 $scope.itemsPerPage = $scope.allContactInfo.length;
@@ -60,7 +61,6 @@ app.controller('viewContacts',
                             });
                         };
                         var total = $scope.totalItems / $scope.itemsPerPage;
-
                         $scope.totalPages = Math.ceil(total);
                         $scope.$watch('currentPage + itemsPerPage', function () {
                             var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
@@ -68,7 +68,6 @@ app.controller('viewContacts',
 
                             $scope.filteredContacts = $scope.allContactInfo.slice(begin, end);
                         });
-
                         $scope.pageChanged = function () {
                             var total = $scope.totalItems / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
@@ -79,10 +78,6 @@ app.controller('viewContacts',
                                 $scope.filteredContacts = $scope.allContactInfo.slice(begin, end);
                             });
                         };
-
-//                $scope.maxSize = 100;
-//                $scope.bigTotalItems = 175;
-//                $scope.bigCurrentPage = 1;
                     });
                 };
 

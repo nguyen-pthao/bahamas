@@ -21,18 +21,9 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/admin',
                 templateUrl: 'app/views/admin.html'
             })
-            .state('user', {
-                url: '/user',
-                templateUrl: './app/views/user.html',
-                controller: 'UserController'
-            })
-            .state('novice', {
-                url: '/novice',
-                templateUrl: 'app/views/novice.html',
-            })
-            .state('unauthorized', {
-                url: '/unauthorized',
-                templateUrl: 'unAuthorized.html'
+            .state('admin.homepage', {
+                url: '/homepage',
+                templateUrl: 'app/views/homepage.html'
             })
             .state('admin.addContact', {
                 url: '/addContact',
@@ -44,14 +35,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
-            .state('admin.homepage', {
-                url: '/homepage',
-                templateUrl: 'app/views/homepage.html'
-            })
             .state('admin.audit', {
                 url: '/auditlog',
                 templateUrl: 'app/views/auditlog/viewAuditLog.html',
                 controller: 'viewAuditLog'
+            })
+            .state('novice', {
+                url: '/novice',
+                templateUrl: 'app/views/novice.html',
             })
             .state('novice.viewContacts', {
                 url: '/viewContacts',
@@ -67,6 +58,25 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
+            .state('teammanager', {
+                url: '/teammanager',
+                templateUrl: 'app/views/teammanager.html'
+            })
+            .state('tm.viewContacts', {
+                url: '/viewContacts',
+                templateUrl: 'app/views/contact/viewContacts.html',
+                controller: 'viewContacts'
+            })
+            .state('tm.addContact', {
+                url: 'addContact',
+                templateUrl: 'app/views/contact/createContact.html',
+                controller: 'createContact'
+            })
+            .state('unauthorized', {
+                url: '/unauthorized',
+                templateUrl: 'unAuthorized.html'
+            })
+
 });
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
