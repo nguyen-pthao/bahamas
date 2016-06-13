@@ -58,6 +58,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
+            .state('associate', {
+                url: '/associate',
+                templateUrl: 'app/views/associate.html'
+            })
+            .state('associate.viewContacts', {
+                url: '/viewContacts',
+                templateUrl: 'app/views/contact/viewContacts.html',
+                controller: 'viewContacts'
+            })
 });
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
