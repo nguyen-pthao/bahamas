@@ -103,12 +103,13 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
-                                            <label>Date of birth</label>
+                                            <label>Date of birth</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="contactInfo.dateofbirth" class="form-control pull-right" id="contact-date-of-birth-picker">
+                                                <input type="text" ng-model="contactInfo.dateofbirth" ng-required="true" name="dob" class="form-control pull-right" id="contact-date-of-birth-picker">
+                                                <span ng-show="contactForm.dob.$error.required && contactForm.dob.$dirty" style="color: red">Date of birth is required.</span>
                                             </div>
                                         </div>
                                     </div>                     
@@ -168,7 +169,7 @@ and open the template in the editor.
                                                     || (contactForm.phonenumber.$invalid || contactForm.phonenumber.$error.required || contactForm.phonenumber.$error.maxlength)
                                                     || (contactForm.email.$invalid || contactForm.email.$error.required || contactForm.email.$error.maxlength)
                                                     || (contactForm.address.$error.required || contactForm.address.$error.maxlength)
-                                                    || (contactForm.nationality.$invalid) || submitted"
+                                                    || (contactForm.nationality.$invalid) || contactForm.dob.$error.required ||submitted"
                                                     class="btn btn-primary" data-toggle="modal" data-target="#additionalForm">
                                             Save new contact
                                         </button></center>
@@ -221,7 +222,7 @@ and open the template in the editor.
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
-                                                        <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+<!--                                                        <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                                             <div class="col-md-6" style="padding: 0px">
                                                                 <label>Date discovered to be obsolete</label>
                                                                 <div class="input-group date">
@@ -231,7 +232,7 @@ and open the template in the editor.
                                                                     <input type="text" ng-model="additionalContactInfo.phoneInfo.dateobsolete" class="form-control pull-right" id="phone-date-obsolete-picker-2">
                                                                 </div>
                                                             </div>
-                                                        </div>
+                                                        </div>-->
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addPhone()" 
                                                                         ng-disabled="additionalContactForm.additionalphonenumber.$invalid || additionalContactForm.additionalphonenumber.$error.required
