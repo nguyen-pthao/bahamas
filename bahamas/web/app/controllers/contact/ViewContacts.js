@@ -15,7 +15,11 @@ app.controller('viewContacts',
                 $scope.backHome = function () {
                     $state.go('admin.homepage');
                 };
-
+                
+                $scope.viewContact = function () {
+                    $state.reload('admin.viewContacts');
+                };
+                
                 $scope.retrieveAllContacts = function () {
 //            console.log(angular.fromJson(session.getSession('contact')));
 //            console.log(angular.fromJson(session.getSession('teams')));

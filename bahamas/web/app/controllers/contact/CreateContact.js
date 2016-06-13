@@ -174,14 +174,14 @@ app.controller('createContact',
                         countrycode: 65,
                         phonenumber: '',
                         phoneremarks: '',
-                        dateobsolete: ''
+                        dateobsolete: '13-Jun-2016'
                     },
                     emailInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
                         email: '',
                         emailremarks: '',
-                        dateobsolete: ''
+                        dateobsolete: '13-Jun-2016'
                     },
                     addressInfo: {
                         token: session.getSession('token'),
@@ -190,7 +190,7 @@ app.controller('createContact',
                         country: '',
                         zipcode: '',
                         addressremarks: '',
-                        dateobsolete: ''
+                        dateobsolete: '13-Jun-2016'
                     },
                     languageInfo: {
                         token: session.getSession('token'),
@@ -199,7 +199,7 @@ app.controller('createContact',
                         explainifother: '',
                         speakwrite: '',
                         remarks: '',
-                        dateobsolete: ''
+                        dateobsolete: '13-Jun-2016'
                     },
                     skillassetInfo: {
                         token: session.getSession('token'),
@@ -207,7 +207,7 @@ app.controller('createContact',
                         skillasset: '',
                         explainifother: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2015'
+                        dateobsolete: '13-Jun-2016'
                     },
                     teamInfo: {
                         token: session.getSession('token'),
@@ -218,7 +218,7 @@ app.controller('createContact',
                         subteam: '',
                         permissionlevel: '',
                         remarks: '',
-                        dateobsolete: ''
+                        dateobsolete: '13-Jun-2016'
                     }
                 };
                 $scope.submittedPhone = false;
@@ -292,7 +292,7 @@ app.controller('createContact',
                     $scope.additionalContactInfo.teamInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
 //          var url = "http://rms.twc2.org.sg/bahamas/";
-                    var url = "http://localhost:8084/bahamas/";
+                    var url = "http://localhost:8084/bahamas/teamjoin.add";
                     console.log($scope.additionalContactInfo.teamInfo);
                     $http({
                         method: 'POST',

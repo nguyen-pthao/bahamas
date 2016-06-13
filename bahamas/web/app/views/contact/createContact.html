@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage</a> <i class="fa fa-chevron-right small"></i> Contact Management </li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="addContact()" style="color: white"> Contact Management </a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -238,7 +238,7 @@ and open the template in the editor.
                                                                         || additionalContactForm.additionalphonenumber.$error.maxlength || additionalContactForm.phoneremarks.$error.maxlength || submittedPhone">
                                                                 Done
                                                             </button></center>
-                                                        <span ng-show="submittedPhone">Submitted successfully.</span>
+                                                        <center><span ng-show="submittedPhone">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
@@ -259,7 +259,7 @@ and open the template in the editor.
                                                                         || additionalContactForm.additionalemail.$error.maxlength || additionalContactForm.emailremarks.$error.maxlength || submittedEmail">
                                                                 Done
                                                             </button></center>
-                                                        <span ng-show="submittedEmail">Submitted successfully.</span>
+                                                        <center><span ng-show="submittedEmail">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-primary'>
                                                         <uib-accordion-heading>                                                   
@@ -295,7 +295,7 @@ and open the template in the editor.
                                                                         || additionalContactForm.addressremarks.$error.maxlength || submittedAddress">
                                                                 Done
                                                             </button></center>
-                                                        <span ng-show="submittedAddress">Submitted successfully.</span>
+                                                        <center><span ng-show="submittedAddress">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
@@ -330,7 +330,7 @@ and open the template in the editor.
                                                                                     || additionalContactForm.teamremarks.$error.maxlength || submittedTeam">
                                                                 Done
                                                             </button></center>
-                                                         <span ng-show="submittedTeam">Submitted successfully.</span>
+                                                        <center><span ng-show="submittedTeam">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-primary'>
                                                         <uib-accordion-heading>                                                   
@@ -357,7 +357,7 @@ and open the template in the editor.
                                                                         ng-disabled="additionalContactForm.additionalexplainifotherL.$error.maxlength || submittedLanguage">
                                                                 Done
                                                             </button></center>
-                                                        <span ng-show="submittedLanguage">Submitted successfully.</span>
+                                                        <center><span ng-show="submittedLanguage">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
@@ -380,7 +380,7 @@ and open the template in the editor.
                                                                         ng-disabled="additionalContactForm.additionalexplainifotherLSA.$error.maxlength || additionalContactForm.LSAremarks.$error.maxlength">
                                                                 Done
                                                             </button></center>
-                                                        <span ng-show="submittedLSA">Submitted successfully.</span>
+                                                        <center><span ng-show="submittedLSA">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                 </form>
                                             </uib-accordion>

@@ -101,7 +101,7 @@ public class AddTeamJoin extends HttpServlet {
                         String team = jobject.get("team").getAsString();
                         String explainIfOther = jobject.get("explainifother").getAsString();
                         String subTeam = jobject.get("subteam").getAsString();
-                        String permission = jobject.get("permission").getAsString();
+                        String permission = jobject.get("permissionlevel").getAsString();
                         String remarks = jobject.get("remarks").getAsString();
 
                         Date dateObsolete = null;
