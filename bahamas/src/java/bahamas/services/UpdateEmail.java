@@ -34,7 +34,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateEmail", urlPatterns = {"/email.update"})
 public class UpdateEmail extends HttpServlet {
 
-     private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -90,7 +91,7 @@ public class UpdateEmail extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                 
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
@@ -99,11 +100,14 @@ public class UpdateEmail extends HttpServlet {
                         String email = jobject.get("email").getAsString();
                         String emailRemarks = jobject.get("emailremarks").getAsString();
 
-                         Date dateObsolete = null;
+                        Date dateObsolete = null;
                         try {
                             dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
                         } catch (Exception e) {
-                            e.printStackTrace();                                             
+                            e.printStackTrace();
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
                         }
 
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);

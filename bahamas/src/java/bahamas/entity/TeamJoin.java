@@ -13,7 +13,7 @@ import java.util.Date;
  */
 public class TeamJoin {
 
-    private String username;
+    private Contact contact;
     private String teamName;
     private Date dateCreated = new java.util.Date();
     private String createdBy;
@@ -23,10 +23,9 @@ public class TeamJoin {
     private String remarks;
     private String permission;
 
-    public TeamJoin(String username, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
-        this.username = username;
+    public TeamJoin(Contact contact, String teamName, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
+        this.contact = contact;
         this.teamName = teamName;
-        this.dateCreated = dateCreated;
         this.createdBy = createdBy;
         this.explainIfOthers = explainIfOthers;
         this.subTeam = subTeam;
@@ -35,12 +34,23 @@ public class TeamJoin {
         this.permission = permission;
     }
 
-    public String getUsername() {
-        return username;
+    public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
+        this.contact = contact;
+        this.teamName = teamName;
+        this.createdBy = createdBy;
+        this.explainIfOthers = explainIfOthers;
+        this.subTeam = subTeam;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+        this.permission = permission;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 
     public String getTeamName() {
@@ -107,8 +117,4 @@ public class TeamJoin {
         this.permission = permission;
     }
 
-    
-
-    
-    
 }

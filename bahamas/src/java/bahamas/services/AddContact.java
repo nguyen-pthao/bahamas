@@ -94,7 +94,7 @@ public class AddContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-                    
+
                     String[] store = PasswordHash.getHashAndSalt(password);
                     password = store[0];
                     String salt = store[1];
@@ -121,6 +121,9 @@ public class AddContact extends HttpServlet {
                         dob = date.parse(dateOfBirth);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
                     }
 
                     //Validation of fields

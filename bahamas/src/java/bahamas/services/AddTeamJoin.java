@@ -5,8 +5,12 @@
  */
 package bahamas.services;
 
-import bahamas.dao.*;
-import bahamas.entity.*;
+import bahamas.dao.ContactDAO;
+import bahamas.dao.EmailDAO;
+import bahamas.dao.TeamJoinDAO;
+import bahamas.entity.Contact;
+import bahamas.entity.Email;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -26,10 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author HUXLEY
+ * @author huxley.goh
  */
-@WebServlet(name = "UpdateSkill", urlPatterns = {"/skill.update"})
-public class UpdateSkill extends HttpServlet {
+@WebServlet(name = "AddTeamJoin", urlPatterns = {"/teamjoin.add"})
+public class AddTeamJoin extends HttpServlet {
 
     private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
@@ -44,8 +48,10 @@ public class UpdateSkill extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/JSON;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -82,23 +88,7 @@ public class UpdateSkill extends HttpServlet {
 
                 } else {
                     //Verified token
-
                     int contactId = Integer.parseInt(jobject.get("id").getAsString());
-                    String skillsAsset = jobject.get("skillsasset").getAsString();
-                    String explainIfOther = jobject.get("explainifother").getAsString();
-                    String remarks = jobject.get("remarks").getAsString();
-
-                    Date dateObsolete = null;
-                    try {
-                        dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
-                        return;
-                    }
-
-                    //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -108,23 +98,38 @@ public class UpdateSkill extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+                        String team = jobject.get("team").getAsString();
+                        String explainIfOther = jobject.get("explainifother").getAsString();
+                        String subTeam = jobject.get("subteam").getAsString();
+                        String permission = jobject.get("permission").getAsString();
+                        String remarks = jobject.get("remarks").getAsString();
 
-                        SkillAssignment sa = new SkillAssignment(c, skillsAsset, explainIfOther,
-                                dateObsolete, remarks, username);
+                        Date dateObsolete = null;
+                        try {
+                            dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
-                        if (SkillDAO.addSkill(sa)) {
+                        TeamJoin tj = new TeamJoin(c, team, username, explainIfOther,
+                                subTeam, dateObsolete, remarks, permission);
+
+                        if (TeamJoinDAO.addTeamJoin(tj)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
+
                     }
 
                 }
             }
 
-            //}
         }
     }
 

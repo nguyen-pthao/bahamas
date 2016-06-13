@@ -92,28 +92,30 @@ public class UpdateLanguage extends HttpServlet {
                     String explainIfOther = jobject.get("explainifother").getAsString();
                     String speakWrite = jobject.get("speakwrite").getAsString();
                     String remarks = jobject.get("remarks").getAsString();
-                    
 
                     Date dateObsolete = null;
                     try {
                         dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
                     } catch (Exception e) {
                         e.printStackTrace();
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
                     }
 
                     //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                   
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
 
-                        LanguageAssignment la = new LanguageAssignment(c,language,explainIfOther,
-                                dateObsolete,speakWrite,remarks,username);
+                        LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
+                                dateObsolete, speakWrite, remarks, username);
 
                         if (LanguageDAO.addLanguage(la)) {
                             json.addProperty("message", "success");

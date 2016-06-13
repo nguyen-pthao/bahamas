@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdatePhone", urlPatterns = {"/phone.update"})
 public class UpdatePhone extends HttpServlet {
 
-      private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -90,23 +90,26 @@ public class UpdatePhone extends HttpServlet {
 
                     Contact c = cDAO.retrieveContactById(contactId);
                     Phone newPhone = null;
-                   
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                     } else {
                         int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
                         int phoneNumber = jobject.get("phonenumber").getAsInt();
-                        String phoneRemarks = jobject.get("phoneremarks").getAsString();                    
+                        String phoneRemarks = jobject.get("phoneremarks").getAsString();
 
                         Date dateObsolete = null;
                         try {
                             dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
                         } catch (Exception e) {
-                            e.printStackTrace();                                             
+                            e.printStackTrace();
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
                         }
 
-                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks,dateObsolete);
+                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
 
                         if (PhoneDAO.addPhone(newPhone)) {
                             json.addProperty("message", "success");

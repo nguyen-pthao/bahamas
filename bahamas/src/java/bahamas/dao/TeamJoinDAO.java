@@ -5,6 +5,7 @@
  */
 package bahamas.dao;
 
+import bahamas.entity.Contact;
 import bahamas.entity.TeamJoin;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -34,14 +35,16 @@ public class TeamJoinDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            
+
             //how all teams with date obslete filter
             //stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, T.REMARKS, PERMISSION FROM TEAM_JOIN T, CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND (T.DATE_OBSOLETE = '0000-00-00' OR T.DATE_OBSOLETE = '' OR T.DATE_OBSOLETE IS NULL) AND C.USERNAME = (?)");
             //show all teams without date obslete filter
             stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, T.REMARKS, PERMISSION FROM TEAM_JOIN T, CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND C.USERNAME = (?)");
             stmt.setString(1, username);
-            
+
             rs = stmt.executeQuery();
+            ContactDAO cDAO = new ContactDAO();
+            Contact c = cDAO.retrieveContactByUsername(username);
             while (rs.next()) {
 
                 String teamName = rs.getString(1);
@@ -51,13 +54,16 @@ public class TeamJoinDAO {
                 String subTeam = rs.getString(5);
                 String dateString = rs.getString(6);
                 Date dateObsolete = null;
-                if(dateString != null){
+                if (dateString != null) {
                     dateObsolete = sdf.parse(dateString);
                 }
                 String remarks = rs.getString(7);
                 String permission = rs.getString(8);
 
-                TeamJoin teamJoin = new TeamJoin(username, teamName, dateCreated, createdBy, explainIfOthers, subTeam, dateObsolete, remarks, permission);
+                TeamJoin teamJoin = new TeamJoin(c, teamName, dateCreated,
+                        createdBy, explainIfOthers, subTeam, dateObsolete,
+                        remarks, permission);
+
                 teamJoinList.add(teamJoin);
             }
             return teamJoinList;
@@ -72,6 +78,49 @@ public class TeamJoinDAO {
         }
 
         return null;
+
+    }
+
+    public static boolean addTeamJoin(TeamJoin t) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO TEAM_JOIN (CONTACT_ID,"
+                    + "TEAM_NAME,DATE_CREATED,CREATED_BY,EXPLAIN_IF_OTHER,SUBTEAM,DATE_OBSOLETE,REMARKS,PERMISSION)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?)");
+
+            stmt.setInt(1, t.getContact().getContactId());
+            stmt.setString(2, t.getTeamName());
+            stmt.setTimestamp(3, new java.sql.Timestamp(t.getDateCreated().getTime()));
+            stmt.setString(4, t.getCreatedBy());
+            stmt.setString(5, t.getExplainIfOthers());
+            stmt.setString(6, t.getSubTeam());
+
+            if (t.getDateObsolete() != null) {
+                stmt.setDate(7, new java.sql.Date(t.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(7, null);
+            }
+
+            stmt.setString(8, t.getRemarks());
+            stmt.setString(9, t.getPermission());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
 
     }
 
