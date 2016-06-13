@@ -68,9 +68,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'viewContacts'
             })
             .state('tm.addContact', {
-                url: 'addContact',
+                url: '/addContact',
                 templateUrl: 'app/views/contact/createContact.html',
                 controller: 'createContact'
+            })
+            .state('eventleader', {
+                url: '/eventleader',
+                templateUrl: 'app/views/eventleader.html'
+            })
+            .state('el.viewContacts', {
+                url: '/viewContacts',
+                templateUrl: 'app/views/contact/viewContacts.html',
+                controller: 'viewContacts'
             })
             .state('unauthorized', {
                 url: '/unauthorized',
