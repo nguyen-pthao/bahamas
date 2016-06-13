@@ -2641,6 +2641,7 @@ a:focus {
   border-top: 1px solid #f4f4f4;
   font-size: 0.90vw;
   padding: 8px 2px 8px 2px;
+  text-transform: capitalize;
 }
 .table > thead > tr > th {
   border-bottom: 2px solid #f4f4f4;
@@ -2652,6 +2653,7 @@ a:focus {
   border: 1px solid #f4f4f4;
   font-size: 0.90vw;
   padding: 8px 2px 8px 2px;
+  text-transform: capitalize;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,

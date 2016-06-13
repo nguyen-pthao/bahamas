@@ -81,10 +81,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
-            .state('unauthorized', {
-                url: '/unauthorized',
-                templateUrl: 'unAuthorized.html'
-            })
+            .state('unauthorised', {
+                url: '/unauthorised',
+                templateUrl: 'unauthorised.html'
+            });
 
 });
 
@@ -92,13 +92,13 @@ app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $
         $rootScope.$on('$stateChangeStart', function (event, targetScope) {
             if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
                 event.preventDefault();
-                session.terminateSession();
-                $state.go('login');
+//                session.terminateSession();
+                $state.go('unauthorised');
             }
             if (targetScope.url === '/admin' && (session.getSession('userType') !== 'admin')) {
                 event.preventDefault();
-                session.terminateSession();
-                $state.go('login');
+//                session.terminateSession();
+                $state.go('unauthorised');
             }
         });
     }]);

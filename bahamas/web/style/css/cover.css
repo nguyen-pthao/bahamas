@@ -1,18 +1,13 @@
 /*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 29-May-2016, 02:16:09
-    Author     : Thalia Nguyen Thao
-*/
-
-/*
  * Globals
  */
 
 /* Links */
+
+/*
+ *Adapted from Bootstrap template
+ */
+
 a,
 a:focus,
 a:hover {
@@ -23,9 +18,9 @@ a:hover {
 .btn-default,
 .btn-default:hover,
 .btn-default:focus {
-  color: #fff;
+  color: #333;
   text-shadow: none; /* Prevent inheritence from `body` */
-  background-color: #dc3237;
+  background-color: #fff;
   border: 1px solid #fff;
 }
 
@@ -37,7 +32,8 @@ a:hover {
 html,
 body {
   height: 100%;
-  background-color: #111937;
+  background-color: #1e2945;
+  font-family: serif
 }
 body {
   color: #fff;
@@ -123,8 +119,9 @@ body {
   padding: 0 20px;
 }
 .cover .btn-lg {
-  padding: 10px 30px;
+  padding: 10px 20px;
   font-weight: bold;
+  font-size: initial;
 }
 
 
