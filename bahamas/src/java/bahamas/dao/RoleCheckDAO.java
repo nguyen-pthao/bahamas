@@ -27,6 +27,22 @@ public class RoleCheckDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int count = 0;
+        
+        switch (permission) {
+            case "associate":
+                permission = "Associate";
+                break;
+            case "eventleader":
+                permission = "Event leader";
+                break;
+            case "teammanager":
+                permission = "Team manager";
+                break;
+            case "admin":
+                permission = "Admin";
+                break;
+        }
+        
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN WHERE (DATE_OBSOLETE = '0000-00-00' "
@@ -58,6 +74,22 @@ public class RoleCheckDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int count = 0;
+        
+        switch (permission) {
+            case "associate":
+                permission = "Associate";
+                break;
+            case "eventleader":
+                permission = "Event leader";
+                break;
+            case "teammanager":
+                permission = "Team manager";
+                break;
+            case "admin":
+                permission = "Admin";
+                break;
+        }
+        
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN WHERE (DATE_OBSOLETE = '0000-00-00' "

@@ -98,33 +98,41 @@ public class RetrieveContact extends HttpServlet {
                 if (!contactList.isEmpty()) {
 
                     json.addProperty("message", "success");
-
+                    //Novice
                     if (contact.isIsNovice()) {
 
                         JsonArray contactArray = retrieveAllByNovice(contactList);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
-
-                    } else if (contact.isIsAdmin()) {
+                        
+                    } else if (contact.isIsAdmin()) { //Admin
                         JsonArray contactArray = retrieveAllByAdminTm(contactList);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
-                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission)) {
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
                         JsonArray contactArray = retrieveAllByAdminTm(contactList);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
                     } else {
                         int cid = Integer.parseInt(cidString);
-                        //check permission
+                        //check permission, 
                         if (RoleCheckDAO.checkRole(cid, teamName, permission)) {
 
-                            if (permission.equals("Event leader")) {
-                                // not completed
-                            } else if (permission.equals("Associate")) {
-                                // not completed
+                            if (permission.equals("eventleader")) { //Event leader
+                                // To be confirm
+                                JsonArray contactArray = retrieveAllByAdminTm(contactList);
+                                json.add("contact", contactArray);
+                                out.println(gson.toJson(json));
+                                return;
+                            } else if (permission.equals("associate")) { //Associate
+                                // To be confirm
+                                JsonArray contactArray = retrieveAllByAssociate(contactList);
+                                json.add("contact", contactArray);
+                                out.println(gson.toJson(json));
+                                return;
                             }
                         }
 
@@ -188,19 +196,33 @@ public class RetrieveContact extends HttpServlet {
 
             jsonContactObj.addProperty("name", c.getName());
             jsonContactObj.addProperty("altname", c.getAltName());
-            //jsonContactObj.addProperty("phone", "not completed");
             jsonContactObj.addProperty("email", "not completed");
-            //jsonContactObj.addProperty("contactType", c.getContactType());
-            //jsonContactObj.addProperty("explainIfOther", c.getExplainIfOther());
-            //jsonContactObj.addProperty("contactType", c.getContactType());
-            //jsonContactObj.addProperty("profession", c.getProfession());
-            //jsonContactObj.addProperty("jobTitle", c.getJobTitle());
-            //jsonContactObj.addProperty("nric", c.getNric());
-            //jsonContactObj.addProperty("gender", c.getGender());
-            //jsonContactObj.addProperty("nationality", c.getNationality());
-            //jsonContactObj.addProperty("dateOfBirth", sdf.format(c.getDateOfBirth()));
-            //jsonContactObj.addProperty("address", "not completed");
-            //jsonContactObj.addProperty("remarks", c.getRemarks());
+            contactArray.add(jsonContactObj);
+
+        }
+        return contactArray;
+    }
+    
+    private static JsonArray retrieveAllByAssociate(ArrayList<Contact> contactList) {
+
+        JsonArray contactArray = new JsonArray();
+        JsonObject jsonContactObj;
+
+        for (Contact c : contactList) {
+
+            jsonContactObj = new JsonObject();
+
+            jsonContactObj.addProperty("name", c.getName());
+            jsonContactObj.addProperty("altname", c.getAltName());
+            jsonContactObj.addProperty("email", "not completed");
+            jsonContactObj.addProperty("contactType", c.getContactType());
+            jsonContactObj.addProperty("explainIfOther", c.getExplainIfOther());
+            jsonContactObj.addProperty("contactType", c.getContactType());
+            jsonContactObj.addProperty("profession", c.getProfession());
+            jsonContactObj.addProperty("jobTitle", c.getJobTitle());
+            jsonContactObj.addProperty("gender", c.getGender());
+            jsonContactObj.addProperty("nationality", c.getNationality());
+            jsonContactObj.addProperty("remarks", c.getRemarks());
             contactArray.add(jsonContactObj);
 
         }
