@@ -4,7 +4,7 @@
     <body>
         <div class="hold-transition skin-blue sidebar-mini">
             <!-- Site wrapper -->
-            <div class="wrapper">
+            <div class="wrapper" ng-init="populatePage()">
                 <header class="main-header">
                     <!-- Logo -->
                     <a href="" class="logo" style="background-color: #377ec4; position: fixed">
@@ -20,7 +20,7 @@
                         <a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                             <span class="sr-only">Toggle navigation</span>
                         </a>             
-                        <div class="navbar-custom-menu" ng-init="populatePage()">                        
+                        <div class="navbar-custom-menu">                        
                             <ul class="nav navbar-nav">
                                 <!-- Messages: style can be found in dropdown.less-->
                                 <li class="dropdown messages-menu">
@@ -108,7 +108,7 @@
                                 <li class="dropdown user user-menu">
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
                                         <img src="style/img/huxley.jpg" class="user-image" alt="User Image">
-                                        <span class="hidden-xs">{{user.username}}</span>
+                                        <span class="hidden-xs">{{name}}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
@@ -151,8 +151,8 @@
                                 <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
                             </div>
                             <div class="pull-left info">
-                                <p><a ng-click="backHome()">{{user.username}}</a></p>
-                                {{user.userType}}
+                                <p><a ng-click="backHome()">{{name}}</a></p>
+                                {{userType}}
                             </div>    
                         </div>                   
                         <!-- sidebar menu: : style can be found in sidebar.less -->

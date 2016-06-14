@@ -95,36 +95,70 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
-        $rootScope.$on('$stateChangeSuccess', function (event, targetScope) {
+        $rootScope.$on('$stateChangeSuccess', function (event, targetScope, targetParams, fromScope) {
             var permission = $location.path().split('/')[1];
-            if (targetScope.url === '/unauthorised') {
-                //to stop the browser from endless looping
-            } else {
-                if (permission === 'novice' && (session.getSession('userType') !== 'novice')) {
+            console.log($location.path());
+//            if (targetScope.url === '/unauthorised') {
+//                //to stop the browser from endless looping
+//            } else {
+            if (permission === 'novice') {
+                if (session.getSession('userType') !== 'novice' && session.getSession('userType') != null) {
                     event.preventDefault();
                     $state.go('unauthorised');
+                } else if (session.getSession('userType') == null) {
+                    event.preventDefault();
+                    $state.go('login');
                 }
-                if (permission === 'admin' && (session.getSession('userType') !== 'admin')) {
+            }
+            if (permission === 'admin') {
+                if (session.getSession('userType') !== 'admin' && session.getSession('userType') != null) {
                     event.preventDefault();
                     $state.go('unauthorised');
+                } else if (session.getSession('userType') == null) {
+                    event.preventDefault();
+                    $state.go('login');
                 }
-                if (permission === 'teammanager' && (session.getSession('userType') !== 'teammanager')) {
+            }
+            if (permission === 'teammanager') {
+                if (session.getSession('userType') !== 'teammanager' && session.getSession('userType') != null) {
                     event.preventDefault();
                     $state.go('unauthorised');
+                } else if (session.getSession('userType') == null) {
+                    event.preventDefault();
+                    $state.go('login');
                 }
-                if (permission === 'eventleader' && (session.getSession('userType') !== 'eventleader')) {
+            }
+            if (permission === 'eventleader') {
+                if (session.getSession('userType') !== 'eventleader' && session.getSession('userType') != null) {
                     event.preventDefault();
                     $state.go('unauthorised');
+                } else if (session.getSession('userType') == null) {
+                    event.preventDefault();
+                    $state.go('login');
                 }
-                if (permission === 'associate' && (session.getSession('userType') !== 'associate')) {
+            }
+            if (permission === 'associate') {
+                if (session.getSession('userType') !== 'associate' && session.getSession('userType') != null) {
                     event.preventDefault();
                     $state.go('unauthorised');
+                } else if (session.getSession('userType') == null) {
+                    event.preventDefault();
+                    $state.go('login');
                 }
-                if (permission === 'login' && (session.getSession('userType') !== null)){
+            }
+            if (permission === 'login' && (session.getSession('userType') !== null)) {
+                if (fromScope.url == '/unauthorised') {
+                    session.terminateSession();
+                } else {
                     event.preventDefault();
                     $state.go(session.getSession('userType'));
                 }
             }
-        });
+            if (permission == '/unauthorised') {
+                //to be modified
+            }
+        }
+//        });
+        );
     }]);
 
