@@ -12,12 +12,16 @@ app.controller('viewContacts',
         ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts',
             function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts) {
 
+                var user = session.getSession('userType');
+                var currentState = user+'.viewContacts';
+                var homepage = user+'.homepage';
+                
                 $scope.backHome = function () {
-                    $state.go('admin.homepage');
+                    $state.go(homepage);
                 };
                 
                 $scope.viewContact = function () {
-                    $state.reload('admin.viewContacts');
+                    $state.reload(currentState);
                 };
                 
                 $scope.retrieveAllContacts = function () {

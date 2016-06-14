@@ -378,7 +378,7 @@ and open the template in the editor.
                                                         <span ng-show="additionalContactForm.LSAremarks.$error.maxlength">Input field remarks is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addSkillasset()"
-                                                                        ng-disabled="additionalContactForm.additionalexplainifotherLSA.$error.maxlength || additionalContactForm.LSAremarks.$error.maxlength">
+                                                                        ng-disabled="additionalContactForm.additionalexplainifotherLSA.$error.maxlength || additionalContactForm.LSAremarks.$error.maxlength ||submittedLSA">
                                                                 Done
                                                             </button></center>
                                                         <center><span ng-show="submittedLSA">Submitted successfully.</span></center>

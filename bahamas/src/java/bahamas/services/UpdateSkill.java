@@ -84,7 +84,7 @@ public class UpdateSkill extends HttpServlet {
                     //Verified token
 
                     int contactId = Integer.parseInt(jobject.get("id").getAsString());
-                    String skillsAsset = jobject.get("skillsasset").getAsString();
+                    String skillsAsset = jobject.get("skillasset").getAsString();
                     String explainIfOther = jobject.get("explainifother").getAsString();
                     String remarks = jobject.get("remarks").getAsString();
 

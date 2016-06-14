@@ -35,12 +35,16 @@ app.controller('createContact',
         ['$rootScope', '$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
             function ($rootScope, $scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
 
+                var user = session.getSession('userType');
+                var currentState = user+'.addContact';
+                var homepage = user+'.homepage';
+                
                 $scope.backHome = function () {
-                    $state.go('admin.homepage');
+                    $state.go(homepage);
                 };
 
                 $scope.addContact = function () {
-                    $state.reload('admin.addContact');
+                    $state.reload(currentState);
                 };
 
                 $scope.loadContactTypeList = function () {
@@ -268,7 +272,7 @@ app.controller('createContact',
                 $scope.addAddress = function () {
                     $scope.additionalContactInfo.addressInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-                     var url = $rootScope.commonUrl + "address.update";
+                     var url = $rootScope.commonUrl + "/address.update";
                     console.log($scope.additionalContactInfo.addressInfo);
                     $http({
                         method: 'POST',
