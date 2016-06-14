@@ -26,12 +26,14 @@ app.controller('viewContacts',
                     var contactToRetrieve = {
                         'token': session.getSession('token'),
                         'cid': angular.fromJson(session.getSession('contact')).cid,
-//                'teamname': angular.fromJson(session.getSession('teams'))[0].teamName,
-                        'teamname': "",
+                        'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
+//                        'teamname': "",
                         'permission': session.getSession('userType')
                     };
                     var allContactObjKey = [];
+                    console.log(contactToRetrieve);
                     loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
+                        console.log(response);
                         $scope.allContactInfo = response.data.contact;
                         var firstContactObject = $scope.allContactInfo[0];
                         for (contactHeader in firstContactObject) {

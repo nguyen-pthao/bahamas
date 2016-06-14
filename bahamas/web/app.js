@@ -91,19 +91,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.$on('$stateChangeSuccess', function (event, targetScope) {
-            console.log($location.path());
             var permission = $location.path().split('/')[1];
-            console.log(permission);
-//            if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
-//                event.preventDefault();
-////                session.terminateSession();
-//                $state.go('unauthorised');
-//            }
-//            if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
-//                event.preventDefault();
-////                session.terminateSession();
-//                $state.go('unauthorised');
-//            }
             if (targetScope.url === '/unauthorised') {
                 //to stop the browser from endless looping
             } else {
