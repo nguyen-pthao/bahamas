@@ -45,6 +45,8 @@ app.controller('viewContacts',
                             $scope.isAuthorised = false;
                         }else if($scope.userType === 'associate'){
                             $scope.isAuthorised = false;
+                        }else if($scope.userType === 'eventleader'){
+                            $scope.isAuthorised = false;
                         }
                         $scope.allContactObjectKeys = allContactObjKey;
                         $scope.totalItems = $scope.allContactInfo.length;

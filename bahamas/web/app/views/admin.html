@@ -2,7 +2,7 @@
 <html ng-app="bahamas">
     <head></head>
     <body>
-        <div class="hold-transition skin-blue sidebar-mini" ng-init="populatePage()">
+        <div class="hold-transition skin-blue sidebar-mini">
             <!-- Site wrapper -->
             <div class="wrapper">
                 <header class="main-header">
@@ -20,7 +20,7 @@
                         <a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                             <span class="sr-only">Toggle navigation</span>
                         </a>             
-                        <div class="navbar-custom-menu">                        
+                        <div class="navbar-custom-menu" ng-init="populatePage()">                        
                             <ul class="nav navbar-nav">
                                 <!-- Messages: style can be found in dropdown.less-->
                                 <li class="dropdown messages-menu">
@@ -115,7 +115,7 @@
                                         <li class="user-header">
                                             <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
                                             <p>
-                                                {{name | uppercase}} - {{userType | uppercase}}
+                                                {{name}} - {{userType}}
                                                 <small>Member since {{dateCreated}}</small>
                                             </p>
                                         </li>                                  
