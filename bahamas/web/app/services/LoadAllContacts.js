@@ -6,13 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadAllContacts',['$http', function($http){ 
-        
-    this.retrieveAllContacts = function(toRetrieve){
-        return $http({
-            method: 'POST',
-            url: 'http://localhost:8084/bahamas/contact.retrieve',
-            data: JSON.stringify(toRetrieve)
-        });
-    }; 
-}]);
+app.service('loadAllContacts', ['$rootScope', '$http', function ($rootScope, $http) {
+
+        this.retrieveAllContacts = function (toRetrieve) {
+            return $http({
+                method: 'POST',
+//            url: 'http://localhost:8084/bahamas/contact.retrieve',
+                url: $rootScope.commonUrl + '/contact.retrieve',
+                data: JSON.stringify(toRetrieve)
+            });
+        };
+    }]);

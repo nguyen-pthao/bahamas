@@ -20,14 +20,14 @@ import java.util.logging.Logger;
  * @author tan.si.hao
  */
 public class RoleCheckDAO {
-    
-    public static boolean checkRole(int cid, String teamName, String permission){
-        
+
+    public static boolean checkRole(int cid, String teamName, String permission) {
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int count = 0;
-        
+
         switch (permission) {
             case "associate":
                 permission = "Associate";
@@ -42,7 +42,7 @@ public class RoleCheckDAO {
                 permission = "Admin";
                 break;
         }
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN WHERE (DATE_OBSOLETE = '0000-00-00' "
@@ -53,7 +53,7 @@ public class RoleCheckDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 count = Integer.parseInt(rs.getString(1));
-                if(count >= 1){
+                if (count >= 1) {
                     return true;
                 }
             }
@@ -64,17 +64,17 @@ public class RoleCheckDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        
+
         return false;
     }
-    
-    public static boolean checkRole(int cid, String permission){
-        
+
+    public static boolean checkRole(int cid, String permission) {
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         int count = 0;
-        
+
         switch (permission) {
             case "associate":
                 permission = "Associate";
@@ -89,17 +89,17 @@ public class RoleCheckDAO {
                 permission = "Admin";
                 break;
         }
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN WHERE (DATE_OBSOLETE = '0000-00-00' "
-                    + "OR DATE_OBSOLETE = '' OR DATE_OBSOLETE IS NULL) AND CONTACT_ID = (?) AND PERMISSION = (?) ");
+                    + "OR DATE_OBSOLETE = '' OR DATE_OBSOLETE IS NULL OR DATE_OBSOLETE >= DATE(NOW())) AND CONTACT_ID = (?) AND PERMISSION = (?) ");
             stmt.setString(1, Integer.toString(cid));
             stmt.setString(2, permission);
             rs = stmt.executeQuery();
             while (rs.next()) {
                 count = Integer.parseInt(rs.getString(1));
-                if(count >= 1){
+                if (count >= 1) {
                     return true;
                 }
             }
@@ -110,8 +110,8 @@ public class RoleCheckDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        
+
         return false;
     }
-    
+
 }

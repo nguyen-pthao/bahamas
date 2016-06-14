@@ -62,12 +62,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/teammanager',
                 templateUrl: 'app/views/teammanager.html'
             })
-            .state('tm.viewContacts', {
+            .state('teammanager.viewContacts', {
                 url: '/viewContacts',
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
-            .state('tm.addContact', {
+            .state('teammanager.addContact', {
                 url: '/addContact',
                 templateUrl: 'app/views/contact/createContact.html',
                 controller: 'createContact'
@@ -76,7 +76,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html'
             })
-            .state('el.viewContacts', {
+            .state('eventleader.viewContacts', {
                 url: '/viewContacts',
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
@@ -89,16 +89,48 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 });
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
-        $rootScope.$on('$stateChangeStart', function (event, targetScope) {
-            if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
-                event.preventDefault();
-//                session.terminateSession();
-                $state.go('unauthorised');
-            }
-            if (targetScope.url === '/admin' && (session.getSession('userType') !== 'admin')) {
-                event.preventDefault();
-//                session.terminateSession();
-                $state.go('unauthorised');
+        $rootScope.commonUrl = 'http://localhost:8084/bahamas';
+        $rootScope.$on('$stateChangeSuccess', function (event, targetScope) {
+            console.log($location.path());
+            var permission = $location.path().split('/')[1];
+            console.log(permission);
+//            if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
+//                event.preventDefault();
+////                session.terminateSession();
+//                $state.go('unauthorised');
+//            }
+//            if (targetScope.url === '/novice' && (session.getSession('userType') !== 'novice')) {
+//                event.preventDefault();
+////                session.terminateSession();
+//                $state.go('unauthorised');
+//            }
+            if (targetScope.url === '/unauthorised') {
+                //to stop the browser from endless looping
+            } else {
+                if (permission === 'novice' && (session.getSession('userType') !== 'novice')) {
+                    event.preventDefault();
+                    $state.go('unauthorised');
+                }
+                if (permission === 'admin' && (session.getSession('userType') !== 'admin')) {
+                    event.preventDefault();
+                    $state.go('unauthorised');
+                }
+                if (permission === 'teammanager' && (session.getSession('userType') !== 'teammanager')) {
+                    event.preventDefault();
+                    $state.go('unauthorised');
+                }
+                if (permission === 'eventleader' && (session.getSession('userType') !== 'eventleader')) {
+                    event.preventDefault();
+                    $state.go('unauthorised');
+                }
+                if (permission === 'associate' && (session.getSession('userType') !== 'associate')) {
+                    event.preventDefault();
+                    $state.go('unauthorised');
+                }
+                if (permission === 'login' && (session.getSession('userType') !== null)){
+                    event.preventDefault();
+                    $state.go(session.getSession('userType'));
+                }
             }
         });
     }]);

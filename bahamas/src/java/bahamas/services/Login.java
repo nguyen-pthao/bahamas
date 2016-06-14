@@ -120,8 +120,7 @@ public class Login extends HttpServlet {
                                 json.addProperty("usertype", "novice");
                             } else if (contact.isIsAdmin()) {
                                 json.addProperty("usertype", "admin");
-                            } else //Check if user is Team Leader, Event leader or Associate
-                            if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")) {
+                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")) {
                                 json.addProperty("usertype", "teammanager");
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Event leader")) {
                                 json.addProperty("usertype", "eventleader");

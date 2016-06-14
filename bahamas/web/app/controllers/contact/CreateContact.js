@@ -32,8 +32,8 @@ app.directive('compare', function () {
 });
 
 app.controller('createContact',
-        ['$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
-            function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
+        ['$rootScope', '$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
+            function ($rootScope, $scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
 
                 $scope.backHome = function () {
                     $state.go('admin.homepage');
@@ -139,8 +139,7 @@ app.controller('createContact',
                 $scope.submitted = false;
                 $scope.submitContactInfo = function () {
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/contact.add";
-                    var url = "http://localhost:8084/bahamas/contact.add";
+                    var url = $rootScope.commonUrl + "/contact.add";
                     console.log($scope.contactInfo);
                     $http({
                         method: 'POST',
@@ -174,14 +173,14 @@ app.controller('createContact',
                         countrycode: 65,
                         phonenumber: '',
                         phoneremarks: '',
-                        dateobsolete: '13-Jun-2016'
+                        dateobsolete: '13-Jun-2020'
                     },
                     emailInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
                         email: '',
                         emailremarks: '',
-                        dateobsolete: '13-Jun-2016'
+                        dateobsolete: '13-Jun-2020'
                     },
                     addressInfo: {
                         token: session.getSession('token'),
@@ -190,7 +189,7 @@ app.controller('createContact',
                         country: '',
                         zipcode: '',
                         addressremarks: '',
-                        dateobsolete: '13-Jun-2016'
+                        dateobsolete: '13-Jun-2020'
                     },
                     languageInfo: {
                         token: session.getSession('token'),
@@ -199,7 +198,7 @@ app.controller('createContact',
                         explainifother: '',
                         speakwrite: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2016'
+                        dateobsolete: '13-Jun-2020'
                     },
                     skillassetInfo: {
                         token: session.getSession('token'),
@@ -207,7 +206,7 @@ app.controller('createContact',
                         skillasset: '',
                         explainifother: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2016'
+                        dateobsolete: '13-Jun-2020'
                     },
                     teamInfo: {
                         token: session.getSession('token'),
@@ -218,15 +217,15 @@ app.controller('createContact',
                         subteam: '',
                         permissionlevel: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2016'
+                        dateobsolete: '13-Jun-2020'
                     }
                 };
                 $scope.submittedPhone = false;
                 $scope.addPhone = function () {
                     $scope.additionalContactInfo.phoneInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/phone.update";
-                    var url = "http://localhost:8084/bahamas/phone.update";
+
+                    var url = $rootScope.commonUrl + "/phone.update";
                     console.log($scope.additionalContactInfo.phoneInfo);
                     $http({
                         method: 'POST',
@@ -247,8 +246,8 @@ app.controller('createContact',
                 $scope.addEmail = function () {
                     $scope.additionalContactInfo.emailInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/email.update";
-                    var url = "http://localhost:8084/bahamas/email.update";
+
+                     var url = $rootScope.commonUrl + "/email.update";
                     console.log($scope.additionalContactInfo.emailInfo);
                     $http({
                         method: 'POST',
@@ -269,8 +268,7 @@ app.controller('createContact',
                 $scope.addAddress = function () {
                     $scope.additionalContactInfo.addressInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/address.update";
-                    var url = "http://localhost:8084/bahamas/address.update";
+                     var url = $rootScope.commonUrl + "address.update";
                     console.log($scope.additionalContactInfo.addressInfo);
                     $http({
                         method: 'POST',
@@ -291,8 +289,7 @@ app.controller('createContact',
                 $scope.addTeam = function () {
                     $scope.additionalContactInfo.teamInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/";
-                    var url = "http://localhost:8084/bahamas/teamjoin.add";
+                     var url = $rootScope.commonUrl + "/teamjoin.add";
                     console.log($scope.additionalContactInfo.teamInfo);
                     $http({
                         method: 'POST',
@@ -313,8 +310,7 @@ app.controller('createContact',
                 $scope.addLanguage = function () {
                     $scope.additionalContactInfo.languageInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/language.update";
-                    var url = "http://localhost:8084/bahamas/language.update";
+                     var url = $rootScope.commonUrl + "/language.update";
                     console.log($scope.additionalContactInfo.languageInfo);
                     $http({
                         method: 'POST',
@@ -335,8 +331,7 @@ app.controller('createContact',
                 $scope.addSkillasset = function () {
                     $scope.additionalContactInfo.skillassetInfo.id = $scope.result.contactId;
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//          var url = "http://rms.twc2.org.sg/bahamas/skill.update";
-                    var url = "http://localhost:8084/bahamas/skill.update";
+                     var url = $rootScope.commonUrl + "/skill.update";
                     console.log($scope.additionalContactInfo.skillassetInfo);
                     $http({
                         method: 'POST',

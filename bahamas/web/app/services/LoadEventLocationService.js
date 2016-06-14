@@ -6,12 +6,13 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadEventLocation',['$http', function($http){    
-    this.retrieveEventLocation = function(){
-        return $http({
-            method: 'POST',
-            url: 'http://localhost:8084/bahamas/eventlocationlist'
-        });
-    }; 
-}]);
+app.service('loadEventLocation', ['$rootScope', '$http', function ($rootScope, $http) {
+        this.retrieveEventLocation = function () {
+            return $http({
+                method: 'POST',
+//            url: 'http://localhost:8084/bahamas/eventlocationlist'
+                url: $rootScope.commonUrl + '/eventlocationlist',
+            });
+        };
+    }]);
 

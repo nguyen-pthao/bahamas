@@ -7,11 +7,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadLanguage',['$http', '$location', function($http, $location){    
+app.service('loadLanguage',['$rootScope', '$http', '$location', function($rootScope, $http, $location){    
     this.retrieveLanguage = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/languagelist'
+//            url: 'http://localhost:8084/bahamas/languagelist'
+            url: $rootScope.commonUrl + '/languagelist'
         });
     }; 
 }]);

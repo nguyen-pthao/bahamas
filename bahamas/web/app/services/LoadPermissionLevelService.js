@@ -7,11 +7,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadPermissionLevel',['$http',function($http){    
+app.service('loadPermissionLevel',['$rootScope', '$http',function($rootScope, $http){    
     this.retrievePermissionLevel = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/permissionlevellist'
+//            url: 'http://localhost:8084/bahamas/permissionlevellist'
+            url: $rootScope.commonUrl + '/permissionlevellist'
         });
     }; 
 }]);

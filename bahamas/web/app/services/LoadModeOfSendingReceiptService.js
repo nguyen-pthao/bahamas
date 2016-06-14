@@ -6,11 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadModeOfSendingReceipt',['$http', function($http){    
+app.service('loadModeOfSendingReceipt',['$rootScope', '$http', function($rootScope, $http){    
     this.retrieveModeOfSendingReceipt = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/modeofsendingreceiptlist'
+//            url: 'http://localhost:8084/bahamas/modeofsendingreceiptlist'
+            url: $rootScope.commonUrl + '/modeofsendingreceiptlist'
         });
     }; 
 }]);

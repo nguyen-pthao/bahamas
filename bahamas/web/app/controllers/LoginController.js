@@ -2,7 +2,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('loginController', ['$scope', '$http', '$location', 'session', '$window', '$state', function ($scope, $http, $location, session, $window, $state) {
+app.controller('loginController', ['$rootScope', '$scope', '$http', '$location', 'session', '$window', '$state', function ($rootScope, $scope, $http, $location, session, $window, $state) {
         $scope.error = false;
         var authorisedUser = {
             'username': "",
@@ -18,9 +18,7 @@ app.controller('loginController', ['$scope', '$http', '$location', 'session', '$
 
         $scope.loginUser = function () {
 //  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-//      var url = "http://rms.twc2.org.sg/bahamas/login";
-            var url = "http://localhost:8084/bahamas/login";
-
+             var url = $rootScope.commonUrl + "/login";
             $http({
                 method: 'POST',
                 url: url,

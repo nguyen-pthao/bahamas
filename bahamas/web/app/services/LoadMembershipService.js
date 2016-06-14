@@ -6,11 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadMembershipClass',['$http', function($http){    
+app.service('loadMembershipClass',['$rootScope', '$http', function($rootScope, $http){    
     this.retrieveMembershipClass = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/membershipclasslist'
+//            url: 'http://localhost:8084/bahamas/membershipclasslist'
+            url: $rootScope.commonUrl + '/membershipclasslist'
         });
     }; 
 }]);

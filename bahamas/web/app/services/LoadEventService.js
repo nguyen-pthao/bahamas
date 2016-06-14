@@ -6,11 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadEventClass',['$http', function($http){    
+app.service('loadEventClass',['$rootScope', '$http', function($rootScope, $http){    
     this.retrieveEventClass = function(){
         return $http({
             method: 'POST',
-            url: 'http://localhost:8084/bahamas/eventclasslist'
+//            url: 'http://localhost:8084/bahamas/eventclasslist'
+            url: $rootScope.commonUrl + '/eventclasslist'
         });
     }; 
 }]);
