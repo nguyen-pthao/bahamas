@@ -118,6 +118,8 @@ public class AddTeamJoin extends HttpServlet {
                                 subTeam, dateObsolete, remarks, permission);
 
                         if (TeamJoinDAO.addTeamJoin(tj)) {
+                            //change contact to a non novice account
+                            cDAO.changePermission(c,false);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

@@ -249,4 +249,26 @@ public class ContactDAO {
         return autoIncKeyFromApi;
     }
 
+    public static boolean changePermission(Contact c, boolean isNovice) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE CONTACT SET ISNOVICE = (?) WHERE CONTACT_ID = (?)");
+            stmt.setBoolean(1, isNovice);
+            stmt.setInt(2, c.getContactId());
+          
+            return stmt.executeUpdate() == 1;              
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
 }
