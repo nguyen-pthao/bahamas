@@ -10,6 +10,12 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -54,5 +60,50 @@ public class EmailDAO {
         }
         return false;
     }
+    
+    public static ArrayList<Email> retrieveAllEmail(Contact contact) {
+        ArrayList<Email> emailList = new ArrayList<Email>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        int cid = contact.getContactId();
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE FROM EMAIL WHERE CONTACT_ID = (?)");
+            stmt.setString(1, Integer.toString(cid));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                
+                String dateStr = rs.getString(1);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(2);
+                String email = rs.getString(3);
+                String remarks = rs.getString(4);
+                String dateobs = rs.getString(5);
+                Date dateObsolete = null;
+                if (dateobs != null && !dateobs.isEmpty()){
+                    dateObsolete = datetime.parse(dateobs);
+                }
+                Email e = new Email(email,createdBy,remarks,dateObsolete,dateCreated);
+                
+                emailList.add(e);
+            }
+            
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return emailList;
+        
+    }
+    
+    
 }

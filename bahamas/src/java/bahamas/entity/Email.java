@@ -32,9 +32,16 @@ public class Email {
         this.email = email;
         this.remarks = remarks;
         this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
     }
     
-    
+    public Email(String email, String createdBy, String remarks, Date dateObsolete, Date dateCreated) {
+        this.email = email;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
+        this.dateCreated = dateCreated;
+    }
     
     public Contact getContact() {
         return contact;

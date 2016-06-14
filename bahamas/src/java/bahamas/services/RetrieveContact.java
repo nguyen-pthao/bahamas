@@ -6,8 +6,12 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EmailDAO;
+import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
+import bahamas.entity.Email;
+import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -21,6 +25,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -157,12 +162,37 @@ public class RetrieveContact extends HttpServlet {
         JsonObject jsonContactObj;
 
         for (Contact c : contactList) {
+            
+            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
+            ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
+            String emailStr = "";
+            String phoneStr = "";
+            if(!emailList.isEmpty()){
+                
+                for(int i = 0; i < emailList.size()-1; i++){
+                    Email email = emailList.get(i);
+                    emailStr += email.getEmail() + ", ";
+                }
+                Email email = emailList.get(emailList.size()-1);
+                emailStr += email.getEmail();
+                
+            }
+            if(!phoneList.isEmpty()){
+                
+                for(int i = 0; i < phoneList.size()-1; i++){
+                    Phone phone = phoneList.get(i);
+                    phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber() + ", ";
+                }
+                Phone phone = phoneList.get(phoneList.size()-1);
+                phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber();
+                
+            }
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", c.getName());
             jsonContactObj.addProperty("altname", c.getAltName());
-            jsonContactObj.addProperty("phone", "not completed");
-            jsonContactObj.addProperty("email", "not completed");
+            jsonContactObj.addProperty("phone", phoneStr);
+            jsonContactObj.addProperty("email", emailStr);
             jsonContactObj.addProperty("contacttype", c.getContactType());
             jsonContactObj.addProperty("explainifother", c.getExplainIfOther());
             jsonContactObj.addProperty("contacttype", c.getContactType());
@@ -191,12 +221,26 @@ public class RetrieveContact extends HttpServlet {
         JsonObject jsonContactObj;
 
         for (Contact c : contactList) {
-
+            
+            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
+            String emailStr = "";
+            
+            if(!emailList.isEmpty()){
+                
+                for(int i = 0; i < emailList.size()-1; i++){
+                    Email email = emailList.get(i);
+                    emailStr += email.getEmail() + ", ";
+                }
+                Email email = emailList.get(emailList.size()-1);
+                emailStr += email.getEmail();
+                
+            }
+            
             jsonContactObj = new JsonObject();
 
             jsonContactObj.addProperty("name", c.getName());
             jsonContactObj.addProperty("altname", c.getAltName());
-            jsonContactObj.addProperty("email", "not completed");
+            jsonContactObj.addProperty("email", emailStr);
             contactArray.add(jsonContactObj);
 
         }
@@ -209,12 +253,26 @@ public class RetrieveContact extends HttpServlet {
         JsonObject jsonContactObj;
 
         for (Contact c : contactList) {
+            
+            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
+            String emailStr = "";
+            
+            if(!emailList.isEmpty()){
+                
+                for(int i = 0; i < emailList.size()-1; i++){
+                    Email email = emailList.get(i);
+                    emailStr += email.getEmail() + ", ";
+                }
+                Email email = emailList.get(emailList.size()-1);
+                emailStr += email.getEmail();
+                
+            }
 
             jsonContactObj = new JsonObject();
 
             jsonContactObj.addProperty("name", c.getName());
             jsonContactObj.addProperty("altname", c.getAltName());
-            jsonContactObj.addProperty("email", "not completed");
+            jsonContactObj.addProperty("email", emailStr);
             jsonContactObj.addProperty("contactType", c.getContactType());
             jsonContactObj.addProperty("explainIfOther", c.getExplainIfOther());
             jsonContactObj.addProperty("contactType", c.getContactType());
