@@ -2,7 +2,7 @@
 <html ng-app="bahamas">
     <head></head>
     <body>
-        <div class="hold-transition skin-blue sidebar-mini">
+        <div class="hold-transition skin-blue sidebar-mini" ng-init="populatePage()">
             <!-- Site wrapper -->
             <div class="wrapper">
                 <header class="main-header">
@@ -115,8 +115,8 @@
                                         <li class="user-header">
                                             <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
                                             <p>
-                                                {{user.username}} - {{user.userType}}
-                                                <small>Member since Apr. 2016</small>
+                                                {{name | uppercase}} - {{userType | uppercase}}
+                                                <small>Member since {{dateCreated}}</small>
                                             </p>
                                         </li>                                  
                                         <!-- Menu Footer-->

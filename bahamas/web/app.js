@@ -19,7 +19,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('admin', {
                 url: '/admin',
-                templateUrl: 'app/views/admin.html'
+                templateUrl: 'app/views/admin.html',
+                controller: 'pageController'
             })
             .state('admin.homepage', {
                 url: '/homepage',
@@ -43,6 +44,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
+                controller: 'pageController'
             })
             .state('novice.viewContacts', {
                 url: '/viewContacts',
@@ -51,7 +53,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('associate', {
                 url: '/associate',
-                templateUrl: 'app/views/associate.html'
+                templateUrl: 'app/views/associate.html',
+                controller: 'pageController'
             })
             .state('associate.viewContacts', {
                 url: '/viewContacts',
@@ -60,7 +63,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('teammanager', {
                 url: '/teammanager',
-                templateUrl: 'app/views/teammanager.html'
+                templateUrl: 'app/views/teammanager.html',
+                controller: 'pageController'
             })
             .state('teammanager.viewContacts', {
                 url: '/viewContacts',
@@ -74,7 +78,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('eventleader', {
                 url: '/eventleader',
-                templateUrl: 'app/views/eventleader.html'
+                templateUrl: 'app/views/eventleader.html',
+                controller: 'pageController'
             })
             .state('eventleader.viewContacts', {
                 url: '/viewContacts',
