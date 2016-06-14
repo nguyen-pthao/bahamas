@@ -13,27 +13,37 @@ app.controller('viewContacts',
             function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts) {
 
                 var user = session.getSession('userType');
-                var currentState = user+'.viewContacts';
-                var homepage = user+'.homepage';
-                
+                var currentState = user + '.viewContacts';
+                var homepage = user + '.homepage';
+
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
-                
+
                 $scope.viewContact = function () {
                     $state.reload(currentState);
                 };
-                
+
                 $scope.retrieveAllContacts = function () {
 //            console.log(angular.fromJson(session.getSession('contact')));
 //            console.log(angular.fromJson(session.getSession('teams')));
-                    var contactToRetrieve = {
-                        'token': session.getSession('token'),
-                        'cid': angular.fromJson(session.getSession('contact')).cid,
-                        'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
+                    $scope.checkNovice = session.getSession('userType');
+                    if ($scope.checkNovice === 'novice') {
+                        var contactToRetrieve = {
+                            'token': session.getSession('token'),
+                            'cid': angular.fromJson(session.getSession('contact')).cid,
+                            'teamname': "",
+                            'permission': session.getSession('userType')
+                        };
+                    } else {
+                        var contactToRetrieve = {
+                            'token': session.getSession('token'),
+                            'cid': angular.fromJson(session.getSession('contact')).cid,
+                            'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
 //                        'teamname': "",
-                        'permission': session.getSession('userType')
-                    };
+                            'permission': session.getSession('userType')
+                        };
+                    }
                     var allContactObjKey = [];
                     console.log(contactToRetrieve);
                     loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
@@ -47,9 +57,9 @@ app.controller('viewContacts',
                         $scope.userType = session.getSession('userType');
                         if ($scope.userType === 'novice') {
                             $scope.isAuthorised = false;
-                        }else if($scope.userType === 'associate'){
+                        } else if ($scope.userType === 'associate') {
                             $scope.isAuthorised = false;
-                        }else if($scope.userType === 'eventleader'){
+                        } else if ($scope.userType === 'eventleader') {
                             $scope.isAuthorised = false;
                         }
                         $scope.allContactObjectKeys = allContactObjKey;
@@ -57,7 +67,7 @@ app.controller('viewContacts',
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = $scope.allContactInfo.length;
                         $scope.itemsPerPageChanged = function () {
-                            if($scope.itemsPerPage == 'toAll'){
+                            if ($scope.itemsPerPage == 'toAll') {
                                 $scope.itemsPerPage = $scope.allContactInfo.length;
                             }
                             var total = $scope.totalItems / $scope.itemsPerPage;
