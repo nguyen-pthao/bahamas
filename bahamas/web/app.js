@@ -51,10 +51,18 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
+            .state('novice.homepage', {
+                url: '/homepage',
+                templateUrl: 'app/views/homepage.html'
+            })
             .state('associate', {
                 url: '/associate',
                 templateUrl: 'app/views/associate.html',
                 controller: 'pageController'
+            })
+            .state('associate.homepage', {
+                url: '/homepage',
+                templateUrl: 'app/views/homepage.html'
             })
             .state('associate.viewContacts', {
                 url: '/viewContacts',
@@ -65,6 +73,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/teammanager',
                 templateUrl: 'app/views/teammanager.html',
                 controller: 'pageController'
+            })
+            .state('teammanager.homepage', {
+                url: '/homepage',
+                templateUrl: 'app/views/homepage.html'
             })
             .state('teammanager.viewContacts', {
                 url: '/viewContacts',
@@ -80,6 +92,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
                 controller: 'pageController'
+            })
+            .state('eventleader.homepage', {
+                url: '/homepage',
+                templateUrl: 'app/views/homepage.html'
             })
             .state('eventleader.viewContacts', {
                 url: '/viewContacts',
