@@ -111,12 +111,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
-        $rootScope.$on('$stateChangeSuccess', function (event, targetScope, targetParams, fromScope) {
+        $rootScope.previousState;
+        $rootScope.stateToRevert;
+        $rootScope.$on('$stateChangeSuccess', function (event, targetScope, targetParams, fromScope, to, from) {
             var permission = $location.path().split('/')[1];
-            console.log($location.path());
 //            if (targetScope.url === '/unauthorised') {
 //                //to stop the browser from endless looping
 //            } else {
+
             if (permission === 'novice') {
                 if (session.getSession('userType') !== 'novice' && session.getSession('userType') != null) {
                     event.preventDefault();
@@ -173,8 +175,18 @@ app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $
             if (permission == '/unauthorised') {
                 //to be modified
             }
+            $rootScope.previousState = $location.path();
         }
+
 //        });
         );
+
+        $rootScope.$on('$stateChangeStart', function (event, targetScope, to, from) {
+            if (targetScope.url == 'unauthorised') {
+                //keep previous state
+            } else {
+                $rootScope.stateToRevert = $rootScope.previousState;
+            }
+        })
     }]);
 

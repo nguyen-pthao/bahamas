@@ -72,6 +72,7 @@ public class AddressDAO {
         
         int cid = contact.getContactId();
         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             conn = ConnectionManager.getConnection();
@@ -88,7 +89,7 @@ public class AddressDAO {
                 String dateobs = rs.getString(6);
                 Date dateObsolete = null;
                 if (dateobs != null && !dateobs.isEmpty()){
-                    dateObsolete = datetime.parse(dateobs);
+                    dateObsolete = date.parse(dateobs);
                 }
                 String dateStr = rs.getString(7);
                 Date dateCreated = datetime.parse(dateStr);

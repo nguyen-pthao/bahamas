@@ -45,10 +45,10 @@ public class EmailDAO {
 
             if (e.getDateObsolete() != null) {
                 stmt.setDate(6, new java.sql.Date(e.getDateObsolete().getTime()));
-            }else {
+            } else {
                 stmt.setDate(6, null);
             }
-            
+
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -60,7 +60,7 @@ public class EmailDAO {
         }
         return false;
     }
-    
+
     public static ArrayList<Email> retrieveAllEmail(Contact contact) {
         ArrayList<Email> emailList = new ArrayList<Email>();
         Connection conn = null;
@@ -69,14 +69,14 @@ public class EmailDAO {
 
         int cid = contact.getContactId();
         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE FROM EMAIL WHERE CONTACT_ID = (?)");
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 String dateStr = rs.getString(1);
                 Date dateCreated = datetime.parse(dateStr);
                 String createdBy = rs.getString(2);
@@ -84,14 +84,14 @@ public class EmailDAO {
                 String remarks = rs.getString(4);
                 String dateobs = rs.getString(5);
                 Date dateObsolete = null;
-                if (dateobs != null && !dateobs.isEmpty()){
-                    dateObsolete = datetime.parse(dateobs);
+                if (dateobs != null && !dateobs.isEmpty()) {
+                    dateObsolete = date.parse(dateobs);
                 }
-                Email e = new Email(email,createdBy,remarks,dateObsolete,dateCreated);
-                
+                Email e = new Email(email, createdBy, remarks, dateObsolete, dateCreated);
+
                 emailList.add(e);
             }
-            
+
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
@@ -102,8 +102,7 @@ public class EmailDAO {
         }
 
         return emailList;
-        
+
     }
-    
-    
+
 }
