@@ -39,6 +39,8 @@ app.controller('createContact',
                 var currentState = user+'.addContact';
                 var homepage = user+'.homepage';
                 
+                $scope.form = {};
+                
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -224,11 +226,13 @@ app.controller('createContact',
                         dateobsolete: '13-Jun-2020'
                     }
                 };
+                
+                $scope.copyCat = angular.copy($scope.additionalContactInfo);
+                console.log($scope.copyCat);
+                
                 $scope.submittedPhone = false;
                 $scope.addPhone = function () {
                     $scope.additionalContactInfo.phoneInfo.id = $scope.result.contactId;
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-
                     var url = $rootScope.commonUrl + "/phone.update";
                     console.log($scope.additionalContactInfo.phoneInfo);
                     $http({
@@ -249,8 +253,6 @@ app.controller('createContact',
                 $scope.submittedEmail = false;
                 $scope.addEmail = function () {
                     $scope.additionalContactInfo.emailInfo.id = $scope.result.contactId;
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
-
                      var url = $rootScope.commonUrl + "/email.update";
                     console.log($scope.additionalContactInfo.emailInfo);
                     $http({
@@ -271,7 +273,6 @@ app.controller('createContact',
                 $scope.submittedAddress = false;
                 $scope.addAddress = function () {
                     $scope.additionalContactInfo.addressInfo.id = $scope.result.contactId;
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
                      var url = $rootScope.commonUrl + "/address.update";
                     console.log($scope.additionalContactInfo.addressInfo);
                     $http({
@@ -292,7 +293,6 @@ app.controller('createContact',
                 $scope.submittedTeam = false;
                 $scope.addTeam = function () {
                     $scope.additionalContactInfo.teamInfo.id = $scope.result.contactId;
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
                      var url = $rootScope.commonUrl + "/teamjoin.add";
                     console.log($scope.additionalContactInfo.teamInfo);
                     $http({
@@ -313,7 +313,6 @@ app.controller('createContact',
                 $scope.submittedLanguage = false;
                 $scope.addLanguage = function () {
                     $scope.additionalContactInfo.languageInfo.id = $scope.result.contactId;
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
                      var url = $rootScope.commonUrl + "/language.update";
                     console.log($scope.additionalContactInfo.languageInfo);
                     $http({
@@ -334,7 +333,6 @@ app.controller('createContact',
                 $scope.submittedLSA = false;
                 $scope.addSkillasset = function () {
                     $scope.additionalContactInfo.skillassetInfo.id = $scope.result.contactId;
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
                      var url = $rootScope.commonUrl + "/skill.update";
                     console.log($scope.additionalContactInfo.skillassetInfo);
                     $http({
@@ -351,7 +349,40 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+                
+                $scope.addMorePhone = function() {
+                    $scope.additionalContactInfo.phoneInfo = angular.copy($scope.copyCat.phoneInfo);
+                    $scope.submittedPhone = false;
+                    $scope.form.additionalContactForm.additionalphonenumber.$setPristine();
+                };
+                
+                $scope.addMoreEmail = function() {
+                    $scope.additionalContactInfo.emailInfo = angular.copy($scope.copyCat.emailInfo);
+                    $scope.submittedEmail = false;
+                    $scope.form.additionalContactForm.additionalemail.$setPristine();
+                };
+                
+                $scope.addMoreAddress = function() {
+                    $scope.additionalContactInfo.addressInfo = angular.copy($scope.copyCat.addressInfo);
+                    $scope.submittedAddress = false;
+                    $scope.form.additionalContactForm.additionaladdress.$setPristine();
+                };
+                
+                $scope.addMoreTeam = function() {
+                    $scope.additionalContactInfo.teamInfo = angular.copy($scope.copyCat.teamInfo);
+                    $scope.submittedTeam = false;
+                };
+                
+                $scope.addMoreLanguage = function() {
+                    $scope.additionalContactInfo.languageInfo = angular.copy($scope.copyCat.languageInfo);
+                    $scope.submittedLanguage = false;
+                };
+                
+                $scope.addMoreLSA = function() {
+                    $scope.additionalContactInfo.skillassetInfo = angular.copy($scope.copyCat.skillassetInfo);
+                    $scope.submittedLSA = false;
+                };
+                
             }]);
 
 
