@@ -5,8 +5,6 @@
  */
 package bahamas.dao;
 
-
-
 import bahamas.entity.Contact;
 import bahamas.entity.Phone;
 import java.sql.Connection;
@@ -69,15 +67,16 @@ public class PhoneDAO {
         }
         return false;
     }
-    
+
     public static ArrayList<Phone> retrieveAllPhone(Contact contact) {
         ArrayList<Phone> phoneList = new ArrayList<Phone>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         int cid = contact.getContactId();
         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             conn = ConnectionManager.getConnection();
@@ -85,7 +84,7 @@ public class PhoneDAO {
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int countryCode = rs.getInt(1);
                 int phoneNumber = rs.getInt(2);
                 String remarks = rs.getString(3);
@@ -94,15 +93,15 @@ public class PhoneDAO {
                 Date dateCreated = datetime.parse(dateStr);
                 String dateobs = rs.getString(6);
                 Date dateObsolete = null;
-                if (dateobs != null && !dateobs.isEmpty()){
-                    dateObsolete = datetime.parse(dateobs);
+                if (dateobs != null && !dateobs.isEmpty()) {
+                    dateObsolete = date.parse(dateobs);
                 }
-               
-                Phone p = new Phone(countryCode,phoneNumber,remarks,createdBy,dateCreated,dateObsolete);
-                
+
+                Phone p = new Phone(countryCode, phoneNumber, remarks, createdBy, dateCreated, dateObsolete);
+
                 phoneList.add(p);
             }
-            
+
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
@@ -113,7 +112,7 @@ public class PhoneDAO {
         }
 
         return phoneList;
-        
+
     }
 
     public ArrayList<Phone> getPhoneList() {
