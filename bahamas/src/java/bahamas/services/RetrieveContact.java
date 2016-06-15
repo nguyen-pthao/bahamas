@@ -5,10 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AddressDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.Address;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.Phone;
@@ -165,8 +167,11 @@ public class RetrieveContact extends HttpServlet {
             
             ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
             ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
+            ArrayList<Address> addressList = AddressDAO.retrieveAllAddress(c);
+            
             String emailStr = "";
             String phoneStr = "";
+            String addressStr = "";
             if(!emailList.isEmpty()){
                 
                 for(int i = 0; i < emailList.size()-1; i++){
@@ -187,6 +192,16 @@ public class RetrieveContact extends HttpServlet {
                 phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber();
                 
             }
+            if(!addressList.isEmpty()){
+                
+                for(int i = 0; i < addressList.size()-1; i++){
+                    Address address = addressList.get(i);
+                    addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode() + "; ";
+                }
+                Address address = addressList.get(addressList.size()-1);
+                addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode();
+                
+            }
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", c.getName());
@@ -202,7 +217,7 @@ public class RetrieveContact extends HttpServlet {
             jsonContactObj.addProperty("gender", c.getGender());
             jsonContactObj.addProperty("nationality", c.getNationality());
             jsonContactObj.addProperty("dateofbirth", sdf.format(c.getDateOfBirth()));
-            jsonContactObj.addProperty("address", "not completed");
+            jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", c.getRemarks());
             //jsonContactObj.addProperty("username", c.getName());
             //jsonContactObj.addProperty("password", c.getPassword());
