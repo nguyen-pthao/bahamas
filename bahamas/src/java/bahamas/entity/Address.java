@@ -40,6 +40,18 @@ public class Address {
         this.remarks = remarks;
         this.dateObsolete = dateObsolete;
     }
+
+    public Address(int zipcode, String address, String country, String remarks, String createdBy, Date dateObsolete, Date dateCreated) {
+        this.zipcode = zipcode;
+        this.address = address;
+        this.country = country;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
+        this.dateCreated = dateCreated;
+    }
+      
+    
     
     
     public Contact getContact() {
