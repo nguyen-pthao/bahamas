@@ -31,7 +31,7 @@ and open the template in the editor.
                     <!-- /.box-header -->
                     <div class="box-body">                        
                         <div class="col-md-12" style="margin-bottom: 15px">
-                            <label class="col-md-1" style="padding: 0px">
+                            <label class="col-md-1" style="padding: 0px; float:left">
                                 Show Entries:
                             </label>
                             <div class="col-md-1" style="padding: 0px">
@@ -45,7 +45,7 @@ and open the template in the editor.
                                 </select>
                             </div>
                             <div class="col-md-2" style="float:right">
-                                <input type="text" class="form-control" placeholder="Search Contact" ng-model="search" />
+                                <input type="text" class="form-control" placeholder="Search Contact" ng-model="searchContacts" />
                                 <br />
                             </div>
                         </div>
@@ -57,7 +57,7 @@ and open the template in the editor.
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="contact in filteredContacts | orderBy:predicate:reverse">
+                                <tr ng-repeat="contact in filteredContacts | orderBy:predicate:reverse | filter:searchContacts">
                                     <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
                                     <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg"></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg"></i></a></span></td>
                                 </tr>
