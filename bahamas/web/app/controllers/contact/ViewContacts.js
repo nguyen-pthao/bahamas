@@ -10,11 +10,12 @@ var app = angular.module('bahamas');
 
 app.controller('viewContacts',
         ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts',
-            function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts) {
+            function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts, filterFilter) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
                 var homepage = user + '.homepage';
+
 
                 $scope.backHome = function () {
                     $state.go(homepage);
@@ -98,6 +99,11 @@ app.controller('viewContacts',
                         };
                     });
                 };
+                $scope.predicate = '';
+                $scope.reverse = true;
 
-
-            }]);
+                $scope.order = function (predicate) {
+                    $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
+                    $scope.predicate = predicate;
+                };
+            }])

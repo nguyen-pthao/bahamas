@@ -30,30 +30,34 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-                            <div class="col-md-12" style="margin-bottom: 15px">
-                                <label class="col-md-1" style="padding: 0px">
-                                   Show Entries:
-                                </label>
-                                <div class="col-md-1" style="padding: 0px">
-                                    <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
-                                        <option>1</option>
-                                        <option>3</option>
-                                        <option>5</option>
-                                        <option>7</option>
-                                        <option>9</option>
-                                        <option value="toAll">All</option>
-                                    </select>
-                                </div>
+                        <div class="col-md-12" style="margin-bottom: 15px">
+                            <label class="col-md-1" style="padding: 0px">
+                                Show Entries:
+                            </label>
+                            <div class="col-md-1" style="padding: 0px">
+                                <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
+                                    <option>1</option>
+                                    <option>3</option>
+                                    <option>5</option>
+                                    <option>7</option>
+                                    <option>9</option>
+                                    <option value="toAll">All</option>
+                                </select>
                             </div>
+                            <div class="col-md-2" style="float:right">
+                                <input type="text" class="form-control" placeholder="Search Contact" ng-model="search" />
+                                <br />
+                            </div>
+                        </div>
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th ng-repeat="contactHeader in allContactObjectKeys">{{contactHeader}}</th>
+                                    <th ng-repeat="contactHeader in allContactObjectKeys"><a href="" ng-click="order(contactHeader)">{{contactHeader}}</a></th>
                                     <th ng-if="isAuthorised"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="contact in filteredContacts">
+                                <tr ng-repeat="contact in filteredContacts | orderBy:predicate:reverse">
                                     <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
                                     <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg"></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg"></i></a></span></td>
                                 </tr>
