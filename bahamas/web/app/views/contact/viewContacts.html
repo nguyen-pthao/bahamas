@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px; height: 900px" id="view-all-contacts">
+        <div class="content-wrapper" style="margin:0px; min-height: 900px" id="view-all-contacts">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -52,14 +52,14 @@ and open the template in the editor.
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th ng-repeat="contactHeader in allContactObjectKeys"><a href="" ng-click="order(contactHeader)">{{contactHeader}}</a></th>
+                                    <th ng-repeat="contactHeader in allContactObjectKeys"><a href="" ng-click="order(contactHeader)" style='color: #005384'>{{contactHeader}}</a></th>
                                     <th ng-if="isAuthorised"></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr ng-repeat="contact in filteredContacts | orderBy:predicate:reverse">
                                     <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
-                                    <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg"></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg"></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
