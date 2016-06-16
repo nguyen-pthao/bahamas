@@ -11,6 +11,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.TreeSet;
 import java.util.logging.Level;
@@ -27,8 +28,8 @@ public class Validator {
     private static Pattern pattern;
     private static Matcher matcher;
 
-    private static final String DATE_FORMAT = "dd-MMMM-yyyy HH:mm:ss";
-    private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat(DATE_FORMAT);
+    private static final String DATE_FORMAT = "dd-MMM-yyyy";
+    private static final String DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm:ss";
 
     /*
      This class should contain all the validation rules for every unique fields present in the DB
@@ -88,7 +89,7 @@ public class Validator {
         }
         return false;
     }
-    */
+     */
     /**
      * <p>
      * Return a boolean value on whether inputted String contains blank field
@@ -114,17 +115,18 @@ public class Validator {
      * @param date the date
      * @return boolean value, true if date is valid
      */
-    public static boolean isDateValid(String date) {
+    public static Date isDateValid(String date) {
         if (date.length() == DATE_FORMAT.length()) {
             try {
-                DateFormat df = new SimpleDateFormat(DATE_FORMAT);
-                df.setLenient(false);
-                df.parse(date);
-                return true;
-            } catch (ParseException e) {
+                SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+                //df.setLenient(false);
+                return df.parse(date);
+             
+            } catch (ParseException | NullPointerException e) {
+                return null;
             }
         }
-        return false;
+        return null;
 
     }
 
@@ -136,20 +138,19 @@ public class Validator {
      * @param time the email address
      * @return boolean value, true if time is valid
      */
-    /*
-    public static boolean isTimeValid(String time) {
-        if (time.length() == TIME_FORMAT.length()) {
+    public static Date isDateTimeValid(String dateTime) {
+        if (dateTime.length() == DATE_TIME_FORMAT.length()) {
             try {
-                SimpleDateFormat format = new SimpleDateFormat(TIME_FORMAT);
-                format.setLenient(false);
-                format.parse(time);
-                return true;
-            } catch (ParseException e) {
+                SimpleDateFormat format = new SimpleDateFormat(DATE_TIME_FORMAT);
+                //format.setLenient(false);
+                return format.parse(dateTime);
+            } catch (ParseException | NullPointerException e) {
+                return null;
             }
         }
-        return false;
+        return null;
     }
-    */
+
     /**
      * <p>
      * Return a boolean value on whether inputted name is valid
@@ -349,7 +350,7 @@ public class Validator {
         return false;
     }
 
-     /**
+    /**
      * <p>
      * Return a boolean value on whether inputted occasion is valid
      * </p>
@@ -360,7 +361,7 @@ public class Validator {
     public static boolean validOccasion(String occasion) {
         return (occasion.length() >= 0 && occasion.length() <= 500);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted subteam is valid
@@ -372,7 +373,7 @@ public class Validator {
     public static boolean validSubteam(String subteam) {
         return (subteam.length() >= 0 && subteam.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted permission is valid
@@ -384,7 +385,7 @@ public class Validator {
     public static boolean validPermission(String permission) {
         return (permission.length() >= 1 && permission.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted team is valid
@@ -396,7 +397,7 @@ public class Validator {
     public static boolean validTeam(String team) {
         return (team.length() >= 1 && team.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted course is valid
@@ -408,7 +409,7 @@ public class Validator {
     public static boolean validCourse(String course) {
         return (course.length() >= 0 && course.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted trainer is valid
@@ -420,7 +421,7 @@ public class Validator {
     public static boolean validTrainer(String trainer) {
         return (trainer.length() >= 0 && trainer.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted comments is valid
@@ -432,7 +433,7 @@ public class Validator {
     public static boolean validComments(String comments) {
         return (comments.length() >= 0 && comments.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted gesture is valid
@@ -444,7 +445,7 @@ public class Validator {
     public static boolean validGesture(String gesture) {
         return (gesture.length() >= 0 && gesture.length() <= 500);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted appreciationBy is valid
@@ -456,7 +457,7 @@ public class Validator {
     public static boolean validAppreciationBy(String appreciationBy) {
         return (appreciationBy.length() >= 0 && appreciationBy.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted proxyStanding is valid
@@ -468,7 +469,7 @@ public class Validator {
     public static boolean validProxyStanding(String proxyStanding) {
         return (proxyStanding.length() >= 0 && proxyStanding.length() <= 500);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted proxyOf is valid
@@ -480,7 +481,7 @@ public class Validator {
     public static boolean validProxyOf(String proxyOf) {
         return (proxyOf.length() >= 0 && proxyOf.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted language is valid
@@ -492,7 +493,7 @@ public class Validator {
     public static boolean validLanguage(String language) {
         return (language.length() >= 1 && language.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted speakWrite is valid
@@ -504,7 +505,7 @@ public class Validator {
     public static boolean validSpeakWrite(String speakWrite) {
         return (speakWrite.length() >= 0 && speakWrite.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted skill is valid
@@ -516,7 +517,7 @@ public class Validator {
     public static boolean validSkill(String skill) {
         return (skill.length() >= 1 && skill.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted eventTitle is valid
@@ -528,7 +529,7 @@ public class Validator {
     public static boolean validEventTitle(String eventTitle) {
         return (eventTitle.length() >= 1 && eventTitle.length() <= 200);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted eventClass is valid
@@ -540,7 +541,7 @@ public class Validator {
     public static boolean validEventClass(String eventClass) {
         return (eventClass.length() >= 1 && eventClass.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted eventRole is valid
@@ -552,7 +553,7 @@ public class Validator {
     public static boolean validEventRole(String eventRole) {
         return (eventRole.length() >= 1 && eventRole.length() <= 50);
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted eventRoleDescription is valid
@@ -564,7 +565,5 @@ public class Validator {
     public static boolean validEventRoleDescription(String eventRoleDescription) {
         return (eventRoleDescription.length() >= 0 && eventRoleDescription.length() <= 200);
     }
-    
-    
-    
+
 }

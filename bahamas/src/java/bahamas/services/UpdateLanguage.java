@@ -12,6 +12,7 @@ import bahamas.entity.Contact;
 import bahamas.entity.LanguageAssignment;
 import bahamas.entity.SkillAssignment;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -35,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.update"})
 public class UpdateLanguage extends HttpServlet {
 
-    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -93,15 +93,7 @@ public class UpdateLanguage extends HttpServlet {
                     String speakWrite = jobject.get("speakwrite").getAsString();
                     String remarks = jobject.get("remarks").getAsString();
 
-                    Date dateObsolete = null;
-                    try {
-                        dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
-                        return;
-                    }
+                    Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                     //Validation of fields
                     ContactDAO cDAO = new ContactDAO();

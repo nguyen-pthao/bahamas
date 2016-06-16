@@ -9,6 +9,7 @@ import bahamas.dao.*;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
+import bahamas.util.Validator;
 import com.google.gson.*;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AddContact", urlPatterns = {"/contact.add"})
 public class AddContact extends HttpServlet {
 
-    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -107,24 +107,17 @@ public class AddContact extends HttpServlet {
                     String nric = jobject.get("nricfin").getAsString();
                     String gender = jobject.get("gender").getAsString();
                     String nationality = jobject.get("nationality").getAsString();
-                    String dateOfBirth = jobject.get("dateofbirth").getAsString();
+                    Date dob = Validator.isDateValid(jobject.get("dateofbirth").getAsString());
                     String remarks = jobject.get("remarks").getAsString();
+                    /*
                     int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
                     int phoneNumber = Integer.parseInt(jobject.get("phonenumber").getAsString());
                     String email = jobject.get("email").getAsString();
                     String country = jobject.get("country").getAsString();
                     int zipCode = Integer.parseInt(jobject.get("zipcode").getAsString());
                     String address = jobject.get("address").getAsString();
-
-                    Date dob = null;
-                    try {
-                        dob = date.parse(dateOfBirth);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
-                        return;
-                    }
+                    */
+                                    
 
                     //Validation of fields
                     //Create new contact object
@@ -139,7 +132,11 @@ public class AddContact extends HttpServlet {
                         return;
                     } else {
                         AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId);
-                        newContact.setContactId(newContactId);
+                        
+                        json.addProperty("message", "success");
+                        json.addProperty("id", String.valueOf(newContactId));
+                        out.println(gson.toJson(json));
+                        /*
                         //Create new phone/address/email object
                         Phone newPhone = new Phone(newContact, countryCode, phoneNumber, username);
                         Email newEmail = new Email(newContact, email, username);
@@ -157,7 +154,7 @@ public class AddContact extends HttpServlet {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
-
+                         */
                     }
 
                 }

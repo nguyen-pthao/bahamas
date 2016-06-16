@@ -16,12 +16,12 @@ public class Phone {
     private Contact contact;
     private Date dateCreated = new java.util.Date();
     private int countryCode;
-    private int phoneNumber;
+    private String phoneNumber;
     private String remarks;
     private String createdBy;
     private Date dateObsolete;
 
-    public Phone(Contact contact, int countryCode, int phoneNumber, String createdBy) {
+    public Phone(Contact contact, int countryCode, String phoneNumber, String createdBy) {
         this.contact = contact;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
@@ -29,7 +29,8 @@ public class Phone {
 
     }
 
-    public Phone(Contact contact, int countryCode, int phoneNumber, String createdBy, String remarks, Date dateObsolete ) {
+    public Phone(Contact contact, int countryCode, String phoneNumber, String createdBy, 
+            String remarks, Date dateObsolete ) {
         this.contact = contact;
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
@@ -39,7 +40,7 @@ public class Phone {
             
     }
 
-    public Phone(int countryCode, int phoneNumber, String remarks, String createdBy, Date dateCreated, Date dateObsolete) {
+    public Phone(int countryCode, String phoneNumber, String remarks, String createdBy, Date dateCreated, Date dateObsolete) {
         this.countryCode = countryCode;
         this.phoneNumber = phoneNumber;
         this.remarks = remarks;
@@ -74,11 +75,11 @@ public class Phone {
         this.countryCode = countryCode;
     }
 
-    public int getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
 
-    public void setPhoneNumber(int phoneNumber) {
+    public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
 

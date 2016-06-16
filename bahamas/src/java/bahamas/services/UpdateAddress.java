@@ -10,6 +10,7 @@ import bahamas.dao.*;
 import bahamas.entity.Contact;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -34,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateAddress", urlPatterns = {"/address.update"})
 public class UpdateAddress extends HttpServlet {
 
-    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -102,13 +102,8 @@ public class UpdateAddress extends HttpServlet {
                         int zipCode = Integer.parseInt(jobject.get("zipcode").getAsString());
                         String addressRemarks = jobject.get("addressremarks").getAsString();
 
-                        Date dateObsolete = null;
-                        try {
-                            dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
+                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                      
                         Address newAddress = new Address(c, country, zipCode, address,
                                 username, addressRemarks, dateObsolete);
 

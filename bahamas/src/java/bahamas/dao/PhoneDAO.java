@@ -47,7 +47,7 @@ public class PhoneDAO {
             stmt.setTimestamp(2, new java.sql.Timestamp(p.getDateCreated().getTime()));
             stmt.setString(3, p.getCreatedBy());
             stmt.setInt(4, p.getCountryCode());
-            stmt.setInt(5, p.getPhoneNumber());
+            stmt.setString(5, p.getPhoneNumber());
             stmt.setString(6, p.getRemarks());
 
             if (p.getDateObsolete() != null) {
@@ -86,7 +86,7 @@ public class PhoneDAO {
             while (rs.next()) {
 
                 int countryCode = rs.getInt(1);
-                int phoneNumber = rs.getInt(2);
+                String phoneNumber = rs.getString(2);
                 String remarks = rs.getString(3);
                 String createdBy = rs.getString(4);
                 String dateStr = rs.getString(5);
