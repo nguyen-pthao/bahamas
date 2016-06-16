@@ -100,9 +100,9 @@ public class RetrieveAuditLog extends HttpServlet {
                         
                         
                         jsonAuditObj = new JsonObject();
+                        jsonAuditObj.addProperty("Date", sdf.format(a.getOperationDate()));
                         jsonAuditObj.addProperty("Username", a.getUsername());
                         jsonAuditObj.addProperty("Operation", a.getOperation());
-                        jsonAuditObj.addProperty("Date", sdf.format(a.getOperationDate()));
                         auditArray.add(jsonAuditObj);
                         
                     }
