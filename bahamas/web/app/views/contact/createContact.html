@@ -218,7 +218,7 @@ and open the template in the editor.
                                                                 Done
                                                             </button>
                                                         &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedPhone' ng-click='addMorePhone()'>Add new phone number</button></center>
-                                                        <center><span ng-show="submittedPhone">Submitted successfully.</span></center>
+                                                        <center><span ng-show="submittedPhone"><span ng-bind="message"></span></span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   

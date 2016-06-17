@@ -7,16 +7,13 @@
 <!DOCTYPE html>
 <html ng-app="bahamas">
         <div class="hold-transition login-page">
-        <div class="twc2-logo" align="center">
-            <!--twc2-logo-->
-            <img src="style/img/Picture1.png" alt="twc2-logo" style="width: 30%; height: 30%">
-        </div>
         <div class="login-box">
+            <center><img class="twc2-logo" src="style/img/Picture1.png" alt="twc2-logo" style="width: 80%; height: 90%; "></center>
             <div class="login-logo">
                 <a href="login.jsp">Relationship Management System</a>
             </div>
-            <!-- /.login-logo -->
-            <div class="login-box-body">
+            <!-- /.LOGIN-BOX -->
+            <div class="login-box-body" style="font-size: 18px">
                 <p class="login-box-msg">Sign in to start your session</p>
                 <form ng-submit="loginUser()" role="form" name="loginForm">
                     <div class="form-group has-feedback">
@@ -30,14 +27,9 @@
 <!--                        <span ng-show="loginForm.password.$error.minlength">Password has to be at least 8 characters long.</span>-->
                     </div>
                     <div class="row">
-                        <div class="col-xs-8">
-
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-xs-4">
+                        <div class="col-xs-offset-8 col-xs-4">
                             <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
                         </div>
-                        <!-- /.col -->
                     </div>
                 </form>
             </div>
@@ -47,9 +39,8 @@
                     Invalid Username/Password.
                 </strong>  
             </div> 
-            <!-- /.login-box-body -->
         </div>
-        <!-- /.login-box -->
+        <!-- /.LOGIN-BOX -->
 
         <!-- iCheck -->
         <script src="plugins/iCheck/icheck.min.js"></script>
