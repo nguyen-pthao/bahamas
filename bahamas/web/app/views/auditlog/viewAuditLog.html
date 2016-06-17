@@ -30,22 +30,50 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-                            <div class="col-md-12" style="margin-bottom: 15px">
-                                <label class="col-md-1" style="padding: 0px">
-                                   Show Entries:
-                                </label>
-                                <div class="col-md-2">
+                        <div class="row">
+                            <label class="col-md-1" style="padding: 0px">
+                                Show Entries:
+                            </label>
+                            <div class="col-md-2">
                                 <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
-                                    <option value="20">20</option>
-                                    <option value="40">40</option>
-                                    <option value="60">60</option>
-                                    <option value="80">80</option>
+                                    <option value="50">50</option>
                                     <option value="100">100</option>
+                                    <option value="150">150</option>
+                                    <option value="200">200</option>
+                                    <option value="250">250</option>
                                     <option value='toAll'>All</option>
                                 </select>
                             </div>
+                            <div class="col-md-3" style="float:right">
+                                <input type="text" class="form-control" placeholder="Search Audit Log" ng-model="searchAudit" />
+                                <br />
                             </div>
-                        
+                            <!--                            <div class="col-md-2">
+                                                            <input type="text" class="form-control" placeholder="Date Start" ng-model="dateStart" />
+                                                        </div>
+                            
+                                                        <div class="col-md-2">
+                                                            <input type="text" class="form-control" placeholder="Date End" ng-model="dateEnd" />
+                                                        </div>-->
+                            <div class="col-md-2">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="dateStart" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+
+                            <div class="col-md-2">
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="dateEnd" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
@@ -65,7 +93,7 @@ and open the template in the editor.
                         </table>
                         <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                                <uib-pagination total-items="totalFilteredItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>
