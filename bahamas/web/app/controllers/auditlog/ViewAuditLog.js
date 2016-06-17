@@ -58,7 +58,7 @@ app.controller('viewAuditLog',
                         $scope.allFiltered = $scope.allAuditInfo;
                         $scope.totalFilteredItems = $scope.allFiltered.length;
                         $scope.currentPage = 1;
-                        $scope.itemsPerPage = $scope.allAuditInfo.length;
+                        $scope.itemsPerPage = 30;
                         var total = $scope.totalFilteredItems / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
                         $scope.$watch('currentPage + itemsPerPage', function () {
@@ -67,10 +67,13 @@ app.controller('viewAuditLog',
 
                             $scope.filteredAudit = $scope.allFiltered.slice(begin, end);
                         });
-
+                        $scope.isAll = false;
                         $scope.itemsPerPageChanged = function () {
                             if ($scope.itemsPerPage == 'toAll') {
                                 $scope.itemsPerPage = $scope.allFiltered.length;
+                                $scope.isAll = true;
+                            }else{
+                                $scope.isAll=false;
                             }
                             var newArray = [];
                             angular.forEach($scope.allFiltered, function (obj) {

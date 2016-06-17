@@ -73,6 +73,22 @@ and open the template in the editor.
                                 </p>
                             </div>
                         </div>
+                        <div class="row">
+                            <div>
+                                <table>
+                                    <tr>
+                                        <th>Total Entries: </th>
+                                        <td>{{searchFiltered.length}}</td>
+                                        <th>Entries per page:</th>
+                                        <td ng-hide="isAll">{{itemsPerPage}}</td>
+                                        <td ng-show="isAll">All</td>
+                                        <th>Entries in page: </th>
+                                        <td>{{filteredAudit.length}}</td>
+                                        
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
 
                         <table id="example1" class="table table-bordered table-striped">
                             <thead>
