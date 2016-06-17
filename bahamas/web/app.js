@@ -9,7 +9,7 @@ var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ui.bootstrap']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/notFound");
 
     $stateProvider
             .state('login', {
@@ -105,20 +105,25 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('unauthorised', {
                 url: '/unauthorised',
                 templateUrl: 'unauthorised.html'
+            })
+            .state('notFound', {
+                url: '/notFound',
+                templateUrl: 'notFound.html'
             });
 
 });
 
-app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $location, session, $state) {
+app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
-        $rootScope.stateToRevert;
-        $rootScope.$on('$stateChangeSuccess', function (event, targetScope, targetParams, fromScope, to, from) {
-            var permission = $location.path().split('/')[1];
-//            if (targetScope.url === '/unauthorised') {
-//                //to stop the browser from endless looping
-//            } else {
-
+        $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
+            
+            var permission = targetScope.name.split('.')[0];
+            
+            if(permission == 'notFound' && session.getSession('userType') == null) {
+                event.preventDefault();
+                $state.go('login');
+            }
             if (permission === 'novice') {
                 if (session.getSession('userType') !== 'novice' && session.getSession('userType') != null) {
                     event.preventDefault();
@@ -172,21 +177,10 @@ app.run(['$rootScope', '$location', 'session', '$state', function ($rootScope, $
                     $state.go(session.getSession('userType'));
                 }
             }
-            if (permission == '/unauthorised') {
-                //to be modified
+            if (permission == 'unauthorised' || permission == 'notFound') {
+                $rootScope.previousState = fromScope.name;
             }
-            $rootScope.previousState = $location.path();
         }
-
-//        });
-        );
-
-        $rootScope.$on('$stateChangeStart', function (event, targetScope, to, from) {
-            if (targetScope.url == 'unauthorised') {
-                //keep previous state
-            } else {
-                $rootScope.stateToRevert = $rootScope.previousState;
-            }
-        })
-    }]);
+    );
+}]);
 
