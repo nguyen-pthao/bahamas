@@ -10,6 +10,7 @@ import bahamas.dao.PhoneDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -33,8 +34,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "UpdatePhone", urlPatterns = {"/phone.update"})
 public class UpdatePhone extends HttpServlet {
-
-    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,18 +95,9 @@ public class UpdatePhone extends HttpServlet {
                         out.println(gson.toJson(json));
                     } else {
                         int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
-                        int phoneNumber = jobject.get("phonenumber").getAsInt();
+                        String phoneNumber = jobject.get("phonenumber").getAsString();
                         String phoneRemarks = jobject.get("phoneremarks").getAsString();
-
-                        Date dateObsolete = null;
-                        try {
-                            dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                            return;
-                        }
+                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                         newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
 

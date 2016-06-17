@@ -176,7 +176,7 @@ public class RetrieveContact extends HttpServlet {
                 
                 for(int i = 0; i < emailList.size()-1; i++){
                     Email email = emailList.get(i);
-                    emailStr += email.getEmail() + ", ";
+                    emailStr += email.getEmail() + " | ";
                 }
                 Email email = emailList.get(emailList.size()-1);
                 emailStr += email.getEmail();
@@ -186,7 +186,7 @@ public class RetrieveContact extends HttpServlet {
                 
                 for(int i = 0; i < phoneList.size()-1; i++){
                     Phone phone = phoneList.get(i);
-                    phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber() + ", ";
+                    phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
                 }
                 Phone phone = phoneList.get(phoneList.size()-1);
                 phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber();
@@ -196,7 +196,7 @@ public class RetrieveContact extends HttpServlet {
                 
                 for(int i = 0; i < addressList.size()-1; i++){
                     Address address = addressList.get(i);
-                    addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode() + "; ";
+                    addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode() + " | ";
                 }
                 Address address = addressList.get(addressList.size()-1);
                 addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode();
@@ -205,18 +205,18 @@ public class RetrieveContact extends HttpServlet {
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", c.getName());
-            jsonContactObj.addProperty("altname", c.getAltName());
+            jsonContactObj.addProperty("alt name", c.getAltName());
             jsonContactObj.addProperty("phone", phoneStr);
             jsonContactObj.addProperty("email", emailStr);
-            jsonContactObj.addProperty("contacttype", c.getContactType());
-            jsonContactObj.addProperty("explainifother", c.getExplainIfOther());
-            jsonContactObj.addProperty("contacttype", c.getContactType());
+            jsonContactObj.addProperty("contact type", c.getContactType());
+            jsonContactObj.addProperty("explain if other", c.getExplainIfOther());
+            jsonContactObj.addProperty("contact type", c.getContactType());
             jsonContactObj.addProperty("profession", c.getProfession());
-            jsonContactObj.addProperty("jobtitle", c.getJobTitle());
+            jsonContactObj.addProperty("job title", c.getJobTitle());
             jsonContactObj.addProperty("nric", c.getNric());
             jsonContactObj.addProperty("gender", c.getGender());
             jsonContactObj.addProperty("nationality", c.getNationality());
-            jsonContactObj.addProperty("dateofbirth", sdf.format(c.getDateOfBirth()));
+            jsonContactObj.addProperty("date of birth", sdf.format(c.getDateOfBirth()));
             jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", c.getRemarks());
             //jsonContactObj.addProperty("username", c.getName());

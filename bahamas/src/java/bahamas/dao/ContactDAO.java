@@ -226,7 +226,11 @@ public class ContactDAO {
             stmt.setString(10, c.getNric());
             stmt.setString(11, c.getGender());
             stmt.setString(12, c.getNationality());
-            stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
+            if (c.getDateOfBirth() != null) {
+                stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
+            } else {
+                stmt.setDate(13, null);
+            }
             stmt.setString(14, c.getProfilePic());
             stmt.setString(15, c.getRemarks());
             stmt.setString(16, c.getUsername());
@@ -260,9 +264,9 @@ public class ContactDAO {
             stmt = conn.prepareStatement("UPDATE CONTACT SET ISNOVICE = (?) WHERE CONTACT_ID = (?)");
             stmt.setBoolean(1, isNovice);
             stmt.setInt(2, c.getContactId());
-          
-            return stmt.executeUpdate() == 1;              
-            
+
+            return stmt.executeUpdate() == 1;
+
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {

@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.*;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -30,8 +31,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "UpdateSkill", urlPatterns = {"/skill.update"})
 public class UpdateSkill extends HttpServlet {
-
-    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -87,16 +86,7 @@ public class UpdateSkill extends HttpServlet {
                     String skillsAsset = jobject.get("skillasset").getAsString();
                     String explainIfOther = jobject.get("explainifother").getAsString();
                     String remarks = jobject.get("remarks").getAsString();
-
-                    Date dateObsolete = null;
-                    try {
-                        dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
-                        return;
-                    }
+                    Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                     //Validation of fields
                     ContactDAO cDAO = new ContactDAO();

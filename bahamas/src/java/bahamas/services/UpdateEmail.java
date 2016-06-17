@@ -10,6 +10,7 @@ import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -33,8 +34,6 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "UpdateEmail", urlPatterns = {"/email.update"})
 public class UpdateEmail extends HttpServlet {
-
-    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -100,15 +99,7 @@ public class UpdateEmail extends HttpServlet {
                         String email = jobject.get("email").getAsString();
                         String emailRemarks = jobject.get("emailremarks").getAsString();
 
-                        Date dateObsolete = null;
-                        try {
-                            dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                            return;
-                        }
+                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
 
