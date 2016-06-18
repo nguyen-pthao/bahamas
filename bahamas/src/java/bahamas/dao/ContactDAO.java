@@ -68,7 +68,7 @@ public class ContactDAO {
                 String nric = rs.getString(16);
                 String gender = rs.getString(17);
                 String nationality = rs.getString(18);
-                Date dateOfBirth = date.parse(rs.getString(19));
+                Date dateOfBirth = rs.getDate(19);
                 String profilePic = rs.getString(20);
                 String remarks = rs.getString(21);
                 boolean notification = rs.getBoolean(22);
