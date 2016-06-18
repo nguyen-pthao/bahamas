@@ -14,37 +14,61 @@ import java.util.Date;
 public class Membership {
     
     private Contact contact;
-    private String receiptModeName;
-    private String membershipClassName;
-    private String paymentModeName;
-    private Date dateCreated = new java.util.Date();
-    private String explainIfOtherClass;
+    private int cid;
     private Date startMembership;
     private Date endMembership;
+    private Date receiptDate;
     private double subscriptionAmount;
-    private String explainIfOtherPayment;
     private String extTransactionRef;
     private String receiptNumber;
-    private Date receiptDate;
-    private String explainIfOtherMode;
     private String remarks;
+    private String receiptModeName;
+    private String explainIfOtherMode;
+    private String membershipClassName;
+    private String explainIfOtherClass;
+    private String paymentModeName;
+    private String explainIfOtherPayment;
     private String createdBy;
-
-    public Membership(Contact contact, String membershipClassName, String paymentModeName, Date dateCreated, String explainIfOtherClass, Date startMembership, Date endMembership, double subscriptionAmount, String explainIfOtherPayment, String extTransactionRef, String receiptNumber, Date receiptDate, String explainIfOtherMode, String remarks, String createdBy) {
-        this.contact = contact;
-        this.membershipClassName = membershipClassName;
-        this.paymentModeName = paymentModeName;
-        this.dateCreated = dateCreated;
-        this.explainIfOtherClass = explainIfOtherClass;
+    private Date dateCreated = new java.util.Date();
+    
+    //Without Contact contact
+    public Membership(int cid, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherMode, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy, Date dateCreated) {
+        this.cid = cid;
         this.startMembership = startMembership;
         this.endMembership = endMembership;
+        this.receiptDate = receiptDate;
         this.subscriptionAmount = subscriptionAmount;
-        this.explainIfOtherPayment = explainIfOtherPayment;
         this.extTransactionRef = extTransactionRef;
         this.receiptNumber = receiptNumber;
-        this.receiptDate = receiptDate;
-        this.explainIfOtherMode = explainIfOtherMode;
         this.remarks = remarks;
+        this.receiptModeName = receiptModeName;
+        this.explainIfOtherMode = explainIfOtherMode;
+        this.membershipClassName = membershipClassName;
+        this.explainIfOtherClass = explainIfOtherClass;
+        this.paymentModeName = paymentModeName;
+        this.explainIfOtherPayment = explainIfOtherPayment;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
+    
+    
+    
+    //Without String cid
+    public Membership(Contact contact, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherMode, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy) {
+        this.contact = contact;
+        this.startMembership = startMembership;
+        this.endMembership = endMembership;
+        this.receiptDate = receiptDate;
+        this.subscriptionAmount = subscriptionAmount;
+        this.extTransactionRef = extTransactionRef;
+        this.receiptNumber = receiptNumber;
+        this.remarks = remarks;
+        this.receiptModeName = receiptModeName;
+        this.explainIfOtherMode = explainIfOtherMode;
+        this.membershipClassName = membershipClassName;
+        this.explainIfOtherClass = explainIfOtherClass;
+        this.paymentModeName = paymentModeName;
+        this.explainIfOtherPayment = explainIfOtherPayment;
         this.createdBy = createdBy;
     }
 
@@ -56,44 +80,12 @@ public class Membership {
         this.contact = contact;
     }
 
-    public String getReceiptModeName() {
-        return receiptModeName;
+    public int getCid() {
+        return cid;
     }
 
-    public void setReceiptModeName(String receiptModeName) {
-        this.receiptModeName = receiptModeName;
-    }
-
-    public String getMembershipClassName() {
-        return membershipClassName;
-    }
-
-    public void setMembershipClassName(String membershipClassName) {
-        this.membershipClassName = membershipClassName;
-    }
-
-    public String getPaymentModeName() {
-        return paymentModeName;
-    }
-
-    public void setPaymentModeName(String paymentModeName) {
-        this.paymentModeName = paymentModeName;
-    }
-
-    public Date getDateCreated() {
-        return dateCreated;
-    }
-
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
-    }
-
-    public String getExplainIfOtherClass() {
-        return explainIfOtherClass;
-    }
-
-    public void setExplainIfOtherClass(String explainIfOtherClass) {
-        this.explainIfOtherClass = explainIfOtherClass;
+    public void setCid(int cid) {
+        this.cid = cid;
     }
 
     public Date getStartMembership() {
@@ -112,20 +104,20 @@ public class Membership {
         this.endMembership = endMembership;
     }
 
+    public Date getReceiptDate() {
+        return receiptDate;
+    }
+
+    public void setReceiptDate(Date receiptDate) {
+        this.receiptDate = receiptDate;
+    }
+
     public double getSubscriptionAmount() {
         return subscriptionAmount;
     }
 
     public void setSubscriptionAmount(double subscriptionAmount) {
         this.subscriptionAmount = subscriptionAmount;
-    }
-
-    public String getExplainIfOtherPayment() {
-        return explainIfOtherPayment;
-    }
-
-    public void setExplainIfOtherPayment(String explainIfOtherPayment) {
-        this.explainIfOtherPayment = explainIfOtherPayment;
     }
 
     public String getExtTransactionRef() {
@@ -144,12 +136,20 @@ public class Membership {
         this.receiptNumber = receiptNumber;
     }
 
-    public Date getReceiptDate() {
-        return receiptDate;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setReceiptDate(Date receiptDate) {
-        this.receiptDate = receiptDate;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getReceiptModeName() {
+        return receiptModeName;
+    }
+
+    public void setReceiptModeName(String receiptModeName) {
+        this.receiptModeName = receiptModeName;
     }
 
     public String getExplainIfOtherMode() {
@@ -160,12 +160,36 @@ public class Membership {
         this.explainIfOtherMode = explainIfOtherMode;
     }
 
-    public String getRemarks() {
-        return remarks;
+    public String getMembershipClassName() {
+        return membershipClassName;
     }
 
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
+    public void setMembershipClassName(String membershipClassName) {
+        this.membershipClassName = membershipClassName;
+    }
+
+    public String getExplainIfOtherClass() {
+        return explainIfOtherClass;
+    }
+
+    public void setExplainIfOtherClass(String explainIfOtherClass) {
+        this.explainIfOtherClass = explainIfOtherClass;
+    }
+
+    public String getPaymentModeName() {
+        return paymentModeName;
+    }
+
+    public void setPaymentModeName(String paymentModeName) {
+        this.paymentModeName = paymentModeName;
+    }
+
+    public String getExplainIfOtherPayment() {
+        return explainIfOtherPayment;
+    }
+
+    public void setExplainIfOtherPayment(String explainIfOtherPayment) {
+        this.explainIfOtherPayment = explainIfOtherPayment;
     }
 
     public String getCreatedBy() {
@@ -176,8 +200,12 @@ public class Membership {
         this.createdBy = createdBy;
     }
 
-    
-    
-    
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
     
 }
