@@ -98,15 +98,24 @@ public class Validator {
      * @param str the inputted String
      * @return boolean value, true if string is valid
      */
-    public static boolean containsBlankField(String str) {
+    public static String containsBlankField(String str) {
 
-        if (str == null || str.isEmpty()) {
-            return true;
+        if (str == null || str.trim().isEmpty()) {
+            return null;
         }
-
-        return false;
+        else{
+            return str;
+        }
     }
 
+    public static int isIntValid(String num){
+        try{
+            return Integer.parseInt(num);
+        }catch(NumberFormatException e){
+            return 0;
+        }
+    }
+    
     /**
      * <p>
      * Return a boolean value on whether inputted date is valid

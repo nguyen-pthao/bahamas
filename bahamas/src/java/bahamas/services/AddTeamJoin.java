@@ -12,6 +12,7 @@ import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -88,7 +89,7 @@ public class AddTeamJoin extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -98,28 +99,19 @@ public class AddTeamJoin extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String team = jobject.get("team").getAsString();
-                        String explainIfOther = jobject.get("explainifother").getAsString();
-                        String subTeam = jobject.get("subteam").getAsString();
-                        String permission = jobject.get("permissionlevel").getAsString();
-                        String remarks = jobject.get("remarks").getAsString();
-
-                        Date dateObsolete = null;
-                        try {
-                            dateObsolete = date.parse(jobject.get("dateobsolete").getAsString());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                            return;
-                        }
+                        String team = Validator.containsBlankField(jobject.get("team").getAsString());
+                        String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                        String subTeam = Validator.containsBlankField(jobject.get("subteam").getAsString());
+                        String permission = Validator.containsBlankField(jobject.get("permissionlevel").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                         TeamJoin tj = new TeamJoin(c, team, username, explainIfOther,
                                 subTeam, dateObsolete, remarks, permission);
 
                         if (TeamJoinDAO.addTeamJoin(tj)) {
                             //change contact to a non novice account
-                            cDAO.changePermission(c,false);
+                            //cDAO.changePermission(c, false);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

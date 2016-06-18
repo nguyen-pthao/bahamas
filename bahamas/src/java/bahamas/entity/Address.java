@@ -15,14 +15,14 @@ public class Address {
 
     private Contact contact;
     private Date dateCreated = new java.util.Date();
-    private int zipcode;
+    private String zipcode;
     private String address;
     private String country;
     private String remarks;
     private String createdBy;
     private Date dateObsolete;
 
-    public Address(Contact contact, String country, int zipcode, String address, String createdBy) {
+    public Address(Contact contact, String country, String zipcode, String address, String createdBy) {
         this.contact = contact;
         this.zipcode = zipcode;
         this.address = address;
@@ -31,7 +31,7 @@ public class Address {
     }
 
    
-      public Address(Contact contact, String country, int zipcode, String address, String createdBy, String remarks, Date dateObsolete) {
+      public Address(Contact contact, String country, String zipcode, String address, String createdBy, String remarks, Date dateObsolete) {
         this.contact = contact;
         this.zipcode = zipcode;
         this.address = address;
@@ -41,7 +41,7 @@ public class Address {
         this.dateObsolete = dateObsolete;
     }
 
-    public Address(int zipcode, String address, String country, String remarks, String createdBy, Date dateObsolete, Date dateCreated) {
+    public Address(String zipcode, String address, String country, String remarks, String createdBy, Date dateObsolete, Date dateCreated) {
         this.zipcode = zipcode;
         this.address = address;
         this.country = country;
@@ -72,11 +72,11 @@ public class Address {
         this.dateCreated = dateCreated;
     }
 
-    public int getZipcode() {
+    public String getZipcode() {
         return zipcode;
     }
 
-    public void setZipcode(int zipcode) {
+    public void setZipcode(String zipcode) {
         this.zipcode = zipcode;
     }
 

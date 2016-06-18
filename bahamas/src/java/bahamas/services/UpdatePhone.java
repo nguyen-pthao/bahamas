@@ -84,7 +84,7 @@ public class UpdatePhone extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -94,9 +94,9 @@ public class UpdatePhone extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                     } else {
-                        int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
-                        String phoneNumber = jobject.get("phonenumber").getAsString();
-                        String phoneRemarks = jobject.get("phoneremarks").getAsString();
+                        int countryCode = Validator.isIntValid(jobject.get("countrycode").getAsString());
+                        String phoneNumber = Validator.containsBlankField(jobject.get("phonenumber").getAsString());
+                        String phoneRemarks = Validator.containsBlankField(jobject.get("phoneremarks").getAsString());
                         Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                         newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);

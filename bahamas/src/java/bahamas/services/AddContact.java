@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AddContact", urlPatterns = {"/contact.add"})
 public class AddContact extends HttpServlet {
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -81,10 +80,7 @@ public class AddContact extends HttpServlet {
                 } else {
                     //Verified token
 
-                    String name = jobject.get("name").getAsString();
-                    String altName = jobject.get("altname").getAsString();
-
-                    //to be removed!!!!
+                    /* Username Password module
                     String uName = jobject.get("username").getAsString();
                     String password = jobject.get("password").getAsString();
                     String confirmPassword = jobject.get("confirmpassword").getAsString();
@@ -98,31 +94,24 @@ public class AddContact extends HttpServlet {
                     String[] store = PasswordHash.getHashAndSalt(password);
                     password = store[0];
                     String salt = store[1];
-                    //to be removed!!!!
-
-                    String contactType = jobject.get("contacttype").getAsString();
-                    String otherExplanation = jobject.get("explainifother").getAsString();
-                    String profession = jobject.get("profession").getAsString();
-                    String jobTitle = jobject.get("jobtitle").getAsString();
-                    String nric = jobject.get("nricfin").getAsString();
-                    String gender = jobject.get("gender").getAsString();
-                    String nationality = jobject.get("nationality").getAsString();
-                    Date dob = Validator.isDateValid(jobject.get("dateofbirth").getAsString());
-                    String remarks = jobject.get("remarks").getAsString();
-                    /*
-                    int countryCode = Integer.parseInt(jobject.get("countrycode").getAsString());
-                    int phoneNumber = Integer.parseInt(jobject.get("phonenumber").getAsString());
-                    String email = jobject.get("email").getAsString();
-                    String country = jobject.get("country").getAsString();
-                    int zipCode = Integer.parseInt(jobject.get("zipcode").getAsString());
-                    String address = jobject.get("address").getAsString();
+                    
                     */
-                                    
+                    
+                    String name = Validator.containsBlankField(jobject.get("name").getAsString());
+                    String altName = Validator.containsBlankField(jobject.get("altname").getAsString());
+                    String contactType = Validator.containsBlankField(jobject.get("contacttype").getAsString());
+                    String otherExplanation = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                    String profession = Validator.containsBlankField(jobject.get("profession").getAsString());
+                    String jobTitle = Validator.containsBlankField(jobject.get("jobtitle").getAsString());
+                    String nric = Validator.containsBlankField(jobject.get("nricfin").getAsString());
+                    String gender = Validator.containsBlankField(jobject.get("gender").getAsString());
+                    String nationality = Validator.containsBlankField(jobject.get("nationality").getAsString());
+                    Date dob = Validator.isDateValid(jobject.get("dateofbirth").getAsString());
+                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
-                    //Validation of fields
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
-                            jobTitle, nric, gender, nationality, dob, remarks, uName, password, salt);
+                            jobTitle, nric, gender, nationality, dob, remarks);
 
                     int newContactId = ContactDAO.addContact(newContact);
 
@@ -132,29 +121,11 @@ public class AddContact extends HttpServlet {
                         return;
                     } else {
                         AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId);
-                        
+
                         json.addProperty("message", "success");
                         json.addProperty("id", String.valueOf(newContactId));
                         out.println(gson.toJson(json));
-                        /*
-                        //Create new phone/address/email object
-                        Phone newPhone = new Phone(newContact, countryCode, phoneNumber, username);
-                        Email newEmail = new Email(newContact, email, username);
-                        Address newAddress = new Address(newContact, country, zipCode, address, username);
-
-                        boolean addPhone = PhoneDAO.addPhone(newPhone);
-                        boolean addEmail = EmailDAO.addEmail(newEmail);
-                        boolean addAddress = AddressDAO.addAddress(newAddress);
-
-                        if (addPhone && addEmail && addAddress) {
-                            json.addProperty("message", "success");
-                            json.addProperty("id", String.valueOf(newContactId));
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                        }
-                         */
+                     
                     }
 
                 }

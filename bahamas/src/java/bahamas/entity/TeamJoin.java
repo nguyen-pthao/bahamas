@@ -22,6 +22,7 @@ public class TeamJoin {
     private Date dateObsolete;
     private String remarks;
     private String permission;
+    private boolean approval;
 
     public TeamJoin(Contact contact, String teamName, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
         this.contact = contact;
@@ -34,7 +35,7 @@ public class TeamJoin {
         this.permission = permission;
     }
 
-    public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
+    public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission, boolean approval) {
         this.contact = contact;
         this.teamName = teamName;
         this.createdBy = createdBy;
@@ -43,8 +44,17 @@ public class TeamJoin {
         this.dateObsolete = dateObsolete;
         this.remarks = remarks;
         this.permission = permission;
+        this.approval = approval;
     }
 
+    public boolean isApproval() {
+        return approval;
+    }
+
+    public void setApproval(boolean approval) {
+        this.approval = approval;
+    }
+    
     public Contact getContact() {
         return contact;
     }
