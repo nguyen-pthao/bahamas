@@ -35,30 +35,14 @@ and open the template in the editor.
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label>Name</label><span class="required">*</span>
-                                        <input type="text" ng-model="contactInfo.name" ng-maxlength="50" ng-required="true" ng-pattern="nameRegex" name="name" class="form-control">
-                                        <span ng-show="contactForm.name.$error.maxlength">Input field name is too long.</span>
-                                        <span ng-show="contactForm.name.$error.required && contactForm.name.$dirty" style="color: red">Name is required.</span>
-                                        <span ng-show="contactForm.name.$invalid && contactForm.name.$dirty" style="color:red">Name is invalid.</span>
+                                        <input type="text" ng-model="contactInfo.name" ng-maxlength="50" ng-required="true" name="name" class="form-control">
+                                        <span ng-show="contactForm.name.$error.maxlength" style="color:red">Input field name is too long.</span>
+                                        <span ng-show="contactForm.name.$error.required && contactForm.name.$touched" style="color: red">Name is required.</span>
                                     </div>
                                     <div class="form-group">
                                         <label>Alternative Name</label>
                                         <input type="text" ng-model="contactInfo.altname" ng-maxlength="50" name="altname" class="form-control"> 
-                                        <span ng-show="contactForm.altname.$error.maxlength">Input field alternative name is too long.</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Username</label><span class="required">*</span>
-                                        <input type="text" ng-model="contactInfo.username" ng-required="true" class="form-control" name="username">
-                                        <span ng-show="contactForm.username.$error.required && contactForm.username.$dirty" style="color: red">Username is required.</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Password</label><span class="required">*</span>
-                                        <input type="password" ng-model="contactInfo.password" ng-minlength="8" ng-maxlength="20" ng-required="true" compare="{{contactInfo.confirmpassword}}" name="password" class="form-control">
-                                        <span ng-show="contactForm.password.$error.maxlength || contactForm.password.$error.minlength">Password needs to be from 8 to 20 characters long.</span>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Confirm Password</label>
-                                        <input type="password" ng-model="contactInfo.confirmpassword" ng-required="true" compare="{{contactInfo.password}}" class="form-control" name="confirmpassword"> 
-                                        <span ng-show="contactForm.confirmpassword.$error.compare" style="color: red">Confirmed password is not the same.</span>
+                                        <span ng-show="contactForm.altname.$error.maxlength" style="color:red">Input field alternative name is too long.</span>
                                     </div>
                                     <div class="form-group" ng-init="loadContactTypeList()">
                                         <label>Contact type</label><span class="required">*</span>
@@ -68,28 +52,26 @@ and open the template in the editor.
                                     </div>
                                     <label>Explain if above is 'Other'</label>
                                     <textarea ng-model="contactInfo.explainifother" ng-maxlength="200" name="explainifother" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    <span ng-show="contactForm.explainifother.$error.maxlength">Input field explanation is too long.</span>
+                                    <span ng-show="contactForm.explainifother.$error.maxlength" style="color:red">Input field explanation is too long.</span>
                                     <div class="form-group">
                                         <label>Profession</label>
-                                        <input type="text" ng-model="contactInfo.profession" ng-maxlength="200" ng-pattern="professionRegex" name="profession" class="form-control" spellcheck="true"> 
-                                        <span ng-show="contactForm.profession.$error.maxlength">Input field profession is too long.</span>
-                                        <span ng-show="contactForm.profession.$invalid" style="color:red">Profession is invalid.</span>
+                                        <input type="text" ng-model="contactInfo.profession" ng-maxlength="200" name="profession" class="form-control" spellcheck="true"> 
+                                        <span ng-show="contactForm.profession.$error.maxlength" style="color:red">Input field profession is too long.</span>
                                     </div>
                                     <div class="form-group">
                                         <label>Job title</label>
-                                        <input type="text" ng-model="contactInfo.jobtitle" ng-maxlength="50" ng-pattern="jobtitleRegex" name="jobtitle" class="form-control" spellcheck="true">
-                                        <span ng-show="contactForm.jobtitle.$error.maxlength">Input field job title is too long.</span>
-                                        <span ng-show="contactForm.jobtitle.$invalid" style="color:red">Job title is invalid.</span>
+                                        <input type="text" ng-model="contactInfo.jobtitle" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
+                                        <span ng-show="contactForm.jobtitle.$error.maxlength" style="color:red">Input field job title is too long.</span>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>NRIC/FIN</label>
                                             <input type="text" ng-model="contactInfo.nricfin" ng-pattern="nricRegex" name="nricfin" class="form-control">
-                                            <span ng-show="contactForm.nricfin.$invalid" style="color:red">Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
+                                            <span ng-show="contactForm.nricfin.$invalid && contactForm.nricfin.$touched" style="color:red">Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
                                         </div>    
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Gender</label>
-                                            <select ng-model="contactInfo.gender" class="form-control" >
+                                            <select ng-model="contactInfo.gender" class="form-control">
                                                 <option value="M">Male</option>
                                                 <option value="F">Female</option>
                                                 <option value="O">Other</option>
@@ -98,78 +80,32 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                                             <label>Nationality</label>
                                             <input type="text" ng-model="contactInfo.nationality" ng-pattern="nationalityRegex" class="form-control" name="nationality">
-                                            <span ng-show="contactForm.nationality.$invalid" style="color:red">Invalid nationality.</span>
+                                            <span ng-show="contactForm.nationality.$invalid && contactForm.nricfin.$touched" style="color:red">Invalid nationality.</span>
                                         </div>    
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
-                                            <label>Date of birth</label><span class="required">*</span>
+                                            <label>Date of birth</label>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="contactInfo.dateofbirth" ng-required="true" name="dob" class="form-control pull-right" id="contact-date-of-birth-picker">
-                                                <span ng-show="contactForm.dob.$error.required && contactForm.dob.$dirty" style="color: red">Date of birth is required.</span>
+                                                <input type="text" ng-model="contactInfo.dateofbirth" name="dob" class="form-control pull-right" id="contact-date-of-birth-picker">
                                             </div>
                                         </div>
                                     </div>                     
                                     <label>Remarks</label>
                                     <textarea ng-model="contactInfo.remarks" ng-maxlength="200" name="remarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    <span ng-show="contactForm.remarks.$error.maxlength">Input field explanation is too long.</span>
-                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
-                                        <div class="col-md-2" style="padding: 0px" ng-init="loadCountryCodes()">
-                                            <label>Country code</label><span class="required">*</span>
-                                            <input type="number" class="form-control" ng-model="contactInfo.countrycode" ng-change="updateCountryNames(contactInfo.countrycode)" ng-required='true' name='countrycode'>            
-                                            <span>{{newCountryName}}</span>
-                                            <span ng-show="contactForm.countrycode.$error.required && contactForm.countrycode.$dirty" style="color: red">Country code is required.</span>
-                                        </div>
-                                        <div class="col-md-offset-1 col-md-4" style="padding: 0px">
-                                            <label>Phone number</label><span class="required">*</span>
-                                            <input type="text" ng-model="contactInfo.phonenumber" ng-pattern="phoneRegex" ng-required='true' ng-maxlength='20' name="phonenumber" class="form-control">
-                                            <span ng-show="contactForm.phonenumber.$invalid && contactForm.phonenumber.$dirty" style="color:red">Invalid phone number.</span>
-                                            <span ng-show="contactForm.phonenumber.$error.required && contactForm.phonenumber.$dirty" style="color: red">Phone number is required.</span>
-                                            <span ng-show="contactForm.phonenumber.$error.maxlength" style='color:red'>Input field phone number is too long.</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>Email</label><span class="required">*</span>
-                                        <input type="email" ng-model="contactInfo.email" ng-pattern="emailRegex" ng-required='true' ng-maxlength='50' name="email" class="form-control">
-                                        <span ng-show="contactForm.email.$invalid && contactForm.email.$dirty" style="color:red">Invalid email.</span>
-                                        <span ng-show="contactForm.email.$error.required && contactForm.email.$dirty" style="color: red">Email is required.</span>
-                                        <span ng-show="contactForm.email.$error.maxlength" style='color:red'>Input field email is too long.</span> 
-                                    </div>
-                                    <div class="form-group" ng-init="loadCountryNames()">
-                                        <label>Country</label><span class="required">*</span>
-                                        <select class="form-control" ng-model="contactInfo.country">
-                                            <option ng-repeat="country in countryNames">{{country.name}}</option>
-                                        </select> 
-                                    </div>
-                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
-                                        <div class="col-md-2" style="padding: 0px">
-                                            <label>Zipcode</label>
-                                            <input type="text" ng-model="contactInfo.zipcode" ng-maxlength='20' ng-pattern="zipcodeRegex" name='zipcode' class="form-control">
-                                            <span ng-show="contactForm.zipcode.$error.maxlength">Input field zipcode is too long.</span>
-                                            <span ng-show="contactForm.zipcode.$invalid" style="color:red">Invalid zipcode.</span>
-                                        </div>
-                                    </div>          
-                                    <div class="form-group">
-                                        <label>Address</label><span class="required">*</span>
-                                        <input type="text" ng-model="contactInfo.address" ng-required='true' ng-maxlength='1000' name='address' class="form-control">
-                                        <span ng-show="contactForm.address.$error.required && contactForm.address.$dirty" style="color: red">Address is required.</span>
-                                        <span ng-show="contactForm.address.$error.maxlength" style='color:red'>Input field address is too long.</span>
-                                    </div>
-                                </div>
+                                    <span ng-show="contactForm.remarks.$error.maxlength" style="color:red">Input field explanation is too long.</span>
+                                </div>    
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="nextForm()" 
-                                                    ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength || contactForm.name.$invalid)
+                                                    ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength)
                                                     || (contactForm.username.$error.required)
                                                     || (contactForm.password.$error.maxlength || contactForm.password.$error.minlength || contactForm.password.$error.required)
                                                     || (contactForm.confirmpassword.$error.compare || contactForm.confirmpassword.$error.required)
                                                     || (contactForm.nricfin.$invalid) || (contactForm.profession.$invalid) || (contactForm.jobtitle.$invalid)
-                                                    || (contactForm.phonenumber.$invalid || contactForm.phonenumber.$error.required || contactForm.phonenumber.$error.maxlength)
-                                                    || (contactForm.email.$invalid || contactForm.email.$error.required || contactForm.email.$error.maxlength)
-                                                    || (contactForm.address.$error.required || contactForm.address.$error.maxlength)
-                                                    || (contactForm.nationality.$invalid) || contactForm.dob.$error.required ||submitted"
+                                                    || (contactForm.nationality.$invalid) || submitted"
                                                     class="btn btn-primary" data-toggle="modal" data-target="#additionalForm">
                                             Save new contact
                                         </button></center>
@@ -281,7 +217,7 @@ and open the template in the editor.
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
                                                         <uib-accordion-heading>                                                   
-                                                            Join a team
+                                                            Select a team
                                                         </uib-accordion-heading>
                                                         <div class="form-group" ng-init="loadTeamAffiliationList()">
                                                             <label>Team Affiliation</label>
@@ -312,7 +248,7 @@ and open the template in the editor.
                                                                                     || form.additionalContactForm.teamremarks.$error.maxlength || submittedTeam">
                                                                 Done
                                                             </button>
-                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedTeam' ng-click='addMoreTeam()'>Add new team</button></center>
+                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedTeam' ng-click='addMoreTeam()'>Join another team</button></center>
                                                         <center><span ng-show="submittedTeam">Submitted successfully.</span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-primary'>
@@ -388,9 +324,10 @@ and open the template in the editor.
         
         <script>
             $(document).ready(function () {
-                $('#contact-date-of-birth-picker, #phone-date-obsolete-picker, #phone-date-obsolete-picker-2').datepicker({
+                $('#contact-date-of-birth-picker').datepicker({
                     format: "dd-M-yyyy",
-                    autoclose: true
+                    autoclose: true,
+                    endDate: new Date()
                 });
             });
         </script>

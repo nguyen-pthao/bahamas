@@ -104,9 +104,6 @@ app.controller('createContact',
                         };
                     });
                 };
-                $scope.nameRegex = '[A-Za-z ]{0,49}';
-                $scope.professionRegex = '[A-Za-z ]{0,49}';
-                $scope.jobtitleRegex = '[A-Za-z ]{0,49}';
                 $scope.nationalityRegex = '[A-Za-z ]{0,49}';
                 $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
@@ -129,7 +126,7 @@ app.controller('createContact',
                     'nationality': '',
                     'dateofbirth': '',
                     'remarks': '',
-                    'countrycode': 65,
+                    'countrycode': '65',
                     'phonenumber': '',
                     'email': '',
                     'country': 'Singapore',
@@ -176,14 +173,14 @@ app.controller('createContact',
                         countrycode: 65,
                         phonenumber: '',
                         phoneremarks: '',
-                        dateobsolete: '13-Jun-2020'
+                        dateobsolete: ''
                     },
                     emailInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
                         email: '',
                         emailremarks: '',
-                        dateobsolete: '13-Jun-2020'
+                        dateobsolete: ''
                     },
                     addressInfo: {
                         token: session.getSession('token'),
@@ -192,7 +189,7 @@ app.controller('createContact',
                         country: '',
                         zipcode: '',
                         addressremarks: '',
-                        dateobsolete: '13-Jun-2020'
+                        dateobsolete: ''
                     },
                     languageInfo: {
                         token: session.getSession('token'),
@@ -201,7 +198,7 @@ app.controller('createContact',
                         explainifother: '',
                         speakwrite: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2020'
+                        dateobsolete: ''
                     },
                     skillassetInfo: {
                         token: session.getSession('token'),
@@ -209,7 +206,7 @@ app.controller('createContact',
                         skillasset: '',
                         explainifother: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2020'
+                        dateobsolete: ''
                     },
                     teamInfo: {
                         token: session.getSession('token'),
@@ -220,7 +217,7 @@ app.controller('createContact',
                         subteam: '',
                         permissionlevel: '',
                         remarks: '',
-                        dateobsolete: '13-Jun-2020'
+                        dateobsolete: ''
                     }
                 };
                 
