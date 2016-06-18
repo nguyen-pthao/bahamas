@@ -42,7 +42,7 @@ public class AddressDAO {
             stmt.setString(3, a.getCreatedBy());
             stmt.setString(4, a.getAddress());
             stmt.setString(5, a.getCountry());
-            stmt.setInt(6, a.getZipcode());
+            stmt.setString(6, a.getZipcode());
             stmt.setString(7, a.getRemarks());
 
             if (a.getDateObsolete() != null) {
@@ -81,7 +81,7 @@ public class AddressDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
                 
-                int zipcode = rs.getInt(1);
+                String zipcode = rs.getString(1);
                 String address = rs.getString(2);
                 String country = rs.getString(3);
                 String remarks = rs.getString(4);

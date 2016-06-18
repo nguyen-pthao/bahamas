@@ -87,7 +87,7 @@ public class UpdateAddress extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -97,10 +97,10 @@ public class UpdateAddress extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String address = jobject.get("address").getAsString();
-                        String country = jobject.get("country").getAsString();
-                        int zipCode = Integer.parseInt(jobject.get("zipcode").getAsString());
-                        String addressRemarks = jobject.get("addressremarks").getAsString();
+                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
+                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
+                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
+                        String addressRemarks = Validator.containsBlankField(jobject.get("addressremarks").getAsString());
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
                       

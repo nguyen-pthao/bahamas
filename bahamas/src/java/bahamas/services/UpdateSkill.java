@@ -82,10 +82,10 @@ public class UpdateSkill extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
-                    String skillsAsset = jobject.get("skillasset").getAsString();
-                    String explainIfOther = jobject.get("explainifother").getAsString();
-                    String remarks = jobject.get("remarks").getAsString();
+                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    String skillsAsset = Validator.containsBlankField(jobject.get("skillasset").getAsString());
+                    String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                     Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
                     //Validation of fields

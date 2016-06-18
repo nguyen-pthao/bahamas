@@ -63,8 +63,7 @@ public class Contact {
     //Create contact object for adding new contact
     public Contact(String contactType, String createdBy, String name,
             String altName, String explainIfOther, String profession, String jobTitle,
-            String nric, String gender, String nationality, Date dateOfBirth, String remarks,
-            String username, String password, String salt) {
+            String nric, String gender, String nationality, Date dateOfBirth, String remarks) {
         this.contactType = contactType;
         this.createdBy = createdBy;
         this.name = name;
@@ -77,9 +76,7 @@ public class Contact {
         this.nationality = nationality;
         this.dateOfBirth = dateOfBirth;
         this.remarks = remarks;
-        this.username = username;
-        this.password = password;
-        this.salt = salt;
+      
 
     }
 

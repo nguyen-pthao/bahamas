@@ -86,7 +86,7 @@ public class UpdateEmail extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -96,8 +96,8 @@ public class UpdateEmail extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String email = jobject.get("email").getAsString();
-                        String emailRemarks = jobject.get("emailremarks").getAsString();
+                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
+                        String emailRemarks = Validator.containsBlankField(jobject.get("emailremarks").getAsString());
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 

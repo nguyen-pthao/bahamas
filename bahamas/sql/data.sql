@@ -151,14 +151,13 @@ insert into CONTACT(CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNO
 #(10, 'Medical', 'novice2', '7c222fb2927d828af22f592134e8932480637c0d', 0, 1, 0, '2016-05-24 23:00:00', 'admin', 'Ong2', 'Cool Ong2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0);
 
 #TEAM_JOIN
-insert into TEAM_JOIN(CONTACT_ID, TEAM_NAME, DATE_CREATED, CREATED_BY, EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, REMARKS,PERMISSION) value
-(1, 'Lifeline', '2016-05-24', 'admin1' , '', '', NULL, '', 'Team manager');
-
-#(4, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Team manager'),
-#(5, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Event leader'),
-#(6, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Event leader'),
-#(7, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Associate'),
-#(8, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Associate');
+#insert into TEAM_JOIN(CONTACT_ID, TEAM_NAME, DATE_CREATED, CREATED_BY, EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, REMARKS,PERMISSION,APPROVAL) value
+#(1, 'Lifeline', '2016-05-24', 'admin1' , '', '', NULL, '', 'Team manager',0);
+#(4, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Team manager',0),
+#(5, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Event leader',1),
+#(6, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Event leader',1),
+#(7, 'Lifeline', '2016-05-24', 'Thao1' , '', '', NULL, '', 'Associate',1),
+#(8, 'Research', '2016-05-24', 'Thao2' , '', '', NULL, '', 'Associate',1);
 
 
 

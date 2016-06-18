@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.update"})
 public class UpdateLanguage extends HttpServlet {
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -87,11 +86,11 @@ public class UpdateLanguage extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Integer.parseInt(jobject.get("id").getAsString());
-                    String language = jobject.get("language").getAsString();
-                    String explainIfOther = jobject.get("explainifother").getAsString();
-                    String speakWrite = jobject.get("speakwrite").getAsString();
-                    String remarks = jobject.get("remarks").getAsString();
+                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    String language = Validator.containsBlankField(jobject.get("language").getAsString());
+                    String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                    String speakWrite = Validator.containsBlankField(jobject.get("speakwrite").getAsString());
+                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
                     Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
