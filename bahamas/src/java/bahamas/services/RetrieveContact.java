@@ -172,6 +172,49 @@ public class RetrieveContact extends HttpServlet {
             String emailStr = "";
             String phoneStr = "";
             String addressStr = "";
+            String name = c.getName();
+            String altName = c.getAltName();
+            String contactType = c.getContactType();
+            String explainIfOther = c.getExplainIfOther();
+            String profession = c.getProfession();
+            String jobTitle = c.getJobTitle();
+            String nric = c.getNric();
+            String gender = c.getGender();
+            String nationality = c.getNationality();
+            String remarks = c.getRemarks();
+            
+            if(name == null){
+                name = "";
+            }
+            if(altName == null){
+                altName = "";
+            }
+            if(contactType == null){
+                contactType = "";
+            }
+            if(explainIfOther == null){
+                explainIfOther = "";
+            }
+            if(profession == null){
+                profession = "";
+            }
+            if(jobTitle == null){
+                jobTitle = "";
+            }
+            if(nric == null){
+                nric = "";
+            }
+            if(gender == null){
+                gender = "";
+            }
+            if(nationality == null){
+                nationality = "";
+            }
+            if(remarks == null){
+                remarks = "";
+            }
+            
+            
             if(!emailList.isEmpty()){
                 
                 for(int i = 0; i < emailList.size()-1; i++){
@@ -202,33 +245,35 @@ public class RetrieveContact extends HttpServlet {
                 addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode();
                 
             }
+            
+            
 
             jsonContactObj = new JsonObject();
-            jsonContactObj.addProperty("cid", c.getContactId());
-            jsonContactObj.addProperty("name", c.getName());
-            jsonContactObj.addProperty("alt name", c.getAltName());
+            jsonContactObj.addProperty("name", name);
+            jsonContactObj.addProperty("alt name", altName);
             jsonContactObj.addProperty("phone", phoneStr);
             jsonContactObj.addProperty("email", emailStr);
-            jsonContactObj.addProperty("contact type", c.getContactType());
-            jsonContactObj.addProperty("explain if other", c.getExplainIfOther());
-            jsonContactObj.addProperty("contact type", c.getContactType());
-            jsonContactObj.addProperty("profession", c.getProfession());
-            jsonContactObj.addProperty("job title", c.getJobTitle());
-            jsonContactObj.addProperty("nric", c.getNric());
-            jsonContactObj.addProperty("gender", c.getGender());
-            jsonContactObj.addProperty("nationality", c.getNationality());
+            jsonContactObj.addProperty("contact type", contactType);
+            jsonContactObj.addProperty("explain if other", explainIfOther);
+            jsonContactObj.addProperty("profession", profession);
+            jsonContactObj.addProperty("job title", jobTitle);
+            jsonContactObj.addProperty("nric", nric);
+            jsonContactObj.addProperty("gender", gender);
+            jsonContactObj.addProperty("nationality", nationality);
             if(c.getDateOfBirth() != null){
                 jsonContactObj.addProperty("date of birth", sdf.format(c.getDateOfBirth()));
+            }else{
+                jsonContactObj.addProperty("date of birth", "");
             }
             jsonContactObj.addProperty("address", addressStr);
-            jsonContactObj.addProperty("remarks", c.getRemarks());
+            jsonContactObj.addProperty("remarks", remarks);
             //jsonContactObj.addProperty("username", c.getName());
             //jsonContactObj.addProperty("password", c.getPassword());
             //jsonContactObj.addProperty("dateCreated", sdf.format(c.getDateCreated()));
             //jsonContactObj.addProperty("createdBy", c.getCreatedBy());
             //jsonContactObj.addProperty("profilePic", c.getProfilePic());
             contactArray.add(jsonContactObj);
-
+            jsonContactObj.addProperty("cid", c.getContactId());
         }
         return contactArray;
     }
