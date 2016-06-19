@@ -102,20 +102,27 @@ public class Validator {
 
         if (str == null || str.trim().isEmpty()) {
             return null;
-        }
-        else{
+        } else {
             return str;
         }
     }
 
-    public static int isIntValid(String num){
-        try{
+    public static int isIntValid(String num) {
+        try {
             return Integer.parseInt(num);
-        }catch(NumberFormatException e){
+        } catch (NumberFormatException | NullPointerException e) {
             return 0;
         }
     }
-    
+
+    public static double isDoubleValid(String num) {
+        try {
+            return Double.parseDouble(num);
+        } catch (NumberFormatException | NullPointerException e) {
+            return 0;
+        }
+    }
+
     /**
      * <p>
      * Return a boolean value on whether inputted date is valid
@@ -130,7 +137,7 @@ public class Validator {
                 SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
                 //df.setLenient(false);
                 return df.parse(date);
-             
+
             } catch (ParseException | NullPointerException e) {
                 return null;
             }
