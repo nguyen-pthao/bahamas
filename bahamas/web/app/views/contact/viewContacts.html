@@ -49,7 +49,7 @@ and open the template in the editor.
                                 <br />
                             </div>
                         </div>
-                        <table id="example1" class="table table-bordered table-striped">
+                        <table id="example1" class="table table-bordered table-striped" ng-show="showFive">
                             <thead>
                                 <tr>
                                     <th ng-repeat="contactHead in allContactObjectKeySliced"><a href="" ng-click="order(contactHead)" style='color: #005384'>{{contactHead}}</a></th>
@@ -57,8 +57,35 @@ and open the template in the editor.
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="contact in filteredContacts | orderBy:predicate:reverse | filter:searchContacts">
-                                    <td ng-repeat="contactInfo in contact">{{contactInfo}}</td>
+                                <tr ng-repeat="contact in filteredContacts| orderBy:predicate:reverse | filter:searchContacts">
+                                    <td><a ui-sref="viewIndivContact">{{contact.name}}</a></td>
+                                    <td>{{contact['alt name']}}</td>
+                                    <td>{{contact.phone}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact['contact type']}}</td>
+                                    <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th ng-repeat="contactHead in allContactObjectKeySliced">{{contactHead}}</th>
+                                    <th ng-if="isAuthorised"></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        <table id="example1" class="table table-bordered table-striped" ng-hide="showFive">
+                            <thead>
+                                <tr>
+                                    <th ng-repeat="contactHead in allContactObjectKeySliced"><a href="" ng-click="order(contactHead)" style='color: #005384'>{{contactHead}}</a></th>
+                                    <th ng-if="isAuthorised"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="contact in filteredContacts| orderBy:predicate:reverse | filter:searchContacts">
+                                    <td><a ui-sref="viewIndivContact">{{contact.name}}</a></td>
+                                    <td>{{contact['alt name']}}</td>
+                                    <td>{{contact.email}}</td>
+                                    <td>{{contact['contact type']}}</td>
                                     <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>

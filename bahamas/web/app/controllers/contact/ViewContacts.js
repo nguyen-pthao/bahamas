@@ -16,7 +16,6 @@ app.controller('viewContacts',
                 var currentState = user + '.viewContacts';
                 var homepage = user + '.homepage';
 
-
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -29,7 +28,8 @@ app.controller('viewContacts',
 //            console.log(angular.fromJson(session.getSession('contact')));
 //            console.log(angular.fromJson(session.getSession('teams')));
                     $scope.checkNovice = session.getSession('userType');
-                    if ($scope.checkNovice === 'novice') {
+                    $scope.showFive = false;
+                    if (session.getSession('teams') === 'undefined') {
                         var contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
@@ -37,21 +37,12 @@ app.controller('viewContacts',
                             'permission': session.getSession('userType')
                         };
                     } else {
-                        if (session.getSession('teams') === 'undefined') {
-                            var contactToRetrieve = {
-                                'token': session.getSession('token'),
-                                'cid': angular.fromJson(session.getSession('contact')).cid,
-                                'teamname': "",
-                                'permission': session.getSession('userType')
-                            };
-                        } else {
-                            var contactToRetrieve = {
-                                'token': session.getSession('token'),
-                                'cid': angular.fromJson(session.getSession('contact')).cid,
-                                'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
-                                'permission': session.getSession('userType')
-                            };
-                        }
+                        var contactToRetrieve = {
+                            'token': session.getSession('token'),
+                            'cid': angular.fromJson(session.getSession('contact')).cid,
+                            'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
+                            'permission': session.getSession('userType')
+                        };
                     }
                     //for headers
                     var allContactObjKey = [];
@@ -62,28 +53,27 @@ app.controller('viewContacts',
                             allContactObjKey.push(contactHeader);
                         }
                         $scope.allContactObjectKeys = allContactObjKey;
-                        
+
                         $scope.isAuthorised = true;
                         $scope.takeNoColumns = 5;
                         $scope.userType = session.getSession('userType');
-                        if ($scope.userType === 'novice') {
-                            $scope.isAuthorised = false;
-                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys;
-                        } else if ($scope.userType === 'associate') {
+                        if ($scope.userType === 'associate') {
                             $scope.isAuthorised = false;
                             $scope.takeNoColumns = 4;
-                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0,4);
+                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 4);
                             console.log($scope.allContactObjectKeySliced.length);
                         } else if ($scope.userType === 'eventleader') {
                             $scope.isAuthorised = false;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
+                            $scope.showFive = true;
                         } else {
-                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0,5);
+                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
+                            $scope.showFive = true;
                         }
                         $scope.totalItems = $scope.allContactInfo.length;
                         var newContactArray = [];
                         angular.forEach($scope.allContactInfo, function (obj) {
-                            if($scope.takeNoColumns === 5){
+                            if ($scope.takeNoColumns === 5) {
                                 var filteredObj = {};
                                 filteredObj['name'] = obj.name;
                                 filteredObj['alt name'] = obj['alt name'];
@@ -91,7 +81,7 @@ app.controller('viewContacts',
                                 filteredObj['email'] = obj.email;
                                 filteredObj['contact type'] = obj['contact type'];
                                 newContactArray.push(filteredObj);
-                            }else if($scope.takeNoColumns === 4){
+                            } else if ($scope.takeNoColumns === 4) {
                                 console.log(obj);
                                 var filteredObj = {};
                                 filteredObj['name'] = obj.name;
@@ -102,11 +92,9 @@ app.controller('viewContacts',
                                 console.log(filteredObj);
                             }
                         });
-                        if ($scope.userType === 'novice') {
-                            $scope.allFilteredContact = $scope.allContactInfo;
-                        }else{
-                             $scope.allFilteredContact = newContactArray;
-                        }
+
+                        $scope.allFilteredContact = newContactArray;
+
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = $scope.allFilteredContact.length;
                         $scope.itemsPerPageChanged = function () {

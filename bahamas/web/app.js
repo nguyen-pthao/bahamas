@@ -109,6 +109,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('notFound', {
                 url: '/notFound',
                 templateUrl: 'notFound.html'
+            })
+            .state('viewIndivContact', {
+                url: '/viewIndivContact',
+                templateUrl: 'app/views/contact/viewIndividualContact.html',
+                controller: 'viewContacts'
             });
 
 });
@@ -117,10 +122,10 @@ app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $stat
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
-            
+
             var permission = targetScope.name.split('.')[0];
-            
-            if(permission == 'notFound' && session.getSession('userType') == null) {
+
+            if (permission == 'notFound' && session.getSession('userType') == null) {
                 event.preventDefault();
                 $state.go('login');
             }
@@ -181,6 +186,6 @@ app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $stat
                 $rootScope.previousState = fromScope.name;
             }
         }
-    );
-}]);
+        );
+    }]);
 
