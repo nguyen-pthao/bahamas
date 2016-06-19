@@ -26,8 +26,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -105,21 +103,14 @@ public class RetrieveContact extends HttpServlet {
                 if (!contactList.isEmpty()) {
 
                     json.addProperty("message", "success");
-                    //Novice
-                    if (contact.isIsNovice()) {
-
-                        JsonArray contactArray = retrieveAllByNovice(contactList);
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                        
-                    } else if (contact.isIsAdmin()) { //Admin
-                        JsonArray contactArray = retrieveAllByAdminTm(contactList);
+                                           
+                    if (contact.isIsAdmin()) { //Admin
+                        JsonArray contactArray = retrieveAllByAdminTmEl(contactList);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                        JsonArray contactArray = retrieveAllByAdminTm(contactList);
+                        JsonArray contactArray = retrieveAllByAdminTmEl(contactList);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
@@ -130,7 +121,7 @@ public class RetrieveContact extends HttpServlet {
 
                             if (permission.equals("eventleader")) { //Event leader
                                 // To be confirm
-                                JsonArray contactArray = retrieveAllByAdminTm(contactList);
+                                JsonArray contactArray = retrieveAllByAdminTmEl(contactList);
                                 json.add("contact", contactArray);
                                 out.println(gson.toJson(json));
                                 return;
@@ -158,7 +149,7 @@ public class RetrieveContact extends HttpServlet {
         }
     }
 
-    private static JsonArray retrieveAllByAdminTm(ArrayList<Contact> contactList) {
+    private static JsonArray retrieveAllByAdminTmEl(ArrayList<Contact> contactList) {
 
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
@@ -267,48 +258,12 @@ public class RetrieveContact extends HttpServlet {
             }
             jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", remarks);
-            //jsonContactObj.addProperty("username", c.getName());
-            //jsonContactObj.addProperty("password", c.getPassword());
-            //jsonContactObj.addProperty("dateCreated", sdf.format(c.getDateCreated()));
-            //jsonContactObj.addProperty("createdBy", c.getCreatedBy());
-            //jsonContactObj.addProperty("profilePic", c.getProfilePic());
             contactArray.add(jsonContactObj);
             jsonContactObj.addProperty("cid", c.getContactId());
         }
         return contactArray;
     }
 
-    private static JsonArray retrieveAllByNovice(ArrayList<Contact> contactList) {
-
-        JsonArray contactArray = new JsonArray();
-        JsonObject jsonContactObj;
-
-        for (Contact c : contactList) {
-            
-            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
-            String emailStr = "";
-            
-            if(!emailList.isEmpty()){
-                
-                for(int i = 0; i < emailList.size()-1; i++){
-                    Email email = emailList.get(i);
-                    emailStr += email.getEmail() + ", ";
-                }
-                Email email = emailList.get(emailList.size()-1);
-                emailStr += email.getEmail();
-                
-            }
-            
-            jsonContactObj = new JsonObject();
-            jsonContactObj.addProperty("cid", c.getContactId());
-            jsonContactObj.addProperty("name", c.getName());
-            jsonContactObj.addProperty("altname", c.getAltName());
-            jsonContactObj.addProperty("email", emailStr);
-            contactArray.add(jsonContactObj);
-
-        }
-        return contactArray;
-    }
     
     private static JsonArray retrieveAllByAssociate(ArrayList<Contact> contactList) {
 
@@ -320,6 +275,45 @@ public class RetrieveContact extends HttpServlet {
             ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
             String emailStr = "";
             
+            String name = c.getName();
+            String altName = c.getAltName();
+            String contactType = c.getContactType();
+            String explainIfOther = c.getExplainIfOther();
+            String profession = c.getProfession();
+            String jobTitle = c.getJobTitle();
+            String gender = c.getGender();
+            String nationality = c.getNationality();
+            String remarks = c.getRemarks();
+            
+            if(name == null){
+                name = "";
+            }
+            if(altName == null){
+                altName = "";
+            }
+            if(contactType == null){
+                contactType = "";
+            }
+            if(explainIfOther == null){
+                explainIfOther = "";
+            }
+            if(profession == null){
+                profession = "";
+            }
+            if(jobTitle == null){
+                jobTitle = "";
+            }
+            if(gender == null){
+                gender = "";
+            }
+            if(nationality == null){
+                nationality = "";
+            }
+            if(remarks == null){
+                remarks = "";
+            }
+            
+            
             if(!emailList.isEmpty()){
                 
                 for(int i = 0; i < emailList.size()-1; i++){
@@ -330,21 +324,21 @@ public class RetrieveContact extends HttpServlet {
                 emailStr += email.getEmail();
                 
             }
-
+            
             jsonContactObj = new JsonObject();
-
-            jsonContactObj.addProperty("name", c.getName());
-            jsonContactObj.addProperty("altname", c.getAltName());
+            jsonContactObj.addProperty("name", name);
+            jsonContactObj.addProperty("alt name", altName);
             jsonContactObj.addProperty("email", emailStr);
-            jsonContactObj.addProperty("contactType", c.getContactType());
-            jsonContactObj.addProperty("explainIfOther", c.getExplainIfOther());
-            jsonContactObj.addProperty("contactType", c.getContactType());
-            jsonContactObj.addProperty("profession", c.getProfession());
-            jsonContactObj.addProperty("jobTitle", c.getJobTitle());
-            jsonContactObj.addProperty("gender", c.getGender());
-            jsonContactObj.addProperty("nationality", c.getNationality());
-            jsonContactObj.addProperty("remarks", c.getRemarks());
+            jsonContactObj.addProperty("contact type", contactType);
+            jsonContactObj.addProperty("explain if other", explainIfOther);
+            jsonContactObj.addProperty("profession", profession);
+            jsonContactObj.addProperty("job title", jobTitle);
+            jsonContactObj.addProperty("gender", gender);
+            jsonContactObj.addProperty("nationality", nationality);
+            jsonContactObj.addProperty("remarks", remarks);
             contactArray.add(jsonContactObj);
+            jsonContactObj.addProperty("cid", c.getContactId());
+            
 
         }
         return contactArray;

@@ -9,13 +9,13 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
-        ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts',
+        ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts', 'filterFilter',
             function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts, filterFilter) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
                 var homepage = user + '.homepage';
-
+                $scope.contactToDisplay;
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -25,10 +25,9 @@ app.controller('viewContacts',
                 };
 
                 $scope.retrieveAllContacts = function () {
-//            console.log(angular.fromJson(session.getSession('contact')));
-//            console.log(angular.fromJson(session.getSession('teams')));
                     $scope.checkNovice = session.getSession('userType');
                     $scope.showFive = false;
+                    //to determine what to send back to backend.
                     if (session.getSession('teams') === 'undefined') {
                         var contactToRetrieve = {
                             'token': session.getSession('token'),
@@ -48,6 +47,7 @@ app.controller('viewContacts',
                     var allContactObjKey = [];
                     loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
+                        console.log($scope.allContactInfo);
                         var firstContactObject = $scope.allContactInfo[0];
                         for (contactHeader in firstContactObject) {
                             allContactObjKey.push(contactHeader);
@@ -61,7 +61,6 @@ app.controller('viewContacts',
                             $scope.isAuthorised = false;
                             $scope.takeNoColumns = 4;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 4);
-                            console.log($scope.allContactObjectKeySliced.length);
                         } else if ($scope.userType === 'eventleader') {
                             $scope.isAuthorised = false;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
@@ -71,67 +70,54 @@ app.controller('viewContacts',
                             $scope.showFive = true;
                         }
                         $scope.totalItems = $scope.allContactInfo.length;
-                        var newContactArray = [];
-                        angular.forEach($scope.allContactInfo, function (obj) {
-                            if ($scope.takeNoColumns === 5) {
-                                var filteredObj = {};
-                                filteredObj['name'] = obj.name;
-                                filteredObj['alt name'] = obj['alt name'];
-                                filteredObj['phone'] = obj.phone;
-                                filteredObj['email'] = obj.email;
-                                filteredObj['contact type'] = obj['contact type'];
-                                newContactArray.push(filteredObj);
-                            } else if ($scope.takeNoColumns === 4) {
-                                console.log(obj);
-                                var filteredObj = {};
-                                filteredObj['name'] = obj.name;
-                                filteredObj['alt name'] = obj['altname'];
-                                filteredObj['email'] = obj.email;
-                                filteredObj['contact type'] = obj['contactType'];
-                                newContactArray.push(filteredObj);
-                                console.log(filteredObj);
-                            }
-                        });
-
-                        $scope.allFilteredContact = newContactArray;
 
                         $scope.currentPage = 1;
-                        $scope.itemsPerPage = $scope.allFilteredContact.length;
+                        $scope.itemsPerPage = $scope.allContactInfo.length;
+                        $scope.allFilteredContacts = $scope.allContactInfo;
+                        $scope.isAll = false;
                         $scope.itemsPerPageChanged = function () {
                             if ($scope.itemsPerPage == 'toAll') {
-                                $scope.itemsPerPage = $scope.allFilteredContact.length;
+                                $scope.itemsPerPage = $scope.allFilteredContacts.length;
+                                $scope.isAll = true;
+                            } else {
+                                $scope.isAll = false;
                             }
-                            var total = $scope.totalItems / $scope.itemsPerPage;
+                            $scope.allFilteredContacts = filterFilter($scope.allContactInfo, $scope.searchContacts);
+                            var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
-                                $scope.filteredContacts = $scope.allFilteredContact.slice(begin, end);
+                                $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
                             });
                         };
-                        var total = $scope.totalItems / $scope.itemsPerPage;
+
+                        var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
                         $scope.$watch('currentPage + itemsPerPage', function () {
                             var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                             var end = begin + parseInt($scope.itemsPerPage);
 
-                            $scope.filteredContacts = $scope.allFilteredContact.slice(begin, end);
+                            $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
                         });
-                        $scope.pageChanged = function () {
-                            var total = $scope.totalItems / $scope.itemsPerPage;
+
+                        $scope.$watch('searchContacts', function (term) {
+                            $scope.allFilteredContacts = filterFilter($scope.allContactInfo, term);
+                            $scope.totalItems = $scope.allFilteredContacts.length;
+                            var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
-
-                                $scope.filteredContacts = $scope.allFilteredContact.slice(begin, end);
+                                $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
                             });
-                        };
-                        
-                        $scope.foo = function($event, contact){
+                        });
+
+                        $scope.foo = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
-                            console.log(toURL);
                             $state.go(toURL);
+                            $scope.contactToDisplay = contact;
+                            console.log($scope.contactToDisplay);
                         }
                     });
                 };

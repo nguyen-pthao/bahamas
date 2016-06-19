@@ -30,7 +30,7 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-                        <div class="col-md-12" style="margin-bottom: 15px">
+                        <div class="col-md-12" style="margin-bottom: 0px">
                             <label class="col-md-1" style="padding: 0px; float:left">
                                 Show Entries:
                             </label>
@@ -49,6 +49,15 @@ and open the template in the editor.
                                 <br />
                             </div>
                         </div>
+                        <p style="margin-bottom: 0px">
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredContacts.length}}</span> 
+                            &nbsp;&nbsp;
+                            <span> <label> Entries per page: </label>&nbsp;</span>
+                            <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
+                            <span ng-show="isAll" style="color: red">All</span>
+                            &nbsp;&nbsp;
+                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitContacts.length}}</span> 
+                        </p>
                         <table id="example1" class="table table-bordered table-striped" ng-show="showFive">
                             <thead>
                                 <tr>
@@ -57,7 +66,7 @@ and open the template in the editor.
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="contact in filteredContacts| orderBy:predicate:reverse | filter:searchContacts">
+                                <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                     <td><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
                                     <td>{{contact['alt name']}}</td>
                                     <td>{{contact.phone}}</td>
@@ -81,7 +90,7 @@ and open the template in the editor.
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr ng-repeat="contact in filteredContacts| orderBy:predicate:reverse | filter:searchContacts">
+                                <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                     <td><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
                                     <td>{{contact['alt name']}}</td>
                                     <td>{{contact.email}}</td>
