@@ -15,7 +15,7 @@ app.controller('viewContacts',
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
                 var homepage = user + '.homepage';
-
+                $scope.contactToDisplay;
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -47,6 +47,7 @@ app.controller('viewContacts',
                     var allContactObjKey = [];
                     loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
+                        console.log($scope.allContactInfo);
                         var firstContactObject = $scope.allContactInfo[0];
                         for (contactHeader in firstContactObject) {
                             allContactObjKey.push(contactHeader);
@@ -78,7 +79,7 @@ app.controller('viewContacts',
                             if ($scope.itemsPerPage == 'toAll') {
                                 $scope.itemsPerPage = $scope.allFilteredContacts.length;
                                 $scope.isAll = true;
-                            }else{
+                            } else {
                                 $scope.isAll = false;
                             }
                             $scope.allFilteredContacts = filterFilter($scope.allContactInfo, $scope.searchContacts);
@@ -90,7 +91,7 @@ app.controller('viewContacts',
                                 $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
                             });
                         };
-                        
+
                         var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
                         $scope.$watch('currentPage + itemsPerPage', function () {
@@ -99,8 +100,8 @@ app.controller('viewContacts',
 
                             $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
                         });
-                        
-                        $scope.$watch('searchContacts', function(term){
+
+                        $scope.$watch('searchContacts', function (term) {
                             $scope.allFilteredContacts = filterFilter($scope.allContactInfo, term);
                             $scope.totalItems = $scope.allFilteredContacts.length;
                             var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
@@ -112,10 +113,11 @@ app.controller('viewContacts',
                             });
                         });
 
-                        $scope.foo = function($event, contact){
+                        $scope.foo = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
-                            console.log(toURL);
                             $state.go(toURL);
+                            $scope.contactToDisplay = contact;
+                            console.log($scope.contactToDisplay);
                         }
                     });
                 };
