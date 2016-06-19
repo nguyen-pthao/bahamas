@@ -129,8 +129,9 @@ app.controller('viewContacts',
                         };
                         
                         $scope.foo = function($event, contact){
-                            console.log($event.target);
-                            console.log(contact);
+                            var toURL = $scope.userType + ".viewIndivContact";
+                            console.log(toURL);
+                            $state.go(toURL);
                         }
                     });
                 };
