@@ -204,6 +204,7 @@ public class RetrieveContact extends HttpServlet {
             }
 
             jsonContactObj = new JsonObject();
+            jsonContactObj.addProperty("cid", c.getContactId());
             jsonContactObj.addProperty("name", c.getName());
             jsonContactObj.addProperty("alt name", c.getAltName());
             jsonContactObj.addProperty("phone", phoneStr);
@@ -216,7 +217,9 @@ public class RetrieveContact extends HttpServlet {
             jsonContactObj.addProperty("nric", c.getNric());
             jsonContactObj.addProperty("gender", c.getGender());
             jsonContactObj.addProperty("nationality", c.getNationality());
-            jsonContactObj.addProperty("date of birth", sdf.format(c.getDateOfBirth()));
+            if(c.getDateOfBirth() != null){
+                jsonContactObj.addProperty("date of birth", sdf.format(c.getDateOfBirth()));
+            }
             jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", c.getRemarks());
             //jsonContactObj.addProperty("username", c.getName());
@@ -252,7 +255,7 @@ public class RetrieveContact extends HttpServlet {
             }
             
             jsonContactObj = new JsonObject();
-
+            jsonContactObj.addProperty("cid", c.getContactId());
             jsonContactObj.addProperty("name", c.getName());
             jsonContactObj.addProperty("altname", c.getAltName());
             jsonContactObj.addProperty("email", emailStr);
