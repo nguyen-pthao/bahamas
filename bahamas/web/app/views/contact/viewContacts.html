@@ -68,10 +68,10 @@ and open the template in the editor.
                             <tbody>
                                 <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                     <td><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
-                                    <td>{{contact['altname']}}</td>
+                                    <td>{{contact['alt name']}}</td>
                                     <td>{{contact.phone}}</td>
                                     <td>{{contact.email}}</td>
-                                    <td>{{contact['contactType']}}</td>
+                                    <td>{{contact['contact type']}}</td>
                                     <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
@@ -92,9 +92,9 @@ and open the template in the editor.
                             <tbody>
                                 <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                     <td><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
-                                    <td>{{contact['altname']}}</td>
+                                    <td>{{contact['alt name']}}</td>
                                     <td>{{contact.email}}</td>
-                                    <td>{{contact['contactType']}}</td>
+                                    <td>{{contact['contact type']}}</td>
                                     <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>

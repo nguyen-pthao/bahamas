@@ -47,7 +47,6 @@ app.controller('viewContacts',
                     var allContactObjKey = [];
                     loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
-                        console.log($scope.allContactInfo);
                         var firstContactObject = $scope.allContactInfo[0];
                         for (contactHeader in firstContactObject) {
                             allContactObjKey.push(contactHeader);
@@ -61,7 +60,6 @@ app.controller('viewContacts',
                             $scope.isAuthorised = false;
                             $scope.takeNoColumns = 4;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 4);
-                            console.log($scope.allContactObjectKeySliced.length);
                         } else if ($scope.userType === 'eventleader') {
                             $scope.isAuthorised = false;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
