@@ -127,6 +127,11 @@ app.controller('viewContacts',
                                 $scope.filteredContacts = $scope.allFilteredContact.slice(begin, end);
                             });
                         };
+                        
+                        $scope.foo = function($event, contact){
+                            console.log($event.target);
+                            console.log(contact);
+                        }
                     });
                 };
                 $scope.predicate = '';
