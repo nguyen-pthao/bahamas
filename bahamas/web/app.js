@@ -41,6 +41,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/auditlog/viewAuditLog.html',
                 controller: 'viewAuditLog'
             })
+            .state('admin.viewIndivContact', {
+                url: '/viewIndivContact',
+                templateUrl: 'app/views/contact/viewIndividualContact.html',
+                controller: 'viewContacts'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -69,6 +74,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
+            .state('associate.viewIndivContact', {
+                url: '/viewIndivContact',
+                templateUrl: 'app/views/contact/viewIndividualContact.html',
+                controller: 'viewContacts'
+            })
             .state('teammanager', {
                 url: '/teammanager',
                 templateUrl: 'app/views/teammanager.html',
@@ -88,6 +98,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/createContact.html',
                 controller: 'createContact'
             })
+            .state('teammanager.viewIndivContact', {
+                url: '/viewIndivContact',
+                templateUrl: 'app/views/contact/viewIndividualContact.html',
+                controller: 'viewContacts'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -102,6 +117,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewContacts.html',
                 controller: 'viewContacts'
             })
+            .state('eventleader.viewIndivContact', {
+                url: '/viewIndivContact',
+                templateUrl: 'app/views/contact/viewIndividualContact.html',
+                controller: 'viewContacts'
+            })
             .state('unauthorised', {
                 url: '/unauthorised',
                 templateUrl: 'unauthorised.html'
@@ -109,11 +129,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('notFound', {
                 url: '/notFound',
                 templateUrl: 'notFound.html'
-            })
-            .state('viewIndivContact', {
-                url: '/viewIndivContact',
-                templateUrl: 'app/views/contact/viewIndividualContact.html',
-                controller: 'viewContacts'
             });
 
 });
