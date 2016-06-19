@@ -37,13 +37,21 @@ app.controller('viewContacts',
                             'permission': session.getSession('userType')
                         };
                     } else {
-                        var contactToRetrieve = {
-                            'token': session.getSession('token'),
-                            'cid': angular.fromJson(session.getSession('contact')).cid,
-                            'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
-//                        'teamname': "",
-                            'permission': session.getSession('userType')
-                        };
+                        if (session.getSession('teams') === 'undefined') {
+                            var contactToRetrieve = {
+                                'token': session.getSession('token'),
+                                'cid': angular.fromJson(session.getSession('contact')).cid,
+                                'teamname': "",
+                                'permission': session.getSession('userType')
+                            };
+                        } else {
+                            var contactToRetrieve = {
+                                'token': session.getSession('token'),
+                                'cid': angular.fromJson(session.getSession('contact')).cid,
+                                'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
+                                'permission': session.getSession('userType')
+                            };
+                        }
                     }
                     //for headers
                     var allContactObjKey = [];
