@@ -18,12 +18,10 @@ public class OfficeHeld {
     private Date endOffice;
     private String remarks;
     private String createdBy;
-    //from the dropdown list
     private String officeHeldPosition;
 
-    public OfficeHeld(Contact contact, Date dateCreated, Date startOffice, Date endOffice, String remarks, String createdBy, String officeHeldPosition) {
+    public OfficeHeld(Contact contact, Date startOffice, Date endOffice, String remarks, String createdBy, String officeHeldPosition) {
         this.contact = contact;
-        this.dateCreated = dateCreated;
         this.startOffice = startOffice;
         this.endOffice = endOffice;
         this.remarks = remarks;

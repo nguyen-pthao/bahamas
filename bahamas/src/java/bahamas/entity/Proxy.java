@@ -7,28 +7,46 @@ package bahamas.entity;
 
 import java.util.Date;
 
+
 /**
  *
  * @author Darryl Mok
  */
 public class Proxy {
-
-    private Date dateCreated = new java.util.Date();
-    private String proxyStanding;
-    private String remarks;
+    
+    private Contact proxy;
+    private Contact principal;
+    private Date dateCreated =  new java.util.Date();
     private String createdBy;
+    private String proxyStanding;
     private Date dateObsolete;
-    private Contact organisation;
-    private Contact organisationRepresentative;
+    private String remarks;
+    
+    public Proxy(){}
 
-    public Proxy(Date dateCreated, String proxyStanding, String remarks, String createdBy, Date dateObsolete, Contact organisation, Contact organisationRepresentative) {
-        this.dateCreated = dateCreated;
-        this.proxyStanding = proxyStanding;
-        this.remarks = remarks;
+    public Proxy(Contact proxy, Contact principal, String createdBy, String proxyStanding, Date dateObsolete, String remarks) {
+        this.proxy = proxy;
+        this.principal = principal;
         this.createdBy = createdBy;
+        this.proxyStanding = proxyStanding;
         this.dateObsolete = dateObsolete;
-        this.organisation = organisation;
-        this.organisationRepresentative = organisationRepresentative;
+        this.remarks = remarks;
+    }
+     
+    public Contact getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(Contact principal) {
+        this.principal = principal;
+    }
+
+    public Contact getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(Contact proxy) {
+        this.proxy = proxy;
     }
 
     public Date getDateCreated() {
@@ -39,28 +57,20 @@ public class Proxy {
         this.dateCreated = dateCreated;
     }
 
-    public String getProxyStanding() {
-        return proxyStanding;
-    }
-
-    public void setProxyStanding(String proxyStanding) {
-        this.proxyStanding = proxyStanding;
-    }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
     public String getCreatedBy() {
         return createdBy;
     }
 
     public void setCreatedBy(String createdBy) {
         this.createdBy = createdBy;
+    }
+
+    public String getProxyStanding() {
+        return proxyStanding;
+    }
+
+    public void setProxyStanding(String proxyStanding) {
+        this.proxyStanding = proxyStanding;
     }
 
     public Date getDateObsolete() {
@@ -71,20 +81,14 @@ public class Proxy {
         this.dateObsolete = dateObsolete;
     }
 
-    public Contact getOrganisation() {
-        return organisation;
+    public String getRemarks() {
+        return remarks;
     }
 
-    public void setOrganisation(Contact organisation) {
-        this.organisation = organisation;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
     }
-
-    public Contact getOrganisationRepresentative() {
-        return organisationRepresentative;
-    }
-
-    public void setOrganisationRepresentative(Contact organisationRepresentative) {
-        this.organisationRepresentative = organisationRepresentative;
-    }
+    
+    
 
 }
