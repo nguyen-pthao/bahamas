@@ -49,7 +49,7 @@ public class MembershipDAO {
             while (rs.next()) {
 
                 int cid = rs.getInt(1);
-                Date startMembership = rs.getDate(2);              
+                Date startMembership = rs.getDate(2);
                 Date endMembership = rs.getDate(3);
                 Date receiptDate = rs.getDate(4);
                 double subscriptionAmount = rs.getDouble(5);
@@ -77,7 +77,7 @@ public class MembershipDAO {
         }
         return membershipList;
     }
-    
+
     public static ArrayList<Membership> retrieveMembershipByCID(int cid) {
 
         Connection conn = null;
@@ -95,12 +95,12 @@ public class MembershipDAO {
                     + "PAYMENT_MODE_NAME, EXPLAIN_IF_OTHER_PAYMENT, CREATED_BY, DATE_CREATED "
                     + "FROM MEMBERSHIP WHERE CONTACT_ID = (?)");
             stmt.setInt(1, cid);
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
                 cid = rs.getInt(1);
-                Date startMembership = rs.getDate(2);              
+                Date startMembership = rs.getDate(2);
                 Date endMembership = rs.getDate(3);
                 Date receiptDate = rs.getDate(4);
                 double subscriptionAmount = rs.getDouble(5);
@@ -128,9 +128,7 @@ public class MembershipDAO {
         }
         return membershipList;
     }
-    
-    //SELECT USERNAME, M.CONTACT_ID, START_MEMBERSHIP, END_MEMBERSHIP,RECEIPT_DATE,SUBSCRIPTION_AMOUNT, EXT_TRANSACTION_REF, RECEIPT_NUMBER,M.REMARKS, RECEIPT_MODE_NAME, EXPLAIN_IF_OTHER_RECEIPT, MEMBERSHIP_CLASS_NAME, EXPLAIN_IF_OTHER_CLASS,PAYMENT_MODE_NAME, EXPLAIN_IF_OTHER_PAYMENT, M.CREATED_BY, M.DATE_CREATED FROM MEMBERSHIP M, CONTACT C WHERE M.CONTACT_ID = C.CONTACT_ID AND USERNAME = "username1"
-    
+
     public static ArrayList<Membership> retrieveMembershipByUsername(String username) {
 
         Connection conn = null;
@@ -144,12 +142,12 @@ public class MembershipDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT M.CONTACT_ID, START_MEMBERSHIP, END_MEMBERSHIP,RECEIPT_DATE,SUBSCRIPTION_AMOUNT, EXT_TRANSACTION_REF, RECEIPT_NUMBER,M.REMARKS, RECEIPT_MODE_NAME, EXPLAIN_IF_OTHER_RECEIPT, MEMBERSHIP_CLASS_NAME, EXPLAIN_IF_OTHER_CLASS,PAYMENT_MODE_NAME, EXPLAIN_IF_OTHER_PAYMENT, M.CREATED_BY, M.DATE_CREATED FROM MEMBERSHIP M, CONTACT C WHERE M.CONTACT_ID = C.CONTACT_ID AND USERNAME = (?)");
             stmt.setString(1, username);
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
                 int cid = rs.getInt(1);
-                Date startMembership = rs.getDate(2);              
+                Date startMembership = rs.getDate(2);
                 Date endMembership = rs.getDate(3);
                 Date receiptDate = rs.getDate(4);
                 double subscriptionAmount = rs.getDouble(5);
@@ -177,4 +175,67 @@ public class MembershipDAO {
         }
         return membershipList;
     }
+
+    public static boolean addMembership(Membership m) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO MEMBERSHIP (CONTACT_ID,"
+                    + "DATE_CREATED,CREATED_BY,EXPLAIN_IF_OTHER_CLASS,START_MEMBERSHIP,END_MEMBERSHIP,"
+                    + "SUBSCRIPTION_AMOUNT,EXPLAIN_IF_OTHER_PAYMENT,EXT_TRANSACTION_REF,RECEIPT_NUMBER,RECEIPT_DATE,"
+                    + "EXPLAIN_IF_OTHER_RECEIPT,RECEIPT_MODE_NAME,MEMBERSHIP_CLASS_NAME,PAYMENT_MODE_NAME,REMARKS)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+
+            stmt.setInt(1, m.getContact().getContactId());
+            stmt.setTimestamp(2, new java.sql.Timestamp(m.getDateCreated().getTime()));
+            stmt.setString(3, m.getCreatedBy());
+            stmt.setString(4, m.getExplainIfOtherClass());
+
+            if (m.getStartMembership() != null) {
+                stmt.setDate(5, new java.sql.Date(m.getStartMembership().getTime()));
+            } else {
+                stmt.setDate(5, null);
+            }
+
+            if (m.getEndMembership() != null) {
+                stmt.setDate(6, new java.sql.Date(m.getEndMembership().getTime()));
+            } else {
+                stmt.setDate(6, null);
+            }
+
+            stmt.setDouble(7, m.getSubscriptionAmount());
+            stmt.setString(8, m.getExplainIfOtherPayment());
+            stmt.setString(9, m.getExtTransactionRef());
+            stmt.setString(10, m.getReceiptNumber());
+
+            if (m.getReceiptDate() != null) {
+                stmt.setDate(11, new java.sql.Date(m.getReceiptDate().getTime()));
+            } else {
+                stmt.setDate(11, null);
+            }
+
+            stmt.setString(12, m.getExplainIfOtherReceipt());
+            stmt.setString(13, m.getReceiptModeName());
+            stmt.setString(14, m.getMembershipClassName());
+            stmt.setString(15, m.getPaymentModeName());
+            stmt.setString(16, m.getRemarks());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
 }

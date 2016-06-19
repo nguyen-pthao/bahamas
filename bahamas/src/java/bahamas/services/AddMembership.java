@@ -5,12 +5,12 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
-import bahamas.entity.Appreciation;
+import bahamas.dao.MembershipDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Donation;
+import bahamas.entity.Membership;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -32,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "AddDonation", urlPatterns = {"/donation.add"})
-public class AddDonation extends HttpServlet {
+@WebServlet(name = "AddMembership", urlPatterns = {"/membership.add"})
+public class AddMembership extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,9 +96,12 @@ public class AddDonation extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                       
-                        Date dateReceived = Validator.isDateValid(jobject.get("datereceived").getAsString());
-                        double donationAmount = Validator.isDoubleValid(jobject.get("donationamount").getAsString());
+                        
+                        String membershipClass = Validator.containsBlankField(jobject.get("membershipclass").getAsString());                    
+                        String explainIfOtherClass = Validator.containsBlankField(jobject.get("explainifotherclass").getAsString());
+                        Date startMembership = Validator.isDateValid(jobject.get("startmembership").getAsString());
+                        Date endMembership = Validator.isDateValid(jobject.get("endmembership").getAsString());
+                        double subscriptionAmount = Validator.isDoubleValid(jobject.get("subscriptionamount").getAsString());
                         String paymentMode = Validator.containsBlankField(jobject.get("paymentmode").getAsString());
                         String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explainifotherpayment").getAsString());
                         String extTransactionRef = Validator.containsBlankField(jobject.get("exttransactionref").getAsString());
@@ -106,21 +109,13 @@ public class AddDonation extends HttpServlet {
                         Date receiptDate = Validator.isDateValid(jobject.get("receiptdate").getAsString());
                         String receiptMode = Validator.containsBlankField(jobject.get("receiptmode").getAsString());
                         String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explainifotherreceipt").getAsString());
-                        String donorInstruction = Validator.containsBlankField(jobject.get("donorinstruction").getAsString());
-                        String allocation1 = Validator.containsBlankField(jobject.get("allocation1").getAsString());
-                        double subamount1 = Validator.isDoubleValid(jobject.get("subamount1").getAsString());
-                        String allocation2 = Validator.containsBlankField(jobject.get("allocation2").getAsString());
-                        double subamount2 = Validator.isDoubleValid(jobject.get("subamount2").getAsString());
-                        String allocation3 = Validator.containsBlankField(jobject.get("allocation3").getAsString());
-                        double subamount3 = Validator.isDoubleValid(jobject.get("subamount3").getAsString());
-                        String associatedOccasion = Validator.containsBlankField(jobject.get("associatedoccasion").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                         
-                        Donation d = new Donation(c,username,dateReceived,donationAmount,paymentMode,explainIfOtherPayment,
-                        extTransactionRef,receiptMode,receiptNumber,receiptDate,explainIfOtherReceipt,donorInstruction,allocation1,subamount1,
-                        allocation2,subamount2,allocation3,subamount3,associatedOccasion,remarks);
-                        
-                        if (DonationDAO.addDonation(d)) {
+                        Membership m = new Membership(c,startMembership,endMembership,receiptDate,subscriptionAmount,extTransactionRef,
+                        receiptNumber,remarks,receiptMode,explainIfOtherReceipt,membershipClass,explainIfOtherClass,paymentMode,explainIfOtherPayment,
+                        username);
+
+                        if (MembershipDAO.addMembership(m)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

@@ -23,7 +23,7 @@ public class Membership {
     private String receiptNumber;
     private String remarks;
     private String receiptModeName;
-    private String explainIfOtherMode;
+    private String explainIfOtherReceipt;
     private String membershipClassName;
     private String explainIfOtherClass;
     private String paymentModeName;
@@ -32,7 +32,7 @@ public class Membership {
     private Date dateCreated = new java.util.Date();
     
     //Without Contact contact
-    public Membership(int cid, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherMode, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy, Date dateCreated) {
+    public Membership(int cid, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherReceipt, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy, Date dateCreated) {
         this.cid = cid;
         this.startMembership = startMembership;
         this.endMembership = endMembership;
@@ -42,7 +42,7 @@ public class Membership {
         this.receiptNumber = receiptNumber;
         this.remarks = remarks;
         this.receiptModeName = receiptModeName;
-        this.explainIfOtherMode = explainIfOtherMode;
+        this.explainIfOtherReceipt = explainIfOtherReceipt;
         this.membershipClassName = membershipClassName;
         this.explainIfOtherClass = explainIfOtherClass;
         this.paymentModeName = paymentModeName;
@@ -53,8 +53,8 @@ public class Membership {
     
     
     
-    //Without String cid
-    public Membership(Contact contact, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherMode, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy) {
+    //Without cid
+    public Membership(Contact contact, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherReceipt, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy) {
         this.contact = contact;
         this.startMembership = startMembership;
         this.endMembership = endMembership;
@@ -64,7 +64,7 @@ public class Membership {
         this.receiptNumber = receiptNumber;
         this.remarks = remarks;
         this.receiptModeName = receiptModeName;
-        this.explainIfOtherMode = explainIfOtherMode;
+        this.explainIfOtherReceipt = explainIfOtherReceipt;
         this.membershipClassName = membershipClassName;
         this.explainIfOtherClass = explainIfOtherClass;
         this.paymentModeName = paymentModeName;
@@ -152,12 +152,12 @@ public class Membership {
         this.receiptModeName = receiptModeName;
     }
 
-    public String getExplainIfOtherMode() {
-        return explainIfOtherMode;
+    public String getExplainIfOtherReceipt() {
+        return explainIfOtherReceipt;
     }
 
-    public void setExplainIfOtherMode(String explainIfOtherMode) {
-        this.explainIfOtherMode = explainIfOtherMode;
+    public void setExplainIfOtherReceipt(String explainIfOtherReceipt) {
+        this.explainIfOtherReceipt = explainIfOtherReceipt;
     }
 
     public String getMembershipClassName() {
