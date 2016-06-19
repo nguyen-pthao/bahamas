@@ -16,29 +16,45 @@ public class Appreciation {
     private Contact contact;
     private int appreciationId;
     private Date dateCreated = new java.util.Date();
-    private String appraisalComments;
+    private String appraisalComment;
     private String appraisalBy;
     private Date appraisalDate;
     private String appreciationGesture;
     private String appreciationBy;
     private Date appreciationDate;
     private String remarks;
-    private String createBy;
+    private String createdBy;
 
-    public Appreciation(int appreciationId, Contact contact, Date dateCreated, String appraisalComments, String appraisalBy, Date appraisalDate, String appreciationGesture, String appreciationBy, Date appreciationDate, String remarks, String createBy) {
+    public Appreciation(int appreciationId, Contact contact, Date dateCreated, 
+            String appraisalComment, String appraisalBy, Date appraisalDate, String appreciationGesture, 
+            String appreciationBy, Date appreciationDate, String remarks, String createdBy) {
         this.appreciationId = appreciationId;
         this.contact = contact;
         this.dateCreated = dateCreated;
-        this.appraisalComments = appraisalComments;
+        this.appraisalComment = appraisalComment;
         this.appraisalBy = appraisalBy;
         this.appraisalDate = appraisalDate;
         this.appreciationGesture = appreciationGesture;
         this.appreciationBy = appreciationBy;
         this.appreciationDate = appreciationDate;
         this.remarks = remarks;
-        this.createBy = createBy;
+        this.createdBy = createdBy;
     }
 
+    public Appreciation(Contact contact, String appraisalComment, String appraisalBy, Date appraisalDate, String appreciationGesture, 
+            String appreciationBy, Date appreciationDate, String remarks, String createdBy) {      
+        this.contact = contact;
+        this.appraisalComment = appraisalComment;
+        this.appraisalBy = appraisalBy;
+        this.appraisalDate = appraisalDate;
+        this.appreciationGesture = appreciationGesture;
+        this.appreciationBy = appreciationBy;
+        this.appreciationDate = appreciationDate;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+    }
+    
+    
     public int getAppreciationId() {
         return appreciationId;
     }
@@ -64,11 +80,11 @@ public class Appreciation {
     }
 
     public String getAppraisalComments() {
-        return appraisalComments;
+        return appraisalComment;
     }
 
-    public void setAppraisalComments(String appraisalComments) {
-        this.appraisalComments = appraisalComments;
+    public void setAppraisalComments(String appraisalComment) {
+        this.appraisalComment = appraisalComment;
     }
 
     public String getAppraisalBy() {
@@ -119,12 +135,12 @@ public class Appreciation {
         this.remarks = remarks;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getCreatedBy() {
+        return createdBy;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     
