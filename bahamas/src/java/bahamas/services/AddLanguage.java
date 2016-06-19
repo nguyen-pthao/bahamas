@@ -6,9 +6,11 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.PhoneDAO;
+import bahamas.dao.LanguageDAO;
+import bahamas.dao.SkillDAO;
 import bahamas.entity.Contact;
-import bahamas.entity.Phone;
+import bahamas.entity.LanguageAssignment;
+import bahamas.entity.SkillAssignment;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,7 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -30,10 +31,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author huxley.goh
+ * @author HUXLEY
  */
-@WebServlet(name = "UpdatePhone", urlPatterns = {"/phone.update"})
-public class UpdatePhone extends HttpServlet {
+@WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.add"})
+public class AddLanguage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,7 +47,7 @@ public class UpdatePhone extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -84,40 +85,46 @@ public class UpdatePhone extends HttpServlet {
 
                 } else {
                     //Verified token
+
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    String language = Validator.containsBlankField(jobject.get("language").getAsString());
+                    String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                    String speakWrite = Validator.containsBlankField(jobject.get("speakwrite").getAsString());
+                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+
+                    Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+
+                    //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                    Phone newPhone = null;
 
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
+                        return;
                     } else {
-                        int countryCode = Validator.isIntValid(jobject.get("countrycode").getAsString());
-                        String phoneNumber = Validator.containsBlankField(jobject.get("phonenumber").getAsString());
-                        String phoneRemarks = Validator.containsBlankField(jobject.get("phoneremarks").getAsString());
-                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
-                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
+                        LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
+                                dateObsolete, speakWrite, remarks, username);
 
-                        if (PhoneDAO.addPhone(newPhone)) {
+                        if (LanguageDAO.addLanguage(la)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
-
                     }
 
                 }
             }
 
+            //}
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

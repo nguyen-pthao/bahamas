@@ -29,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "UpdateSkill", urlPatterns = {"/skill.update"})
-public class UpdateSkill extends HttpServlet {
+@WebServlet(name = "UpdateSkill", urlPatterns = {"/skill.add"})
+public class AddSkill extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

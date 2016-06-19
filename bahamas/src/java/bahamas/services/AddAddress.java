@@ -6,11 +6,9 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.LanguageDAO;
-import bahamas.dao.SkillDAO;
+import bahamas.dao.*;
 import bahamas.entity.Contact;
-import bahamas.entity.LanguageAssignment;
-import bahamas.entity.SkillAssignment;
+import bahamas.entity.*;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -21,6 +19,7 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -31,10 +30,11 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author HUXLEY
+ * @author huxley.goh
  */
-@WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.update"})
-public class UpdateLanguage extends HttpServlet {
+@WebServlet(name = "UpdateAddress", urlPatterns = {"/address.add"})
+public class AddAddress extends HttpServlet {
+
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,8 +47,10 @@ public class UpdateLanguage extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/JSON;charset=UTF-8");
+        response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -85,42 +87,39 @@ public class UpdateLanguage extends HttpServlet {
 
                 } else {
                     //Verified token
-
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
-                    String language = Validator.containsBlankField(jobject.get("language").getAsString());
-                    String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
-                    String speakWrite = Validator.containsBlankField(jobject.get("speakwrite").getAsString());
-                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-
-                    Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
-
-                    //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-
+                  
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
+                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
+                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
+                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
+                        String addressRemarks = Validator.containsBlankField(jobject.get("addressremarks").getAsString());
 
-                        LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
-                                dateObsolete, speakWrite, remarks, username);
+                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                      
+                        Address newAddress = new Address(c, country, zipCode, address,
+                                username, addressRemarks, dateObsolete);
 
-                        if (LanguageDAO.addLanguage(la)) {
+                        if (AddressDAO.addAddress(newAddress)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
+
                     }
 
                 }
             }
 
-            //}
         }
     }
 

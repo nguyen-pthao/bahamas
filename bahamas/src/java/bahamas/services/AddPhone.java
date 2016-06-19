@@ -6,9 +6,9 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
-import bahamas.entity.*;
+import bahamas.entity.Contact;
+import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -32,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author huxley.goh
  */
-@WebServlet(name = "UpdateEmail", urlPatterns = {"/email.update"})
-public class UpdateEmail extends HttpServlet {
+@WebServlet(name = "UpdatePhone", urlPatterns = {"/phone.add"})
+public class AddPhone extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,8 +48,6 @@ public class UpdateEmail extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -90,20 +88,20 @@ public class UpdateEmail extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
+                    Phone newPhone = null;
 
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
-                        return;
                     } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("emailremarks").getAsString());
-
+                        int countryCode = Validator.isIntValid(jobject.get("countrycode").getAsString());
+                        String phoneNumber = Validator.containsBlankField(jobject.get("phonenumber").getAsString());
+                        String phoneRemarks = Validator.containsBlankField(jobject.get("phoneremarks").getAsString());
                         Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
+                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
 
-                        if (EmailDAO.addEmail(newEmail)) {
+                        if (PhoneDAO.addPhone(newPhone)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
@@ -119,7 +117,7 @@ public class UpdateEmail extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
