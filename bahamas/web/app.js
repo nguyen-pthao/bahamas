@@ -44,7 +44,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('admin.viewIndivContact', {
                 url: '/viewIndivContact',
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
-                controller: 'viewContacts'
+                controller: 'viewIndivContact'
             })
             .state('novice', {
                 url: '/novice',

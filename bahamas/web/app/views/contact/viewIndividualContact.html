@@ -5,7 +5,7 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <body>
+    <body ng-init="displayAllContactInfo()">
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper" style="margin:0px; min-height: 900px" id="view-indiv-contacts">
             <!-- Content Header (Page header) -->
@@ -29,11 +29,11 @@ and open the template in the editor.
                         </div>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body" ng-init="retrieveAllContacts()">
+                    <div class="box-body">
                         <table id="example2" class="table table-bordered table-striped">
                             <tr>
                             <head>
-                            <a href='' ng-click='editBaby()'>hello</a>
+                                {{contact.name}}
                             </head>
                             </tr>
                         </table>
