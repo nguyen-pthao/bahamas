@@ -15,13 +15,9 @@ app.factory('dataStorage', function() {
     var dataStorage = {};
     
     return {
-        setData: function(name, value) {
-            if(!dataStorage.hasOwnProperty(name)) {
-                dataStorage[name] = value;
-                return true;
-            } else {
-                return false;
-            };            
+        setData: function(name, value, reset) {
+            dataStorage[name] = value;
+            return true;            
         }, 
         getData: function (name) {
             if(dataStorage.hasOwnProperty(name)) {
@@ -38,8 +34,15 @@ app.factory('dataStorage', function() {
                 return false;
             };
         },
-        getDataNames: function () {
+        getDataKeys: function () {
             return Object.getOwnPropertyNames(dataStorage);
+        },
+        checkDataExistence: function (name) {
+            if(dataStorage.hasOwnProperty(name)) {
+                return true;
+            } else {
+                return false;
+            }
         }
     };
 });
