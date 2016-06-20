@@ -9,9 +9,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('logoutController', ['$scope', '$location', 'session', '$state', function ($scope, $location, session, $state) {
+app.controller('logoutController', ['$scope', '$location', 'session', '$state', 'ngDialog', function ($scope, $location, session, $state, ngDialog) {
         $scope.logoutUser = function () {
-            session.terminateSession();
-            $state.go('login');
+            ngDialog.openConfirm({
+                template: './style/ngTemplate/logoutPrompt.html',
+                className: 'ngdialog-theme-default dialog-logout-prompt'
+            }).then(function (response) {
+                session.terminateSession();
+                $state.go('login');
+            });
         }
     }]);
