@@ -116,7 +116,9 @@ app.controller('viewContacts',
 
                         $scope.foo = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
-                            dataStorage.setData('contact', contact);
+                            var testing = dataStorage.setData('contact', contact);
+                            console.log(testing);
+                            console.log(dataStorage.getData('contact'));
                             $state.go(toURL);
                         };
                     });
@@ -129,8 +131,5 @@ app.controller('viewContacts',
                 $scope.order = function (predicate) {
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
                     $scope.predicate = predicate;
-                };
-                $scope.editBaby = function(){
-                    
                 };
             }]);
