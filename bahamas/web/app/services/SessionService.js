@@ -6,7 +6,7 @@
 var app = angular.module('bahamas');
 
 app.factory('session', ['$window', function ($window) {
-    var user;
+
     return {
         setSession: function(key, value) {
             try {
@@ -25,11 +25,23 @@ app.factory('session', ['$window', function ($window) {
                 if ($window.Storage) {
                     return $window.sessionStorage.getItem(key);
                 } else {
-                    return false;
+                    return null;
                 }
             } catch (error) {
                 window.alert(error, error.message);
             }
+        },
+        removeKey: function (key) {
+            try {
+                if($window.Storage) {
+                    $window.sessionStorage.removeItem(key);
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (error) {
+                window.alert(error, error.message);
+            }  
         },
         terminateSession: function(){
             try {

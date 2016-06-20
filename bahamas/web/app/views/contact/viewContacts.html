@@ -30,8 +30,8 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-                        <div class="col-md-12" style="margin-bottom: 0px">
-                            <label class="col-md-1" style="padding: 0px; float:left">
+                        <div class="col-md-12" style="padding: 0px">
+                            <label class="col-md-1" style="padding: 0px">
                                 Show Entries:
                             </label>
                             <div class="col-md-1" style="padding: 0px">
@@ -44,7 +44,7 @@ and open the template in the editor.
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
-                            <div class="col-md-2" style="float:right">
+                            <div class="col-md-offset-6 col-md-4" style="padding: 0px">
                                 <input type="text" class="form-control" placeholder="Search Contact" ng-model="searchContacts" />
                                 <br />
                             </div>
@@ -58,7 +58,7 @@ and open the template in the editor.
                             &nbsp;&nbsp;
                             <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitContacts.length}}</span> 
                         </p>
-                        <table id="example1" class="table table-bordered table-striped" ng-show="showFive">
+                        <table id="example1" class="table table-bordered table-striped" ng-show="showFive" style="max-width: 100%">
                             <thead>
                                 <tr>
                                     <th ng-repeat="contactHead in allContactObjectKeySliced"><a href="" ng-click="order(contactHead)" style='color: #005384'>{{contactHead}}</a></th>
@@ -72,7 +72,7 @@ and open the template in the editor.
                                     <td>{{contact.phone}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a ng-click='editBaby()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -82,7 +82,7 @@ and open the template in the editor.
                                 </tr>
                             </tfoot>
                         </table>
-                        <table id="example1" class="table table-bordered table-striped" ng-hide="showFive">
+                        <table id="example1" class="table table-bordered table-striped" ng-hide="showFive" style="max-width: 100%">
                             <thead>
                                 <tr>
                                     <th ng-repeat="contactHead in allContactObjectKeySliced"><a href="" ng-click="order(contactHead)" style='color: #005384'>{{contactHead}}</a></th>
@@ -95,7 +95,7 @@ and open the template in the editor.
                                     <td>{{contact['alt name']}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a ui-sref="admin.addContact"><i class="fa fa-edit fa-lg" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a ng-click='editBaby()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -116,6 +116,7 @@ and open the template in the editor.
                         </div>
                     </div>
                     <!-- view contact ends -->
+                </div>
             </section>
             <!-- /.content -->
         </div>

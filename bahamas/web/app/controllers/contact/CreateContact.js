@@ -231,7 +231,7 @@ app.controller('createContact',
                 $scope.addPhone = function () {
                     var dataParse = 'phoneInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                    var url = $scope.commonUrl + "/phone.update";
+                    var url = $scope.commonUrl + "/phone.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -253,7 +253,7 @@ app.controller('createContact',
                 $scope.addEmail = function () {
                     var dataParse = 'emailInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/email.update";
+                     var url = $scope.commonUrl + "/email.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -272,7 +272,7 @@ app.controller('createContact',
                 $scope.addAddress = function () {
                     var dataParse = 'addressInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/address.update";
+                     var url = $scope.commonUrl + "/address.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -310,7 +310,7 @@ app.controller('createContact',
                 $scope.addLanguage = function () {
                     var dataParse = 'languageInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/language.update";
+                     var url = $scope.commonUrl + "/language.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -329,7 +329,7 @@ app.controller('createContact',
                 $scope.addSkillasset = function () {
                     var dataParse = 'skillassetInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/skill.update";
+                     var url = $scope.commonUrl + "/skill.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -375,7 +375,6 @@ app.controller('createContact',
                     copyService('skillassetInfo');
                     $scope.submittedLSA = false;
                 };
-                
             }]);
 
 

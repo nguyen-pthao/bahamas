@@ -15,7 +15,7 @@ app.controller('viewContacts',
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
                 var homepage = user + '.homepage';
-                $scope.contactToDisplay;
+              
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -23,8 +23,9 @@ app.controller('viewContacts',
                 $scope.viewContact = function () {
                     $state.reload(currentState);
                 };
-
+                
                 $scope.retrieveAllContacts = function () {
+                    
                     $scope.checkNovice = session.getSession('userType');
                     $scope.showFive = false;
                     //to determine what to send back to backend.
@@ -47,7 +48,7 @@ app.controller('viewContacts',
                     var allContactObjKey = [];
                     loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
-                        console.log($scope.allContactInfo);
+//                        console.log($scope.allContactInfo);
                         var firstContactObject = $scope.allContactInfo[0];
                         for (contactHeader in firstContactObject) {
                             allContactObjKey.push(contactHeader);
@@ -114,13 +115,14 @@ app.controller('viewContacts',
                         });
 
                         $scope.foo = function ($event, contact) {
+                            
                             var toURL = $scope.userType + ".viewIndivContact";
-                            $state.go(toURL);
-                            $scope.contactToDisplay = contact;
-                            console.log($scope.contactToDisplay);
-                        }
+//                            $state.go(toURL);
+                        };
                     });
+                    
                 };
+              
                 $scope.predicate = '';
                 $scope.reverse = true;
 
@@ -128,4 +130,7 @@ app.controller('viewContacts',
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
                     $scope.predicate = predicate;
                 };
-            }])
+                $scope.editBaby = function(){
+                    
+                };
+            }]);
