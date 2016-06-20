@@ -9,8 +9,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
-        ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts', 'filterFilter', 'dataStorage',
-            function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts, filterFilter, dataStorage) {
+        ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts', 'filterFilter',
+            function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts, filterFilter) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
@@ -116,9 +116,8 @@ app.controller('viewContacts',
 
                         $scope.foo = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
-                            var testing = dataStorage.setData('contact', contact);
-                            console.log(testing);
-                            console.log(dataStorage.getData('contact'));
+                            var contactInfo = angular.toJson(contact);
+                            session.setSession('contactToDisplay', contactInfo);
                             $state.go(toURL);
                         };
                     });

@@ -51,11 +51,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/novice.html',
                 controller: 'pageController'
             })
-            .state('novice.viewContacts', {
-                url: '/viewContacts',
-                templateUrl: 'app/views/contact/viewContacts.html',
-                controller: 'viewContacts'
-            })
             .state('novice.homepage', {
                 url: '/homepage',
                 templateUrl: 'app/views/homepage.html'
@@ -77,7 +72,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('associate.viewIndivContact', {
                 url: '/viewIndivContact',
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
-                controller: 'viewContacts'
+                controller: 'viewIndivContact'
             })
             .state('teammanager', {
                 url: '/teammanager',
@@ -101,7 +96,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('teammanager.viewIndivContact', {
                 url: '/viewIndivContact',
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
-                controller: 'viewContacts'
+                controller: 'viewIndivContact'
             })
             .state('eventleader', {
                 url: '/eventleader',
@@ -120,7 +115,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('eventleader.viewIndivContact', {
                 url: '/viewIndivContact',
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
-                controller: 'viewContacts'
+                controller: 'viewIndivContact'
             })
             .state('unauthorised', {
                 url: '/unauthorised',

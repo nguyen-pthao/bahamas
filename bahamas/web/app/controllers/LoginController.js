@@ -3,8 +3,8 @@
 var app = angular.module('bahamas');
 
 app.controller('loginController', 
-['$rootScope', '$scope', '$http', '$location', 'session', '$window', '$state', 'dataStorage', 
-    function ($rootScope, $scope, $http, $location, session, $window, $state, dataStorage) {
+['$rootScope', '$scope', '$http', '$location', 'session', '$window', '$state', 
+    function ($rootScope, $scope, $http, $location, session, $window, $state) {
         $scope.error = false;
         var authorisedUser = {
             'username': "",
@@ -43,10 +43,7 @@ app.controller('loginController',
                         var storeContact = session.setSession('contact', angular.toJson(authorisedUser.contact));
                         var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
                         var getUserType = session.getSession("userType");
-                        
-                        var contactStorageTesting = dataStorage.setData('ownContact', authorisedUser.contact);
-                        console.log(contactStorageTesting);
-                        
+                                               
                         $state.go(getUserType.toString());
                     }
                 } else {
