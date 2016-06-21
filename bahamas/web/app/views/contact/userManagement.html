@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="margin:0px; min-height: 900px" id="user-management">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb" style="font-size: 24px; background-color: rgb(17, 125, 71); color: white">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i><a style="color: white"> User Management</a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <!-- view contact starts -->
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title"> YOUR ACCOUNT </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="example2" class="table table-bordered table-striped">
+                            <tr ng-repeat="(key, value) in ownContact">
+                            <td>
+                                <span style="font-weight:bold">{{key}}</span>
+                            </td>
+                            <td>{{value}}</td>
+                            <td><span><a ng-click='editBaby()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                
+                    <!-- view contact ends -->
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>
+

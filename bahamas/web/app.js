@@ -46,6 +46,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
             })
+            .state('admin.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/contact/userManagement.html',
+                controller: 'userManagement'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -54,6 +59,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             .state('novice.homepage', {
                 url: '/homepage',
                 templateUrl: 'app/views/homepage.html'
+            })
+            .state('novice.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/contact/userManagement.html',
+                controller: 'userManagement'
             })
             .state('associate', {
                 url: '/associate',
@@ -73,6 +83,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewIndivContact',
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
+            })
+            .state('associate.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/contact/userManagement.html',
+                controller: 'userManagement'
             })
             .state('teammanager', {
                 url: '/teammanager',
@@ -98,6 +113,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
             })
+            .state('teammanager.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/contact/userManagement.html',
+                controller: 'userManagement'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -116,6 +136,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewIndivContact',
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
+            })
+            .state('eventleader.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/contact/userManagement.html',
+                controller: 'userManagement'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
