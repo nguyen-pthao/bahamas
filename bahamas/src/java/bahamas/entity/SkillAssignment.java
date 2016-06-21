@@ -30,6 +30,17 @@ public class SkillAssignment {
         this.createdBy = createdBy;
     }
 
+    public SkillAssignment(String skillName, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated) {
+        this.skillName = skillName;
+        this.explainIfOther = explainIfOther;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
+    
+    
+
     public Contact getContact() {
         return contact;
     }
