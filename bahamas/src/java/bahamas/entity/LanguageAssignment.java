@@ -33,6 +33,17 @@ public class LanguageAssignment {
         this.createdBy = createdBy;
     }
 
+    public LanguageAssignment(String language, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated) {
+        this.language = language;
+        this.explainIfOther = explainIfOther;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
+    
+    
+
     public Contact getContact() {
         return contact;
     }

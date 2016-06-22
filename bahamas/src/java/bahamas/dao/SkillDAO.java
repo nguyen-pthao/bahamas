@@ -10,6 +10,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -56,4 +61,43 @@ public class SkillDAO {
         }
         return false;
     }
+    
+    public static ArrayList<SkillAssignment> retrieveSkillByCID(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<SkillAssignment> skillList;
+        skillList = new ArrayList<SkillAssignment>();
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT SKILL_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
+                    + "REMARKS, CREATED_BY, DATE_CREATED FROM SKILL_ASSIGNMENT WHERE CONTACT_ID = (?) ");
+            stmt.setInt(1, cid);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                
+                String skillName = rs.getString(1);
+                String explainIfOther = rs.getString(2);
+                Date dateObsolete = rs.getDate(3);
+                String remarks = rs.getString(4);
+                String createdBy = rs.getString(5);
+                Date dateCreated = rs.getTimestamp(6);
+
+                SkillAssignment skillAssignment = new SkillAssignment(skillName, explainIfOther, dateObsolete, remarks, createdBy, dateCreated);
+                skillList.add(skillAssignment);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return skillList;
+    }
+    
+    
 }

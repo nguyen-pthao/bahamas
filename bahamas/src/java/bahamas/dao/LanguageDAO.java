@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -56,6 +60,43 @@ public class LanguageDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+     
+     public static ArrayList<LanguageAssignment> retrieveLanguageByCID(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<LanguageAssignment> languageList;
+        languageList = new ArrayList<LanguageAssignment>();
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT LANGUAGE_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
+                    + "REMARKS, CREATED_BY, DATE_CREATED FROM LANGUAGE_ASSIGNMENT WHERE CONTACT_ID = (?) ");
+            stmt.setInt(1, cid);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                
+                String languageName = rs.getString(1);
+                String explainIfOther = rs.getString(2);
+                Date dateObsolete = rs.getDate(3);
+                String remarks = rs.getString(4);
+                String createdBy = rs.getString(5);
+                Date dateCreated = rs.getTimestamp(6);
+
+                LanguageAssignment languageAssignment = new LanguageAssignment(languageName, explainIfOther, dateObsolete, remarks, createdBy, dateCreated);
+                languageList.add(languageAssignment);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return languageList;
     }
     
 }
