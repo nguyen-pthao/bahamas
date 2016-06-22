@@ -153,11 +153,19 @@ app.config(function ($stateProvider, $urlRouterProvider) {
 
 });
 
+app.config(function (ngDialogProvider) {
+    ngDialogProvider.setDefaults({
+        className: 'ngdialog-theme-default',
+        closeByNavigation: true,
+        closeByEscape: true
+    });
+    ngDialogProvider.setForceBodyReload(true);
+});
+
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
-
             var permission = targetScope.name.split('.')[0];
 
             if (permission == 'notFound' && session.getSession('userType') == null) {
