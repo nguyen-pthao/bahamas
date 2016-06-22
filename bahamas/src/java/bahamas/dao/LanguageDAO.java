@@ -91,12 +91,12 @@ public class LanguageDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LANGUAGE from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
         return languageList;
     }
-    
+             
 }
