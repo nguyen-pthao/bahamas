@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -36,15 +40,14 @@ public class ProxyDAO {
             stmt.setTimestamp(3, new java.sql.Timestamp(p.getDateCreated().getTime()));
             stmt.setString(4, p.getCreatedBy());
             stmt.setString(5, p.getProxyStanding());
-            if(p.getDateObsolete()!= null){
+            if (p.getDateObsolete() != null) {
                 stmt.setDate(6, new java.sql.Date(p.getDateObsolete().getTime()));
-            }
-            else{
+            } else {
                 stmt.setDate(6, null);
             }
-            
+
             stmt.setString(7, p.getRemarks());
-          
+
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -55,6 +58,80 @@ public class ProxyDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+
+    public static ArrayList<Proxy> retrieveByProxyCID(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Proxy> proxyList;
+        proxyList = new ArrayList<Proxy>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT PRINCIPAL_ID, PROXY_ID, DATE_CREATED, CREATED_BY, PROXY_STANDING, DATE_OBSOLETE, REMARKS FROM PROXY WHERE PROXY_ID = (?) ");
+            stmt.setInt(1, cid);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int proxyID = rs.getInt(1);
+                int principalID = rs.getInt(2);
+                Date dateCreated = rs.getTimestamp(3);
+                String createdBy = rs.getString(4);
+                String proxyStanding = rs.getString(5);
+                Date dateObsolete = rs.getDate(6);
+                String remarks = rs.getString(7);
+
+                Proxy proxy = new Proxy(proxyID, principalID, dateCreated, createdBy, proxyStanding, dateObsolete, remarks);
+                proxyList.add(proxy);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PROXY from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return proxyList;
+    }
+    
+    public static ArrayList<Proxy> retrieveByPrincipalCID(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Proxy> principalList;
+        principalList = new ArrayList<Proxy>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT PRINCIPAL_ID, PROXY_ID, DATE_CREATED, CREATED_BY, PROXY_STANDING, DATE_OBSOLETE, REMARKS FROM PROXY WHERE PRINCIPAL_ID = (?) ");
+            stmt.setInt(1, cid);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int proxyID = rs.getInt(1);
+                int principalID = rs.getInt(2);
+                Date dateCreated = rs.getTimestamp(3);
+                String createdBy = rs.getString(4);
+                String proxyStanding = rs.getString(5);
+                Date dateObsolete = rs.getDate(6);
+                String remarks = rs.getString(7);
+
+                Proxy proxy = new Proxy(proxyID, principalID, dateCreated, createdBy, proxyStanding, dateObsolete, remarks);
+                principalList.add(proxy);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PROXY from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return principalList;
     }
 
 }

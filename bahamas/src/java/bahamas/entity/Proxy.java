@@ -16,6 +16,8 @@ public class Proxy {
     
     private Contact proxy;
     private Contact principal;
+    private int proxyID;
+    private int principalID;
     private Date dateCreated =  new java.util.Date();
     private String createdBy;
     private String proxyStanding;
@@ -32,6 +34,18 @@ public class Proxy {
         this.dateObsolete = dateObsolete;
         this.remarks = remarks;
     }
+
+    public Proxy(int proxyID, int principalID, Date dateCreated, String createdBy, String proxyStanding, Date dateObsolete, String remarks) {
+        this.proxyID = proxyID;
+        this.principalID = principalID;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.proxyStanding = proxyStanding;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+    }
+    
+    
      
     public Contact getPrincipal() {
         return principal;
@@ -49,6 +63,22 @@ public class Proxy {
         this.proxy = proxy;
     }
 
+    public int getProxyID() {
+        return proxyID;
+    }
+
+    public void setProxyID(int proxyID) {
+        this.proxyID = proxyID;
+    }
+
+    public int getPrincipalID() {
+        return principalID;
+    }
+
+    public void setPrincipalID(int principalID) {
+        this.principalID = principalID;
+    }
+    
     public Date getDateCreated() {
         return dateCreated;
     }
