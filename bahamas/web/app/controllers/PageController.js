@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('pageController', ['$scope', '$location', 'session', '$state', 'ngDialog', function ($scope, $location, session, $state, ngDialog) {
+app.controller('pageController', ['$scope', '$location', 'session', '$state', 'ngDialog', 'loadAllContacts', function ($scope, $location, session, $state, ngDialog, loadAllContacts) {
         $scope.populatePage = function () {
             $scope.name = '';
             $scope.userType = '';
@@ -38,5 +38,46 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
                 session.terminateSession();
                 $state.go('login');
             })
-        }
+        };
+
+        $scope.retrieveAllContacts = function () {
+
+            if (session.getSession('teams') === 'undefined') {
+                var contactToRetrieve = {
+                    'token': session.getSession('token'),
+                    'cid': angular.fromJson(session.getSession('contact')).cid,
+                    'teamname': "",
+                    'permission': session.getSession('userType')
+                };
+            } else {
+                var contactToRetrieve = {
+                    'token': session.getSession('token'),
+                    'cid': angular.fromJson(session.getSession('contact')).cid,
+                    'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
+                    'permission': session.getSession('userType')
+                };
+            }
+
+            loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
+                $scope.allContactInfo = response.data.contact;
+                $scope.allContactInfoObj = angular.fromJson($scope.allContactInfo);
+                $scope.contactname = [];
+                angular.forEach($scope.allContactInfo, function(obj){
+                    $scope.contactname.push(obj.name);
+                })
+                console.log($scope.contactname);
+                $scope.userType = session.getSession('userType');
+//
+//
+//
+//                $scope.foo = function ($event, contact) {
+//                    var toURL = $scope.userType + ".viewIndivContact";
+//                    var contactInfo = angular.toJson(contact);
+//                    session.setSession('contactToDisplay', contactInfo);
+//                    $state.go(toURL);
+//                };
+            });
+
+        };
+
     }]);
