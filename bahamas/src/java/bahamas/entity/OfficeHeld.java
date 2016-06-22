@@ -29,6 +29,17 @@ public class OfficeHeld {
         this.officeHeldPosition = officeHeldPosition;
     }
 
+    public OfficeHeld(Date startOffice, Date endOffice, String remarks, Date dateCreated, String createdBy, String officeHeldPosition) {
+        this.startOffice = startOffice;
+        this.endOffice = endOffice;
+        this.remarks = remarks;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.officeHeldPosition = officeHeldPosition;
+    }
+    
+    
+
     public Contact getContact() {
         return contact;
     }

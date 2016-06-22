@@ -10,6 +10,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -60,6 +64,42 @@ public class OfficeHeldDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+
+    public static ArrayList<OfficeHeld> retrieveOfficeHeldByCID(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<OfficeHeld> officeHeldList;
+        officeHeldList = new ArrayList<OfficeHeld>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE, REMARKS, DATE_CREATED, CREATED_BY, OFFICE_HELD_NAME FROM OFFICE_HELD WHERE CONTACT_ID = (?) ");
+            stmt.setInt(1, cid);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                Date startOffice = rs.getDate(1);
+                Date endOffice = rs.getDate(2);
+                String remarks = rs.getString(3);
+                Date dateCreated = rs.getTimestamp(4);
+                String createdBy = rs.getString(5);
+                String officeHeldPosition = rs.getString(6);
+
+                OfficeHeld officeHeld = new OfficeHeld(startOffice, endOffice, remarks, dateCreated, createdBy, officeHeldPosition);
+                officeHeldList.add(officeHeld);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_HELD from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return officeHeldList;
     }
 
 }
