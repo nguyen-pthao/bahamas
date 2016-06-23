@@ -663,7 +663,7 @@ a:focus {
 .sidebar-menu:hover {
   overflow: visible;
 }
-.sidebar-form,
+
 .sidebar-menu > li.header {
   overflow: hidden;
   text-overflow: clip;
