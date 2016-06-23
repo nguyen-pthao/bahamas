@@ -183,7 +183,7 @@ and open the template in the editor.
                                                         <div class="form-group">
                                                             <label>Address</label><span class="required">*</span>
                                                             <input type="text" ng-model="additionalContactInfo.addressInfo.address" ng-maxlength='1000' ng-required="true" name='additionaladdress' class="form-control">
-                                                            <span ng-show="form.additionalContactForm.additionaladdress.$required && form.additionalContactForm.additionaladdress.$dirty" style="color:red">Address is required.</span>
+                                                            <span ng-show="form.additionalContactForm.additionaladdress.$error.required && form.additionalContactForm.additionaladdress.$dirty" style="color:red">Address is required.</span>
                                                             <span ng-show="form.additionalContactForm.additionaladdress.$error.maxlength" style='color:red'>Input field address is too long.</span>
                                                         </div>
                                                         <div class="form-group col-md-12" style="padding: 0px">
@@ -220,7 +220,7 @@ and open the template in the editor.
                                                             <select class="form-control" ng-model="additionalContactInfo.teamInfo.team1" ng-required="true" name="choice1">
                                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                                             </select>
-                                                            <span ng-show="form.additionalContactForm.choice1.$invalid">Team preference is required.</span>
+                                                            <span ng-show="form.additionalContactForm.choice1.$invalid && form.additionalContactForm.choice1.$touched" style="color: red">Team preference is required.</span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Second choice</label>

@@ -37,7 +37,7 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
             }).then(function (response) {
                 session.terminateSession();
                 $state.go('login');
-            })
+            });
         };
 
         $scope.retrieveAllContacts = function () {

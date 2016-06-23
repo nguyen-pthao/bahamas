@@ -8,29 +8,6 @@
 
 var app = angular.module('bahamas');
 
-app.directive('compare', function () {
-    return {
-        restrict: 'A',
-        require: 'ngModel',
-        link: function (scope, elem, attrs, ngModel) {
-            if (!ngModel) {
-                return;
-            }
-            scope.$watch(attrs.ngModel, function () {
-                validate();
-            });
-            attrs.$observe('compare', function (val) {
-                validate();
-            });
-            var validate = function () {
-                var val1 = ngModel.$viewValue;
-                var val2 = attrs.compare;
-                ngModel.$setValidity('compare', !val1 || !val2 || val1 === val2);
-            };
-        }
-    };
-});
-
 app.controller('createContact',
         ['$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
             function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
@@ -218,8 +195,10 @@ app.controller('createContact',
                     }
                 };
                 
+                $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                 $scope.$watch('additionalContactInfo.teamInfo.team1', function() {
-                    if($scope.additionalContactInfo.teamInfo.team1 !== '' && $scope.teamAffiliationList1 == null) {
+                    if($scope.additionalContactInfo.teamInfo.team1 !== '') {
+                        var choice = $scope.additionalContactInfo.teamInfo.team1;
                         var position = -1;
                         for(var i in $scope.teamAffiliationList) {
                             var teamCheck = $scope.teamAffiliationList[i];
@@ -233,12 +212,21 @@ app.controller('createContact',
                             var list = angular.copy($scope.teamAffiliationList);
                             list.splice(position, 1);
                             $scope.teamAffiliationList1 = list;
+                            if($scope.additionalContactInfo.teamInfo.team3 != '' && choice == $scope.additionalContactInfo.teamInfo.team3) {
+                                var list2 = angular.copy($scope.teamAffiliationList1);
+                                list2.splice(position, 1);
+                                $scope.teamAffiliationList2 = list2;
+                            }
                         }
+                    } else {
+                        $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+                        $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                     }
                 });
                 
+                $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                 $scope.$watch('additionalContactInfo.teamInfo.team2', function() {
-                    if($scope.additionalContactInfo.teamInfo.team2 !== '' && $scope.teamAffiliationList2 == null) {
+                    if($scope.additionalContactInfo.teamInfo.team2 !== '') {
                         var position = -1;
                         for(var i in $scope.teamAffiliationList1) {
                             var teamCheck = $scope.teamAffiliationList1[i];
