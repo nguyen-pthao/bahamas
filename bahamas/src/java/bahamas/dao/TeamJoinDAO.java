@@ -95,8 +95,8 @@ public class TeamJoinDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO TEAM_JOIN (CONTACT_ID,"
-                    + "TEAM_NAME,DATE_CREATED,CREATED_BY,EXPLAIN_IF_OTHER,SUBTEAM,DATE_OBSOLETE,REMARKS,PERMISSION)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?)");
+                    + "TEAM_NAME,DATE_CREATED,CREATED_BY,EXPLAIN_IF_OTHER,SUBTEAM,DATE_OBSOLETE,REMARKS)"
+                    + " VALUES (?,?,?,?,?,?,?,?)");
 
             stmt.setInt(1, t.getContact().getContactId());
             stmt.setString(2, t.getTeamName());
@@ -112,7 +112,7 @@ public class TeamJoinDAO {
             }
 
             stmt.setString(8, t.getRemarks());
-            stmt.setString(9, t.getPermission());
+            //stmt.setString(9, t.getPermission());
 
             result = stmt.executeUpdate();
 
