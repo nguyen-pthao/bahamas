@@ -58,6 +58,7 @@ app.controller('createContact',
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
+                        console.log($scope.teamAffiliationList);
                     });
                 };
 
@@ -108,7 +109,6 @@ app.controller('createContact',
                 $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
-                $scope.zipcodeRegex = '[0-9]\\d{0,19}';
 
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
@@ -212,14 +212,49 @@ app.controller('createContact',
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
                         contactname: $scope.contactInfo.name,
-                        team: '',
-                        explainifother: '',
-                        subteam: '',
-                        permissionlevel: '',
-                        remarks: '',
-                        dateobsolete: ''
+                        team1: '',
+                        team2: '',
+                        team3: ''
                     }
                 };
+                
+                $scope.$watch('additionalContactInfo.teamInfo.team1', function() {
+                    if($scope.additionalContactInfo.teamInfo.team1 !== '' && $scope.teamAffiliationList1 == null) {
+                        var position = -1;
+                        for(var i in $scope.teamAffiliationList) {
+                            var teamCheck = $scope.teamAffiliationList[i];
+                            if(teamCheck.teamAffiliation == $scope.additionalContactInfo.teamInfo.team1) {
+                                position = i; 
+                            }
+                        }
+                        if(position == -1) {
+                            $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList);
+                        } else {
+                            var list = angular.copy($scope.teamAffiliationList);
+                            list.splice(position, 1);
+                            $scope.teamAffiliationList1 = list;
+                        }
+                    }
+                });
+                
+                $scope.$watch('additionalContactInfo.teamInfo.team2', function() {
+                    if($scope.additionalContactInfo.teamInfo.team2 !== '' && $scope.teamAffiliationList2 == null) {
+                        var position = -1;
+                        for(var i in $scope.teamAffiliationList1) {
+                            var teamCheck = $scope.teamAffiliationList1[i];
+                            if(teamCheck.teamAffiliation == $scope.additionalContactInfo.teamInfo.team2) {
+                                position = i; 
+                            }
+                        }
+                        if(position == -1) {
+                            $scope.teamAffiliationList2 = angular.copy($scope.teamAffiliationList1);
+                        } else {
+                            var list = angular.copy($scope.teamAffiliationList1);
+                            list.splice(position, 1);
+                            $scope.teamAffiliationList2 = list;
+                        }
+                    }
+                });
                 
                 $scope.copyCat = angular.copy($scope.additionalContactInfo);
                 var copyService = function(copyData) {
@@ -291,15 +326,55 @@ app.controller('createContact',
                 $scope.addTeam = function () {
                     var dataParse = 'teamInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/teamjoin.add";
+                    var dataSend = {};
+                    dataSend.token = $scope.additionalContactInfo.teamInfo.token;
+                    dataSend.id = $scope.additionalContactInfo.teamInfo.id;
+                    dataSend.contactname = $scope.additionalContactInfo.teamInfo.contactname;
+                    dataSend.team = $scope.additionalContactInfo.teamInfo.team1;
+                    dataSend.explainifother = '';
+                    dataSend.subteam = '';
+                    dataSend.permissionlevel = '';
+                    dataSend.remarks = '';
+                    dataSend.dateobsolete = '';
+                    var url = $scope.commonUrl + "/teamjoin.add";
                     $http({
                         method: 'POST',
                         url: url,
                         headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.additionalContactInfo[dataParse])
+                        data: JSON.stringify(dataSend)
                     }).success(function (response) {
                         if (response.message == 'success') {
-                            $scope.submittedTeam = true;
+                            if ($scope.additionalContactInfo.teamInfo.team2 != '') {
+                                dataSend.team = $scope.additionalContactInfo.teamInfo.team2;
+                                $http({
+                                method: 'POST',
+                                url: url,
+                                headers: {'Content-Type': 'application/json'},
+                                data: JSON.stringify(dataSend)
+                                }).success(function (response) {
+                                    if(response.message == 'success') {
+                                        if($scope.additionalContactInfo.teamInfo.team3 != '') {
+                                            dataSend.team = $scope.additionalContactInfo.teamInfo.team3;
+                                            $http({
+                                            method: 'POST',
+                                            url: url,
+                                            headers: {'Content-Type': 'application/json'},
+                                            data: JSON.stringify(dataSend)
+                                        }).success(function (response) {
+                                            if(response.message == 'success') {
+                                                $scope.submittedTeam = true;
+                                            }
+                                        }).error(function() {
+                                            window.alert("Fail to send request!");
+                                        });
+                                        }
+                                    }
+                                }).error(function () {
+                                    window.alert("Fail to send request!");
+                                });
+                            }
+                        } else {
+                            //to be modified
                         }
                     }).error(function () {
                         window.alert("Fail to send request!");
