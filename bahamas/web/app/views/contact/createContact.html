@@ -88,9 +88,10 @@ and open the template in the editor.
                                             <label>Date of birth</label>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
+                                                    <i class="fa fa-calendar" ng-click="open1()"></i>
                                                 </div>
-                                                <input type="text" ng-model="contactInfo.dateofbirth" name="dob" class="form-control pull-right" id="contact-date-of-birth-picker">
+<!--                                                <input type="text" ng-model="contactInfo.dateofbirth" name="dob" class="form-control pull-right" id="contact-date-of-birth-picker">-->
+                                                    <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="contactInfo.dateofbirth" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Select D.O.B"/>
                                             </div>
                                         </div>
                                     </div>                     

@@ -13,11 +13,12 @@ app.controller('createContact',
             function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
 
                 var user = session.getSession('userType');
-                var currentState = user+'.addContact';
-                var homepage = user+'.homepage';
-                
+                var currentState = user + '.addContact';
+                var homepage = user + '.homepage';
+
+
                 $scope.form = {};
-                
+
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -86,7 +87,7 @@ app.controller('createContact',
                 $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
-
+                
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
                     'name': '',
@@ -194,25 +195,25 @@ app.controller('createContact',
                         team3: ''
                     }
                 };
-                
+
                 $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-                $scope.$watch('additionalContactInfo.teamInfo.team1', function() {
-                    if($scope.additionalContactInfo.teamInfo.team1 !== '') {
+                $scope.$watch('additionalContactInfo.teamInfo.team1', function () {
+                    if ($scope.additionalContactInfo.teamInfo.team1 !== '') {
                         var choice = $scope.additionalContactInfo.teamInfo.team1;
                         var position = -1;
-                        for(var i in $scope.teamAffiliationList) {
+                        for (var i in $scope.teamAffiliationList) {
                             var teamCheck = $scope.teamAffiliationList[i];
-                            if(teamCheck.teamAffiliation == $scope.additionalContactInfo.teamInfo.team1) {
-                                position = i; 
+                            if (teamCheck.teamAffiliation == $scope.additionalContactInfo.teamInfo.team1) {
+                                position = i;
                             }
                         }
-                        if(position == -1) {
+                        if (position == -1) {
                             $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList);
                         } else {
                             var list = angular.copy($scope.teamAffiliationList);
                             list.splice(position, 1);
                             $scope.teamAffiliationList1 = list;
-                            if($scope.additionalContactInfo.teamInfo.team3 != '' && choice == $scope.additionalContactInfo.teamInfo.team3) {
+                            if ($scope.additionalContactInfo.teamInfo.team3 != '' && choice == $scope.additionalContactInfo.teamInfo.team3) {
                                 var list2 = angular.copy($scope.teamAffiliationList1);
                                 list2.splice(position, 1);
                                 $scope.teamAffiliationList2 = list2;
@@ -223,18 +224,18 @@ app.controller('createContact',
                         $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                     }
                 });
-                
+
                 $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-                $scope.$watch('additionalContactInfo.teamInfo.team2', function() {
-                    if($scope.additionalContactInfo.teamInfo.team2 !== '') {
+                $scope.$watch('additionalContactInfo.teamInfo.team2', function () {
+                    if ($scope.additionalContactInfo.teamInfo.team2 !== '') {
                         var position = -1;
-                        for(var i in $scope.teamAffiliationList1) {
+                        for (var i in $scope.teamAffiliationList1) {
                             var teamCheck = $scope.teamAffiliationList1[i];
-                            if(teamCheck.teamAffiliation == $scope.additionalContactInfo.teamInfo.team2) {
-                                position = i; 
+                            if (teamCheck.teamAffiliation == $scope.additionalContactInfo.teamInfo.team2) {
+                                position = i;
                             }
                         }
-                        if(position == -1) {
+                        if (position == -1) {
                             $scope.teamAffiliationList2 = angular.copy($scope.teamAffiliationList1);
                         } else {
                             var list = angular.copy($scope.teamAffiliationList1);
@@ -243,12 +244,12 @@ app.controller('createContact',
                         }
                     }
                 });
-                
+
                 $scope.copyCat = angular.copy($scope.additionalContactInfo);
-                var copyService = function(copyData) {
-                   $scope.additionalContactInfo[copyData] = angular.copy($scope.copyCat[copyData]);
+                var copyService = function (copyData) {
+                    $scope.additionalContactInfo[copyData] = angular.copy($scope.copyCat[copyData]);
                 };
-                
+
                 $scope.message = '';
                 $scope.submittedPhone = false;
                 $scope.addPhone = function () {
@@ -276,7 +277,7 @@ app.controller('createContact',
                 $scope.addEmail = function () {
                     var dataParse = 'emailInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/email.add";
+                    var url = $scope.commonUrl + "/email.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -295,7 +296,7 @@ app.controller('createContact',
                 $scope.addAddress = function () {
                     var dataParse = 'addressInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/address.add";
+                    var url = $scope.commonUrl + "/address.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -335,26 +336,26 @@ app.controller('createContact',
                             if ($scope.additionalContactInfo.teamInfo.team2 != '') {
                                 dataSend.team = $scope.additionalContactInfo.teamInfo.team2;
                                 $http({
-                                method: 'POST',
-                                url: url,
-                                headers: {'Content-Type': 'application/json'},
-                                data: JSON.stringify(dataSend)
+                                    method: 'POST',
+                                    url: url,
+                                    headers: {'Content-Type': 'application/json'},
+                                    data: JSON.stringify(dataSend)
                                 }).success(function (response) {
-                                    if(response.message == 'success') {
-                                        if($scope.additionalContactInfo.teamInfo.team3 != '') {
+                                    if (response.message == 'success') {
+                                        if ($scope.additionalContactInfo.teamInfo.team3 != '') {
                                             dataSend.team = $scope.additionalContactInfo.teamInfo.team3;
                                             $http({
-                                            method: 'POST',
-                                            url: url,
-                                            headers: {'Content-Type': 'application/json'},
-                                            data: JSON.stringify(dataSend)
-                                        }).success(function (response) {
-                                            if(response.message == 'success') {
-                                                $scope.submittedTeam = true;
-                                            }
-                                        }).error(function() {
-                                            window.alert("Fail to send request!");
-                                        });
+                                                method: 'POST',
+                                                url: url,
+                                                headers: {'Content-Type': 'application/json'},
+                                                data: JSON.stringify(dataSend)
+                                            }).success(function (response) {
+                                                if (response.message == 'success') {
+                                                    $scope.submittedTeam = true;
+                                                }
+                                            }).error(function () {
+                                                window.alert("Fail to send request!");
+                                            });
                                         }
                                     }
                                 }).error(function () {
@@ -373,7 +374,7 @@ app.controller('createContact',
                 $scope.addLanguage = function () {
                     var dataParse = 'languageInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/language.add";
+                    var url = $scope.commonUrl + "/language.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -392,7 +393,7 @@ app.controller('createContact',
                 $scope.addSkillasset = function () {
                     var dataParse = 'skillassetInfo';
                     $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
-                     var url = $scope.commonUrl + "/skill.add";
+                    var url = $scope.commonUrl + "/skill.add";
                     $http({
                         method: 'POST',
                         url: url,
@@ -406,38 +407,100 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-                $scope.addMorePhone = function() {
+                $scope.addMorePhone = function () {
                     copyService('phoneInfo');
                     $scope.submittedPhone = false;
                     $scope.form.additionalContactForm.additionalphonenumber.$setPristine();
                 };
-                
-                $scope.addMoreEmail = function() {
+
+                $scope.addMoreEmail = function () {
                     copyService('emailInfo');
                     $scope.submittedEmail = false;
                     $scope.form.additionalContactForm.additionalemail.$setPristine();
                 };
-                
-                $scope.addMoreAddress = function() {
+
+                $scope.addMoreAddress = function () {
                     copyService('addressInfo');
                     $scope.submittedAddress = false;
                     $scope.form.additionalContactForm.additionaladdress.$setPristine();
                 };
-                
-                $scope.addMoreTeam = function() {
+
+                $scope.addMoreTeam = function () {
                     copyService('teamInfo');
                     $scope.submittedTeam = false;
                 };
-                
-                $scope.addMoreLanguage = function() {
+
+                $scope.addMoreLanguage = function () {
                     copyService('languageInfo');
-                     $scope.submittedLanguage = false;
+                    $scope.submittedLanguage = false;
                 };
-                
-                $scope.addMoreLSA = function() {
+
+                $scope.addMoreLSA = function () {
                     copyService('skillassetInfo');
                     $scope.submittedLSA = false;
                 };
+                
+                $scope.today = function () {
+                    $scope.dt = new Date();
+                };
+                $scope.today();
+
+                $scope.clear = function () {
+                    $scope.dt = null;
+                };
+
+                $scope.inlineOptions = {
+                    customClass: getDayClass,
+                    minDate: new Date(),
+                    showWeeks: true
+                };
+
+                $scope.dateOptions = {
+                    formatYear: 'yy',
+                    minDate: new Date(),
+                    startingDay: 1
+                };
+
+                $scope.toggleMin = function () {
+                    $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
+                    $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
+                };
+
+                $scope.toggleMin();
+
+                $scope.open1 = function () {
+                    $scope.popup1.opened = true;
+                };
+
+                $scope.setDate = function (year, month, day) {
+                    $scope.dt = new Date(year, month, day);
+                };
+
+                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.format = $scope.formats[0];
+                $scope.altInputFormats = ['M!/d!/yyyy'];
+
+                $scope.popup1 = {
+                    opened: false
+                };
+
+                function getDayClass(data) {
+                    var date = data.date,
+                            mode = data.mode;
+                    if (mode === 'day') {
+                        var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+                        for (var i = 0; i < $scope.events.length; i++) {
+                            var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+                            if (dayToCheck === currentDay) {
+                                return $scope.events[i].status;
+                            }
+                        }
+                    }
+
+                    return '';
+                }
             }]);
 
 
