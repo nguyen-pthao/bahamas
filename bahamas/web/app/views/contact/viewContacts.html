@@ -22,7 +22,7 @@ and open the template in the editor.
                 <!-- view contact starts -->
                 <div class="box" ng-init="retrieveAllContacts()">
                     <div class="box-header with-border">
-                        <h3 class="box-title"> VIEW ALL CONTACTS </h3>
+                        <h3 class="box-title uppercase"> View all contacts </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                 <i class="fa fa-minus"></i></button>
@@ -72,7 +72,7 @@ and open the template in the editor.
                                     <td>{{contact.phone}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a ng-click='editBaby()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a ng-click='editContact()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -95,7 +95,7 @@ and open the template in the editor.
                                     <td>{{contact['alt name']}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a ng-click='editBaby()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ui-sref="admin.addContact"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a ng-click='editContact()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>

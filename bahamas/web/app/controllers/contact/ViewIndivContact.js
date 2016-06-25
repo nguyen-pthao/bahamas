@@ -21,11 +21,16 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', function ($sc
 
         var toAllContacts = $scope.permission + '.viewContacts';
         var homepage = $scope.permission + '.homepage';
+        var editContact = $scope.permission + '.editContact';
         $scope.backHome = function () {
             $state.go(homepage);
         };
 
         $scope.viewContact = function () {
             $state.go(toAllContacts);
+        };
+        
+        $scope.editContact = function() {
+            $state.go(editContact);
         };
     }]);

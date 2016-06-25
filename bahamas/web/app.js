@@ -51,6 +51,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/userManagement.html',
                 controller: 'userManagement'
             })
+            .state('admin.editContact', {
+                url: '/editContact',
+                templateUrl: 'app/views/contact/editContact.html',
+                controller: 'editContact'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',

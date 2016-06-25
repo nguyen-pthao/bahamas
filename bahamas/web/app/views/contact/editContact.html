@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="margin:0px" id="edit-contact">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="addContact()" style="color: white"> Contact Management </a><i class="fa fa-chevron-right small"></i><a href="" ng-click="addContact()" style="color: white"> Edit Contact </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title uppercase"><b> Edit contact </b></h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                <i class="fa fa-minus"></i></button>
+                        </div>
+                    </div>
+                    <!-- form start -->
+                    <div class="box-body">
+                        <div class="box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        <img class="img-responsive" src="style/img/huxley.jpg" alt=""/>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-7">
+                                        <div class="form-group">
+                                            <label>Username</label>
+                                            <input type='text' class="form-control" name="username" readonly>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <input type="password" name="password" class="form-control">
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Deactive</label>
+                                            <select name="deactivate" class="form-control">
+                                                <option></option>
+                                                <option value="Y">Yes</option>
+                                                <option value="N">No</option>
+                                            </select> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Name</label>
+                                        <input type="text" name="name" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Alternative Name</label>
+                                        <input type="text" name="altName" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Contact type</label>
+                                        <select class="form-control">
+
+                                        </select>     
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea name="Other-explanation" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Profession</label>
+                                        <input type="text" name="profession" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Job title</label>
+                                        <input type="text" name="job-title" class="form-control"> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-4">
+                                        <label>NRIC/FIN</label>
+                                        <input type="text" name="nric" class="form-control"> 
+                                    </div>    
+                                    <div class="col-md-offset-1 col-md-2">
+                                        <label>Gender</label>
+                                        <select name="gender" class="form-control">
+                                            <option></option>
+                                            <option value="M">Male</option>
+                                            <option value="F">Female</option>
+                                            <option value="O">Other</option>
+                                        </select> 
+                                    </div>  
+                                    <div class="col-md-offset-1 col-md-4">
+                                        <label>Nationality</label>
+                                        <input type="text" name="nationality" class="form-control"> 
+                                    </div>    
+                                </div>
+                                <div class="form-group col-md-12" style="margin-top: 15px">
+                                    <div class="col-md-4">
+                                        <label>Date of birth</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="dob" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>                      
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea form="contact-new-contact-form" name="remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-2">
+                                        <label>Country code</label>
+                                        <input type="number" class="form-control" name='countrycode'>            
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-4">
+                                        <label>Phone number</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea form="contact-new-contact-form" name="remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12" style="margin-top: 15px">
+                                    <div class="col-md-4">
+                                        <label>Date obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="dob" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Email</label><span class="required">*</span>
+                                        <input type="email" ng-model="contactInfo.email" ng-pattern="emailRegex" ng-required='true' ng-maxlength='50' name="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea form="contact-new-contact-form" name="remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12" style="margin-top: 15px">
+                                    <div class="col-md-4">
+                                        <label>Date obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="dob" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-minus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Address</label><span class="required">*</span>
+                                        <input type="text" name='address' class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Country</label>
+                                        <select class="form-control">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">    
+                                        <label>Zipcode</label>
+                                        <input type="text" ng-model="contactInfo.zipcode" ng-maxlength='20' ng-pattern="zipcodeRegex" name='zipcode' class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Membership type</label>
+                                        <select name="membership-type" class="form-control">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Subscription amount</label>
+                                        <input type="number" class="form-control" name="subscription-amount">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Membership start date</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="startdate" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Membership end date</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="enddate" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Payment mode</label>
+                                        <select name="payment-mode" class="form-control">
+                                            <option> </option>
+                                        </select>  
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea form="contact-new-contact-form" name="Other-explanation-payment-mode" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>External Transaction Reference</label>
+                                        <input type='text' class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>    
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Receipt number</label>
+                                        <input type='text' class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Mode of sending receipt</label>
+                                        <select class='form-control'>
+                                            <option></option>
+                                        </select>
+                                    </div>    
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Date of receipt</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Office held</label>
+                                        <select class='form-control'>
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Start office</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="startdate" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>End office</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="enddate" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea form="contact-new-contact-form" ng-model="officeHeld.remarks" style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date received</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                    </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Donation amount</label>
+                                        <input type="number" step='any' class="form-control">        
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Payment mode</label>
+                                        <select class="form-control">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>External Transaction Reference</label>
+                                        <input type='text' class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>    
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Receipt number</label>
+                                        <input type='text' class='form-control' contenteditable="true" spellcheck="true">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Mode of sending receipt</label>
+                                        <select class='form-control'>
+                                            <option></option>
+                                        </select>
+                                    </div>    
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Date of receipt</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Donor's instructions</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class='form-group col-md-12'>
+                                    <div class='col-md-8'>
+                                        <label>Allocation 1</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-3">
+                                        <label>Subamount 1</label>
+                                        <input type="number" step='any' class="form-control">
+                                    </div>
+                                </div>
+                                <div class='form-group col-md-12'>
+                                    <div class='col-md-8'>
+                                        <label>Allocation 2</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-3">
+                                        <label>Subamount 2</label>
+                                        <input type="number" step='any' class="form-control">
+                                    </div>
+                                </div>
+                                <div class='form-group col-md-12'>
+                                    <div class='col-md-8'>
+                                        <label>Allocation 3</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                    <div class="col-md-offset-1 col-md-3">
+                                        <label>Subamount 3</label>
+                                        <input type="number" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Associated occasion</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date created</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' name="date-created" class="form-control pull-right" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Created by</label>
+                                        <input type='text' name="createdBy" class="form-control" readonly> 
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Team</label>
+                                        <select class="form-control">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Subteam</label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Permission</label>
+                                        <select class="form-control">
+                                            <option></option>
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea style='width: 100%; height: 20%' contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Date obsolete</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                Hello
+
+                            </div>
+                        </div>
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                Hello
+
+                            </div>
+                        </div>
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                Hello
+
+                            </div>
+                        </div>
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                Hello
+
+                            </div>
+                        </div>
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                Hello
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /.box-body -->
+                    <!-- /.box-footer-->
+                    <!-- /.box -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>

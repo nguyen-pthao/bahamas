@@ -4905,6 +4905,12 @@ table.text-center th {
     padding-left: 2px;
     font-weight: 800
 }
+.uppercase {
+    text-transform: uppercase !important;
+}
+.lowercase {
+    text-transform: lowercase !important;
+}
 /*
  * Misc: print
  * -----------
