@@ -72,8 +72,8 @@ app.controller('viewAuditLog',
                             if ($scope.itemsPerPage == 'toAll') {
                                 $scope.itemsPerPage = $scope.allFiltered.length;
                                 $scope.isAll = true;
-                            }else{
-                                $scope.isAll=false;
+                            } else {
+                                $scope.isAll = false;
                             }
                             var newArray = [];
                             angular.forEach($scope.allFiltered, function (obj) {
@@ -97,6 +97,14 @@ app.controller('viewAuditLog',
 
                         $scope.$watch('dateStart + dateEnd', function () {
                             var newArray = [];
+                            if (angular.isUndefined($scope.dateStart)) {
+                                $scope.dateStart = null;
+                            }
+                            if (angular.isUndefined($scope.dateEnd)) {
+                                var end = new Date();
+                                end.setHours(23, 59, 59, 999);
+                                $scope.dateEnd = end;
+                            }
                             angular.forEach($scope.allFiltered, function (obj) {
                                 var receivedDate = obj.Date;
                                 var parsedDate = new Date(receivedDate);
