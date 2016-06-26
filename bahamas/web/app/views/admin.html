@@ -168,10 +168,10 @@
                                     <li style="padding-top: 5px">
                                         <form ng-submit="searchContact()" class="sidebar-form">
                                             <div class="input-group" ng-init="retrieveAllContacts()">
-                                                <input type="text" placeholder="Search Contacts..." class="form-control" ng-model="selected" uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8">
+                                                <input type="text" placeholder="Search Contacts..." class="form-control" ng-model="selected" uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="contactList-tpl.html">
                                                 <span class="input-group-btn">
-                                                <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i>
-                                                </button>                                               
+                                                    <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i>
+                                                    </button>                                               
                                                 </span>
                                             </div>
                                         </form>
@@ -231,7 +231,7 @@
                     <!-- Content Header (Page header) -->
                     <section class="content-header">
                         <h3>
-                            <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(27, 120, 118, 0.76); color: white">
+                            <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
                                 <li><i class="fa fa-home"></i> Homepage</li>
                             </ol>                    
                         </h3>
@@ -342,4 +342,12 @@
             <!-- ./wrapper -->
         </div>
     </body>
+
+    <script type="text/ng-template" id="contactList.html">
+    <a><div>
+    <span style="display:block;" class="name" bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
+    <span bind-html-unsafe="match.model.email | typeaheadHighlight:query"></span>    
+</div></a>
+    </script>
+
 </html>

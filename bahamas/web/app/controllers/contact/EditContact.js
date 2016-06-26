@@ -115,7 +115,7 @@ app.controller('editContact',
 
 //DECLARE OBJECTS FOR EDIT CONTACT
     //user
-        $scope.editUser = {};
+        $scope.editUser = angular.copy(whatever);
         $scope.editUser['username'] = 'Thao Nguyen';
         $scope.editUser['password'] = 'NGUYEN NGUYEN';
     //contact
