@@ -6,10 +6,17 @@
 package bahamas.dao;
 
 import bahamas.entity.Appreciation;
+import bahamas.entity.Contact;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -63,4 +70,52 @@ public class AppreciationDAO {
         }
         return false;
     }
+    
+    
+        public static ArrayList<Appreciation> retrieveAppreciation(int cid) {
+        ArrayList<Appreciation> appreciationList = new ArrayList<Appreciation>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT APPRECIATION_ID, APPRAISAL_COMMENTS, APPRAISAL_BY, APPRAISAL_DATE, APPRECIATION_GESTURE, APPRECIATION_BY, APPRECIATION_DATE, REMARKS, CREATED_BY, DATE_CREATED FROM APPRECIATION WHERE CONTACT_ID = (?)");
+            stmt.setString(1, Integer.toString(cid));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                
+                int appreciationId = rs.getInt(1);
+                String appraisalComment = rs.getString(2);
+                String appraisalBy = rs.getString(3);
+                Date appraisalDate = rs.getDate(4);
+                String appreciationGesture = rs.getString(5);
+                String appreciationBy = rs.getString(6);
+                Date appreciationDate = rs.getDate(7);
+                String remarks = rs.getString(8);
+                String createdBy = rs.getString(9);
+                Date dateCreated = rs.getTimestamp(10);
+                
+                
+                
+                Appreciation a = new Appreciation( appreciationId, appraisalComment, appraisalBy, appraisalDate, appreciationGesture, appreciationBy, appreciationDate, remarks, createdBy, dateCreated);
+
+                appreciationList.add(a);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve APPRECIATION from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return appreciationList;
+
+    }
+
+    
+    
 }
