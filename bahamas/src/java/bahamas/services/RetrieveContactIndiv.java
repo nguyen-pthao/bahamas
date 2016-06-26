@@ -246,7 +246,7 @@ public class RetrieveContactIndiv extends HttpServlet {
  
 
         jsonContactObj = new JsonObject();
-        jsonContactObj.addProperty("other_cid", contact.getContactId());
+        jsonContactObj.addProperty("other_cid", Integer.toString(contact.getContactId()));
         jsonContactObj.addProperty("name", name);
         if (isAdmin){
             jsonContactObj.addProperty("nric_fin", contact.getNric());
@@ -403,8 +403,8 @@ public class RetrieveContactIndiv extends HttpServlet {
                 JsonObject jsonProxyObj = new JsonObject();
                 Proxy proxy = proxyList.get(i);
 
-                jsonProxyObj.addProperty("proxy_id", proxy.getProxyID());
-                jsonProxyObj.addProperty("principal_id", proxy.getPrincipalID());
+                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getProxyID()));
+                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getPrincipalID()));
                 jsonProxyObj.addProperty("proxy_standing", proxy.getProxyStanding());
 
                 
@@ -593,7 +593,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                 JsonObject jsonAppreciationObj = new JsonObject();
                 Appreciation appreciation = appreciationList.get(i);
 
-                jsonAppreciationObj.addProperty("appreciation_id", appreciation.getAppreciationId());
+                jsonAppreciationObj.addProperty("appreciation_id", Integer.toString(appreciation.getAppreciationId()));
                 
                 
                 
@@ -650,7 +650,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                 JsonObject jsonDonationObj = new JsonObject();
                 Donation donation = donationList.get(i);
 
-                jsonDonationObj.addProperty("donation_id", donation.getDonationId());
+                jsonDonationObj.addProperty("donation_id", Integer.toString(donation.getDonationId()));
                 if (donation.getDateReceived()!= null) {
                     jsonDonationObj.addProperty("date_received", sdf.format(donation.getDateReceived()));
                 } else {
@@ -785,7 +785,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         
         
         contactArray.add(jsonContactObj);
-        jsonContactObj.addProperty("cid", contact.getContactId());
+        jsonContactObj.addProperty("cid", Integer.toString(contact.getContactId()));
 
         return contactArray;
     }
