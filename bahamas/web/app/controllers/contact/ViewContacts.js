@@ -86,6 +86,9 @@ app.controller('viewContacts',
                             $scope.allFilteredContacts = filterFilter($scope.allContactInfo, $scope.searchContacts);
                             var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
+                            if($scope.totalPages === 0){
+                                $scope.totalPages = 1;
+                            }
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
@@ -95,6 +98,9 @@ app.controller('viewContacts',
 
                         var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
+                        if($scope.totalPages === 0){
+                            $scope.totalPages = 1;
+                        }
                         $scope.$watch('currentPage + itemsPerPage', function () {
                             var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                             var end = begin + parseInt($scope.itemsPerPage);
@@ -107,6 +113,9 @@ app.controller('viewContacts',
                             $scope.totalItems = $scope.allFilteredContacts.length;
                             var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
+                            if($scope.totalPages === 0){
+                                $scope.totalPages = 1;
+                            }
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
