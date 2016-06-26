@@ -9,8 +9,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
-        ['$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllContacts', 'filterFilter',
-            function ($scope, $http, $location, session, $window, $state, $log, loadAllContacts, filterFilter) {
+        ['$scope', 'session', '$state','loadAllContacts', 'filterFilter',
+            function ($scope, session, $state, loadAllContacts, filterFilter) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';

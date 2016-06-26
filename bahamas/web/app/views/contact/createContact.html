@@ -41,17 +41,17 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group">
                                         <label>Alternative Name</label>
-                                        <input type="text" ng-model="contactInfo.altname" ng-maxlength="50" name="altname" class="form-control"> 
+                                        <input type="text" ng-model="contactInfo['alt_name']" ng-maxlength="50" name="altname" class="form-control"> 
                                         <span ng-show="contactForm.altname.$error.maxlength" style="color:red">Input field alternative name is too long.</span>
                                     </div>
                                     <div class="form-group" ng-init="loadContactTypeList()">
                                         <label>Contact type</label><span class="required">*</span>
-                                        <select class="form-control" ng-model="contactInfo.contacttype">
+                                        <select class="form-control" ng-model="contactInfo['contact_type']">
                                             <option ng-repeat="contactType in contactTypeList">{{contactType.contactType}}</option>
                                         </select>     
                                     </div>
                                     <label>Explain if above is 'Other'</label>
-                                    <textarea ng-model="contactInfo.explainifother" ng-maxlength="200" name="explainifother" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                    <textarea ng-model="contactInfo['explain_if_other']" ng-maxlength="200" name="explainifother" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                     <span ng-show="contactForm.explainifother.$error.maxlength" style="color:red">Input field explanation is too long.</span>
                                     <div class="form-group">
                                         <label>Profession</label>
@@ -60,13 +60,13 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group">
                                         <label>Job title</label>
-                                        <input type="text" ng-model="contactInfo.jobtitle" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
+                                        <input type="text" ng-model="contactInfo['job_title']" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
                                         <span ng-show="contactForm.jobtitle.$error.maxlength" style="color:red">Input field job title is too long.</span>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>NRIC/FIN</label>
-                                            <input type="text" ng-model="contactInfo.nricfin" ng-pattern="nricRegex" name="nricfin" class="form-control">
+                                            <input type="text" ng-model="contactInfo['nric_fin']" ng-pattern="nricRegex" name="nricfin" class="form-control">
                                             <span ng-show="contactForm.nricfin.$invalid && contactForm.nricfin.$touched" style="color:red">Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
                                         </div>    
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
@@ -131,19 +131,19 @@ and open the template in the editor.
                                                         <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                                             <div class="col-md-3" style="padding: 0px" ng-init="loadCountryCodes()">
                                                                 <label>Country code</label><span class="required">*</span>
-                                                                <input type="number" class="form-control" ng-model="additionalContactInfo.phoneInfo.countrycode" ng-required="true" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)" name="additionalcountrycode">            
+                                                                <input type="number" class="form-control" ng-model="additionalContactInfo.phoneInfo['country_code']" ng-required="true" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)" name="additionalcountrycode">            
                                                                 <span>{{newCountryName}}</span>
                                                             </div>
                                                             <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                                                                 <label>Phone number</label><span class="required">*</span>
-                                                                <input type="text" ng-model="additionalContactInfo.phoneInfo.phonenumber" ng-pattern="phoneRegex" ng-maxlength='20' ng-minlength="0" ng-required="true" name="additionalphonenumber" class="form-control">
+                                                                <input type="text" ng-model="additionalContactInfo.phoneInfo['phone_number']" ng-pattern="phoneRegex" ng-maxlength='20' ng-minlength="0" ng-required="true" name="additionalphonenumber" class="form-control">
                                                                 <span ng-show="form.additionalContactForm.additionalphonenumber.$error.pattern && form.additionalContactForm.additionalphonenumber.$touched" style="color:red">Invalid phone number.</span>
                                                                 <span ng-show="form.additionalContactForm.additionalphonenumber.$error.required && form.additionalContactForm.additionalphonenumber.$dirty" style="color:red">Phone number is required.</span>
                                                                 <span ng-show="form.additionalContactForm.additionalphonenumber.$error.maxlength" style='color:red'>Input field phone number is too long.</span>
                                                             </div>
                                                         </div>
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.phoneInfo['phone_remarks']" ng-maxlength="200" name="phoneremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addPhone()" 
@@ -166,7 +166,7 @@ and open the template in the editor.
                                                             <span ng-show="form.additionalContactForm.additionalemail.$error.maxlength" style='color:red'>Input field email is too long.</span>
                                                         </div>
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.emailInfo.emailremarks" ng-maxlength="200" name="emailremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.emailInfo['email_remarks']" ng-maxlength="200" name="emailremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>     
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addEmail()"
@@ -200,7 +200,7 @@ and open the template in the editor.
                                                             </div>
                                                         </div>  
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.addressInfo.addressremarks" ng-maxlength="200" name="addressremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.addressInfo['address_remarks']" ng-maxlength="200" name="addressremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>      
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addAddress()"
@@ -252,11 +252,11 @@ and open the template in the editor.
                                                             </select>     
                                                         </div>
                                                         <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.languageInfo['explain_if_other']" ng-maxlength="200" name="additionalexplainifotherL" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
                                                         <div class="form-group">
                                                             <label>Speak/Write?</label>
-                                                            <select class="form-control" ng-model="additionalContactInfo.languageInfo.speakwrite">
+                                                            <select class="form-control" ng-model="additionalContactInfo.languageInfo['speak_write']">
                                                                 <option value="speak only">Speak only</option>
                                                                 <option value="speak and write">Speak and write</option>
                                                             </select>     
@@ -275,12 +275,12 @@ and open the template in the editor.
                                                         </uib-accordion-heading>
                                                         <div class="form-group" ng-init="loadLSAList()">
                                                             <label>Skills or Assets</label><span class="required">*</span>
-                                                            <select class="form-control" ng-model="additionalContactInfo.skillassetInfo.skillasset" ng-required="true" name="LSA">
+                                                            <select class="form-control" ng-model="additionalContactInfo.skillassetInfo['skill_asset']" ng-required="true" name="LSA">
                                                                 <option ng-repeat="lsa in LSAList">{{lsa.lsaClass}}</option>
                                                             </select>     
                                                         </div>
                                                         <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherLSA" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.skillassetInfo['explain_if_other']" ng-maxlength="200" name="additionalexplainifotherLSA" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.additionalexplainifotherLSA.$error.maxlength">Input field explanation is too long.</span>
                                                         <label>Remarks</label>
                                                         <textarea ng-model="additionalContactInfo.skillassetInfo.remarks" ng-maxlength="200" name="LSAremarks" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>

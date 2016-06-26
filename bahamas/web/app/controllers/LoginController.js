@@ -3,8 +3,8 @@
 var app = angular.module('bahamas');
 
 app.controller('loginController', 
-['$rootScope', '$scope', '$http', '$location', 'session', '$window', '$state', 
-    function ($rootScope, $scope, $http, $location, session, $window, $state) {
+['$rootScope', '$scope', '$http', 'session', '$state', 
+    function ($rootScope, $scope, $http, session, $state) {
         $scope.error = false;
 //DEFINE AUTHORISED USER OBJECT
         var authorisedUser = {
@@ -32,7 +32,7 @@ app.controller('loginController',
                 if (returnedUser.message === "success") {
                     authorisedUser.username = $scope.user.username;
                     authorisedUser.token = returnedUser.token;
-                    authorisedUser.userType = returnedUser.usertype;
+                    authorisedUser.userType = returnedUser['user_type'];
                     authorisedUser.contact = returnedUser.contact;
                     authorisedUser.teams = returnedUser.contact.teams;
 //STORE AUTHORISED USER INFO IN SESSION SERVICE

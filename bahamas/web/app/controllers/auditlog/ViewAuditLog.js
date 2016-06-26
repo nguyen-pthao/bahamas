@@ -22,16 +22,6 @@ app.filter('dateFilter', function () {
     };
 });
 
-//app.filter('startFrom', function () {
-//    return function (input, start) {
-//        if (input) {
-//            start = +start; //parse to int
-//            return input.slice(start);
-//        }
-//        return [];
-//    }
-//});
-
 app.controller('viewAuditLog',
         ['filterFilter', 'dateFilter', '$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllAudit',
             function (filterFilter, dateFilter, $scope, $http, $location, session, $window, $state, $log, loadAllAudit) {
@@ -61,6 +51,9 @@ app.controller('viewAuditLog',
                         $scope.itemsPerPage = 30;
                         var total = $scope.totalFilteredItems / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
+                        if ($scope.totalPages === 0) {
+                            $scope.totalPages = 1;
+                        }
                         $scope.$watch('currentPage + itemsPerPage', function () {
                             var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                             var end = begin + parseInt($scope.itemsPerPage);
@@ -88,6 +81,9 @@ app.controller('viewAuditLog',
                             $scope.totalFilteredItems = $scope.searchFiltered.length;
                             var total = $scope.totalFilteredItems / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
+                            if ($scope.totalPages === 0) {
+                                $scope.totalPages = 1;
+                            }
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
@@ -117,6 +113,9 @@ app.controller('viewAuditLog',
                             $scope.totalFilteredItems = $scope.searchFiltered.length;
                             var total = $scope.totalFilteredItems / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
+                            if ($scope.totalPages === 0) {
+                                $scope.totalPages = 1;
+                            }
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
@@ -138,6 +137,9 @@ app.controller('viewAuditLog',
                             $scope.totalFilteredItems = $scope.searchFiltered.length;
                             var total = $scope.totalFilteredItems / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
+                            if ($scope.totalPages === 0) {
+                                $scope.totalPages = 1;
+                            }
                             $scope.$watch('currentPage + itemsPerPage', function () {
                                 var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                                 var end = begin + parseInt($scope.itemsPerPage);
@@ -195,7 +197,9 @@ app.controller('viewAuditLog',
                         $scope.dt = new Date(year, month, day);
                     };
 
+
                     $scope.formats = ['dd MMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+
                     $scope.format = $scope.formats[0];
                     $scope.altInputFormats = ['M!/d!/yyyy'];
 

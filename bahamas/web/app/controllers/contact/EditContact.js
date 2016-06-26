@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/*Created by Marcus Ong*/
+
 var app = angular.module('bahamas');
 
 app.controller('editContact', 
@@ -112,7 +114,7 @@ app.controller('editContact',
                 };
                 
 //RETRIEVE CONTACT OBJECTS                
-
+    
 //DECLARE OBJECTS FOR EDIT CONTACT
     //user
         $scope.editUser = angular.copy(whatever);

@@ -90,25 +90,16 @@ app.controller('createContact',
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
                     'name': '',
-                    'altname': '',
-                    'username': '',
-                    'password': '',
-                    'confirmpassword': '',
-                    'contacttype': 'Individual',
-                    'explainifother': '',
+                    'alt_name': '',
+                    'contact_type': 'Individual',
+                    'explain_if_other': '',
                     'profession': '',
-                    'jobtitle': '',
-                    'nricfin': '',
+                    'job_title': '',
+                    'nric_fin': '',
                     'gender': '',
                     'nationality': '',
-                    'dateofbirth': '',
-                    'remarks': '',
-                    'countrycode': '65',
-                    'phonenumber': '',
-                    'email': '',
-                    'country': 'Singapore',
-                    'zipcode': '',
-                    'address': ''
+                    'date_of_birth': '',
+                    'remarks': ''
                 };
 //DECLARE RESULT OBJECT 
                 $scope.result = {
@@ -147,17 +138,17 @@ app.controller('createContact',
                     phoneInfo: {
                         token: session.getSession("token"),
                         id: $scope.result.contactId,
-                        countrycode: 65,
-                        phonenumber: '',
-                        phoneremarks: '',
-                        dateobsolete: ''
+                        'country_code': 65,
+                        'phone_number': '',
+                        'phone_remarks': '',
+                        'date_obsolete': ''
                     },
                     emailInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
                         email: '',
-                        emailremarks: '',
-                        dateobsolete: ''
+                        'email_remarks': '',
+                        'date_obsolete': ''
                     },
                     addressInfo: {
                         token: session.getSession('token'),
@@ -165,30 +156,30 @@ app.controller('createContact',
                         address: '',
                         country: '',
                         zipcode: '',
-                        addressremarks: '',
-                        dateobsolete: ''
+                        'address_remarks': '',
+                        'date_obsolete': ''
                     },
                     languageInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
                         language: '',
-                        explainifother: '',
-                        speakwrite: '',
+                        'explain_if_other': '',
+                        'speak_write': '',
                         remarks: '',
-                        dateobsolete: ''
+                        'date_obsolete': ''
                     },
                     skillassetInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
-                        skillasset: '',
-                        explainifother: '',
+                        'skill_asset': '',
+                        'explain_if_other': '',
                         remarks: '',
-                        dateobsolete: ''
+                        'date_obsolete': ''
                     },
                     teamInfo: {
                         token: session.getSession('token'),
                         id: $scope.result.contactId,
-                        contactname: $scope.contactInfo.name,
+                        'contact_name': $scope.contactInfo.name,
                         team1: '',
                         team2: '',
                         team3: ''
@@ -318,13 +309,13 @@ app.controller('createContact',
                     var dataSend = {};
                     dataSend.token = $scope.additionalContactInfo.teamInfo.token;
                     dataSend.id = $scope.additionalContactInfo.teamInfo.id;
-                    dataSend.contactname = $scope.additionalContactInfo.teamInfo.contactname;
+                    dataSend['contact_name'] = $scope.additionalContactInfo.teamInfo.contactname;
                     dataSend.team = $scope.additionalContactInfo.teamInfo.team1;
-                    dataSend.explainifother = '';
+                    dataSend['explain_if_other'] = '';
                     dataSend.subteam = '';
-                    dataSend.permissionlevel = '';
+                    dataSend['permission_level'] = '';
                     dataSend.remarks = '';
-                    dataSend.dateobsolete = '';
+                    dataSend['date_obsolete'] = '';
                     var url = $scope.commonUrl + "/teamjoin.add";
                     $http({
                         method: 'POST',
