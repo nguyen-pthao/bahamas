@@ -112,7 +112,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 int cid = Integer.parseInt(cidString);
-                int otherCid = Integer.parseInt(cidString);
+                int otherCid = Integer.parseInt(otherCidString);
                 Contact viewContact = contactDAO.retrieveContactById(otherCid);
                 
                 if (viewContact != null) {
