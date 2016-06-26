@@ -125,8 +125,8 @@ app.controller('viewContacts',
 
                         $scope.foo = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
-                            var contactInfo = angular.toJson(contact);
-                            session.setSession('contactToDisplay', contactInfo);
+                            var contactCid = contact.cid;
+                            session.setSession('contactToDisplayCid', contactCid);
                             $state.go(toURL);
                         };
                     });
