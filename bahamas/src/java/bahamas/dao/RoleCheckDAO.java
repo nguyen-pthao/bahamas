@@ -41,6 +41,8 @@ public class RoleCheckDAO {
             case "admin":
                 permission = "Admin";
                 break;
+            default:
+                permission = null;
         }
 
         try {
@@ -88,6 +90,8 @@ public class RoleCheckDAO {
             case "admin":
                 permission = "Admin";
                 break;
+            default:
+                permission = null;
         }
 
         try {
