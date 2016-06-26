@@ -9,8 +9,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createContact',
-        ['$scope', '$http', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
-            function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
+        ['$scope', '$http', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter',
+            function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter) {
 //PAGES TRANSITION
                 var user = session.getSession('userType');
                 var currentState = user + '.addContact';
@@ -431,7 +431,21 @@ app.controller('createContact',
                     copyService('skillassetInfo');
                     $scope.submittedLSA = false;
                 };
-//DATEPICKER               
+//DATEPICKER    
+                $scope.$watch('dob', function(){
+                    if(angular.isUndefined($scope.dob)){
+                        $scope.contactInfo['date_of_birth'] = "";
+                    }
+                });
+                $scope.dateChanged = function(){
+                  if(angular.isUndefined($scope.dob)){
+                      $scope.contactInfo['date_of_birth'] = "";
+                  }
+                  if(angular.isDefined($scope.dob)){
+                       $scope.contactInfo['date_of_birth'] = $filter('date')($scope.dob ,'dd-MMM-yyyy');
+                  }
+                };
+                
                 $scope.today = function () {
                     $scope.dt = new Date();
                 };
@@ -449,6 +463,8 @@ app.controller('createContact',
 
                 $scope.dateOptions = {
                     formatYear: 'yy',
+                    formatMonth: 'MMM',
+                    formatDay: 'dd',
                     minDate: new Date(),
                     startingDay: 1
                 };
@@ -468,7 +484,7 @@ app.controller('createContact',
                     $scope.dt = new Date(year, month, day);
                 };
 
-                $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+                $scope.formats = ['dd MMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
                 $scope.format = $scope.formats[0];
                 $scope.altInputFormats = ['M!/d!/yyyy'];
 

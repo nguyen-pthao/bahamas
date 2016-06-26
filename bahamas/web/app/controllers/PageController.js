@@ -14,7 +14,7 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
             if (session.getSession('username') != null) {
                 var contact = angular.fromJson(session.getSession('contact'));
                 $scope.name = contact.name;
-                var dateToParse = contact.datecreated.substring(0, 10);
+                var dateToParse = contact['date_created'].substring(0, 10);
                 $scope.userType = session.getSession('userType');
 
                 var monthArr = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
