@@ -275,4 +275,26 @@ public class ContactDAO {
         return false;
     }
 
+    public static boolean deleteContact(int id) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM CONTACT WHERE CONTACT_ID = (?)");
+            stmt.setInt(1, id);
+           
+            return stmt.executeUpdate() == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+
+    }
+
 }
