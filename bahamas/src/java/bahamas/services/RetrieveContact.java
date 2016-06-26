@@ -241,20 +241,20 @@ public class RetrieveContact extends HttpServlet {
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", name);
-            jsonContactObj.addProperty("alt name", altName);
+            jsonContactObj.addProperty("alt_name", altName);
             jsonContactObj.addProperty("phone", phoneStr);
             jsonContactObj.addProperty("email", emailStr);
-            jsonContactObj.addProperty("contact type", contactType);
-            jsonContactObj.addProperty("explain if other", explainIfOther);
+            jsonContactObj.addProperty("contact_type", contactType);
+            jsonContactObj.addProperty("explain_if_other", explainIfOther);
             jsonContactObj.addProperty("profession", profession);
-            jsonContactObj.addProperty("job title", jobTitle);
+            jsonContactObj.addProperty("job_title", jobTitle);
             jsonContactObj.addProperty("nric", nric);
             jsonContactObj.addProperty("gender", gender);
             jsonContactObj.addProperty("nationality", nationality);
             if(c.getDateOfBirth() != null){
-                jsonContactObj.addProperty("date of birth", sdf.format(c.getDateOfBirth()));
+                jsonContactObj.addProperty("date_of_birth", sdf.format(c.getDateOfBirth()));
             }else{
-                jsonContactObj.addProperty("date of birth", "");
+                jsonContactObj.addProperty("date_of_birth", "");
             }
             jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", remarks);

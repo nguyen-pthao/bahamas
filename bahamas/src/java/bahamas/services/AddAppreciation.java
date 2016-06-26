@@ -95,12 +95,12 @@ public class AddAppreciation extends HttpServlet {
                         return;
                     } else {
                         
-                        String appraisalComment = Validator.containsBlankField(jobject.get("appraisalcomment").getAsString());
-                        String appraisalBy = Validator.containsBlankField(jobject.get("appraisalby").getAsString());
-                        Date appraisalDate = Validator.isDateValid(jobject.get("appraisaldate").getAsString());
-                        String appreciationGesture = Validator.containsBlankField(jobject.get("appreciationgesture").getAsString());
-                        String appreciationBy = Validator.containsBlankField(jobject.get("appreciationby").getAsString());
-                        Date appreciationDate = Validator.isDateValid(jobject.get("appreciationdate").getAsString());
+                        String appraisalComment = Validator.containsBlankField(jobject.get("appraisal_comment").getAsString());
+                        String appraisalBy = Validator.containsBlankField(jobject.get("appraisal_by").getAsString());
+                        Date appraisalDate = Validator.isDateValid(jobject.get("appraisal_date").getAsString());
+                        String appreciationGesture = Validator.containsBlankField(jobject.get("appreciation_gesture").getAsString());
+                        String appreciationBy = Validator.containsBlankField(jobject.get("appreciation_by").getAsString());
+                        Date appreciationDate = Validator.isDateValid(jobject.get("appreciation_date").getAsString());
                         String appreciationRemarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                                             
                         Appreciation appreciation = new Appreciation(c,appraisalComment,appraisalBy,appraisalDate,appreciationGesture,

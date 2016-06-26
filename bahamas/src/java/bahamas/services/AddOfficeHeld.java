@@ -97,9 +97,9 @@ public class AddOfficeHeld extends HttpServlet {
                         return;
                     } else {
 
-                        Date startOffice = Validator.isDateValid(jobject.get("startoffice").getAsString());
-                        Date endOffice = Validator.isDateValid(jobject.get("endoffice").getAsString());
-                        String officeHeld = Validator.containsBlankField(jobject.get("officeheldname").getAsString());
+                        Date startOffice = Validator.isDateValid(jobject.get("start_office").getAsString());
+                        Date endOffice = Validator.isDateValid(jobject.get("end_office").getAsString());
+                        String officeHeld = Validator.containsBlankField(jobject.get("office_held_name").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
                         OfficeHeld o = new OfficeHeld(c,startOffice,endOffice,remarks,username,officeHeld);

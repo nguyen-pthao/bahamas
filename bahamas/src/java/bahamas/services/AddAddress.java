@@ -100,9 +100,9 @@ public class AddAddress extends HttpServlet {
                         String address = Validator.containsBlankField(jobject.get("address").getAsString());
                         String country = Validator.containsBlankField(jobject.get("country").getAsString());
                         String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("addressremarks").getAsString());
+                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
                       
                         Address newAddress = new Address(c, country, zipCode, address,
                                 username, addressRemarks, dateObsolete);

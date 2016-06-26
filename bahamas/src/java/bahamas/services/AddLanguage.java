@@ -88,11 +88,11 @@ public class AddLanguage extends HttpServlet {
 
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     String language = Validator.containsBlankField(jobject.get("language").getAsString());
-                    String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
-                    String speakWrite = Validator.containsBlankField(jobject.get("speakwrite").getAsString());
+                    String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
+                    String speakWrite = Validator.containsBlankField(jobject.get("speak_write").getAsString());
                     String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
-                    Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                    Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
                     //Validation of fields
                     ContactDAO cDAO = new ContactDAO();

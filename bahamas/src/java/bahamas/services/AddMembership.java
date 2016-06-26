@@ -97,18 +97,18 @@ public class AddMembership extends HttpServlet {
                         return;
                     } else {
                         
-                        String membershipClass = Validator.containsBlankField(jobject.get("membershipclass").getAsString());                    
-                        String explainIfOtherClass = Validator.containsBlankField(jobject.get("explainifotherclass").getAsString());
-                        Date startMembership = Validator.isDateValid(jobject.get("startmembership").getAsString());
-                        Date endMembership = Validator.isDateValid(jobject.get("endmembership").getAsString());
-                        double subscriptionAmount = Validator.isDoubleValid(jobject.get("subscriptionamount").getAsString());
-                        String paymentMode = Validator.containsBlankField(jobject.get("paymentmode").getAsString());
-                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explainifotherpayment").getAsString());
-                        String extTransactionRef = Validator.containsBlankField(jobject.get("exttransactionref").getAsString());
-                        String receiptNumber = Validator.containsBlankField(jobject.get("receiptnumber").getAsString());
-                        Date receiptDate = Validator.isDateValid(jobject.get("receiptdate").getAsString());
-                        String receiptMode = Validator.containsBlankField(jobject.get("receiptmode").getAsString());
-                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explainifotherreceipt").getAsString());
+                        String membershipClass = Validator.containsBlankField(jobject.get("membership_class").getAsString());                    
+                        String explainIfOtherClass = Validator.containsBlankField(jobject.get("explain_if_other_class").getAsString());
+                        Date startMembership = Validator.isDateValid(jobject.get("start_membership").getAsString());
+                        Date endMembership = Validator.isDateValid(jobject.get("end_membership").getAsString());
+                        double subscriptionAmount = Validator.isDoubleValid(jobject.get("subscription_amount").getAsString());
+                        String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
+                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explain_if_other_payment").getAsString());
+                        String extTransactionRef = Validator.containsBlankField(jobject.get("ext_transaction_ref").getAsString());
+                        String receiptNumber = Validator.containsBlankField(jobject.get("receipt_number").getAsString());
+                        Date receiptDate = Validator.isDateValid(jobject.get("receipt_date").getAsString());
+                        String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode").getAsString());
+                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                         
                         Membership m = new Membership(c,startMembership,endMembership,receiptDate,subscriptionAmount,extTransactionRef,

@@ -100,11 +100,11 @@ public class AddTeamJoin extends HttpServlet {
                         return;
                     } else {
                         String team = Validator.containsBlankField(jobject.get("team").getAsString());
-                        String explainIfOther = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                        String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
                         String subTeam = Validator.containsBlankField(jobject.get("subteam").getAsString());
-                        String permission = Validator.containsBlankField(jobject.get("permissionlevel").getAsString());
+                        String permission = Validator.containsBlankField(jobject.get("permission_level").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
                         TeamJoin tj = new TeamJoin(c, team, username, explainIfOther,
                                 subTeam, dateObsolete, remarks, permission);

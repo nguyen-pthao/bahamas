@@ -97,23 +97,23 @@ public class AddDonation extends HttpServlet {
                         return;
                     } else {
                        
-                        Date dateReceived = Validator.isDateValid(jobject.get("datereceived").getAsString());
-                        double donationAmount = Validator.isDoubleValid(jobject.get("donationamount").getAsString());
-                        String paymentMode = Validator.containsBlankField(jobject.get("paymentmode").getAsString());
-                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explainifotherpayment").getAsString());
-                        String extTransactionRef = Validator.containsBlankField(jobject.get("exttransactionref").getAsString());
-                        String receiptNumber = Validator.containsBlankField(jobject.get("receiptnumber").getAsString());
-                        Date receiptDate = Validator.isDateValid(jobject.get("receiptdate").getAsString());
-                        String receiptMode = Validator.containsBlankField(jobject.get("receiptmode").getAsString());
-                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explainifotherreceipt").getAsString());
-                        String donorInstruction = Validator.containsBlankField(jobject.get("donorinstruction").getAsString());
+                        Date dateReceived = Validator.isDateValid(jobject.get("date_received").getAsString());
+                        double donationAmount = Validator.isDoubleValid(jobject.get("donation_amount").getAsString());
+                        String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
+                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explain_if_other_payment").getAsString());
+                        String extTransactionRef = Validator.containsBlankField(jobject.get("ext_transaction_ref").getAsString());
+                        String receiptNumber = Validator.containsBlankField(jobject.get("receipt_number").getAsString());
+                        Date receiptDate = Validator.isDateValid(jobject.get("receipt_date").getAsString());
+                        String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode").getAsString());
+                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt").getAsString());
+                        String donorInstruction = Validator.containsBlankField(jobject.get("donor_instruction").getAsString());
                         String allocation1 = Validator.containsBlankField(jobject.get("allocation1").getAsString());
                         double subamount1 = Validator.isDoubleValid(jobject.get("subamount1").getAsString());
                         String allocation2 = Validator.containsBlankField(jobject.get("allocation2").getAsString());
                         double subamount2 = Validator.isDoubleValid(jobject.get("subamount2").getAsString());
                         String allocation3 = Validator.containsBlankField(jobject.get("allocation3").getAsString());
                         double subamount3 = Validator.isDoubleValid(jobject.get("subamount3").getAsString());
-                        String associatedOccasion = Validator.containsBlankField(jobject.get("associatedoccasion").getAsString());
+                        String associatedOccasion = Validator.containsBlankField(jobject.get("associated_occasion").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                         
                         Donation d = new Donation(c,username,dateReceived,donationAmount,paymentMode,explainIfOtherPayment,

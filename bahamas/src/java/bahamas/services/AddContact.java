@@ -98,15 +98,15 @@ public class AddContact extends HttpServlet {
                     */
                     
                     String name = Validator.containsBlankField(jobject.get("name").getAsString());
-                    String altName = Validator.containsBlankField(jobject.get("altname").getAsString());
-                    String contactType = Validator.containsBlankField(jobject.get("contacttype").getAsString());
-                    String otherExplanation = Validator.containsBlankField(jobject.get("explainifother").getAsString());
+                    String altName = Validator.containsBlankField(jobject.get("alt_name").getAsString());
+                    String contactType = Validator.containsBlankField(jobject.get("contact_type").getAsString());
+                    String otherExplanation = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
                     String profession = Validator.containsBlankField(jobject.get("profession").getAsString());
-                    String jobTitle = Validator.containsBlankField(jobject.get("jobtitle").getAsString());
-                    String nric = Validator.containsBlankField(jobject.get("nricfin").getAsString());
+                    String jobTitle = Validator.containsBlankField(jobject.get("job_title").getAsString());
+                    String nric = Validator.containsBlankField(jobject.get("nric_fin").getAsString());
                     String gender = Validator.containsBlankField(jobject.get("gender").getAsString());
                     String nationality = Validator.containsBlankField(jobject.get("nationality").getAsString());
-                    Date dob = Validator.isDateValid(jobject.get("dateofbirth").getAsString());
+                    Date dob = Validator.isDateValid(jobject.get("date_of_birth").getAsString());
                     String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
                     //Create new contact object

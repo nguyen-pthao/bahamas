@@ -97,9 +97,9 @@ public class AddEmail extends HttpServlet {
                         return;
                     } else {
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("emailremarks").getAsString());
+                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
 

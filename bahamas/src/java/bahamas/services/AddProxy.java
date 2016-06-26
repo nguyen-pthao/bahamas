@@ -86,8 +86,8 @@ public class AddProxy extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int proxyId = Validator.isIntValid(jobject.get("proxyof").getAsString());
-                    int principalId = Validator.isIntValid(jobject.get("principalof").getAsString());
+                    int proxyId = Validator.isIntValid(jobject.get("proxy_of").getAsString());
+                    int principalId = Validator.isIntValid(jobject.get("principal_of").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact proxy = cDAO.retrieveContactById(proxyId);
@@ -99,7 +99,7 @@ public class AddProxy extends HttpServlet {
                         return;
                     } else {
                      
-                        String proxyStanding = Validator.containsBlankField(jobject.get("proxystanding").getAsString());
+                        String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                         Date dateObosolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
