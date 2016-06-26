@@ -120,12 +120,12 @@ public class RetrieveContactIndiv extends HttpServlet {
                     json.addProperty("message", "success");
                                            
                     if (contact.isIsAdmin()) { //Admin
-                        JsonArray contactArray = retrieveByAdminTmEl(viewContact);
+                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                        JsonArray contactArray = retrieveByAdminTmEl(viewContact);
+                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, false);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
@@ -136,7 +136,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
                             if (permission.equals("eventleader")) { //Event leader
                                 // To be confirm
-                                JsonArray contactArray = retrieveByAdminTmEl(contact);
+                                JsonArray contactArray = retrieveByAdminTmEl(contact, false);
                                 json.add("contact", contactArray);
                                 out.println(gson.toJson(json));
                                 return;
@@ -166,11 +166,13 @@ public class RetrieveContactIndiv extends HttpServlet {
     }
     
     
-    private static JsonArray retrieveByAdminTmEl(Contact contact) {
+    private static JsonArray retrieveByAdminTmEl(Contact contact, boolean isAdmin) {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+        SimpleDateFormat sdft = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
-        JsonArray jsonObjList = new JsonArray();
+        JsonArray jsonObjPhone = new JsonArray();
+        JsonArray jsonObjEmail = new JsonArray();
 
         ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(contact);
         ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(contact);
@@ -287,6 +289,9 @@ public class RetrieveContactIndiv extends HttpServlet {
         jsonContactObj = new JsonObject();
         jsonContactObj.addProperty("other_cid", contact.getContactId());
         jsonContactObj.addProperty("name", name);
+        if (isAdmin){
+            jsonContactObj.addProperty("nric_fin", contact.getNric());
+        }
         jsonContactObj.addProperty("alt_name", altName);
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
@@ -322,8 +327,10 @@ public class RetrieveContactIndiv extends HttpServlet {
                 } else {
                     jsonPhoneObj.addProperty("date_obsolete", "");
                 }
-                jsonObjList.add(jsonPhoneObj);
-                jsonContactObj.add("phone", jsonObjList);
+                jsonPhoneObj.addProperty("created_by", phone.getCreatedBy());
+                jsonPhoneObj.addProperty("date_created", sdft.format(phone.getDateCreated()));    
+                jsonObjPhone.add(jsonPhoneObj);
+                jsonContactObj.add("phone", jsonObjPhone);
             }
 
         } else {
@@ -332,10 +339,40 @@ public class RetrieveContactIndiv extends HttpServlet {
         
         
         
+        if (!emailList.isEmpty()) {
+            
+            for (int i = 0; i < emailList.size(); i++) {
+                JsonObject jsonEmailObj = new JsonObject();
+                Email email = emailList.get(i);
+                //phoneStr += "+" + phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
+                jsonEmailObj.addProperty("email", email.getEmail());
+                
+                //jsonPhoneObj.addProperty("remarks", phone.getRemarks());
+                
+                if (email.getRemarks() != null) {
+                    jsonEmailObj.addProperty("remarks", email.getRemarks());
+                } else {
+                    jsonEmailObj.addProperty("remarks", "");
+                }
+                
+                if (email.getDateObsolete() != null) {
+                    jsonEmailObj.addProperty("date_obsolete", sdf.format(email.getDateCreated()));
+                } else {
+                    jsonEmailObj.addProperty("date_obsolete", "");
+                }
+                jsonEmailObj.addProperty("created_by", email.getCreatedBy());
+                jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));    
+                jsonObjEmail.add(jsonEmailObj);
+                jsonContactObj.add("email", jsonObjEmail);
+            }
+
+        } else {
+            jsonContactObj.addProperty("email", "");
+        }
+       
         
         
-        
-        jsonContactObj.addProperty("email", emailStr);
+        //jsonContactObj.addProperty("email", emailStr);
         jsonContactObj.addProperty("address", addressStr);
         jsonContactObj.addProperty("remarks", remarks);
         contactArray.add(jsonContactObj);
