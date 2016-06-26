@@ -10,6 +10,22 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', function ($sc
         $scope.contact = session.getSession('contactToDisplay');
         $scope.permission = session.getSession('userType');
 
+        if (session.getSession('teams') === 'undefined') {
+            var contactToRetrieve = {
+                'token': session.getSession('token'),
+                'cid': angular.fromJson(session.getSession('contact')).cid,
+                'teamname': "",
+                'permission': session.getSession('userType')
+            };
+        } else {
+            var contactToRetrieve = {
+                'token': session.getSession('token'),
+                'cid': angular.fromJson(session.getSession('contact')).cid,
+                'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
+                'permission': session.getSession('userType')
+            };
+        }
+        
         $scope.isAuthorised = false;
         if ($scope.permission === 'admin') {
             $scope.isAuthorised = true;
@@ -29,8 +45,8 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', function ($sc
         $scope.viewContact = function () {
             $state.go(toAllContacts);
         };
-        
-        $scope.editContact = function() {
+
+        $scope.editContact = function () {
             $state.go(editContact);
         };
     }]);

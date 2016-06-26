@@ -12,7 +12,7 @@ app.filter('dateFilter', function () {
     return function (input, dateStart, dateEnd) {
         var retArray = [];
         angular.forEach(input, function (obj) {
-            var receivedDate = obj.Date;
+            var receivedDate = obj.date;
             var parsedDate = new Date(receivedDate);
             if (parsedDate >= dateStart && parsedDate <= dateEnd) {
                 retArray.push(obj);
@@ -70,7 +70,7 @@ app.controller('viewAuditLog',
                             }
                             var newArray = [];
                             angular.forEach($scope.allFiltered, function (obj) {
-                                var receivedDate = obj.Date;
+                                var receivedDate = obj.date;
                                 var parsedDate = new Date(receivedDate);
                                 if (parsedDate >= $scope.dateStart && parsedDate <= $scope.dateEnd) {
                                     newArray.push(obj);
@@ -102,7 +102,7 @@ app.controller('viewAuditLog',
                                 $scope.dateEnd = end;
                             }
                             angular.forEach($scope.allFiltered, function (obj) {
-                                var receivedDate = obj.Date;
+                                var receivedDate = obj.date;
                                 var parsedDate = new Date(receivedDate);
                                 if (parsedDate >= $scope.dateStart && parsedDate <= $scope.dateEnd) {
                                     newArray.push(obj);
@@ -126,7 +126,7 @@ app.controller('viewAuditLog',
                         $scope.$watch('searchAudit', function (term) {
                             var newArray = [];
                             angular.forEach($scope.allFiltered, function (obj) {
-                                var receivedDate = obj.Date;
+                                var receivedDate = obj.date;
                                 var parsedDate = new Date(receivedDate);
                                 if (parsedDate >= $scope.dateStart && parsedDate <= $scope.dateEnd) {
                                     newArray.push(obj);
