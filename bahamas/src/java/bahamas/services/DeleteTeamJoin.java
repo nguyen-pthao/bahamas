@@ -6,9 +6,11 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.*;
+import bahamas.dao.EmailDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
-import bahamas.entity.*;
+import bahamas.entity.Email;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,7 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -28,13 +29,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
-public class AddAddress extends HttpServlet {
 
+@WebServlet(name = "DeleteTeamJoin", urlPatterns = {"/teamjoin.delete"})
+public class DeleteTeamJoin extends HttpServlet {
+
+    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -91,23 +90,17 @@ public class AddAddress extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
-                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
-                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
-
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
-                        Address newAddress = new Address(c, country, zipCode, address,
-                                username, addressRemarks, dateObsolete);
-
-                        if (AddressDAO.addAddress(newAddress)) {
+                        String team = Validator.containsBlankField(jobject.get("team").getAsString());
+                        
+                        if (TeamJoinDAO.deleteTeamJoin(contactId, team)) {
+                            //change contact to a non novice account
+                            //cDAO.changePermission(c, false);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

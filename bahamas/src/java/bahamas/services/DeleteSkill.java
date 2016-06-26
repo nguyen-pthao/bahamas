@@ -5,9 +5,7 @@
  */
 package bahamas.services;
 
-import bahamas.dao.ContactDAO;
 import bahamas.dao.*;
-import bahamas.entity.Contact;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -19,7 +17,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -28,13 +25,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
-public class AddAddress extends HttpServlet {
-
+@WebServlet(name = "DeleteSkill", urlPatterns = {"/skill.delete"})
+public class DeleteSkill extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +39,8 @@ public class AddAddress extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -87,39 +77,34 @@ public class AddAddress extends HttpServlet {
 
                 } else {
                     //Verified token
+
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset").getAsString());
+
+                    //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
-                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
-                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
-                        Address newAddress = new Address(c, country, zipCode, address,
-                                username, addressRemarks, dateObsolete);
-
-                        if (AddressDAO.addAddress(newAddress)) {
+                        if (SkillDAO.deleteSkill(contactId, skillsAsset)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
-
                     }
 
                 }
             }
 
+            //}
         }
     }
 

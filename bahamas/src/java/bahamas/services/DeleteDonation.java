@@ -5,10 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.*;
+import bahamas.dao.DonationDAO;
+import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
-import bahamas.entity.*;
+import bahamas.entity.Donation;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,8 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,11 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author huxley.goh
+ * @author HUXLEY
  */
-@WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
-public class AddAddress extends HttpServlet {
-
+@WebServlet(name = "DeleteDonation", urlPatterns = {"/donation.delete"})
+public class DeleteDonation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -91,23 +90,15 @@ public class AddAddress extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
-                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
-                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
-
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
-                        Address newAddress = new Address(c, country, zipCode, address,
-                                username, addressRemarks, dateObsolete);
-
-                        if (AddressDAO.addAddress(newAddress)) {
+                        int donation_id = Validator.isIntValid(jobject.get("donation_id").getAsString());
+                        
+                        if (DonationDAO.deleteDonation(donation_id)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

@@ -6,9 +6,9 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.*;
+import bahamas.dao.PhoneDAO;
 import bahamas.entity.Contact;
-import bahamas.entity.*;
+import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -30,11 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author huxley.goh
+ * @author Darryl Mok
  */
-@WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
-public class AddAddress extends HttpServlet {
-
+@WebServlet(name = "DeletePhone", urlPatterns = {"/phone.delete"})
+public class DeletePhone extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -49,8 +48,6 @@ public class AddAddress extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -91,23 +88,16 @@ public class AddAddress extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+                    Phone newPhone = null;
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
-                        return;
                     } else {
-                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
-                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
-                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
-                        Address newAddress = new Address(c, country, zipCode, address,
-                                username, addressRemarks, dateObsolete);
-
-                        if (AddressDAO.addAddress(newAddress)) {
+                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
+                       
+                        if (PhoneDAO.deletePhone(contactId, phoneNumber)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
@@ -123,7 +113,7 @@ public class AddAddress extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

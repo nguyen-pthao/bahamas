@@ -6,8 +6,8 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.*;
-import bahamas.entity.Contact;
+import bahamas.dao.EmailDAO;
+import bahamas.dao.PhoneDAO;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -28,13 +28,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
-public class AddAddress extends HttpServlet {
 
+@WebServlet(name = "DeleteEmail", urlPatterns = {"/email.delete"})
+public class DeleteEmail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -91,23 +87,16 @@ public class AddAddress extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String address = Validator.containsBlankField(jobject.get("address").getAsString());
-                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
-                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
+                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
-                        Address newAddress = new Address(c, country, zipCode, address,
-                                username, addressRemarks, dateObsolete);
 
-                        if (AddressDAO.addAddress(newAddress)) {
+                        if (EmailDAO.deleteEmail(contactId,email)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

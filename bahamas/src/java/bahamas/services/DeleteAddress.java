@@ -30,10 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author huxley.goh
+ * @author darryl.mok
  */
-@WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
-public class AddAddress extends HttpServlet {
+@WebServlet(name = "DeleteAddress", urlPatterns = {"/address.delete"})
+public class DeleteAddress extends HttpServlet {
 
 
     /**
@@ -98,16 +98,8 @@ public class AddAddress extends HttpServlet {
                         return;
                     } else {
                         String address = Validator.containsBlankField(jobject.get("address").getAsString());
-                        String country = Validator.containsBlankField(jobject.get("country").getAsString());
-                        String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
-                        String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
-                        Address newAddress = new Address(c, country, zipCode, address,
-                                username, addressRemarks, dateObsolete);
-
-                        if (AddressDAO.addAddress(newAddress)) {
+                        if (AddressDAO.deleteAddress(contactId,address)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
