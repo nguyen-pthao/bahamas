@@ -123,4 +123,69 @@ public class PhoneDAO {
         this.phoneList = phoneList;
     }
 
+    public static boolean updatePhone(Phone p) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE PHONE SET "
+                    + "COUNTRY_CODE=?,REMARKS=?,DATE_OBSOLETE=? "
+                    + "WHERE CONTACT_ID=? AND PHONE_NUMBER=?");
+
+            stmt.setInt(1, p.getCountryCode());
+            stmt.setString(2, p.getRemarks());
+
+            if (p.getDateObsolete() != null) {
+                stmt.setDate(3, new java.sql.Date(p.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(3, null);
+            }
+
+            stmt.setInt(4, p.getContact().getContactId());
+            stmt.setString(5, p.getPhoneNumber());
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+     public static boolean deletePhone(int id, String phone) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM PHONE "
+                    + "WHERE CONTACT_ID=? AND PHONE_NUMBER=?");
+
+            stmt.setInt(1, id);
+            stmt.setString(2, phone);
+   
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
 }

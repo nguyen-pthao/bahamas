@@ -105,4 +105,66 @@ public class EmailDAO {
 
     }
 
+    public static boolean updateEmail(Email e) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE EMAIL SET REMARKS=?,DATE_OBSOLETE=?"
+                    + " WHERE CONTACT_ID=? AND EMAIL=?");
+
+            stmt.setString(1, e.getRemarks());
+
+            if (e.getDateObsolete() != null) {
+                stmt.setDate(2, new java.sql.Date(e.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(2, null);
+            }
+            stmt.setInt(3, e.getContact().getContactId());
+            stmt.setString(4, e.getEmail());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteEmail(int id,String email) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM EMAIL"
+                    + " WHERE CONTACT_ID=? AND EMAIL=?");
+      
+            stmt.setInt(1, id);
+            stmt.setString(2, email);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
 }

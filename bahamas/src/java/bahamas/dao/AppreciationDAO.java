@@ -53,9 +53,8 @@ public class AppreciationDAO {
             stmt.setString(8, a.getAppreciationBy());
             if (a.getAppreciationDate() != null) {
                 stmt.setDate(9, new java.sql.Date(a.getAppreciationDate().getTime()));
-            }
-            else{
-                stmt.setDate(9,null);
+            } else {
+                stmt.setDate(9, null);
             }
             stmt.setString(10, a.getRemarks());
 
@@ -70,9 +69,8 @@ public class AppreciationDAO {
         }
         return false;
     }
-    
-    
-        public static ArrayList<Appreciation> retrieveAppreciation(int cid) {
+
+    public static ArrayList<Appreciation> retrieveAppreciation(int cid) {
         ArrayList<Appreciation> appreciationList = new ArrayList<Appreciation>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -86,7 +84,7 @@ public class AppreciationDAO {
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int appreciationId = rs.getInt(1);
                 String appraisalComment = rs.getString(2);
                 String appraisalBy = rs.getString(3);
@@ -97,10 +95,8 @@ public class AppreciationDAO {
                 String remarks = rs.getString(8);
                 String createdBy = rs.getString(9);
                 Date dateCreated = rs.getTimestamp(10);
-                
-                
-                
-                Appreciation a = new Appreciation( appreciationId, appraisalComment, appraisalBy, appraisalDate, appreciationGesture, appreciationBy, appreciationDate, remarks, createdBy, dateCreated);
+
+                Appreciation a = new Appreciation(appreciationId, appraisalComment, appraisalBy, appraisalDate, appreciationGesture, appreciationBy, appreciationDate, remarks, createdBy, dateCreated);
 
                 appreciationList.add(a);
             }
@@ -116,6 +112,76 @@ public class AppreciationDAO {
 
     }
 
-    
+    public static boolean updateAppreciation(Appreciation a) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE APPRECIATION SET CONTACT_ID=?,"
+                    + "APPRAISAL_COMMENTS=?,APPRAISAL_BY=?,APPRAISAL_DATE=?,"
+                    + "APPRAISAL_GESTURE=?,APPRECIATION_BY=?,APPRECIATION_DATE=?,REMARKS=? "
+                    + "WHERE APPRECIATION_ID=?");
+
+            stmt.setInt(1, a.getContact().getContactId());
+            stmt.setString(2, a.getAppraisalComments());
+            stmt.setString(3, a.getAppraisalBy());
+            if (a.getAppraisalDate() != null) {
+                stmt.setDate(4, new java.sql.Date(a.getAppraisalDate().getTime()));
+            } else {
+                stmt.setDate(4, null);
+            }
+            stmt.setString(5, a.getAppreciationGesture());
+            stmt.setString(6, a.getAppreciationBy());
+            if (a.getAppreciationDate() != null) {
+                stmt.setDate(7, new java.sql.Date(a.getAppreciationDate().getTime()));
+            } else {
+                stmt.setDate(7, null);
+            }
+            stmt.setString(8, a.getRemarks());
+            stmt.setInt(9, a.getAppreciationId());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteAppreciation(int id) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM APPRECIATION "
+                    + "WHERE APPRECIATION_ID=?");
+            
+            stmt.setInt(1, id);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
     
 }

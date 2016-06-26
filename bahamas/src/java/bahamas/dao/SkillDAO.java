@@ -47,9 +47,9 @@ public class SkillDAO {
             } else {
                 stmt.setDate(6, null);
             }
-            
+
             stmt.setString(7, sa.getSkillName());
-            
+
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -61,7 +61,7 @@ public class SkillDAO {
         }
         return false;
     }
-    
+
     public static ArrayList<SkillAssignment> retrieveSkillByCID(int cid) {
 
         Connection conn = null;
@@ -69,7 +69,7 @@ public class SkillDAO {
         ResultSet rs = null;
         ArrayList<SkillAssignment> skillList;
         skillList = new ArrayList<SkillAssignment>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT SKILL_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
@@ -78,7 +78,7 @@ public class SkillDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 String skillName = rs.getString(1);
                 String explainIfOther = rs.getString(2);
                 Date dateObsolete = rs.getDate(3);
@@ -98,6 +98,71 @@ public class SkillDAO {
         }
         return skillList;
     }
-    
-    
+
+    public static boolean updateSkill(SkillAssignment sa) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE SKILL_ASSIGNMENT SET "
+                    + "EXPLAIN_IF_OTHER=?,REMARKS=?,DATE_OBSOLETE=? "
+                    + "WHERE CONTACT_ID=? AND SKILL_NAME=?");
+
+            stmt.setString(1, sa.getExplainIfOther());
+            stmt.setString(2, sa.getRemarks());
+
+            if (sa.getDateObsolete() != null) {
+                stmt.setDate(3, new java.sql.Date(sa.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(3, null);
+            }
+
+            stmt.setInt(4, sa.getContact().getContactId());
+            stmt.setString(5, sa.getSkillName());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteSkill(int id, String skillName) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM SKILL_ASSIGNMENT "
+                    + "WHERE CONTACT_ID=? AND SKILL_NAME=?");
+
+            stmt.setInt(1, id);
+            stmt.setString(2, skillName);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
 }

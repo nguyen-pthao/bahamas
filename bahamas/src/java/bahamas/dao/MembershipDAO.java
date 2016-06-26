@@ -25,7 +25,6 @@ import java.util.logging.Logger;
 public class MembershipDAO {
 
     public MembershipDAO() {
-
     }
 
     public static ArrayList<Membership> retrieveAllMembership() {
@@ -226,6 +225,95 @@ public class MembershipDAO {
             stmt.setString(15, m.getPaymentModeName());
             stmt.setString(16, m.getRemarks());
 
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean updateMembership(Membership m) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE MEMBERSHIP SET EXPLAIN_IF_OTHER_CLASS=?,START_MEMBERSHIP=?,END_MEMBERSHIP=?,"
+                    + "SUBSCRIPTION_AMOUNT=?,EXPLAIN_IF_OTHER_PAYMENT=?,EXT_TRANSACTION_REF=?,RECEIPT_NUMBER=?,RECEIPT_DATE=?,"
+                    + "EXPLAIN_IF_OTHER_RECEIPT=?,RECEIPT_MODE_NAME=?,MEMBERSHIP_CLASS_NAME=?,PAYMENT_MODE_NAME=?,REMARK=? "
+                    + "WHERE CONTACT_ID=? AND DATE_CREATED=?");
+
+        
+            stmt.setString(1, m.getExplainIfOtherClass());
+
+            if (m.getStartMembership() != null) {
+                stmt.setDate(2, new java.sql.Date(m.getStartMembership().getTime()));
+            } else {
+                stmt.setDate(2, null);
+            }
+
+            if (m.getEndMembership() != null) {
+                stmt.setDate(3, new java.sql.Date(m.getEndMembership().getTime()));
+            } else {
+                stmt.setDate(3, null);
+            }
+
+            stmt.setDouble(4, m.getSubscriptionAmount());
+            stmt.setString(5, m.getExplainIfOtherPayment());
+            stmt.setString(6, m.getExtTransactionRef());
+            stmt.setString(7, m.getReceiptNumber());
+
+            if (m.getReceiptDate() != null) {
+                stmt.setDate(8, new java.sql.Date(m.getReceiptDate().getTime()));
+            } else {
+                stmt.setDate(8, null);
+            }
+
+            stmt.setString(9, m.getExplainIfOtherReceipt());
+            stmt.setString(10, m.getReceiptModeName());
+            stmt.setString(11, m.getMembershipClassName());
+            stmt.setString(12, m.getPaymentModeName());
+            stmt.setString(13, m.getRemarks());
+            stmt.setInt(14, m.getContact().getContactId());
+            stmt.setTimestamp(15, new java.sql.Timestamp(m.getDateCreated().getTime()));
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
+    public static boolean deleteMembership(int id, Date dateCreated) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM MEMBERSHIP WHERE CONTACT_ID=? AND DATE_CREATED=?");
+                  
+
+            stmt.setInt(1, id);
+            stmt.setTimestamp(2, new java.sql.Timestamp(dateCreated.getTime()));
+            
             result = stmt.executeUpdate();
 
             return result == 1;

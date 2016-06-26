@@ -69,7 +69,7 @@ public class AddressDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        
+
         int cid = contact.getContactId();
         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
@@ -80,7 +80,7 @@ public class AddressDAO {
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 String zipcode = rs.getString(1);
                 String address = rs.getString(2);
                 String country = rs.getString(3);
@@ -88,17 +88,17 @@ public class AddressDAO {
                 String createdBy = rs.getString(5);
                 String dateobs = rs.getString(6);
                 Date dateObsolete = null;
-                if (dateobs != null && !dateobs.isEmpty()){
+                if (dateobs != null && !dateobs.isEmpty()) {
                     dateObsolete = date.parse(dateobs);
                 }
                 String dateStr = rs.getString(7);
                 Date dateCreated = datetime.parse(dateStr);
-               
-                Address a = new Address(zipcode, address, country, remarks, createdBy, dateObsolete,dateCreated);
-                
+
+                Address a = new Address(zipcode, address, country, remarks, createdBy, dateObsolete, dateCreated);
+
                 addressList.add(a);
             }
-            
+
         } catch (ParseException e) {
             e.printStackTrace();
         } catch (SQLException ex) {
@@ -109,7 +109,73 @@ public class AddressDAO {
         }
 
         return addressList;
-        
+
     }
-    
+
+    public static boolean updateAddress(Address a) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE ADDRESS COUNTRY=?,"
+                    + "ZIPCODE=?,REMARKS=?,DATE_OBSOLETE=? WHERE CONTACT_ID=? AND ADDRESS=?");
+
+            stmt.setString(1, a.getCountry());
+            stmt.setString(2, a.getZipcode());
+            stmt.setString(3, a.getRemarks());
+
+            if (a.getDateObsolete() != null) {
+                stmt.setDate(4, new java.sql.Date(a.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(4, null);
+            }
+
+            stmt.setInt(5, a.getContact().getContactId());
+            stmt.setString(6, a.getAddress());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteAddress(int cid,String address) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM ADDRESS "
+                    + "WHERE CONTACT_ID=? AND ADDRESS=?");
+        
+            stmt.setInt(1, cid);
+            stmt.setString(2,address);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
 }

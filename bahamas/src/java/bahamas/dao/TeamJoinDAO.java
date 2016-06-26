@@ -65,7 +65,7 @@ public class TeamJoinDAO {
 
                 TeamJoin teamJoin = new TeamJoin(c, teamName, dateCreated,
                         createdBy, explainIfOthers, subTeam, dateObsolete,
-                        remarks, permission,approval);
+                        remarks, permission, approval);
 
                 teamJoinList.add(teamJoin);
             }
@@ -113,6 +113,77 @@ public class TeamJoinDAO {
 
             stmt.setString(8, t.getRemarks());
             //stmt.setString(9, t.getPermission());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+
+    }
+
+    public static boolean updateTeamJoin(TeamJoin t) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE TEAM_JOIN SET "
+                    + "EXPLAIN_IF_OTHER=?,SUBTEAM=?,DATE_OBSOLETE=?,REMARKS=?,PERMISSION=? "
+                    + "WHERE CONTACT_ID=? AND TEAM_NAME=?");
+
+            stmt.setString(1, t.getExplainIfOthers());
+            stmt.setString(2, t.getSubTeam());
+
+            if (t.getDateObsolete() != null) {
+                stmt.setDate(3, new java.sql.Date(t.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(3, null);
+            }
+
+            stmt.setString(4, t.getRemarks());
+            stmt.setString(5, t.getPermission());
+
+            stmt.setInt(6, t.getContact().getContactId());
+            stmt.setString(7, t.getTeamName());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+
+    }
+    
+    public static boolean deleteTeamJoin(int id, String teamName) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM TEAM_JOIN "
+                    + "WHERE CONTACT_ID=? AND TEAM_NAME=?");
+
+            stmt.setInt(1, id);
+            stmt.setString(2, teamName);
 
             result = stmt.executeUpdate();
 

@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  * @author HUXLEY
  */
 public class LanguageDAO {
-    
-     public static boolean addLanguage(LanguageAssignment la) {
+
+    public static boolean addLanguage(LanguageAssignment la) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -40,16 +40,16 @@ public class LanguageDAO {
             stmt.setString(3, la.getCreatedBy());
             stmt.setString(4, la.getExplainIfOther());
             stmt.setString(5, la.getRemarks());
-           
+
             if (la.getDateObsolete() != null) {
                 stmt.setDate(6, new java.sql.Date(la.getDateObsolete().getTime()));
-            }else {
+            } else {
                 stmt.setDate(6, null);
             }
-            
-            stmt.setString(7,la.getProficiency());
+
+            stmt.setString(7, la.getProficiency());
             stmt.setString(8, la.getLanguage());
-            
+
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -61,15 +61,15 @@ public class LanguageDAO {
         }
         return false;
     }
-     
-     public static ArrayList<LanguageAssignment> retrieveLanguageByCID(int cid) {
+
+    public static ArrayList<LanguageAssignment> retrieveLanguageByCID(int cid) {
 
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         ArrayList<LanguageAssignment> languageList;
         languageList = new ArrayList<LanguageAssignment>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT LANGUAGE_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
@@ -78,7 +78,7 @@ public class LanguageDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 String languageName = rs.getString(1);
                 String explainIfOther = rs.getString(2);
                 Date dateObsolete = rs.getDate(3);
@@ -98,5 +98,71 @@ public class LanguageDAO {
         }
         return languageList;
     }
-             
+
+    public static boolean updateLanguage(LanguageAssignment la) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE LANGUAGE_ASSIGNMENT SET EXPLAIN_IF_OTHER=?,"
+                    + "REMARKS=?,DATE_OBSOLETE=?,PROFICIENCY=? "
+                    + "WHERE CONTACT_ID=? AND LANGUAGE_NAME=?");
+
+            stmt.setString(1, la.getExplainIfOther());
+            stmt.setString(2, la.getRemarks());
+
+            if (la.getDateObsolete() != null) {
+                stmt.setDate(3, new java.sql.Date(la.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(3, null);
+            }
+
+            stmt.setString(4, la.getProficiency());
+            stmt.setInt(5, la.getContact().getContactId());
+            stmt.setString(6, la.getLanguage());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteLanguage(int id, String name) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM LANGUAGE_ASSIGNMENT WHERE CONTACT_ID=? AND LANGUAGE_NAME=?");
+
+            stmt.setInt(1, id);
+            stmt.setString(2, name);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
 }

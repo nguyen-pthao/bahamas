@@ -285,7 +285,7 @@ public class ContactDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("DELETE FROM CONTACT WHERE CONTACT_ID = (?)");
             stmt.setInt(1, id);
-           
+
             return stmt.executeUpdate() == 1;
 
         } catch (SQLException ex) {
@@ -295,6 +295,51 @@ public class ContactDAO {
         }
         return false;
 
+    }
+
+    public static boolean updateContact(Contact c) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE CONTACT SET CONTACT_TYPE=?,ISADMIN=?,"
+                    + "NAME=?,ALT_NAME=?,EXPLAIN_IF_OTHER=?,PROFESSION=?,"
+                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,PROFILE_PIC=?,REMARKS=?,USERNAME=?"
+                    + ",PASSWORD=?,SALT=? WHERE CONTACT_ID=?");
+
+            stmt.setString(1, c.getContactType());
+            stmt.setBoolean(2, c.isIsAdmin());
+            stmt.setString(3, c.getName());
+            stmt.setString(4, c.getAltName());
+            stmt.setString(5, c.getExplainIfOther());
+            stmt.setString(6, c.getProfession());
+            stmt.setString(7, c.getJobTitle());
+            stmt.setString(8, c.getNric());
+            stmt.setString(9, c.getGender());
+            stmt.setString(10, c.getNationality());
+            if (c.getDateOfBirth() != null) {
+                stmt.setDate(11, new java.sql.Date(c.getDateOfBirth().getTime()));
+            } else {
+                stmt.setDate(11, null);
+            }
+            stmt.setString(12, c.getProfilePic());
+            stmt.setString(13, c.getRemarks());
+            stmt.setString(14, c.getUsername());
+            stmt.setString(15, c.getPassword());
+            stmt.setString(16, c.getSalt());
+            stmt.setInt(17, c.getContactId());
+         
+            return stmt.executeUpdate()==1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
     }
 
 }

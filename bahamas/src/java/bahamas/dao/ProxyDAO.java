@@ -96,7 +96,7 @@ public class ProxyDAO {
         }
         return proxyList;
     }
-    
+
     public static ArrayList<Proxy> retrieveByPrincipalCID(int cid) {
 
         Connection conn = null;
@@ -132,6 +132,69 @@ public class ProxyDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return principalList;
+    }
+
+    public static boolean updateProxy(Proxy p) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE PROXY SET "
+                    + "PROXY_STANDING=?,DATE_OBSOLETE=?,REMARKS=? "
+                    + "WHERE PRINCIPAL_ID=? AND PROXY_ID=?");
+
+            stmt.setString(1, p.getProxyStanding());
+            if (p.getDateObsolete() != null) {
+                stmt.setDate(2, new java.sql.Date(p.getDateObsolete().getTime()));
+            } else {
+                stmt.setDate(2, null);
+            }
+
+            stmt.setString(3, p.getRemarks());
+            stmt.setInt(4, p.getPrincipal().getContactId());
+            stmt.setInt(5, p.getProxy().getContactId());
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteProxy(int principalId, int proxyId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM PROXY "
+                    + "WHERE PRINCIPAL_ID=? AND PROXY_ID=?");
+
+            stmt.setInt(1,principalId);
+            stmt.setInt(2,proxyId);
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
     }
 
 }

@@ -96,7 +96,7 @@ public class DonationDAO {
                     + "DONOR_INSTRUCTIONS, ALLOCATION_1, SUBAMOUNT_1, ALLOCATION_2, SUBAMOUNT_2, "
                     + "ALLOCATION_3, SUBAMOUNT_3, ASSOCIATED_OCCASION, REMARKS FROM DONATION "
                     + "WHERE CONTACT_ID = (?) ");
-            
+
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();
@@ -137,4 +137,88 @@ public class DonationDAO {
         return donationList;
     }
 
+    public static boolean updateDonation(Donation d) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE DONATION SET CONTACT_ID=?"
+                    + "DATE_RECEIVED=?,DONATION_AMOUNT=?,PAYMENT_MODE_NAME=?,"
+                    + "EXPLAIN_IF_OTHER_PAYMENT=?,EXT_TRANSACTION_REF=?,RECEIPT_NUMBER=?,RECEIPT_DATE=?,"
+                    + "RECEIPT_MODE_NAME=?,EXPLAIN_IF_OTHER_RECEIPT=?,DONOR_INSTRUCTIONS=?,ALLOCATION_1=?,SUBAMOUNT_1=?,"
+                    + "ALLOCATION_2=?,SUBAMOUNT_2=?,ALLOCATION_3=?,SUBAMOUNT_3=?,ASSOCIATED_OCCASION=?,REMARKS=? WHERE "
+                    + "DONATION_ID=?");
+
+            stmt.setInt(1, d.getContact().getContactId());
+            if (d.getDateReceived() != null) {
+                stmt.setDate(2, new java.sql.Date(d.getDateReceived().getTime()));
+            } else {
+                stmt.setDate(2, null);
+            }
+            stmt.setDouble(3, d.getDonationAmount());
+            stmt.setString(4, d.getPaymentMode());
+            stmt.setString(5, d.getExplainIfOtherPayment());
+            stmt.setString(6, d.getExtTransactionRef());
+            stmt.setString(7, d.getReceiptNumber());
+            if (d.getReceiptDate() != null) {
+                stmt.setDate(8, new java.sql.Date(d.getReceiptDate().getTime()));
+            } else {
+                stmt.setDate(8, null);
+            }
+            stmt.setString(9, d.getReceiptMode());
+            stmt.setString(10, d.getExplainIfOtherReceipt());
+            stmt.setString(11, d.getDonorInstructions());
+            stmt.setString(12, d.getAllocation1());
+            stmt.setDouble(13, d.getSubAmount1());
+            stmt.setString(14, d.getAllocation2());
+            stmt.setDouble(15, d.getSubAmount2());
+            stmt.setString(16, d.getAllocation3());
+            stmt.setDouble(17, d.getSubAmount3());
+            stmt.setString(18, d.getAssociatedOccasion());
+            stmt.setString(19, d.getRemarks());
+            stmt.setInt(20, d.getContact().getContactId());
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static boolean deleteDonation(int id) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM DONATION WHERE "
+                    + "DONATION_ID=?");
+           
+            stmt.setInt(1, id);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
 }

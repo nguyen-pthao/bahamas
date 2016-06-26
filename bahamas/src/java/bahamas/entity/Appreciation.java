@@ -54,6 +54,18 @@ public class Appreciation {
         this.createdBy = createdBy;
     }
     
+    public Appreciation(int appreciationId, String appraisalComment, String appraisalBy, Date appraisalDate, String appreciationGesture, String appreciationBy, Date appreciationDate, String remarks, String createdBy, Date dateCreated) {
+        this.appreciationId = appreciationId;
+        this.appraisalComment = appraisalComment;
+        this.appraisalBy = appraisalBy;
+        this.appraisalDate = appraisalDate;
+        this.appreciationGesture = appreciationGesture;
+        this.appreciationBy = appreciationBy;
+        this.appreciationDate = appreciationDate;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
     
     public int getAppreciationId() {
         return appreciationId;
