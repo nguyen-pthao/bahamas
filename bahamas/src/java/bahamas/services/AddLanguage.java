@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.add"})
+@WebServlet(name = "AddLanguage", urlPatterns = {"/language.add"})
 public class AddLanguage extends HttpServlet {
 
     /**

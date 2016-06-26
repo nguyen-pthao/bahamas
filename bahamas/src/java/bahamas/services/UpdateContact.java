@@ -5,17 +5,12 @@
  */
 package bahamas.services;
 
-import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
+import bahamas.dao.*;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
+import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -28,12 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+@WebServlet(name = "UpdateContact", urlPatterns = {"/contact.update"})
+public class UpdateContact extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +37,8 @@ public class AddEmail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -85,25 +74,33 @@ public class AddEmail extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 } else {
-                    //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+
                     ContactDAO cDAO = new ContactDAO();
-
-                    Contact c = cDAO.retrieveContactById(contactId);
-
-                    if (c == null) {
+                    Contact user = cDAO.retrieveContactByUsername(username);
+                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                    if (!user.isIsAdmin() || !(userType.equals("teammanager") && RoleCheckDAO.checkRole(user.getContactId(),userType))) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
+                    } 
+                                   
+                    String name = Validator.containsBlankField(jobject.get("name").getAsString());
+                    String altName = Validator.containsBlankField(jobject.get("alt_name").getAsString());
+                    String contactType = Validator.containsBlankField(jobject.get("contact_type").getAsString());
+                    String otherExplanation = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
+                    String profession = Validator.containsBlankField(jobject.get("profession").getAsString());
+                    String jobTitle = Validator.containsBlankField(jobject.get("job_title").getAsString());
+                    String nric = Validator.containsBlankField(jobject.get("nric_fin").getAsString());
+                    String gender = Validator.containsBlankField(jobject.get("gender").getAsString());
+                    String nationality = Validator.containsBlankField(jobject.get("nationality").getAsString());
+                    Date dob = Validator.isDateValid(jobject.get("date_of_birth").getAsString());
+                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                    //Create new contact object
+                    Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
+                            jobTitle, nric, gender, nationality, dob, remarks);
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
+                    if (ContactDAO.updateContact(newContact)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
@@ -111,15 +108,14 @@ public class AddEmail extends HttpServlet {
                             out.println(gson.toJson(json));
                         }
 
-                    }
-
                 }
             }
 
+            //}
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

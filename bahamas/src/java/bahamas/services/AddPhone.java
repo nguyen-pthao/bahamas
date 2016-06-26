@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author huxley.goh
  */
-@WebServlet(name = "UpdatePhone", urlPatterns = {"/phone.add"})
+@WebServlet(name = "AddPhone", urlPatterns = {"/phone.add"})
 public class AddPhone extends HttpServlet {
 
     /**

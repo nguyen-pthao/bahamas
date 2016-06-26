@@ -6,9 +6,11 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
-import bahamas.entity.*;
+import bahamas.dao.DonationDAO;
+import bahamas.dao.MembershipDAO;
+import bahamas.entity.Contact;
+import bahamas.entity.Donation;
+import bahamas.entity.Membership;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,8 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,12 +28,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+
+@WebServlet(name = "UpdateMembership", urlPatterns = {"/membership.update"})
+public class UpdateMembership extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,14 +93,26 @@ public class AddEmail extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
+                        
+                        String membershipClass = Validator.containsBlankField(jobject.get("membership_class").getAsString());                    
+                        String explainIfOtherClass = Validator.containsBlankField(jobject.get("explain_if_other_class").getAsString());
+                        Date startMembership = Validator.isDateValid(jobject.get("start_membership").getAsString());
+                        Date endMembership = Validator.isDateValid(jobject.get("end_membership").getAsString());
+                        double subscriptionAmount = Validator.isDoubleValid(jobject.get("subscription_amount").getAsString());
+                        String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
+                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explain_if_other_payment").getAsString());
+                        String extTransactionRef = Validator.containsBlankField(jobject.get("ext_transaction_ref").getAsString());
+                        String receiptNumber = Validator.containsBlankField(jobject.get("receipt_number").getAsString());
+                        Date receiptDate = Validator.isDateValid(jobject.get("receipt_date").getAsString());
+                        String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode").getAsString());
+                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        
+                        Membership m = new Membership(c,startMembership,endMembership,receiptDate,subscriptionAmount,extTransactionRef,
+                        receiptNumber,remarks,receiptMode,explainIfOtherReceipt,membershipClass,explainIfOtherClass,paymentMode,explainIfOtherPayment,
+                        username);
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
+                        if (MembershipDAO.updateMembership(m)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

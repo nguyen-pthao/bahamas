@@ -28,12 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+@WebServlet(name = "UpdateEmail", urlPatterns = {"/email.update"})
+public class UpdateEmail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -103,7 +99,7 @@ public class AddEmail extends HttpServlet {
 
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
 
-                        if (EmailDAO.addEmail(newEmail)) {
+                        if (EmailDAO.updateEmail(newEmail)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

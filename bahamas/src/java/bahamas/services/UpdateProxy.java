@@ -5,10 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
-import bahamas.entity.*;
+import bahamas.dao.ProxyDAO;
+import bahamas.entity.Appreciation;
+import bahamas.entity.Contact;
+import bahamas.entity.Proxy;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,8 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,12 +28,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+
+@WebServlet(name = "UpdateProxy", urlPatterns = {"/proxy.update"})
+public class UpdateProxy extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -86,24 +83,26 @@ public class AddEmail extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int proxyId = Validator.isIntValid(jobject.get("proxy_of").getAsString());
+                    int principalId = Validator.isIntValid(jobject.get("principal_of").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
-                    Contact c = cDAO.retrieveContactById(contactId);
+                    Contact proxy = cDAO.retrieveContactById(proxyId);
+                    Contact principal = cDAO.retrieveContactById(principalId);
 
-                    if (c == null) {
+                    if (proxy == null || principal == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
+                     
+                        String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        Date dateObosolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                        Proxy p = new Proxy(proxy,principal,username,proxyStanding,dateObosolete,remarks);
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
+                        if (ProxyDAO.updateProxy(p)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

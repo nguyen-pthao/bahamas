@@ -5,10 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
-import bahamas.entity.*;
+import bahamas.dao.OfficeHeldDAO;
+import bahamas.entity.Appreciation;
+import bahamas.entity.Contact;
+import bahamas.entity.OfficeHeld;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,8 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -28,12 +28,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+
+@WebServlet(name = "UpdateOfficeHeld", urlPatterns = {"/officeheld.update"})
+public class UpdateOfficeHeld extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,14 +93,16 @@ public class AddEmail extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                        Date startOffice = Validator.isDateValid(jobject.get("start_office").getAsString());
+                        Date endOffice = Validator.isDateValid(jobject.get("end_office").getAsString());
+                        String officeHeld = Validator.containsBlankField(jobject.get("office_held_name").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
+                        OfficeHeld o = new OfficeHeld(c,startOffice,endOffice,remarks,username,officeHeld);
+                        
+                        
+                        if (OfficeHeldDAO.updateOfficeHeld(o)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

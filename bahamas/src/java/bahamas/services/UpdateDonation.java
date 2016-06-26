@@ -5,10 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
-import bahamas.entity.*;
+import bahamas.dao.DonationDAO;
+import bahamas.entity.Appreciation;
+import bahamas.entity.Contact;
+import bahamas.entity.Donation;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,8 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,10 +30,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author huxley.goh
+ * @author HUXLEY
  */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+@WebServlet(name = "UpdateDonation", urlPatterns = {"/donation.update"})
+public class UpdateDonation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -96,14 +96,31 @@ public class AddEmail extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
-
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
+                       
+                        Date dateReceived = Validator.isDateValid(jobject.get("date_received").getAsString());
+                        double donationAmount = Validator.isDoubleValid(jobject.get("donation_amount").getAsString());
+                        String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
+                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explain_if_other_payment").getAsString());
+                        String extTransactionRef = Validator.containsBlankField(jobject.get("ext_transaction_ref").getAsString());
+                        String receiptNumber = Validator.containsBlankField(jobject.get("receipt_number").getAsString());
+                        Date receiptDate = Validator.isDateValid(jobject.get("receipt_date").getAsString());
+                        String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode").getAsString());
+                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt").getAsString());
+                        String donorInstruction = Validator.containsBlankField(jobject.get("donor_instruction").getAsString());
+                        String allocation1 = Validator.containsBlankField(jobject.get("allocation1").getAsString());
+                        double subamount1 = Validator.isDoubleValid(jobject.get("subamount1").getAsString());
+                        String allocation2 = Validator.containsBlankField(jobject.get("allocation2").getAsString());
+                        double subamount2 = Validator.isDoubleValid(jobject.get("subamount2").getAsString());
+                        String allocation3 = Validator.containsBlankField(jobject.get("allocation3").getAsString());
+                        double subamount3 = Validator.isDoubleValid(jobject.get("subamount3").getAsString());
+                        String associatedOccasion = Validator.containsBlankField(jobject.get("associated_occasion").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        
+                        Donation d = new Donation(c,username,dateReceived,donationAmount,paymentMode,explainIfOtherPayment,
+                        extTransactionRef,receiptMode,receiptNumber,receiptDate,explainIfOtherReceipt,donorInstruction,allocation1,subamount1,
+                        allocation2,subamount2,allocation3,subamount3,associatedOccasion,remarks);
+                        
+                        if (DonationDAO.updateDonation(d)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

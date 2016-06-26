@@ -6,9 +6,11 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
-import bahamas.entity.*;
+import bahamas.dao.LanguageDAO;
+import bahamas.dao.SkillDAO;
+import bahamas.entity.Contact;
+import bahamas.entity.LanguageAssignment;
+import bahamas.entity.SkillAssignment;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,7 +21,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -28,12 +29,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/**
- *
- * @author huxley.goh
- */
-@WebServlet(name = "AddEmail", urlPatterns = {"/email.add"})
-public class AddEmail extends HttpServlet {
+@WebServlet(name = "UpdateLanguage", urlPatterns = {"/language.update"})
+public class UpdateLanguage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -46,10 +43,8 @@ public class AddEmail extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -86,7 +81,16 @@ public class AddEmail extends HttpServlet {
 
                 } else {
                     //Verified token
+
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    String language = Validator.containsBlankField(jobject.get("language").getAsString());
+                    String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
+                    String speakWrite = Validator.containsBlankField(jobject.get("speak_write").getAsString());
+                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+
+                    Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+
+                    //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -96,26 +100,23 @@ public class AddEmail extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
-                        String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                        LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
+                                dateObsolete, speakWrite, remarks, username);
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
+                        if (LanguageDAO.updateLanguage(la)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
-
                     }
 
                 }
             }
 
+            //}
         }
     }
 

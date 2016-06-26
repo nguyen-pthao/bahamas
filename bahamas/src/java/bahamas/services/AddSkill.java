@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "UpdateSkill", urlPatterns = {"/skill.add"})
+@WebServlet(name = "AddSkill", urlPatterns = {"/skill.add"})
 public class AddSkill extends HttpServlet {
 
     /**
