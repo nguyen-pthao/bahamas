@@ -5,51 +5,218 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <body ng-init="displayAllContactInfo()">
+    <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px; min-height: 900px" id="view-indiv-contacts">
+        <div class="content-wrapper" style="margin:0px" id="edit-contact">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewContact()" style="color: white"> Contact Management </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewContact()" style="color: white"> {{contactToDisplay.name| uppercase}} </a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="" style="color: white"> Contact Management </a><i class="fa fa-chevron-right small"></i><a href="" ng-click="" style="color: white"> Name HERE!!! </a></li>
                     </ol>                    
                 </h3>
             </section>
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
-                <!-- view contact starts -->
+                <!-- Outer box -->
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title uppercase"> View contact info </h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i></button>
-                        </div>
+                        <h3 class="box-title uppercase"><b> Name Information </b></h3>
+                        <button type="submit" ng-click="editContact()" class="btn btn-primary" style='float: right'>
+                            <span>
+                                <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                            </span>   
+                            Edit Contact
+                        </button>
                     </div>
-                    <!-- /.box-header -->
-                        <div class="box-header" style="float:right" ng-show="isAuthorised">
-                            <button type="submit" ng-click="editContact()" class="btn btn-primary">
-                                <span>
-                                    <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
-                                </span>   
-                                Edit Contact
-                            </button>
-                        </div>
+                    <!-- form start -->
                     <div class="box-body">
-                        <table id="example2" class="table no-border table-striped">
-                            <tr ng-repeat="(key, value) in contactToDisplay">
-                                <td>
-                                    <span style="font-weight:bold">{{key}}</span>
-                                </td>
-                                <td>{{value}}</td>
-                            </tr>
-                        </table>
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /user information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /contact information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /phone information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /email information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /address information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /membership information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /office-held information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /donation information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /team information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /training information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /appreciation information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /proxy information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /languages information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-plus"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                TABLE HERE.
+                            </div>
+                        </div>
+                        <!-- /skills & assets information -->
                     </div>
+                    <!-- /.box-body -->
+                    <!-- /.box -->
                 </div>
-
-                <!-- view contact ends -->
             </section>
             <!-- /.content -->
         </div>
