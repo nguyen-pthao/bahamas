@@ -41,7 +41,7 @@ public class TeamJoinDAO {
             //show all teams without date obslete filter
             stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, "
                     + "SUBTEAM, DATE_OBSOLETE, T.REMARKS, PERMISSION, APPROVAL FROM TEAM_JOIN T, "
-                    + "CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND C.USERNAME = (?) AND APPROVAL = 1");
+                    + "CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND C.USERNAME = (?)");
             stmt.setString(1, username);
 
             rs = stmt.executeQuery();
