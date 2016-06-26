@@ -60,6 +60,7 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
 
             loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                 $scope.allContactInfo = response.data.contact;
+                console.log($scope.allContactInfo);
                 $scope.allContactInfoObj = angular.fromJson($scope.allContactInfo);
                 $scope.contactname = [];
                 angular.forEach($scope.allContactInfo, function(obj){
