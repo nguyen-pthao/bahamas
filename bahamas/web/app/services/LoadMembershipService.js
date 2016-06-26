@@ -10,7 +10,6 @@ app.service('loadMembershipClass',['$rootScope', '$http', function($rootScope, $
     this.retrieveMembershipClass = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/membershipclasslist'
             url: $rootScope.commonUrl + '/membershipclasslist'
         });
     }; 

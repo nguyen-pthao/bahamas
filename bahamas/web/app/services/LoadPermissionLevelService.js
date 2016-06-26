@@ -11,7 +11,6 @@ app.service('loadPermissionLevel',['$rootScope', '$http',function($rootScope, $h
     this.retrievePermissionLevel = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/permissionlevellist'
             url: $rootScope.commonUrl + '/permissionlevellist'
         });
     }; 

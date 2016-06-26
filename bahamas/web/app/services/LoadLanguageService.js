@@ -11,7 +11,6 @@ app.service('loadLanguage',['$rootScope', '$http', '$location', function($rootSc
     this.retrieveLanguage = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/languagelist'
             url: $rootScope.commonUrl + '/languagelist'
         });
     }; 

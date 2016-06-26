@@ -10,7 +10,6 @@ app.service('loadLSAClass',['$rootScope', '$http', function($rootScope, $http){
     this.retrieveLSAClass = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/lsaclasslist'
             url: $rootScope.commonUrl + '/lsaclasslist'
         });
     }; 

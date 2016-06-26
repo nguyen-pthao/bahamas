@@ -10,7 +10,6 @@ app.service('loadEventClass',['$rootScope', '$http', function($rootScope, $http)
     this.retrieveEventClass = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/eventclasslist'
             url: $rootScope.commonUrl + '/eventclasslist'
         });
     }; 

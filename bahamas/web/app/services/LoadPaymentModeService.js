@@ -10,7 +10,6 @@ app.service('loadPaymentMode',['$rootScope', '$http', function($rootScope, $http
     this.retrievePaymentMode = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/paymentmodelist'
             url: $rootScope.commonUrl + '/paymentmodelist'
         });
     }; 

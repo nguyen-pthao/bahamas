@@ -8,12 +8,9 @@
 var app = angular.module('bahamas');
 
 app.service('loadTeamAffiliation',['$rootScope', '$http', '$location', function($rootScope, $http, $location){    
-//    var location = $location.path();
-//    var retrieveUrl = location.origin + "/bahamas/teamaffiliationlist";
     this.retrieveTeamAffiliation = function(){
         return $http({
             method: 'POST',
-//            url: 'http://localhost:8084/bahamas/teamaffiliationlist'
             url: $rootScope.commonUrl + '/teamaffiliationlist'
         });
     }; 

@@ -10,8 +10,7 @@ app.service('loadEventLocation', ['$rootScope', '$http', function ($rootScope, $
         this.retrieveEventLocation = function () {
             return $http({
                 method: 'POST',
-//            url: 'http://localhost:8084/bahamas/eventlocationlist'
-                url: $rootScope.commonUrl + '/eventlocationlist',
+                url: $rootScope.commonUrl + '/eventlocationlist'
             });
         };
     }]);

@@ -11,7 +11,6 @@ app.service('loadAllContacts', ['$rootScope', '$http', function ($rootScope, $ht
         this.retrieveAllContacts = function (toRetrieve) {
             return $http({
                 method: 'POST',
-//            url: 'http://localhost:8084/bahamas/contact.retrieve',
                 url: $rootScope.commonUrl + '/contact.retrieve',
                 data: JSON.stringify(toRetrieve)
             });

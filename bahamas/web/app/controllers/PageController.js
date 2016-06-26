@@ -64,8 +64,7 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
                 $scope.contactname = [];
                 angular.forEach($scope.allContactInfo, function(obj){
                     $scope.contactname.push(obj.name);
-                })
-                console.log($scope.contactname);
+                });
                 $scope.userType = session.getSession('userType');
 //
 //

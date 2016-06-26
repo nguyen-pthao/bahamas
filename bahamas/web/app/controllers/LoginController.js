@@ -6,6 +6,7 @@ app.controller('loginController',
 ['$rootScope', '$scope', '$http', '$location', 'session', '$window', '$state', 
     function ($rootScope, $scope, $http, $location, session, $window, $state) {
         $scope.error = false;
+//DEFINE AUTHORISED USER OBJECT
         var authorisedUser = {
             'username': "",
             'token': "",
@@ -13,13 +14,13 @@ app.controller('loginController',
             'contact': {},
             'teams': []
         };
+//DEFINE USER OBJECT
         $scope.user = {
             'username': '',
             'password': ''
         };
-
+//LOGIN SERVICE
         $scope.loginUser = function () {
-//  REMEMBER TO CHANGE BEFORE DEPLOY!!!
              var url = $rootScope.commonUrl + "/login";
             $http({
                 method: 'POST',
@@ -34,7 +35,7 @@ app.controller('loginController',
                     authorisedUser.userType = returnedUser.usertype;
                     authorisedUser.contact = returnedUser.contact;
                     authorisedUser.teams = returnedUser.contact.teams;
-
+//STORE AUTHORISED USER INFO IN SESSION SERVICE
                     if (authorisedUser.username !== "") {
                         console.log(authorisedUser);
                         var storeUsername = session.setSession('username', authorisedUser.username);

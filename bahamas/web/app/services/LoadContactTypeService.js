@@ -10,8 +10,7 @@ app.service('loadContactType', ['$rootScope', '$http', function ($rootScope, $ht
         this.retrieveContactType = function () {
             return $http({
                 method: 'POST',
-//            url: 'http://localhost:8084/bahamas/contacttypelist'
-               url: $rootScope.commonUrl + '/contacttypelist'
+                url: $rootScope.commonUrl + '/contacttypelist'
             });
         };
     }]);

@@ -51,7 +51,7 @@ and open the template in the editor.
                                         </select>     
                                     </div>
                                     <label>Explain if above is 'Other'</label>
-                                    <textarea ng-model="contactInfo.explainifother" ng-maxlength="200" name="explainifother" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                    <textarea ng-model="contactInfo.explainifother" ng-maxlength="200" name="explainifother" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                     <span ng-show="contactForm.explainifother.$error.maxlength" style="color:red">Input field explanation is too long.</span>
                                     <div class="form-group">
                                         <label>Profession</label>
@@ -90,13 +90,12 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar" ng-click="open1()"></i>
                                                 </div>
-<!--                                                <input type="text" ng-model="contactInfo.dateofbirth" name="dob" class="form-control pull-right" id="contact-date-of-birth-picker">-->
                                                     <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="contactInfo.dateofbirth" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Select D.O.B"/>
                                             </div>
                                         </div>
                                     </div>                     
                                     <label>Remarks</label>
-                                    <textarea ng-model="contactInfo.remarks" ng-maxlength="200" name="remarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                    <textarea ng-model="contactInfo.remarks" ng-maxlength="200" name="remarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                     <span ng-show="contactForm.remarks.$error.maxlength" style="color:red">Input field explanation is too long.</span>
                                 </div>    
                                 <div class="box-footer">
@@ -144,7 +143,7 @@ and open the template in the editor.
                                                             </div>
                                                         </div>
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.phoneInfo.phoneremarks" ng-maxlength="200" name="phoneremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addPhone()" 
@@ -167,7 +166,7 @@ and open the template in the editor.
                                                             <span ng-show="form.additionalContactForm.additionalemail.$error.maxlength" style='color:red'>Input field email is too long.</span>
                                                         </div>
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.emailInfo.emailremarks" ng-maxlength="200" name="emailremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.emailInfo.emailremarks" ng-maxlength="200" name="emailremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>     
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addEmail()"
@@ -201,7 +200,7 @@ and open the template in the editor.
                                                             </div>
                                                         </div>  
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.addressInfo.addressremarks" ng-maxlength="200" name="addressremarks" style='width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.addressInfo.addressremarks" ng-maxlength="200" name="addressremarks" style='min-width: 100%; max-width: 100%; height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>      
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addAddress()"
@@ -253,7 +252,7 @@ and open the template in the editor.
                                                             </select>     
                                                         </div>
                                                         <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.languageInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherL" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.additionalexplainifotherL.$error.maxlength">Input field explanation is too long.</span>
                                                         <div class="form-group">
                                                             <label>Speak/Write?</label>
@@ -281,10 +280,10 @@ and open the template in the editor.
                                                             </select>     
                                                         </div>
                                                         <label>Explain if above is 'Other'</label>
-                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherLSA" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.explainifother" ng-maxlength="200" name="additionalexplainifotherLSA" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.additionalexplainifotherLSA.$error.maxlength">Input field explanation is too long.</span>
                                                         <label>Remarks</label>
-                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.remarks" ng-maxlength="200" name="LSAremarks" style='width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea ng-model="additionalContactInfo.skillassetInfo.remarks" ng-maxlength="200" name="LSAremarks" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.LSAremarks.$error.maxlength">Input field remarks is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addSkillasset()"

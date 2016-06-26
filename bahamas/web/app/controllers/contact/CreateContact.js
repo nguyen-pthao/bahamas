@@ -9,15 +9,12 @@
 var app = angular.module('bahamas');
 
 app.controller('createContact',
-        ['$scope', '$http', '$location', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
-            function ($scope, $http, $location, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
-
+        ['$scope', '$http', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass',
+            function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass) {
+//PAGES TRANSITION
                 var user = session.getSession('userType');
                 var currentState = user + '.addContact';
                 var homepage = user + '.homepage';
-
-
-                $scope.form = {};
 
                 $scope.backHome = function () {
                     $state.go(homepage);
@@ -27,6 +24,8 @@ app.controller('createContact',
                     $state.reload(currentState);
                 };
 
+                $scope.form = {};
+//CALL DROPDOWN LIST SERVICES        
                 $scope.loadContactTypeList = function () {
                     loadContactType.retrieveContactType().then(function (response) {
                         $scope.contactTypeList = response.data.contact;
@@ -36,7 +35,6 @@ app.controller('createContact',
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
-                        console.log($scope.teamAffiliationList);
                     });
                 };
 
@@ -83,11 +81,12 @@ app.controller('createContact',
                         };
                     });
                 };
+//DEFINE REGEX
                 $scope.nationalityRegex = '[A-Za-z ]{0,49}';
                 $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
-                
+//DECLARE CONTACT OBJECT              
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
                     'name': '',
@@ -111,12 +110,13 @@ app.controller('createContact',
                     'zipcode': '',
                     'address': ''
                 };
-
+//DECLARE RESULT OBJECT 
                 $scope.result = {
                     message: false,
                     deliver: '',
                     contactId: ''
                 };
+//SUBMIT CONTACT 
                 $scope.submitted = false;
                 $scope.submitContactInfo = function () {
                     var url = $scope.commonUrl + "/contact.add";
@@ -142,8 +142,7 @@ app.controller('createContact',
                     });
                 };
 
-//                $scope.subteamRegex = '[A-Za-z ]{0,49}';
-
+//DECLARE ADDITIONAL CONTACT INFO OBJECT 
                 $scope.additionalContactInfo = {
                     phoneInfo: {
                         token: session.getSession("token"),
@@ -195,7 +194,8 @@ app.controller('createContact',
                         team3: ''
                     }
                 };
-
+//DEFINE TEAM LISTS
+//watch for change in team list 1
                 $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                 $scope.$watch('additionalContactInfo.teamInfo.team1', function () {
                     if ($scope.additionalContactInfo.teamInfo.team1 !== '') {
@@ -224,7 +224,7 @@ app.controller('createContact',
                         $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                     }
                 });
-
+//watch for change in team list 2
                 $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                 $scope.$watch('additionalContactInfo.teamInfo.team2', function () {
                     if ($scope.additionalContactInfo.teamInfo.team2 !== '') {
@@ -244,12 +244,12 @@ app.controller('createContact',
                         }
                     }
                 });
-
+//DEFINE COPYCAT FOR RE-SUBMIT
                 $scope.copyCat = angular.copy($scope.additionalContactInfo);
                 var copyService = function (copyData) {
                     $scope.additionalContactInfo[copyData] = angular.copy($scope.copyCat[copyData]);
                 };
-
+//SUBMIT PHONE
                 $scope.message = '';
                 $scope.submittedPhone = false;
                 $scope.addPhone = function () {
@@ -272,7 +272,7 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+//SUBMIT EMAIL
                 $scope.submittedEmail = false;
                 $scope.addEmail = function () {
                     var dataParse = 'emailInfo';
@@ -291,7 +291,7 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+//SUBMIT ADDRESS
                 $scope.submittedAddress = false;
                 $scope.addAddress = function () {
                     var dataParse = 'addressInfo';
@@ -310,7 +310,7 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+//SUBMIT TEAM PREFERENCE
                 $scope.submittedTeam = false;
                 $scope.addTeam = function () {
                     var dataParse = 'teamInfo';
@@ -369,7 +369,7 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+//SUBMIT LANGUAGE
                 $scope.submittedLanguage = false;
                 $scope.addLanguage = function () {
                     var dataParse = 'languageInfo';
@@ -388,7 +388,7 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
-
+//SUBMIT SKILLS AND ASSETS
                 $scope.submittedLSA = false;
                 $scope.addSkillasset = function () {
                     var dataParse = 'skillassetInfo';
@@ -407,39 +407,40 @@ app.controller('createContact',
                         window.alert("Fail to send request!");
                     });
                 };
+//REFRESH PHONE PAGE
                 $scope.addMorePhone = function () {
                     copyService('phoneInfo');
                     $scope.submittedPhone = false;
                     $scope.form.additionalContactForm.additionalphonenumber.$setPristine();
                 };
-
+//REFRESH EMAIL PAGE
                 $scope.addMoreEmail = function () {
                     copyService('emailInfo');
                     $scope.submittedEmail = false;
                     $scope.form.additionalContactForm.additionalemail.$setPristine();
                 };
-
+//REFRESH ADDRESS PAGE
                 $scope.addMoreAddress = function () {
                     copyService('addressInfo');
                     $scope.submittedAddress = false;
                     $scope.form.additionalContactForm.additionaladdress.$setPristine();
                 };
-
+//REFRESH TEAM PAGE
                 $scope.addMoreTeam = function () {
                     copyService('teamInfo');
                     $scope.submittedTeam = false;
                 };
-
+//REFRESH LANGUAGE PAGE
                 $scope.addMoreLanguage = function () {
                     copyService('languageInfo');
                     $scope.submittedLanguage = false;
                 };
-
+//REFRESH SKILLS AND ASSETS PAGE
                 $scope.addMoreLSA = function () {
                     copyService('skillassetInfo');
                     $scope.submittedLSA = false;
                 };
-                
+//DATEPICKER               
                 $scope.today = function () {
                     $scope.dt = new Date();
                 };
