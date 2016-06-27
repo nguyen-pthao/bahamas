@@ -28,9 +28,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
                 'permission': $scope.permission
             };
         }
-        
-        
-        
+
         $scope.isAuthorised = false;
         if ($scope.permission === 'admin') {
             $scope.isAuthorised = true;
@@ -39,9 +37,63 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         }
         
         retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response){
-            $scope.contactInfo = response;
+            $scope.contactInfo = response.data.contact[0];
             console.log($scope.contactInfo);
+            //user info
+            $scope.username = $scope.contactInfo.username;
+            $scope.isUser = false;
+            if($scope.username != ""){
+                $scope.isUser = true;
+            }
+            //contact info
+            $scope.dateCreated = $scope.contactInfo['date_created'];
+            $scope.name = $scope.contactInfo['name'];
+            $scope.altName = $scope.contactInfo['alt_name'];
+            $scope.contactType = $scope.contactInfo['contact_type'];
+            $scope.explainIfOther = $scope.contactInfo['explain_if_other'];
+            $scope.profession = $scope.contactInfo['profession'];
+            $scope.jobTitle = $scope.contactInfo['job_title'];
+            $scope.nric = $scope.contactInfo['nric_fin'];
+            $scope.gender = $scope.contactInfo['gender'];
+            $scope.nationality = $scope.contactInfo['nationality'];
+            $scope.dateOfBirth = $scope.contactInfo['date_of_birth'];
+            $scope.remarks = $scope.contactInfo['remarks'];
             
+            //phone info
+            $scope.phoneInfo = $scope.contactInfo['phone'];
+            
+            //email info
+            $scope.email = $scope.contactInfo['email'];
+            
+            //address info
+            $scope.address = $scope.contactInfo['address'];
+            
+            //membership info
+            $scope.membership = $scope.contactInfo['membership'];
+            
+            //office held info
+            $scope.officeHeld = $scope.contactInfo['office_held'];
+            
+            //donation info
+            $scope.donation = $scope.contactInfo['donation'];
+            
+            //team info
+            $scope.team = $scope.contactInfo['team_join'];
+            
+            //training info
+            //$scope.training = $scope.contactInfo['training'];
+            
+            //appreciation info
+            $scope.appreciation = $scope.contactInfo['appreciation'];
+            
+            //proxy info
+            $scope.proxy = $scope.contactInfo['proxy'];
+            
+            //languages info
+            $scope.languages = $scope.contactInfo['language_assignment'];
+            
+            //skills and assets info
+            $scope.skills = $scope.contactInfo['skill_assignment'];
         });
 
         var toAllContacts = $scope.permission + '.viewContacts';

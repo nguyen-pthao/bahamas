@@ -29,6 +29,7 @@ app.controller('loginController',
                 data: JSON.stringify($scope.user)
             }).success(function (response) {
                 var returnedUser = response;
+                console.log(response);
                 if (returnedUser.message === "success") {
                     authorisedUser.username = $scope.user.username;
                     authorisedUser.token = returnedUser.token;
