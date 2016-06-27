@@ -81,9 +81,9 @@ public class UpdateContact extends HttpServlet {
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                    if (!user.isIsAdmin() || !(userType.equals("teammanager")
-                            && RoleCheckDAO.checkRole(user.getContactId(), userType))
-                            || !c.getUsername().equals(username)) {
+                    if (!user.isIsAdmin() && !userType.equals("teammanager")
+                            && !RoleCheckDAO.checkRole(user.getContactId(), userType)
+                            && !c.getUsername().equals(username)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;

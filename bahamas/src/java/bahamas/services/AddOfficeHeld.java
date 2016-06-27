@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.OfficeHeldDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.OfficeHeld;
@@ -89,6 +90,14 @@ public class AddOfficeHeld extends HttpServlet {
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
+                    Contact user = cDAO.retrieveContactByUsername(username);
+                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {
@@ -102,9 +111,8 @@ public class AddOfficeHeld extends HttpServlet {
                         String officeHeld = Validator.containsBlankField(jobject.get("office_held_name").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
-                        OfficeHeld o = new OfficeHeld(c,startOffice,endOffice,remarks,username,officeHeld);
-                        
-                        
+                        OfficeHeld o = new OfficeHeld(c, startOffice, endOffice, remarks, username, officeHeld);
+
                         if (OfficeHeldDAO.addOfficeHeld(o)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

@@ -88,7 +88,7 @@ public class UpdateDonation extends HttpServlet {
                 } else {
 
                     ContactDAO cDAO = new ContactDAO();
-                   
+
                     //Verified token
                     int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -101,13 +101,13 @@ public class UpdateDonation extends HttpServlet {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
-                                && RoleCheckDAO.checkRole(user.getContactId(), userType))) {
+                        if (!user.isIsAdmin() && !userType.equals("teammanager")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
                         }
-
+                        
                         Date dateReceived = Validator.isDateValid(jobject.get("date_received").getAsString());
                         double donationAmount = Validator.isDoubleValid(jobject.get("donation_amount").getAsString());
                         String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());

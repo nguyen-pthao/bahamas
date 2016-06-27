@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.dao.MembershipDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Donation;
 import bahamas.entity.Membership;
@@ -89,6 +90,14 @@ public class AddMembership extends HttpServlet {
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
+                    Contact user = cDAO.retrieveContactByUsername(username);
+                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {
@@ -96,8 +105,8 @@ public class AddMembership extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        
-                        String membershipClass = Validator.containsBlankField(jobject.get("membership_class").getAsString());                    
+
+                        String membershipClass = Validator.containsBlankField(jobject.get("membership_class").getAsString());
                         String explainIfOtherClass = Validator.containsBlankField(jobject.get("explain_if_other_class").getAsString());
                         Date startMembership = Validator.isDateValid(jobject.get("start_membership").getAsString());
                         Date endMembership = Validator.isDateValid(jobject.get("end_membership").getAsString());
@@ -110,10 +119,10 @@ public class AddMembership extends HttpServlet {
                         String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode").getAsString());
                         String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                        
-                        Membership m = new Membership(c,startMembership,endMembership,receiptDate,subscriptionAmount,extTransactionRef,
-                        receiptNumber,remarks,receiptMode,explainIfOtherReceipt,membershipClass,explainIfOtherClass,paymentMode,explainIfOtherPayment,
-                        username);
+
+                        Membership m = new Membership(c, startMembership, endMembership, receiptDate, subscriptionAmount, extTransactionRef,
+                                receiptNumber, remarks, receiptMode, explainIfOtherReceipt, membershipClass, explainIfOtherClass, paymentMode, explainIfOtherPayment,
+                                username);
 
                         if (MembershipDAO.addMembership(m)) {
                             json.addProperty("message", "success");

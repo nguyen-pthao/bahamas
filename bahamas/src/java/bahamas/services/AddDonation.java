@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.Donation;
@@ -89,6 +90,14 @@ public class AddDonation extends HttpServlet {
                     int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
+                    Contact user = cDAO.retrieveContactByUsername(username);
+                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {
@@ -96,7 +105,7 @@ public class AddDonation extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                       
+
                         Date dateReceived = Validator.isDateValid(jobject.get("date_received").getAsString());
                         double donationAmount = Validator.isDoubleValid(jobject.get("donation_amount").getAsString());
                         String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
@@ -115,11 +124,11 @@ public class AddDonation extends HttpServlet {
                         double subamount3 = Validator.isDoubleValid(jobject.get("subamount3").getAsString());
                         String associatedOccasion = Validator.containsBlankField(jobject.get("associated_occasion").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                        
-                        Donation d = new Donation(c,username,dateReceived,donationAmount,paymentMode,explainIfOtherPayment,
-                        extTransactionRef,receiptMode,receiptNumber,receiptDate,explainIfOtherReceipt,donorInstruction,allocation1,subamount1,
-                        allocation2,subamount2,allocation3,subamount3,associatedOccasion,remarks);
-                        
+
+                        Donation d = new Donation(c, username, dateReceived, donationAmount, paymentMode, explainIfOtherPayment,
+                                extTransactionRef, receiptMode, receiptNumber, receiptDate, explainIfOtherReceipt, donorInstruction, allocation1, subamount1,
+                                allocation2, subamount2, allocation3, subamount3, associatedOccasion, remarks);
+
                         if (DonationDAO.addDonation(d)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

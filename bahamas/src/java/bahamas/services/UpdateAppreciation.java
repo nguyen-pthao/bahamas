@@ -97,14 +97,13 @@ public class UpdateAppreciation extends HttpServlet {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
-                                && RoleCheckDAO.checkRole(user.getContactId(), userType))
-                                || !c.getUsername().equals(username)) {
+                        if (!user.isIsAdmin() && !userType.equals("teammanager")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
                         }
-                        
+
                         String appraisalComment = Validator.containsBlankField(jobject.get("appraisal_comment").getAsString());
                         String appraisalBy = Validator.containsBlankField(jobject.get("appraisal_by").getAsString());
                         Date appraisalDate = Validator.isDateValid(jobject.get("appraisal_date").getAsString());

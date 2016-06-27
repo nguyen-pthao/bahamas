@@ -94,7 +94,7 @@ public class DeletePhone extends HttpServlet {
                         out.println(gson.toJson(json));
                     } else {
 
-                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()|| !c.getUsername().equals(username)) {
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() && !c.getUsername().equals(username)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;

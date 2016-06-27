@@ -93,7 +93,7 @@ public class DeleteEmail extends HttpServlet {
                         return;
                     } else {
 
-                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()|| !c.getUsername().equals(username)) {
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() && !c.getUsername().equals(username)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
