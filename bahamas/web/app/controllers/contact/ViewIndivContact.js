@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+/*Created by Marcus Ong*/
+
 var app = angular.module('bahamas');
 
 app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveContactByCid', function ($scope, session, $state, retrieveContactByCid) {

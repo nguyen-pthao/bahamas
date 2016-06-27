@@ -28,8 +28,8 @@ and open the template in the editor.
                         </div>
                     </div>
                     <!-- form start -->
-                    <div class="box-body">
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                    <div class="box-body" ng-init="loadContactInfo">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="isAdmin">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                 <div class="box-tools pull-right">
@@ -46,19 +46,6 @@ and open the template in the editor.
                                         <div class="form-group">
                                             <label>Username</label>
                                             <input type='text' class="form-control" ng-model='editUser.username' name="username" readonly>
-                                        </div>
-                                        Should be hidden from third party or move somewhere else
-                                        <div class="form-group">
-                                            <label>Old Password</label>
-                                            <input type="password" name="oldPassword" ng-model='editUser.password' class="form-control" readonly>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>New Password</label>
-                                            <input type="password" name="newPassword" class="form-control">
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Confirm Password</label>
-                                            <input type="password" name="confirmPassword" class="form-control">
                                         </div>
                                         <div class="form-group">
                                             <div class="col-md-6" style="padding-left: 0px">
@@ -127,7 +114,7 @@ and open the template in the editor.
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea ng-model="editContact['other_explanation']" name="otherExpContact" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea ng-model="editContact['explain_if_other']" name="otherExpContact" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
@@ -158,7 +145,7 @@ and open the template in the editor.
                                     </div>  
                                     <div class="col-md-offset-1 col-md-4">
                                         <label>Nationality</label>
-                                        <input type="text" name="nationality" class="form-control"> 
+                                        <input type="text" ng-model="editContact.nationality" name="nationality" class="form-control"> 
                                     </div>    
                                 </div>
                                 <div class="form-group col-md-12" style="margin-top: 15px">
@@ -168,14 +155,14 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" name="dob" class="form-control pull-right">
+                                            <input type="text" ng-model="editContact['date_of_birth']" name="dob" class="form-control pull-right">
                                         </div>
                                     </div>
                                 </div>                      
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <label>Remarks</label>
-                                        <textarea name="remarksContact" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea ng-model="editContact.remarks" name="remarksContact" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -195,52 +182,73 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type='text' name="dateCreatedPhone" class="form-control pull-right" readonly>
+                                <div ng-show='editPhone === ""'>
+                                    <span>No Phone Information Available</span>
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="phone in editPhone">
+                                    <div class="box-header with-border" style="background-color: #377ec4;">
+                                        <h5 class="box-title" style="color:white">+<span ng-bind="phone['country_code']"></span> <span ng-bind="phone['phone_number']"></span></h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus"></i></button>
                                         </div>
                                     </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByPhone" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-2">
-                                        <label>Country code</label>
-                                        <input type="text" class="form-control" name='countrycode'>            
-                                    </div>
-                                    <div class="col-md-offset-5 col-md-5">
-                                        <label>Phone number</label>
-                                        <input type="text" class="form-control" name="phone">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                    <div class="box-body" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="phone['date_created']" name="dateCreatedPhone" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type="text" name="dateObsPhone" class="form-control pull-right">
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="phone['created_by']" name="createdByPhone" class="form-control" readonly> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-2">
+                                                <label>Country code</label>
+                                                <input type="text" ng-model="phone['country_code']" class="form-control" name='countrycode'>            
+                                            </div>
+                                            <div class="col-md-offset-5 col-md-5">
+                                                <label>Phone number</label>
+                                                <input type="text" ng-model="phone['phone_number']" class="form-control" name="phone" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="phone['remarks']" name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input ng-model="phone['date_obsolete']" type="text" name="dateObsPhone" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editYourPhone($event, phone)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editYourPhone($event, phone)">Delete phone</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addPhone">Add new phone</button>
                                 </center>
                             </div>
                         </div>
@@ -900,7 +908,7 @@ and open the template in the editor.
                                 <div class="form-group col-md-12">
                                     <div class="col-md-5">
                                         <label>Appreciation by</label>
-                                        <input name='appnBy' type='text' name="createdBy" class="form-control"> 
+                                        <input name='appnBy' type='text' class="form-control"> 
                                     </div>
 
                                     <div class="col-md-offset-2 col-md-5">
