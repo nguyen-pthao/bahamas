@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "DeleteTeamJoin", urlPatterns = {"/teamjoin.delete"})
 public class DeleteTeamJoin extends HttpServlet {
 
@@ -86,7 +85,7 @@ public class DeleteTeamJoin extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -96,8 +95,15 @@ public class DeleteTeamJoin extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String team = Validator.containsBlankField(jobject.get("team").getAsString());
-                        
+
                         if (TeamJoinDAO.deleteTeamJoin(contactId, team)) {
                             //change contact to a non novice account
                             //cDAO.changePermission(c, false);

@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.ContactDAO;
 import bahamas.dao.PhoneDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
@@ -84,22 +85,32 @@ public class UpdatePhone extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                    Phone newPhone = null;
 
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                     } else {
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         int countryCode = Validator.isIntValid(jobject.get("country_code").getAsString());
                         String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
                         String phoneRemarks = Validator.containsBlankField(jobject.get("phone_remarks").getAsString());
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
-                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
+                        Phone newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
 
                         if (PhoneDAO.updatePhone(newPhone)) {
                             json.addProperty("message", "success");

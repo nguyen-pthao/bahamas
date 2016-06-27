@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.OfficeHeldDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.OfficeHeld;
@@ -27,7 +28,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet(name = "UpdateOfficeHeld", urlPatterns = {"/officeheld.update"})
 public class UpdateOfficeHeld extends HttpServlet {
@@ -83,7 +83,7 @@ public class UpdateOfficeHeld extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -94,14 +94,23 @@ public class UpdateOfficeHeld extends HttpServlet {
                         return;
                     } else {
 
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         Date startOffice = Validator.isDateValid(jobject.get("start_office").getAsString());
                         Date endOffice = Validator.isDateValid(jobject.get("end_office").getAsString());
                         String officeHeld = Validator.containsBlankField(jobject.get("office_held_name").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
 
-                        OfficeHeld o = new OfficeHeld(c,startOffice,endOffice,remarks,username,officeHeld);
-                        
-                        
+                        OfficeHeld o = new OfficeHeld(c, startOffice, endOffice, remarks, username, officeHeld);
+
                         if (OfficeHeldDAO.updateOfficeHeld(o)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

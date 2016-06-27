@@ -78,7 +78,7 @@ public class DeleteSkill extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset").getAsString());
 
                     //Validation of fields
@@ -91,6 +91,12 @@ public class DeleteSkill extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         if (SkillDAO.deleteSkill(contactId, skillsAsset)) {
                             json.addProperty("message", "success");

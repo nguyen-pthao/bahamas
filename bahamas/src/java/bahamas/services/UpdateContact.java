@@ -74,16 +74,21 @@ public class UpdateContact extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 } else {
-
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
+
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    Contact c = cDAO.retrieveContactById(contactId);
+
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                    if (!user.isIsAdmin() || !(userType.equals("teammanager") && RoleCheckDAO.checkRole(user.getContactId(),userType))) {
+                    if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                            && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                            || !c.getUsername().equals(username)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } 
-                                   
+                    }
+
                     String name = Validator.containsBlankField(jobject.get("name").getAsString());
                     String altName = Validator.containsBlankField(jobject.get("alt_name").getAsString());
                     String contactType = Validator.containsBlankField(jobject.get("contact_type").getAsString());
@@ -100,13 +105,16 @@ public class UpdateContact extends HttpServlet {
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
                             jobTitle, nric, gender, nationality, dob, remarks);
 
+                    //Assign contact id
+                    newContact.setContactId(contactId);
+
                     if (ContactDAO.updateContact(newContact)) {
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                        }
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
+                    } else {
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                    }
 
                 }
             }

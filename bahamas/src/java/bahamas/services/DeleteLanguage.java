@@ -29,7 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "DeleteLanguage", urlPatterns = {"/language.delete"})
 public class DeleteLanguage extends HttpServlet {
 
@@ -40,7 +39,7 @@ public class DeleteLanguage extends HttpServlet {
      * @param request servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs             
+     * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -83,7 +82,7 @@ public class DeleteLanguage extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     String language = Validator.containsBlankField(jobject.get("language").getAsString());
 
                     //Validation of fields
@@ -96,6 +95,12 @@ public class DeleteLanguage extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()|| !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         if (LanguageDAO.deleteLanguage(contactId, language)) {
                             json.addProperty("message", "success");

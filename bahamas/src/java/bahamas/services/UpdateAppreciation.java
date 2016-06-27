@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
@@ -84,9 +85,8 @@ public class UpdateAppreciation extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
-
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {
@@ -94,6 +94,16 @@ public class UpdateAppreciation extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
                         
                         String appraisalComment = Validator.containsBlankField(jobject.get("appraisal_comment").getAsString());
                         String appraisalBy = Validator.containsBlankField(jobject.get("appraisal_by").getAsString());
@@ -102,9 +112,13 @@ public class UpdateAppreciation extends HttpServlet {
                         String appreciationBy = Validator.containsBlankField(jobject.get("appreciation_by").getAsString());
                         Date appreciationDate = Validator.isDateValid(jobject.get("appreciation_date").getAsString());
                         String appreciationRemarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                                            
-                        Appreciation appreciation = new Appreciation(c,appraisalComment,appraisalBy,appraisalDate,appreciationGesture,
-                        appreciationBy,appreciationDate,appreciationRemarks,username);
+
+                        Appreciation appreciation = new Appreciation(c, appraisalComment, appraisalBy, appraisalDate, appreciationGesture,
+                                appreciationBy, appreciationDate, appreciationRemarks, username);
+
+                        //IMPORTANT SET THE ID
+                        int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id").getAsString());
+                        appreciation.setAppreciationId(appreciation_id);
 
                         if (AppreciationDAO.updateAppreciation(appreciation)) {
                             json.addProperty("message", "success");

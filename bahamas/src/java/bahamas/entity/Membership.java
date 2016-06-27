@@ -14,6 +14,7 @@ import java.util.Date;
 public class Membership {
     
     private Contact contact;
+    private int membershipId;
     private int cid;
     private Date startMembership;
     private Date endMembership;
@@ -32,7 +33,8 @@ public class Membership {
     private Date dateCreated = new java.util.Date();
     
     //Without Contact contact
-    public Membership(int cid, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherReceipt, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy, Date dateCreated) {
+    public Membership(int membershipId, int cid, Date startMembership, Date endMembership, Date receiptDate, double subscriptionAmount, String extTransactionRef, String receiptNumber, String remarks, String receiptModeName, String explainIfOtherReceipt, String membershipClassName, String explainIfOtherClass, String paymentModeName, String explainIfOtherPayment, String createdBy, Date dateCreated) {
+        this.membershipId = membershipId;
         this.cid = cid;
         this.startMembership = startMembership;
         this.endMembership = endMembership;
@@ -80,6 +82,14 @@ public class Membership {
         this.contact = contact;
     }
 
+    public int getMembershipId() {
+        return membershipId;
+    }
+
+    public void setMembershipId(int membershipId) {
+        this.membershipId = membershipId;
+    }
+    
     public int getCid() {
         return cid;
     }

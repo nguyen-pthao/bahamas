@@ -28,7 +28,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "DeleteEmail", urlPatterns = {"/email.delete"})
 public class DeleteEmail extends HttpServlet {
 
@@ -83,7 +82,7 @@ public class DeleteEmail extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -93,10 +92,16 @@ public class DeleteEmail extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()|| !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                        
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
 
-
-                        if (EmailDAO.deleteEmail(contactId,email)) {
+                        if (EmailDAO.deleteEmail(contactId, email)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

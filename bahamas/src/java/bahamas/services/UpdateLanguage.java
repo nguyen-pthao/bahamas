@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.ContactDAO;
 import bahamas.dao.LanguageDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.LanguageAssignment;
@@ -81,18 +82,8 @@ public class UpdateLanguage extends HttpServlet {
 
                 } else {
                     //Verified token
-
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
-                    String language = Validator.containsBlankField(jobject.get("language").getAsString());
-                    String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
-                    String speakWrite = Validator.containsBlankField(jobject.get("speak_write").getAsString());
-                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-
-                    Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-
-                    //Validation of fields
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
-
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {
@@ -100,6 +91,23 @@ public class UpdateLanguage extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
+                        String language = Validator.containsBlankField(jobject.get("language").getAsString());
+                        String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
+                        String speakWrite = Validator.containsBlankField(jobject.get("speak_write").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
                         LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
                                 dateObsolete, speakWrite, remarks, username);

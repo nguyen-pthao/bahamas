@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "DeleteAddress", urlPatterns = {"/address.delete"})
 public class DeleteAddress extends HttpServlet {
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -87,19 +86,26 @@ public class DeleteAddress extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
+                    
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String address = Validator.containsBlankField(jobject.get("address").getAsString());
 
-                        if (AddressDAO.deleteAddress(contactId,address)) {
+                        if (AddressDAO.deleteAddress(contactId, address)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

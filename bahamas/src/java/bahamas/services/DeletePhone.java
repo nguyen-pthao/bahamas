@@ -84,19 +84,24 @@ public class DeletePhone extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                    Phone newPhone = null;
-
+                   
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                     } else {
 
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()|| !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
-                       
+
                         if (PhoneDAO.deletePhone(contactId, phoneNumber)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

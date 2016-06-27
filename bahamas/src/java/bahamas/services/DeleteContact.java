@@ -89,7 +89,7 @@ public class DeleteContact extends HttpServlet {
                     }
 
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {

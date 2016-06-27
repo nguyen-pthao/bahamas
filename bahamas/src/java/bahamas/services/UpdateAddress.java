@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateAddress", urlPatterns = {"/address.update"})
 public class UpdateAddress extends HttpServlet {
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -86,24 +85,35 @@ public class UpdateAddress extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 } else {
-                    //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
-                    ContactDAO cDAO = new ContactDAO();
 
+                    //Verified token
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    ContactDAO cDAO = new ContactDAO();
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager") && 
+                                RoleCheckDAO.checkRole(user.getContactId(), userType)) || 
+                                !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String address = Validator.containsBlankField(jobject.get("address").getAsString());
                         String country = Validator.containsBlankField(jobject.get("country").getAsString());
                         String zipCode = Validator.containsBlankField(jobject.get("zipcode").getAsString());
                         String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
+
                         Address newAddress = new Address(c, country, zipCode, address,
                                 username, addressRemarks, dateObsolete);
 

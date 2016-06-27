@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 @WebServlet(name = "DeleteAppreciation", urlPatterns = {"/appreciation.delete"})
 public class DeleteAppreciation extends HttpServlet {
 
@@ -80,28 +79,22 @@ public class DeleteAppreciation extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 } else {
-                    //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+
                     ContactDAO cDAO = new ContactDAO();
-
-                    Contact c = cDAO.retrieveContactById(contactId);
-
-                    if (c == null) {
+                    if (!cDAO.retrieveContactByUsername(username).isIsAdmin()) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
+                    }
+
+                    int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id").getAsString());
+
+                    if (AppreciationDAO.deleteAppreciation(appreciation_id)) {
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
                     } else {
-                        
-                        int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id").getAsString());
-
-                        if (AppreciationDAO.deleteAppreciation(appreciation_id)) {
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                        }
-
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
                     }
 
                 }

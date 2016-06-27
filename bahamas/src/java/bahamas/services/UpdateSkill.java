@@ -82,13 +82,7 @@ public class UpdateSkill extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
-                    String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset").getAsString());
-                    String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
-                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                    Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-
-                    //Validation of fields
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -98,6 +92,21 @@ public class UpdateSkill extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                || !c.getUsername().equals(username)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
+                        String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset").getAsString());
+                        String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
                         SkillAssignment sa = new SkillAssignment(c, skillsAsset, explainIfOther,
                                 dateObsolete, remarks, username);

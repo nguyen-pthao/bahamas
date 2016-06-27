@@ -82,36 +82,33 @@ public class DeleteMembership extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
                     ContactDAO cDAO = new ContactDAO();
+                    Contact c = cDAO.retrieveContactByUsername(username);
 
-                    Contact c = cDAO.retrieveContactById(contactId);
-
-                    if (c == null) {
+                    if (!c.isIsAdmin()) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
+                    }
+
+                    int membershipId = Validator.isIntValid(jobject.get("membership_id").getAsString());
+
+                    if (MembershipDAO.deleteMembership(membershipId)) {
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
                     } else {
-                        
-                        Date startMembership = Validator.isDateValid(jobject.get("start_membership").getAsString());
-
-                        if (MembershipDAO.deleteMembership(contactId, startMembership)) {
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                        }
-
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
                     }
 
                 }
-            }
 
+            }
         }
+
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

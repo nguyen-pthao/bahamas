@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.Donation;
@@ -85,10 +86,11 @@ public class UpdateDonation extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 } else {
-                    //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
-                    ContactDAO cDAO = new ContactDAO();
 
+                    ContactDAO cDAO = new ContactDAO();
+                   
+                    //Verified token
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null) {
@@ -96,7 +98,16 @@ public class UpdateDonation extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                       
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         Date dateReceived = Validator.isDateValid(jobject.get("date_received").getAsString());
                         double donationAmount = Validator.isDoubleValid(jobject.get("donation_amount").getAsString());
                         String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
@@ -115,11 +126,14 @@ public class UpdateDonation extends HttpServlet {
                         double subamount3 = Validator.isDoubleValid(jobject.get("subamount3").getAsString());
                         String associatedOccasion = Validator.containsBlankField(jobject.get("associated_occasion").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                        
-                        Donation d = new Donation(c,username,dateReceived,donationAmount,paymentMode,explainIfOtherPayment,
-                        extTransactionRef,receiptMode,receiptNumber,receiptDate,explainIfOtherReceipt,donorInstruction,allocation1,subamount1,
-                        allocation2,subamount2,allocation3,subamount3,associatedOccasion,remarks);
-                        
+
+                        Donation d = new Donation(c, username, dateReceived, donationAmount, paymentMode, explainIfOtherPayment,
+                                extTransactionRef, receiptMode, receiptNumber, receiptDate, explainIfOtherReceipt, donorInstruction, allocation1, subamount1,
+                                allocation2, subamount2, allocation3, subamount3, associatedOccasion, remarks);
+
+                        int donationId = Validator.isIntValid(jobject.get("donation_id").getAsString());
+                        d.setDonationId(donationId);
+
                         if (DonationDAO.updateDonation(d)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

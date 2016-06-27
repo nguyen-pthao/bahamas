@@ -99,6 +99,12 @@ public class DeleteProxy extends HttpServlet {
                         return;
                     } else {
 
+                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         if (ProxyDAO.deleteProxy(principalId, proxyId)) {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

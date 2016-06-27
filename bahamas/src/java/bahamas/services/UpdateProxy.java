@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.ProxyDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.Proxy;
@@ -27,7 +28,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 @WebServlet(name = "UpdateProxy", urlPatterns = {"/proxy.update"})
 public class UpdateProxy extends HttpServlet {
@@ -95,12 +95,21 @@ public class UpdateProxy extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                     
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() || !(userType.equals("teammanager")
+                                && RoleCheckDAO.checkRole(user.getContactId(), userType))) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                        Date dateObosolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
+                        Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
-                        Proxy p = new Proxy(proxy,principal,username,proxyStanding,dateObosolete,remarks);
+                        Proxy p = new Proxy(proxy, principal, username, proxyStanding, dateObosolete, remarks);
 
                         if (ProxyDAO.updateProxy(p)) {
                             json.addProperty("message", "success");
