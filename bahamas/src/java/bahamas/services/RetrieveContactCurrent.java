@@ -1,10 +1,9 @@
-package bahamas.services;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+package bahamas.services;
 
 import bahamas.dao.AddressDAO;
 import bahamas.dao.AppreciationDAO;
@@ -16,7 +15,6 @@ import bahamas.dao.MembershipDAO;
 import bahamas.dao.OfficeHeldDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.ProxyDAO;
-import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Address;
@@ -24,7 +22,6 @@ import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.Donation;
 import bahamas.entity.Email;
-import bahamas.entity.EventParticipation;
 import bahamas.entity.LanguageAssignment;
 import bahamas.entity.Membership;
 import bahamas.entity.OfficeHeld;
@@ -54,8 +51,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(urlPatterns = {"/contact.retrieve.indiv"})
-public class RetrieveContactIndiv extends HttpServlet {
+@WebServlet(name = "RetrieveContactCurrent", urlPatterns = {"/contact.retrieve.current"})
+public class RetrieveContactCurrent extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -92,84 +89,32 @@ public class RetrieveContactIndiv extends HttpServlet {
                 out.println(gson.toJson(json));
 
             } else {
-
-                //Parse json object
+                //edit here
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = jobject.get("token").getAsString();
-                String cidString = jobject.get("cid").getAsString();
-                String otherCidString = jobject.get("other_cid").getAsString();
-                String permission = jobject.get("permission").getAsString();
-                String teamName = jobject.get("team_name").getAsString();
-
-                if ((token == null || token.isEmpty()) || (cidString == null || cidString.isEmpty()) || (otherCidString == null || otherCidString.isEmpty()) || (permission == null || permission.isEmpty()) ) {
+                if (token == null || token.isEmpty()) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
                 }
-
                 String username = Authenticator.verifyToken(token);
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
-                int cid = Integer.parseInt(cidString);
-                int otherCid = Integer.parseInt(otherCidString);
-                Contact viewContact = contactDAO.retrieveContactById(otherCid);
-                
-                if (viewContact != null) {
-
+                if (contact != null) {
+                    JsonObject contactArray = retrieveContact(contact);
                     json.addProperty("message", "success");
-                                           
-                    if (contact.isIsAdmin()) { //Admin
-                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, false);
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                    } else {
-                        //int cid = contact.getContactId();
-                        //check permission, 
-                        if (RoleCheckDAO.checkRole(contact.getContactId(), teamName, permission)) {
-
-                            if (permission.equals("eventleader")) { //Event leader
-                                // To be confirm
-                                JsonArray contactArray = retrieveByAdminTmEl(contact, false);
-                                json.add("contact", contactArray);
-                                out.println(gson.toJson(json));
-                                return;
-                            } else if (permission.equals("associate")) { //Associate
-                                // To be confirm
-                                //JsonArray contactArray = retrieveByAssociate(contact);
-                                //json.add("contact", contactArray);
-                                //out.println(gson.toJson(json));
-                                return;
-                            }
-                        }
-
-                    }
-                    
-
-                  
-                } else {
-
-                    json.addProperty("message", "fail");
+                    json.add("contact", contactArray);
                     out.println(gson.toJson(json));
+                    
                 }
-                json.addProperty("message", "fail");
-                out.println(gson.toJson(json));
             }
-
         }
     }
     
-    
-    private static JsonArray retrieveByAdminTmEl(Contact contact, boolean isAdmin) {
+    private static JsonObject retrieveContact(Contact contact) {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
         SimpleDateFormat sdft = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-        JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
         JsonArray jsonObjPhone = new JsonArray();
         JsonArray jsonObjEmail = new JsonArray();
@@ -246,22 +191,14 @@ public class RetrieveContactIndiv extends HttpServlet {
  
 
         jsonContactObj = new JsonObject();
-        jsonContactObj.addProperty("other_cid", Integer.toString(contact.getContactId()));
+        jsonContactObj.addProperty("cid", Integer.toString(contact.getContactId()));
         if (contact.getUsername() != null) {
             jsonContactObj.addProperty("username", contact.getUsername());
         } else {
             jsonContactObj.addProperty("username", "");
         }
         jsonContactObj.addProperty("name", name);
-        if (isAdmin){
-            if (contact.getNric() != null) {
-                jsonContactObj.addProperty("nric_fin", contact.getNric());
-            } else {
-                jsonContactObj.addProperty("nric_fin", "");
-            }
-        }else{
-            jsonContactObj.addProperty("nric_fin", "");
-        }
+        jsonContactObj.addProperty("nric_fin", nric);
         jsonContactObj.addProperty("alt_name", altName);
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
@@ -794,14 +731,9 @@ public class RetrieveContactIndiv extends HttpServlet {
         } else {
             jsonContactObj.addProperty("team_join", "");
         }
-        
-        
-        contactArray.add(jsonContactObj);
-        jsonContactObj.addProperty("cid", Integer.toString(contact.getContactId()));
 
-        return contactArray;
+        return jsonContactObj;
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
