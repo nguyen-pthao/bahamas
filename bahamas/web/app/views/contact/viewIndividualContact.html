@@ -291,7 +291,60 @@ and open the template in the editor.
                                             <div>{{membershipObj.explain_if_other_class}}</div>
                                         </div>
                                     </div>
-                                    
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Membership Start Date</b></h4>
+                                            <div>{{membershipObj.start_date}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Payment Mode</b></h4>
+                                            <div>{{membershipObj.payment_mode_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Membership End Date</b></h4>
+                                            <div>{{membershipObj.end_date}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-12'>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Others</b></h4>
+                                            <div>{{membershipObj.explain_if_other_payment}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>External Transaction Reference</b></h4>
+                                            <div>{{membershipObj.ext_transaction_ref}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Mode Of Sending Receipt</b></h4>
+                                            <div>{{membershipObj.receipt_mode_name}}</div>
+                                        </div>
+                                    </div>        
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Receipt Number</b></h4>
+                                            <div>{{membershipObj.receipt_number}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Of Receipt</b></h4>
+                                            <div>{{membershipObj.receipt_date}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-12'>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Others</b></h4>
+                                            <div>{{membershipObj.explain_if_other_receipt}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-12'>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{membershipObj.remarks}}</div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -305,7 +358,39 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='officeHeld === ""'>
+                                    <span>No Office Held Information Available</span>
+                                </div>
+                                <div ng-repeat='officeHeldObj in officeHeld'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{officeHeldObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Start Office</b></h4>
+                                            <div>{{officeHeldObj.start_office}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Office Held</b></h4>
+                                            <div>{{officeHeldObj.office_held}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{officeHeldObj.created_by}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>End Office</b></h4>
+                                            <div>{{officeHeldObj.end_office}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{officeHeldObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /office-held information -->
@@ -318,7 +403,67 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='donation === ""'>
+                                    <span>No Office Held Information Available</span>
+                                </div>
+                                <div ng-repeat='donationObj in donation'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{donationObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Received</b></h4>
+                                            <div>{{donationObj.date_received}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Payment Mode</b></h4>
+                                            <div>{{donationObj.payment_mode}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{donationObj.created_by}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Donation Amount</b></h4>
+                                            <div>{{donationObj.donation_amount}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-12'>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Others</b></h4>
+                                            <div>{{donationObj.explain_if_other_payment}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>External Transaction Reference</b></h4>
+                                            <div>{{donationObj.ext_transaction_ref}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Mode Of Sending Receipt</b></h4>
+                                            <div>{{donationObj.receipt_mode_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Receipt Number</b></h4>
+                                            <div>{{donationObj.receipt_number}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Of Receipt</b></h4>
+                                            <div>{{donationObj.receipt_date}}</div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-12'>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Others</b></h4>
+                                            <div>{{donationObj.explain_if_other_receipt}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /donation information -->
