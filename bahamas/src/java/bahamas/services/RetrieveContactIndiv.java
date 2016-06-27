@@ -247,16 +247,22 @@ public class RetrieveContactIndiv extends HttpServlet {
 
         jsonContactObj = new JsonObject();
         jsonContactObj.addProperty("other_cid", Integer.toString(contact.getContactId()));
+        if (contact.getUsername() != null) {
+            jsonContactObj.addProperty("username", contact.getUsername());
+        } else {
+            jsonContactObj.addProperty("username", "");
+        }
         jsonContactObj.addProperty("name", name);
         if (isAdmin){
             jsonContactObj.addProperty("nric_fin", contact.getNric());
+        }else{
+            jsonContactObj.addProperty("nric_fin", "");
         }
         jsonContactObj.addProperty("alt_name", altName);
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
         jsonContactObj.addProperty("profession", profession);
         jsonContactObj.addProperty("job_title", jobTitle);
-        jsonContactObj.addProperty("nric", nric);
         jsonContactObj.addProperty("gender", gender);
         jsonContactObj.addProperty("nationality", nationality);
         if (contact.getDateOfBirth() != null) {
@@ -264,6 +270,8 @@ public class RetrieveContactIndiv extends HttpServlet {
         } else {
             jsonContactObj.addProperty("date_of_birth", "");
         }
+        jsonContactObj.addProperty("remarks", remarks);
+        jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
         
         if (!phoneList.isEmpty()) {
             
