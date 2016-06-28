@@ -92,9 +92,9 @@ and open the template in the editor.
                             <tbody>
                                 <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                     <td><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
-                                    <td>{{contact['alt name']}}</td>
+                                    <td>{{contact['alt_name']}}</td>
                                     <td>{{contact.email}}</td>
-                                    <td>{{contact['contact type']}}</td>
+                                    <td>{{contact['contact_type']}}</td>
                                     <td ng-if="isAuthorised"><span><a ng-click='editContact()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
