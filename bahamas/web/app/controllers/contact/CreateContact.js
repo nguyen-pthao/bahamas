@@ -89,6 +89,7 @@ app.controller('createContact',
 //DECLARE CONTACT OBJECT              
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
+                    'user_type': user,
                     'name': '',
                     'alt_name': '',
                     'contact_type': 'Individual',
@@ -122,7 +123,7 @@ app.controller('createContact',
                             $scope.submitted = true;
                             $scope.result.message = true;
                             $scope.result.deliver = 'Thank you for your time. Would you like to add additional information to your contact?';
-                            $scope.result.contactId = response.id;
+                            $scope.result.contactId = response['contact_id'];
 //                            console.log($scope.result.contactId);
                         } else {
                             $scope.result.message = false;
@@ -137,7 +138,7 @@ app.controller('createContact',
                 $scope.additionalContactInfo = {
                     phoneInfo: {
                         token: session.getSession("token"),
-                        id: $scope.result.contactId,
+                        'contact_id': $scope.result.contactId,
                         'country_code': 65,
                         'phone_number': '',
                         'phone_remarks': '',
@@ -145,14 +146,14 @@ app.controller('createContact',
                     },
                     emailInfo: {
                         token: session.getSession('token'),
-                        id: $scope.result.contactId,
+                        'contact_id': $scope.result.contactId,
                         email: '',
                         'email_remarks': '',
                         'date_obsolete': ''
                     },
                     addressInfo: {
                         token: session.getSession('token'),
-                        id: $scope.result.contactId,
+                        'contact_id': $scope.result.contactId,
                         address: '',
                         country: '',
                         zipcode: '',
@@ -161,7 +162,7 @@ app.controller('createContact',
                     },
                     languageInfo: {
                         token: session.getSession('token'),
-                        id: $scope.result.contactId,
+                        'contact_id': $scope.result.contactId,
                         language: '',
                         'explain_if_other': '',
                         'speak_write': '',
@@ -170,7 +171,7 @@ app.controller('createContact',
                     },
                     skillassetInfo: {
                         token: session.getSession('token'),
-                        id: $scope.result.contactId,
+                        'contact_id': $scope.result.contactId,
                         'skill_asset': '',
                         'explain_if_other': '',
                         remarks: '',
@@ -178,7 +179,7 @@ app.controller('createContact',
                     },
                     teamInfo: {
                         token: session.getSession('token'),
-                        id: $scope.result.contactId,
+                        'contact_id': $scope.result.contactId,
                         'contact_name': $scope.contactInfo.name,
                         team1: '',
                         team2: '',
@@ -245,7 +246,7 @@ app.controller('createContact',
                 $scope.submittedPhone = false;
                 $scope.addPhone = function () {
                     var dataParse = 'phoneInfo';
-                    $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
+                    $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
                     var url = $scope.commonUrl + "/phone.add";
                     $http({
                         method: 'POST',
@@ -267,7 +268,7 @@ app.controller('createContact',
                 $scope.submittedEmail = false;
                 $scope.addEmail = function () {
                     var dataParse = 'emailInfo';
-                    $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
+                    $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
                     var url = $scope.commonUrl + "/email.add";
                     $http({
                         method: 'POST',
@@ -286,7 +287,7 @@ app.controller('createContact',
                 $scope.submittedAddress = false;
                 $scope.addAddress = function () {
                     var dataParse = 'addressInfo';
-                    $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
+                    $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
                     var url = $scope.commonUrl + "/address.add";
                     $http({
                         method: 'POST',
@@ -305,10 +306,10 @@ app.controller('createContact',
                 $scope.submittedTeam = false;
                 $scope.addTeam = function () {
                     var dataParse = 'teamInfo';
-                    $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
+                    $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
                     var dataSend = {};
                     dataSend.token = $scope.additionalContactInfo.teamInfo.token;
-                    dataSend.id = $scope.additionalContactInfo.teamInfo.id;
+                    dataSend['contact_id'] = $scope.additionalContactInfo.teamInfo['contact_id'];
                     dataSend['contact_name'] = $scope.additionalContactInfo.teamInfo.contactname;
                     dataSend.team = $scope.additionalContactInfo.teamInfo.team1;
                     dataSend['explain_if_other'] = '';
@@ -364,7 +365,7 @@ app.controller('createContact',
                 $scope.submittedLanguage = false;
                 $scope.addLanguage = function () {
                     var dataParse = 'languageInfo';
-                    $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
+                    $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
                     var url = $scope.commonUrl + "/language.add";
                     $http({
                         method: 'POST',
@@ -383,7 +384,7 @@ app.controller('createContact',
                 $scope.submittedLSA = false;
                 $scope.addSkillasset = function () {
                     var dataParse = 'skillassetInfo';
-                    $scope.additionalContactInfo[dataParse].id = $scope.result.contactId;
+                    $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
                     var url = $scope.commonUrl + "/skill.add";
                     $http({
                         method: 'POST',
