@@ -89,6 +89,7 @@ app.controller('createContact',
 //DECLARE CONTACT OBJECT              
                 $scope.contactInfo = {
                     'token': session.getSession("token"),
+                    'user_type': user,
                     'name': '',
                     'alt_name': '',
                     'contact_type': 'Individual',
