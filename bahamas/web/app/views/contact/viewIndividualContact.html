@@ -107,6 +107,12 @@ and open the template in the editor.
                                         <div>{{profession}}</div>
                                     </div>
                                     <div style="padding-top: 10px;">
+                                        <h4><b>Created By</b></h4>
+                                        <div>{{createdBy}}</div>
+                                    </div>
+                                </div>
+                                <div class='col-sm-12'>
+                                    <div style="padding-top: 10px;">
                                         <h4><b>Remarks</b></h4>
                                         <div>{{remarks}}</div>
                                     </div>
@@ -131,7 +137,7 @@ and open the template in the editor.
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Phone Number {{$index + 1}}</b></h4>
-                                                <div>+{{phoneObj.country_code}}{{phoneObj.phone}}</div>
+                                                <div>+{{phoneObj.country_code}} {{phoneObj.phone_number}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Created By</b></h4>
@@ -699,8 +705,8 @@ and open the template in the editor.
                                                 <div>{{proxyObj.date_created}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Proxy</b></h4>
-                                                <div>{{proxyObj.proxy_id}}</div>
+                                                <h4><b>Proxy Name</b></h4>
+                                                <div>{{proxyObj.proxy_name}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -708,12 +714,12 @@ and open the template in the editor.
                                                 <h4><b>Created By</b></h4>
                                                 <div>{{proxyObj.created_by}}</div>
                                             </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Principal Name</b></h4>
+                                                <div>{{proxyObj.principal_name}}</div>
+                                            </div>
                                         </div>
                                         <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Proxy Standing</b></h4>
-                                                <div>{{proxyObj.proxy_standing}}</div>
-                                            </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Remarks</b></h4>
                                                 <div>{{proxyObj.remarks}}</div>
@@ -723,6 +729,12 @@ and open the template in the editor.
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{proxyObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Proxy Standing</b></h4>
+                                                <div>{{proxyObj.proxy_standing}}</div>
                                             </div>
                                         </div>
                                     </div>                                  
@@ -806,7 +818,7 @@ and open the template in the editor.
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Skills Or Assets</b></h4>
-                                                <div>{{skillsObj.language_name}}</div>
+                                                <div>{{skillsObj.skill_name}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">

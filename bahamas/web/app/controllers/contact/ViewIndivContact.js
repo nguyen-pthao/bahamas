@@ -60,6 +60,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.nationality = $scope.contactInfo['nationality'];
             $scope.dateOfBirth = $scope.contactInfo['date_of_birth'];
             $scope.remarks = $scope.contactInfo['remarks'];
+            $scope.createdBy = $scope.contactInfo['created_by'];
             
             //phone info
             $scope.phoneInfo = $scope.contactInfo['phone'];
