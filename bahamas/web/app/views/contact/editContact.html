@@ -24,7 +24,7 @@ and open the template in the editor.
                         <h3 class="box-title uppercase"><b> Edit contact </b></h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus"></i></button>
+                                <i class="fa fa-minus fa-2x"></i></button>
                         </div>
                     </div>
                     <!-- form start -->
@@ -37,23 +37,35 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body" style="display:none;">
                                 <div class="form-group col-md-12" style="padding-left: 0px">
-                                    <div class="col-md-4" style="padding-left: 0px">
+<!--                                    <div class="col-md-4" style="padding-left: 0px">
                                         <img class="img-responsive" src="style/img/huxley.jpg" alt=""/>
-                                    </div>
-                                    <div class="col-md-offset-1 col-md-7">
-                                        <div class="form-group">
+                                    </div>-->
+<!--                                    <div class="col-md-offset-1 col-md-7">-->
+                                    <div class="col-md-5">
+                                        <div class="form-group" ng-show="isUser">
                                             <label>Username</label>
-                                            <input type='text' class="form-control" ng-model='editUser.username' name="username" readonly>
+                                            <input type='text' class="form-control" ng-model='editContact.username' name="usernameU" readonly>
                                         </div>
-                                        <div class="form-group">
+                                        <div class="form-group" ng-hide="isUser">
+                                            <label>Username</label>
+                                            <input type='text' class="form-control" ng-model='editContact.username' name="usernameNU">
+                                        </div>
+                                        <div class="form-group" ng-hide="isUser">
+                                            <label>Generate Password</label>
+                                            <input type="text" name="passwordNU" ng-model='editContact.password' class="form-control">
+                                        </div>
+                                        <div class="row">
+                                            <button type="button" class="btn btn-primary" ng-click="generatePassword()">Generate Password</button>
+                                        </div>
+                                        <div class="form-group" ng-show="isUser">
                                             <div class="col-md-6" style="padding-left: 0px">
                                                 <label>Deactivate</label>
-                                                <select name="deactivate" class="form-control" ng-model='editUser.deactivate'>
+                                                <select name="deactivate" class="form-control" ng-model='editContact.deactivateStatus'>
                                                     <option></option>
-                                                    <option value="Y">Yes</option>
-                                                    <option value="N">No</option>
+                                                    <option value="true">Yes</option>
+                                                    <option value="false">No</option>
                                                 </select> 
                                             </div>
                                         </div>
@@ -62,7 +74,7 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-link uppercase">Done editing</button>
                                 </center>
                             </div>
                         </div>
@@ -168,7 +180,9 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Done editing</button>
+                                    &nbsp;
+                                    <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheContact()">Delete contact</button>
                                 </center>
                             </div>
                         </div>
@@ -178,22 +192,25 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div ng-show='editPhone === ""'>
-                                    <span>No Phone Information Available</span>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show='editPhone === ""' style="padding: 15px; color: white">
+                                    <span><b>No Phone Information Available</b></span>
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="phone in editPhone">
-                                    <div class="box-header with-border" style="background-color: #377ec4;">
-                                        <h5 class="box-title" style="color:white">+<span ng-bind="phone['country_code']"></span> <span ng-bind="phone['phone_number']"></span></h5>
-                                        <div class="box-tools pull-right">
+                                    <div class="box-header" style="padding: 5px">
+                                        <h5 class="box-title">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                <i class="fa fa-plus"></i></button>
-                                        </div>
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b><span ng-bind="phone['country_code']"></span></b> 
+                                            <b><span ng-bind="phone['phone_number']"></span></b>
+                                        </h5>
                                     </div>
-                                    <div class="box-body" style="display: none">
+                                    <div class="box-body with-border" style="display: none">
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5">
                                                 <label>Date created</label>
@@ -210,9 +227,10 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
-                                            <div class="col-md-2">
+                                            <div class="col-md-2" ng-init="loadCountryCodes()">
                                                 <label>Country code</label>
-                                                <input type="text" ng-model="phone['country_code']" class="form-control" name='countrycode'>            
+                                                <input type="number" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])">            
+                                                <span>{{newCountryName}}</span>
                                             </div>
                                             <div class="col-md-offset-5 col-md-5">
                                                 <label>Phone number</label>
@@ -222,7 +240,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="phone['remarks']" name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea ng-model="phone['phone_remarks']" name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -238,9 +256,9 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editYourPhone($event, phone)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editThePhone($event, phone)">Done editing</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editYourPhone($event, phone)">Delete phone</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteThePhone($event, phone)">Delete phone</button>
                                             </center>
                                         </div>
                                     </div>
@@ -248,7 +266,7 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addPhone">Add new phone</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addPhone()">Add new phone</button>
                                 </center>
                             </div>
                         </div>
@@ -261,49 +279,71 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editEmail == ''" style="padding: 15px">
+                                    <span><b>No Email Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="email in editEmail">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b><span ng-bind="email.email"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display:none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="email['date_created']" name="dateCreatedEmail" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedEmail" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="email['created_by']" name="createdByEmail" class="form-control" readonly> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByEmail" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Email</label>
-                                        <input type="email" name="email" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name="remarksEmail" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Email</label>
+                                                <input type="email" ng-model="email.email" name="email" class="form-control" readonly>
                                             </div>
-                                            <input type="text" name="dateObsEmail" class="form-control pull-right">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea name="remarksEmail" ng-model="email['email_remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" ng-model="email['date_obsolete']" name="dateObsEmail" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheEmail($event, email)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheEmail($event, email)">Delete email</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addEmail()">Add new email</button>
                                 </center>
                             </div>
                         </div>
@@ -313,64 +353,87 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editAddress == ''" style="padding: 15px">
+                                    <span><b>No Address Information Available</b></span>
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="address in editAddress">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b>Zipcode <span ng-bind="address['zipcode']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="address['date_created']" name="dateCreatedAddress" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedAddress" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="address['created_by']" name="createdByAddress" class="form-control" readonly> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByAddress" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Address</label>
-                                        <input type="text" name='address' class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Country</label>
-                                        <select class="form-control" name="country">
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">    
-                                        <label>Zipcode</label>
-                                        <input type="text" class="form-control" name='zipcode'>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name="remarksAddress" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Address</label>
+                                                <input type="text" ng-model="address.address" name='address' class="form-control" readonly>
                                             </div>
-                                            <input type="text" name="dateObsAddress" class="form-control pull-right">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadCountryNames()">
+                                                <label>Country</label>
+                                                <select class="form-control" ng-model="address.country" name="country">
+                                                    <option ng-repeat="country in countryNames">{{country.name}}</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5">    
+                                                <label>Zipcode</label>
+                                                <input type="text" ng-model="address.zipcode" class="form-control" name='zipcode'>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea name="remarksAddress" ng-model="address['address_remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" ng-model="address['date_obsolete']" name="dateObsAddress" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAddress($event, address)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAddress($event, address)">Delete address</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addAddress()">Add new address</button>
                                 </center>
                             </div>
                         </div>
@@ -380,120 +443,142 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus"></i>
+                                    </button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editMembership == ''" style="padding: 15px">
+                                    <span><b>No Membership Information Available</b></span>
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="membership in editMembership">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <b><span ng-bind="membership['membership_class']"></span></b>
+                                            </button>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style='display: none'>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="membership['date_created']" name="dateCreatedMem" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedMem" class="form-control pull-right" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByMem" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Membership type</label>
-                                        <select name="memType" class="form-control">
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Subscription amount</label>
-                                        <input type="number" class="form-control" name="subsrcAmtMem">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name="otherExpMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Membership start date</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="membership['created_by']" name="createdByMem" class="form-control" readonly> 
                                             </div>
-                                            <input type='text' name="startdateMem" class="form-control pull-right">
                                         </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Membership end date</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadMembershipList()">
+                                                <label>Membership type</label>
+                                                <select ng-model="membership['membership_class']" name="memType" class="form-control" readonly>
+                                                    <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
+                                                </select>
                                             </div>
-                                            <input type='text' name="enddateMem" class="form-control pull-right">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Payment mode</label>
-                                        <select name="payModMem" class="form-control">
-                                            <option> </option>
-                                        </select>  
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name="otherExpPayModMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>External transaction reference</label>
-                                        <input type='text' class='form-control' name="transRefMem">
-                                    </div>    
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Receipt number</label>
-                                        <input type='text' class='form-control' name="recNoMem">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Mode of sending receipt</label>
-                                        <select class='form-control' name="modSendRecMem">
-                                            <option></option>
-                                        </select>
-                                    </div>    
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Date of receipt</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Subscription amount</label>
+                                                <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem" readonly>
                                             </div>
-                                            <input type="text" class="form-control pull-right" name="dateRecMem">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name="otherExpRecModMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name="remarksMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea name="otherExpMemClass" ng-model="membership['explain_if_other_class']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Membership start date</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="membership['start_membership']" name="startdateMem" class="form-control pull-right" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Membership end date</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="membership['end_membership']" name="enddateMem" class="form-control pull-right" readonly>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadPaymentModeList()">
+                                                <label>Payment mode</label>
+                                                <select ng-model="membership['payment_mode']" name="payModMem" class="form-control">
+                                                    <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
+                                                </select>  
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="membership['explain_if_other_payment']" name="otherExpPayModMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>External transaction reference</label>
+                                                <input type='text' ng-model="membership['ext_transaction_ref']" class='form-control' name="transRefMem">
+                                            </div>    
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Receipt number</label>
+                                                <input type='text' ng-model="membership['receipt_number']" class='form-control' name="recNoMem">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadSendReceiptModeList()">
+                                                <label>Mode of sending receipt</label>
+                                                <select class='form-control' ng-model="membership['receipt_mode']" name="modSendRecMem">
+                                                    <option ng-repeat="receiptMode in sendReceiptModList">{{receiptMode.modeOfSendingReceipt}}</option>
+                                                </select>
+                                            </div>    
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Date of receipt</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" ng-model="membership['receipt_date']" class="form-control pull-right" name="dateRecMem">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="membership['explain_if_other_receipt']" name="otherExpRecModMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="membership['remarks']" name="remarksMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheMembership($event, membership)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
+                                            </center>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addMembership()">Add new membership</button>
                                 </center>
                             </div>
                         </div>
@@ -506,60 +591,82 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type='text' name="dateCreatedOff" class="form-control pull-right" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByOff" class="form-control" readonly> 
-                                    </div>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editOfficeHeld == ''" style="padding: 15px">
+                                    <span><b>No Office Information Available</b></span> 
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Office held</label>
-                                        <select class='form-control' name="off">
-                                            <option></option>
-                                        </select>
+                                <div class="box collapsed-box" ng-repeat="officeHeld in editOfficeHeld">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b><span ng-bind="officeHeld['office_held_name']"></span></b>
+                                        </h5>
                                     </div>
-                                </div> 
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Start office</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="officeHeld['date_created']" name="dateCreatedOff" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="startdateOff" class="form-control pull-right">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>End office</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="officeHeld['created_by']" name="createdByOff" class="form-control" readonly> 
                                             </div>
-                                            <input type='text' name="enddateOff" class="form-control pull-right">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name='remarksOff' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadOfficeHoldList()">
+                                                <label>Office held</label>
+                                                <select class='form-control' ng-model="officeHeld['office_held_name']" name="off">
+                                                    <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
+                                                </select>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Start office</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="officeHeld['start_office']" name="startdateOff" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>End office</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="officeHeld['end_office']" name="enddateOff" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea name='remarksOff' ng-model="officeHeld['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheOffice($event, office)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheOffice($event, office)">Delete office</button>
+                                            </center>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addOfficeHeld()">Add new office</button>
                                 </center>
                             </div>
                         </div>
@@ -572,137 +679,159 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editDonation == ''" style="padding: 15px">
+                                    <span><b>No Donation Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="donation in editDonation">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b>Donation Received Date <span ng-bind="donation['date_received']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="donation['date_created']" name="dateCreatedDon" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedDon" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="donation['created_by']" name="createdByDon" class="form-control" readonly> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date received</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" ng-model="donation['date_received']" class="form-control pull-right" name='dateRecvDon'>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Donation amount</label>
+                                                <input type="number" step='any' class="form-control" ng-model="donation['donation_amount']" name='donAmt'>        
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadPaymentModeList()">
+                                                <label>Payment mode</label>
+                                                <select class="form-control" ng-model="donation['payment_mode']" name='payModDon'>
+                                                    <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="donation['explain_if_other_payment']" name='otherExpPayModDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>External transaction reference</label>
+                                                <input type='text' ng-model="donation['ext_transaction_ref']" name='tranRefDon' class='form-control' contenteditable="true" spellcheck="true">
+                                            </div>    
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Receipt number</label>
+                                                <input type='text' ng-model="donation['receipt_number']" name='recNoDon' class='form-control' contenteditable="true" spellcheck="true">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadSendReceiptModeList()">
+                                                <label>Mode of sending receipt</label>
+                                                <select class='form-control' ng-model="donation['receipt_mode']" name='modSendRecDon'>
+                                                    <option ng-repeat="receiptMode in sendReceitModList">{{receiptMode.modeOfSendingReceipt}}</option>
+                                                </select>
+                                            </div>    
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Date of receipt</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" name='dateRecDon'>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="donation['explain_if_other_receipt']" name='otherExpRecModDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Donor's instructions</label>
+                                                <textarea ng-model="donation['donor_instruction']" name='donInstr' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class='form-group col-md-12'>
+                                            <div class='col-md-7'>
+                                                <label>Allocation 1</label>
+                                                <textarea ng-model="donation['allocation1']" name='allo1' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                            <div class="col-md-offset-1 col-md-4">
+                                                <label>Subamount 1</label>
+                                                <input ng-model="donation['subamount1']" name='subAmtDon1' type="number" step='any' class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class='form-group col-md-12'>
+                                            <div class='col-md-7'>
+                                                <label>Allocation 2</label>
+                                                <textarea ng-model="donation['allocation2']" name='allo2' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                            <div class="col-md-offset-1 col-md-4">
+                                                <label>Subamount 2</label>
+                                                <input ng-model="donation['subamount2']" name='subAmtDon2' type="number" step='any' class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class='form-group col-md-12'>
+                                            <div class='col-md-7'>
+                                                <label>Allocation 3</label>
+                                                <textarea ng-model="donation['allocation3']" name='allo3' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                            <div class="col-md-offset-1 col-md-4">
+                                                <label>Subamount 3</label>
+                                                <input ng-model="donation['subamount3']" name='subAmtDon3' type="number" class="form-control">
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Associated occasion</label>
+                                                <textarea ng-model="donation['associated_occasion']" name='assoOccasDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="donation['remarks']" name='remarksDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheDonation($event, donation)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheDonation($event, donation)">Delete donation</button>
+                                            </center>
                                         </div>
                                     </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByDon" class="form-control" readonly> 
+                                    <div class='box-footer'>
+                                        <center>
+                                            <button type="submit" class="btn btn-warning uppercase" ng-click="addDonation()">Add new donation</button>
+                                        </center>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date received</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control pull-right" name='dateRecvDon'>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Donation amount</label>
-                                        <input type="number" step='any' class="form-control" name='donAmt'>        
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Payment mode</label>
-                                        <select class="form-control" name='payModDon'>
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name='otherExpPayModDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>External transaction reference</label>
-                                        <input type='text' name='tranRefDon' class='form-control' contenteditable="true" spellcheck="true">
-                                    </div>    
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Receipt number</label>
-                                        <input type='text' name='recNoDon' class='form-control' contenteditable="true" spellcheck="true">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Mode of sending receipt</label>
-                                        <select class='form-control' name='modSendRecDon'>
-                                            <option></option>
-                                        </select>
-                                    </div>    
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Date of receipt</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input type="text" class="form-control pull-right" name='dateRecDon'>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name='otherExpRecModDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Donor's instructions</label>
-                                        <textarea name='donInstr' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-12'>
-                                    <div class='col-md-7'>
-                                        <label>Allocation 1</label>
-                                        <textarea name='allo1' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="col-md-offset-1 col-md-4">
-                                        <label>Subamount 1</label>
-                                        <input name='subAmtDon1' type="number" step='any' class="form-control">
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-12'>
-                                    <div class='col-md-7'>
-                                        <label>Allocation 2</label>
-                                        <textarea name='allo2' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="col-md-offset-1 col-md-4">
-                                        <label>Subamount 2</label>
-                                        <input name='subAmtDon2' type="number" step='any' class="form-control">
-                                    </div>
-                                </div>
-                                <div class='form-group col-md-12'>
-                                    <div class='col-md-7'>
-                                        <label>Allocation 3</label>
-                                        <textarea name='allo3' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                    <div class="col-md-offset-1 col-md-4">
-                                        <label>Subamount 3</label>
-                                        <input name='subAmtDon3' type="number" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Associated occasion</label>
-                                        <textarea name='assoOccasDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name='remarksDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class='box-footer'>
-                                <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
-                                </center>
                             </div>
                         </div>
                         <!-- /donation information -->
@@ -714,69 +843,92 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editTeam == ''" style="padding: 15px">
+                                    <span><b>No Team Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="team in editTeam">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b>Team <span ng-bind="team['team']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="team['date_created']" name="dateCreatedTeam" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedTeam" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="team['created_by']" name="createdByTeam" class="form-control" readonly> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                                                <label>Team</label>
+                                                <select class="form-control" ng-model="team['team']" name='team'>
+                                                    <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                                </select>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="team['explain_if_other']" name='otherExpTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Subteam</label>
+                                                <input ng-model="team['subteam']" name='subteam' type="text" class="form-control">
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
+                                                <label>Permission</label>
+                                                <select class="form-control" ng-model="team['permission_level']" name='permission'>
+                                                    <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
+                                                </select>
+                                            </div>
+                                        </div> 
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="team['remarks']" name='remarksTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input ng-model="team['date_obsolete']" name='dateObsTeam' type='text' class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheTeam($event, team)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheTeam($event, team)">Delete team</button>
+                                            </center>
                                         </div>
                                     </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByTeam" class="form-control" readonly> 
-                                    </div>
                                 </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Team</label>
-                                        <select class="form-control" name='team'>
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name='otherExpTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Subteam</label>
-                                        <input name='subteam' type="text" class="form-control">
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Permission</label>
-                                        <select class="form-control" name='permission'>
-                                            <option></option>
-                                        </select>
-                                    </div>
-                                </div> 
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name='remarksTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
-                                            </div>
-                                            <input name='dateObsTeam' type='text' class="form-control pull-right">
-                                        </div>
-                                    </div>
-                                </div>
+
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addTeam()">Add new team</button>
                                 </center>
                             </div>
                         </div>
@@ -806,10 +958,10 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
-                                    <div class="col-md-5">
+                                    <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                         <label>Team</label>
                                         <select class="form-control">
-                                            <option></option>
+                                            <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                         </select>
                                     </div>
                                 </div> 
@@ -862,75 +1014,96 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editAppreciation == ''" style="padding: 15px">
+                                    <span><b>No Appreciation Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="appreciation in editAppreciation">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b>Appreciation created on <span ng-bind="appreciation['date_created']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="appreciation['date_created']" name="dateCreatedAppn" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedAppn" class="form-control pull-right" readonly>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByAppn" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Appraisal comments</label>
-                                        <textarea name='apprComm' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Appraised by</label>
-                                        <input type='text' name="apprBy" class="form-control"> 
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Appraisal date</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="appreciation['created_by']" name="createdByAppn" class="form-control" readonly> 
                                             </div>
-                                            <input type='text' name="apprDate" class="form-control pull-right">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Appreciation gesture</label>
-                                        <textarea name='appnGest' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Appreciation by</label>
-                                        <input name='appnBy' type='text' class="form-control"> 
-                                    </div>
-
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Appreciation date</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Appraisal comments</label>
+                                                <textarea ng-model="appreciation['appraisal_comment']" name='apprComm' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
-                                            <input type='text' name="appnDate" class="form-control pull-right">
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name='remarksAppn' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Appraised by</label>
+                                                <input type='text' ng-model="appreciation['appraisal_by']" name="apprBy" class="form-control"> 
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Appraisal date</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="appreciation['appraisal_date']" name="apprDate" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Appreciation gesture</label>
+                                                <textarea ng-model="appreciation['appreciation_gesture']" name='appnGest' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Appreciation by</label>
+                                                <input ng-model="appreciation['appreciation_by']" name='appnBy' type='text' class="form-control"> 
+                                            </div>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Appreciation date</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="appreciation['appreciation_date']" name="appnDate" class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="appreciation['remarks']" name='remarksAppn' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAppreciation($event, appreciation)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
+                                            </center>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addAppreciation()">Add new appreciation</button>
                                 </center>
                             </div>
                         </div>
@@ -943,55 +1116,77 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editProxy == ''" style="padding: 15px">
+                                    <span><b>No Proxy Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="proxy in editProxy">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b><span ng-bind="proxy['proxy_of']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="proxy['date_created']" name="dateCreatedProx" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedProx" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="proxy['created_by']" name="createdByProx" class="form-control" readonly> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByProx" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Proxy</label>
-                                        <input type='text' name="proxy" class="form-control"> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Proxy standing</label>
-                                        <textarea name='proxStand' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name='remarksProx' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Proxy</label>
+                                                <input type='text' ng-model="proxy['proxy_of']" name="proxy" class="form-control"> 
                                             </div>
-                                            <input type='text' name='dateObsProx' class="form-control pull-right">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Proxy standing</label>
+                                                <textarea ng-model="proxy['proxy_standing']" name='proxStand' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="proxy['remarks']" name='remarksProx' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="proxy['date_obsolete']" name='dateObsProx' class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheProxy($event, proxy)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addProxy()">Add new proxy</button>
                                 </center>
                             </div>
                         </div>
@@ -1004,64 +1199,86 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editLanguages == ''" style="padding: 15px">
+                                    <span><b>No Email Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="language in editLanguages">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b><span ng-bind="language['language']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="language['date_created']" name="dateCreatedLang" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedLang" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="language['created_by']" name="createdByLang" class="form-control" readonly> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByLang" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Language</label>
-                                        <select class="form-control" name='languages'>
-                                            <option></option>
-                                        </select>  
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Speak / Write</label>
-                                        <select class="form-control" name='speakWrite'>
-                                            <option value="speak only">Speak only</option>
-                                            <option value="speak and write">Speak and write</option>
-                                        </select> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea name='otherExpLang' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea name='remarksLang' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5" ng-init="loadLanguageList()">
+                                                <label>Language</label>
+                                                <select class="form-control" ng-model="language['language']" name='languages'>
+                                                    <option ng-repeat="language in languageList">{{language.language}}</option>
+                                                </select>  
                                             </div>
-                                            <input name='dateObsLang' type='text' class="form-control pull-right">
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Speak / Write</label>
+                                                <select class="form-control" ng-model="language['speak_write']" name='speakWrite'>
+                                                    <option value="speak only">Speak only</option>
+                                                    <option value="speak and write">Speak and write</option>
+                                                </select> 
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="language['explain_if_other']" name='otherExpLang' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="language['remarks']" name='remarksLang' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input ng-model="language['date_obsolete']" name='dateObsLang' type='text' class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Delete language</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addLanguage()">Add new language</button>
                                 </center>
                             </div>
                         </div>
@@ -1074,57 +1291,79 @@ and open the template in the editor.
                                         <i class="fa fa-plus"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date created</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                                <div ng-show="editSkillsAssets == ''" style="padding: 15px">
+                                    <span><b>No Skill/Asset Information Available</b></span> 
+                                </div>
+                                <div class="box collapsed-box" ng-repeat="skill in editSkillsAssets">
+                                    <div class="box-header with-border" style="padding: 5px">
+                                        <h5 class="box-title">
+                                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <i class="fa fa-plus fa-lg"></i>
+                                            </button>
+                                            <b><span ng-bind="skill['skill_asset']"></span></b>
+                                        </h5>
+                                    </div>
+                                    <div class="box-body with-border" style="display: none">
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date created</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input type='text' ng-model="skill['date_created']" name="dateCreatedLSA" class="form-control pull-right" readonly>
+                                                </div>
                                             </div>
-                                            <input type='text' name="dateCreatedLSA" class="form-control pull-right" readonly>
+                                            <div class="col-md-offset-2 col-md-5">
+                                                <label>Created by</label>
+                                                <input type='text' ng-model="skill['created_by']" name="createdByLSA" class="form-control" readonly> 
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-offset-2 col-md-5">
-                                        <label>Created by</label>
-                                        <input type='text' name="createdByLSA" class="form-control" readonly> 
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12" style="margin-top: 15px">
-                                    <div class="col-md-5">
-                                        <label>Skills or Assets</label>
-                                        <select class="form-control" name='LSA'>
-                                            <option></option>
-                                        </select>    
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Explain if above is 'Other'</label>
-                                        <textarea style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-12">
-                                        <label>Remarks</label>
-                                        <textarea style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-12">
-                                    <div class="col-md-5">
-                                        <label>Date obsolete</label>
-                                        <div class="input-group date">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar"></i>
+                                        <div class="form-group col-md-12" style="margin-top: 15px">
+                                            <div class="col-md-5" ng-init="loadLSAList()">
+                                                <label>Skills or Assets</label>
+                                                <select class="form-control" ng-model="skill['skill_asset']" name='LSA'>
+                                                    <option ng-repeat="skill in LSAList">{{skill.lsaClass}}</option>
+                                                </select>    
                                             </div>
-                                            <input name='dateObsLSA' type='text' class="form-control pull-right">
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Explain if above is 'Other'</label>
+                                                <textarea ng-model="skill['explain_if_other']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-12">
+                                                <label>Remarks</label>
+                                                <textarea ng-model="skill['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12">
+                                            <div class="col-md-5">
+                                                <label>Date obsolete</label>
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input ng-model="skill['date_obsolete']" name='dateObsLSA' type='text' class="form-control pull-right">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class='row'>
+                                            <center>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheSkill($event, skill)">Done editing</button>
+                                                &nbsp;
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
+                                            </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addSkill()">Add new skill</button>
                                 </center>
                             </div>
                         </div>
