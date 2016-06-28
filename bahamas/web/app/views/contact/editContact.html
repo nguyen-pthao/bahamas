@@ -75,7 +75,7 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-link uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Update user</button>
                                 </center>
                             </div>
                         </div>
@@ -181,7 +181,7 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Done editing</button>
+                                    <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Update contact</button>
                                     &nbsp;
                                     <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheContact()">Delete contact</button>
                                 </center>
@@ -259,7 +259,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editThePhone($event, phone)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editThePhone($event, phone)">Update phone</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteThePhone($event, phone)">Delete phone</button>
                                             </center>
@@ -338,7 +338,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheEmail($event, email)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheEmail($event, email)">Update email</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheEmail($event, email)">Delete email</button>
                                             </center>
@@ -430,7 +430,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAddress($event, address)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAddress($event, address)">Update address</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAddress($event, address)">Delete address</button>
                                             </center>
@@ -487,13 +487,13 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadMembershipList()">
                                                 <label>Membership type</label>
-                                                <select ng-model="membership['membership_class_name']" name="memType" class="form-control" readonly>
+                                                <select ng-model="membership['membership_class_name']" name="memType" class="form-control">
                                                     <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                 </select>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
                                                 <label>Subscription amount</label>
-                                                <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem" readonly>
+                                                <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -509,7 +509,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['start_date']" name="startdateMem" class="form-control pull-right" readonly>
+                                                    <input type='text' ng-model="membership['start_date']" name="startdateMem" class="form-control pull-right">
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -518,7 +518,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['end_date']" name="enddateMem" class="form-control pull-right" readonly>
+                                                    <input type='text' ng-model="membership['end_date']" name="enddateMem" class="form-control pull-right">
                                                 </div>
                                             </div>
                                         </div>
@@ -577,7 +577,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheMembership($event, membership)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheMembership($event, membership)">Update address</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
                                             </center>
@@ -634,7 +634,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadOfficeHoldList()">
                                                 <label>Office held</label>
-                                                <select class='form-control' ng-model="officeHeld['office_held']" name="off">
+                                                <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
                                                     <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
                                                 </select>
                                             </div>
@@ -667,7 +667,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheOffice($event, office)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheOffice($event, office)">Update office</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheOffice($event, office)">Delete office</button>
                                             </center>
@@ -833,7 +833,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheDonation($event, donation)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheDonation($event, donation)">Update donation</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheDonation($event, donation)">Delete donation</button>
                                             </center>
@@ -890,7 +890,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                                 <label>Team</label>
-                                                <select class="form-control" ng-model="team['team_name']" name='team'>
+                                                <select class="form-control" ng-model="team['team_name']" name='team' readonly>
                                                     <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                                 </select>
                                             </div>
@@ -932,7 +932,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheTeam($event, team)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheTeam($event, team)">Update team</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheTeam($event, team)">Delete team</button>
                                             </center>
@@ -1016,7 +1016,7 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-primary uppercase">Done editing</button>
+                                    <button type="submit" class="btn btn-primary uppercase">Update training</button>
                                 </center>
                             </div>
                         </div>
@@ -1110,7 +1110,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAppreciation($event, appreciation)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAppreciation($event, appreciation)">Update appreciation</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
                                             </center>
@@ -1195,7 +1195,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheProxy($event, proxy)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheProxy($event, proxy)">Update proxy</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
                                             </center>
@@ -1289,7 +1289,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Update language</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Delete language</button>
                                             </center>
@@ -1376,7 +1376,7 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheSkill($event, skill)">Done editing</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheSkill($event, skill)">Update skill</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
                                             </center>

@@ -29,7 +29,7 @@ app.controller('loginController',
                 data: JSON.stringify($scope.user)
             }).success(function (response) {
                 var returnedUser = response;
-                console.log(response);
+//                console.log(response);
                 if (returnedUser.message === "success") {
                     authorisedUser.username = $scope.user.username;
                     authorisedUser.token = returnedUser.token;
@@ -38,7 +38,7 @@ app.controller('loginController',
                     authorisedUser.teams = returnedUser.contact.teams;
 //STORE AUTHORISED USER INFO IN SESSION SERVICE
                     if (authorisedUser.username !== "") {
-                        console.log(authorisedUser);
+//                        console.log(authorisedUser);
                         var storeUsername = session.setSession('username', authorisedUser.username);
                         var storeToken = session.setSession('token', authorisedUser.token);
                         var storeUserType = session.setSession('userType', authorisedUser.userType);
