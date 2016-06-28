@@ -102,6 +102,10 @@ public class UpdateContact extends HttpServlet {
                     String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                     String uName = Validator.containsBlankField(jobject.get("username").getAsString());
                     String password = Validator.containsBlankField(jobject.get("password").getAsString());
+                    boolean notification = Validator.isBooleanValid("notification");
+                    boolean isAdmin = Validator.isBooleanValid("isAdmin");
+                    boolean isNovice = Validator.isBooleanValid("isNovice");
+                    boolean deactivated = Validator.isBooleanValid("deactivated");
 
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
@@ -109,15 +113,24 @@ public class UpdateContact extends HttpServlet {
 
                     //Assign username and password
                     newContact.setUsername(uName);
-                    
-                    if(password != null){
-                        String[] passwordGenerate = PasswordHash.getHashAndSalt(password);                      
+
+                    if (password != null) {
+                        String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
                         newContact.setPassword(passwordGenerate[0]);
                         newContact.setSalt(passwordGenerate[1]);
                     }
 
                     //Assign contact id
                     newContact.setContactId(contactId);
+                    newContact.setNotification(notification);
+
+                    //Sensitive fields for admin and team Manager only only
+                    if(user.isIsAdmin() || (userType.equals("teammanager")
+                            && RoleCheckDAO.checkRole(user.getContactId(), userType))){
+                        newContact.setIsAdmin(isAdmin);
+                        newContact.setIsNovice(isNovice);
+                        newContact.setDeactivated(deactivated);
+                    }
 
                     if (ContactDAO.updateContact(newContact)) {
                         json.addProperty("message", "success");

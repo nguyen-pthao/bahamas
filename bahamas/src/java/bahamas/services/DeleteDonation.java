@@ -85,34 +85,22 @@ public class DeleteDonation extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 } else {
-                    //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+
                     ContactDAO cDAO = new ContactDAO();
-
-                    Contact c = cDAO.retrieveContactById(contactId);
-
-                    if (c == null) {
+                    if (!cDAO.retrieveContactByUsername(username).isIsAdmin()) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
+                    }
+
+                    int donation_id = Validator.isIntValid(jobject.get("donation_id").getAsString());
+
+                    if (DonationDAO.deleteDonation(donation_id)) {
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
                     } else {
-                        
-                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin()) {
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                            return;
-                        }
-                        
-                        int donation_id = Validator.isIntValid(jobject.get("donation_id").getAsString());
-
-                        if (DonationDAO.deleteDonation(donation_id)) {
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                        }
-
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
                     }
 
                 }
