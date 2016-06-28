@@ -82,7 +82,7 @@ public class AddSkill extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Validator.isIntValid(jobject.get("id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset").getAsString());
                     String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
                     String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());

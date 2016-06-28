@@ -213,15 +213,16 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         jsonContactObj.addProperty("remarks", remarks);
         jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
+        jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
         
-        if (!phoneList.isEmpty()) {
+        if (phoneList != null && !phoneList.isEmpty()) {
             
             for (int i = 0; i < phoneList.size(); i++) {
                 JsonObject jsonPhoneObj = new JsonObject();
                 Phone phone = phoneList.get(i);
                 //phoneStr += "+" + phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
                 jsonPhoneObj.addProperty("country_code", phone.getCountryCode());
-                jsonPhoneObj.addProperty("phone", phone.getPhoneNumber());
+                jsonPhoneObj.addProperty("phone_number", phone.getPhoneNumber());
                 //jsonPhoneObj.addProperty("remarks", phone.getRemarks());
                 
                 if (phone.getRemarks() != null) {
@@ -247,7 +248,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         
         
         
-        if (!emailList.isEmpty()) {
+        if (emailList != null && !emailList.isEmpty()) {
             
             for (int i = 0; i < emailList.size(); i++) {
                 JsonObject jsonEmailObj = new JsonObject();
@@ -279,7 +280,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
        
         
-        if (!addressList.isEmpty()) {
+        if (addressList != null && !addressList.isEmpty()) {
             
             for (int i = 0; i < addressList.size(); i++) {
                 JsonObject jsonAddressObj = new JsonObject();
@@ -321,7 +322,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         
         
         //offic
-        if (!officeHeldList.isEmpty()) {
+        if (officeHeldList != null && !officeHeldList.isEmpty()) {
             
             for (int i = 0; i < officeHeldList.size(); i++) {
                 JsonObject jsonOfficeHObj = new JsonObject();
@@ -346,16 +347,25 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         
         //proxyList
-        if (!proxyList.isEmpty()) {
+        if (proxyList != null && !proxyList.isEmpty()) {
             
             for (int i = 0; i < proxyList.size(); i++) {
                 JsonObject jsonProxyObj = new JsonObject();
                 Proxy proxy = proxyList.get(i);
 
-                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getProxyID()));
-                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getPrincipalID()));
-                jsonProxyObj.addProperty("proxy_standing", proxy.getProxyStanding());
+                ContactDAO cDAO = new ContactDAO();
+                Contact c1 = cDAO.retrieveContactById(proxy.getProxyID());
+                Contact c2 = cDAO.retrieveContactById(proxy.getPrincipalID());
 
+                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getProxyID()));
+                jsonProxyObj.addProperty("proxy_name", c1.getName());
+                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getPrincipalID()));
+                jsonProxyObj.addProperty("principal_name", c2.getName());
+                if (proxy.getProxyStanding() != null) {
+                    jsonProxyObj.addProperty("proxy_standing", proxy.getProxyStanding());
+                } else {
+                    jsonProxyObj.addProperty("proxy_standing", "");
+                }
                 
                 if (proxy.getRemarks() != null) {
                     jsonProxyObj.addProperty("remarks", proxy.getRemarks());
@@ -378,7 +388,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         
         //membershipList
-        if (!membershipList.isEmpty()) {
+        if (membershipList != null && !membershipList.isEmpty()) {
             
             for (int i = 0; i < membershipList.size(); i++) {
                 JsonObject jsonMembershipObj = new JsonObject();
@@ -464,7 +474,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
             
         //languageAssignmentList
-        if (!languageAssignmentList.isEmpty()) {
+        if (languageAssignmentList != null && !languageAssignmentList.isEmpty()) {
             
             for (int i = 0; i < languageAssignmentList.size(); i++) {
                 JsonObject jsonLanguageListObj = new JsonObject();
@@ -502,13 +512,13 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         
         //skillAssignmentList
-        if (!skillAssignmentList.isEmpty()) {
+        if (skillAssignmentList != null && !skillAssignmentList.isEmpty()) {
             
             for (int i = 0; i < skillAssignmentList.size(); i++) {
                 JsonObject jsonSkillListObj = new JsonObject();
                 SkillAssignment skillAssignment = skillAssignmentList.get(i);
 
-                jsonSkillListObj.addProperty("language_name", skillAssignment.getSkillName());
+                jsonSkillListObj.addProperty("skill_name", skillAssignment.getSkillName());
                 
                 if (skillAssignment.getExplainIfOther()!= null) {
                     jsonSkillListObj.addProperty("explain_if_other", skillAssignment.getExplainIfOther());
@@ -536,7 +546,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
 
         //appreciationList jsonObjappreciation
-        if (!appreciationList.isEmpty()) {
+        if (appreciationList != null && !appreciationList.isEmpty()) {
             
             for (int i = 0; i < appreciationList.size(); i++) {
                 JsonObject jsonAppreciationObj = new JsonObject();
@@ -593,7 +603,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         
         //donationList
-        if (!donationList.isEmpty()) {
+        if (donationList != null && !donationList.isEmpty()) {
             
             for (int i = 0; i < donationList.size(); i++) {
                 JsonObject jsonDonationObj = new JsonObject();
@@ -691,7 +701,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         
         //jsonObjTeamJoin teamJoinList
-        if (!teamJoinList.isEmpty()) {
+        if (teamJoinList != null && !teamJoinList.isEmpty()) {
             
             for (int i = 0; i < teamJoinList.size(); i++) {
                 JsonObject jsonTeamJoinObj = new JsonObject();

@@ -253,7 +253,7 @@ public class ContactDAO {
         return autoIncKeyFromApi;
     }
 
-    public static boolean changePermission(Contact c, boolean isNovice) {
+    public static boolean changeNovicePermission(Contact c, boolean isNovice) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -305,34 +305,37 @@ public class ContactDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE CONTACT SET CONTACT_TYPE=?,ISADMIN=?,"
+            stmt = conn.prepareStatement("UPDATE CONTACT SET CONTACT_TYPE=?,ISADMIN=?,ISNOVICE=?,DEACTIVATED=?,"
                     + "NAME=?,ALT_NAME=?,EXPLAIN_IF_OTHER=?,PROFESSION=?,"
-                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,PROFILE_PIC=?,REMARKS=?,USERNAME=?"
-                    + ",PASSWORD=?,SALT=? WHERE CONTACT_ID=?");
+                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,PROFILE_PIC=?,REMARKS=?,USERNAME=?,"
+                    + "PASSWORD=?,SALT=?,NOTIFICATION=? WHERE CONTACT_ID=?");
 
             stmt.setString(1, c.getContactType());
             stmt.setBoolean(2, c.isIsAdmin());
-            stmt.setString(3, c.getName());
-            stmt.setString(4, c.getAltName());
-            stmt.setString(5, c.getExplainIfOther());
-            stmt.setString(6, c.getProfession());
-            stmt.setString(7, c.getJobTitle());
-            stmt.setString(8, c.getNric());
-            stmt.setString(9, c.getGender());
-            stmt.setString(10, c.getNationality());
+            stmt.setBoolean(3, c.isIsNovice());
+            stmt.setBoolean(4, c.isDeactivated());
+            stmt.setString(5, c.getName());
+            stmt.setString(6, c.getAltName());
+            stmt.setString(7, c.getExplainIfOther());
+            stmt.setString(8, c.getProfession());
+            stmt.setString(9, c.getJobTitle());
+            stmt.setString(10, c.getNric());
+            stmt.setString(11, c.getGender());
+            stmt.setString(12, c.getNationality());
             if (c.getDateOfBirth() != null) {
-                stmt.setDate(11, new java.sql.Date(c.getDateOfBirth().getTime()));
+                stmt.setDate(13, new java.sql.Date(c.getDateOfBirth().getTime()));
             } else {
-                stmt.setDate(11, null);
+                stmt.setDate(13, null);
             }
-            stmt.setString(12, c.getProfilePic());
-            stmt.setString(13, c.getRemarks());
-            stmt.setString(14, c.getUsername());
-            stmt.setString(15, c.getPassword());
-            stmt.setString(16, c.getSalt());
-            stmt.setInt(17, c.getContactId());
-         
-            return stmt.executeUpdate()==1;
+            stmt.setString(14, c.getProfilePic());
+            stmt.setString(15, c.getRemarks());
+            stmt.setString(16, c.getUsername());
+            stmt.setString(17, c.getPassword());
+            stmt.setString(18, c.getSalt());
+            stmt.setBoolean(19, c.isNotification());
+            stmt.setInt(20, c.getContactId());
+
+            return stmt.executeUpdate() == 1;
 
         } catch (SQLException ex) {
             ex.printStackTrace();

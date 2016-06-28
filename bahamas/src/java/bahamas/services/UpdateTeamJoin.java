@@ -6,9 +6,12 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.PhoneDAO;
+import bahamas.dao.EmailDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
-import bahamas.entity.Phone;
+import bahamas.entity.Email;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -19,7 +22,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
@@ -32,8 +34,10 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author huxley.goh
  */
-@WebServlet(name = "AddPhone", urlPatterns = {"/phone.add"})
-public class AddPhone extends HttpServlet {
+@WebServlet(name = "UpdateTeamJoin", urlPatterns = {"/teamjoin.update"})
+public class UpdateTeamJoin extends HttpServlet {
+
+    private static final SimpleDateFormat date = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,6 +52,8 @@ public class AddPhone extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -88,20 +94,39 @@ public class AddPhone extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                    Phone newPhone = null;
 
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
+                        return;
                     } else {
-                        int countryCode = Validator.isIntValid(jobject.get("country_code").getAsString());
-                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
-                        String phoneRemarks = Validator.containsBlankField(jobject.get("phone_remarks").getAsString());
+
+                        Contact user = cDAO.retrieveContactByUsername(username);
+                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        if (!user.isIsAdmin() && !userType.equals("teammanager")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
+                        String team = Validator.containsBlankField(jobject.get("team").getAsString());
+                        String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
+                        String subTeam = Validator.containsBlankField(jobject.get("subteam").getAsString());
+                        String permission = Validator.containsBlankField(jobject.get("permission_level").getAsString());
+                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
-                        newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
+                        TeamJoin tj = new TeamJoin(c, team, username, explainIfOther,
+                                subTeam, dateObsolete, remarks, permission);
 
-                        if (PhoneDAO.addPhone(newPhone)) {
+                        if (TeamJoinDAO.updateTeamJoin(tj)) {
+                            //change contact to a non novice account
+                            if(!(permission == null || !permission.equals("Associate") ||
+                                    !permission.equals("Event leader") || !permission.equals("Team manager"))){
+                                cDAO.changeNovicePermission(c, false);
+                            }
+                            
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
@@ -117,7 +142,7 @@ public class AddPhone extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

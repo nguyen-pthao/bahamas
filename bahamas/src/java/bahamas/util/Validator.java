@@ -123,6 +123,13 @@ public class Validator {
         }
     }
 
+    public static boolean isBooleanValid(String value){
+        if(value == null || value.trim().isEmpty()){
+            return false;
+        }
+        else return value.equals("true");
+    }
+    
     /**
      * <p>
      * Return a boolean value on whether inputted date is valid

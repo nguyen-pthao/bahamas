@@ -96,7 +96,9 @@ public class DeleteContact extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else if (ContactDAO.deleteContact(contactId)) {
+                    } 
+                    
+                    if (ContactDAO.deleteContact(contactId)) {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
