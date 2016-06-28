@@ -165,6 +165,10 @@ h6,
 .h6 {
   font-family: 'Source Sans Pro', sans-serif;
 }
+
+b {
+  font-weight: 600
+}
 /* General Links */
 a {
   color: #3c8dbc;

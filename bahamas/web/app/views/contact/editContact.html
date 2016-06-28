@@ -24,7 +24,7 @@ and open the template in the editor.
                         <h3 class="box-title uppercase"><b> Edit contact </b></h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-minus fa-2x"></i></button>
+                                <i class="fa fa-minus fa-lg"></i></button>
                         </div>
                     </div>
                     <!-- form start -->
@@ -34,7 +34,7 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none;">
@@ -44,7 +44,7 @@ and open the template in the editor.
                                     </div>-->
 <!--                                    <div class="col-md-offset-1 col-md-7">-->
                                     <div class="col-md-5">
-                                        <div class="form-group" ng-show="isUser">
+                                        <div class="form-group" ng-show="isUser && isAdmin">
                                             <label>Username</label>
                                             <input type='text' class="form-control" ng-model='editContact.username' name="usernameU" readonly>
                                         </div>
@@ -56,14 +56,15 @@ and open the template in the editor.
                                             <label>Generate Password</label>
                                             <input type="text" name="passwordNU" ng-model='editContact.password' class="form-control">
                                         </div>
-                                        <div class="row">
+                                        <div class="row" ng-hide="isUser">
+                                            <center>
                                             <button type="button" class="btn btn-primary" ng-click="generatePassword()">Generate Password</button>
+                                            </center>
                                         </div>
-                                        <div class="form-group" ng-show="isUser">
+                                        <div class="form-group" ng-show="isUser && isAdmin">
                                             <div class="col-md-6" style="padding-left: 0px">
                                                 <label>Deactivate</label>
-                                                <select name="deactivate" class="form-control" ng-model='editContact.deactivateStatus'>
-                                                    <option></option>
+                                                <select name="deactivate" class="form-control" ng-model='editContact.deactivated'>
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
                                                 </select> 
@@ -84,7 +85,7 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
@@ -192,13 +193,15 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa fa-plus fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show='editPhone === ""' style="padding: 15px; color: white">
-                                    <span><b>No Phone Information Available</b></span>
+                                <div ng-show='editPhone === ""' style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom: 15px">
+                                        No Phone Information Available
+                                    </h4>
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="phone in editPhone">
                                     <div class="box-header" style="padding: 5px">
@@ -240,7 +243,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="phone['phone_remarks']" name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea ng-model="phone['remarks']" name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -276,12 +279,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editEmail == ''" style="padding: 15px">
-                                    <span><b>No Email Information Available</b></span> 
+                                <div ng-show="editEmail == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Email Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="email in editEmail">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -317,7 +322,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea name="remarksEmail" ng-model="email['email_remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea name="remarksEmail" ng-model="email['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -353,13 +358,15 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa fa-plus fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editAddress == ''" style="padding: 15px">
-                                    <span><b>No Address Information Available</b></span>
+                                <div ng-show="editAddress == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Address Information Available
+                                    </h4>
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="address in editAddress">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -367,7 +374,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b>Zipcode <span ng-bind="address['zipcode']"></span></b>
+                                            <b>Zipcode <span ng-bind="address['zipcode']"> <span ng-bind="address['country']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -407,7 +414,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea name="remarksAddress" ng-model="address['address_remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea name="remarksAddress" ng-model="address['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -443,19 +450,21 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i>
+                                        <i class="fa fa-plus fa-lg"></i>
                                     </button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editMembership == ''" style="padding: 15px">
-                                    <span><b>No Membership Information Available</b></span>
+                                <div ng-show="editMembership == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Membership Information Available
+                                    </h4>
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="membership in editMembership">
                                     <div class="box-header with-border" style="padding: 5px">
                                         <h5 class="box-title">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                <b><span ng-bind="membership['membership_class']"></span></b>
+                                                <b><span ng-bind="membership['membership_class_name']"></span></b>
                                             </button>
                                         </h5>
                                     </div>
@@ -478,7 +487,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadMembershipList()">
                                                 <label>Membership type</label>
-                                                <select ng-model="membership['membership_class']" name="memType" class="form-control" readonly>
+                                                <select ng-model="membership['membership_class_name']" name="memType" class="form-control" readonly>
                                                     <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                 </select>
                                             </div>
@@ -500,7 +509,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['start_membership']" name="startdateMem" class="form-control pull-right" readonly>
+                                                    <input type='text' ng-model="membership['start_date']" name="startdateMem" class="form-control pull-right" readonly>
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -509,14 +518,14 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['end_membership']" name="enddateMem" class="form-control pull-right" readonly>
+                                                    <input type='text' ng-model="membership['end_date']" name="enddateMem" class="form-control pull-right" readonly>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadPaymentModeList()">
                                                 <label>Payment mode</label>
-                                                <select ng-model="membership['payment_mode']" name="payModMem" class="form-control">
+                                                <select ng-model="membership['payment_mode_name']" name="payModMem" class="form-control">
                                                     <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                                 </select>  
                                             </div>
@@ -540,7 +549,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadSendReceiptModeList()">
                                                 <label>Mode of sending receipt</label>
-                                                <select class='form-control' ng-model="membership['receipt_mode']" name="modSendRecMem">
+                                                <select class='form-control' ng-model="membership['receipt_mode_name']" name="modSendRecMem">
                                                     <option ng-repeat="receiptMode in sendReceiptModList">{{receiptMode.modeOfSendingReceipt}}</option>
                                                 </select>
                                             </div>    
@@ -588,12 +597,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editOfficeHeld == ''" style="padding: 15px">
-                                    <span><b>No Office Information Available</b></span> 
+                                <div ng-show="editOfficeHeld == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                            No Office Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="officeHeld in editOfficeHeld">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -601,7 +612,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b><span ng-bind="officeHeld['office_held_name']"></span></b>
+                                            <b><span ng-bind="officeHeld['office_held']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -623,7 +634,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadOfficeHoldList()">
                                                 <label>Office held</label>
-                                                <select class='form-control' ng-model="officeHeld['office_held_name']" name="off">
+                                                <select class='form-control' ng-model="officeHeld['office_held']" name="off">
                                                     <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
                                                 </select>
                                             </div>
@@ -676,12 +687,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editDonation == ''" style="padding: 15px">
-                                    <span><b>No Donation Information Available</b></span> 
+                                <div ng-show="editDonation == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Donation Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="donation in editDonation">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -750,7 +763,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadSendReceiptModeList()">
                                                 <label>Mode of sending receipt</label>
-                                                <select class='form-control' ng-model="donation['receipt_mode']" name='modSendRecDon'>
+                                                <select class='form-control' ng-model="donation['receipt_mode_name']" name='modSendRecDon'>
                                                     <option ng-repeat="receiptMode in sendReceitModList">{{receiptMode.modeOfSendingReceipt}}</option>
                                                 </select>
                                             </div>    
@@ -773,7 +786,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Donor's instructions</label>
-                                                <textarea ng-model="donation['donor_instruction']" name='donInstr' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea ng-model="donation['donor_instructions']" name='donInstr' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class='form-group col-md-12'>
@@ -783,7 +796,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="col-md-offset-1 col-md-4">
                                                 <label>Subamount 1</label>
-                                                <input ng-model="donation['subamount1']" name='subAmtDon1' type="number" step='any' class="form-control">
+                                                <input ng-model="donation['subtotal1']" name='subAmtDon1' type="number" step='any' class="form-control">
                                             </div>
                                         </div>
                                         <div class='form-group col-md-12'>
@@ -793,7 +806,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="col-md-offset-1 col-md-4">
                                                 <label>Subamount 2</label>
-                                                <input ng-model="donation['subamount2']" name='subAmtDon2' type="number" step='any' class="form-control">
+                                                <input ng-model="donation['subtotal2']" name='subAmtDon2' type="number" step='any' class="form-control">
                                             </div>
                                         </div>
                                         <div class='form-group col-md-12'>
@@ -803,7 +816,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="col-md-offset-1 col-md-4">
                                                 <label>Subamount 3</label>
-                                                <input ng-model="donation['subamount3']" name='subAmtDon3' type="number" class="form-control">
+                                                <input ng-model="donation['subtotal3']" name='subAmtDon3' type="number" class="form-control">
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -840,12 +853,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editTeam == ''" style="padding: 15px">
-                                    <span><b>No Team Information Available</b></span> 
+                                <div ng-show="editTeam == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Team Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="team in editTeam">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -853,7 +868,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b>Team <span ng-bind="team['team']"></span></b>
+                                            <b>Team <span ng-bind="team['team_name']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -875,7 +890,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                                 <label>Team</label>
-                                                <select class="form-control" ng-model="team['team']" name='team'>
+                                                <select class="form-control" ng-model="team['team_name']" name='team'>
                                                     <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                                 </select>
                                             </div>
@@ -883,17 +898,17 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="team['explain_if_other']" name='otherExpTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea ng-model="team['explain_if_others']" name='otherExpTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5">
                                                 <label>Subteam</label>
-                                                <input ng-model="team['subteam']" name='subteam' type="text" class="form-control">
+                                                <input ng-model="team['sub_team']" name='subteam' type="text" class="form-control">
                                             </div>
                                             <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
                                                 <label>Permission</label>
-                                                <select class="form-control" ng-model="team['permission_level']" name='permission'>
+                                                <select class="form-control" ng-model="team['permission']" name='permission'>
                                                     <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                                 </select>
                                             </div>
@@ -938,7 +953,7 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
@@ -1011,15 +1026,17 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
                                 <div ng-show="editAppreciation == ''" style="padding: 15px">
-                                    <span><b>No Appreciation Information Available</b></span> 
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Appreciation Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="appreciation in editAppreciation">
-                                    <div class="box-header with-border" style="padding: 5px">
+                                    <div class="box-header with-border" style="color: white; text-align: center">
                                         <h5 class="box-title">
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
@@ -1046,7 +1063,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Appraisal comments</label>
-                                                <textarea ng-model="appreciation['appraisal_comment']" name='apprComm' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea ng-model="appreciation['appraisal_comments']" name='apprComm' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1113,12 +1130,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editProxy == ''" style="padding: 15px">
-                                    <span><b>No Proxy Information Available</b></span> 
+                                <div ng-show="editProxy == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Proxy Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="proxy in editProxy">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -1126,7 +1145,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b><span ng-bind="proxy['proxy_of']"></span></b>
+                                            <b><span ng-bind="proxy['proxy_name']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -1148,7 +1167,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5">
                                                 <label>Proxy</label>
-                                                <input type='text' ng-model="proxy['proxy_of']" name="proxy" class="form-control"> 
+                                                <input type='text' ng-model="proxy['proxy_name']" name="proxy" class="form-control"> 
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1196,12 +1215,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editLanguages == ''" style="padding: 15px">
-                                    <span><b>No Email Information Available</b></span> 
+                                <div ng-show="editLanguages == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Language Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="language in editLanguages">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -1209,7 +1230,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b><span ng-bind="language['language']"></span></b>
+                                            <b><span ng-bind="language['language_name']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -1231,15 +1252,15 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-5" ng-init="loadLanguageList()">
                                                 <label>Language</label>
-                                                <select class="form-control" ng-model="language['language']" name='languages'>
+                                                <select class="form-control" ng-model="language['language_name']" name='languages'>
                                                     <option ng-repeat="language in languageList">{{language.language}}</option>
                                                 </select>  
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
                                                 <label>Speak / Write</label>
-                                                <select class="form-control" ng-model="language['speak_write']" name='speakWrite'>
-                                                    <option value="speak only">Speak only</option>
-                                                    <option value="speak and write">Speak and write</option>
+                                                <select class="form-control" ng-model="language['proficiency']" name='speakWrite'>
+                                                    <option value="speak only">speak only</option>
+                                                    <option value="speak and write">speak and write</option>
                                                 </select> 
                                             </div>
                                         </div>
@@ -1288,12 +1309,14 @@ and open the template in the editor.
                                 <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-plus"></i></button>
+                                        <i class="fa fa-plus fa-lg"></i></button>
                                 </div>
                             </div>
                             <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
-                                <div ng-show="editSkillsAssets == ''" style="padding: 15px">
-                                    <span><b>No Skill/Asset Information Available</b></span> 
+                                <div ng-show="editSkillsAssets == ''" style="color: white; text-align: center">
+                                    <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
+                                        No Skill/Asset Information Available
+                                    </h4> 
                                 </div>
                                 <div class="box collapsed-box" ng-repeat="skill in editSkillsAssets">
                                     <div class="box-header with-border" style="padding: 5px">
@@ -1301,7 +1324,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b><span ng-bind="skill['skill_asset']"></span></b>
+                                            <b><span ng-bind="skill['skill_name']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -1323,7 +1346,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12" style="margin-top: 15px">
                                             <div class="col-md-5" ng-init="loadLSAList()">
                                                 <label>Skills or Assets</label>
-                                                <select class="form-control" ng-model="skill['skill_asset']" name='LSA'>
+                                                <select class="form-control" ng-model="skill['skill_name']" name='LSA'>
                                                     <option ng-repeat="skill in LSAList">{{skill.lsaClass}}</option>
                                                 </select>    
                                             </div>

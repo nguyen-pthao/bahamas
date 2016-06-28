@@ -146,12 +146,19 @@ app.controller('editContact',
                         $scope.editContact = {};
                         $scope.isUser = true;
                         if ($scope.isAdmin) {
-                            $scope.editContact['username'] = contactToEdit.username;
-                            $scope.editContact.deactivated = contactToEdit.deactivated;
+                            if(contactToEdit.username != '') {
+                                $scope.editContact['username'] = contactToEdit.username;
+                                $scope.editContact.deactivated = contactToEdit.deactivated;
+                            } else {
+                                 $scope.isUser = false;
+                                $scope.editContact['username'] = '';
+                                $scope.editContact.deactivated = false;
+                                $scope.editContact['password'] = ''; //to be changed
+                            }
                         } else {
                             $scope.isUser = false;
                             $scope.editContact['username'] = '';
-                            $scope.editContact.deactivated = false; //to be changed
+                            $scope.editContact.deactivated = false;
                             $scope.editContact['password'] = ''; //to be changed
                         }
                         //contact
@@ -171,126 +178,125 @@ app.controller('editContact',
                         
                         //phone
                         if(contactToEdit.phone.length != 0) {
-                            //$scope.editPhone = contactToEdit.phone;
-                            var phoneEdit = contactToEdit.phone;
-                            $scope.editPhone['country_code'] = phoneEdit['country_code'];
-                            $scope.editPhone['phone_number'] = phoneEdit['phone'];
-                            $scope.editPhone['phone_remarks'] = phoneEdit['remarks'];
-                            $scope.editPhone['date_obsolete'] = phoneEdit['date_obsolete'];
-                            $scope.editPhone['created_by'] = phoneEdit['created_by'];
-                            $scope.editPhone['date_created'] = phoneEdit['date_created'];
+                            $scope.editPhone = contactToEdit.phone;
+//                            var phoneEdit = contactToEdit.phone;
+//                            $scope.editPhone['country_code'] = phoneEdit['country_code'];
+//                            $scope.editPhone['phone_number'] = phoneEdit['phone_number'];
+//                            $scope.editPhone['phone_remarks'] = phoneEdit['remarks'];
+//                            $scope.editPhone['date_obsolete'] = phoneEdit['date_obsolete'];
+//                            $scope.editPhone['created_by'] = phoneEdit['created_by'];
+//                            $scope.editPhone['date_created'] = phoneEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editPhone = '';
                         }
                         //email
                         if(contactToEdit.email.length != 0) {
-                            //$scope.editEmail = contactToEdit.email;
-                            var emailEdit = contactToEdit.email;
-                            $scope.editEmail['email'] = emailEdit['email'];
-                            $scope.editEmail['email_remarks'] = emailEdit['remarks'];
-                            $scope.editEmail['date_obsolete'] = emailEdit['date_obsolete'];
-                            $scope.editEmail['created_by'] = emailEdit['created_by'];
-                            $scope.editEmail['date_created'] = emailEdit['date_created'];
+                            $scope.editEmail = contactToEdit.email;
+//                            var emailEdit = contactToEdit.email;
+//                            $scope.editEmail['email'] = emailEdit['email'];
+//                            $scope.editEmail['email_remarks'] = emailEdit['remarks'];
+//                            $scope.editEmail['date_obsolete'] = emailEdit['date_obsolete'];
+//                            $scope.editEmail['created_by'] = emailEdit['created_by'];
+//                            $scope.editEmail['date_created'] = emailEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editEmail = '';
                         }
                         //address
                         if(contactToEdit.address.length != 0) {
-                            //$scope.editAddress = contactToEdit.address;
-                            var addressEdit = contactToEdit.address;
-                            $scope.editAddress['country'] = addressEdit['country'];
-                            $scope.editAddress['address'] = addressEdit['address'];
-                            $scope.editAddress['zipcode'] = addressEdit['zipcode'];
-                            $scope.editAddress['address_remarks'] = addressEdit['remarks'];
-                            $scope.editAddress['date_obsolete'] = addressEdit['date_obsolete'];
-                            $scope.editAddress['created_by'] = addressEdit['created_by'];
-                            $scope.editAddress['date_created'] = addressEdit['date_created'];
+                            $scope.editAddress = contactToEdit.address;
+//                            var addressEdit = contactToEdit.address;
+//                            $scope.editAddress['country'] = addressEdit['country'];
+//                            $scope.editAddress['address'] = addressEdit['address'];
+//                            $scope.editAddress['zipcode'] = addressEdit['zipcode'];
+//                            $scope.editAddress['address_remarks'] = addressEdit['remarks'];
+//                            $scope.editAddress['date_obsolete'] = addressEdit['date_obsolete'];
+//                            $scope.editAddress['created_by'] = addressEdit['created_by'];
+//                            $scope.editAddress['date_created'] = addressEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editAddress = '';
                         }
                         //membership
                         if(contactToEdit.membership.length != 0) {
-                            //$scope.editMembership = contactToEdit.membership;
-                            var membershipEdit = contactToEdit.membership;
-                            //to be modified
-                            $scope.editMembership['membership_id'] = membershipEdit['id'];
-                            $scope.editMembership['start_membership'] = membershipEdit['start_date'];
-                            $scope.editMembership['end_membership'] = membershipEdit['end_date'];
-                            $scope.editMembership['receipt_date'] = membershipEdit['receipt_date'];
-                            $scope.editMembership['subscription_amount'] = membershipEdit['subscription_amount'];
-                            $scope.editMembership['ext_transaction_ref'] = membershipEdit['ext_transaction_ref'];
-                            $scope.editMembership['receipt_number'] = membershipEdit['receipt_number'];
-                            $scope.editMembership['remarks'] = membershipEdit['remarks'];
-                            $scope.editMembership['receipt_mode'] = membershipEdit['receipt_mode_name'];
-                            $scope.editMembership['explain_if_other_receipt'] = membershipEdit['explain_if_other_receipt'];
-                            $scope.editMembership['membership_class'] = membershipEdit['membership_class_name'];
-                            $scope.editMembership['explain_if_other_class'] = membershipEdit['explain_if_other_class'];
-                            $scope.editMembership['payment_mode'] = membershipEdit['payment_mode_name'];
-                            $scope.editMembership['explain_if_other_payment'] = membershipEdit['explain_if_other_payment'];
-                            $scope.editMembership['created_by'] = membershipEdit['created_by'];
-                            $scope.editMembership['date_created'] = membershipEdit['date_created'];
+                            $scope.editMembership = contactToEdit.membership;
+//                            var membershipEdit = contactToEdit.membership;
+//                            $scope.editMembership['membership_id'] = membershipEdit['id'];
+//                            $scope.editMembership['start_membership'] = membershipEdit['start_date'];
+//                            $scope.editMembership['end_membership'] = membershipEdit['end_date'];
+//                            $scope.editMembership['receipt_date'] = membershipEdit['receipt_date'];
+//                            $scope.editMembership['subscription_amount'] = membershipEdit['subscription_amount'];
+//                            $scope.editMembership['ext_transaction_ref'] = membershipEdit['ext_transaction_ref'];
+//                            $scope.editMembership['receipt_number'] = membershipEdit['receipt_number'];
+//                            $scope.editMembership['remarks'] = membershipEdit['remarks'];
+//                            $scope.editMembership['receipt_mode'] = membershipEdit['receipt_mode_name'];
+//                            $scope.editMembership['explain_if_other_receipt'] = membershipEdit['explain_if_other_receipt'];
+//                            $scope.editMembership['membership_class'] = membershipEdit['membership_class_name'];
+//                            $scope.editMembership['explain_if_other_class'] = membershipEdit['explain_if_other_class'];
+//                            $scope.editMembership['payment_mode'] = membershipEdit['payment_mode_name'];
+//                            $scope.editMembership['explain_if_other_payment'] = membershipEdit['explain_if_other_payment'];
+//                            $scope.editMembership['created_by'] = membershipEdit['created_by'];
+//                            $scope.editMembership['date_created'] = membershipEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editMembership = '';
                         }
                         //office held
                         if(contactToEdit['office_held'].length != 0) {
-                            //$scope.editOfficeHeld = contactToEdit['office_held'];
-                            var officeHeldEdit = contactToEdit['office_held'];
-                            $scope.editOfficeHeld['office_held_name'] = officeHeldEdit['office_held'];
-                            $scope.editOfficeHeld['start_office'] = officeHeldEdit['start_office'];
-                            $scope.editOfficeHeld['end_office'] = officeHeldEdit['end_office'];
-                            $scope.editOfficeHeld['remarks'] = officeHeldEdit['remarks'];
-                            $scope.editOfficeHeld['created_by'] = officeHeldEdit['created_by'];
-                            $scope.editOfficeHeld['date_created'] = officeHeldEdit['date_created'];
+                            $scope.editOfficeHeld = contactToEdit['office_held'];
+//                            var officeHeldEdit = contactToEdit['office_held'];
+//                            $scope.editOfficeHeld['office_held_name'] = officeHeldEdit['office_held'];
+//                            $scope.editOfficeHeld['start_office'] = officeHeldEdit['start_office'];
+//                            $scope.editOfficeHeld['end_office'] = officeHeldEdit['end_office'];
+//                            $scope.editOfficeHeld['remarks'] = officeHeldEdit['remarks'];
+//                            $scope.editOfficeHeld['created_by'] = officeHeldEdit['created_by'];
+//                            $scope.editOfficeHeld['date_created'] = officeHeldEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editOfficeHeld = '';
                         }
                         //donation
                         if(contactToEdit.donation.length != 0) {
-                            //$scope.editDonation = contactToEdit.donation;
-                            var donationEdit = contactToEdit.donation;
-                            $scope.editDonation['donation_id'] = donationEdit['donation_id'];
-                            $scope.editDonation['date_received'] = donationEdit['date_received'];
-                            $scope.editDonation['donation_amount'] = donationEdit['donation_amount'];
-                            $scope.editDonation['payment_mode'] = donationEdit['payment_mode'];
-                            $scope.editDonation['explain_if_other_payment'] = donationEdit['explain_if_other_payment'];
-                            $scope.editDonation['ext_transaction_ref'] = donationEdit['ext_transaction_ref'];
-                            $scope.editDonation['receipt_number'] = donationEdit['receipt_number'];
-                            $scope.editDonation['receipt_date'] = donationEdit['receipt_date'];
-                            $scope.editDonation['receipt_mode'] = donationEdit['receipt_mode_name'];
-                            $scope.editDonation['explain_if_other_receipt'] = donationEdit['explain_if_other_receipt'];
-                            $scope.editDonation['donor_instruction'] = donationEdit['donor_instructions'];
-                            $scope.editDonation['allocation1'] = donationEdit['allocation1'];
-                            $scope.editDonation['subamount1'] = donationEdit['subtotal1'];
-                            $scope.editDonation['allocation2'] = donationEdit['allocation2'];
-                            $scope.editDonation['subamount2'] = donationEdit['subtotal2'];
-                            $scope.editDonation['allocation3'] = donationEdit['allocation3'];
-                            $scope.editDonation['subamount3'] = donationEdit['subtotal3'];
-                            $scope.editDonation['associated_occasion'] = donationEdit['associated_occasion'];
-                            $scope.editDonation['remarks'] = donationEdit['remarks'];
-                            $scope.editDonation['created_by'] = donationEdit['created_by'];
-                            $scope.editDonation['date_created'] = donationEdit['date_created'];
+                            $scope.editDonation = contactToEdit.donation;
+//                            var donationEdit = contactToEdit.donation;
+//                            $scope.editDonation['donation_id'] = donationEdit['donation_id'];
+//                            $scope.editDonation['date_received'] = donationEdit['date_received'];
+//                            $scope.editDonation['donation_amount'] = donationEdit['donation_amount'];
+//                            $scope.editDonation['payment_mode'] = donationEdit['payment_mode'];
+//                            $scope.editDonation['explain_if_other_payment'] = donationEdit['explain_if_other_payment'];
+//                            $scope.editDonation['ext_transaction_ref'] = donationEdit['ext_transaction_ref'];
+//                            $scope.editDonation['receipt_number'] = donationEdit['receipt_number'];
+//                            $scope.editDonation['receipt_date'] = donationEdit['receipt_date'];
+//                            $scope.editDonation['receipt_mode'] = donationEdit['receipt_mode_name'];
+//                            $scope.editDonation['explain_if_other_receipt'] = donationEdit['explain_if_other_receipt'];
+//                            $scope.editDonation['donor_instruction'] = donationEdit['donor_instructions'];
+//                            $scope.editDonation['allocation1'] = donationEdit['allocation1'];
+//                            $scope.editDonation['subamount1'] = donationEdit['subtotal1'];
+//                            $scope.editDonation['allocation2'] = donationEdit['allocation2'];
+//                            $scope.editDonation['subamount2'] = donationEdit['subtotal2'];
+//                            $scope.editDonation['allocation3'] = donationEdit['allocation3'];
+//                            $scope.editDonation['subamount3'] = donationEdit['subtotal3'];
+//                            $scope.editDonation['associated_occasion'] = donationEdit['associated_occasion'];
+//                            $scope.editDonation['remarks'] = donationEdit['remarks'];
+//                            $scope.editDonation['created_by'] = donationEdit['created_by'];
+//                            $scope.editDonation['date_created'] = donationEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editDonation = '';
                         }
                         //team join
                         if(contactToEdit['team_join'].length != 0) {
-                            //$scope.editTeamJoin = contactToEdit['team_join'];
-                            var teamjoinEdit = contactToEdit['team_join'];
-                            $scope.editTeamJoin['team'] = teamjoinEdit['team_name'];
-                            $scope.editTeamJoin['permission_level'] = teamjoinEdit['permission'];
-                            $scope.editTeamJoin['explain_if_other'] = teamjoinEdit['explain_if_others'];
-                            $scope.editTeamJoin['subteam'] = teamjoinEdit['sub_team'];
-                            $scope.editTeamJoin['date_obsolete'] = teamjoinEdit['date_obsolete'];
-                            $scope.editTeamJoin['remarks'] = teamjoinEdit['remarks'];
-                            $scope.editTeamJoin['created_by'] = teamjoinEdit['created_by'];
-                            $scope.editTeamJoin['date_created'] = teamjoinEdit['date_created'];
+                            $scope.editTeamJoin = contactToEdit['team_join'];
+//                            var teamjoinEdit = contactToEdit['team_join'];
+//                            $scope.editTeamJoin['team'] = teamjoinEdit['team_name'];
+//                            $scope.editTeamJoin['permission_level'] = teamjoinEdit['permission'];
+//                            $scope.editTeamJoin['explain_if_other'] = teamjoinEdit['explain_if_others'];
+//                            $scope.editTeamJoin['subteam'] = teamjoinEdit['sub_team'];
+//                            $scope.editTeamJoin['date_obsolete'] = teamjoinEdit['date_obsolete'];
+//                            $scope.editTeamJoin['remarks'] = teamjoinEdit['remarks'];
+//                            $scope.editTeamJoin['created_by'] = teamjoinEdit['created_by'];
+//                            $scope.editTeamJoin['date_created'] = teamjoinEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editTeamJoin = '';
@@ -307,63 +313,63 @@ app.controller('editContact',
                         }
                         //appreciation
                         if(contactToEdit.appreciation.length != 0) {
-                            //$scope.editAppreciation = contactToEdit.appreciation;
-                            var appreciationEdit = contactToEdit.appreciation;
-                            $scope.editAppreciation['appreciation_id'] = appreciationEdit['appreciation_id'];
-                            $scope.editAppreciation['appraisal_comment'] = appreciationEdit['appraisal_comments'];
-                            $scope.editAppreciation['appraisal_by'] = appreciationEdit['appraisal_by'];
-                            $scope.editAppreciation['appraisal_date'] = appreciationEdit['appraisal_date'];
-                            $scope.editAppreciation['appreciation_gesture'] = appreciationEdit['appreciation_gesture'];
-                            $scope.editAppreciation['appreciation_by'] = appreciationEdit['appreciation_by'];
-                            $scope.editAppreciation['appreciation_date'] = appreciationEdit['appreciation_date'];
-                            $scope.editAppreciation['remarks'] = appreciationEdit['remarks'];
-                            $scope.editAppreciation['created_by'] = appreciationEdit['created_by'];
-                            $scope.editAppreciation['date_created'] = appreciationEdit['date_created'];
+                            $scope.editAppreciation = contactToEdit.appreciation;
+//                            var appreciationEdit = contactToEdit.appreciation;
+//                            $scope.editAppreciation['appreciation_id'] = appreciationEdit['appreciation_id'];
+//                            $scope.editAppreciation['appraisal_comment'] = appreciationEdit['appraisal_comments'];
+//                            $scope.editAppreciation['appraisal_by'] = appreciationEdit['appraisal_by'];
+//                            $scope.editAppreciation['appraisal_date'] = appreciationEdit['appraisal_date'];
+//                            $scope.editAppreciation['appreciation_gesture'] = appreciationEdit['appreciation_gesture'];
+//                            $scope.editAppreciation['appreciation_by'] = appreciationEdit['appreciation_by'];
+//                            $scope.editAppreciation['appreciation_date'] = appreciationEdit['appreciation_date'];
+//                            $scope.editAppreciation['remarks'] = appreciationEdit['remarks'];
+//                            $scope.editAppreciation['created_by'] = appreciationEdit['created_by'];
+//                            $scope.editAppreciation['date_created'] = appreciationEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editAppreciation = '';
                         }
                         //proxy
                         if(contactToEdit.proxy.length != 0) {
-                            //$scope.editProxy = contactToEdit.proxy;
-                            var proxyEdit = contactToEdit.proxy;
-                            $scope.editProxy['proxy_of'] = proxyEdit['proxy_name'];
-                            $scope.editProxy['principal_of'] = proxyEdit['principal_name'];
-                            $scope.editProxy['proxy_standing'] = proxyEdit['proxy_standing'];
-                            $scope.editProxy['remarks'] = proxyEdit['remarks'];
-                            $scope.editProxy['date_obsolete'] = proxyEdit['date_obsolete'];
-                            $scope.editProxy['created_by'] = proxyEdit['created_by'];
-                            $scope.editProxy['date_created'] = proxyEdit['date_created'];
+                            $scope.editProxy = contactToEdit.proxy;
+//                            var proxyEdit = contactToEdit.proxy;
+//                            $scope.editProxy['proxy_of'] = proxyEdit['proxy_name'];
+//                            $scope.editProxy['principal_of'] = proxyEdit['principal_name'];
+//                            $scope.editProxy['proxy_standing'] = proxyEdit['proxy_standing'];
+//                            $scope.editProxy['remarks'] = proxyEdit['remarks'];
+//                            $scope.editProxy['date_obsolete'] = proxyEdit['date_obsolete'];
+//                            $scope.editProxy['created_by'] = proxyEdit['created_by'];
+//                            $scope.editProxy['date_created'] = proxyEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editProxy = '';
                         }
                         //languages
                         if(contactToEdit['language_assignment'].length != 0) {
-                            //$scope.editLanguages = contactToEdit['language_assignment'];
-                            var languageEdit = contactToEdit['language_assignment'];
-                            $scope.editLanguages['language'] = languageEdit['language_name'];
-                            $scope.editLanguages['speak_write'] = languageEdit['proficiency'];
-                            $scope.editLanguages['explain_if_other'] = languageEdit['explain_if_other'];
-                            $scope.editLanguages['remarks'] = languageEdit['remarks'];
-                            $scope.editLanguages['date_obsolete'] = languageEdit['date_obsolete'];
-                            $scope.editLanguages['created_by'] = languageEdit['created_by'];
-                            $scope.editLanguages['date_created'] = languageEdit['date_created'];
+                            $scope.editLanguages = contactToEdit['language_assignment'];
+                            console.log($scope.editLanguages);
+//                            var languageEdit = contactToEdit['language_assignment'];
+//                            $scope.editLanguages['language'] = languageEdit['language_name'];
+//                            $scope.editLanguages['speak_write'] = languageEdit['proficiency'];
+//                            $scope.editLanguages['explain_if_other'] = languageEdit['explain_if_other'];
+//                            $scope.editLanguages['remarks'] = languageEdit['remarks'];
+//                            $scope.editLanguages['date_obsolete'] = languageEdit['date_obsolete'];
+//                            $scope.editLanguages['created_by'] = languageEdit['created_by'];
+//                            $scope.editLanguages['date_created'] = languageEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editLanguages = '';
                         }
                         //skills and assets
                         if(contactToEdit['skill_assignment'].length != 0) {
-                            //$scope.editSkillsAssets = contactToEdit['skill_assignment'];
-                            var skillEdit = contactToEdit['skill_assignment'];
-                            //to check again
-                            $scope.editSkillsAssets['skill_asset'] = skillEdit['skill_name'];
-                            $scope.editSkillsAssets['explain_if_other'] = skillEdit['explain_if_other'];
-                            $scope.editSkillsAssets['remarks'] = skillEdit['remarks'];
-                            $scope.editSkillsAssets['date_obsolete'] = skillEdit['date_obsolete'];
-                            $scope.editSkillsAssets['created_by'] = skillEdit['created_by'];
-                            $scope.editSkillsAssets['date_created'] = skillEdit['date_created'];
+                            $scope.editSkillsAssets = contactToEdit['skill_assignment'];
+//                            var skillEdit = contactToEdit['skill_assignment'];
+//                            $scope.editSkillsAssets['skill_asset'] = skillEdit['skill_name'];
+//                            $scope.editSkillsAssets['explain_if_other'] = skillEdit['explain_if_other'];
+//                            $scope.editSkillsAssets['remarks'] = skillEdit['remarks'];
+//                            $scope.editSkillsAssets['date_obsolete'] = skillEdit['date_obsolete'];
+//                            $scope.editSkillsAssets['created_by'] = skillEdit['created_by'];
+//                            $scope.editSkillsAssets['date_created'] = skillEdit['date_created'];
                             //might want to trim off the hour:minute:second
                         } else {
                             $scope.editSkillsAssets = '';
