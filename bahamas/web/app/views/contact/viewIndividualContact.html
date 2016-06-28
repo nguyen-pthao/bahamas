@@ -671,7 +671,43 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='proxy === ""'>
+                                    <span>No Proxy Information Available</span>
+                                </div>
+                                <div ng-repeat='proxyObj in proxy'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{proxyObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Proxy</b></h4>
+                                            <div>{{proxyObj.proxy_id}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{proxyObj.created_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Proxy Standing</b></h4>
+                                            <div>{{proxyObj.proxy_standing}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{proxyObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Obsolete</b></h4>
+                                            <div>{{proxyObj.date_obsolete}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /proxy information -->
@@ -684,7 +720,47 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='languages === ""'>
+                                    <span>No Languages Information Available</span>
+                                </div>
+                                <div ng-repeat='languageObj in languages'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{languageObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Language</b></h4>
+                                            <div>{{languageObj.language_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{languageObj.created_by}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Speak/Write</b></h4>
+                                            <div>{{languageObj.proficiency}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Other</b></h4>
+                                            <div>{{languageObj.explain_if_other}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{languageObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Obsolete</b></h4>
+                                            <div>{{languageObj.date_obsolete}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /languages information -->
@@ -697,16 +773,50 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='skills === ""'>
+                                    <span>No Skills/Assets Information Available</span>
+                                </div>
+                                <div ng-repeat='skillsObj in skills'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{skillsObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Skills Or Assets</b></h4>
+                                            <div>{{skillsObj.language_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{skillsObj.created_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Others</b></h4>
+                                            <div>{{skillsObj.explain_if_other}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{skillsObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Obsolete</b></h4>
+                                            <div>{{skillsObj.date_obsolete}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /skills & assets information -->
                             </div>
+                            <!-- /.box-body -->
+                            <!-- /.box -->
                         </div>
-                        <!-- /skills & assets information -->
+                        </section>
+                        <!-- /.content -->
                     </div>
-                    <!-- /.box-body -->
-                    <!-- /.box -->
-                </div>
-            </section>
-            <!-- /.content -->
-        </div>
-    </body>
-</html>
+                    </body>
+                    </html>
