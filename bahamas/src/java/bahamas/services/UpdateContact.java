@@ -55,31 +55,31 @@ public class UpdateContact extends HttpServlet {
                 out.println(gson.toJson(json));
                 return;
             }
-
+            
             String jsonLine = sb.toString();
             if (jsonLine == null || jsonLine.isEmpty()) {
                 json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
-
+                
             } else {
                 //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
-
+                
                 String token = jobject.get("token").getAsString();
                 String username = Authenticator.verifyToken(token);
-
+                
                 if (username == null) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
-
+                    
                 } else {
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
-
+                    
                     int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
                     Contact c = cDAO.retrieveContactById(contactId);
-
+                    
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
                     if (!user.isIsAdmin() && !userType.equals("teammanager")
                             && !RoleCheckDAO.checkRole(user.getContactId(), userType)
@@ -88,7 +88,7 @@ public class UpdateContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-
+                    
                     String name = Validator.containsBlankField(jobject.get("name").getAsString());
                     String altName = Validator.containsBlankField(jobject.get("alt_name").getAsString());
                     String contactType = Validator.containsBlankField(jobject.get("contact_type").getAsString());
@@ -104,10 +104,25 @@ public class UpdateContact extends HttpServlet {
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
                             jobTitle, nric, gender, nationality, dob, remarks);
+                    
+                    String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                    String password = Validator.containsBlankField(jobject.get("password").getAsString());
+                    String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
+                    
+                    if (!password.equals(confirmPassword)) {
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+                    
+                    String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
 
                     //Assign contact id
                     newContact.setContactId(contactId);
-
+                    newContact.setUsername(uName);
+                    newContact.setPassword(passwordGenerate[0]);
+                    newContact.setSalt(passwordGenerate[1]);
+                    
                     if (ContactDAO.updateContact(newContact)) {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
@@ -115,7 +130,7 @@ public class UpdateContact extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                     }
-
+                    
                 }
             }
 

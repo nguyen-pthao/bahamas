@@ -151,11 +151,37 @@ and open the template in the editor.
                                         <div style="padding-top: 10px;">
                                             <h4><b>Remarks</b></h4>
                                             <div>{{phoneObj.remarks}}</div>
+                                <div ng-repeat='phoneObj in phoneInfo' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Phone Number</b></h4>
+                                                <div>+{{phoneObj.country_code}}{{phoneObj.phone}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{phoneObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{phoneObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{phoneObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-12'>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{phoneObj.remarks}}</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         <!-- /phone information -->
                         <div class="box collapsed-box">
