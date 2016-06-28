@@ -129,7 +129,7 @@ and open the template in the editor.
                                 <div ng-repeat='phoneObj in phoneInfo'>
                                     <div class="col-sm-6">
                                         <div style="padding-top: 10px;">
-                                            <h4><b>Phone Number</b></h4>
+                                            <h4><b>Phone Number {{$index + 1}}</b></h4>
                                             <div>+{{phoneObj.country_code}}{{phoneObj.phone}}</div>
                                         </div>
                                         <div style="padding-top: 10px;">
@@ -173,7 +173,7 @@ and open the template in the editor.
                                 <div ng-repeat='emailObj in email'>
                                     <div class="col-sm-6">
                                         <div style="padding-top: 10px;">
-                                            <h4><b>Email</b></h4>
+                                            <h4><b>Email {{$index + 1}}</b></h4>
                                             <div>{{emailObj.email}}</div>
                                         </div>
                                         <div style="padding-top: 10px;">
@@ -216,7 +216,7 @@ and open the template in the editor.
                                 <div ng-repeat='addressObj in address'>
                                     <div class="col-sm-6">
                                         <div style="padding-top: 10px;">
-                                            <h4><b>Address</b></h4>
+                                            <h4><b>Address {{$index + 1}}</b></h4>
                                             <div>{{addressObj.address}}</div>
                                         </div>
                                         <div style="padding-top: 10px;">
@@ -235,7 +235,7 @@ and open the template in the editor.
                                         </div>
                                         <div style="padding-top: 10px;">
                                             <h4><b>Date Obsolete</b></h4>
-                                            <div>{{emailObj.date_obsolete}}</div>
+                                            <div>{{addressObj.date_obsolete}}</div>
                                         </div>
                                         <div style="padding-top: 10px;">
                                             <h4><b>Created By</b></h4>
@@ -271,7 +271,7 @@ and open the template in the editor.
                                             <div>{{membershipObj.date_created}}</div>
                                         </div>
                                         <div style="padding-top: 10px;">
-                                            <h4><b>Membership Type</b></h4>
+                                            <h4><b>Membership Type {{$index + 1}}</b></h4>
                                             <div>{{membershipObj.membership_class_name}}</div>
                                         </div>
                                     </div>        
@@ -372,7 +372,7 @@ and open the template in the editor.
                                             <div>{{officeHeldObj.start_office}}</div>
                                         </div>
                                         <div style="padding-top: 10px;">
-                                            <h4><b>Office Held</b></h4>
+                                            <h4><b>Office Held {{$index + 1}}</b></h4>
                                             <div>{{officeHeldObj.office_held}}</div>
                                         </div>
                                     </div>
@@ -404,7 +404,7 @@ and open the template in the editor.
                             </div>
                             <div class="box-body" style="display:none">
                                 <div ng-show='donation === ""'>
-                                    <span>No Office Held Information Available</span>
+                                    <span>No Donation Information Available</span>
                                 </div>
                                 <div ng-repeat='donationObj in donation'>
                                     <div class="col-sm-6">
@@ -476,7 +476,57 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='team === ""'>
+                                    <span>No Team Information Available</span>
+                                </div>
+                                <div ng-repeat='teamObj in team'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{teamObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Team {{$index + 1}}</b></h4>
+                                            <div>{{teamObj.team_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{teamObj.created_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Other</b></h4>
+                                            <div>{{teamObj.explain_if_others}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Subteam</b></h4>
+                                            <div>{{teamObj.sub_team}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Permission</b></h4>
+                                            <div>{{teamObj.permission}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{teamObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Obsolete</b></h4>
+                                            <div>{{teamObj.date_obsolete}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /team information -->
@@ -489,7 +539,55 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='training === ""'>
+                                    <span>No Training Information Available</span>
+                                </div>
+                                <div ng-repeat='trainingObj in training'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{trainingObj.date_created}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Team</b></h4>
+                                            <div>{{trainingObj.team_name}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{trainingObj.created_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Explain If Others</b></h4>
+                                            <div>{{trainingObj.explain_if_others}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Training Course</b></h4>
+                                            <div>{{trainingObj.training_course}}</div>
+                                        </div>
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Training Date</b></h4>
+                                            <div>{{trainingObj.training_date}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Training By</b></h4>
+                                            <div>{{trainingObj.training_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{trainingObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /training information -->
@@ -502,7 +600,65 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body" style="display:none">
-                                TABLE HERE.
+                                <div ng-show='appreciation === ""'>
+                                    <span>No Appreciation Information Available</span>
+                                </div>
+                                <div ng-repeat='appreciationObj in appreciation'>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Date Created</b></h4>
+                                            <div>{{appreciationObj.created_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Created By</b></h4>
+                                            <div>{{appreciationObj.created_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Appraisal Comments</b></h4>
+                                            <div>{{appreciationObj.appraisal_comments}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Appraised By</b></h4>
+                                            <div>{{appreciationObj.appraisal_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Appraisal Date</b></h4>
+                                            <div>{{appreciationObj.appraisal_date}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Appreciation Gesture</b></h4>
+                                            <div>{{appreciationObj.appreciaton_gesture}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Appreciation By</b></h4>
+                                            <div>{{appreciationObj.appreciation_by}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Appreciation Date</b></h4>
+                                            <div>{{appreciationObj.appreciation_date}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <div style="padding-top: 10px;">
+                                            <h4><b>Remarks</b></h4>
+                                            <div>{{appreciationObj.remarks}}</div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <!-- /appreciation information -->
