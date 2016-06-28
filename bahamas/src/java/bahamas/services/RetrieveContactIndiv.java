@@ -276,15 +276,15 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         jsonContactObj.addProperty("remarks", remarks);
         jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
-        
-        if (!phoneList.isEmpty()) {
+        jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
+        if (phoneList != null && !phoneList.isEmpty()) {
             
             for (int i = 0; i < phoneList.size(); i++) {
                 JsonObject jsonPhoneObj = new JsonObject();
                 Phone phone = phoneList.get(i);
                 //phoneStr += "+" + phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
                 jsonPhoneObj.addProperty("country_code", phone.getCountryCode());
-                jsonPhoneObj.addProperty("phone", phone.getPhoneNumber());
+                jsonPhoneObj.addProperty("phone_number", phone.getPhoneNumber());
                 //jsonPhoneObj.addProperty("remarks", phone.getRemarks());
                 
                 if (phone.getRemarks() != null) {
@@ -310,7 +310,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         
         
         
-        if (!emailList.isEmpty()) {
+        if (emailList != null && !emailList.isEmpty()) {
             
             for (int i = 0; i < emailList.size(); i++) {
                 JsonObject jsonEmailObj = new JsonObject();
@@ -342,7 +342,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
        
         
-        if (!addressList.isEmpty()) {
+        if (addressList != null && !addressList.isEmpty()) {
             
             for (int i = 0; i < addressList.size(); i++) {
                 JsonObject jsonAddressObj = new JsonObject();
@@ -384,7 +384,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         
         
         //offic
-        if (!officeHeldList.isEmpty()) {
+        if (officeHeldList != null && !officeHeldList.isEmpty()) {
             
             for (int i = 0; i < officeHeldList.size(); i++) {
                 JsonObject jsonOfficeHObj = new JsonObject();
@@ -409,7 +409,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         
         //proxyList
-        if (!proxyList.isEmpty()) {
+        if (proxyList != null && !proxyList.isEmpty()) {
             
             for (int i = 0; i < proxyList.size(); i++) {
                 JsonObject jsonProxyObj = new JsonObject();
@@ -441,7 +441,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         
         //membershipList
-        if (!membershipList.isEmpty()) {
+        if (membershipList != null && !membershipList.isEmpty()) {
             
             for (int i = 0; i < membershipList.size(); i++) {
                 JsonObject jsonMembershipObj = new JsonObject();
@@ -527,7 +527,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
             
         //languageAssignmentList
-        if (!languageAssignmentList.isEmpty()) {
+        if (languageAssignmentList != null && !languageAssignmentList.isEmpty()) {
             
             for (int i = 0; i < languageAssignmentList.size(); i++) {
                 JsonObject jsonLanguageListObj = new JsonObject();
@@ -565,13 +565,13 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         
         //skillAssignmentList
-        if (!skillAssignmentList.isEmpty()) {
+        if (skillAssignmentList != null && !skillAssignmentList.isEmpty()) {
             
             for (int i = 0; i < skillAssignmentList.size(); i++) {
                 JsonObject jsonSkillListObj = new JsonObject();
                 SkillAssignment skillAssignment = skillAssignmentList.get(i);
 
-                jsonSkillListObj.addProperty("language_name", skillAssignment.getSkillName());
+                jsonSkillListObj.addProperty("skill_name", skillAssignment.getSkillName());
                 
                 if (skillAssignment.getExplainIfOther()!= null) {
                     jsonSkillListObj.addProperty("explain_if_other", skillAssignment.getExplainIfOther());
@@ -599,7 +599,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
 
         //appreciationList jsonObjappreciation
-        if (!appreciationList.isEmpty()) {
+        if (appreciationList != null && !appreciationList.isEmpty()) {
             
             for (int i = 0; i < appreciationList.size(); i++) {
                 JsonObject jsonAppreciationObj = new JsonObject();
@@ -656,7 +656,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         
         //donationList
-        if (!donationList.isEmpty()) {
+        if (donationList != null && !donationList.isEmpty()) {
             
             for (int i = 0; i < donationList.size(); i++) {
                 JsonObject jsonDonationObj = new JsonObject();
@@ -754,7 +754,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         
         //jsonObjTeamJoin teamJoinList
-        if (!teamJoinList.isEmpty()) {
+        if (teamJoinList != null && !teamJoinList.isEmpty()) {
             
             for (int i = 0; i < teamJoinList.size(); i++) {
                 JsonObject jsonTeamJoinObj = new JsonObject();

@@ -213,6 +213,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
         jsonContactObj.addProperty("remarks", remarks);
         jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
+        jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
         
         if (!phoneList.isEmpty()) {
             
@@ -221,7 +222,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 Phone phone = phoneList.get(i);
                 //phoneStr += "+" + phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
                 jsonPhoneObj.addProperty("country_code", phone.getCountryCode());
-                jsonPhoneObj.addProperty("phone", phone.getPhoneNumber());
+                jsonPhoneObj.addProperty("phone_number", phone.getPhoneNumber());
                 //jsonPhoneObj.addProperty("remarks", phone.getRemarks());
                 
                 if (phone.getRemarks() != null) {
@@ -508,7 +509,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 JsonObject jsonSkillListObj = new JsonObject();
                 SkillAssignment skillAssignment = skillAssignmentList.get(i);
 
-                jsonSkillListObj.addProperty("language_name", skillAssignment.getSkillName());
+                jsonSkillListObj.addProperty("skill_name", skillAssignment.getSkillName());
                 
                 if (skillAssignment.getExplainIfOther()!= null) {
                     jsonSkillListObj.addProperty("explain_if_other", skillAssignment.getExplainIfOther());
