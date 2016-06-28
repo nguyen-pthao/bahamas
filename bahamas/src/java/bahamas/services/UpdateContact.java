@@ -100,10 +100,21 @@ public class UpdateContact extends HttpServlet {
                     String nationality = Validator.containsBlankField(jobject.get("nationality").getAsString());
                     Date dob = Validator.isDateValid(jobject.get("date_of_birth").getAsString());
                     String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                    String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                    String password = Validator.containsBlankField(jobject.get("password").getAsString());
 
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
                             jobTitle, nric, gender, nationality, dob, remarks);
+
+                    //Assign username and password
+                    newContact.setUsername(uName);
+                    
+                    if(password != null){
+                        String[] passwordGenerate = PasswordHash.getHashAndSalt(password);                      
+                        newContact.setPassword(passwordGenerate[0]);
+                        newContact.setSalt(passwordGenerate[1]);
+                    }
 
                     //Assign contact id
                     newContact.setContactId(contactId);
