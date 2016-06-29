@@ -456,7 +456,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             for (int i = 0; i < membershipList.size(); i++) {
                 JsonObject jsonMembershipObj = new JsonObject();
                 Membership membership = membershipList.get(i);
-                
+                jsonMembershipObj.addProperty("membership_id", sdf.format(membership.getMembershipId()));
                 if (membership.getStartMembership() != null) {
                     jsonMembershipObj.addProperty("start_date", sdf.format(membership.getStartMembership()));
                 } else {
@@ -542,7 +542,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             for (int i = 0; i < languageAssignmentList.size(); i++) {
                 JsonObject jsonLanguageListObj = new JsonObject();
                 LanguageAssignment languageAssignment = languageAssignmentList.get(i);
-
+                
                 jsonLanguageListObj.addProperty("language_name", languageAssignment.getLanguage());
                 if (languageAssignment.getProficiency()!= null) {
                     jsonLanguageListObj.addProperty("proficiency", languageAssignment.getProficiency());

@@ -33,13 +33,14 @@ public class LanguageAssignment {
         this.createdBy = createdBy;
     }
 
-    public LanguageAssignment(String language, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated) {
+    public LanguageAssignment(String language, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated,String proficiency) {
         this.language = language;
         this.explainIfOther = explainIfOther;
         this.dateObsolete = dateObsolete;
         this.remarks = remarks;
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
+        this.proficiency = proficiency;
     }
     
     
