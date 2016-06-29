@@ -89,50 +89,50 @@ public class UpdateContact extends HttpServlet {
                         return;
                     }
 
-                    String name = Validator.containsBlankField(jobject.get("name").getAsString());
-                    String altName = Validator.containsBlankField(jobject.get("alt_name").getAsString());
-                    String contactType = Validator.containsBlankField(jobject.get("contact_type").getAsString());
-                    String otherExplanation = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
-                    String profession = Validator.containsBlankField(jobject.get("profession").getAsString());
-                    String jobTitle = Validator.containsBlankField(jobject.get("job_title").getAsString());
-                    String nric = Validator.containsBlankField(jobject.get("nric_fin").getAsString());
-                    String gender = Validator.containsBlankField(jobject.get("gender").getAsString());
-                    String nationality = Validator.containsBlankField(jobject.get("nationality").getAsString());
-                    Date dob = Validator.isDateValid(jobject.get("date_of_birth").getAsString());
-                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                    String uName = Validator.containsBlankField(jobject.get("username").getAsString());
-                    String password = Validator.containsBlankField(jobject.get("password").getAsString());
-                    boolean notification = Validator.isBooleanValid("notification");
-                    boolean isAdmin = Validator.isBooleanValid("isAdmin");
-                    boolean isNovice = Validator.isBooleanValid("isNovice");
-                    boolean deactivated = Validator.isBooleanValid("deactivated");
+                    c.setName(Validator.containsBlankField(jobject.get("name").getAsString()));
+                    c.setAltName(Validator.containsBlankField(jobject.get("alt_name").getAsString()));
+                    c.setContactType(Validator.containsBlankField(jobject.get("contact_type").getAsString()));
+                    c.setExplainIfOther(Validator.containsBlankField(jobject.get("explain_if_other").getAsString()));
+                    c.setProfession(Validator.containsBlankField(jobject.get("profession").getAsString()));
+                    c.setJobTitle(Validator.containsBlankField(jobject.get("job_title").getAsString()));
+                    c.setNric(Validator.containsBlankField(jobject.get("nric_fin").getAsString()));
+                    c.setGender(Validator.containsBlankField(jobject.get("gender").getAsString()));
+                    c.setNationality(Validator.containsBlankField(jobject.get("nationality").getAsString()));
+                    c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth").getAsString()));
+                    c.setRemarks(Validator.containsBlankField(jobject.get("remarks").getAsString()));
+                    //String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                    //String password = Validator.containsBlankField(jobject.get("password").getAsString());
+                    //c.setNotification(Validator.isBooleanValid("notification"));
+                    //c.setIsAdmin(Validator.isBooleanValid("isAdmin"));
+                    //c.setIsNovice(Validator.isBooleanValid("isNovice"));
+                    //c.setDeactivated(Validator.isBooleanValid("deactivated"));
 
                     //Create new contact object
-                    Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
-                            jobTitle, nric, gender, nationality, dob, remarks);
-
+                    //Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
+                    //       jobTitle, nric, gender, nationality, dob, remarks);
                     //Assign username and password
-                    newContact.setUsername(uName);
-
+                    //newContact.setUsername(uName);
+                    /*
                     if (password != null) {
                         String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
                         newContact.setPassword(passwordGenerate[0]);
                         newContact.setSalt(passwordGenerate[1]);
                     }
-
+                    
                     //Assign contact id
                     newContact.setContactId(contactId);
                     newContact.setNotification(notification);
 
                     //Sensitive fields for admin and team Manager only only
-                    if(user.isIsAdmin() || (userType.equals("teammanager")
-                            && RoleCheckDAO.checkRole(user.getContactId(), userType))){
+                    if (user.isIsAdmin() || (userType.equals("teammanager")
+                            && RoleCheckDAO.checkRole(user.getContactId(), userType))) {
                         newContact.setIsAdmin(isAdmin);
                         newContact.setIsNovice(isNovice);
                         newContact.setDeactivated(deactivated);
                     }
-
-                    if (ContactDAO.updateContact(newContact)) {
+                    */
+                    
+                    if (ContactDAO.updateContact(c)) {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
