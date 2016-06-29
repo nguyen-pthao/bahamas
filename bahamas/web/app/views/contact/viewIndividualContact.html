@@ -91,8 +91,8 @@ and open the template in the editor.
                                         <div>{{altName}}</div>
                                     </div>
                                     <div style="padding-top: 10px;">
-                                        <h4><b>Date Created</b></h4>
-                                        <div>{{dateCreated}}</div>
+                                        <h4><b>Profession</b></h4>
+                                        <div>{{profession}}</div>
                                     </div>
                                     <div style="padding-top: 10px;">
                                         <h4><b>Gender</b></h4>
@@ -103,8 +103,8 @@ and open the template in the editor.
                                         <div>{{dateOfBirth}}</div>
                                     </div>
                                     <div style="padding-top: 10px;">
-                                        <h4><b>Profession</b></h4>
-                                        <div>{{profession}}</div>
+                                        <h4><b>Date Created</b></h4>
+                                        <div>{{dateCreated}}</div>
                                     </div>
                                     <div style="padding-top: 10px;">
                                         <h4><b>Created By</b></h4>
@@ -277,11 +277,7 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='membershipObj in membership' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{membershipObj.date_created}}</div>
-                                            </div>
+                                        <div class="col-sm-6">                                          
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Membership Type {{$index + 1}}</b></h4>
                                                 <div>{{membershipObj.membership_class_name}}</div>
@@ -289,17 +285,13 @@ and open the template in the editor.
                                         </div>        
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{membershipObj.created_by}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
                                                 <h4><b>Subscription Amount</b></h4>
                                                 <div>{{membershipObj.subscription_amount}}</div>
                                             </div>
                                         </div>
                                         <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
+                                                <h4><b>Explain If Other Membership Type</b></h4>
                                                 <div>{{membershipObj.explain_if_other_class}}</div>
                                             </div>
                                         </div>
@@ -318,10 +310,8 @@ and open the template in the editor.
                                                 <h4><b>Membership End Date</b></h4>
                                                 <div>{{membershipObj.end_date}}</div>
                                             </div>
-                                        </div>
-                                        <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
+                                                <h4><b>Explain If Other Payment Mode</b></h4>
                                                 <div>{{membershipObj.explain_if_other_payment}}</div>
                                             </div>
                                         </div>
@@ -334,6 +324,14 @@ and open the template in the editor.
                                                 <h4><b>Mode Of Sending Receipt</b></h4>
                                                 <div>{{membershipObj.receipt_mode_name}}</div>
                                             </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other Receipt Mode</b></h4>
+                                                <div>{{membershipObj.explain_if_other_receipt}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{membershipObj.remarks}}</div>
+                                            </div>
                                         </div>        
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
@@ -344,17 +342,13 @@ and open the template in the editor.
                                                 <h4><b>Date Of Receipt</b></h4>
                                                 <div>{{membershipObj.receipt_date}}</div>
                                             </div>
-                                        </div>
-                                        <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
-                                                <div>{{membershipObj.explain_if_other_receipt}}</div>
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{membershipObj.date_created}}</div>
                                             </div>
-                                        </div>
-                                        <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{membershipObj.remarks}}</div>
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{membershipObj.created_by}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -378,30 +372,30 @@ and open the template in the editor.
                                     <div class="box-body">
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{officeHeldObj.date_created}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Start Office</b></h4>
-                                                <div>{{officeHeldObj.start_office}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
                                                 <h4><b>Office Held {{$index + 1}}</b></h4>
                                                 <div>{{officeHeldObj.office_held}}</div>
                                             </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{officeHeldObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{officeHeldObj.date_created}}</div>
+                                            </div>                                          
                                         </div>
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{officeHeldObj.created_by}}</div>
+                                                <h4><b>Start Office</b></h4>
+                                                <div>{{officeHeldObj.start_office}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>End Office</b></h4>
                                                 <div>{{officeHeldObj.end_office}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{officeHeldObj.remarks}}</div>
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{officeHeldObj.created_by}}</div>
                                             </div>
                                         </div>
                                     </div>                                 
@@ -423,35 +417,33 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='donationObj in donation' class = "box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{donationObj.date_created}}</div>
-                                            </div>
+                                        <div class="col-sm-6">                                                                                   
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Date Received</b></h4>
                                                 <div>{{donationObj.date_received}}</div>
-                                            </div>
+                                            </div>   
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Payment Mode</b></h4>
                                                 <div>{{donationObj.payment_mode}}</div>
-                                            </div>
+                                            </div>  
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other Payment Mode</b></h4>
+                                                <div>{{donationObj.explain_if_other_payment}}</div>
+                                            </div> 
+
                                         </div>
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{donationObj.created_by}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
                                                 <h4><b>Donation Amount</b></h4>
                                                 <div>{{donationObj.donation_amount}}</div>
-                                            </div>
-                                        </div>
-                                        <div class='col-sm-12'>
+                                            </div><div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{donationObj.date_created}}</div>
+                                            </div>      
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
-                                                <div>{{donationObj.explain_if_other_payment}}</div>
-                                            </div>
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{donationObj.created_by}}</div>
+                                            </div>                                     
                                         </div>
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
@@ -461,6 +453,22 @@ and open the template in the editor.
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Mode Of Sending Receipt</b></h4>
                                                 <div>{{donationObj.receipt_mode_name}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Others</b></h4>
+                                                <div>{{donationObj.explain_if_other_receipt}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Allocation 1</b></h4>
+                                                <div>{{donationObj.allocation1}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Allocation 2</b></h4>
+                                                <div>{{donationObj.allocation2}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Allocation 3</b></h4>
+                                                <div>{{donationObj.allocation3}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
@@ -472,11 +480,31 @@ and open the template in the editor.
                                                 <h4><b>Date Of Receipt</b></h4>
                                                 <div>{{donationObj.receipt_date}}</div>
                                             </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Donor's Instructions</b></h4>
+                                                <div>{{donationObj.donor_instructions}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subamount 1</b></h4>
+                                                <div>{{donationObj.subtotal1}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subamount 2</b></h4>
+                                                <div>{{donationObj.subtotal2}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subamount 3</b></h4>
+                                                <div>{{donationObj.subtotal3}}</div>
+                                            </div>
                                         </div>
                                         <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
-                                                <div>{{donationObj.explain_if_other_receipt}}</div>
+                                                <h4><b>Associated Occasion</b></h4>
+                                                <div>{{donationObj.associated_occasion}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{donationObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                   
@@ -498,47 +526,37 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='teamObj in team' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{teamObj.date_created}}</div>
-                                            </div>
+                                        <div class="col-sm-6">                                       
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Team {{$index + 1}}</b></h4>
                                                 <div>{{teamObj.team_name}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{teamObj.created_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other</b></h4>
-                                                <div>{{teamObj.explain_if_others}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Subteam</b></h4>
                                                 <div>{{teamObj.sub_team}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Permission</b></h4>
-                                                <div>{{teamObj.permission}}</div>
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{teamObj.date_created}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Remarks</b></h4>
                                                 <div>{{teamObj.remarks}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other</b></h4>
+                                                <div>{{teamObj.explain_if_others}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Permission</b></h4>
+                                                <div>{{teamObj.permission}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{teamObj.created_by}}</div>
+                                            </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{teamObj.date_obsolete}}</div>
@@ -628,56 +646,42 @@ and open the template in the editor.
                                     <div class="box-body">
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
+                                                <h4><b>Appraisal Comments</b></h4>
+                                                <div>{{appreciationObj.appraisal_comments}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appraisal Date</b></h4>
+                                                <div>{{appreciationObj.appraisal_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appreciation Gesture</b></h4>
+                                                <div>{{appreciationObj.appreciaton_gesture}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appreciation By</b></h4>
+                                                <div>{{appreciationObj.appreciation_by}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
                                                 <h4><b>Date Created</b></h4>
                                                 <div>{{appreciationObj.created_by}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{appreciationObj.created_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appraisal Comments</b></h4>
-                                                <div>{{appreciationObj.appraisal_comments}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
                                                 <h4><b>Appraised By</b></h4>
                                                 <div>{{appreciationObj.appraisal_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appraisal Date</b></h4>
-                                                <div>{{appreciationObj.appraisal_date}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appreciation Gesture</b></h4>
-                                                <div>{{appreciationObj.appreciaton_gesture}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appreciation By</b></h4>
-                                                <div>{{appreciationObj.appreciation_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
+                                            </div>                                          
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Appreciation Date</b></h4>
                                                 <div>{{appreciationObj.appreciation_date}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-12">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Remarks</b></h4>
                                                 <div>{{appreciationObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{appreciationObj.created_by}}</div>
                                             </div>
                                         </div>
                                     </div>                                  
@@ -756,40 +760,36 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='languageObj in languages' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{languageObj.date_created}}</div>
-                                            </div>
+                                        <div class="col-sm-6"> 
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Language</b></h4>
                                                 <div>{{languageObj.language_name}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{languageObj.created_by}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Speak/Write</b></h4>
-                                                <div>{{languageObj.proficiency}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Explain If Other</b></h4>
                                                 <div>{{languageObj.explain_if_other}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{languageObj.remarks}}</div>
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{languageObj.date_created}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{languageObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">                   
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Speak/Write</b></h4>
+                                                <div>{{languageObj.proficiency}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{languageObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{languageObj.created_by}}</div>
                                             </div>
                                         </div>
                                     </div>                         
@@ -811,36 +811,32 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='skillsObj in skills' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{skillsObj.date_created}}</div>
-                                            </div>
+                                        <div class="col-sm-6">                                      
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Skills Or Assets</b></h4>
                                                 <div>{{skillsObj.skill_name}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{skillsObj.created_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-12">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Explain If Others</b></h4>
                                                 <div>{{skillsObj.explain_if_other}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{skillsObj.date_created}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">  
+                                            <div style="padding-top: 10px;">
                                                 <h4><b>Remarks</b></h4>
                                                 <div>{{skillsObj.remarks}}</div>
                                             </div>
-                                        </div>
-                                        <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{skillsObj.date_obsolete}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{skillsObj.created_by}}</div>
                                             </div>
                                         </div>
                                     </div>                                  
