@@ -45,6 +45,7 @@ app.controller('editContact',
                 var toContact = permission + '.viewIndivContact';
                 var homepage = permission + '.homepage';
                 var toContacts = permission + '.viewContacts';
+                var toEditContact = permission + '.editContact';
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
@@ -232,21 +233,14 @@ app.controller('editContact',
                         //skills and assets
                         if (contactToEdit['skill_assignment'].length != 0) {
                             $scope.editSkillsAssets = contactToEdit['skill_assignment'];
-//                            var skillEdit = contactToEdit['skill_assignment'];
-//                            $scope.editSkillsAssets['skill_asset'] = skillEdit['skill_name'];
-//                            $scope.editSkillsAssets['explain_if_other'] = skillEdit['explain_if_other'];
-//                            $scope.editSkillsAssets['remarks'] = skillEdit['remarks'];
-//                            $scope.editSkillsAssets['date_obsolete'] = skillEdit['date_obsolete'];
-//                            $scope.editSkillsAssets['created_by'] = skillEdit['created_by'];
-//                            $scope.editSkillsAssets['date_created'] = skillEdit['date_created'];
-                            //might want to trim off the hour:minute:second
                         } else {
                             $scope.editSkillsAssets = '';
                         }
 
                         //to be modified for generating password
                         $scope.generatePassword = function () {
-
+                            var a = Math.floor((Math.random()*10) + 10);
+                            $scope.editContact.password = Math.random().toString(36).substring(2, a);
                         };
 //HTTP request to edit contact
                         //user or contact
@@ -269,8 +263,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify($scope.editContact)
                             }).success(function (response) {
+                                 $scope.resultContact.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultContact.status = true;
                                     $scope.resultContact.message = "Successfully updated the contact";
                                     console.log("ok contact done");
                                 } else {
@@ -306,7 +300,7 @@ app.controller('editContact',
                                             scope: $scope
                                         }).then(function (response) {
                                             $state.go(toContacts);
-                                        })
+                                        });
                                     } else {
                                         console.log("del contact fail");
                                     }
@@ -336,8 +330,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultPhone.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultPhone.status = true;
                                     $scope.resultPhone.message = "Successfully updated phone";
                                     console.log("ok phone done");
                                 } else {
@@ -372,8 +366,8 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del phone done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del phone fail");
                                     }
@@ -402,8 +396,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                 $scope.resultEmail.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultEmail.status = true;
                                     $scope.resultEmail.message = "Successfully updated email";
                                     console.log("ok email done");
                                 } else {
@@ -438,16 +432,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del email done");
-                                        })
-
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del email fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //address
                         $scope.resultAddress = {
@@ -471,8 +464,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
-                                if (response.message == 'success') {
                                     $scope.resultAddress.status = true;
+                                if (response.message == 'success') {
                                     $scope.resultAddress.message = "Successfully updated address";
                                     console.log("ok address done");
                                 } else {
@@ -506,15 +499,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del address done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del address fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //membership
                         $scope.resultMembership = {
@@ -526,7 +519,7 @@ app.controller('editContact',
                             datasend['token'] = session.getSession('token');
                             datasend['contact_id'] = session.getSession('contactToDisplayCid');
                             datasend['user_type'] = session.getSession('userType');
-//to be sent over       //  datasend['membership_id'] = membership['id'];
+                            datasend['membership_id'] = membership['membership_id'];
                             datasend['start_membership'] = membership['start_date'];
                             datasend['end_membership'] = membership['end_date'];
                             datasend['receipt_date'] = membership['receipt_date'];
@@ -547,8 +540,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultMembership.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultMembership.status = true;
                                     $scope.resultMembership.message = "Successfully updated membership";
                                     console.log("ok membership done");
                                 } else {
@@ -567,8 +560,7 @@ app.controller('editContact',
                             }).then(function (response) {
                                 var deleteMembership = {};
                                 deleteMembership['token'] = session.getSession('token');
-                                //need membership_id to be retrieved
-//                            deleteMembership['membership_id'] = membership['id'];
+                                deleteMembership['membership_id'] = membership['membership_id'];
 
                                 var url = $scope.commonUrl + '/membership.delete';
                                 $http({
@@ -583,15 +575,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del membership done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del membership fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //office held
                         $scope.resultOffice = {
@@ -614,8 +606,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultOffice.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultOffice.status = true;
                                     $scope.resultOffice.message = "Successfully updated office";
                                     console.log("ok office done");
                                 } else {
@@ -649,15 +641,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del office done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del office fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //donation
                         $scope.resultDonation = {
@@ -695,8 +687,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultDonation.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultDonation.status = true;
                                     $scope.resultDonation.message = "Successfully updated donation";
                                     console.log("ok donation done");
                                 } else {
@@ -729,15 +721,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del donation done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del donation fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //team join
                         $scope.resultTeam = {
@@ -762,8 +754,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultTeam.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultTeam.status = true;
                                     $scope.resultTeam.message = "Successfully updated team join";
                                     console.log("ok team join done");
                                 } else {
@@ -797,15 +789,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del team join done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del team join fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //appreciation
                         $scope.resultAppreciation = {
@@ -832,8 +824,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultAppreciation.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultAppreciation.status = true;
                                     $scope.resultAppreciation.message = "Successfully updated appreciation";
                                     console.log("ok appreciation done");
                                 } else {
@@ -866,15 +858,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del appreciation done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del appreciation fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //proxy
                         $scope.resultProxy = {
@@ -898,8 +890,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultProxy.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultProxy.status = true;
                                     $scope.resultProxy.message = "Successfully updated proxy";
                                     console.log("ok appreciation done");
                                 } else {
@@ -933,15 +925,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del proxy done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del proxy fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //languages
                         $scope.resultLanguage = {
@@ -965,8 +957,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultLanguage.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultLanguage.status = true;
                                     $scope.resultLanguage.message = "Successfully updated language";
                                     console.log("ok language done");
                                 } else {
@@ -1000,15 +992,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function (response) {
-                                            console.log("ok del language done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del language fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                         //skills and assets
                         $scope.resultSkill = {
@@ -1031,8 +1023,8 @@ app.controller('editContact',
                                 headers: {'Content-Type': 'application/json'},
                                 data: JSON.stringify(datasend)
                             }).success(function (response) {
+                                $scope.resultSkill.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultSkill.status = true;
                                     $scope.resultSkill.message = "Successfully updated skill";
                                     console.log("ok skill done");
                                 } else {
@@ -1066,15 +1058,15 @@ app.controller('editContact',
                                             className: 'ngdialog-theme-default',
                                             scope: $scope
                                         }).then(function(response){
-                                            console.log("ok del skill done");
-                                        })
+                                            $state.go(toEditContact);
+                                        });
                                     } else {
                                         console.log("del skill fail");
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
-                            })
+                            });
                         };
                     } else {
                         console.log("Some data went wrong");

@@ -10,7 +10,7 @@ app.service('loadModeOfSendingReceipt',['$rootScope', '$http', function($rootSco
     this.retrieveModeOfSendingReceipt = function(){
         return $http({
             method: 'POST',
-            url: $rootScope.commonUrl + '/modeofsendingreceiptlist'
+            url: $rootScope.commonUrl + '/modeofsendingreceiptList'
         });
     }; 
 }]);

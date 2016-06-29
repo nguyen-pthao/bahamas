@@ -8,6 +8,10 @@ and open the template in the editor.
     <body>
         <!-- Content Wrapper. Contains page content -->
         <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+        <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+        <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+        <script src="plugins/daterangepicker/moment.js"></script>
+        <script src="plugins/daterangepicker/daterangepicker.js"></script>
         <div class="content-wrapper" style="margin:0px" id="edit-contact">
             <!-- Content Header (Page header) -->
             <section class="content-header">
@@ -77,6 +81,8 @@ and open the template in the editor.
                             <div class='box-footer'>
                                 <center>
                                     <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Update user</button>
+                                    <br>
+                                    <span ng-bind="resultContact.message" ng-show="resultContact.status"></span>
                                 </center>
                             </div>
                         </div>
@@ -169,7 +175,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" ng-model="editContact['date_of_birth']" name="dob" class="form-control pull-right">
+                                            <input type="text" ng-model="editContact['date_of_birth']" name="dob" class="form-control pull-right" id="dob">
                                         </div>
                                     </div>
                                 </div>                      
@@ -185,6 +191,8 @@ and open the template in the editor.
                                     <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Update contact</button>
                                     &nbsp;
                                     <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheContact()">Delete contact</button>
+                                    <br>
+                                    <span ng-bind="resultContact.message" ng-show="resultContact.status"></span>
                                 </center>
                             </div>
                         </div>
@@ -254,7 +262,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input ng-model="phone['date_obsolete']" type="text" name="dateObsPhone" class="form-control pull-right">
+                                                    <input ng-model="phone['date_obsolete']" type="text" name="dateObsPhone" class="form-control pull-right" id="dateObsPhone">
                                                 </div>
                                             </div>
                                         </div>
@@ -263,6 +271,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editThePhone($event, phone)">Update phone</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteThePhone($event, phone)">Delete phone</button>
+                                                <br>
+                                                <span ng-bind="resultPhone.message" ng-show="resultPhone.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -333,7 +343,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="email['date_obsolete']" name="dateObsEmail" class="form-control pull-right">
+                                                    <input type="text" ng-model="email['date_obsolete']" name="dateObsEmail" class="form-control pull-right" id="dateObsEmail">
                                                 </div>
                                             </div>
                                         </div>
@@ -342,6 +352,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheEmail($event, email)">Update email</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheEmail($event, email)">Delete email</button>
+                                                <br>
+                                                <span ng-bind="resultEmail.message" ng-show="resultEmail.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -375,7 +387,7 @@ and open the template in the editor.
                                             <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                 <i class="fa fa-plus fa-lg"></i>
                                             </button>
-                                            <b>Zipcode <span ng-bind="address['zipcode']"> <span ng-bind="address['country']"></span></b>
+                                            <b>Zipcode <span ng-bind="address['zipcode']"></span> <span ng-bind="address['country']"></span></b>
                                         </h5>
                                     </div>
                                     <div class="box-body with-border" style="display: none">
@@ -425,7 +437,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="address['date_obsolete']" name="dateObsAddress" class="form-control pull-right">
+                                                    <input type="text" ng-model="address['date_obsolete']" name="dateObsAddress" class="form-control pull-right" id="dateObsAddress">
                                                 </div>
                                             </div>
                                         </div>
@@ -434,6 +446,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheAddress($event, address)">Update address</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAddress($event, address)">Delete address</button>
+                                                <br>
+                                                <span ng-bind="resultAddress.message" ng-show="resultAddress.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -510,7 +524,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['start_date']" name="startdateMem" class="form-control pull-right">
+                                                    <input type='text' ng-model="membership['start_date']" name="startdateMem" class="form-control pull-right" id="startdateMem">
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -519,7 +533,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['end_date']" name="enddateMem" class="form-control pull-right">
+                                                    <input type='text' ng-model="membership['end_date']" name="enddateMem" class="form-control pull-right" id="enddateMem">
                                                 </div>
                                             </div>
                                         </div>
@@ -560,7 +574,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="membership['receipt_date']" class="form-control pull-right" name="dateRecMem">
+                                                    <input type="text" ng-model="membership['receipt_date']" class="form-control pull-right" name="dateRecMem" id="dateRecMem">
                                                 </div>
                                             </div>
                                         </div>
@@ -581,6 +595,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheMembership($event, membership)">Update address</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
+                                                <br>
+                                                <span ng-bind="resultMembership.message" ng-show="resultMembership.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -647,7 +663,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="officeHeld['start_office']" name="startdateOff" class="form-control pull-right">
+                                                    <input type='text' ng-model="officeHeld['start_office']" name="startdateOff" class="form-control pull-right" id="startdateOff">
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -656,7 +672,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="officeHeld['end_office']" name="enddateOff" class="form-control pull-right">
+                                                    <input type='text' ng-model="officeHeld['end_office']" name="enddateOff" class="form-control pull-right" id="enddateOff">
                                                 </div>
                                             </div>
                                         </div>
@@ -671,6 +687,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheOffice($event, office)">Update office</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheOffice($event, office)">Delete office</button>
+                                                <br>
+                                                <span ng-bind="resultOffice.message" ng-show="resultOffice.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -729,7 +747,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="donation['date_received']" class="form-control pull-right" name='dateRecvDon'>
+                                                    <input type="text" ng-model="donation['date_received']" class="form-control pull-right" name='dateRecvDon' id="dateRecvDon">
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -774,7 +792,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" name='dateRecDon'>
+                                                    <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" name='dateRecDon' id="dateRecDon">
                                                 </div>
                                             </div>
                                         </div>
@@ -836,7 +854,9 @@ and open the template in the editor.
                                             <center>
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheDonation($event, donation)">Update donation</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheDonation($event, donation)">Delete donation</button>
+                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
+                                                <br>
+                                                <span ng-bind="resultDonation.message" ng-show="resultDonation.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -927,7 +947,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input ng-model="team['date_obsolete']" name='dateObsTeam' type='text' class="form-control pull-right">
+                                                    <input ng-model="team['date_obsolete']" name='dateObsTeam' type='text' class="form-control pull-right" id="dateObsTeam">
                                                 </div>
                                             </div>
                                         </div>
@@ -936,6 +956,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheTeam($event, team)">Update team</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheTeam($event, team)">Delete team</button>
+                                                <br>
+                                                <span ng-bind="resultTeam.message" ng-show="resultTeam.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -1004,7 +1026,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type='text' name="trainDate" class="form-control pull-right">
+                                            <input type='text' name="trainDate" class="form-control pull-right" id="trainDate">
                                         </div>
                                     </div>
                                 </div>
@@ -1078,7 +1100,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="appreciation['appraisal_date']" name="apprDate" class="form-control pull-right">
+                                                    <input type='text' ng-model="appreciation['appraisal_date']" name="apprDate" class="form-control pull-right" id="apprDate">
                                                 </div>
                                             </div>
                                         </div>
@@ -1099,7 +1121,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="appreciation['appreciation_date']" name="appnDate" class="form-control pull-right">
+                                                    <input type='text' ng-model="appreciation['appreciation_date']" name="appnDate" class="form-control pull-right" id="appnDate">
                                                 </div>
                                             </div>
                                         </div>
@@ -1114,6 +1136,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheAppreciation($event, appreciation)">Update appreciation</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
+                                                <br>
+                                                <span ng-bind="resultAppreciation.message" ng-show="resultAppreciation.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -1190,7 +1214,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="proxy['date_obsolete']" name='dateObsProx' class="form-control pull-right">
+                                                    <input type='text' ng-model="proxy['date_obsolete']" name='dateObsProx' class="form-control pull-right" id="dateObsProx">
                                                 </div>
                                             </div>
                                         </div>
@@ -1199,6 +1223,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheProxy($event, proxy)">Update proxy</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
+                                                <br>
+                                                <span ng-bind="resultProxy.message" ng-show="resultProxy.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -1284,7 +1310,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input ng-model="language['date_obsolete']" name='dateObsLang' type='text' class="form-control pull-right">
+                                                    <input ng-model="language['date_obsolete']" name='dateObsLang' type='text' class="form-control pull-right" id="dateObsLang">
                                                 </div>
                                             </div>
                                         </div>
@@ -1293,6 +1319,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Update language</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Delete language</button>
+                                                <br>
+                                                <span ng-bind="resultLanguage.message" ng-show="resultLanguage.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -1371,7 +1399,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input ng-model="skill['date_obsolete']" name='dateObsLSA' type='text' class="form-control pull-right">
+                                                    <input ng-model="skill['date_obsolete']" name='dateObsLSA' type='text' class="form-control pull-right" id="dateObsLSA">
                                                 </div>
                                             </div>
                                         </div>
@@ -1380,6 +1408,8 @@ and open the template in the editor.
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="editTheSkill($event, skill)">Update skill</button>
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
+                                                <br>
+                                                <span ng-bind="resultSkill.message" ng-show="resultSkill.status"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -1399,5 +1429,19 @@ and open the template in the editor.
             </section>
             <!-- /.content -->
         </div>
+        
+        <script>
+            $(document).ready(function (){
+                $('#dob, #dateObsPhone, #dateObsEmail, #dateObsAddress, \n\
+                   #startdateMem, #enddateMem,\n\
+                   #dateRecMem, #startdateOff, #enddateOff, \n\
+                   #dateRecvDon, #dateRecDon, #trainDate, #apprDate, \n\
+                   #dateObsTeam, #appnDate, #dateObsProx, #dateObsLang, #dateObsLSA').datepicker({
+                    format: "dd-M-yyyy",
+                    autoclose: true,
+                    endDate: new Date()
+                });
+            });
+        </script>
     </body>
 </html>
