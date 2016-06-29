@@ -1061,7 +1061,13 @@ app.controller('editContact',
                                     data: JSON.stringify(deleteSkill)
                                 }).success(function (response) {
                                     if (response.message == 'success') {
-                                        console.log("ok del skill done");
+                                        ngDialog.openConfirm({
+                                            template: './style/ngTemplate/deleteSuccess.html',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope
+                                        }).then(function(response){
+                                            console.log("ok del skill done");
+                                        })
                                     } else {
                                         console.log("del skill fail");
                                     }
