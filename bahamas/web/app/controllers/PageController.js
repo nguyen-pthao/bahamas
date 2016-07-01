@@ -76,7 +76,11 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
                 session.setSession('contactToDisplayCid', contactCid);
                 $state.go(toURL, {}, {reload: true});
             }
-
+            
+            $scope.toProfile = function(){
+                var toURL = $scope.userType + ".userManagement";
+                $state.go(toURL);
+            }
         };
 
     }]);
