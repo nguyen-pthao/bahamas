@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewContact()" style="color: white"> Contact Management </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewContact()" style="color: white"> View Contacts </a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewContact()" style="color: white"> Contact Management </a><i class="fa fa-chevron-right small"></i> <a style="color: white"> View Contacts </a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -72,7 +72,7 @@ and open the template in the editor.
                                     <td>{{contact.phone}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact_type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a ng-click='editContact()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a href="" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -95,7 +95,7 @@ and open the template in the editor.
                                     <td>{{contact['alt_name']}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact_type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a ng-click='editContact()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a href="" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>

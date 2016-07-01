@@ -13,15 +13,15 @@ app.controller('createContact',
             function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter) {
 //PAGES TRANSITION
                 var user = session.getSession('userType');
-                var currentState = user + '.addContact';
+                var viewContact = user + '.viewContacts';
                 var homepage = user + '.homepage';
 
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
 
-                $scope.addContact = function () {
-                    $state.reload(currentState);
+                $scope.viewContact = function () {
+                    $state.go(viewContact);
                 };
 
                 $scope.form = {};

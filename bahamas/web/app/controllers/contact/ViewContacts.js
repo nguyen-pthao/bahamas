@@ -129,6 +129,13 @@ app.controller('viewContacts',
                             session.setSession('contactToDisplayCid', contactCid);
                             $state.go(toURL);
                         };
+                        
+                        $scope.editContact = function($event, contact){
+                            var toURL = $scope.userType + ".editContact";
+                            var contactCid = contact.cid;
+                            session.setSession('contactToDisplayCid', contactCid);
+                            $state.go(toURL);
+                        };
                     });
                     
                 };

@@ -105,7 +105,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $state.go(homepage);
         };
 
-        $scope.viewContact = function () {
+        $scope.viewContacts = function () {
             $state.go(toAllContacts);
         };
 
