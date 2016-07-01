@@ -8,4 +8,7 @@ and open the template in the editor.
     Author     : Thalia Nguyen Thao
     Any overriding in css please put it in here; don't edit directly into AdminLTE or bootstrap css files
 */
-
+html,
+.no-information-grey {
+   background-color: #cccccc;
+}

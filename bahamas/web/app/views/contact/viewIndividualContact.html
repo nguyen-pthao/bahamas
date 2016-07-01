@@ -121,7 +121,7 @@ and open the template in the editor.
                         </div>
                         <!-- /contact information -->
                         <div class="box collapsed-box" style="border-top-color: #135a8a">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  phoneInfo === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -166,7 +166,7 @@ and open the template in the editor.
                         </div>
                         <!-- /phone information -->
                         <div class="box collapsed-box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  email === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -211,7 +211,7 @@ and open the template in the editor.
                         </div>
                         <!-- /email information -->
                         <div class="box collapsed-box" style="border-top-color: #135a8a">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  address === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -264,7 +264,7 @@ and open the template in the editor.
                         </div>
                         <!-- /address information -->
                         <div class="box collapsed-box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  membership === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -357,7 +357,7 @@ and open the template in the editor.
                         </div>
                         <!-- /membership information -->
                         <div class="box collapsed-box" style="border-top-color: #135a8a">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  officeHeld === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -404,7 +404,7 @@ and open the template in the editor.
                         </div>
                         <!-- /office-held information -->
                         <div class="box collapsed-box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  donation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -513,7 +513,7 @@ and open the template in the editor.
                         </div>
                         <!-- /donation information -->
                         <div class="box collapsed-box" style="border-top-color: #135a8a">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  team === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -568,7 +568,7 @@ and open the template in the editor.
                         </div>
                         <!-- /team information -->
                         <div class="box collapsed-box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  training === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -631,7 +631,7 @@ and open the template in the editor.
                         </div>
                         <!-- /training information -->
                         <div class="box collapsed-box" style="border-top-color: #135a8a">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  appreciation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -690,7 +690,7 @@ and open the template in the editor.
                         </div>
                         <!-- /appreciation information -->
                         <div class="box collapsed-box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  proxy === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -747,7 +747,7 @@ and open the template in the editor.
                         </div>
                         <!-- /proxy information -->
                         <div class="box collapsed-box" style="border-top-color: #135a8a">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  languages === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
@@ -798,7 +798,7 @@ and open the template in the editor.
                         </div>
                         <!-- /languages information -->
                         <div class="box collapsed-box">
-                            <div class="box-header with-border">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  skills === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
                                 <div class="box-tools pull-right">
                                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
