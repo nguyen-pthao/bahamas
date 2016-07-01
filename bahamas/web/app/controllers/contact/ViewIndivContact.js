@@ -40,7 +40,6 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         
         retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response){
             $scope.contactInfo = response.data.contact[0];
-            console.log($scope.contactInfo);
             //user info
             $scope.username = $scope.contactInfo.username;
             $scope.isUser = false;

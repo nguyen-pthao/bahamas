@@ -62,20 +62,20 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
                 $scope.allContactInfo = response.data.contact;
                 $scope.allContactInfoObj = angular.fromJson($scope.allContactInfo);
                 $scope.contactname = [];
-                angular.forEach($scope.allContactInfo, function(obj){
+                angular.forEach($scope.allContactInfo, function (obj) {
                     $scope.contactname.push(obj.name);
                 });
                 $scope.userType = session.getSession('userType');
-//
-//
-//
-//                $scope.foo = function ($event, contact) {
-//                    var toURL = $scope.userType + ".viewIndivContact";
-//                    var contactInfo = angular.toJson(contact);
-//                    session.setSession('contactToDisplay', contactInfo);
-//                    $state.go(toURL);
-//                };
+
+
             });
+
+            $scope.toViewContact = function () {
+                var contactCid = $scope.selected.cid;
+                var toURL = $scope.userType + ".viewIndivContact";
+                session.setSession('contactToDisplayCid', contactCid);
+                $state.go(toURL, {}, {reload: true});
+            }
 
         };
 

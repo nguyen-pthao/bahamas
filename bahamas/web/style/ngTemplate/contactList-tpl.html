@@ -1,4 +1,6 @@
-<a><div>
-    <span style="display:block;" class="name" bind-html-unsafe="match.model.name | typeaheadHighlight:query"></span>
-    <span bind-html-unsafe="match.model.email | typeaheadHighlight:query"></span>    
-</div></a>
+<a>
+    <div style="display:block;">
+        <div class="name" ng-bind-html="match.model.name | uibTypeaheadHighlight:query"></div>
+        <div ng-bind-html="match.model.email | uibTypeaheadHighlight:query"></div>    
+    </div>
+</a>
