@@ -10,6 +10,7 @@ import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
+import bahamas.util.Email;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -91,7 +92,7 @@ public class UpdateUser extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-                    
+
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
                     if (!user.isIsAdmin() && !userType.equals("teammanager")
                             && !RoleCheckDAO.checkRole(user.getContactId(), userType)
@@ -102,17 +103,28 @@ public class UpdateUser extends HttpServlet {
                     }
 
                     c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
-                    String[] passwordGenerate = PasswordHash.getHashAndSalt(Validator.containsBlankField(jobject.get("password").getAsString()));
+                    String password = Validator.containsBlankField(jobject.get("password").getAsString());
+                    String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
                     c.setPassword(passwordGenerate[0]);
                     c.setSalt(passwordGenerate[1]);
-                    
+
                     c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
                     c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
                     c.setNotification(Validator.isBooleanValid(jobject.get("notification").getAsString()));
 
                     if (ContactDAO.updateUser(c)) {
-                        json.addProperty("message", "success");
+                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
+                        if (email != null && password != null) {
+                            String[] temp = {c.getName(), c.getUsername(), password};
+                            Email.sendEmail(email, temp);
+                            json.addProperty("message", "success");
+                            out.println(gson.toJson(json));
+							return;
+                        }
+
+                        json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
+
                     } else {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
