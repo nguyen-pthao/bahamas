@@ -8,7 +8,69 @@ and open the template in the editor.
     Author     : Thalia Nguyen Thao
     Any overriding in css please put it in here; don't edit directly into AdminLTE or bootstrap css files
 */
+.bold {
+    font-weight: 600;
+}
 
 .no-information-grey {
    background-color: #cccccc;
+}
+
+/*For login logo*/
+.twc2-logo {
+    max-width: 100%;
+    max-height: 90%;
+}
+
+@media(max-width: 768px) {
+    .twc2-logo,
+    .login-box-body, 
+    .register-box-body {
+        max-width: 50%;
+        max-height: 50%;
+    }
+}
+
+@media(max-width: 360px) {
+    .login-box-body, 
+    .register-box-body {
+        max-width: 100%;
+        max-height: 100%;
+    }
+}
+
+/*For collapsing sidebar*/
+@media(min-width: 768px) {
+    .sidebar-mini.sidebar-collapse .content-wrapper, 
+    .sidebar-mini.sidebar-collapse .right-side, 
+    .sidebar-mini.sidebar-collapse .main-footer {
+        margin-left: 25px !important;
+    }
+}
+
+/*For logo*/
+.skin-blue .main-header .logo{
+    background-color: #1a2226; 
+    position: fixed;
+}
+
+/*For top navigation bar*/
+.skin-blue .main-header .navbar-static-top {
+    background-color: rgb(17, 78, 116);
+}
+
+/*For profile and log out button*/
+.navbar-nav > .user-menu > .dropdown-menu > .user-footer .btn-default {
+    background-color:#3c8dbc;
+    color:white
+}
+/*Navbar button click*/
+.skin-blue .main-header .navbar .nav>li>a:hover, 
+.skin-blue .main-header .navbar .nav>li>a:active, 
+.skin-blue .main-header .navbar .nav>li>a:focus, 
+.skin-blue .main-header .navbar .nav .open>a, 
+.skin-blue .main-header .navbar .nav .open>a:hover, 
+.skin-blue .main-header .navbar .nav .open>a:focus, 
+.skin-blue .main-header .navbar .nav>.active>a {
+    background : rgb(8, 50, 80);
 }

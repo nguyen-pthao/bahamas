@@ -6,7 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.controller('pageController', ['$scope', '$location', 'session', '$state', 'ngDialog', 'loadAllContacts', function ($scope, $location, session, $state, ngDialog, loadAllContacts) {
+app.controller('pageController', 
+    ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 
+        function ($scope, session, $state, ngDialog, loadAllContacts) {
+            var user = session.getSession('userType');
+            var homepage = user + '.homepage';
+            
         $scope.populatePage = function () {
             $scope.name = '';
             $scope.userType = '';
@@ -66,8 +71,6 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
                     $scope.contactname.push(obj.name);
                 });
                 $scope.userType = session.getSession('userType');
-
-
             });
 
             $scope.toViewContact = function () {
@@ -75,12 +78,19 @@ app.controller('pageController', ['$scope', '$location', 'session', '$state', 'n
                 var toURL = $scope.userType + ".viewIndivContact";
                 session.setSession('contactToDisplayCid', contactCid);
                 $state.go(toURL, {}, {reload: true});
-            }
+            };
             
             $scope.toProfile = function(){
                 var toURL = $scope.userType + ".userManagement";
                 $state.go(toURL);
-            }
+            };
         };
-
+        
+        $state.go(homepage);
+        
+        $scope.openSidebar = false;
+        $scope.openControlBar = function() {
+            $scope.openSidebar = !$scope.openSidebar;
+        };
+        
     }]);

@@ -7,15 +7,15 @@
             <div class="wrapper" ng-init="populatePage()">
                 <header class="main-header">
                     <!-- Logo -->
-                    <a href="" class="logo" style="background-color: #377ec4; position: fixed">
+                    <a href="#/eventleader" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
-                        <span class="logo-mini"><b>B</b>hms</span>
+                        <span class="logo-mini bold">BHM</span>
                         <!-- logo for regular state and mobile devices -->
-                        <span class="logo-lg"><b>TWC2 Bahamas</b></span>
+                        <span class="logo-lg bold">TWC2 Bahamas</span>
                     </a>
 
                     <!-- Header Navbar: style can be found in header.less -->
-                    <nav class="navbar navbar-static-top" style="background-color: rgb(17, 78, 116);">
+                    <nav class="navbar navbar-static-top">
                         <!-- Sidebar toggle button-->
                         <a href="" class="sidebar-toggle" data-toggle="offcanvas" role="button">
                             <span class="sr-only">Toggle navigation</span>
@@ -132,7 +132,7 @@
                                 </li>
                                 <!-- Control Sidebar Toggle Button -->
                                 <li>
-                                    <a href="javascript: void(0)" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                                    <a href="javascript: void(0)" data-toggle="control-sidebar" ng-click="openControlBar()"><i class="fa fa-gears"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -214,42 +214,10 @@
 
                 <!-- Content Wrapper. Contains page content -->
                 <div class="content-wrapper" id="content" style='min-height: 900px' ui-view>
-                    <!-- Content Header (Page header) -->
-                    <section class="content-header">
-                        <h3>
-                            <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                                <li><i class="fa fa-home"></i> Homepage</li>
-                            </ol>                    
-                        </h3>
-                    </section>
-                    <!-- Main content -->
-                    <section class="content">
-                        <!-- Default box -->
-                        <div class="box">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">To be completed</h3>
-
-                                <div class="box-tools pull-right">
-                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                        <i class="fa fa-chevron-down"></i></button>
-                                </div>
-                            </div>
-                            <div class="box-body">
-
-                            </div>
-                            <!-- /.box-body -->
-                            <div class="box-footer">
-                                To be continued...
-                            </div>
-                            <!-- /.box-footer-->
-                        </div>
-                        <!-- /.box -->
-
-                    </section>
-                    <!-- /.content -->
+                    
                 </div>
                 <!-- Control Sidebar -->
-                <aside class="control-sidebar control-sidebar-dark">
+                <aside class="control-sidebar control-sidebar-dark" ng-class="{'control-sidebar-open': openSidebar === true}">
                     <!-- Create the tabs -->
                     <ul class="nav nav-tabs nav-justified control-sidebar-tabs" style="padding: 15px">
                         <!--<div class="tab-content">
