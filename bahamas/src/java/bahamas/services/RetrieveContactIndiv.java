@@ -195,8 +195,8 @@ public class RetrieveContactIndiv extends HttpServlet {
         ArrayList<SkillAssignment> skillAssignmentList = SkillDAO.retrieveSkillByCID(contact.getContactId());
         ArrayList<Appreciation> appreciationList = AppreciationDAO.retrieveAppreciation(contact.getContactId());
         ArrayList<Donation> donationList = DonationDAO.retrieveDonationByCID(contact.getContactId());
-        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(contact.getUsername());
-
+        //ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(contact.getUsername());
+        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
         String emailStr = "";
         String phoneStr = "";
         String addressStr = "";
