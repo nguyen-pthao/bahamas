@@ -9,12 +9,12 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
-        ['$scope', 'session', '$state','loadAllContacts', 'filterFilter',
-            function ($scope, session, $state, loadAllContacts, filterFilter) {
+        ['$scope', 'session', '$state', 'loadAllContacts', 'filterFilter', 'ngDialog', 'deleteContact',
+            function ($scope, session, $state, loadAllContacts, filterFilter, ngDialog, deleteContact) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
-              
+
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -22,9 +22,11 @@ app.controller('viewContacts',
                 $scope.viewContact = function () {
                     $state.reload(currentState);
                 };
-                
+
+
+
                 $scope.retrieveAllContacts = function () {
-                    
+
                     $scope.checkNovice = session.getSession('userType');
                     $scope.showFive = false;
                     //to determine what to send back to backend.
@@ -85,7 +87,7 @@ app.controller('viewContacts',
                             $scope.allFilteredContacts = filterFilter($scope.allContactInfo, $scope.searchContacts);
                             var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
-                            if($scope.totalPages === 0){
+                            if ($scope.totalPages === 0) {
                                 $scope.totalPages = 1;
                             }
                             $scope.$watch('currentPage + itemsPerPage', function () {
@@ -97,7 +99,7 @@ app.controller('viewContacts',
 
                         var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
-                        if($scope.totalPages === 0){
+                        if ($scope.totalPages === 0) {
                             $scope.totalPages = 1;
                         }
                         $scope.$watch('currentPage + itemsPerPage', function () {
@@ -112,7 +114,7 @@ app.controller('viewContacts',
                             $scope.totalItems = $scope.allFilteredContacts.length;
                             var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
                             $scope.totalPages = Math.ceil(total);
-                            if($scope.totalPages === 0){
+                            if ($scope.totalPages === 0) {
                                 $scope.totalPages = 1;
                             }
                             $scope.$watch('currentPage + itemsPerPage', function () {
@@ -128,16 +130,52 @@ app.controller('viewContacts',
                             session.setSession('contactToDisplayCid', contactCid);
                             $state.go(toURL);
                         };
-                        
-                        $scope.editContact = function($event, contact){
+
+                        $scope.editContact = function ($event, contact) {
                             var toURL = $scope.userType + ".editContact";
                             var contactCid = contact.cid;
                             session.setSession('contactToDisplayCid', contactCid);
                             $state.go(toURL);
                         };
+
+                        $scope.deleteContact = function ($event, contact) {
+                            var toURL = $scope.userType + ".viewContacts";
+                            var contactCid = contact.cid;
+
+                            var toDelete = {
+                                'token': session.getSession('token'),
+                                'contact_id': contactCid
+                            }
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/deletePrompt.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            }).then(function (response) {
+                                deleteContact.deleteContactWithCid(toDelete).then(function (response) {
+                                    console.log(response);
+                                    if (response.data.message === "success") {
+                                        ngDialog.openConfirm({
+                                            template: './style/ngTemplate/deleteSuccess.html',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope
+                                        }).then(function (response) {
+                                            $state.reload(toURL);
+                                        })
+                                    } else {
+                                        ngDialog.openConfirm({
+                                            template: './style/ngTemplate/deleteFailure.html',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope
+                                        }).then(function (response) {
+                                            $state.reload(toURL);
+                                        })
+                                    }
+                                })
+                            });
+                        };
                     });
                 };
-              
+
                 $scope.predicate = '';
                 $scope.reverse = true;
 
