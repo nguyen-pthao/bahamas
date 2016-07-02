@@ -82,7 +82,7 @@ app.controller('createContact',
                 };
 //DEFINE REGEX
                 $scope.nationalityRegex = '[A-Za-z ]{0,49}';
-                $scope.nricRegex = '[STFG][0-9]\\d{6}[A-Z]'; //notice that \d won't work but \\d
+                $scope.nricRegex = '[A-Za-z][0-9]\\d{6}[A-Za-z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
 //DECLARE CONTACT OBJECT              
@@ -347,15 +347,17 @@ app.controller('createContact',
                                             }).error(function () {
                                                 window.alert("Fail to send request!");
                                             });
+                                        } else {
+                                            $scope.submittedTeam = true;
                                         }
                                     }
                                 }).error(function () {
                                     window.alert("Fail to send request!");
                                 });
+                            } else {
+                                $scope.submittedTeam = true;
                             }
-                        } else {
-                            //to be modified
-                        }
+                        } 
                     }).error(function () {
                         window.alert("Fail to send request!");
                     });
