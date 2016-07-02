@@ -128,7 +128,7 @@ public class Login extends HttpServlet {
                                 json.addProperty("user_type", "associate");
                             }
                             jsonContactObj.addProperty("cid", contact.getContactId());
-                            jsonContactObj.addProperty("contact_type", contact.getContactType());
+                            //jsonContactObj.addProperty("contact_type", contact.getContactType());
                             /*
                             jsonContactObj.addProperty("date_created", datetime.format(contact.getDateCreated()));
                             jsonContactObj.addProperty("created_by", contact.getCreatedBy());
