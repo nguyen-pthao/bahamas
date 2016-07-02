@@ -1,30 +1,36 @@
+package bahamas.services;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
-
-import bahamas.dao.*;
-import bahamas.entity.*;
+import bahamas.dao.ContactDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "UpdateContact", urlPatterns = {"/contact.update"})
-public class UpdateContact extends HttpServlet {
+/**
+ *
+ * @author HUXLEY
+ */
+@WebServlet(urlPatterns = {"/user.update"})
+public class UpdateUser extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -85,7 +91,7 @@ public class UpdateContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-
+                    
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
                     if (!user.isIsAdmin() && !userType.equals("teammanager")
                             && !RoleCheckDAO.checkRole(user.getContactId(), userType)
@@ -95,19 +101,16 @@ public class UpdateContact extends HttpServlet {
                         return;
                     }
 
-                    c.setName(Validator.containsBlankField(jobject.get("name").getAsString()));
-                    c.setAltName(Validator.containsBlankField(jobject.get("alt_name").getAsString()));
-                    c.setContactType(Validator.containsBlankField(jobject.get("contact_type").getAsString()));
-                    c.setExplainIfOther(Validator.containsBlankField(jobject.get("explain_if_other").getAsString()));
-                    c.setProfession(Validator.containsBlankField(jobject.get("profession").getAsString()));
-                    c.setJobTitle(Validator.containsBlankField(jobject.get("job_title").getAsString()));
-                    c.setNric(Validator.containsBlankField(jobject.get("nric_fin").getAsString()));
-                    c.setGender(Validator.containsBlankField(jobject.get("gender").getAsString()));
-                    c.setNationality(Validator.containsBlankField(jobject.get("nationality").getAsString()));
-                    c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth").getAsString()));
-                    c.setRemarks(Validator.containsBlankField(jobject.get("remarks").getAsString()));
+                    c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
+                    String[] passwordGenerate = PasswordHash.getHashAndSalt(Validator.containsBlankField(jobject.get("password").getAsString()));
+                    c.setPassword(passwordGenerate[0]);
+                    c.setSalt(passwordGenerate[1]);
+                    
+                    c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
+                    c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
+                    c.setNotification(Validator.isBooleanValid(jobject.get("notification").getAsString()));
 
-                    if (ContactDAO.updateContact(c)) {
+                    if (ContactDAO.updateUser(c)) {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
@@ -122,7 +125,7 @@ public class UpdateContact extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

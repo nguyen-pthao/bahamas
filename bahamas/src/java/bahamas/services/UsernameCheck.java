@@ -5,26 +5,32 @@
  */
 package bahamas.services;
 
-import bahamas.dao.*;
-import bahamas.entity.*;
+import bahamas.dao.ContactDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
-import com.google.gson.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet(name = "UpdateContact", urlPatterns = {"/contact.update"})
-public class UpdateContact extends HttpServlet {
+/**
+ *
+ * @author HUXLEY
+ */
+@WebServlet(name = "UsernameCheck", urlPatterns = {"/user.check"})
+public class UsernameCheck extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,10 +83,7 @@ public class UpdateContact extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
 
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
-                    Contact c = cDAO.retrieveContactById(contactId);
-
-                    if (c == null || user == null) {
+                    if (user == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
@@ -88,32 +91,32 @@ public class UpdateContact extends HttpServlet {
 
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
                     if (!user.isIsAdmin() && !userType.equals("teammanager")
-                            && !RoleCheckDAO.checkRole(user.getContactId(), userType)
-                            && !c.getUsername().equals(username)) {
+                            && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     }
 
-                    c.setName(Validator.containsBlankField(jobject.get("name").getAsString()));
-                    c.setAltName(Validator.containsBlankField(jobject.get("alt_name").getAsString()));
-                    c.setContactType(Validator.containsBlankField(jobject.get("contact_type").getAsString()));
-                    c.setExplainIfOther(Validator.containsBlankField(jobject.get("explain_if_other").getAsString()));
-                    c.setProfession(Validator.containsBlankField(jobject.get("profession").getAsString()));
-                    c.setJobTitle(Validator.containsBlankField(jobject.get("job_title").getAsString()));
-                    c.setNric(Validator.containsBlankField(jobject.get("nric_fin").getAsString()));
-                    c.setGender(Validator.containsBlankField(jobject.get("gender").getAsString()));
-                    c.setNationality(Validator.containsBlankField(jobject.get("nationality").getAsString()));
-                    c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth").getAsString()));
-                    c.setRemarks(Validator.containsBlankField(jobject.get("remarks").getAsString()));
-
-                    if (ContactDAO.updateContact(c)) {
-                        json.addProperty("message", "success");
-                        out.println(gson.toJson(json));
-                    } else {
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
+                    if (jobject.get("nric_fin") != null) {
+                        String nric = Validator.containsBlankField(jobject.get("nric_fin").getAsString());
+                        Contact c = cDAO.retrieveContactByNric(nric);
+                        if (c != null) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                    } else if (jobject.get("username") != null) {
+                        String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                        Contact c = cDAO.retrieveContactByUsername(uName);
+                        if (c != null) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
                     }
+
+                    json.addProperty("message", "success");
+                    out.println(gson.toJson(json));
 
                 }
             }
@@ -122,7 +125,7 @@ public class UpdateContact extends HttpServlet {
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
