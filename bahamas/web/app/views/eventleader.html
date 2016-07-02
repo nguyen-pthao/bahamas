@@ -7,7 +7,7 @@
             <div class="wrapper" ng-init="populatePage()">
                 <header class="main-header">
                     <!-- Logo -->
-                    <a href="#/eventleader/homepage" class="logo">
+                    <a href="#/eventleader" class="logo">
                         <!-- mini logo for sidebar mini 50x50 pixels -->
                         <span class="logo-mini bold">BHM</span>
                         <!-- logo for regular state and mobile devices -->
@@ -213,8 +213,43 @@
                 <!-- =============================================== -->
 
                 <!-- Content Wrapper. Contains page content -->
-                <div class="content-wrapper" id="content" style='min-height: 900px' ui-view>
-                    
+                <div class="content-wrapper" style='min-height: 900px' ui-view>
+                    <div class="content-wrapper" style="margin: 0px; min-height: 900px">
+                        <!-- Content Header (Page header) -->
+                        <section class="content-header">
+                            <h3>
+                                <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
+                                    <li><i class="fa fa-home"></i> Homepage </li>
+                                </ol>                    
+                            </h3>
+                        </section>
+                        <!-- Main content -->
+                        <section class="content">
+                            <!-- Default box -->
+                            <div class="box" ng-init="retrieveAllContacts()">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">To be completed</h3>
+                                    <div class="box-tools pull-right">
+                                        <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                            <i class="fa fa-chevron-down"></i></button>
+                                    </div>
+                                </div>
+                                <div class="box-body">
+
+                                </div>
+                                <!-- /.box-body -->
+                                <div class="box-footer">
+                                    Hello Babe 
+                                    Testing
+                                    Testing
+                                </div>
+                                <!-- /.box-footer-->
+                            </div>
+                            <!-- /.box -->
+
+                        </section>
+                        <!-- /.content -->
+                    </div>
                 </div>
                 <!-- Control Sidebar -->
                 <aside class="control-sidebar control-sidebar-dark" ng-class="{'control-sidebar-open': openSidebar === true}">

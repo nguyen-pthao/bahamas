@@ -10,7 +10,6 @@ app.controller('pageController',
     ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 
         function ($scope, session, $state, ngDialog, loadAllContacts) {
             var user = session.getSession('userType');
-            var homepage = user + '.homepage';
             
         $scope.populatePage = function () {
             $scope.name = '';
@@ -52,14 +51,14 @@ app.controller('pageController',
                     'token': session.getSession('token'),
                     'cid': angular.fromJson(session.getSession('contact')).cid,
                     'teamname': "",
-                    'permission': session.getSession('userType')
+                    'permission': user
                 };
             } else {
                 var contactToRetrieve = {
                     'token': session.getSession('token'),
                     'cid': angular.fromJson(session.getSession('contact')).cid,
                     'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
-                    'permission': session.getSession('userType')
+                    'permission': user
                 };
             }
 
@@ -70,14 +69,15 @@ app.controller('pageController',
                 angular.forEach($scope.allContactInfo, function (obj) {
                     $scope.contactname.push(obj.name);
                 });
-                $scope.userType = session.getSession('userType');
+                $scope.userType = user;
             });
 
-            $scope.toViewContact = function () {
+            $scope.searchContact = function () {
                 var contactCid = $scope.selected.cid;
                 var toURL = $scope.userType + ".viewIndivContact";
                 session.setSession('contactToDisplayCid', contactCid);
                 $state.go(toURL, {}, {reload: true});
+                
             };
             
             $scope.toProfile = function(){

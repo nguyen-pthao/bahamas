@@ -99,10 +99,9 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         });
 
         var toAllContacts = $scope.permission + '.viewContacts';
-        var homepage = $scope.permission + '.homepage';
         var editContact = $scope.permission + '.editContact';
         $scope.backHome = function () {
-            $state.go(homepage);
+            $state.go($scope.permission);
         };
 
         $scope.viewContacts = function () {

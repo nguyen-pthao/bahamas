@@ -14,10 +14,9 @@ app.controller('viewContacts',
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
-                var homepage = user + '.homepage';
               
                 $scope.backHome = function () {
-                    $state.go(homepage);
+                    $state.go(user);
                 };
 
                 $scope.viewContact = function () {

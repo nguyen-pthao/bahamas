@@ -14,10 +14,9 @@ app.controller('createContact',
 //PAGES TRANSITION
                 var user = session.getSession('userType');
                 var viewContact = user + '.viewContacts';
-                var homepage = user + '.homepage';
 
                 $scope.backHome = function () {
-                    $state.go(homepage);
+                    $state.go(user);
                 };
 
                 $scope.viewContact = function () {

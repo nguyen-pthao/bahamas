@@ -77,9 +77,8 @@ app.controller('userManagement', ['$scope', 'session', '$state', 'retrieveOwnCon
         })
         
         var toAllContacts = $scope.userType + '.viewContacts';
-        var homepage = $scope.userType + '.homepage';
         $scope.backHome = function () {
-            $state.go(homepage);
+            $state.go($scope.userType);
         };
 
         $scope.viewContacts = function () {
