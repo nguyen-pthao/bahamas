@@ -129,22 +129,22 @@ public class Login extends HttpServlet {
                             }
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             //jsonContactObj.addProperty("contact_type", contact.getContactType());
-                            /*
+                            
                             jsonContactObj.addProperty("date_created", datetime.format(contact.getDateCreated()));
-                            jsonContactObj.addProperty("created_by", contact.getCreatedBy());
+                            //jsonContactObj.addProperty("created_by", contact.getCreatedBy());
                             jsonContactObj.addProperty("name", contact.getName());
-                            jsonContactObj.addProperty("alt_name", contact.getAltName());
-                            jsonContactObj.addProperty("explain_if_other", contact.getExplainIfOther());
-                            jsonContactObj.addProperty("profession", contact.getProfession());
-                            jsonContactObj.addProperty("job_title", contact.getJobTitle());
-                            jsonContactObj.addProperty("nric", contact.getNric());
-                            jsonContactObj.addProperty("gender", contact.getGender());
-                            jsonContactObj.addProperty("nationality", contact.getNationality());
-                            jsonContactObj.addProperty("date_of_birth", date.format(contact.getDateOfBirth()));
-                            jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
-                            jsonContactObj.addProperty("remarks", contact.getRemarks());
+                            //jsonContactObj.addProperty("alt_name", contact.getAltName());
+                            //jsonContactObj.addProperty("explain_if_other", contact.getExplainIfOther());
+                            //jsonContactObj.addProperty("profession", contact.getProfession());
+                            //jsonContactObj.addProperty("job_title", contact.getJobTitle());
+                            //jsonContactObj.addProperty("nric", contact.getNric());
+                            //jsonContactObj.addProperty("gender", contact.getGender());
+                            //jsonContactObj.addProperty("nationality", contact.getNationality());
+                            //jsonContactObj.addProperty("date_of_birth", date.format(contact.getDateOfBirth()));
+                            //jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
+                            //jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
-                              
+                            /*  
                             if (teamJoinList != null && !teamJoinList.isEmpty()) {
                                 Iterator iter = teamJoinList.iterator();
                                 while (iter.hasNext()) {
