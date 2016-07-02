@@ -137,7 +137,6 @@ app.controller('viewContacts',
                             $state.go(toURL);
                         };
                     });
-                    
                 };
               
                 $scope.predicate = '';

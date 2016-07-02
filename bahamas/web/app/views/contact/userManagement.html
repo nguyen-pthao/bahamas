@@ -7,45 +7,847 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px; min-height: 900px" id="user-management">
+        <div class="content-wrapper" style="margin:0px" id="edit-contact">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i><a style="color: white"> User Management</a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a style="color: white"> User Management </a>
                     </ol>                    
                 </h3>
             </section>
             <!-- Main content -->
             <section class="content">
-                <!-- Default box -->
-                <!-- view contact starts -->
+                <!-- Outer box -->
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title"> YOUR ACCOUNT </h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                <i class="fa fa-chevron-down"></i></button>
-                        </div>
+                        <h3 class="box-title uppercase"><b> Own Information </b></h3>
+                        <button type="submit" ng-click="editContact()" class="btn btn-primary" style='float: right'>
+                            <span>
+                                <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                            </span>   
+                            Edit Contact
+                        </button>
                     </div>
-                    <!-- /.box-header -->
+                    <!-- form start -->
                     <div class="box-body">
-                        <table id="example2" class="table no-border table-striped">
-                            <tr ng-repeat="(key, value) in ownContact">
-                            <td>
-                                <span style="font-weight:bold">{{key}}</span>
-                            </td>
-                            <td>{{value}}</td>
-                            <td><span><a ng-click='editBaby()'><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-                
-                    <!-- view contact ends -->
-            </section>
-            <!-- /.content -->
-        </div>
-    </body>
-</html>
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="isUser">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div class="col-sm-6">
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Username</b></h4>
+                                        <div>{{username}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /user information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border">
+                                <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <!--TABLE HERE.-->
+                                <div class="col-sm-6">
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Name</b></h4>
+                                        <div>{{name}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Contact Type</b></h4>
+                                        <div>{{contactType}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Explain If Other</b></h4>
+                                        <div>{{explainIfOther}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>NRIC</b></h4>
+                                        <div>{{nric}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Nationality</b></h4>
+                                        <div>{{nationality}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Job Title</b></h4>
+                                        <div>{{jobTitle}}</div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">                
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Alt Name</b></h4>
+                                        <div>{{altName}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Profession</b></h4>
+                                        <div>{{profession}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Gender</b></h4>
+                                        <div>{{gender}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Date Of Birth</b></h4>
+                                        <div>{{dateOfBirth}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Date Created</b></h4>
+                                        <div>{{dateCreated}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Created By</b></h4>
+                                        <div>{{createdBy}}</div>
+                                    </div>
+                                </div>
+                                <div class='col-sm-12'>
+                                    <div style="padding-top: 10px;">
+                                        <h4><b>Remarks</b></h4>
+                                        <div>{{remarks}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /contact information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  phoneInfo === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='phoneInfo === ""'>
+                                    <span>No Phone Information Available</span>
+                                </div>
+                                <div ng-repeat='phoneObj in phoneInfo' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Phone Number {{$index + 1}}</b></h4>
+                                                <div>+{{phoneObj.country_code}} {{phoneObj.phone_number}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{phoneObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{phoneObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{phoneObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-12'>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{phoneObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /phone information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  email === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='email === ""'>
+                                    <span>No Email Information Available</span>
+                                </div>
+                                <div ng-repeat='emailObj in email' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Email {{$index + 1}}</b></h4>
+                                                <div>{{emailObj.email}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{emailObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{emailObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{emailObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-12'>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{emailObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /email information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  address === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='address === ""'>
+                                    <span>No Address Information Available</span>
+                                </div>
+                                <div ng-repeat='addressObj in address' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Address {{$index + 1}}</b></h4>
+                                                <div>{{addressObj.address}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Country</b></h4>
+                                                <div>{{addressObj.country}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{addressObj.date_created}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Zipcode</b></h4>
+                                                <div>{{addressObj.zipcode}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{addressObj.date_obsolete}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{addressObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-12'>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{addressObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /address information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  membership === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='membership === ""'>
+                                    <span>No Membership Information Available</span>
+                                </div>
+                                <div ng-repeat='membershipObj in membership' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">                                          
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Membership Type {{$index + 1}}</b></h4>
+                                                <div>{{membershipObj.membership_class_name}}</div>
+                                            </div>
+                                        </div>        
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subscription Amount</b></h4>
+                                                <div>{{membershipObj.subscription_amount}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-12'>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other Membership Type</b></h4>
+                                                <div>{{membershipObj.explain_if_other_class}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Membership Start Date</b></h4>
+                                                <div>{{membershipObj.start_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Payment Mode</b></h4>
+                                                <div>{{membershipObj.payment_mode_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Membership End Date</b></h4>
+                                                <div>{{membershipObj.end_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other Payment Mode</b></h4>
+                                                <div>{{membershipObj.explain_if_other_payment}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>External Transaction Reference</b></h4>
+                                                <div>{{membershipObj.ext_transaction_ref}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Mode Of Sending Receipt</b></h4>
+                                                <div>{{membershipObj.receipt_mode_name}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other Receipt Mode</b></h4>
+                                                <div>{{membershipObj.explain_if_other_receipt}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{membershipObj.remarks}}</div>
+                                            </div>
+                                        </div>        
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Receipt Number</b></h4>
+                                                <div>{{membershipObj.receipt_number}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Of Receipt</b></h4>
+                                                <div>{{membershipObj.receipt_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{membershipObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{membershipObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /membership information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  officeHeld === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='officeHeld === ""'>
+                                    <span>No Office Held Information Available</span>
+                                </div>
+                                <div ng-repeat='officeHeldObj in officeHeld' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Office Held {{$index + 1}}</b></h4>
+                                                <div>{{officeHeldObj.office_held}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{officeHeldObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{officeHeldObj.date_created}}</div>
+                                            </div>                                          
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Start Office</b></h4>
+                                                <div>{{officeHeldObj.start_office}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>End Office</b></h4>
+                                                <div>{{officeHeldObj.end_office}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{officeHeldObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /office-held information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  donation === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='donation === ""'>
+                                    <span>No Donation Information Available</span>
+                                </div>
+                                <div ng-repeat='donationObj in donation' class = "box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">                                                                                   
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Received</b></h4>
+                                                <div>{{donationObj.date_received}}</div>
+                                            </div>   
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Payment Mode</b></h4>
+                                                <div>{{donationObj.payment_mode}}</div>
+                                            </div>  
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other Payment Mode</b></h4>
+                                                <div>{{donationObj.explain_if_other_payment}}</div>
+                                            </div> 
 
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Donation Amount</b></h4>
+                                                <div>{{donationObj.donation_amount}}</div>
+                                            </div><div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{donationObj.date_created}}</div>
+                                            </div>      
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{donationObj.created_by}}</div>
+                                            </div>                                     
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>External Transaction Reference</b></h4>
+                                                <div>{{donationObj.ext_transaction_ref}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Mode Of Sending Receipt</b></h4>
+                                                <div>{{donationObj.receipt_mode_name}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Others</b></h4>
+                                                <div>{{donationObj.explain_if_other_receipt}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Allocation 1</b></h4>
+                                                <div>{{donationObj.allocation1}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Allocation 2</b></h4>
+                                                <div>{{donationObj.allocation2}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Allocation 3</b></h4>
+                                                <div>{{donationObj.allocation3}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Receipt Number</b></h4>
+                                                <div>{{donationObj.receipt_number}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Of Receipt</b></h4>
+                                                <div>{{donationObj.receipt_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Donor's Instructions</b></h4>
+                                                <div>{{donationObj.donor_instructions}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subamount 1</b></h4>
+                                                <div>{{donationObj.subtotal1}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subamount 2</b></h4>
+                                                <div>{{donationObj.subtotal2}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subamount 3</b></h4>
+                                                <div>{{donationObj.subtotal3}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='col-sm-12'>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Associated Occasion</b></h4>
+                                                <div>{{donationObj.associated_occasion}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{donationObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /donation information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  team === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='team === ""'>
+                                    <span>No Team Information Available</span>
+                                </div>
+                                <div ng-repeat='teamObj in team' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">                                       
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Team {{$index + 1}}</b></h4>
+                                                <div>{{teamObj.team_name}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Subteam</b></h4>
+                                                <div>{{teamObj.sub_team}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{teamObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{teamObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other</b></h4>
+                                                <div>{{teamObj.explain_if_others}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Permission</b></h4>
+                                                <div>{{teamObj.permission}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{teamObj.created_by}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{teamObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                   
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /team information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  training === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='training === ""'>
+                                    <span>No Training Information Available</span>
+                                </div>
+                                <div ng-repeat='trainingObj in training' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{trainingObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Team</b></h4>
+                                                <div>{{trainingObj.team_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{trainingObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Others</b></h4>
+                                                <div>{{trainingObj.explain_if_others}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Training Course</b></h4>
+                                                <div>{{trainingObj.training_course}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Training Date</b></h4>
+                                                <div>{{trainingObj.training_date}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Training By</b></h4>
+                                                <div>{{trainingObj.training_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{trainingObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /training information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  appreciation === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='appreciation === ""'>
+                                    <span>No Appreciation Information Available</span>
+                                </div>
+                                <div ng-repeat='appreciationObj in appreciation' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appraisal Comments</b></h4>
+                                                <div>{{appreciationObj.appraisal_comments}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appraisal Date</b></h4>
+                                                <div>{{appreciationObj.appraisal_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appreciation Gesture</b></h4>
+                                                <div>{{appreciationObj.appreciaton_gesture}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appreciation By</b></h4>
+                                                <div>{{appreciationObj.appreciation_by}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{appreciationObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appraised By</b></h4>
+                                                <div>{{appreciationObj.appraisal_by}}</div>
+                                            </div>                                          
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Appreciation Date</b></h4>
+                                                <div>{{appreciationObj.appreciation_date}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{appreciationObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{appreciationObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /appreciation information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  proxy === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='proxy === ""'>
+                                    <span>No Proxy Information Available</span>
+                                </div>
+                                <div ng-repeat='proxyObj in proxy' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{proxyObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Proxy Name</b></h4>
+                                                <div>{{proxyObj.proxy_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{proxyObj.created_by}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Principal Name</b></h4>
+                                                <div>{{proxyObj.principal_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{proxyObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{proxyObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Proxy Standing</b></h4>
+                                                <div>{{proxyObj.proxy_standing}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /proxy information -->
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  languages === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='languages === ""'>
+                                    <span>No Languages Information Available</span>
+                                </div>
+                                <div ng-repeat='languageObj in languages' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6"> 
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Language</b></h4>
+                                                <div>{{languageObj.language_name}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Other</b></h4>
+                                                <div>{{languageObj.explain_if_other}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{languageObj.date_created}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{languageObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">                   
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Speak/Write</b></h4>
+                                                <div>{{languageObj.proficiency}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{languageObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{languageObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                         
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /languages information -->
+                        <div class="box collapsed-box">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  skills === ''}">
+                                <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                        <i class="fa fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body" style="display:none">
+                                <div ng-show='skills === ""'>
+                                    <span>No Skills/Assets Information Available</span>
+                                </div>
+                                <div ng-repeat='skillsObj in skills' class="box">
+                                    <div class="box-body">
+                                        <div class="col-sm-6">                                      
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Skills Or Assets</b></h4>
+                                                <div>{{skillsObj.skill_name}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Explain If Others</b></h4>
+                                                <div>{{skillsObj.explain_if_other}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{skillsObj.date_created}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">  
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{skillsObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Date Obsolete</b></h4>
+                                                <div>{{skillsObj.date_obsolete}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{skillsObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                                <!-- /skills & assets information -->
+                            </div>
+                            <!-- /.box-body -->
+                            <!-- /.box -->
+                        </div>
+                        </section>
+                        <!-- /.content -->
+                    </div>
+                    </body>
+                    </html>
