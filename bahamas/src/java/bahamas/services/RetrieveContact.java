@@ -121,13 +121,13 @@ public class RetrieveContact extends HttpServlet {
 
                             if (permission.equals("eventleader")) { //Event leader
                                 // To be confirm
-                                JsonArray contactArray = retrieveAll(contactList, false);
+                                JsonArray contactArray = retrieveAll(contactList, true);
                                 json.add("contact", contactArray);
                                 out.println(gson.toJson(json));
                                 return;
                             } else if (permission.equals("associate")) { //Associate
                                 // To be confirm
-                                JsonArray contactArray = retrieveAllByAssociate(contactList);
+                                JsonArray contactArray = retrieveAll(contactList, false);
                                 json.add("contact", contactArray);
                                 out.println(gson.toJson(json));
                                 return;
@@ -149,7 +149,7 @@ public class RetrieveContact extends HttpServlet {
         }
     }
 
-    private static JsonArray retrieveAll(ArrayList<Contact> contactList, boolean unlockAll) {
+    private static JsonArray retrieveAll(ArrayList<Contact> contactList, boolean unlock) {
 
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
@@ -242,7 +242,9 @@ public class RetrieveContact extends HttpServlet {
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", name);
             jsonContactObj.addProperty("alt_name", altName);
-            jsonContactObj.addProperty("phone", phoneStr);
+            if(unlock){
+                jsonContactObj.addProperty("phone", phoneStr);
+            }
             jsonContactObj.addProperty("email", emailStr);
             jsonContactObj.addProperty("contact_type", contactType);
             /*
@@ -264,86 +266,6 @@ public class RetrieveContact extends HttpServlet {
             */
             contactArray.add(jsonContactObj);
             jsonContactObj.addProperty("cid", c.getContactId());
-        }
-        return contactArray;
-    }
-
-    
-    private static JsonArray retrieveAllByAssociate(ArrayList<Contact> contactList) {
-
-        JsonArray contactArray = new JsonArray();
-        JsonObject jsonContactObj;
-
-        for (Contact c : contactList) {
-            
-            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
-            String emailStr = "";
-            
-            String name = c.getName();
-            String altName = c.getAltName();
-            String contactType = c.getContactType();
-            String explainIfOther = c.getExplainIfOther();
-            String profession = c.getProfession();
-            String jobTitle = c.getJobTitle();
-            String gender = c.getGender();
-            String nationality = c.getNationality();
-            String remarks = c.getRemarks();
-            
-            if(name == null){
-                name = "";
-            }
-            if(altName == null){
-                altName = "";
-            }
-            if(contactType == null){
-                contactType = "";
-            }
-            if(explainIfOther == null){
-                explainIfOther = "";
-            }
-            if(profession == null){
-                profession = "";
-            }
-            if(jobTitle == null){
-                jobTitle = "";
-            }
-            if(gender == null){
-                gender = "";
-            }
-            if(nationality == null){
-                nationality = "";
-            }
-            if(remarks == null){
-                remarks = "";
-            }
-            
-            
-            if(!emailList.isEmpty()){
-                
-                for(int i = 0; i < emailList.size()-1; i++){
-                    Email email = emailList.get(i);
-                    emailStr += email.getEmail() + ", ";
-                }
-                Email email = emailList.get(emailList.size()-1);
-                emailStr += email.getEmail();
-                
-            }
-            
-            jsonContactObj = new JsonObject();
-            jsonContactObj.addProperty("name", name);
-            jsonContactObj.addProperty("alt name", altName);
-            jsonContactObj.addProperty("email", emailStr);
-            jsonContactObj.addProperty("contact type", contactType);
-            jsonContactObj.addProperty("explain if other", explainIfOther);
-            jsonContactObj.addProperty("profession", profession);
-            jsonContactObj.addProperty("job title", jobTitle);
-            jsonContactObj.addProperty("gender", gender);
-            jsonContactObj.addProperty("nationality", nationality);
-            jsonContactObj.addProperty("remarks", remarks);
-            contactArray.add(jsonContactObj);
-            jsonContactObj.addProperty("cid", c.getContactId());
-            
-
         }
         return contactArray;
     }
