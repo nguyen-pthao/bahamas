@@ -126,7 +126,7 @@ app.controller('editContact',
                 };
 //RETRIEVE CONTACT OBJECTS
                 var contactToEdit = {};
-                $scope.loadContactInfo = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
+                $scope.myPromise = $scope.loadContactInfo = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
                     if (response.data.message == 'success') {
                         contactToEdit = response.data.contact[0];
                         //DECLARE OBJECTS FOR EDIT CONTACT

@@ -47,7 +47,7 @@ app.controller('viewContacts',
                     }
                     //for headers
                     var allContactObjKey = [];
-                    loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
+                    $scope.myPromise = loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
 //                        console.log($scope.allContactInfo);
                         var firstContactObject = $scope.allContactInfo[0];

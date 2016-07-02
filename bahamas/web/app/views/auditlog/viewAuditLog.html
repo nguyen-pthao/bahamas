@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px" style='min-height: 900px' id="view-audit">
+        <div class="content-wrapper" style="margin:0px" style='min-height: 900px' id="view-audit"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1000}">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -20,7 +20,7 @@ and open the template in the editor.
             <section class="content">
                 <!-- Default box -->
                 <!-- view contact starts -->
-                <div class="box" ng-init="retrieveAllAuditLog()">
+                <div class="box" ng-init="retrieveAllAuditLog()" >
                     <div class="box-header with-border">
                         <h3 class="box-title uppercase"> Audit log </h3>
                         <div class="box-tools pull-right">

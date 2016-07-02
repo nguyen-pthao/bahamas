@@ -16,7 +16,7 @@ app.controller('userManagement', ['$scope', 'session', '$state', 'retrieveOwnCon
         
         $scope.userType = session.getSession('userType');
         
-        retrieveOwnContactInfo.retrieveContact(toRetrieve).then(function (response){
+        $scope.myPromise = retrieveOwnContactInfo.retrieveContact(toRetrieve).then(function (response){
             $scope.contactInfo = response.data.contact;
             //user info
             $scope.username = $scope.contactInfo.username;

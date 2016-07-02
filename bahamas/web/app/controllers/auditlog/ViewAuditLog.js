@@ -36,7 +36,7 @@ app.controller('viewAuditLog',
                         'cid': angular.fromJson(session.getSession('contact')).cid
                     };
                     var allAuditObjKey = [];
-                    loadAllAudit.retrieveAllAudit(auditToRetrieve).then(function (response) {
+                    $scope.myPromise = loadAllAudit.retrieveAllAudit(auditToRetrieve).then(function (response) {
                         //to get the headers for auditlog
                         $scope.allAuditInfo = response.data.auditlog;
                         var firstAuditObject = $scope.allAuditInfo[0];
