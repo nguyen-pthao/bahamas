@@ -35,7 +35,7 @@ public class TeamJoin {
         this.permission = permission;
     }
 
-    public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission, boolean approval) {
+    public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
         this.contact = contact;
         this.teamName = teamName;
         this.createdBy = createdBy;
@@ -44,7 +44,7 @@ public class TeamJoin {
         this.dateObsolete = dateObsolete;
         this.remarks = remarks;
         this.permission = permission;
-        this.approval = approval;
+        //this.approval = approval;
     }
 
     public boolean isApproval() {

@@ -393,7 +393,7 @@ public class RetrieveContactCurrent extends HttpServlet {
             for (int i = 0; i < membershipList.size(); i++) {
                 JsonObject jsonMembershipObj = new JsonObject();
                 Membership membership = membershipList.get(i);
-                
+                jsonMembershipObj.addProperty("membership_id", sdf.format(membership.getMembershipId()));
                 if (membership.getStartMembership() != null) {
                     jsonMembershipObj.addProperty("start_date", sdf.format(membership.getStartMembership()));
                 } else {

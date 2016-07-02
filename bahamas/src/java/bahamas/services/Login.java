@@ -120,15 +120,16 @@ public class Login extends HttpServlet {
                                 json.addProperty("user_type", "novice");
                             } else if (contact.isIsAdmin()) {
                                 json.addProperty("user_type", "admin");
-                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Team manager")) {
+                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                                 json.addProperty("user_type", "teammanager");
-                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Event leader")) {
+                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
                                 json.addProperty("user_type", "eventleader");
-                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "Associate")) {
+                            } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
                                 json.addProperty("user_type", "associate");
                             }
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             jsonContactObj.addProperty("contact_type", contact.getContactType());
+                            /*
                             jsonContactObj.addProperty("date_created", datetime.format(contact.getDateCreated()));
                             jsonContactObj.addProperty("created_by", contact.getCreatedBy());
                             jsonContactObj.addProperty("name", contact.getName());
@@ -143,7 +144,7 @@ public class Login extends HttpServlet {
                             jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
                             jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
-
+                              
                             if (teamJoinList != null && !teamJoinList.isEmpty()) {
                                 Iterator iter = teamJoinList.iterator();
                                 while (iter.hasNext()) {
@@ -164,7 +165,7 @@ public class Login extends HttpServlet {
                                 }
                                 //json.add("teams", jsonTeamObjList);
 
-                            }
+                            }*/
 
                             json.add("contact", jsonContactObj);
                             out.println(gson.toJson(json));
