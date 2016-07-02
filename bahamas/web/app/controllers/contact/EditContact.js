@@ -11,6 +11,7 @@ app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'retrieveContactByCid', 'ngDialog',
             function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, retrieveContactByCid, ngDialog) {
 //        $scope.contact = session.getSession('contactToDisplay');
+                console.log('hello1');
                 var permission = session.getSession('userType');
 //GET USER PERMISSION
                 //only admin is allowed to view username and to deactivate user
