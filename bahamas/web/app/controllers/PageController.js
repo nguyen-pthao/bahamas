@@ -92,5 +92,4 @@ app.controller('pageController',
         $scope.openControlBar = function() {
             $scope.openSidebar = !$scope.openSidebar;
         };
-        
     }]);

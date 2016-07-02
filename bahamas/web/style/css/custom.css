@@ -13,7 +13,6 @@ and open the template in the editor.
 html,
 body {
     height: 100%;
-    color: #fff;
 }
 
 .bold {
@@ -155,6 +154,7 @@ body {
     background-color:#3c8dbc;
     color:white
 }
+
 /*Navbar button effect*/
 .skin-blue .main-header .navbar .nav>li>a:hover, 
 .skin-blue .main-header .navbar .nav>li>a:active, 
@@ -164,4 +164,9 @@ body {
 .skin-blue .main-header .navbar .nav .open>a:focus, 
 .skin-blue .main-header .navbar .nav>.active>a {
     background : rgb(8, 50, 80);
+}
+
+/*Search sidebar*/
+.sidebar-form {
+  overflow: visible;
 }
