@@ -86,8 +86,6 @@ app.controller('pageController',
             };
         };
         
-        $state.go(homepage);
-        
         $scope.openSidebar = false;
         $scope.openControlBar = function() {
             $scope.openSidebar = !$scope.openSidebar;
