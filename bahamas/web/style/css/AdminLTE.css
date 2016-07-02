@@ -165,10 +165,6 @@ h6,
 .h6 {
   font-family: 'Source Sans Pro', sans-serif;
 }
-
-b {
-  font-weight: 600
-}
 /* General Links */
 a {
   color: #3c8dbc;
@@ -667,7 +663,7 @@ a:focus {
 .sidebar-menu:hover {
   overflow: visible;
 }
-
+.sidebar-form,
 .sidebar-menu > li.header {
   overflow: hidden;
   text-overflow: clip;
@@ -2643,7 +2639,6 @@ a:focus {
 .table > tbody > tr > td,
 .table > tfoot > tr > td {
   border-top: 1px solid #f4f4f4;
-  padding: 10px;
 }
 .table > thead > tr > th {
   border-bottom: 2px solid #f4f4f4;
@@ -2652,12 +2647,7 @@ a:focus {
   margin-top: 5px;
 }
 .table-bordered {
-  border: 1px solid #d6d6d6;
-  font-size: 14px;
-  padding: 10px;
-  text-transform: capitalize;
-  table-layout: fixed;
-  word-wrap: break-word;
+  border: 1px solid #f4f4f4;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > tbody > tr > th,
@@ -2665,7 +2655,7 @@ a:focus {
 .table-bordered > thead > tr > td,
 .table-bordered > tbody > tr > td,
 .table-bordered > tfoot > tr > td {
-  border: 1px solid #d6d6d6;
+  border: 1px solid #f4f4f4;
 }
 .table-bordered > thead > tr > th,
 .table-bordered > thead > tr > td {
@@ -3206,21 +3196,11 @@ table.text-center th {
  * Page: Login & Register
  * ----------------------
  */
- .twc2-logo,
- .register-logo{
-     margin-top: 120px;
- }
- .login-logo-b,
- .register-logo{
-  font-size: 35px;
-  text-align: center;
-  font-weight: 300;
- }
 .login-logo,
 .register-logo {
-  font-size: 26px;
+  font-size: 35px;
   text-align: center;
-  margin-bottom: 5px;
+  margin-bottom: 25px;
   font-weight: 300;
 }
 .login-logo a,
@@ -3229,32 +3209,19 @@ table.text-center th {
 }
 .login-page,
 .register-page {
-  background: #FFFFFF;
+  background: #d2d6de;
 }
 .login-box,
 .register-box {
   width: 360px;
-  margin: auto;
+  margin: 7% auto;
 }
-
 @media (max-width: 768px) {
-  .twc2-logo,
   .login-box,
   .register-box {
-    width: 100%;
-    margin-top: 10%
+    width: 90%;
+    margin-top: 20px;
   }
-  
-  .login-logo,
-  .register-logo{
-	font-size: 20px;
-  }
-  .login-logo-b,
- .register-logo{
-	 font-size: 20px;
-  text-align: center;
-  font-weight: 300;
- }
 }
 .login-box-body,
 .register-box-body {
@@ -4901,19 +4868,6 @@ table.text-center th {
 .chart svg,
 .chart canvas {
   width: 100% !important;
-}
-.control-label,
-.required {
-    color: #e02222;
-    font-size: 14px;
-    padding-left: 2px;
-    font-weight: 800
-}
-.uppercase {
-    text-transform: uppercase !important;
-}
-.lowercase {
-    text-transform: lowercase !important;
 }
 /*
  * Misc: print

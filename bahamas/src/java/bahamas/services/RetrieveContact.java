@@ -105,12 +105,12 @@ public class RetrieveContact extends HttpServlet {
                     json.addProperty("message", "success");
                                            
                     if (contact.isIsAdmin()) { //Admin
-                        JsonArray contactArray = retrieveAllByAdminTmEl(contactList);
+                        JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                        JsonArray contactArray = retrieveAllByAdminTmEl(contactList);
+                        JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
@@ -121,7 +121,7 @@ public class RetrieveContact extends HttpServlet {
 
                             if (permission.equals("eventleader")) { //Event leader
                                 // To be confirm
-                                JsonArray contactArray = retrieveAllByAdminTmEl(contactList);
+                                JsonArray contactArray = retrieveAll(contactList, false);
                                 json.add("contact", contactArray);
                                 out.println(gson.toJson(json));
                                 return;
@@ -149,7 +149,7 @@ public class RetrieveContact extends HttpServlet {
         }
     }
 
-    private static JsonArray retrieveAllByAdminTmEl(ArrayList<Contact> contactList) {
+    private static JsonArray retrieveAll(ArrayList<Contact> contactList, boolean unlockAll) {
 
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
@@ -245,12 +245,15 @@ public class RetrieveContact extends HttpServlet {
             jsonContactObj.addProperty("phone", phoneStr);
             jsonContactObj.addProperty("email", emailStr);
             jsonContactObj.addProperty("contact_type", contactType);
+            /*
             jsonContactObj.addProperty("explain_if_other", explainIfOther);
-            jsonContactObj.addProperty("profession", profession);
-            jsonContactObj.addProperty("job_title", jobTitle);
-            jsonContactObj.addProperty("nric", nric);
-            jsonContactObj.addProperty("gender", gender);
-            jsonContactObj.addProperty("nationality", nationality);
+            if(unlockAll){
+                jsonContactObj.addProperty("profession", profession);
+                jsonContactObj.addProperty("job_title", jobTitle);
+                jsonContactObj.addProperty("nric", nric);
+                jsonContactObj.addProperty("gender", gender);
+                jsonContactObj.addProperty("nationality", nationality);
+            }
             if(c.getDateOfBirth() != null){
                 jsonContactObj.addProperty("date_of_birth", sdf.format(c.getDateOfBirth()));
             }else{
@@ -258,6 +261,7 @@ public class RetrieveContact extends HttpServlet {
             }
             jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", remarks);
+            */
             contactArray.add(jsonContactObj);
             jsonContactObj.addProperty("cid", c.getContactId());
         }
