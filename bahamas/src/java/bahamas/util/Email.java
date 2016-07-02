@@ -16,7 +16,7 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-public class SendEmail {
+public class Email {
 
     private static final String USERNAME = "mailagent@twc2.org.sg";
     private static final String PASSWORD = "0kS3%6su31RR";
