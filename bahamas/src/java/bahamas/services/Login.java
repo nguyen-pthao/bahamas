@@ -144,19 +144,19 @@ public class Login extends HttpServlet {
                             //jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
                             //jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
-                            /*  
+                              
                             if (teamJoinList != null && !teamJoinList.isEmpty()) {
                                 Iterator iter = teamJoinList.iterator();
                                 while (iter.hasNext()) {
                                     JsonObject jsonTeamObj = new JsonObject();
                                     TeamJoin teamjoin = (TeamJoin) iter.next();
                                     jsonTeamObj.addProperty("team_name", teamjoin.getTeamName());
-                                    jsonTeamObj.addProperty("permission", teamjoin.getPermission());
-                                    jsonTeamObj.addProperty("subteam", teamjoin.getSubTeam());
-                                    jsonTeamObj.addProperty("explain_if_others", teamjoin.getExplainIfOthers());
-                                    jsonTeamObj.addProperty("created_by", teamjoin.getCreatedBy());
-                                    jsonTeamObj.addProperty("date_created", datetime.format(teamjoin.getDateCreated()));
-                                    jsonTeamObj.addProperty("remarks", teamjoin.getRemarks());
+                                    //jsonTeamObj.addProperty("permission", teamjoin.getPermission());
+                                    //jsonTeamObj.addProperty("subteam", teamjoin.getSubTeam());
+                                    //jsonTeamObj.addProperty("explain_if_others", teamjoin.getExplainIfOthers());
+                                    //jsonTeamObj.addProperty("created_by", teamjoin.getCreatedBy());
+                                    //jsonTeamObj.addProperty("date_created", datetime.format(teamjoin.getDateCreated()));
+                                    //jsonTeamObj.addProperty("remarks", teamjoin.getRemarks());
                                     if (teamjoin.getDateObsolete() != null) {
                                         jsonTeamObj.addProperty("date_obsolete", date.format(teamjoin.getDateObsolete()));
                                     }
@@ -165,7 +165,7 @@ public class Login extends HttpServlet {
                                 }
                                 //json.add("teams", jsonTeamObjList);
 
-                            }*/
+                            }
 
                             json.add("contact", jsonContactObj);
                             out.println(gson.toJson(json));
