@@ -46,10 +46,10 @@ app.controller('loginController',
                                 var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
                                 var getUserType = session.getSession("userType");
                                 
-                                var tokenToReturn = {
-                                    "token" : session.getSession('token')
-                                }
-                                tokenUpdate.refreshToken(tokenToReturn)
+//                                var tokenToReturn = {
+//                                    "token" : session.getSession('token')
+//                                }
+//                                tokenUpdate.refreshToken(tokenToReturn)
 
                                 $state.go(getUserType.toString());
 
