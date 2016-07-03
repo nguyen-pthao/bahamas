@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.entity.Contact;
@@ -88,7 +89,7 @@ public class DeletePhone extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                   
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
@@ -103,6 +104,7 @@ public class DeletePhone extends HttpServlet {
                         String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
 
                         if (PhoneDAO.deletePhone(contactId, phoneNumber)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE PHONE", "Delete phone under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

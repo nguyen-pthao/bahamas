@@ -99,6 +99,7 @@ public class DeleteSkill extends HttpServlet {
                         }
 
                         if (SkillDAO.deleteSkill(contactId, skillsAsset)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE SKILL", "Delete skill under contact: contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

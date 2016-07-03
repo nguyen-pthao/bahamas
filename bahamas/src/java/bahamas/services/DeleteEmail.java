@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
@@ -98,10 +99,11 @@ public class DeleteEmail extends HttpServlet {
                             out.println(gson.toJson(json));
                             return;
                         }
-                        
+
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
 
                         if (EmailDAO.deleteEmail(contactId, email)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE EMAIL", "Delete email under Contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

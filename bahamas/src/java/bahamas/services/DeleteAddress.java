@@ -96,7 +96,7 @@ public class DeleteAddress extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                    
+
                         if (!cDAO.retrieveContactByUsername(username).isIsAdmin() && !c.getUsername().equals(username)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
@@ -106,6 +106,7 @@ public class DeleteAddress extends HttpServlet {
                         String address = Validator.containsBlankField(jobject.get("address").getAsString());
 
                         if (AddressDAO.deleteAddress(contactId, address)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE ADDRESS", "Delete address under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

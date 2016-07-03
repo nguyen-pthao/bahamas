@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.entity.Contact;
@@ -96,9 +97,10 @@ public class DeleteContact extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } 
-                    
+                    }
+
                     if (ContactDAO.deleteContact(contactId)) {
+                        AuditLogDAO.insertAuditLog(username, "DELETE CONTACT", "Delete contact under contact: Contact ID: " + contactId);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {

@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.LanguageDAO;
 import bahamas.dao.SkillDAO;
@@ -103,6 +104,7 @@ public class DeleteLanguage extends HttpServlet {
                         }
 
                         if (LanguageDAO.deleteLanguage(contactId, language)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE LANGUAGE", "Delete language under Contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

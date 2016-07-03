@@ -108,6 +108,7 @@ public class UpdateContact extends HttpServlet {
                     c.setRemarks(Validator.containsBlankField(jobject.get("remarks").getAsString()));
 
                     if (ContactDAO.updateContact(c)) {
+                        AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update contact under contact: Contact ID: " + contactId);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {

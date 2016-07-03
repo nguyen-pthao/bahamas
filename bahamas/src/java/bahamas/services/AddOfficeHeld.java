@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.OfficeHeldDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -114,6 +115,7 @@ public class AddOfficeHeld extends HttpServlet {
                         OfficeHeld o = new OfficeHeld(c, startOffice, endOffice, remarks, username, officeHeld);
 
                         if (OfficeHeldDAO.addOfficeHeld(o)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD OFFICE HELD", "Add office held under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

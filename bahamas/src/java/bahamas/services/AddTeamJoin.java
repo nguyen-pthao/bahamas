@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.TeamJoinDAO;
@@ -112,6 +113,7 @@ public class AddTeamJoin extends HttpServlet {
                         if (TeamJoinDAO.addTeamJoin(tj)) {
                             //change contact to a non novice account
                             //cDAO.changePermission(c, false);
+                            AuditLogDAO.insertAuditLog(username, "ADD TEAM JOIN", "Add team join under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

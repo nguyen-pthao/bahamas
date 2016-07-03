@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
@@ -103,7 +104,7 @@ public class AddAppreciation extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                     
+
                         String appraisalComment = Validator.containsBlankField(jobject.get("appraisal_comment").getAsString());
                         String appraisalBy = Validator.containsBlankField(jobject.get("appraisal_by").getAsString());
                         Date appraisalDate = Validator.isDateValid(jobject.get("appraisal_date").getAsString());
@@ -116,6 +117,7 @@ public class AddAppreciation extends HttpServlet {
                                 appreciationBy, appreciationDate, appreciationRemarks, username);
 
                         if (AppreciationDAO.addAppreciation(appreciation)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD APPRECIATION", "Add appreciation under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

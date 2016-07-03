@@ -35,7 +35,6 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "AddAddress", urlPatterns = {"/address.add"})
 public class AddAddress extends HttpServlet {
 
-
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -91,7 +90,7 @@ public class AddAddress extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
-                  
+
                     if (c == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
@@ -103,11 +102,12 @@ public class AddAddress extends HttpServlet {
                         String addressRemarks = Validator.containsBlankField(jobject.get("address_remarks").getAsString());
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
-                      
+
                         Address newAddress = new Address(c, country, zipCode, address,
                                 username, addressRemarks, dateObsolete);
 
                         if (AddressDAO.addAddress(newAddress)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD ADDRESS", "Add address under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

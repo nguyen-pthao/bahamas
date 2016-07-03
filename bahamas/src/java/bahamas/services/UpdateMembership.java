@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.dao.MembershipDAO;
@@ -125,6 +126,7 @@ public class UpdateMembership extends HttpServlet {
                         m.setMembershipId(membershipId);
 
                         if (MembershipDAO.updateMembership(m)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE MEMBERSHIP", "Update membership under membership: Membership ID: " + membershipId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

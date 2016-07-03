@@ -99,9 +99,9 @@ public class UpdateAddress extends HttpServlet {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                        if (!user.isIsAdmin() && !userType.equals("teammanager") && 
-                                !RoleCheckDAO.checkRole(user.getContactId(), userType) && 
-                                !c.getUsername().equals(username)) {
+                        if (!user.isIsAdmin() && !userType.equals("teammanager")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType)
+                                && !c.getUsername().equals(username)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
@@ -118,6 +118,7 @@ public class UpdateAddress extends HttpServlet {
                                 username, addressRemarks, dateObsolete);
 
                         if (AddressDAO.updateAddress(newAddress)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE ADDRESS", "Update address under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

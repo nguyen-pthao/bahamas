@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.OfficeHeldDAO;
 import bahamas.entity.Appreciation;
@@ -102,6 +103,7 @@ public class DeleteOfficeHeld extends HttpServlet {
                         String officeHeld = Validator.containsBlankField(jobject.get("office_held_name").getAsString());
 
                         if (OfficeHeldDAO.deleteOfficeHeld(contactId, officeHeld)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE PHONE", "Delete phone under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

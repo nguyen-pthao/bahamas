@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.ProxyDAO;
 import bahamas.entity.Appreciation;
@@ -106,6 +107,8 @@ public class DeleteProxy extends HttpServlet {
                         }
 
                         if (ProxyDAO.deleteProxy(principalId, proxyId)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE PROXY", "Delete proxy under contact: proxy ID: " + proxyId
+                            + "principal ID: " + principalId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

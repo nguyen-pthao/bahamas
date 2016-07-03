@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -130,6 +131,7 @@ public class AddDonation extends HttpServlet {
                                 allocation2, subamount2, allocation3, subamount3, associatedOccasion, remarks);
 
                         if (DonationDAO.addDonation(d)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD DONATION", "Add donation under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

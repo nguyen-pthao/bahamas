@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.LanguageDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -113,6 +114,7 @@ public class UpdateLanguage extends HttpServlet {
                                 dateObsolete, speakWrite, remarks, username);
 
                         if (LanguageDAO.updateLanguage(la)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE LANGUAGE", "Update language under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

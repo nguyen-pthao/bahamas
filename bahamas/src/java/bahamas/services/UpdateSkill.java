@@ -112,6 +112,7 @@ public class UpdateSkill extends HttpServlet {
                                 dateObsolete, remarks, username);
 
                         if (SkillDAO.updateSkill(sa)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE SKILL", "Update skill under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

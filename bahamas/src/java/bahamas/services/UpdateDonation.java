@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -107,7 +108,7 @@ public class UpdateDonation extends HttpServlet {
                             out.println(gson.toJson(json));
                             return;
                         }
-                        
+
                         Date dateReceived = Validator.isDateValid(jobject.get("date_received").getAsString());
                         double donationAmount = Validator.isDoubleValid(jobject.get("donation_amount").getAsString());
                         String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
@@ -135,6 +136,7 @@ public class UpdateDonation extends HttpServlet {
                         d.setDonationId(donationId);
 
                         if (DonationDAO.updateDonation(d)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE DONATION", "Update donation under donation: Donation ID: " + donationId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

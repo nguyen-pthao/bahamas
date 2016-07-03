@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.entity.Contact;
@@ -102,6 +103,7 @@ public class AddPhone extends HttpServlet {
                         newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
 
                         if (PhoneDAO.addPhone(newPhone)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD PHONE", "Add phone held under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

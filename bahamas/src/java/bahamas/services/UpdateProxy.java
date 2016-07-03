@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.ProxyDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -112,6 +113,7 @@ public class UpdateProxy extends HttpServlet {
                         Proxy p = new Proxy(proxy, principal, username, proxyStanding, dateObosolete, remarks);
 
                         if (ProxyDAO.updateProxy(p)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE PROXY", "Update proxy under contact: proxy ID: " + proxyId + " principal ID: " + principalId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

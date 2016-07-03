@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.TeamJoinDAO;
@@ -107,6 +108,7 @@ public class DeleteTeamJoin extends HttpServlet {
                         if (TeamJoinDAO.deleteTeamJoin(contactId, team)) {
                             //change contact to a non novice account
                             //cDAO.changePermission(c, false);
+                            AuditLogDAO.insertAuditLog(username, "DELETE TEAM JOIN", "Delete team join under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

@@ -5,6 +5,7 @@ package bahamas.services;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
@@ -117,9 +118,12 @@ public class UpdateUser extends HttpServlet {
                         if (email != null && password != null) {
                             String[] temp = {c.getName(), c.getUsername(), password};
                             Email.sendEmail(email, temp);
+
+                            AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update Contact under contact: Contact ID: " + contactId);
+
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
-							return;
+                            return;
                         }
 
                         json.addProperty("message", "fail");

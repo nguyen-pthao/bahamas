@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Appreciation;
@@ -120,6 +121,7 @@ public class UpdateAppreciation extends HttpServlet {
                         appreciation.setAppreciationId(appreciation_id);
 
                         if (AppreciationDAO.updateAppreciation(appreciation)) {
+                            AuditLogDAO.insertAuditLog(username, "UPDATE APPRECIATION", "Update appreciation under appreciation: Appreciation ID: " + appreciation_id);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

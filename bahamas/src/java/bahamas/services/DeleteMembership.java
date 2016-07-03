@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.dao.MembershipDAO;
@@ -94,6 +95,7 @@ public class DeleteMembership extends HttpServlet {
                     int membershipId = Validator.isIntValid(jobject.get("membership_id").getAsString());
 
                     if (MembershipDAO.deleteMembership(membershipId)) {
+                        AuditLogDAO.insertAuditLog(username, "DELETE MEMBERSHIP", "Delete membership under membership: Membership ID: " + membershipId);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {

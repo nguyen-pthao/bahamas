@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
@@ -104,6 +105,7 @@ public class AddEmail extends HttpServlet {
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
 
                         if (EmailDAO.addEmail(newEmail)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD EMAIL", "Add email under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

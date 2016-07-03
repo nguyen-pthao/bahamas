@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AppreciationDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.entity.Appreciation;
@@ -96,6 +97,7 @@ public class DeleteDonation extends HttpServlet {
                     int donation_id = Validator.isIntValid(jobject.get("donation_id").getAsString());
 
                     if (DonationDAO.deleteDonation(donation_id)) {
+                        AuditLogDAO.insertAuditLog(username, "DELETE DONATION", "Delete donation under donation: Donation ID: " + donation_id);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {

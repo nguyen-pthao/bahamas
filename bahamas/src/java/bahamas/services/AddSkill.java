@@ -103,6 +103,7 @@ public class AddSkill extends HttpServlet {
                                 dateObsolete, remarks, username);
 
                         if (SkillDAO.addSkill(sa)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD SKILL", "Add skill under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
