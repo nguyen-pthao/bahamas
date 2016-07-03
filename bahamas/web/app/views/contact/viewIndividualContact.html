@@ -22,7 +22,7 @@ and open the template in the editor.
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title uppercase"><b> <span>{{name| uppercase}}</span>'s Information </b></h3>
-                        <button type="submit" ng-click="editContact()" class="btn btn-primary" style='float: right'>
+                        <button type="submit" ng-click="editContact()" class="btn btn-primary" style='float: right' ng-show="editable">
                             <span>
                                 <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
                             </span>   
@@ -49,7 +49,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /user information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
                                 <div class="box-tools pull-right">
@@ -72,17 +72,21 @@ and open the template in the editor.
                                         <h4><b>Explain If Other</b></h4>
                                         <div>{{explainIfOther}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="permissionViewNric">
                                         <h4><b>NRIC</b></h4>
                                         <div>{{nric}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
                                         <h4><b>Nationality</b></h4>
                                         <div>{{nationality}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
                                         <h4><b>Job Title</b></h4>
                                         <div>{{jobTitle}}</div>
+                                    </div>
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
+                                        <h4><b>Remarks</b></h4>
+                                        <div>{{remarks}}</div>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">                
@@ -90,37 +94,31 @@ and open the template in the editor.
                                         <h4><b>Alt Name</b></h4>
                                         <div>{{altName}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
                                         <h4><b>Profession</b></h4>
                                         <div>{{profession}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
                                         <h4><b>Gender</b></h4>
                                         <div>{{gender}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="permissionViewNric">
                                         <h4><b>Date Of Birth</b></h4>
                                         <div>{{dateOfBirth}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
                                         <h4><b>Date Created</b></h4>
                                         <div>{{dateCreated}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
+                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
                                         <h4><b>Created By</b></h4>
                                         <div>{{createdBy}}</div>
-                                    </div>
-                                </div>
-                                <div class='col-sm-12'>
-                                    <div style="padding-top: 10px;">
-                                        <h4><b>Remarks</b></h4>
-                                        <div>{{remarks}}</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <!-- /contact information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasPhone">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  phoneInfo === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                 <div class="box-tools pull-right">
@@ -165,7 +163,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /phone information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasEmail">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  email === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
                                 <div class="box-tools pull-right">
@@ -184,13 +182,13 @@ and open the template in the editor.
                                                 <h4><b>Email {{$index + 1}}</b></h4>
                                                 <div>{{emailObj.email}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;"ng-hide="isAssociate">
                                                 <h4><b>Created By</b></h4>
                                                 <div>{{emailObj.created_by}}</div>
                                             </div>
                                         </div>
                                         <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;"  ng-hide="isAssociate">
                                                 <h4><b>Date Created</b></h4>
                                                 <div>{{emailObj.date_created}}</div>
                                             </div>
@@ -210,7 +208,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /email information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasAddress">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  address === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                 <div class="box-tools pull-right">
@@ -263,7 +261,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /address information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasMembership">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  membership === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                 <div class="box-tools pull-right">
@@ -356,7 +354,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /membership information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasOffice">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  officeHeld === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                 <div class="box-tools pull-right">
@@ -403,7 +401,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /office-held information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasDonation">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  donation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                 <div class="box-tools pull-right">
@@ -512,7 +510,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /donation information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasTeam">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  team === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
                                 <div class="box-tools pull-right">
@@ -567,7 +565,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /team information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasTraining">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  training === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                 <div class="box-tools pull-right">
@@ -630,7 +628,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /training information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasAppreciation">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  appreciation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                 <div class="box-tools pull-right">
@@ -689,7 +687,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /appreciation information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasProxy">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  proxy === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                 <div class="box-tools pull-right">
@@ -746,7 +744,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /proxy information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasLanguages">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  languages === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
                                 <div class="box-tools pull-right">
@@ -769,7 +767,7 @@ and open the template in the editor.
                                                 <h4><b>Explain If Other</b></h4>
                                                 <div>{{languageObj.explain_if_other}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
                                                 <h4><b>Date Created</b></h4>
                                                 <div>{{languageObj.date_created}}</div>
                                             </div>
@@ -787,7 +785,7 @@ and open the template in the editor.
                                                 <h4><b>Remarks</b></h4>
                                                 <div>{{languageObj.remarks}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
                                                 <h4><b>Created By</b></h4>
                                                 <div>{{languageObj.created_by}}</div>
                                             </div>
@@ -797,7 +795,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /languages information -->
-                        <div class="box collapsed-box">
+                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasSkills">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  skills === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
                                 <div class="box-tools pull-right">
@@ -820,7 +818,7 @@ and open the template in the editor.
                                                 <h4><b>Explain If Others</b></h4>
                                                 <div>{{skillsObj.explain_if_other}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
                                                 <h4><b>Date Created</b></h4>
                                                 <div>{{skillsObj.date_created}}</div>
                                             </div>
@@ -834,7 +832,7 @@ and open the template in the editor.
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{skillsObj.date_obsolete}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
                                                 <h4><b>Created By</b></h4>
                                                 <div>{{skillsObj.created_by}}</div>
                                             </div>
