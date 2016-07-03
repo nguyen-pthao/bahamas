@@ -95,9 +95,7 @@ public class UpdateUser extends HttpServlet {
                     }
 
                     String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                    if (!user.isIsAdmin() && !userType.equals("teammanager")
-                            && !RoleCheckDAO.checkRole(user.getContactId(), userType)
-                            && !c.getUsername().equals(username)) {
+                    if (!user.isIsAdmin()) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;

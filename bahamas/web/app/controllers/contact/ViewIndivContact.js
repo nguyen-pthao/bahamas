@@ -38,20 +38,26 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.isAuthorised = true;
         }
         
-//        $scope.isAdmin=false;
-//        $scope.isTM = false;
-//        $scope.isEL = false;
-//        $scope.isAssociate = false;
-//        
-//        if($scope.permission === 'admin'){
-//            $scope.isAdmin = true;
-//        }else if ($scope.permission === 'teammanager'){
-//            $scope.isTM = true;
-//        }else if($scope.permission === 'eventleader'){
-//            $scope.isEL = true;
-//        }else if($scope.permission === 'associate'){
-//            $scope.isAssociate = true;
-//        }
+        $scope.isAdmin=false;
+        $scope.isTM = false;
+        $scope.isEL = false;
+        $scope.isAssociate = false;
+        $scope.editable = false;
+        $scope.permissionViewNricDob = true;
+        if($scope.permission === 'admin'){
+            $scope.isAdmin = true;
+            $scope.editable = true;
+        }else if ($scope.permission === 'teammanager'){
+            $scope.isTM = true;
+            $scope.editable = true;
+        }else if($scope.permission === 'eventleader'){
+            $scope.isEL = true;
+            $scope.editable = true;
+            $scope.permissionViewNricDob = true;
+        }else if($scope.permission === 'associate'){
+            $scope.isAssociate = true;
+            $scope.permissionViewNricDob = true;
+        }
         
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response){
             $scope.contactInfo = response.data.contact[0];
@@ -60,8 +66,11 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.username = $scope.contactInfo.username;
             $scope.isUser = false;
             if($scope.username != ""){
-                $scope.isUser = true;
+                if($scope.permission === 'admin'){
+                     $scope.isUser = true;
+                }
             }
+            
             //contact info
             $scope.dateCreated = $scope.contactInfo['date_created'];
             $scope.name = $scope.contactInfo['name'];
@@ -122,7 +131,11 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
                 $scope.hasTeam = false;
             }
             //training info
-            //$scope.training = $scope.contactInfo['training'];
+            $scope.training = $scope.contactInfo['training'];
+            $scope.hasTraining = true;
+            if(angular.isUndefined($scope.training)){
+                $scope.hasTraining = false;
+            }
             
             //appreciation info
             $scope.appreciation = $scope.contactInfo['appreciation'];

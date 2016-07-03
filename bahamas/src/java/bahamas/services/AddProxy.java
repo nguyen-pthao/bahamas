@@ -103,12 +103,14 @@ public class AddProxy extends HttpServlet {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        /*
                         if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
                         }
-
+                        */
+                        
                         String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing").getAsString());
                         String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
                         Date dateObosolete = Validator.isDateValid(jobject.get("dateobsolete").getAsString());
