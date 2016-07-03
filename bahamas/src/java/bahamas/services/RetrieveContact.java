@@ -82,12 +82,12 @@ public class RetrieveContact extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = jobject.get("token").getAsString();
-                String cidString = jobject.get("cid").getAsString();
+                //String cidString = jobject.get("cid").getAsString();
                 //Optional for admin and novice
-                String teamName = jobject.get("teamname").getAsString();
-                String permission = jobject.get("permission").getAsString();
+                //String teamName = jobject.get("teamname").getAsString();
+                //String permission = jobject.get("permission").getAsString();
 
-                if ((token == null || token.isEmpty()) || (cidString == null || cidString.isEmpty()) || (permission == null || permission.isEmpty())) {
+                if ((token == null || token.isEmpty())) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
@@ -100,10 +100,34 @@ public class RetrieveContact extends HttpServlet {
                 //ContactDAO contactDAO = new ContactDAO();
                 ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
 
-                if (!contactList.isEmpty()) {
+                if (!contactList.isEmpty() && !contact.isIsNovice()) {
 
                     json.addProperty("message", "success");
-                                           
+                    
+                    if (contact.isIsAdmin()) {
+                        JsonArray contactArray = retrieveAll(contactList, true);
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                        JsonArray contactArray = retrieveAll(contactList, true);
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                        JsonArray contactArray = retrieveAll(contactList, true);
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
+                        JsonArray contactArray = retrieveAll(contactList, false);
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+                    
+                    
+                    /*                       
                     if (contact.isIsAdmin()) { //Admin
                         JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
@@ -135,12 +159,14 @@ public class RetrieveContact extends HttpServlet {
                         }
 
                     }
+                    */
 
                     //}
                 } else {
 
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
+                    return;
                 }
                 json.addProperty("message", "fail");
                 out.println(gson.toJson(json));

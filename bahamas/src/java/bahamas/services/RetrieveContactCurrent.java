@@ -708,7 +708,11 @@ public class RetrieveContactCurrent extends HttpServlet {
                 TeamJoin teamJoin = teamJoinList.get(i);
                 
                 jsonTeamJoinObj.addProperty("team_name", teamJoin.getTeamName());
-                jsonTeamJoinObj.addProperty("permission", teamJoin.getPermission());
+                if(teamJoin.getPermission() == null || teamJoin.getPermission().isEmpty()){
+                    jsonTeamJoinObj.addProperty("permission", "Pending");
+                }else{
+                    jsonTeamJoinObj.addProperty("permission", teamJoin.getPermission());
+                }
                 
                 if (teamJoin.getExplainIfOthers()!= null) {
                     jsonTeamJoinObj.addProperty("explain_if_others", teamJoin.getExplainIfOthers());
