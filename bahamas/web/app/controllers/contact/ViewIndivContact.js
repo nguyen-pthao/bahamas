@@ -43,8 +43,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         $scope.isEL = false;
         $scope.isAssociate = false;
         $scope.editable = false;
-        $scope.permissionViewNric = true;
-        $scope.permissionViewDOB = true;
+        $scope.permissionViewNricDob = true;
         if($scope.permission === 'admin'){
             $scope.isAdmin = true;
             $scope.editable = true;
@@ -54,12 +53,10 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         }else if($scope.permission === 'eventleader'){
             $scope.isEL = true;
             $scope.editable = true;
-            $scope.permissionViewNric = true;
-            $scope.permissionViewDOB = true;
+            $scope.permissionViewNricDob = true;
         }else if($scope.permission === 'associate'){
             $scope.isAssociate = true;
-            $scope.permissionViewNric = true;
-            $scope.permissionViewDOB = true;
+            $scope.permissionViewNricDob = true;
         }
         
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response){

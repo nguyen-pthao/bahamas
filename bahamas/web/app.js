@@ -107,6 +107,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/userManagement.html',
                 controller: 'userManagement'
             })
+            .state('teammanager.editContact', {
+                url: '/editContact',
+                templateUrl: 'app/views/contact/editContact.html',
+                controller: 'editContact'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -126,6 +131,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/userManagement',
                 templateUrl: 'app/views/contact/userManagement.html',
                 controller: 'userManagement'
+            })
+            .state('eventleader.editContact', {
+                url: '/editContact',
+                templateUrl: 'app/views/contact/editContact.html',
+                controller: 'editContact'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
