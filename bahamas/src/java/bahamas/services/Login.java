@@ -130,7 +130,7 @@ public class Login extends HttpServlet {
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             //jsonContactObj.addProperty("contact_type", contact.getContactType());
                             
-                            jsonContactObj.addProperty("date_created", datetime.format(contact.getDateCreated()));
+                            //jsonContactObj.addProperty("date_created", datetime.format(contact.getDateCreated()));
                             //jsonContactObj.addProperty("created_by", contact.getCreatedBy());
                             jsonContactObj.addProperty("name", contact.getName());
                             //jsonContactObj.addProperty("alt_name", contact.getAltName());
