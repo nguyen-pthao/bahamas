@@ -38,7 +38,7 @@ public class AuditLogDAO {
             stmt = conn.prepareStatement("INSERT INTO AUDITLOG (USERNAME, DATE, OPERATION) VALUES (?,?,?)");
             stmt.setString(1, username);
             stmt.setTimestamp(2, date);
-            stmt.setString(3, actionType.toUpperCase() + "-" + actionMsg);
+            stmt.setString(3, actionType.toUpperCase() + " - " + actionMsg);
             stmt.execute();
             
             ConnectionManager.close(conn, stmt, rs);
