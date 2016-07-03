@@ -352,19 +352,19 @@ public class RetrieveContactIndiv extends HttpServlet {
                 
                 jsonEmailObj.addProperty("email", email.getEmail());
                 
+                if (email.getRemarks() != null) {
+                    jsonEmailObj.addProperty("remarks", email.getRemarks());
+                } else {
+                    jsonEmailObj.addProperty("remarks", "");
+                }
+
+                if (email.getDateObsolete() != null) {
+                    jsonEmailObj.addProperty("date_obsolete", sdf.format(email.getDateObsolete()));
+                } else {
+                    jsonEmailObj.addProperty("date_obsolete", "");
+                }
              
                 if (isAdmin || isTeamMgt || isEventLead){
-                    if (email.getRemarks() != null) {
-                        jsonEmailObj.addProperty("remarks", email.getRemarks());
-                    } else {
-                        jsonEmailObj.addProperty("remarks", "");
-                    }
-
-                    if (email.getDateObsolete() != null) {
-                        jsonEmailObj.addProperty("date_obsolete", sdf.format(email.getDateObsolete()));
-                    } else {
-                        jsonEmailObj.addProperty("date_obsolete", "");
-                    }
                     jsonEmailObj.addProperty("created_by", email.getCreatedBy());
                     jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));    
                 }
@@ -592,17 +592,17 @@ public class RetrieveContactIndiv extends HttpServlet {
                 } else {
                     jsonLanguageListObj.addProperty("explain_if_other", "");
                 }
+                if (languageAssignment.getRemarks() != null) {
+                    jsonLanguageListObj.addProperty("remarks", languageAssignment.getRemarks());
+                } else {
+                    jsonLanguageListObj.addProperty("remarks", "");
+                }
+                if (languageAssignment.getDateObsolete() != null) {
+                    jsonLanguageListObj.addProperty("date_obsolete", sdf.format(languageAssignment.getDateObsolete()));
+                } else {
+                    jsonLanguageListObj.addProperty("date_obsolete", "");
+                }
                 if(isAdmin || isTeamMgt || isEventLead){
-                    if (languageAssignment.getRemarks() != null) {
-                        jsonLanguageListObj.addProperty("remarks", languageAssignment.getRemarks());
-                    } else {
-                        jsonLanguageListObj.addProperty("remarks", "");
-                    }
-                    if (languageAssignment.getDateObsolete() != null) {
-                        jsonLanguageListObj.addProperty("date_obsolete", sdf.format(languageAssignment.getDateObsolete()));
-                    } else {
-                        jsonLanguageListObj.addProperty("date_obsolete", "");
-                    }
                     jsonLanguageListObj.addProperty("created_by", languageAssignment.getCreatedBy());
                     jsonLanguageListObj.addProperty("date_created", sdft.format(languageAssignment.getDateCreated()));
                 }
@@ -628,17 +628,17 @@ public class RetrieveContactIndiv extends HttpServlet {
                 } else {
                     jsonSkillListObj.addProperty("explain_if_other", "");
                 }
+                if (skillAssignment.getRemarks() != null) {
+                    jsonSkillListObj.addProperty("remarks", skillAssignment.getRemarks());
+                } else {
+                    jsonSkillListObj.addProperty("remarks", "");
+                }
+                if (skillAssignment.getDateObsolete() != null) {
+                    jsonSkillListObj.addProperty("date_obsolete", sdf.format(skillAssignment.getDateObsolete()));
+                } else {
+                    jsonSkillListObj.addProperty("date_obsolete", "");
+                }
                 if(isAdmin || isTeamMgt || isEventLead){
-                    if (skillAssignment.getRemarks() != null) {
-                        jsonSkillListObj.addProperty("remarks", skillAssignment.getRemarks());
-                    } else {
-                        jsonSkillListObj.addProperty("remarks", "");
-                    }
-                    if (skillAssignment.getDateObsolete() != null) {
-                        jsonSkillListObj.addProperty("date_obsolete", sdf.format(skillAssignment.getDateObsolete()));
-                    } else {
-                        jsonSkillListObj.addProperty("date_obsolete", "");
-                    }
                     jsonSkillListObj.addProperty("created_by", skillAssignment.getCreatedBy());
                     jsonSkillListObj.addProperty("date_created", sdft.format(skillAssignment.getDateCreated()));
                 }
