@@ -38,8 +38,24 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.isAuthorised = true;
         }
         
+//        $scope.isAdmin=false;
+//        $scope.isTM = false;
+//        $scope.isEL = false;
+//        $scope.isAssociate = false;
+//        
+//        if($scope.permission === 'admin'){
+//            $scope.isAdmin = true;
+//        }else if ($scope.permission === 'teammanager'){
+//            $scope.isTM = true;
+//        }else if($scope.permission === 'eventleader'){
+//            $scope.isEL = true;
+//        }else if($scope.permission === 'associate'){
+//            $scope.isAssociate = true;
+//        }
+        
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response){
             $scope.contactInfo = response.data.contact[0];
+            console.log($scope.contactInfo);
             //user info
             $scope.username = $scope.contactInfo.username;
             $scope.isUser = false;
@@ -63,39 +79,75 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             
             //phone info
             $scope.phoneInfo = $scope.contactInfo['phone'];
+            $scope.hasPhone = true;
+            if(angular.isUndefined($scope.phoneInfo)){
+                $scope.hasPhone = false;
+            }
             
             //email info
             $scope.email = $scope.contactInfo['email'];
+            $scope.hasEmail = true;
+            if(angular.isUndefined($scope.email)){
+                $scope.hasEmail = false;
+            }
             
             //address info
             $scope.address = $scope.contactInfo['address'];
-            
+            $scope.hasAddress = true;
+            if(angular.isUndefined($scope.address)){
+                $scope.hasAddress = false;
+            }
             //membership info
             $scope.membership = $scope.contactInfo['membership'];
-            
+            $scope.hasMembership = true;
+            if(angular.isUndefined($scope.membership)){
+                $scope.hasMembership = false;
+            }
             //office held info
             $scope.officeHeld = $scope.contactInfo['office_held'];
-            
+            $scope.hasOffice = true;
+            if(angular.isUndefined($scope.officeHeld)){
+                $scope.hasOffice = false;
+            }
             //donation info
             $scope.donation = $scope.contactInfo['donation'];
-            
+            $scope.hasDonation = true;
+            if(angular.isUndefined($scope.donation)){
+                $scope.hasDonation = false;
+            }
             //team info
             $scope.team = $scope.contactInfo['team_join'];
-            
+            $scope.hasTeam = true;
+            if(angular.isUndefined($scope.team)){
+                $scope.hasTeam = false;
+            }
             //training info
             //$scope.training = $scope.contactInfo['training'];
             
             //appreciation info
             $scope.appreciation = $scope.contactInfo['appreciation'];
-            
+            $scope.hasAppreciation = true;
+            if(angular.isUndefined($scope.appreciation)){
+                $scope.hasAppreciation = false;
+            }
             //proxy info
             $scope.proxy = $scope.contactInfo['proxy'];
-            
+            $scope.hasProxy = true;
+            if(angular.isUndefined($scope.proxy)){
+                $scope.hasProxy = false;
+            }
             //languages info
             $scope.languages = $scope.contactInfo['language_assignment'];
-            
+            $scope.hasLanguages = true;
+            if(angular.isUndefined($scope.languages)){
+                $scope.hasLanguages = false;
+            }
             //skills and assets info
             $scope.skills = $scope.contactInfo['skill_assignment'];
+            $scope.hasSkills = true;
+            if(angular.isUndefined($scope.skills)){
+                $scope.hasSkills = false;
+            }
         });
 
         var toAllContacts = $scope.permission + '.viewContacts';
