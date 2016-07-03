@@ -296,20 +296,20 @@ public class RetrieveContactIndiv extends HttpServlet {
         
         if (isAdmin || isTeamMgt){
             
-                jsonContactObj.addProperty("profession", profession);
-                jsonContactObj.addProperty("job_title", jobTitle);
-                jsonContactObj.addProperty("gender", gender);
-                jsonContactObj.addProperty("nationality", nationality);
-                if (contact.getDateOfBirth() != null) {
-                    jsonContactObj.addProperty("date_of_birth", sdf.format(contact.getDateOfBirth()));
-                } else {
-                    jsonContactObj.addProperty("date_of_birth", "");
-                }
-                jsonContactObj.addProperty("remarks", remarks);
-                jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
-                jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
+            jsonContactObj.addProperty("profession", profession);
+            jsonContactObj.addProperty("job_title", jobTitle);
+            jsonContactObj.addProperty("gender", gender);
+            jsonContactObj.addProperty("nationality", nationality);
+            if (contact.getDateOfBirth() != null) {
+                jsonContactObj.addProperty("date_of_birth", sdf.format(contact.getDateOfBirth()));
+            } else {
+                jsonContactObj.addProperty("date_of_birth", "");
+            }
+            jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
+            jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
             
         }
+        jsonContactObj.addProperty("remarks", remarks);
         if (isAdmin || isTeamMgt || isEventLead){
             if (phoneList != null && !phoneList.isEmpty()) {
 
