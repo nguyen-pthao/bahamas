@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px; min-height: 900px" id="view-all-contacts">
+        <div class="content-wrapper" style="margin:0px; min-height: 900px" id="view-all-contacts"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1000}">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -72,7 +72,7 @@ and open the template in the editor.
                                     <td>{{contact.phone}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact_type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a href="" uib-popover="Edit" popover-trigger="mouseenter" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a href="" uib-popover="Delete" popover-trigger="mouseenter" ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a href="" uib-popover="Edit" popover-trigger="mouseenter" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a href="" uib-popover="Delete" popover-trigger="mouseenter" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -95,7 +95,7 @@ and open the template in the editor.
                                     <td>{{contact['alt_name']}}</td>
                                     <td>{{contact.email}}</td>
                                     <td>{{contact['contact_type']}}</td>
-                                    <td ng-if="isAuthorised"><span><a href="" uib-popover="Edit" popover-trigger="mouseenter" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a href="" uib-popover="Delete" popover-trigger="mouseenter" ng-click="deleteContact()"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                    <td ng-if="isAuthorised"><span><a href="" uib-popover="Edit" popover-trigger="mouseenter" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span><a href="" uib-popover="Delete" popover-trigger="mouseenter" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                 </tr>
                             </tbody>
                             <tfoot>

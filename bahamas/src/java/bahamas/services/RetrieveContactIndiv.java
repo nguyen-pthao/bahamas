@@ -118,7 +118,35 @@ public class RetrieveContactIndiv extends HttpServlet {
                 if (viewContact != null) {
 
                     json.addProperty("message", "success");
-                                           
+                    
+                    /*
+                    try to add there
+                    if (contact.isIsNovice()) {
+                        json.addProperty("user_type", "novice");
+                    } 
+                    */
+                    if (contact.isIsAdmin()) {
+                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, false);
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                        JsonArray contactArray = retrieveByAdminTmEl(contact, false);
+                        json.add("contact", contactArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
+                        return;
+                    }
+                    
+                    
+                    
+                    /*                     
                     if (contact.isIsAdmin()) { //Admin
                         JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
                         json.add("contact", contactArray);
@@ -151,7 +179,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
                     }
                     
-
+                    */
                   
                 } else {
 
@@ -195,8 +223,8 @@ public class RetrieveContactIndiv extends HttpServlet {
         ArrayList<SkillAssignment> skillAssignmentList = SkillDAO.retrieveSkillByCID(contact.getContactId());
         ArrayList<Appreciation> appreciationList = AppreciationDAO.retrieveAppreciation(contact.getContactId());
         ArrayList<Donation> donationList = DonationDAO.retrieveDonationByCID(contact.getContactId());
-        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(contact.getUsername());
-
+        //ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(contact.getUsername());
+        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
         String emailStr = "";
         String phoneStr = "";
         String addressStr = "";
@@ -771,7 +799,11 @@ public class RetrieveContactIndiv extends HttpServlet {
                 TeamJoin teamJoin = teamJoinList.get(i);
                 
                 jsonTeamJoinObj.addProperty("team_name", teamJoin.getTeamName());
-                jsonTeamJoinObj.addProperty("permission", teamJoin.getPermission());
+                if(teamJoin.getPermission() == null || teamJoin.getPermission().isEmpty()){
+                    jsonTeamJoinObj.addProperty("permission", "Pending");
+                }else{
+                    jsonTeamJoinObj.addProperty("permission", teamJoin.getPermission());
+                }
                 
                 if (teamJoin.getExplainIfOthers()!= null) {
                     jsonTeamJoinObj.addProperty("explain_if_others", teamJoin.getExplainIfOthers());

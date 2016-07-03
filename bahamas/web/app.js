@@ -5,7 +5,7 @@
 // */
 'use strict';
 
-var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap']);
+var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 

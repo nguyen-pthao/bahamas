@@ -10,8 +10,7 @@ var app = angular.module('bahamas');
 app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'retrieveContactByCid', 'ngDialog',
             function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, retrieveContactByCid, ngDialog) {
-//        $scope.contact = session.getSession('contactToDisplay');
-                console.log('hello1');
+
                 var permission = session.getSession('userType');
 //GET USER PERMISSION
                 //only admin is allowed to view username and to deactivate user
@@ -52,6 +51,9 @@ app.controller('editContact',
                 };
                 $scope.viewContact = function () {
                     $state.go(toContact);
+                };
+                $scope.viewAllContacts = function(){
+                  $state.go(toContacts);  
                 };
 //CALL DROPDOWN LIST SERVICES        
                 $scope.loadContactTypeList = function () {
@@ -124,7 +126,7 @@ app.controller('editContact',
                 };
 //RETRIEVE CONTACT OBJECTS
                 var contactToEdit = {};
-                $scope.loadContactInfo = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
+                $scope.myPromise = $scope.loadContactInfo = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
                     if (response.data.message == 'success') {
                         contactToEdit = response.data.contact[0];
                         //DECLARE OBJECTS FOR EDIT CONTACT
