@@ -36,7 +36,7 @@ app.controller('pageController',
         $scope.logout = function () {
             ngDialog.openConfirm({
                 template: './style/ngTemplate/logoutPrompt.html',
-                className: 'ngdialog-theme-default dialog-logout-prompt',
+                className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function (response) {
                 session.terminateSession();
