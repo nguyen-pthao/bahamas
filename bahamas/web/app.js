@@ -22,10 +22,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/admin.html',
                 controller: 'pageController'
             })
-            .state('admin.homepage', {
-                url: '/homepage',
-                templateUrl: 'app/views/homepage.html'
-            })
             .state('admin.addContact', {
                 url: '/addContact',
                 templateUrl: 'app/views/contact/createContact.html',
@@ -61,10 +57,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/novice.html',
                 controller: 'pageController'
             })
-            .state('novice.homepage', {
-                url: '/homepage',
-                templateUrl: 'app/views/homepage.html'
-            })
             .state('novice.userManagement', {
                 url: '/userManagement',
                 templateUrl: 'app/views/contact/userManagement.html',
@@ -74,10 +66,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/associate',
                 templateUrl: 'app/views/associate.html',
                 controller: 'pageController'
-            })
-            .state('associate.homepage', {
-                url: '/homepage',
-                templateUrl: 'app/views/homepage.html'
             })
             .state('associate.viewContacts', {
                 url: '/viewContacts',
@@ -98,10 +86,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/teammanager',
                 templateUrl: 'app/views/teammanager.html',
                 controller: 'pageController'
-            })
-            .state('teammanager.homepage', {
-                url: '/homepage',
-                templateUrl: 'app/views/homepage.html'
             })
             .state('teammanager.viewContacts', {
                 url: '/viewContacts',
@@ -127,10 +111,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
                 controller: 'pageController'
-            })
-            .state('eventleader.homepage', {
-                url: '/homepage',
-                templateUrl: 'app/views/homepage.html'
             })
             .state('eventleader.viewContacts', {
                 url: '/viewContacts',
