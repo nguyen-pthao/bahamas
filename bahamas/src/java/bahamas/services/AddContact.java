@@ -111,7 +111,7 @@ public class AddContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId);
+                        AuditLogDAO.insertAuditLog(username, "CONTACT", "Created contact: Contact ID: " + newContactId + " | Name: " + name);
                         json.addProperty("message", "success");
                         json.addProperty("contact_id", String.valueOf(newContactId));
                         out.println(gson.toJson(json));
