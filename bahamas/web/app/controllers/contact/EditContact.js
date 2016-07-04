@@ -15,6 +15,8 @@ app.controller('editContact',
 //GET USER PERMISSION
                 //only admin is allowed to view username and to deactivate user
                 $scope.isAdmin = false;
+                $scope.isTeamManager = false;
+                $scope.isEventLeader = true;
                 if (permission === 'admin') {
                     $scope.isAdmin = true;
                 } else if (permission === 'teammanager') {
@@ -268,7 +270,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                  $scope.resultContact.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultContact.message = "Successfully updated the contact";
+                                    $scope.resultContact.message = "Successfully saved!";
                                     console.log("ok contact done");
                                 } else {
                                     $scope.resultContact.message = "Fail to update the contact. Please check through your data again.";
@@ -335,7 +337,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultPhone.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultPhone.message = "Successfully updated phone";
+                                    $scope.resultPhone.message = "Successfully saved!";
                                     console.log("ok phone done");
                                 } else {
                                     $scope.resultPhone.message = "Fail to update phone.";
@@ -401,7 +403,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                  $scope.resultEmail.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultEmail.message = "Successfully updated email";
+                                    $scope.resultEmail.message = "Successfully saved!";
                                     console.log("ok email done");
                                 } else {
                                     $scope.resultEmail.message = "Fail to update email.";
@@ -469,7 +471,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                     $scope.resultAddress.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultAddress.message = "Successfully updated address";
+                                    $scope.resultAddress.message = "Successfully saved!";
                                     console.log("ok address done");
                                 } else {
                                     $scope.resultAddress.message = "Fail to update address.";
@@ -545,7 +547,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultMembership.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultMembership.message = "Successfully updated membership";
+                                    $scope.resultMembership.message = "Successfully saved!";
                                     console.log("ok membership done");
                                 } else {
                                     $scope.resultMembership.message = "Fail to update membership.";
@@ -611,7 +613,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultOffice.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultOffice.message = "Successfully updated office";
+                                    $scope.resultOffice.message = "Successfully saved!";
                                     console.log("ok office done");
                                 } else {
                                     $scope.resultOffice.message = "Fail to update office.";
@@ -692,7 +694,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultDonation.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultDonation.message = "Successfully updated donation";
+                                    $scope.resultDonation.message = "Successfully saved!";
                                     console.log("ok donation done");
                                 } else {
                                     $scope.resultDonation.message = "Fail to update donation.";
@@ -759,7 +761,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultTeam.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultTeam.message = "Successfully updated team join";
+                                    $scope.resultTeam.message = "Successfully saved!";
                                     console.log("ok team join done");
                                 } else {
                                     $scope.resultTeam.message = "Fail to update team join.";
@@ -829,7 +831,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultAppreciation.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultAppreciation.message = "Successfully updated appreciation";
+                                    $scope.resultAppreciation.message = "Successfully saved!";
                                     console.log("ok appreciation done");
                                 } else {
                                     $scope.resultAppreciation.message = "Fail to update appreciation.";
@@ -895,7 +897,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultProxy.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultProxy.message = "Successfully updated proxy";
+                                    $scope.resultProxy.message = "Successfully saved!";
                                     console.log("ok appreciation done");
                                 } else {
                                     $scope.resultProxy.message = "Fail to update proxy.";
@@ -962,7 +964,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultLanguage.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultLanguage.message = "Successfully updated language";
+                                    $scope.resultLanguage.message = "Successfully saved!";
                                     console.log("ok language done");
                                 } else {
                                     $scope.resultLanguage.message = "Fail to update language.";
@@ -1028,7 +1030,7 @@ app.controller('editContact',
                             }).success(function (response) {
                                 $scope.resultSkill.status = true;
                                 if (response.message == 'success') {
-                                    $scope.resultSkill.message = "Successfully updated skill";
+                                    $scope.resultSkill.message = "Successfully saved!";
                                     console.log("ok skill done");
                                 } else {
                                     $scope.resultSkill.message = "Fail to update skill.";
