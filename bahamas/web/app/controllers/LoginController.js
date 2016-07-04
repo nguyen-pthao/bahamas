@@ -45,9 +45,14 @@ app.controller('loginController',
                                 var storeContact = session.setSession('contact', angular.toJson(authorisedUser.contact));
                                 var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
                                 var getUserType = session.getSession("userType");
-                                
-                                tokenUpdate.refreshToken(authorisedUser.token);
 
+                                //tokenUpdate.refreshToken(authorisedUser.token);
+
+                                var dateStart = new Date(); 
+                                var dateEnd = new Date();
+                                dateEnd.setMinutes(dateStart.getMinutes() + 1);
+                                localStorageService.set('dateStart', dateStart);
+                                localStorageService.set('dateEnd', dateEnd);
                                 $state.go(getUserType.toString());
 
                             }
