@@ -3,8 +3,8 @@
 var app = angular.module('bahamas');
 
 app.controller('loginController',
-        ['$rootScope', '$scope', '$http', 'session', '$state', '$timeout', 'tokenUpdate', 'ngDialog', 'localStorageService',
-            function ($rootScope, $scope, $http, session, $state, $timeout, tokenUpdate, ngDialog, localStorageService) {
+        ['$rootScope', '$scope', '$http', 'session', '$state', '$timeout', 'ngDialog', 'localStorageService',
+            function ($rootScope, $scope, $http, session, $state, $timeout, ngDialog, localStorageService) {
                 $scope.error = false;
 //DEFINE AUTHORISED USER OBJECT
                 var authorisedUser = {
@@ -50,7 +50,7 @@ app.controller('loginController',
 
                                 var dateStart = new Date(); 
                                 var dateEnd = new Date();
-                                dateEnd.setMinutes(dateStart.getMinutes() + 1);
+                                dateEnd.setMinutes(dateStart.getMinutes() + 27);
                                 localStorageService.set('dateStart', dateStart);
                                 localStorageService.set('dateEnd', dateEnd);
                                 $state.go(getUserType.toString());

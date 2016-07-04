@@ -29,10 +29,9 @@ app.controller('pageController',
                     var tokenToSend = {
                         "token": session.getSession('token')
                     }
-                    $timeout(function () {
-                        console.log("here");
-                        var logoutTimer = $timeout(function () {
-                            console.log("in logout!");
+                    $scope.tokenTimer = $timeout(function () {
+                        $scope.logoutTimer = $timeout(function () {
+                            ngDialog.closeAll();
                             session.terminateSession();
                             $state.go('login');
                         }, 117000)
@@ -50,10 +49,10 @@ app.controller('pageController',
                                 session.setSession('token', newToken);
                                 var dateStart = new Date();
                                 var dateEnd = new Date();
-                                dateEnd.setMinutes(dateStart.getMinutes() + 1);
+                                dateEnd.setMinutes(dateStart.getMinutes() + 27);
                                 localStorageService.set('dateStart', dateStart);
                                 localStorageService.set('dateEnd', dateEnd);
-                                $timeout.cancel(logoutTimer);
+                                $timeout.cancel($scope.logoutTimer);
                                 $state.reload();
                             })
                         });
@@ -67,6 +66,8 @@ app.controller('pageController',
                         className: 'ngdialog-theme-default',
                         scope: $scope
                     }).then(function (response) {
+                        $timeout.cancel($scope.logoutTimer);
+                        $timeout.cancel($scope.tokenTimer);
                         session.terminateSession();
                         localStorageService.clearAll();
                         $state.go('login');
