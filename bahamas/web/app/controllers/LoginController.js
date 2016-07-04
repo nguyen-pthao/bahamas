@@ -3,8 +3,8 @@
 var app = angular.module('bahamas');
 
 app.controller('loginController',
-        ['$rootScope', '$scope', '$http', 'session', '$state', '$timeout', 'tokenUpdate', 'ngDialog',
-            function ($rootScope, $scope, $http, session, $state, $timeout, tokenUpdate, ngDialog) {
+        ['$rootScope', '$scope', '$http', 'session', '$state', '$timeout', 'tokenUpdate', 'ngDialog', 'localStorageService',
+            function ($rootScope, $scope, $http, session, $state, $timeout, tokenUpdate, ngDialog, localStorageService) {
                 $scope.error = false;
 //DEFINE AUTHORISED USER OBJECT
                 var authorisedUser = {
@@ -46,10 +46,7 @@ app.controller('loginController',
                                 var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
                                 var getUserType = session.getSession("userType");
                                 
-//                                var tokenToReturn = {
-//                                    "token" : session.getSession('token')
-//                                }
-//                                tokenUpdate.refreshToken(tokenToReturn)
+                                tokenUpdate.refreshToken(authorisedUser.token);
 
                                 $state.go(getUserType.toString());
 

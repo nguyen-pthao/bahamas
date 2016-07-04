@@ -23,8 +23,8 @@ app.filter('dateFilter', function () {
 });
 
 app.controller('viewAuditLog',
-        ['filterFilter', 'dateFilter', '$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllAudit', 'tokenUpdate',
-            function (filterFilter, dateFilter, $scope, $http, $location, session, $window, $state, $log, loadAllAudit, tokenUpdate) {
+        ['filterFilter', 'dateFilter', '$scope', '$http', '$location', 'session', '$window', '$state', '$log', 'loadAllAudit', 'localStorageService',
+            function (filterFilter, dateFilter, $scope, $http, $location, session, $window, $state, $log, loadAllAudit, localStorageService) {
 
                 $scope.backHome = function () {
                     $state.go('admin.homepage');
