@@ -54,7 +54,6 @@ app.controller('loginController',
                                 localStorageService.set('dateStart', dateStart);
                                 localStorageService.set('dateEnd', dateEnd);
                                 $state.go(getUserType.toString());
-
                             }
                         } else {
                             $scope.error = true;

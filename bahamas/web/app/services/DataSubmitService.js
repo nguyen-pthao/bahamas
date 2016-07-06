@@ -6,11 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.service('loadContactType', ['$rootScope', '$http', function ($rootScope, $http) {
-        this.retrieveContactType = function () {
+app.service('dataSubmit', ['$rootScope', '$http', function ($rootScope, $http) {
+
+        this.submitData = function (data, url) {
             return $http({
                 method: 'POST',
-                url: $rootScope.commonUrl + AppAPI.contactTypeList
+                url: $rootScope.commonUrl + url,
+                data: JSON.stringify(data)
             });
         };
     }]);
+

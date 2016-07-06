@@ -26,7 +26,7 @@ body {
 }
 
 .no-information-grey {
-    background-color: #cccccc;
+    background-color: #dadde6;
 }
 
 /*Custom background css*/
@@ -175,4 +175,30 @@ body {
 /*Search sidebar*/
 .sidebar-form {
   overflow: visible;
+}
+
+/*custome box with different box border colours*/
+.blue-box {
+    border-top-color: #135a8a;
+}
+.maroon-box {
+    border-top-color: #70103F;
+}
+
+/*editContact.html hidden box*/
+.hidden-box {
+    padding: 20px 20px 20px 20px;
+}
+
+.hidden-blue-box {
+    background: rgb(124, 168, 197);
+    padding: 20px 20px 0px 20px;
+}
+
+/*editContact.html remarks box*/
+
+.custom-remarks {
+    min-width: 100%;
+    max-width: 100%;
+    min-height: 80px;
 }

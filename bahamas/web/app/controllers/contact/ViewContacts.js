@@ -9,8 +9,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
-        ['$scope', 'session', '$state', 'loadAllContacts', 'filterFilter', 'ngDialog', 'deleteContact',
-            function ($scope, session, $state, loadAllContacts, filterFilter, ngDialog, deleteContact) {
+        ['$scope', 'session', '$state', 'loadAllContacts', 'filterFilter', 'ngDialog', 'deleteService',
+            function ($scope, session, $state, loadAllContacts, filterFilter, ngDialog, deleteService) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
@@ -135,6 +135,7 @@ app.controller('viewContacts',
                             var toURL = $scope.userType + ".editContact";
                             var contactCid = contact.cid;
                             session.setSession('contactToDisplayCid', contactCid);
+                            session.setSession('otherContact', 'true');
                             $state.go(toURL);
                         };
 
@@ -151,7 +152,7 @@ app.controller('viewContacts',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             }).then(function (response) {
-                                deleteContact.deleteContactWithCid(toDelete).then(function (response) {
+                                deleteService.deleteDataService(toDelete, '/contact.delete').then(function (response) {
                                     console.log(response);
                                     if (response.data.message === "success") {
                                         ngDialog.openConfirm({
@@ -168,9 +169,9 @@ app.controller('viewContacts',
                                             scope: $scope
                                         }).then(function (response) {
                                             $state.reload(toURL);
-                                        })
+                                        });
                                     }
-                                })
+                                });
                             });
                         };
                     });

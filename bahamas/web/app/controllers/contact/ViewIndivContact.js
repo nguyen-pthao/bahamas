@@ -174,6 +174,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         };
 
         $scope.editContact = function () {
+            session.setSession('otherContact', 'true');
             $state.go(editContact);
         };
     }]);

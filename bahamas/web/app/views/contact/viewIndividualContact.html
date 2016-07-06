@@ -31,7 +31,7 @@ and open the template in the editor.
                     </div>
                     <!-- form start -->
                     <div class="box-body">
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="isUser">
+                        <div class="box collapsed-box blue-box" ng-show="isUser">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                 <div class="box-tools pull-right">
@@ -39,7 +39,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div class="col-sm-6">
                                     <div style="padding-top: 10px;">
                                         <h4><b>Username</b></h4>
@@ -49,7 +49,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /user information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
                                 <div class="box-tools pull-right">
@@ -118,7 +118,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /contact information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasPhone">
+                        <div class="box collapsed-box blue-box" ng-show="hasPhone">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  phoneInfo === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                 <div class="box-tools pull-right">
@@ -126,7 +126,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='phoneInfo === ""'>
                                     <span>No Phone Information Available</span>
                                 </div>
@@ -163,7 +163,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /phone information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasEmail">
+                        <div class="box collapsed-box blue-box" ng-show="hasEmail">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  email === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
                                 <div class="box-tools pull-right">
@@ -171,7 +171,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='email === ""'>
                                     <span>No Email Information Available</span>
                                 </div>
@@ -208,7 +208,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /email information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasAddress">
+                        <div class="box collapsed-box blue-box" ng-show="hasAddress">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  address === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                 <div class="box-tools pull-right">
@@ -216,7 +216,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='address === ""'>
                                     <span>No Address Information Available</span>
                                 </div>
@@ -261,7 +261,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /address information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasMembership">
+                        <div class="box collapsed-box blue-box" ng-show="hasMembership">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  membership === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                 <div class="box-tools pull-right">
@@ -269,7 +269,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='membership === ""'>
                                     <span>No Membership Information Available</span>
                                 </div>
@@ -354,7 +354,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /membership information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasOffice">
+                        <div class="box collapsed-box blue-box" ng-show="hasOffice">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  officeHeld === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                 <div class="box-tools pull-right">
@@ -362,7 +362,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='officeHeld === ""'>
                                     <span>No Office Held Information Available</span>
                                 </div>
@@ -401,7 +401,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /office-held information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasDonation">
+                        <div class="box collapsed-box blue-box" ng-show="hasDonation">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  donation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                 <div class="box-tools pull-right">
@@ -409,7 +409,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='donation === ""'>
                                     <span>No Donation Information Available</span>
                                 </div>
@@ -510,7 +510,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /donation information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasTeam">
+                        <div class="box collapsed-box blue-box" ng-show="hasTeam">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  team === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
                                 <div class="box-tools pull-right">
@@ -518,7 +518,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='team === ""'>
                                     <span>No Team Information Available</span>
                                 </div>
@@ -565,7 +565,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /team information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasTraining">
+                        <div class="box collapsed-box blue-box" ng-show="hasTraining">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  training === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                 <div class="box-tools pull-right">
@@ -573,7 +573,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='training === ""'>
                                     <span>No Training Information Available</span>
                                 </div>
@@ -628,7 +628,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /training information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasAppreciation">
+                        <div class="box collapsed-box blue-box" ng-show="hasAppreciation">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  appreciation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                 <div class="box-tools pull-right">
@@ -636,7 +636,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='appreciation === ""'>
                                     <span>No Appreciation Information Available</span>
                                 </div>
@@ -687,7 +687,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /appreciation information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasProxy">
+                        <div class="box collapsed-box blue-box" ng-show="hasProxy">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  proxy === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                 <div class="box-tools pull-right">
@@ -695,7 +695,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='proxy === ""'>
                                     <span>No Proxy Information Available</span>
                                 </div>
@@ -744,7 +744,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /proxy information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasLanguages">
+                        <div class="box collapsed-box blue-box" ng-show="hasLanguages">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  languages === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
                                 <div class="box-tools pull-right">
@@ -752,7 +752,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='languages === ""'>
                                     <span>No Languages Information Available</span>
                                 </div>
@@ -795,7 +795,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /languages information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="hasSkills">
+                        <div class="box collapsed-box blue-box" ng-show="hasSkills">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  skills === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
                                 <div class="box-tools pull-right">
@@ -803,7 +803,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div ng-show='skills === ""'>
                                     <span>No Skills/Assets Information Available</span>
                                 </div>
@@ -844,8 +844,10 @@ and open the template in the editor.
                             <!-- /.box-body -->
                             <!-- /.box -->
                         </div>
-                        </section>
-                        <!-- /.content -->
                     </div>
-                    </body>
-                    </html>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>

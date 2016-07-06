@@ -28,13 +28,14 @@ app.controller('pageController',
                     var timeDiff = Math.abs(dateE.getTime() - dateNow.getTime());
                     var tokenToSend = {
                         "token": session.getSession('token')
-                    }
+                    };
                     $scope.tokenTimer = $timeout(function () {
                         $scope.logoutTimer = $timeout(function () {
                             ngDialog.closeAll();
                             session.terminateSession();
                             $state.go('login');
-                        }, 117000)
+                        }, 117000);
+                        
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/refreshToken.html',
                             className: 'ngdialog-theme-default',
@@ -54,10 +55,10 @@ app.controller('pageController',
                                 localStorageService.set('dateEnd', dateEnd);
                                 $timeout.cancel($scope.logoutTimer);
                                 $state.reload();
-                            })
+                            });
                         });
 
-                    }, timeDiff)
+                    }, timeDiff);
                 };
 
                 $scope.logout = function () {

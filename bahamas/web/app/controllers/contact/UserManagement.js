@@ -12,7 +12,7 @@ app.controller('userManagement', ['$scope', 'session', '$state', 'retrieveOwnCon
        
         var toRetrieve = {
             'token': session.getSession('token')
-        }
+        };
         
         $scope.userType = session.getSession('userType');
         
@@ -89,6 +89,7 @@ app.controller('userManagement', ['$scope', 'session', '$state', 'retrieveOwnCon
             var toURL = $scope.userType + ".editContact";
             var contactCid = $scope.contactInfo.cid;
             session.setSession('contactToDisplayCid', contactCid);
+            session.setSession('otherContact', 'false');
             $state.go(toURL);
         };
     }]);

@@ -6,12 +6,12 @@
 
 var app = angular.module('bahamas');
 
-app.service('deleteContact', ['$rootScope', '$http', function ($rootScope, $http) {
+app.service('deleteService', ['$rootScope', '$http', function ($rootScope, $http) {
 
-        this.deleteContactWithCid = function (toDelete) {
+        this.deleteDataService = function (toDelete, url) {
             return $http({
                 method: 'POST',
-                url: $rootScope.commonUrl + '/contact.delete',
+                url: $rootScope.commonUrl + url,
                 data: JSON.stringify(toDelete)
             });
         };

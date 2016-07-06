@@ -9,12 +9,13 @@
 var app = angular.module('bahamas');
 
 app.controller('createContact',
-        ['$scope', '$http', '$state', 'session', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter',
-            function ($scope, $http, $state, session, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter) {
+        ['$scope', '$state', 'session', 'dataSubmit','loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter',
+            function ($scope, $state, session, dataSubmit, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter) {
 //PAGES TRANSITION
                 var user = session.getSession('userType');
                 var viewContact = user + '.viewContacts';
-
+                var currentState = user + '.addContact';
+                
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -22,7 +23,11 @@ app.controller('createContact',
                 $scope.viewContact = function () {
                     $state.go(viewContact);
                 };
-
+                
+                $scope.addContact = function () {
+                    $state.reload(currentState);
+                };
+                
                 $scope.form = {};
 //CALL DROPDOWN LIST SERVICES        
                 $scope.loadContactTypeList = function () {
@@ -110,25 +115,21 @@ app.controller('createContact',
 //SUBMIT CONTACT 
                 $scope.submitted = false;
                 $scope.submitContactInfo = function () {
-                    var url = $scope.commonUrl + "/contact.add";
+                    var url = "/contact.add";
                     console.log($scope.contactInfo);
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.contactInfo)
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    dataSubmit.submitData($scope.contactInfo, url).then(function (response) {
+                        console.log(response);
+                        if (response.data.message == 'success') {
                             $scope.submitted = true;
                             $scope.result.message = true;
                             $scope.result.deliver = 'Thank you for your time. Would you like to add additional information to your contact?';
-                            $scope.result.contactId = response['contact_id'];
+                            $scope.result.contactId = response.data['contact_id'];
 //                            console.log($scope.result.contactId);
                         } else {
                             $scope.result.message = false;
                             $scope.result.deliver = 'It seems that there is error in your form. We would be much appreciated if you could spend time checking through all the data again.';
                         }
-                    }).error(function () {
+                    }, function (response) {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -246,20 +247,15 @@ app.controller('createContact',
                 $scope.addPhone = function () {
                     var dataParse = 'phoneInfo';
                     $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
-                    var url = $scope.commonUrl + "/phone.add";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.additionalContactInfo[dataParse])
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    var url = "/phone.add";
+                    dataSubmit.submitData($scope.additionalContactInfo[dataParse], url).then(function (response) {
+                        if (response.data.message == 'success') {
                             $scope.submittedPhone = true;
                             $scope.message = 'Submitted successfully.';
                         } else {
                             $scope.message = 'There is error in the data, please check again.';
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -268,17 +264,15 @@ app.controller('createContact',
                 $scope.addEmail = function () {
                     var dataParse = 'emailInfo';
                     $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
-                    var url = $scope.commonUrl + "/email.add";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.additionalContactInfo[dataParse])
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    var url = "/email.add";
+                    dataSubmit.submitData($scope.additionalContactInfo[dataParse], url).then(function (response) {
+                        if (response.data.message == 'success') {
                             $scope.submittedEmail = true;
+                            $scope.message = 'Submitted successfully.';
+                        } else {
+                            $scope.message = 'There is error in the data, please check again.';
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -287,17 +281,15 @@ app.controller('createContact',
                 $scope.addAddress = function () {
                     var dataParse = 'addressInfo';
                     $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
-                    var url = $scope.commonUrl + "/address.add";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.additionalContactInfo[dataParse])
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    var url = "/address.add";
+                    dataSubmit.submitData($scope.additionalContactInfo[dataParse], url).then(function (response) {
+                        if (response.data.message == 'success') {
                             $scope.submittedAddress = true;
+                            $scope.message = 'Submitted successfully.';
+                        } else {
+                            $scope.message = 'There is error in the data, please check again.';
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -316,49 +308,37 @@ app.controller('createContact',
                     dataSend['permission_level'] = '';
                     dataSend.remarks = '';
                     dataSend['date_obsolete'] = '';
-                    var url = $scope.commonUrl + "/teamjoin.add";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(dataSend)
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    var url = "/teamjoin.add";
+                    
+                    dataSubmit.submitData(dataSend, url).then(function (response) {
+                        if (response.data.message == 'success') {
                             if ($scope.additionalContactInfo.teamInfo.team2 != '') {
                                 dataSend.team = $scope.additionalContactInfo.teamInfo.team2;
-                                $http({
-                                    method: 'POST',
-                                    url: url,
-                                    headers: {'Content-Type': 'application/json'},
-                                    data: JSON.stringify(dataSend)
-                                }).success(function (response) {
-                                    if (response.message == 'success') {
+                                
+                                 dataSubmit.submitData(dataSend, url).then(function (response) {
+                                    if (response.data.message == 'success') {
                                         if ($scope.additionalContactInfo.teamInfo.team3 != '') {
                                             dataSend.team = $scope.additionalContactInfo.teamInfo.team3;
-                                            $http({
-                                                method: 'POST',
-                                                url: url,
-                                                headers: {'Content-Type': 'application/json'},
-                                                data: JSON.stringify(dataSend)
-                                            }).success(function (response) {
-                                                if (response.message == 'success') {
+                                            
+                                            dataSubmit.submitData(dataSend, url).then(function (response) {
+                                                if (response.data.message == 'success') {
                                                     $scope.submittedTeam = true;
                                                 }
-                                            }).error(function () {
+                                            }, function () {
                                                 window.alert("Fail to send request!");
                                             });
                                         } else {
                                             $scope.submittedTeam = true;
                                         }
                                     }
-                                }).error(function () {
+                                }, function () {
                                     window.alert("Fail to send request!");
                                 });
                             } else {
                                 $scope.submittedTeam = true;
                             }
                         } 
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -367,17 +347,15 @@ app.controller('createContact',
                 $scope.addLanguage = function () {
                     var dataParse = 'languageInfo';
                     $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
-                    var url = $scope.commonUrl + "/language.add";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.additionalContactInfo[dataParse])
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    var url = "/language.add";
+                    dataSubmit.submitData($scope.additionalContactInfo[dataParse], url).then(function (response) {
+                        if (response.data.message == 'success') {
                             $scope.submittedLanguage = true;
+                            $scope.message = 'Submitted successfully.';
+                        } else {
+                            $scope.message = 'There is error in the data, please check again.';
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -386,17 +364,15 @@ app.controller('createContact',
                 $scope.addSkillasset = function () {
                     var dataParse = 'skillassetInfo';
                     $scope.additionalContactInfo[dataParse]['contact_id'] = $scope.result.contactId;
-                    var url = $scope.commonUrl + "/skill.add";
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify($scope.additionalContactInfo[dataParse])
-                    }).success(function (response) {
-                        if (response.message == 'success') {
+                    var url = "/skill.add";
+                    dataSubmit.submitData($scope.additionalContactInfo[dataParse], url).then(function (response) {
+                        if (response.data.message == 'success') {
                             $scope.submittedLSA = true;
+                            $scope.message = 'Submitted successfully.';
+                        } else {
+                            $scope.message = 'There is error in the data, please check again.';
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };

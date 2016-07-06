@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px" id="edit-contact"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1000}">
+        <div class="content-wrapper" style="margin:0px" id="edit-contact" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1000}" ng-init="retrieveFunc()">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -28,8 +28,8 @@ and open the template in the editor.
                         </div>
                     </div>
                     <!-- form start -->
-                    <div class="box-body" ng-init="loadContactInfo">
-                        <div class="box collapsed-box" style="border-top-color: #135a8a" ng-show="isAdmin">
+                    <div class="box-body">
+                        <div class="box collapsed-box blue-box" ng-show="isAdmin">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                 <div class="box-tools pull-right">
@@ -37,12 +37,8 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none;">
+                            <div class="box-body hidden-box">
                                 <div class="form-group col-md-12" style="padding-left: 0px">
-<!--                                    <div class="col-md-4" style="padding-left: 0px">
-                                        <img class="img-responsive" src="style/img/huxley.jpg" alt=""/>
-                                    </div>-->
-<!--                                    <div class="col-md-offset-1 col-md-7">-->
                                     <div class="col-md-5">
                                         <div class="form-group" ng-show="isUser && isAdmin">
                                             <label>Username</label>
@@ -75,14 +71,14 @@ and open the template in the editor.
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Save Changes</button>
+                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheContact()">Save Changes</button>
                                     <br>
                                     <span ng-bind="resultContact.message" ng-show="resultContact.status"></span>
                                 </center>
                             </div>
                         </div>
                         <!-- /user information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Contact information</h4>
                                 <div class="box-tools pull-right">
@@ -90,7 +86,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
                                 <div class="form-group col-md-12">
                                     <div class="col-md-5">
                                         <label>Date created</label>
@@ -129,7 +125,7 @@ and open the template in the editor.
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea ng-model="editContact['explain_if_other']" name="otherExpContact" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea class="custom-remarks" ng-model="editContact['explain_if_other']" name="otherExpContact" contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
@@ -177,22 +173,22 @@ and open the template in the editor.
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <label>Remarks</label>
-                                        <textarea ng-model="editContact.remarks" name="remarksContact" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea class="custom-remarks" ng-model="editContact.remarks" name="remarksContact" contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-link uppercase" ng-click="editTheContact()">Save Changes</button>
+                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheContact()">Save Changes</button>
                                     &nbsp;
-                                    <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheContact()">Delete contact</button>
+                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheContact()">Delete contact</button>
                                     <br>
                                     <span ng-bind="resultContact.message" ng-show="resultContact.status"></span>
                                 </center>
                             </div>
                         </div>
                         <!-- /contact information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editPhone === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                 <div class="box-tools pull-right">
@@ -201,7 +197,7 @@ and open the template in the editor.
                                     </button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show='editPhone === ""' style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom: 15px">
                                         No Phone Information Available
@@ -247,7 +243,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="phone['remarks']" name="remarksPhone" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="phone['remarks']" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -263,24 +259,50 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editThePhone($event, phone)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editThePhone($event, phone)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteThePhone($event, phone)">Delete phone</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteThePhone($event, phone)">Delete phone</button>
                                                 <br>
-                                                <span ng-bind="resultPhone.message" ng-show="resultPhone.status"></span>
+                                                <span ng-bind="resultPhone.message" ng-show="resultPhone.status && (resultPhone['phone_number'] == phone['phone_number'])"></span>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="box-body hidden-box" ng-show="addingPhone">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-2" ng-init="loadCountryCodes()">
+                                        <label>Country code</label>
+                                        <input type="number" ng-model="newPhone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(newPhone['country_code'])">            
+                                        <span>{{newCountryName}}</span>
+                                    </div>
+                                    <div class="col-md-offset-5 col-md-5">
+                                        <label>Phone number</label>
+                                        <input type="text" ng-model="newPhone['phone_number']" class="form-control" name="phone">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea class="custom-remarks" ng-model="newPhone['remarks']" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+<!--                            <div class='row'>-->
+                                <center>
+                                    <button type="submit" class="btn btn-primary uppercase" ng-click="addPhone()">Done</button>
+                                    <br>
+                                    <span ng-bind="submitNewPhone.message" ng-show="submitNewPhone.submittedPhone"></span>
+                                </center>
+<!--                            </div>-->
+                            </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addPhone()">Add new phone</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addNewPhone()">Add new phone</button>
                                 </center>
                             </div>
                         </div>
                         <!-- /phone information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editEmail === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
                                 <div class="box-tools pull-right">
@@ -288,7 +310,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editEmail == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Email Information Available
@@ -328,7 +350,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea name="remarksEmail" ng-model="email['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -344,24 +366,45 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheEmail($event, email)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheEmail($event, email)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheEmail($event, email)">Delete email</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheEmail($event, email)">Delete email</button>
                                                 <br>
-                                                <span ng-bind="resultEmail.message" ng-show="resultEmail.status"></span>
+                                                <span ng-bind="resultEmail.message" ng-show="resultEmail.status && resultEmail['email'] == email['email']"></span>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="box-body hidden-box" ng-show="addingEmail">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Email</label>
+                                        <input type="email" ng-model="newEmail.email" name="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea class="custom-remarks" name="remarksEmail" ng-model="newEmail['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <center>
+                                        <button type="submit" class="btn btn-primary uppercase" ng-click="addEmail()">Done</button>
+                                        <br>
+                                        <span ng-bind="submitNewEmail.message" ng-show="submitNewEmail.submittedEmail"></span>
+                                    </center>
+                                </div>
+                            </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addEmail()">Add new email</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addNewEmail()">Add new email</button>
                                 </center>
                             </div>
                         </div>
                         <!-- /email information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAddress === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                 <div class="box-tools pull-right">
@@ -370,7 +413,7 @@ and open the template in the editor.
                                     </button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editAddress == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Address Information Available
@@ -422,7 +465,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea name="remarksAddress" ng-model="address['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" name="remarksAddress" ng-model="address['remarks']" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -438,9 +481,9 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAddress($event, address)">Save changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheAddress($event, address)">Save changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAddress($event, address)">Delete address</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAddress($event, address)">Delete address</button>
                                                 <br>
                                                 <span ng-bind="resultAddress.message" ng-show="resultAddress.status"></span>
                                             </center>
@@ -455,7 +498,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /address information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editMembership === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                 <div class="box-tools pull-right">
@@ -464,7 +507,7 @@ and open the template in the editor.
                                     </button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editMembership == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Membership Information Available
@@ -509,7 +552,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea name="otherExpMemClass" ng-model="membership['explain_if_other_class']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" name="otherExpMemClass" ng-model="membership['explain_if_other_class']" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -543,7 +586,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="membership['explain_if_other_payment']" name="otherExpPayModMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="membership['explain_if_other_payment']" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -576,20 +619,20 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="membership['explain_if_other_receipt']" name="otherExpRecModMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="membership['explain_if_other_receipt']" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="membership['remarks']" name="remarksMem" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="membership['remarks']" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheMembership($event, membership)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
                                                 <br>
                                                 <span ng-bind="resultMembership.message" ng-show="resultMembership.status"></span>
                                             </center>
@@ -604,7 +647,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /membership information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editOfficeHeld === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                 <div class="box-tools pull-right">
@@ -612,7 +655,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editOfficeHeld == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                             No Office Information Available
@@ -674,14 +717,14 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea name='remarksOff' ng-model="officeHeld['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" name='remarksOff' ng-model="officeHeld['remarks']" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheOffice($event, office)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheOffice($event, office)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheOffice($event, office)">Delete office</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheOffice($event, office)">Delete office</button>
                                                 <br>
                                                 <span ng-bind="resultOffice.message" ng-show="resultOffice.status"></span>
                                             </center>
@@ -696,7 +739,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /office-held information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editDonation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                 <div class="box-tools pull-right">
@@ -704,7 +747,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editDonation == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Donation Information Available
@@ -761,7 +804,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="donation['explain_if_other_payment']" name='otherExpPayModDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="donation['explain_if_other_payment']" name='otherExpPayModDon' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -794,19 +837,19 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="donation['explain_if_other_receipt']" name='otherExpRecModDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="donation['explain_if_other_receipt']" name='otherExpRecModDon' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Donor's instructions</label>
-                                                <textarea ng-model="donation['donor_instructions']" name='donInstr' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="donation['donor_instructions']" name='donInstr' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class='form-group col-md-12'>
                                             <div class='col-md-7'>
                                                 <label>Allocation 1</label>
-                                                <textarea ng-model="donation['allocation1']" name='allo1' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="donation['allocation1']" name='allo1' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                             <div class="col-md-offset-1 col-md-4">
                                                 <label>Subamount 1</label>
@@ -816,7 +859,7 @@ and open the template in the editor.
                                         <div class='form-group col-md-12'>
                                             <div class='col-md-7'>
                                                 <label>Allocation 2</label>
-                                                <textarea ng-model="donation['allocation2']" name='allo2' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="donation['allocation2']" name='allo2' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                             <div class="col-md-offset-1 col-md-4">
                                                 <label>Subamount 2</label>
@@ -826,7 +869,7 @@ and open the template in the editor.
                                         <div class='form-group col-md-12'>
                                             <div class='col-md-7'>
                                                 <label>Allocation 3</label>
-                                                <textarea ng-model="donation['allocation3']" name='allo3' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="donation['allocation3']" name='allo3' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                             <div class="col-md-offset-1 col-md-4">
                                                 <label>Subamount 3</label>
@@ -836,20 +879,20 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Associated occasion</label>
-                                                <textarea ng-model="donation['associated_occasion']" name='assoOccasDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="donation['associated_occasion']" name='assoOccasDon' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="donation['remarks']" name='remarksDon' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="donation['remarks']" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheDonation($event, donation)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheDonation($event, donation)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
                                                 <br>
                                                 <span ng-bind="resultDonation.message" ng-show="resultDonation.status"></span>
                                             </center>
@@ -864,7 +907,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /donation information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTeam === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
                                 <div class="box-tools pull-right">
@@ -872,7 +915,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editTeam == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Team Information Available
@@ -914,7 +957,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="team['explain_if_others']" name='otherExpTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="team['explain_if_others']" name='otherExpTeam' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -932,7 +975,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="team['remarks']" name='remarksTeam' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="team['remarks']" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -948,16 +991,15 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheTeam($event, team)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheTeam($event, team)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheTeam($event, team)">Delete team</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheTeam($event, team)">Delete team</button>
                                                 <br>
                                                 <span ng-bind="resultTeam.message" ng-show="resultTeam.status"></span>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
-
                             </div>
                             <div class='box-footer'>
                                 <center>
@@ -966,7 +1008,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /team information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTraining === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                 <div class="box-tools pull-right">
@@ -974,7 +1016,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body hidden-blue-box">
                                 <div class="form-group col-md-12">
                                     <div class="col-md-5">
                                         <label>Date created</label>
@@ -1001,7 +1043,7 @@ and open the template in the editor.
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <label>Explain if above is 'Other'</label>
-                                        <textarea name='otherExpTrain' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea class='custom-remarks' name='otherExpTrain' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                 </div>
                                 <div class="form-group col-md-12">
@@ -1028,7 +1070,7 @@ and open the template in the editor.
                                 <div class="form-group col-md-12">
                                     <div class="col-md-12">
                                         <label>Remarks</label>
-                                        <textarea name='remarksTrain' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea class='custom-remarks' name='remarksTrain' contenteditable="true" spellcheck="true"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -1039,7 +1081,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /training information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAppreciation === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                 <div class="box-tools pull-right">
@@ -1047,7 +1089,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editAppreciation == ''" style="padding: 15px">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Appreciation Information Available
@@ -1081,7 +1123,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Appraisal comments</label>
-                                                <textarea ng-model="appreciation['appraisal_comments']" name='apprComm' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="appreciation['appraisal_comments']" name='apprComm' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1102,7 +1144,7 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Appreciation gesture</label>
-                                                <textarea ng-model="appreciation['appreciation_gesture']" name='appnGest' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="appreciation['appreciation_gesture']" name='appnGest' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1123,14 +1165,14 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="appreciation['remarks']" name='remarksAppn' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="appreciation['remarks']" name='remarksAppn' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheAppreciation($event, appreciation)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheAppreciation($event, appreciation)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
                                                 <br>
                                                 <span ng-bind="resultAppreciation.message" ng-show="resultAppreciation.status"></span>
                                             </center>
@@ -1145,7 +1187,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /appreciation information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editProxy === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                 <div class="box-tools pull-right">
@@ -1153,7 +1195,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editProxy == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Proxy Information Available
@@ -1193,13 +1235,13 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Proxy standing</label>
-                                                <textarea ng-model="proxy['proxy_standing']" name='proxStand' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="proxy['proxy_standing']" name='proxStand' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="proxy['remarks']" name='remarksProx' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="proxy['remarks']" name='remarksProx' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1215,9 +1257,9 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheProxy($event, proxy)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheProxy($event, proxy)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
                                                 <br>
                                                 <span ng-bind="resultProxy.message" ng-show="resultProxy.status"></span>
                                             </center>
@@ -1232,7 +1274,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /proxy information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editLanguages === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
                                 <div class="box-tools pull-right">
@@ -1240,7 +1282,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editLanguages == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Language Information Available
@@ -1289,13 +1331,13 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="language['explain_if_other']" name='otherExpLang' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="language['explain_if_other']" name='otherExpLang' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="language['remarks']" name='remarksLang' style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="language['remarks']" name='remarksLang' contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1311,9 +1353,9 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheLanguage($event, language)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheLanguage($event, language)">Delete language</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheLanguage($event, language)">Delete language</button>
                                                 <br>
                                                 <span ng-bind="resultLanguage.message" ng-show="resultLanguage.status"></span>
                                             </center>
@@ -1328,7 +1370,7 @@ and open the template in the editor.
                             </div>
                         </div>
                         <!-- /languages information -->
-                        <div class="box collapsed-box" style="border-top-color: #135a8a">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editSkillsAssets === ''}">
                                 <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
                                 <div class="box-tools pull-right">
@@ -1336,7 +1378,7 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-up"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none; background-color: #7a9db4; padding: 20px 20px 0px 20px">
+                            <div class="box-body hidden-blue-box">
                                 <div ng-show="editSkillsAssets == ''" style="color: white; text-align: center">
                                     <h4 class="uppercase" style="word-spacing: 5px; margin: 0px; padding-bottom:15px">
                                         No Skill/Asset Information Available
@@ -1378,13 +1420,13 @@ and open the template in the editor.
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Explain if above is 'Other'</label>
-                                                <textarea ng-model="skill['explain_if_other']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="skill['explain_if_other']" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12">
                                                 <label>Remarks</label>
-                                                <textarea ng-model="skill['remarks']" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class='custom-remarks' ng-model="skill['remarks']" contenteditable="true" spellcheck="true"></textarea>
                                             </div>
                                         </div>
                                         <div class="form-group col-md-12">
@@ -1400,9 +1442,9 @@ and open the template in the editor.
                                         </div>
                                         <div class='row'>
                                             <center>
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="editTheSkill($event, skill)">Save Changes</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheSkill($event, skill)">Save Changes</button>
                                                 &nbsp;
-                                                <button type="submit" class="btn btn-link uppercase" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
+                                                <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
                                                 <br>
                                                 <span ng-bind="resultSkill.message" ng-show="resultSkill.status"></span>
                                             </center>

@@ -11,7 +11,7 @@ app.service('loadAllAudit',['$rootScope', '$http', function($rootScope, $http){
     this.retrieveAllAudit = function(toRetrieve){
         return $http({
             method: 'POST',
-            url: $rootScope.commonUrl + '/retrieve.auditlog',
+            url: $rootScope.commonUrl + AppAPI.retrieveAuditLog,
             data: JSON.stringify(toRetrieve)
         });
     }; 
