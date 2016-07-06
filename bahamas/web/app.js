@@ -170,6 +170,7 @@ app.config(function (ngDialogProvider) {
 });
 
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
+        //$rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
