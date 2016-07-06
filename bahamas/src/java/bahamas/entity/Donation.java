@@ -12,10 +12,10 @@ import java.util.Date;
  * @author tan.si.hao
  */
 public class Donation {
-    
+
     private int donationId;
     private Contact contact;
-    private Date dateCreated;
+    private Date dateCreated = new java.util.Date();
     private String createdBy;
     private Date dateReceived;
     private double donationAmount;
@@ -35,14 +35,15 @@ public class Donation {
     private double subAmount3;
     private String associatedOccasion;
     private String remarks;
-    
-    public Donation(){}
 
-    public Donation(Contact contact, String createdBy, Date dateReceived, 
-            double donationAmount, String paymentMode, String explainIfOtherPayment, 
-            String extTransactionRef, String receiptMode, String receiptNumber, Date receiptDate, 
-            String explainIfOtherReceipt, String donorInstructions, 
-            String allocation1, double subAmount1, String allocation2, 
+    public Donation() {
+    }
+
+    public Donation(Contact contact, String createdBy, Date dateReceived,
+            double donationAmount, String paymentMode, String explainIfOtherPayment,
+            String extTransactionRef, String receiptMode, String receiptNumber, Date receiptDate,
+            String explainIfOtherReceipt, String donorInstructions,
+            String allocation1, double subAmount1, String allocation2,
             double subAmount2, String allocation3, double subAmount3, String associatedOccasion, String remarks) {
         this.contact = contact;
         this.createdBy = createdBy;
@@ -66,7 +67,7 @@ public class Donation {
         this.remarks = remarks;
     }
 
-    public Donation(int donationId,Date dateCreated, String createdBy, Date dateReceived, double donationAmount, String paymentMode, String explainIfOtherPayment, String extTransactionRef, String receiptMode, String receiptNumber, Date receiptDate, String explainIfOtherReceipt, String donorInstructions, String allocation1, double subAmount1, String allocation2, double subAmount2, String allocation3, double subAmount3, String associatedOccasion, String remarks) {
+    public Donation(int donationId, Date dateCreated, String createdBy, Date dateReceived, double donationAmount, String paymentMode, String explainIfOtherPayment, String extTransactionRef, String receiptMode, String receiptNumber, Date receiptDate, String explainIfOtherReceipt, String donorInstructions, String allocation1, double subAmount1, String allocation2, double subAmount2, String allocation3, double subAmount3, String associatedOccasion, String remarks) {
         this.donationId = donationId;
         this.dateCreated = dateCreated;
         this.createdBy = createdBy;
@@ -89,9 +90,7 @@ public class Donation {
         this.associatedOccasion = associatedOccasion;
         this.remarks = remarks;
     }
-    
-    
-    
+
     public int getDonationId() {
         return donationId;
     }
@@ -171,7 +170,7 @@ public class Donation {
     public void setReceiptMode(String receiptMode) {
         this.receiptMode = receiptMode;
     }
-    
+
     public String getReceiptNumber() {
         return receiptNumber;
     }
@@ -267,9 +266,5 @@ public class Donation {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-    
-    
-    
-    
-    
+
 }
