@@ -81,8 +81,8 @@ public class TeamJoinDAO {
         return null;
 
     }
-    
-        public static ArrayList<TeamJoin> retrieveAllTeamJoinCID(int cid) {
+
+    public static ArrayList<TeamJoin> retrieveAllTeamJoinCID(int cid) {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -99,7 +99,7 @@ public class TeamJoinDAO {
             //show all teams without date obslete filter
             stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, SUBTEAM,DATE_OBSOLETE, T.REMARKS, PERMISSION FROM TEAM_JOIN T, CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND C.CONTACT_ID = (?)");
             stmt.setInt(1, cid);
-            
+
             rs = stmt.executeQuery();
             ContactDAO cDAO = new ContactDAO();
             Contact c = cDAO.retrieveContactById(cid);
@@ -151,8 +151,8 @@ public class TeamJoinDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO TEAM_JOIN (CONTACT_ID,"
-                    + "TEAM_NAME,DATE_CREATED,CREATED_BY,EXPLAIN_IF_OTHER,SUBTEAM,DATE_OBSOLETE,REMARKS)"
-                    + " VALUES (?,?,?,?,?,?,?,?)");
+                    + "TEAM_NAME,DATE_CREATED,CREATED_BY,EXPLAIN_IF_OTHER,SUBTEAM,DATE_OBSOLETE,REMARKS,PERMISSION)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?)");
 
             stmt.setInt(1, t.getContact().getContactId());
             stmt.setString(2, t.getTeamName());
@@ -168,7 +168,7 @@ public class TeamJoinDAO {
             }
 
             stmt.setString(8, t.getRemarks());
-            //stmt.setString(9, t.getPermission());
+            stmt.setString(9, t.getPermission());
 
             result = stmt.executeUpdate();
 
@@ -224,7 +224,7 @@ public class TeamJoinDAO {
         return false;
 
     }
-    
+
     public static boolean deleteTeamJoin(int id, String teamName) {
         Connection conn = null;
         PreparedStatement stmt = null;
