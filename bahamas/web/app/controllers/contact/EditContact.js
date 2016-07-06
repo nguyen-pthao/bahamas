@@ -7,6 +7,30 @@
 /*Created by Marcus Ong*/
 
 var app = angular.module('bahamas');
+
+app.directive('compare', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            if (!ngModel) {
+                return;
+            }
+            scope.$watch(attrs.ngModel, function () {
+                validate();
+            });
+            attrs.$observe('compare', function (val) {
+                validate();
+            });
+            var validate = function () {
+                var val1 = ngModel.$viewValue;
+                var val2 = attrs.compare;
+                ngModel.$setValidity('compare', !val1 || !val2 || val1 === val2);
+            };
+        }
+    };
+});
+
 app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'ngDialog', '$timeout',
             'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'retrieveContactByCid',
@@ -18,10 +42,10 @@ app.controller('editContact',
                 var permission = session.getSession('userType');
 
                 //viewing mode: false for own contact and true for other people contact
-                var editMode = session.getSession('otherContact');
+                $scope.editMode = session.getSession('otherContact');
 //GET USER PERMISSION
-                if (editMode == null) {
-                    editMode = 'false';
+                if ($scope.editMode == null) {
+                    $scope.editMode = 'false';
                 }
 
                 $scope.authorised = false;
@@ -34,7 +58,7 @@ app.controller('editContact',
                 $scope.isEventLeader = false;
                 var contactToRetrieve = {};
 
-                if ($scope.authorised && editMode == 'true') {
+                if ($scope.authorised && $scope.editMode == 'true') {
                     if (permission === 'admin') {
                         $scope.isAdmin = true;
                         $scope.isEventLeader = false;
@@ -69,7 +93,7 @@ app.controller('editContact',
 
 //PAGES TRANSITION
                 var toContact = '';
-                if ($scope.authorised && editMode == 'true') {
+                if ($scope.authorised && $scope.editMode == 'true') {
                     toContact = permission + '.viewIndivContact';
                 } else {
                     toContact = permission + '.userManagement';
@@ -161,7 +185,7 @@ app.controller('editContact',
 //RETRIEVE CONTACT OBJECTS
                 var contactToEdit;
                 $scope.retrieveFunc = function () {
-                    if ($scope.authorised && editMode == 'true') {
+                    if ($scope.authorised && $scope.editMode == 'true') {
                         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
                             if (response.data.message == 'success') {
                                 contactToEdit = response.data.contact[0];
@@ -218,21 +242,24 @@ app.controller('editContact',
                 $scope.editContact = {};
                 $scope.isUser = true;
                 var retrieveUserInfo = function (contactToEdit) {
-                    if (editMode == 'true') {
+                    if ($scope.editMode == 'true') {
                         if ($scope.isAdmin) {
                             if (contactToEdit.username != '') {
-                                $scope.editContact['username'] = contactToEdit.username;
-                                $scope.editContact.deactivated = contactToEdit.deactivated;
+                                $scope.editUser['username'] = contactToEdit.username;
+                                $scope.editUser.deactivated = contactToEdit.deactivated;
+                                $scope.editUser['is_admin'] = contactToEdit['is_admin'];
                             } else {
                                 $scope.isUser = false;
-                                $scope.editContact['username'] = '';
-                                $scope.editContact.deactivated = false;
-                                $scope.editContact['password'] = ''; //to be changed
+                                $scope.editUser['username'] = '';
+                                $scope.editUser.deactivated = false;
+                                $scope.editUser['password'] = ''; //to be changed
+                                $scope.editUser['email'] = '';
                             }
                         }
                     } else {
-                        $scope.editContact['username'] = contactToEdit.username;
-                        $scope.editContact['password'] = contactToEdit.password;
+                        $scope.editUser['username'] = contactToEdit.username;
+                        $scope.editUser['newPassword'] = '';
+                        $scope.editUser['confirmPassword'] = '';
                     }
                 };
                 //contact
@@ -250,7 +277,7 @@ app.controller('editContact',
                     $scope.editContact['gender'] = contactToEdit.gender;
                     $scope.editContact['date_of_birth'] = contactToEdit['date_of_birth'];
                     $scope.editContact['remarks'] = contactToEdit.remarks;
-                }
+                };
                 //phone
                 var retrievePhoneInfo = function (contactToEdit) {
                     if (contactToEdit.phone.length != 0) {
@@ -357,11 +384,67 @@ app.controller('editContact',
                     var a = Math.floor((Math.random() * 10) + 10);
                     $scope.editContact.password = Math.random().toString(36).substring(2, a);
                 };
+                //For changing password
+                $scope.changePass = false;
+                $scope.changePassword = function() {
+                    $scope.changePass = true;
+                };
 //HTTP REQUEST TO EDIT CONTACT
                 //define message
                 var successMsg = "Successfully saved!";
                 var failMsg = "Fail to save changes. Please check through your data again.";
-                //user or contact
+                //user
+                
+                $scope.resultUser = {
+                    status: false,
+                    message: ''
+                };
+                $scope.editUser = function() {
+                    var datasend = {};
+                    if($scope.editMode == 'true') {
+                        if($scope.isUser) {
+                            if($scope.isAdmin) {
+                                datasend['token'] = session.getSession('token');
+                                datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                                datasend['deactivated'] = $scope.editUser['deactivated'];
+                                datasend['username'] = $scope.editUser['username'];
+                                datasend['password'] = '';
+                                datasend['is_admin'] = $scope.editUser['is_admin'];
+                                datasend['email'] = '';
+                            }
+                        } else {
+                            datasend['token'] = session.getSession('token');
+                            datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                            datasend['username'] = $scope.editUser['username'];
+                            datasend['password'] = '';
+                            datasend['email'] = $scope.editUser['email'];
+                            datasend['deactivated'] = '';
+                            datasend['is_admin'] = '';
+                        }
+                    } else {
+                        datasend['token'] = session.getSession('token');
+                        datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                        datasend['username'] = $scope.editUser['username'];
+                        datasend['password'] = $scope.editUser['password'];
+                        datasend['email'] = '';
+                        datasend['deactivated'] = '';
+                        datasend['is_admin'] = '';
+                    }
+                    var url = AppAPI.updateUser;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
+                        $scope.resultUser.status = true;
+                        if (response.data.message == 'success') {
+                            $scope.resultUser.message = successMsg;
+                            $scope.retrieveFunc();
+                        } else {
+                            $scope.resultUser.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
+                //contact
                 $scope.resultContact = {
                     status: false,
                     message: ''
@@ -561,7 +644,7 @@ app.controller('editContact',
                         deleteEmail['contact_id'] = session.getSession('contactToDisplayCid');
                         deleteEmail['email'] = email['email'];
                         var url = AppAPI.deleteEmail;
-                        deleteService.deleteDataService(deletePhone, url).then(function (response) {
+                        deleteService.deleteDataService(deleteEmail, url).then(function (response) {
                             if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
@@ -573,7 +656,7 @@ app.controller('editContact',
                             } else {
                                 console.log("del email fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
@@ -611,7 +694,12 @@ app.controller('editContact',
                 };
 
                 //address
+                $scope.addingAddress = false;
+                $scope.addNewAddress = function () {
+                    $scope.addingAddress = true;
+                };
                 $scope.resultAddress = {
+                    address: '',
                     status: false,
                     message: ''
                 };
@@ -625,22 +713,20 @@ app.controller('editContact',
                     datasend['zipcode'] = address['zipcode'];
                     datasend['address_remarks'] = address['remarks'];
                     datasend['date_obsolete'] = address['date_obsolete'];
-                    var url = $scope.commonUrl + '/address.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateAddress;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultAddress.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultAddress.message = "Successfully saved!";
-                            console.log("ok address done");
+                        if (response.data.message == 'success') {
+                            $scope.resultAddress.address = datasend['address'];
+                            $scope.resultAddress.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultAddress.message = "Fail to update address.";
-                            console.log("address fail");
+                            $scope.resultAddress.message = failMsg;
                         }
-                    }).error(function () {
+                        $timeout(function () {
+                            $scope.resultAddress.status = false;
+                        }, 1000);
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -654,31 +740,65 @@ app.controller('editContact',
                         deleteAddress['token'] = session.getSession('token');
                         deleteAddress['contact_id'] = session.getSession('contactToDisplayCid');
                         deleteAddress['address'] = address['address'];
-                        var url = $scope.commonUrl + '/address.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteAddress)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteAddress;
+                        deleteService.deleteDataService(deleteAddress, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
                                 }).then(function (response) {
-                                    $state.go(toEditContact);
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del address fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newAddress = {
+                    token: session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    address: '',
+                    country: '',
+                    zipcode: '',
+                    'address_remarks': '',
+                    'date_obsolete': ''
+                };
+                $scope.copyAddress = angular.copy($scope.newAddress);
+                $scope.submitNewAddress = {
+                    'submittedAddress': false,
+                    'message': ''
+                };
+                $scope.addAddress = function () {
+                    var url = AppAPI.addAddress;
+                    dataSubmit.submitData($scope.newAddress, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewAddress.submittedAddress = true;
+                            $scope.submitNewAddress.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newAddress = angular.copy($scope.copyAddress);
+                            $timeout(function () {
+                                $scope.submitNewAddress.submittedAddress = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                        } else {
+                            $scope.submitNewAddress.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
                 //membership
+                $scope.addingMembership = false;
+                $scope.addNewMembership = function () {
+                    $scope.addingMembership = true;
+                };
                 $scope.resultMembership = {
+                    'membership_id': '',
                     status: false,
                     message: ''
                 };
@@ -701,22 +821,20 @@ app.controller('editContact',
                     datasend['explain_if_other_class'] = membership['explain_if_other_class'];
                     datasend['payment_mode'] = membership['payment_mode_name'];
                     datasend['explain_if_other_payment'] = membership['explain_if_other_payment'];
-                    var url = $scope.commonUrl + '/membership.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateMembership;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultMembership.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultMembership.message = "Successfully saved!";
-                            console.log("ok membership done");
+                        if (response.data.message == 'success') {
+                            $scope.resultMembership['membership_id'] = datasend['membership_id'];
+                            $scope.resultMembership.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultMembership.message = "Fail to update membership.";
-                            console.log("membership fail");
+                            $scope.resultMembership.message = failMsg;
                         }
-                    }).error(function () {
+                        $timeout(function () {
+                            $scope.resultMembership.status = false;
+                        }, 1000);
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -729,32 +847,74 @@ app.controller('editContact',
                         var deleteMembership = {};
                         deleteMembership['token'] = session.getSession('token');
                         deleteMembership['membership_id'] = membership['membership_id'];
-
-                        var url = $scope.commonUrl + '/membership.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteMembership)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteMembership;
+                        deleteService.deleteDataService(deleteMembership, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del membership fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newMembership = {
+                    token: session.getSession("token"),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'start_membership': '',
+                    'end_membership': '',
+                    'receipt_date': '',
+                    'subscription_amount': '',
+                    'ext_transaction_ref': '',
+                    'receipt_number': '',
+                    'remarks': '',
+                    'receipt_mode': '',
+                    'explain_if_other_receipt': '',
+                    'membership_class': '',
+                    'explain_if_other_class': '',
+                    'payment_mode': '',
+                    'explain_if_other_payment': ''
+                };
+                $scope.copyMembership = angular.copy($scope.newMembership);
+                $scope.submitNewMembership = {
+                    'submittedMembership': false,
+                    'message': ''
+                };
+                $scope.addMembership = function () {
+                    var url = AppAPI.addMembership;
+                    dataSubmit.submitData($scope.newMembership, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewMembership.submittedMembership = true;
+                            $scope.submitNewMembership.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newMembership = angular.copy($scope.copyMembership);
+                            $timeout(function () {
+                                $scope.submitNewMembership.submittedMembership = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                        } else {
+                            $scope.submitNewMembership.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
                 //office held
+                //require office_held_id to be returned as well
+                $scope.addingOffice = false;
+                $scope.addNewOffice = function () {
+                    $scope.addingOffice = true;
+                };
                 $scope.resultOffice = {
+                    'office_held': '',
                     status: false,
                     message: ''
                 };
@@ -767,22 +927,20 @@ app.controller('editContact',
                     datasend['start_office'] = office['start_office'];
                     datasend['end_office'] = office['end_office'];
                     datasend['remarks'] = office['remarks'];
-                    var url = $scope.commonUrl + '/officeheld.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateOfficeHeld;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultOffice.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultOffice.message = "Successfully saved!";
-                            console.log("ok office done");
+                        if (response.data.message == 'success') {
+                            $scope.resultOffice['office_held'] = datasend['office_held_name']; //to be modified
+                            $scope.resultOffice.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultOffice.message = "Fail to update office.";
-                            console.log("office fail");
+                            $scope.resultOffice.message = failMsg;
                         }
-                    }).error(function () {
+                        $timeout(function () {
+                            $scope.resultOffice.status = false;
+                        }, 1000);
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -796,31 +954,64 @@ app.controller('editContact',
                         deleteOffice['token'] = session.getSession('token');
                         deleteOffice['contact_id'] = session.getSession('contactToDisplayCid');
                         deleteOffice['office_held_name'] = office['office_held'];
-                        var url = $scope.commonUrl + '/officeheld.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteOffice)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteOfficeHeld;
+                        deleteService.deleteDataService(deleteOffice, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del office fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newOffice = {
+                    token: session.getSession("token"),
+                    'contact_id': session.getSession('contactToDisplayCid'), //to be confirmed
+                    'office_held_name': '',
+                    'start_office': '',
+                    'end_office': '',
+                    'remarks': ''
+                };
+                $scope.copyOffice = angular.copy($scope.newOffice);
+                $scope.submitNewOffice = {
+                    'submittedOffice': false,
+                    'message': ''
+                };
+                $scope.addOffice = function () {
+                    var url = AppAPI.addOffice;
+                    dataSubmit.submitData($scope.newOffice, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewOffice.submittedOffice = true;
+                            $scope.submitNewOffice.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newOffice = angular.copy($scope.copyOffice);
+                            $timeout(function () {
+                                $scope.submitNewOffice.submittedOffice = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                        } else {
+                            $scope.submitNewOffice.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
                 //donation
+                $scope.addingDonation = false;
+                $scope.addNewDonation = function () {
+                    $scope.addingDonation = true;
+                };
                 $scope.resultDonation = {
+                    'donation_id': '',
                     status: false,
                     message: ''
                 };
@@ -848,22 +1039,20 @@ app.controller('editContact',
                     datasend['subamount3'] = donation['subtotal3'];
                     datasend['associated_occasion'] = donation['associated_occasion'];
                     datasend['remarks'] = donation['remarks'];
-                    var url = $scope.commonUrl + '/donation.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateDonation;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultDonation.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultDonation.message = "Successfully saved!";
-                            console.log("ok donation done");
+                        if (response.data.message == 'success') {
+                            $scope.resultDonation['donation_id'] = datasend['donation_id'];
+                            $scope.resultDonation.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
                             $scope.resultDonation.message = "Fail to update donation.";
-                            console.log("donation fail");
                         }
-                    }).error(function () {
+                        $timeout(function () {
+                            $scope.resultDonation.status = false;
+                        }, 1000);
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };

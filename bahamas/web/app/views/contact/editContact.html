@@ -29,7 +29,7 @@ and open the template in the editor.
                     </div>
                     <!-- form start -->
                     <div class="box-body">
-                        <div class="box collapsed-box blue-box" ng-show="isAdmin">
+                        <div class="box collapsed-box blue-box" ng-show="isAdmin || (editMode == 'false')">
                             <div class="box-header with-border">
                                 <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                 <div class="box-tools pull-right">
@@ -40,40 +40,69 @@ and open the template in the editor.
                             <div class="box-body hidden-box">
                                 <div class="form-group col-md-12" style="padding-left: 0px">
                                     <div class="col-md-5">
-                                        <div class="form-group" ng-show="isUser && isAdmin">
+                                        <form name="editUserForm">
+                                        <div class="form-group" ng-show="isUser || (isAdmin && isUser)">
                                             <label>Username</label>
-                                            <input type='text' class="form-control" ng-model='editContact.username' name="usernameU" readonly>
+                                            <input type='text' class="form-control" ng-model='editUser.username' name="usernameU" readonly>
                                         </div>
-                                        <div class="form-group" ng-hide="isUser">
+                                        <div class="form-group" ng-show="!isUser && isAdmin">
                                             <label>Username</label>
-                                            <input type='text' class="form-control" ng-model='editContact.username' name="usernameNU">
+                                            <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU">
                                         </div>
-                                        <div class="form-group" ng-hide="isUser">
+                                        <div class="form-group" ng-show="!isUser && isAdmin">
                                             <label>Generate Password</label>
-                                            <input type="text" name="passwordNU" ng-model='editContact.password' class="form-control">
+                                            <input type="text" ng-model='editUser.password' class="form-control" name="passwordNU">
                                         </div>
-                                        <div class="row" ng-hide="isUser">
+                                        <div class="row" ng-show="!isUser && isAdmin">
                                             <center>
                                             <button type="button" class="btn btn-primary" ng-click="generatePassword()">Generate Password</button>
                                             </center>
                                         </div>
+                                        <div class="form-group" ng-show="!isUser && isAdmin">
+                                            <label>Select email</label>
+                                            <input type="text" ng-model='editUser.email' class="form-control" name="email">
+                                        </div>
+                                        <div class="row" ng-show="(editMode == 'false')">
+                                            <center>
+                                            <button type="button" class="btn btn-primary" ng-click="changePassword()">Change Password</button>
+                                            </center>
+                                        </div>
+                                        <div class="form-group" ng-show="(editMode == 'false') && changePass">
+                                            <label>New Password</label>
+                                            <input type="password" ng-model='editUser.password' compare="{{editUser.confirmPassword}}" class="form-control" name="newPassword">
+                                        </div>
+                                        <div class="form-group" ng-show="(editMode == 'false') && changePass">
+                                            <label>Confirm Password</label>
+                                            <input type="password" ng-model='editUser.confirmPassword' compare="{{editUser.password}}" class="form-control" name="confirmPassword">
+                                            <span ng-show="editUserForm.confirmPassword.$error.compare" style="color: red">Confirmed password is not the same.</span>
+                                        </div>
                                         <div class="form-group" ng-show="isUser && isAdmin">
                                             <div class="col-md-6" style="padding-left: 0px">
                                                 <label>Deactivate</label>
-                                                <select name="deactivate" class="form-control" ng-model='editContact.deactivated'>
+                                                <select name="deactivate" class="form-control" ng-model='editUser.deactivated'>
                                                     <option value="true">Yes</option>
                                                     <option value="false">No</option>
                                                 </select> 
                                             </div>
                                         </div>
+                                        <div class="form-group" ng-show="isUser && isAdmin">
+                                            <div class="col-md-6" style="padding-left: 0px">
+                                                <label>Change status</label>
+                                                <select name="isAdmin" class="form-control" ng-model="editUser['is_admin']">
+                                                    <option value="true">Yes</option>
+                                                    <option value="false">No</option>
+                                                </select> 
+                                            </div>
+                                        </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheContact()">Save Changes</button>
+                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editUser()">Save Changes</button>
                                     <br>
-                                    <span ng-bind="resultContact.message" ng-show="resultContact.status"></span>
+                                    <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
                                 </center>
                             </div>
                         </div>
@@ -370,7 +399,7 @@ and open the template in the editor.
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheEmail($event, email)">Delete email</button>
                                                 <br>
-                                                <span ng-bind="resultEmail.message" ng-show="resultEmail.status && resultEmail['email'] == email['email']"></span>
+                                                <span ng-bind="resultEmail.message" ng-show="resultEmail.status && (resultEmail['email'] == email['email'])"></span>
                                             </center>
                                         </div>
                                     </div>
@@ -485,15 +514,48 @@ and open the template in the editor.
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAddress($event, address)">Delete address</button>
                                                 <br>
-                                                <span ng-bind="resultAddress.message" ng-show="resultAddress.status"></span>
+                                                <span ng-bind="resultAddress.message" ng-show="resultAddress.status && (resultAddress['address'] == address['address'])"></span>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="box-body hidden-box" ng-show="addingAddress">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Address</label>
+                                        <input type="text" ng-model="newAddress.address" name='address' class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5" ng-init="loadCountryNames()">
+                                        <label>Country</label>
+                                        <select class="form-control" ng-model="newAddress.country" name="country">
+                                            <option ng-repeat="country in countryNames">{{country.name}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">    
+                                        <label>Zipcode</label>
+                                        <input type="text" ng-model="newAddress.zipcode" class="form-control" name='zipcode'>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea class="custom-remarks" name="remarksAddress" ng-model="newAddress['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <center>
+                                        <button type="submit" class="btn btn-primary uppercase" ng-click="addAddress()">Done</button>
+                                        <br>
+                                        <span ng-bind="submitNewAddress.message" ng-show="submitNewAddress.submittedAddress"></span>
+                                    </center>
+                                </div>
+                            </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addAddress()">Add new address</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addNewAddress()">Add new address</button>
                                 </center>
                             </div>
                         </div>
@@ -634,15 +696,115 @@ and open the template in the editor.
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
                                                 <br>
-                                                <span ng-bind="resultMembership.message" ng-show="resultMembership.status"></span>
+                                                <span ng-bind="resultMembership.message" ng-show="resultMembership.status && (resultMembership['membership_id'] == membership['membership_id'])"></span>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="box-body hidden-box" ng-show="addingMembership">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5" ng-init="loadMembershipList()">
+                                        <label>Membership type</label>
+                                        <select ng-model="newMembership['membership_class_name']" name="memType" class="form-control">
+                                            <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Subscription amount</label>
+                                        <input type="number" ng-model="newMembership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea class="custom-remarks" name="otherExpMemClass" ng-model="newMembership['explain_if_other_class']" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Membership start date</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' ng-model="newMembership['start_date']" name="startdateMem" class="form-control pull-right" id="startdateMem">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Membership end date</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' ng-model="newMembership['end_date']" name="enddateMem" class="form-control pull-right" id="enddateMem">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5" ng-init="loadPaymentModeList()">
+                                        <label>Payment mode</label>
+                                        <select ng-model="newMembership['payment_mode_name']" name="payModMem" class="form-control">
+                                            <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
+                                        </select>  
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea class="custom-remarks" ng-model="newMembership['explain_if_other_payment']" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>External transaction reference</label>
+                                        <input type='text' ng-model="newMembership['ext_transaction_ref']" class='form-control' name="transRefMem">
+                                    </div>    
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Receipt number</label>
+                                        <input type='text' ng-model="newMembership['receipt_number']" class='form-control' name="recNoMem">
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5" ng-init="loadSendReceiptModeList()">
+                                        <label>Mode of sending receipt</label>
+                                        <select class='form-control' ng-model="newMembership['receipt_mode_name']" name="modSendRecMem">
+                                            <option ng-repeat="receiptMode in sendReceiptModList">{{receiptMode.modeOfSendingReceipt}}</option>
+                                        </select>
+                                    </div>    
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>Date of receipt</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" ng-model="newMembership['receipt_date']" class="form-control pull-right" name="dateRecMem" id="dateRecMem">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Explain if above is 'Other'</label>
+                                        <textarea class="custom-remarks" ng-model="newMembership['explain_if_other_receipt']" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea class="custom-remarks" ng-model="newMembership['remarks']" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <center>
+                                        <button type="submit" class="btn btn-primary uppercase bold" ng-click="addMembership()">Done</button>
+                                        <br>
+                                        <span ng-bind="submitNewMembership.message" ng-show="submitNewMembership.submittedMembership"></span>
+                                    </center>
+                                </div>
+                            </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addMembership()">Add new membership</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addNewMembership()">Add new membership</button>
                                 </center>
                             </div>
                         </div>
@@ -726,15 +888,58 @@ and open the template in the editor.
                                                 &nbsp;
                                                 <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheOffice($event, office)">Delete office</button>
                                                 <br>
-                                                <span ng-bind="resultOffice.message" ng-show="resultOffice.status"></span>
+                                                <span ng-bind="resultOffice.message" ng-show="resultOffice.status && (resultOffice['office_held'] == phone['office_held'])"></span>
                                             </center>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="box-body hidden-box" ng-show="addingOffice">
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5" ng-init="loadOfficeHoldList()">
+                                        <label>Office held</label>
+                                        <select class='form-control' ng-model="newOffice['office_held_name']" name="off">
+                                            <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
+                                        </select>
+                                    </div>
+                                </div> 
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-5">
+                                        <label>Start office</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' ng-model="newOffice['start_office']" name="startdateOff" class="form-control pull-right">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-offset-2 col-md-5">
+                                        <label>End office</label>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type='text' ng-model="newOffice['end_office']" name="enddateOff" class="form-control pull-right" id="enddateOff">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <label>Remarks</label>
+                                        <textarea class="custom-remarks" name='remarksOff' ng-model="newOffice['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                    </div>
+                                </div>
+                                <div class='row'>
+                                    <center>
+                                        <button type="submit" class="btn btn-primary uppercase" ng-click="addOffice()">Done</button>
+                                        <br>
+                                        <span ng-bind="submitNewOffice.message" ng-show="submitNewOffice.submittedOffice"></span>
+                                    </center>
+                                </div>
+                            </div>
                             <div class='box-footer'>
                                 <center>
-                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addOfficeHeld()">Add new office</button>
+                                    <button type="submit" class="btn btn-warning uppercase" ng-click="addNewOffice()">Add new office</button>
                                 </center>
                             </div>
                         </div>

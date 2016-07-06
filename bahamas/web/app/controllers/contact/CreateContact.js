@@ -323,12 +323,14 @@ app.controller('createContact',
                                             dataSubmit.submitData(dataSend, url).then(function (response) {
                                                 if (response.data.message == 'success') {
                                                     $scope.submittedTeam = true;
+                                                    $scope.message = 'Submitted successfully.';
                                                 }
                                             }, function () {
                                                 window.alert("Fail to send request!");
                                             });
                                         } else {
                                             $scope.submittedTeam = true;
+                                            $scope.message = 'Submitted successfully.';
                                         }
                                     }
                                 }, function () {
@@ -336,6 +338,7 @@ app.controller('createContact',
                                 });
                             } else {
                                 $scope.submittedTeam = true;
+                                $scope.message = 'Submitted successfully.';
                             }
                         } 
                     }, function () {
