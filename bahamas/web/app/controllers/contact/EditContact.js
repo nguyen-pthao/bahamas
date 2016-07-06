@@ -272,7 +272,11 @@ app.controller('editContact',
                     $scope.editContact['explain_if_other'] = contactToEdit['explain_if_other'];
                     $scope.editContact['profession'] = contactToEdit.profession;
                     $scope.editContact['job_title'] = contactToEdit['job_title'];
-                    $scope.editContact['nric_fin'] = contactToEdit['nric_fin'];
+                    if($scope.isAdmin || ($scope.editMode == 'false')) {
+                        $scope.editContact['nric_fin'] = contactToEdit['nric_fin'];
+                    } else {
+                        $scope.editContact['nric_fin'] = '';
+                    }
                     $scope.editContact.nationality = contactToEdit.nationality;
                     $scope.editContact['gender'] = contactToEdit.gender;
                     $scope.editContact['date_of_birth'] = contactToEdit['date_of_birth'];
@@ -280,7 +284,7 @@ app.controller('editContact',
                 };
                 //phone
                 var retrievePhoneInfo = function (contactToEdit) {
-                    if (contactToEdit.phone.length != 0) {
+                    if (contactToEdit.phone != '') {
                         $scope.editPhone = contactToEdit.phone;
                     } else {
                         $scope.editPhone = '';
@@ -288,7 +292,7 @@ app.controller('editContact',
                 };
                 //email
                 var retrieveEmailInfo = function (contactToEdit) {
-                    if (contactToEdit.email.length != 0) {
+                    if (contactToEdit.email != '') {
                         $scope.editEmail = contactToEdit.email;
                     } else {
                         $scope.editEmail = '';
@@ -296,7 +300,7 @@ app.controller('editContact',
                 };
                 //address
                 var retrieveAddressInfo = function (contactToEdit) {
-                    if (contactToEdit.address.length != 0) {
+                    if (contactToEdit.address != '') {
                         $scope.editAddress = contactToEdit.address;
                     } else {
                         $scope.editAddress = '';
@@ -304,7 +308,7 @@ app.controller('editContact',
                 };
                 //membership
                 var retrieveMembershipInfo = function (contactToEdit) {
-                    if (contactToEdit.membership.length != 0) {
+                    if (contactToEdit.membership != '') {
                         $scope.editMembership = contactToEdit.membership;
                     } else {
                         $scope.editMembership = '';
@@ -312,7 +316,7 @@ app.controller('editContact',
                 };
                 //office held
                 var retrieveOfficeInfo = function (contactToEdit) {
-                    if (contactToEdit['office_held'].length != 0) {
+                    if (contactToEdit['office_held'] != '') {
                         $scope.editOfficeHeld = contactToEdit['office_held'];
                     } else {
                         $scope.editOfficeHeld = '';
@@ -320,7 +324,7 @@ app.controller('editContact',
                 };
                 //donation
                 var retrieveDonationInfo = function (contactToEdit) {
-                    if (contactToEdit.donation.length != 0) {
+                    if (contactToEdit.donation != '') {
                         $scope.editDonation = contactToEdit.donation;
                     } else {
                         $scope.editDonation = '';
@@ -328,7 +332,7 @@ app.controller('editContact',
                 }
                 //team join
                 var retrieveTeamInfo = function (contactToEdit) {
-                    if (contactToEdit['team_join'].length != 0) {
+                    if (contactToEdit['team_join'] != '') {
                         $scope.editTeamJoin = contactToEdit['team_join'];
                     } else {
                         $scope.editTeamJoin = '';
@@ -337,7 +341,7 @@ app.controller('editContact',
                 //training
                 var retrieveTrainingInfo = function (contactToEdit) {
                     if (contactToEdit.hasOwnProperty('training')) {
-                        if (contactToEdit.training.length != 0) {
+                        if (contactToEdit.training != '') {
                             $scope.editTraining = contactToEdit.training;
                         } else {
                             $scope.editTraining = '';
@@ -348,7 +352,7 @@ app.controller('editContact',
                 };
                 //appreciation
                 var retrieveAppreciationInfo = function (contactToEdit) {
-                    if (contactToEdit.appreciation.length != 0) {
+                    if (contactToEdit.appreciation != '') {
                         $scope.editAppreciation = contactToEdit.appreciation;
                     } else {
                         $scope.editAppreciation = '';
@@ -356,7 +360,7 @@ app.controller('editContact',
                 };
                 //proxy
                 var retrieveProxyInfo = function (contactToEdit) {
-                    if (contactToEdit.proxy.length != 0) {
+                    if (contactToEdit.proxy != '') {
                         $scope.editProxy = contactToEdit.proxy;
                     } else {
                         $scope.editProxy = '';
@@ -364,7 +368,7 @@ app.controller('editContact',
                 };
                 //languages
                 var retrieveLanguagesInfo = function (contactToEdit) {
-                    if (contactToEdit['language_assignment'].length != 0) {
+                    if (contactToEdit['language_assignment'] != '') {
                         $scope.editLanguages = contactToEdit['language_assignment'];
                     } else {
                         $scope.editLanguages = '';
@@ -372,7 +376,7 @@ app.controller('editContact',
                 };
                 //skills and assets
                 var retrieveSkillsInfo = function (contactToEdit) {
-                    if (contactToEdit['skill_assignment'].length != 0) {
+                    if (contactToEdit['skill_assignment'] != '') {
                         $scope.editSkillsAssets = contactToEdit['skill_assignment'];
                     } else {
                         $scope.editSkillsAssets = '';
@@ -382,7 +386,7 @@ app.controller('editContact',
                 //For generating password
                 $scope.generatePassword = function () {
                     var a = Math.floor((Math.random() * 10) + 10);
-                    $scope.editContact.password = Math.random().toString(36).substring(2, a);
+                    $scope.editUser.password = Math.random().toString(36).substring(2, a);
                 };
                 //For changing password
                 $scope.changePass = false;
@@ -416,7 +420,7 @@ app.controller('editContact',
                             datasend['token'] = session.getSession('token');
                             datasend['contact_id'] = session.getSession('contactToDisplayCid');
                             datasend['username'] = $scope.editUser['username'];
-                            datasend['password'] = '';
+                            datasend['password'] = $scope.editUser['password'];
                             datasend['email'] = $scope.editUser['email'];
                             datasend['deactivated'] = '';
                             datasend['is_admin'] = '';

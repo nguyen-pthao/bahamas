@@ -94,7 +94,7 @@ public class UpdateUser extends HttpServlet {
                         return;
                     }
 
-                    if (!user.isIsAdmin() || !c.getUsername().equals(username)) {
+                    if (!user.isIsAdmin() && (c.getContactId() != user.getContactId())) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
@@ -112,8 +112,10 @@ public class UpdateUser extends HttpServlet {
                         if (uName != null) {
                             c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
                         }
+
                         c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
                         c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
+
                     }
 
                     if (ContactDAO.updateUser(c)) {
