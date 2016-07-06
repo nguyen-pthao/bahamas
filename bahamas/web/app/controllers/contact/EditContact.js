@@ -1264,22 +1264,20 @@ app.controller('editContact',
                     datasend['appreciation_by'] = appreciation['appreciation_by'];
                     datasend['appreciation_date'] = appreciation['appreciation_date'];
                     datasend['remarks'] = appreciation['remarks'];
-                    var url = $scope.commonUrl + '/appreciation.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateAppreciation;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultAppreciation.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultAppreciation.message = "Successfully saved!";
-                            console.log("ok appreciation done");
+                        if (response.data.message == 'success') {
+                            $scope.resultAppreciation['appreciation_id'] = datasend['appreciation_id'];
+                            $scope.resultAppreciation.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultAppreciation.message = "Fail to update appreciation.";
-                            console.log("appreciation fail");
+                            $scope.resultAppreciation.message = failMsg;
                         }
-                    }).error(function () {
+                        $timeout(function () {
+                            $scope.resultAppreciation.status = false;
+                        }, 1000);
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -1292,31 +1290,69 @@ app.controller('editContact',
                         var deleteAppreciation = {};
                         deleteAppreciation['token'] = session.getSession('token');
                         deleteAppreciation['appreciation_id'] = appreciation['appreciation_id'];
-                        var url = $scope.commonUrl + '/appreciation.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteAppreciation)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteAppreciation;
+                        deleteService.deleteDataService(deleteAppreciation, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del appreciation fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newAppreciation = {
+                    'token': session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    'appraisal_comment': '',
+                    'appraisal_by': '',
+                    'appraisal_date': '',
+                    'appreciation_gesture': '',
+                    'appreciation_by': '',
+                    'appreciation_date': '',
+                    'remarks': ''
+                };
+                $scope.copyAppreciation = angular.copy($scope.newAppreciation);
+                $scope.submitNewAppreciation = {
+                    'submittedAppreciation': false,
+                    'message': ''
+                };
+                $scope.addAppreciation = function () {
+                    var url = AppAPI.addAppreciation;
+                    dataSubmit.submitData($scope.newAppreciation, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewAppreciation.submittedAppreciation = true;
+                            $scope.submitNewAppreciation.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newAppreciation = angular.copy($scope.copyAppreciation);
+                            $timeout(function () {
+                                $scope.submitNewAppreciation.submittedAppreciation = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingAppreciation = false;
+                        } else {
+                            $scope.submitNewAppreciation.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
                 //proxy
+                $scope.addingProxy = false;
+                $scope.addNewProxy = function () {
+                    $scope.addingProxy = true;
+                };
                 $scope.resultProxy = {
+                    'proxy_id': '',
                     status: false,
                     message: ''
                 };
@@ -1330,22 +1366,20 @@ app.controller('editContact',
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
                     datasend['date_obsolete'] = proxy['date_obsolete'];
-                    var url = $scope.commonUrl + '/proxy.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateProxy;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultProxy.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultProxy.message = "Successfully saved!";
-                            console.log("ok appreciation done");
+                        if (response.data.message == 'success') {
+                            $scope.resultProxy['proxy_id'] = datasend['proxy_of'];
+                            $scope.resultProxy.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultProxy.message = "Fail to update proxy.";
-                            console.log("proxy fail");
+                            $scope.resultProxy.message = failMsg;
                         }
-                    }).error(function () {
+                        $timeout(function () {
+                            $scope.resultProxy.status = false;
+                        }, 1000);
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -1359,31 +1393,67 @@ app.controller('editContact',
                         deleteProxy['token'] = session.getSession('token');
                         deleteProxy['proxy_of'] = proxy['proxy_id'];
                         deleteProxy['principal_of'] = proxy['principal_id'];
-                        var url = $scope.commonUrl + '/proxy.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteProxy)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteProxy;
+                        deleteService.deleteDataService(deleteProxy, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del proxy fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newProxy = {
+                    'token': session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    'proxy_of': '',
+                    'principal_of': '',
+                    'proxy_standing': '',
+                    'remarks': '',
+                    'date_obsolete': ''
+                };
+                $scope.copyProxy = angular.copy($scope.newProxy);
+                $scope.submitNewProxy = {
+                    'submittedProxy': false,
+                    'message': ''
+                };
+                $scope.addProxy = function () {
+                    var url = AppAPI.addProxy;
+                    dataSubmit.submitData($scope.newProxy, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewProxy.submittedProxy = true;
+                            $scope.submitNewProxy.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newProxy = angular.copy($scope.copyProxy);
+                            $timeout(function () {
+                                $scope.submitNewProxy.submittedProxy = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingProxy = false;
+                        } else {
+                            $scope.submitNewProxy.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
                 //languages
+                $scope.addingLanguages = false;
+                $scope.addNewLanguages = function () {
+                    $scope.addingLanguages = true;
+                };
                 $scope.resultLanguage = {
+                    'language_name': '',
                     status: false,
                     message: ''
                 };
@@ -1397,22 +1467,17 @@ app.controller('editContact',
                     datasend['explain_if_other'] = language['explain_if_other'];
                     datasend['remarks'] = language['remarks'];
                     datasend['date_obsolete'] = language['date_obsolete'];
-                    var url = $scope.commonUrl + '/language.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateLanguage;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultLanguage.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultLanguage.message = "Successfully saved!";
-                            console.log("ok language done");
+                        if (response.data.message == 'success') {
+                            $scope.resultLanguage['language_name'] = datasend['language'];
+                            $scope.resultLanguage.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultLanguage.message = "Fail to update language.";
-                            console.log("language fail");
+                            $scope.resultLanguage.message = failMsg;
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -1424,33 +1489,68 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteLanguage = {};
                         deleteLanguage['token'] = session.getSession('token');
-                        deleteLanguage['contact_id'] = session.getSession('contact_id');
+                        deleteLanguage['contact_id'] = session.getSession('contactToDisplayCid');
                         deleteLanguage['language'] = language['language_name'];
-                        var url = $scope.commonUrl + '/language.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteLanguage)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteLanguage;
+                        deleteService.deleteDataService(deleteLanguage, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del language fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newLanguages = {
+                    'token': session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    'language': '',
+                    'speak_write': '',
+                    'explain_if_other': '',
+                    'remarks': '',
+                    'date_obsolete': ''
+                };
+                $scope.copyLanguages = angular.copy($scope.newLanguages);
+                $scope.submitNewLanguages = {
+                    'submittedLanguages': false,
+                    'message': ''
+                };
+                $scope.addLanguages = function () {
+                    var url = AppAPI.addLanguage;
+                    dataSubmit.submitData($scope.newLanguages, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewLanguages.submittedLanguages = true;
+                            $scope.submitNewLanguages.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newLanguages = angular.copy($scope.copyLanguages);
+                            $timeout(function () {
+                                $scope.submitNewLanguages.submittedLanguages = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingLanguages = false;
+                        } else {
+                            $scope.submitNewLanguages.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
                 //skills and assets
+                $scope.addingSkills = false;
+                $scope.addNewSkills = function () {
+                    $scope.addingSkills = true;
+                };
                 $scope.resultSkill = {
+                    'skill_name': '',
                     status: false,
                     message: ''
                 };
@@ -1463,22 +1563,17 @@ app.controller('editContact',
                     datasend['explain_if_other'] = skill['explain_if_other'];
                     datasend['remarks'] = skill['remarks'];
                     datasend['date_obsolete'] = skill['date_obsolete'];
-                    var url = $scope.commonUrl + '/skill.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateSkill;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultSkill.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultSkill.message = "Successfully saved!";
-                            console.log("ok skill done");
+                        if (response.data.message == 'success') {
+                            $scope.resultSkill['skill_name'] = datasend['skill_asset'];
+                            $scope.resultSkill.message = successMsg;
+                            $scope.retrieveFunc();
                         } else {
-                            $scope.resultSkill.message = "Fail to update skill.";
-                            console.log("skill fail");
+                            $scope.resultSkill.message = failMsg;
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -1490,29 +1585,58 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteSkill = {};
                         deleteSkill['token'] = session.getSession('token');
-                        deleteSkill['contact_id'] = session.getSession('contact_id');
+                        deleteSkill['contact_id'] = session.getSession('contactToDisplayCid');
                         deleteSkill['skill_asset'] = skill['skill_name'];
-                        var url = $scope.commonUrl + '/skill.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteSkill)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteSkill;
+                        deleteService.deleteDataService(deleteSkill, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
                                 }).then(function (response) {
-                                    $state.go(toEditContact);
+                                     $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del skill fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
+                    });
+                };
+                $scope.newSkills = {
+                   'token': session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    'skill_asset': '',
+                    'explain_if_other': '',
+                    'remarks': '',
+                    'date_obsolete': ''
+                };
+                $scope.copySkills = angular.copy($scope.newSkills);
+                $scope.submitNewSkills = {
+                    'submittedSkills': false,
+                    'message': ''
+                };
+                $scope.addSkills = function () {
+                    var url = AppAPI.addSkill;
+                    dataSubmit.submitData($scope.newSkills, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewSkills.submittedSkills = true;
+                            $scope.submitNewSkills.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newSkills = angular.copy($scope.copySkills);
+                            $timeout(function () {
+                                $scope.submitNewSkills.submittedSkills = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingSkills = false;
+                        } else {
+                            $scope.submitNewSkills.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
                     });
                 };
             }]);
