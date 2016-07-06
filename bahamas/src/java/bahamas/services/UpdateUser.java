@@ -101,12 +101,17 @@ public class UpdateUser extends HttpServlet {
                     }
 
                     String password = Validator.containsBlankField(jobject.get("password").getAsString());
-                    String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
-                    c.setPassword(passwordGenerate[0]);
-                    c.setSalt(passwordGenerate[1]);
+                    if (password != null) {
+                        String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
+                        c.setPassword(passwordGenerate[0]);
+                        c.setSalt(passwordGenerate[1]);
+                    }
 
                     if (user.isIsAdmin()) {
-                        c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
+                        String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                        if (uName != null) {
+                            c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
+                        }
                         c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
                         c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
                     }
