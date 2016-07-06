@@ -275,6 +275,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
         jsonContactObj = new JsonObject();
         jsonContactObj.addProperty("other_cid", Integer.toString(contact.getContactId()));
+        jsonContactObj.addProperty("is_admin", Boolean.toString(contact.isIsAdmin()));
         if(isAdmin){
             if (contact.getUsername() != null) {
                 jsonContactObj.addProperty("username", contact.getUsername());
