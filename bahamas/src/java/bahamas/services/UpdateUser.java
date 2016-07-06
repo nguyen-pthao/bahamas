@@ -94,37 +94,32 @@ public class UpdateUser extends HttpServlet {
                         return;
                     }
 
-                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                    if (!user.isIsAdmin()) {
+                    if (!user.isIsAdmin() || !c.getUsername().equals(username)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     }
 
-                    c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
                     String password = Validator.containsBlankField(jobject.get("password").getAsString());
                     String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
                     c.setPassword(passwordGenerate[0]);
                     c.setSalt(passwordGenerate[1]);
 
-                    c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
-                    c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
-                    c.setNotification(Validator.isBooleanValid(jobject.get("notification").getAsString()));
+                    if (user.isIsAdmin()) {
+                        c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
+                        c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
+                        c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
+                    }
 
                     if (ContactDAO.updateUser(c)) {
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
                         if (email != null && password != null) {
                             String[] temp = {c.getName(), c.getUsername(), password};
                             Email.sendEmail(email, temp);
-
-                            AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update Contact under contact: Contact ID: " + contactId);
-
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                            return;
                         }
 
-                        json.addProperty("message", "fail");
+                        AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update Contact under contact: Contact ID: " + contactId);
+                        json.addProperty("message", "success");
                         out.println(gson.toJson(json));
 
                     } else {
