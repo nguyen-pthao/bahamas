@@ -11,11 +11,15 @@ and open the template in the editor.
         <div class="site-wrapper notfound">
             <div class="site-wrapper-inner">
                 <div class="cover-container">
-                    <div>404 Not Found</div>
-                        <h2>The resource requested could not be found</h2>
+                    <div class='notfound-header'>404 Not Found</div>
+                        <div class='notfound-text'>The resource requested could not be found</div>
                         <p class="lead">
                             <span>
-                            <a href="/bahamas/#{{previousState}}" class="btn btn-lg btn-default">Go back to previous page</a>
+                            <button ng-click="previousPage()" class="btn btn-lg btn-default">Go back to previous page</button>
+                            </span>
+                            &nbsp;
+                            <span>
+                            <button ng-click="toLogin()" class="btn btn-lg btn-default">Back to login</button>    
                             </span>
                         </p>
                     <div class="mastfoot">

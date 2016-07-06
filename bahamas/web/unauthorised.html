@@ -11,18 +11,18 @@ and open the template in the editor.
         <div class="site-wrapper unauthorised">
             <div class="site-wrapper-inner">
                 <div class="cover-container">
-                        <h1>Unauthorised access</h1>
-                        <h2>
+                        <div class='unauthorised-header'>Unauthorised access</div>
+                        <div class='unauthorised-text'>
                             It seems that you are not authorised to access to this page. 
-                            If you believe this is a mistake, please contact TWC2.
-                        </h2>
+                            If you believe this is a mistake, please contact TWC2 administrators.
+                        </div>
                         <p class="lead">
                             <span>
-                            <a href="/bahamas/#{{previousState}}" class="btn btn-lg btn-default">Go back to previous page</a>
+                            <button ng-click="previousPage()" class="btn btn-lg btn-default">Go back to previous page</button>
                             </span>
                             &nbsp;
                             <span>
-                            <a href="#/login" class="btn btn-lg btn-default">Back to login</a>    
+                            <button ng-click="toLogin()" class="btn btn-lg btn-default">Back to login</button>    
                             </span>
                         </p>
                     <div class="mastfoot">

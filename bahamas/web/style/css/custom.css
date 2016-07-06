@@ -32,10 +32,32 @@ body {
 /*Custom background css*/
 .notfound {
     background-color: #1e2945;
+    color: white;
+}
+
+.notfound-header{
+    font-size: 80px;
+    font-weight: bold;
+}
+
+.notfound-text{
+    margin-bottom: 50px;
+    font-size: large;
 }
 
 .unauthorised {
     background-color: #640b0b;
+    color: white;
+}
+
+.unauthorised-header {
+    font-weight: bold;
+    font-size: 70px;
+}
+
+.unauthorised-text{
+    margin-bottom: 50px;
+    font-size: large;
 }
 
 /*Notfound and unauthorised pages*/

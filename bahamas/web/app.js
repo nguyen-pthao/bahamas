@@ -139,11 +139,13 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('unauthorised', {
                 url: '/unauthorised',
-                templateUrl: 'unauthorised.html'
+                templateUrl: 'unauthorised.html',
+                controller: 'unauthorisedController'
             })
             .state('notFound', {
                 url: '/notFound',
-                templateUrl: 'notFound.html'
+                templateUrl: 'notFound.html',
+                controller: 'unfoundController'
             });
 
 });
