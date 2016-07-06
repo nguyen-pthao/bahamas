@@ -101,11 +101,14 @@ public class UpdateContact extends HttpServlet {
                     c.setExplainIfOther(Validator.containsBlankField(jobject.get("explain_if_other").getAsString()));
                     c.setProfession(Validator.containsBlankField(jobject.get("profession").getAsString()));
                     c.setJobTitle(Validator.containsBlankField(jobject.get("job_title").getAsString()));
-                    c.setNric(Validator.containsBlankField(jobject.get("nric_fin").getAsString()));
                     c.setGender(Validator.containsBlankField(jobject.get("gender").getAsString()));
                     c.setNationality(Validator.containsBlankField(jobject.get("nationality").getAsString()));
-                    c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth").getAsString()));
                     c.setRemarks(Validator.containsBlankField(jobject.get("remarks").getAsString()));
+
+                    if (userType.equals("admin") || userType.equals("teammanager")) {
+                        c.setNric(Validator.containsBlankField(jobject.get("nric_fin").getAsString()));
+                        c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth").getAsString()));
+                    }
 
                     if (ContactDAO.updateContact(c)) {
                         AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update contact under contact: Contact ID: " + contactId);
