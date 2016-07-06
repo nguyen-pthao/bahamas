@@ -1327,7 +1327,7 @@ and open the template in the editor.
                         <div class="form-group col-md-12">
                             <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                 <label>Team</label>
-                                <select class="form-control" ng-model="newTeam['team_name']" name='team'>
+                                <select class="form-control" ng-model="newTeam['team']" name='team'>
                                     <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                 </select>
                             </div>
@@ -1341,11 +1341,11 @@ and open the template in the editor.
                         <div class="form-group col-md-12">
                             <div class="col-md-5">
                                 <label>Subteam</label>
-                                <input ng-model="newTeam['sub_team']" name='subteam' type="text" class="form-control">
+                                <input ng-model="newTeam['subteam']" name='subteam' type="text" class="form-control">
                             </div>
                             <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
                                 <label>Permission</label>
-                                <select class="form-control" ng-model="newTeam['permission']" name='permission'>
+                                <select class="form-control" ng-model="newTeam['permission_level']" name='permission'>
                                     <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                 </select>
                             </div>
