@@ -40,7 +40,8 @@ app.controller('pageController',
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/refreshToken.html',
                             className: 'ngdialog-theme-default',
-                            closeByDocument: false
+                            closeByDocument: false,
+                            closeByEscape: false
                         }).then(function (response) {
                             return $http({
                                 method: 'POST',
