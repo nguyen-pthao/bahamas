@@ -17,9 +17,10 @@ app.controller('pageController',
 //            $scope.dateCreated = '';
                     if (session.getSession('username') != null) {
                         var contact = angular.fromJson(session.getSession('contact'));
-                        $scope.name = session.getSession('username');
+                        $scope.username = session.getSession('username');
 //                var dateToParse = contact['date_created'].substring(0, 10);
                         $scope.userType = session.getSession('userType');
+                        $scope.name = angular.fromJson(session.getSession('contact')).name;
                     }
 
                     var dateS = new Date(localStorageService.get('dateStart'));

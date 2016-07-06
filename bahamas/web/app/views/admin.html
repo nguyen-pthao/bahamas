@@ -37,7 +37,7 @@
                                                 <li><!-- start message -->
                                                     <a href="">
                                                         <div class="pull-left">
-                                                            <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
+                                                            <img src="style/img/avatar.png" class="img-circle" alt="User Image">
                                                         </div>
                                                         <h4>
                                                             Support Team
@@ -108,16 +108,14 @@
                                 <!-- User Account: style can be found in dropdown.less -->
                                 <li class="dropdown user user-menu">
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
-                                        <img src="style/img/huxley.jpg" class="user-image" alt="User Image">
+                                        <img src="style/img/avatar.png" class="user-image" alt="User Image">
                                         <span class="hidden-xs">{{name}}</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <!-- User image -->
                                         <li class="user-header">
-                                            <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
-                                            <p>
-                                                {{name}}
-                                            </p>
+                                            <img src="style/img/avatar.png" class="img-circle" alt="User Image">
+                                            <p>{{username}}</p>
                                         </li>                                  
                                         <!-- Menu Footer-->
                                         <li class="user-footer">
@@ -148,10 +146,11 @@
                         <!-- Sidebar user panel -->
                         <div class="user-panel">
                             <div class="pull-left image">
-                                <img src="style/img/huxley.jpg" class="img-circle" alt="User Image">
+                                <img src="style/img/avatar.png" class="img-circle" alt="User Image">
                             </div>
                             <div class="pull-left info">
-                                <p><a ng-click="backHome()">{{name}}</a></p>
+                                <p><a ng-click="backHome()">{{username}}</a></p>
+                                <p><a>{{name}}</a></p>
                             </div>    
                         </div>                   
                         <!-- sidebar menu: : style can be found in sidebar.less -->

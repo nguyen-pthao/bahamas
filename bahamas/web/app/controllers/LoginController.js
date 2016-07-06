@@ -45,7 +45,6 @@ app.controller('loginController',
                                 var storeContact = session.setSession('contact', angular.toJson(authorisedUser.contact));
                                 var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
                                 var getUserType = session.getSession("userType");
-
                                 //tokenUpdate.refreshToken(authorisedUser.token);
 
                                 var dateStart = new Date(); 
