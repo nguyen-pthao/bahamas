@@ -124,19 +124,22 @@ public class UpdateTeamJoin extends HttpServlet {
 
                         if (TeamJoinDAO.updateTeamJoin(tj)) {
                             //change contact to a non novice account
-                            if (!(permission == null || !permission.equals("Associate")
-                                    || !permission.equals("Event leader") || !permission.equals("Team manager"))) {
+                            if (permission != null) {
                                 cDAO.changeNovicePermission(c, false);
                                 AuditLogDAO.insertAuditLog(username, "UPDATE TEAM JOIN", "Update team join under contact: Contact ID: " + contactId);
 
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
+                                return;
                             }
 
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
+
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
 
                     }
 
