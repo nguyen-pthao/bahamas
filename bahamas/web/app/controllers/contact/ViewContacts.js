@@ -57,8 +57,12 @@ app.controller('viewContacts',
                         $scope.allContactObjectKeys = allContactObjKey;
 
                         $scope.isAuthorised = true;
+                        $scope.canDelete = false;
                         $scope.takeNoColumns = 5;
                         $scope.userType = session.getSession('userType');
+                        if($scope.userType === 'admin'){
+                            $scope.canDelete = true;
+                        }
                         if ($scope.userType === 'associate') {
                             $scope.isAuthorised = false;
                             $scope.takeNoColumns = 4;

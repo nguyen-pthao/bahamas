@@ -62,6 +62,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/userManagement.html',
                 controller: 'userManagement'
             })
+            .state('novice.editContact', {
+                url: '/editContact',
+                templateUrl: 'app/views/contact/editContact.html',
+                controller: 'editContact'
+            })       
             .state('associate', {
                 url: '/associate',
                 templateUrl: 'app/views/associate.html',
@@ -81,6 +86,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/userManagement',
                 templateUrl: 'app/views/contact/userManagement.html',
                 controller: 'userManagement'
+            })
+            .state('associate.editContact', {
+                url: '/editContact',
+                templateUrl: 'app/views/contact/editContact.html',
+                controller: 'editContact'
             })
             .state('teammanager', {
                 url: '/teammanager',
