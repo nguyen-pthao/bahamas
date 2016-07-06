@@ -135,7 +135,9 @@ app.controller('editContact',
                 };
                 $scope.loadOfficeHoldList = function () {
                     loadOfficeList.retrieveOfficeList().then(function (response) {
+                        console.log(response.data);
                         $scope.officeList = response.data.officeList;
+                        console.log($scope.officeList);
                     });
                 };
                 $scope.loadTeamAffiliationList = function () {
@@ -1162,6 +1164,7 @@ app.controller('editContact',
                     datasend['remarks'] = team['remarks'];
                     var url = AppAPI.updateTeamJoin;
                     dataSubmit.submitData(datasend, url).then(function (response) {
+                        console.log(response.data);
                         $scope.resultTeam.status = true;
                         if (response.data.message == 'success') {
                             $scope.resultTeam['team_name'] = datasend['team'];
@@ -1211,7 +1214,7 @@ app.controller('editContact',
                     'explain_if_other': '',
                     'subteam': '',
                     'date_obsolete': '',
-                    'remarks': '',
+                    'remarks': ''
                 };
                 $scope.copyTeam = angular.copy($scope.newTeam);
                 $scope.submitNewTeam = {
@@ -1221,6 +1224,7 @@ app.controller('editContact',
                 $scope.addTeam = function () {
                     var url = AppAPI.addTeamJoin;
                     dataSubmit.submitData($scope.newTeam, url).then(function (response) {
+                        console.log(response.data);
                         if (response.data.message == 'success') {
                             $scope.submitNewTeam.submittedTeam = true;
                             $scope.submitNewTeam.message = successMsg;
@@ -1240,7 +1244,12 @@ app.controller('editContact',
                 };
                 
                 //appreciation
+                $scope.addingAppreciation = false;
+                $scope.addNewAppreciation = function () {
+                    $scope.addingAppreciation = true;
+                };
                 $scope.resultAppreciation = {
+                    'appreciation_id': '',
                     status: false,
                     message: ''
                 };

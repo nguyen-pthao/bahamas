@@ -40,7 +40,7 @@ public class OfficeListDAO {
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                officeList.add(rs.getString(2));
+                officeList.add(rs.getString(1));
             }
 
         } catch (SQLException ex) {
