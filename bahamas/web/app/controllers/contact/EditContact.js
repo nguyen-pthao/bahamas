@@ -135,9 +135,7 @@ app.controller('editContact',
                 };
                 $scope.loadOfficeHoldList = function () {
                     loadOfficeList.retrieveOfficeList().then(function (response) {
-                        console.log(response.data);
                         $scope.officeList = response.data.officeList;
-                        console.log($scope.officeList);
                     });
                 };
                 $scope.loadTeamAffiliationList = function () {
@@ -995,7 +993,7 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.addOffice = function () {
-                    var url = AppAPI.addOffice;
+                    var url = AppAPI.addOfficeHeld;
                     dataSubmit.submitData($scope.newOffice, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewOffice.submittedOffice = true;
