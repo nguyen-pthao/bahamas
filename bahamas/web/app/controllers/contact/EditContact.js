@@ -333,9 +333,9 @@ app.controller('editContact',
                 //team join
                 var retrieveTeamInfo = function (contactToEdit) {
                     if (contactToEdit['team_join'] != '') {
-                        $scope.editTeamJoin = contactToEdit['team_join'];
+                        $scope.editTeam = contactToEdit['team_join'];
                     } else {
-                        $scope.editTeamJoin = '';
+                        $scope.editTeam = '';
                     }
                 };
                 //training

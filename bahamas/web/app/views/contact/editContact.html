@@ -1228,9 +1228,7 @@ and open the template in the editor.
                                 </center>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <!-- /donation information -->
+                        <!-- /donation information -->
                 <div class="box collapsed-box blue-box">
                     <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTeam === ''}">
                         <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
@@ -1362,7 +1360,7 @@ and open the template in the editor.
                             <center>
                                 <button type="submit" class="btn btn-primary uppercase" ng-click="addTeam()">Done</button>
                                 <br>
-                                <span ng-bind="resultTeam.message" ng-show="resultTeam.status"></span>
+                                <span ng-bind="submitNewTeam.message" ng-show="submitNewTeam.submittedTeam"></span>
                             </center>
                         </div>
                     </div>
@@ -1826,6 +1824,8 @@ and open the template in the editor.
                 <!-- /skills & assets information -->
                 <!-- /.box-body -->
                 <!-- /.box -->
+                    </div>
+                </div>
             </section>
             <!-- /.content -->
         </div>
