@@ -458,9 +458,6 @@ app.controller('editContact',
                     $scope.editContact['contact_id'] = session.getSession('contactToDisplayCid');
                     $scope.editContact['user_type'] = session.getSession('userType');
                     //to be modified
-                    $scope.editContact['notification'] = false;
-                    $scope.editContact['isAdmin'] = false;
-                    $scope.editContact['isNovice'] = true;
                     var url = AppAPI.updateContact;
                     dataSubmit.submitData($scope.editContact, url).then(function (response) {
                         $scope.resultContact.status = true;
@@ -593,6 +590,7 @@ app.controller('editContact',
                                 $scope.submitNewPhone.submittedPhone = false;
                             }, 1000);
                             //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingPhone = false;
                         } else {
                             $scope.submitNewPhone.message = failMsg;
                         }
@@ -689,6 +687,7 @@ app.controller('editContact',
                                 $scope.submitNewEmail.submittedEmail = false;
                             }, 1000);
                             //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingEmail = false;
                         } else {
                             $scope.submitNewEmail.message = failMsg;
                         }
@@ -788,6 +787,7 @@ app.controller('editContact',
                                 $scope.submitNewAddress.submittedAddress = false;
                             }, 1000);
                             //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingAddress = false;
                         } else {
                             $scope.submitNewAddress.message = failMsg;
                         }
@@ -872,6 +872,7 @@ app.controller('editContact',
                 $scope.newMembership = {
                     token: session.getSession("token"),
                     'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
                     'start_membership': '',
                     'end_membership': '',
                     'receipt_date': '',
@@ -903,6 +904,7 @@ app.controller('editContact',
                                 $scope.submitNewMembership.submittedMembership = false;
                             }, 1000);
                             //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingMembership = false;
                         } else {
                             $scope.submitNewMembership.message = failMsg;
                         }
@@ -979,6 +981,7 @@ app.controller('editContact',
                 $scope.newOffice = {
                     token: session.getSession("token"),
                     'contact_id': session.getSession('contactToDisplayCid'), //to be confirmed
+                    'user_type': session.getSession('userType'),
                     'office_held_name': '',
                     'start_office': '',
                     'end_office': '',
@@ -1001,6 +1004,7 @@ app.controller('editContact',
                                 $scope.submitNewOffice.submittedOffice = false;
                             }, 1000);
                             //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingOffice = false;
                         } else {
                             $scope.submitNewOffice.message = failMsg;
                         }
@@ -1069,31 +1073,79 @@ app.controller('editContact',
                         var deleteDonation = {};
                         deleteDonation['token'] = session.getSession('token');
                         deleteDonation['donation_id'] = donation['donation_id'];
-                        var url = $scope.commonUrl + '/officeheld.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteDonation)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        var url = AppAPI.deleteDonation;
+                        deleteService.deleteDataService(deleteDonation, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del donation fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newDonation = {
+                    token: session.getSession("token"),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    'date_received': '',
+                    'donation_amount': '',
+                    'payment_mode': '',
+                    'explain_if_other_payment': '',
+                    'ext_transaction_ref': '',
+                    'receipt_number': '',
+                    'receipt_date': '',
+                    'receipt_mode': '',
+                    'explain_if_other_receipt': '',
+                    'donor_instruction': '',
+                    'allocation1': '',
+                    'subamount1': '',
+                    'allocation2': '',
+                    'subamount2': '',
+                    'allocation3': '',
+                    'subamount3': '',
+                    'associated_occasion': '',
+                    'remarks': ''
+                };
+                $scope.copyDonation = angular.copy($scope.newDonation);
+                $scope.submitNewDonation = {
+                    'submittedDonation': false,
+                    'message': ''
+                };
+                $scope.addDonation = function () {
+                    var url = AppAPI.addDonation;
+                    dataSubmit.submitData($scope.newDonation, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewDonation.submittedDonation = true;
+                            $scope.submitNewDonation.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newDonation = angular.copy($scope.copyDonation);
+                            $timeout(function () {
+                                $scope.submitNewDonation.submittedDonation = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingDonation = false;
+                        } else {
+                            $scope.submitNewDonation.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
                 //team join
+                $scope.addingTeam = false;
+                $scope.addNewTeam = function () {
+                    $scope.addingTeam = true;
+                };
                 $scope.resultTeam = {
+                    'team_name': '',
                     status: false,
                     message: ''
                 };
@@ -1108,22 +1160,17 @@ app.controller('editContact',
                     datasend['subteam'] = team['sub_team'];
                     datasend['date_obsolete'] = team['date_obsolete'];
                     datasend['remarks'] = team['remarks'];
-                    var url = $scope.commonUrl + '/teamjoin.update';
-                    $http({
-                        method: 'POST',
-                        url: url,
-                        headers: {'Content-Type': 'application/json'},
-                        data: JSON.stringify(datasend)
-                    }).success(function (response) {
+                    var url = AppAPI.updateTeamJoin;
+                    dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultTeam.status = true;
-                        if (response.message == 'success') {
-                            $scope.resultTeam.message = "Successfully saved!";
-                            console.log("ok team join done");
+                        if (response.data.message == 'success') {
+                            $scope.resultTeam['team_name'] = datasend['team'];
+                            $scope.resultTeam.message = successMsg;
+                             $scope.retrieveFunc();
                         } else {
-                            $scope.resultTeam.message = "Fail to update team join.";
-                            console.log("team join fail");
+                            $scope.resultTeam.message = failMsg;
                         }
-                    }).error(function () {
+                    }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
@@ -1136,30 +1183,62 @@ app.controller('editContact',
                         var deleteTeamjoin = {};
                         deleteTeamjoin['token'] = session.getSession('token');
                         deleteTeamjoin['contact_id'] = session.getSession('contactToDisplayCid');
-                        deleteTeamjoin['donation_id'] = team['team'];
-                        var url = $scope.commonUrl + '/teamjoin.delete';
-                        $http({
-                            method: 'POST',
-                            url: url,
-                            headers: {'Content-Type': 'application/json'},
-                            data: JSON.stringify(deleteTeamjoin)
-                        }).success(function (response) {
-                            if (response.message == 'success') {
+                        deleteTeamjoin['team'] = team['team_name'];
+                        var url = AppAPI.deleteTeamJoin;
+                        deleteService.deleteDataService(deleteTeamjoin, url).then(function (response) {
+                            if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/deleteSuccess.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                }).then(function (response) {
-                                    $state.go(toEditContact);
+                                }).then(function () {
+                                    $scope.retrieveFunc();
                                 });
                             } else {
                                 console.log("del team join fail");
                             }
-                        }).error(function () {
+                        }, function () {
                             window.alert("Fail to send request!");
                         });
                     });
                 };
+                $scope.newTeam = {
+                    'token': session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    'team': '',
+                    'permission_level': '',
+                    'explain_if_other': '',
+                    'subteam': '',
+                    'date_obsolete': '',
+                    'remarks': '',
+                };
+                $scope.copyTeam = angular.copy($scope.newTeam);
+                $scope.submitNewTeam = {
+                    'submittedTeam': false,
+                    'message': ''
+                };
+                $scope.addTeam = function () {
+                    var url = AppAPI.addTeamJoin;
+                    dataSubmit.submitData($scope.newTeam, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.submitNewTeam.submittedTeam = true;
+                            $scope.submitNewTeam.message = successMsg;
+                            $scope.retrieveFunc();
+                            $scope.newTeam = angular.copy($scope.copyTeam);
+                            $timeout(function () {
+                                $scope.submitNewTeam.submittedTeam = false;
+                            }, 1000);
+                            //can set $scope.addingPhone = false if wanting to hide
+                            $scope.addingTeam = false;
+                        } else {
+                            $scope.submitNewTeam.message = failMsg;
+                        }
+                    }, function () {
+                        window.alert("Fail to send request!");
+                    });
+                };
+                
                 //appreciation
                 $scope.resultAppreciation = {
                     status: false,
