@@ -114,6 +114,9 @@ public class UpdateUser extends HttpServlet {
                         }
 
                         c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
+                        if (Validator.isBooleanValid(jobject.get("is_admin").getAsString()) == true) {
+                            cDAO.changeNovicePermission(c, false);
+                        }
                         c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
 
                     }
