@@ -25,6 +25,40 @@ body {
     font-weight: 600;
 }
 
+.no-padding-right {
+    padding-right: 0px!important;
+}
+
+.no-padding-left {
+    padding-left: 0px!important;
+}
+
+.no-padding-top {
+    padding-top: 0px!important;
+}
+
+.control-label,
+.required {
+    color: #e02222;
+    font-size: 14px;
+    padding-left: 2px;
+    font-weight: 800;  
+}
+
+.uppercase {
+    text-transform: uppercase!important;
+}
+
+.lowercase {
+    text-transform: lowercase!important;
+}
+
+@media (max-width: 1000px) {
+    .no-padding-top {
+        padding-top: 15px!important;
+    }
+}
+
 .no-information-grey {
     background-color: #dadde6;
 }
@@ -91,7 +125,7 @@ body {
 }
 
 @media (max-width: 360px) {
-    
+/*    ???*/
 }
 
 @media (min-width: 360px) {
