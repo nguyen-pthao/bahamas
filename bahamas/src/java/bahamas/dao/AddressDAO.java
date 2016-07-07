@@ -122,7 +122,7 @@ public class AddressDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE ADDRESS COUNTRY=?,"
+            stmt = conn.prepareStatement("UPDATE ADDRESS SET COUNTRY=?,"
                     + "ZIPCODE=?,REMARKS=?,DATE_OBSOLETE=? WHERE CONTACT_ID=? AND ADDRESS=?");
 
             stmt.setString(1, a.getCountry());
