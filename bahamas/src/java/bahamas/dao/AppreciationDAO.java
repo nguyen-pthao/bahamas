@@ -124,7 +124,7 @@ public class AppreciationDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("UPDATE APPRECIATION SET CONTACT_ID=?,"
                     + "APPRAISAL_COMMENTS=?,APPRAISAL_BY=?,APPRAISAL_DATE=?,"
-                    + "APPRAISAL_GESTURE=?,APPRECIATION_BY=?,APPRECIATION_DATE=?,REMARKS=? "
+                    + "APPRECIATION_GESTURE=?,APPRECIATION_BY=?,APPRECIATION_DATE=?,REMARKS=? "
                     + "WHERE APPRECIATION_ID=?");
 
             stmt.setInt(1, a.getContact().getContactId());
