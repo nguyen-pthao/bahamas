@@ -47,6 +47,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         if($scope.permission === 'admin'){
             $scope.isAdmin = true;
             $scope.editable = true;
+            $scope.permissionViewNricDob = false;
         }else if ($scope.permission === 'teammanager'){
             $scope.isTM = true;
             $scope.editable = true;

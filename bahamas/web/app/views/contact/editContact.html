@@ -195,7 +195,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type="text" ng-model="editContact['date_of_birth']" name="dob" class="form-control pull-right" id="dob">
+                                            <input type="text" ng-click="open($index)" uib-datepicker-popup="{{format}}" ng-model="editContact['date_of_birth']" is-open="opened[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" class="form-control pull-right" dateparse>
                                         </div>
                                     </div>
                                 </div>                      
@@ -282,7 +282,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input ng-model="phone['date_obsolete']" type="text" name="dateObsPhone" class="form-control pull-right" id="dateObsPhone">
+                                                    <input ng-model="phone['date_obsolete']" ng-click="openPhone($index)" uib-datepicker-popup="{{format}}" is-open="openedPhone[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"  type="text" name="dateObsPhone" class="form-control pull-right" id="dateObsPhone" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -387,7 +387,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="email['date_obsolete']" name="dateObsEmail" class="form-control pull-right" id="dateObsEmail">
+                                                    <input type="text" ng-model="email['date_obsolete']" ng-click="openEmail($index)" uib-datepicker-popup="{{format}}" is-open="openedEmail[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dateObsEmail" class="form-control pull-right" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -502,7 +502,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="address['date_obsolete']" name="dateObsAddress" class="form-control pull-right" id="dateObsAddress">
+                                                    <input type="text" ng-model="address['date_obsolete']" ng-click="openAddress($index)" uib-datepicker-popup="{{format}}" is-open="openedAddress[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dateObsAddress" class="form-control pull-right" id="dateObsAddress" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -622,7 +622,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['start_date']" name="startdateMem" class="form-control pull-right" id="startdateMem">
+                                                    <input type='text' ng-model="membership['start_date']" ng-click="openMStart($index)" uib-datepicker-popup="{{format}}" is-open="openedMStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right" id="startdateMem" dateparse>
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -631,7 +631,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="membership['end_date']" name="enddateMem" class="form-control pull-right" id="enddateMem">
+                                                    <input type='text' ng-model="membership['end_date']" ng-click="openMEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"name="enddateMem" class="form-control pull-right" id="enddateMem" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -672,7 +672,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="membership['receipt_date']" class="form-control pull-right" name="dateRecMem" id="dateRecMem">
+                                                    <input type="text" ng-model="membership['receipt_date']" ng-click="openMembership($index)" uib-datepicker-popup="{{format}}" is-open="openedMembership[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"class="form-control pull-right" name="dateRecMem" id="dateRecMem" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -861,7 +861,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="officeHeld['start_office']" name="startdateOff" class="form-control pull-right" id="startdateOff">
+                                                    <input type='text' ng-model="officeHeld['start_office']" ng-click="openOStart($index)" uib-datepicker-popup="{{format}}" is-open="openedOStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right" id="startdateOff" dateparse>
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -870,7 +870,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type='text' ng-model="officeHeld['end_office']" name="enddateOff" class="form-control pull-right" id="enddateOff">
+                                                    <input type='text' ng-model="officeHeld['end_office']" ng-click="openOEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedOEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right" id="enddateOff" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -988,7 +988,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" ng-model="donation['date_received']" class="form-control pull-right" name='dateRecvDon' id="dateRecvDon">
+                                                    <input type="text" ng-model="donation['date_received']" ng-click="openDonationReceived($index)" uib-datepicker-popup="{{format}}" is-open="openedDonationReceived[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name='dateRecvDon' id="dateRecvDon" dateparse>
                                                 </div>
                                             </div>
                                             <div class="col-md-offset-2 col-md-5">
@@ -1033,7 +1033,7 @@ and open the template in the editor.
                                                     <div class="input-group-addon">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
-                                                    <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" name='dateRecDon' id="dateRecDon">
+                                                    <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" ng-click="openDonationReceipt($index)" uib-datepicker-popup="{{format}}" is-open="openedDonationReceipt[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"name='dateRecDon' id="dateRecDon" dateparse>
                                                 </div>
                                             </div>
                                         </div>
@@ -1307,7 +1307,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input ng-model="team['date_obsolete']" name='dateObsTeam' type='text' class="form-control pull-right" id="dateObsTeam">
+                                            <input ng-model="team['date_obsolete']" ng-click="openTeamJoin($index)" uib-datepicker-popup="{{format}}" is-open="openedTeamJoin[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsTeam' type='text' class="form-control pull-right" id="dateObsTeam" dateparse>
                                         </div>
                                     </div>
                                 </div>
@@ -1501,7 +1501,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type='text' ng-model="appreciation['appraisal_date']" name="apprDate" class="form-control pull-right" id="apprDate">
+                                            <input type='text' ng-model="appreciation['appraisal_date']" ng-click="openAppraisal($index)" uib-datepicker-popup="{{format}}" is-open="openedAppraisal[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right" id="apprDate" dateparse>
                                         </div>
                                     </div>
                                 </div>
@@ -1522,7 +1522,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input type='text' ng-model="appreciation['appreciation_date']" name="appnDate" class="form-control pull-right" id="appnDate">
+                                            <input type='text' ng-model="appreciation['appreciation_date']" ng-click="openAppreciation($index)" uib-datepicker-popup="{{format}}" is-open="openedAppreciation[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right" id="appnDate" dateparse>
                                         </div>
                                     </div>
                                 </div>
@@ -1795,7 +1795,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input ng-model="language['date_obsolete']" name='dateObsLang' type='text' class="form-control pull-right" id="dateObsLang">
+                                            <input ng-model="language['date_obsolete']" ng-click="openLanguages($index)" uib-datepicker-popup="{{format}}" is-open="openedLanguages[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsLang' type='text' class="form-control pull-right" id="dateObsLang" dateparse>
                                         </div>
                                     </div>
                                 </div>
@@ -1920,7 +1920,7 @@ and open the template in the editor.
                                             <div class="input-group-addon">
                                                 <i class="fa fa-calendar"></i>
                                             </div>
-                                            <input ng-model="skill['date_obsolete']" name='dateObsLSA' type='text' class="form-control pull-right" id="dateObsLSA">
+                                            <input ng-model="skill['date_obsolete']" ng-click="openSkills($index)" uib-datepicker-popup="{{format}}" is-open="openedSkills[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsLSA' type='text' class="form-control pull-right" id="dateObsLSA" dateparse>
                                         </div>
                                     </div>
                                 </div>
