@@ -518,8 +518,6 @@ app.controller('editContact',
                 $scope.ignore = false;
                 //control errors shown
                 $scope.$watch('editUser.username', function () {
-                    console.log('username: ' + $scope.editUser.username);
-                    console.log("1 " + $scope.ignore);
                     if ($scope.editUser.username == '') {
                         $scope.ignore = false;
                     }
@@ -1811,7 +1809,13 @@ app.controller('editContact',
                     formatDay: 'dd',
                     startingDay: 1
                 };
-
+                
+                $scope.open = function(){
+                    $timeout(function(){
+                        $scope.opened = true;
+                    })
+                }
+                
                 $scope.openedPhone = [];
                 $scope.openPhone = function (index) {
                     $timeout(function () {

@@ -116,9 +116,7 @@ app.controller('createContact',
                 $scope.submitted = false;
                 $scope.submitContactInfo = function () {
                     var url = "/contact.add";
-                    console.log($scope.contactInfo);
                     dataSubmit.submitData($scope.contactInfo, url).then(function (response) {
-                        console.log(response);
                         if (response.data.message == 'success') {
                             $scope.submitted = true;
                             $scope.result.message = true;
