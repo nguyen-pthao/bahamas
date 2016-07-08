@@ -89,7 +89,6 @@ public class UsernameCheck extends HttpServlet {
                         return;
                     }
 
-                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
                     if (!user.isIsAdmin()) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));

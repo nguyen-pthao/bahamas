@@ -113,7 +113,7 @@ public class OfficeHeldDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("UPDATE OFFICE_HELD SET START_OFFICE=?,END_OFFICE=?,REMARKS=? "
-                    + "WHERE CONTACT_ID AND OFFICE_HELD_NAME=?");
+                    + "WHERE CONTACT_ID=? AND OFFICE_HELD_NAME=?");
 
             if (o.getStartOffice() != null) {
                 stmt.setDate(1, new java.sql.Date(o.getStartOffice().getTime()));
