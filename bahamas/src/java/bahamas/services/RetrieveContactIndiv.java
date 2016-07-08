@@ -282,6 +282,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             } else {
                 jsonContactObj.addProperty("username", "");
             }
+            jsonContactObj.addProperty("deactivated",contact.isDeactivated());
         }
         jsonContactObj.addProperty("name", name);
         if (isAdmin || isTeamMgt){
