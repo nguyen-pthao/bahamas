@@ -46,9 +46,9 @@ and open the template in the editor.
                                                 <label>Username</label><span class="required">*</span>
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU" ng-required="true">
+                                                        <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU">
                                                         <span ng-show="editUserForm.usernameNU.$error.required && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>
-                                                        <span ng-show="existedUsername" style="color: red">This username is already existed.</span>
+                                                        <span ng-show="existedUsername && ignore" style="color: red">This username is already existed.</span>
                                                     </div>
                                                     <!--    <div class="no-padding-left col-md-1 no-padding-top">
                                                                 <i ng-show="checkingUsername && !checkedUsername && editUserForm.usernameNU.$touched" class="fa fa-spinner fa-spin fa-pulse fa-fw fa-2x"></i>
@@ -62,7 +62,7 @@ and open the template in the editor.
                                                 <label>Password</label><span class="required">*</span>
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <input type="text" ng-model='editUser.password' class="form-control" name="passwordNU" ng-required="true" ng-minlength="8" ng-maxlength="20">
+                                                        <input type="text" ng-model='editUser.password' class="form-control" name="passwordNU" ng-minlength="8" ng-maxlength="20">
                                                         <span ng-show="editUserForm.passwordNU.$error.required && editUserForm.passwordNU.$dirty" style="color: red">Password is required.</span>
                                                         <span ng-show="(editUserForm.passwordNU.$error.maxlength || editUserForm.passwordNU.$error.minlength) && editUserForm.passwordNU.$touched" style="color: red">Password has to be 8 to 20 characters long.</span>
                                                     </div>
@@ -76,7 +76,7 @@ and open the template in the editor.
                                                 <!--<input type="text" ng-model='editUser.email' class="form-control" name="useremailNU">-->
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-required="true" ng-show="!(editEmail == '')">
+                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-show="!(editEmail == '')">
                                                             <option ng-repeat="userEmail in emailList">{{userEmail.email}}</option>
                                                         </select>
                                                     </div>

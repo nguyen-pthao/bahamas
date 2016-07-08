@@ -504,30 +504,15 @@ app.controller('editContact',
                 $scope.existedUsername = false;
                 $scope.checkingUsername = false;
                 $scope.checkedUsername = false;
+                $scope.ignore = false;
                 
-                $scope.checkUsername = function() {
-                    if ($scope.editMode == 'true') {
-                        if ($scope.isAdmin) {
-                            if ($scope.editUser.username !== '') {
-                                $scope.checkingUsername = true;
-                                var dataToSend = {};
-                                dataToSend['token'] = session.getSession('token');
-                                dataToSend['username'] = $scope.editUser['username'];
-                                var url = AppAPI.usernameCheck;
-                                dataSubmit.submitData(dataToSend, url).then(function (response) {
-                                    $scope.checkedUsername = true;
-                                    if (response.data.message == 'success') {
-                                        //to be modified
-                                    } else {
-                                        $scope.existedUsername = true;
-                                    }
-                                }, function () {
-                                    window.alert("Fail to send request!");
-                                });
-                            }
-                        }
+                $scope.$watch('editUser.username', function(){
+                    console.log('username: '+$scope.editUser.username);
+                    console.log("1 "+$scope.ignore);
+                    if($scope.editUser.username == '') {
+                        $scope.ignore = false;
                     }
-                };
+                });
                 
                 $scope.resultUser = {
                     status: false,
@@ -545,11 +530,17 @@ app.controller('editContact',
                                 datasend['password'] = '';
                                 datasend['is_admin'] = $scope.editUser['is_admin'];
                                 datasend['email'] = '';
+                                submitUser(datasend);
                             }
                         } else {
-                            $scope.checkUsername();
-                            if($scope.checkedUsername) {
-                                if(!$scope.existedUsername) {
+                            $scope.checkingUsername = true;
+                            var dataToSend = {};
+                            dataToSend['token'] = session.getSession('token');
+                            dataToSend['username'] = $scope.editUser['username'];
+                            var url = AppAPI.usernameCheck;
+                            dataSubmit.submitData(dataToSend, url).then(function (response) {
+                                $scope.checkedUsername = true;
+                                if (response.data.message == 'success') {
                                     datasend['token'] = session.getSession('token');
                                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                                     datasend['username'] = $scope.editUser['username'];
@@ -557,8 +548,14 @@ app.controller('editContact',
                                     datasend['email'] = $scope.editUser['email'];
                                     datasend['deactivated'] = '';
                                     datasend['is_admin'] = '';
+                                    submitUser(datasend);
+                                } else {
+                                    $scope.existedUsername = true;
+                                    $scope.ignore = true;
                                 }
-                            } 
+                            }, function () {
+                                window.alert("Fail to send request!");
+                            });  
                         }
                     } else {
                         datasend['token'] = session.getSession('token');
@@ -568,21 +565,24 @@ app.controller('editContact',
                         datasend['email'] = '';
                         datasend['deactivated'] = '';
                         datasend['is_admin'] = '';
+                        submitUser(datasend);
                     }
+                };
+                
+                var submitUser = function(datasend) {
                     var url = AppAPI.updateUser;
                     dataSubmit.submitData(datasend, url).then(function (response) {
-                        $scope.resultUser.status = true;
-                        if (response.data.message == 'success') {
-                            $scope.resultUser.message = successMsg;
-                            $scope.retrieveFunc();
-                        } else {
-                            $scope.resultUser.message = failMsg;
-                        }
+                    $scope.resultUser.status = true;
+                    if (response.data.message == 'success') {
+                        $scope.resultUser.message = successMsg;
+                        $scope.retrieveFunc();
+                    } else {
+                        $scope.resultUser.message = failMsg;
+                    }
                     }, function () {
                         window.alert("Fail to send request!");
                     });
                 };
-
                 //contact
                 $scope.resultContact = {
                     status: false,
