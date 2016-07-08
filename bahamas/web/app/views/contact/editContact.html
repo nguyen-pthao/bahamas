@@ -47,7 +47,7 @@ and open the template in the editor.
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
                                                         <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU">
-                                                        <span ng-show="editUserForm.usernameNU.$error.required && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>
+                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>
                                                         <span ng-show="existedUsername && ignore" style="color: red">This username is already existed.</span>
                                                     </div>
                                                     <!--    <div class="no-padding-left col-md-1 no-padding-top">
@@ -97,11 +97,11 @@ and open the template in the editor.
                                                 </center>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
-                                                <label>New Password</label>
+                                                <label>New Password</label><span class="required">*</span>
                                                 <input type="password" ng-model='editUser.password' compare="{{editUser.confirmPassword}}" class="form-control" name="newPassword">
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
-                                                <label>Confirm Password</label>
+                                                <label>Confirm Password</label><span class="required">*</span>
                                                 <input type="password" ng-model='editUser.confirmPassword' compare="{{editUser.password}}" class="form-control" name="confirmPassword">
                                                 <span ng-show="editUserForm.confirmPassword.$error.compare" style="color: red">Confirmed password is not the same.</span>
                                             </div>
@@ -109,7 +109,7 @@ and open the template in the editor.
                                             <div class="form-group" ng-show="isUser && isAdmin">
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <label>Deactivate</label>
+                                                        <label>Deactivate</label><span class="required">*</span>
                                                         <select name="deactivate" class="form-control" ng-model='editUser.deactivated'>
                                                             <option value="true">Yes</option>
                                                             <option value="false">No</option>
@@ -177,7 +177,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Name</label>
+                                            <label>Name</label><span class="required">*</span>
                                             <input type="text" ng-model="editContact['name']"  name="name" class="form-control"> 
                                         </div>
                                     </div>
@@ -189,7 +189,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12" ng-init="loadContactTypeList()">
                                         <div class="col-md-12">
-                                            <label>Contact type</label>
+                                            <label>Contact type</label><span class="required">*</span>
                                             <select class="form-control" ng-model="editContact['contact_type']">
                                                 <option ng-repeat="contactType in contactTypeList">{{contactType.contactType}}</option>
                                             </select>     
@@ -214,11 +214,11 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <div class="col-md-4" ng-show="isAdmin || (editMode == 'false')">
+                                        <div class="col-md-4" ng-show="isAdmin || isTeamManager">
                                             <label>NRIC/FIN</label>
                                             <input type="text" ng-model="editContact['nric_fin']" name="nric" class="form-control"> 
                                         </div>    
-                                        <div class="col-md-offset-1 col-md-2">
+                                        <div ng-class="col-md-offset-1 : (isAdmin || isTeamManager)" class="col-md-2">
                                             <label>Gender</label>
                                             <select name="gender" class="form-control" ng-model="editContact['gender']">
                                                 <option></option>
@@ -304,12 +304,12 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-2" ng-init="loadCountryCodes()">
-                                                    <label>Country code</label>
+                                                    <label>Country code</label><span class="required">*</span>
                                                     <input type="number" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])">            
                                                     <span>{{newCountryName}}</span>
                                                 </div>
                                                 <div class="col-md-offset-5 col-md-5">
-                                                    <label>Phone number</label>
+                                                    <label>Phone number</label><span class="required">*</span>
                                                     <input type="text" ng-model="phone['phone_number']" class="form-control" name="phone" readonly>
                                                 </div>
                                             </div>
@@ -345,12 +345,12 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingPhone">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-2" ng-init="loadCountryCodes()">
-                                            <label>Country code</label>
+                                            <label>Country code</label><span class="required">*</span>
                                             <input type="number" ng-model="newPhone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(newPhone['country_code'])">            
                                             <span>{{newCountryName}}</span>
                                         </div>
                                         <div class="col-md-offset-5 col-md-5">
-                                            <label>Phone number</label>
+                                            <label>Phone number</label><span class="required">*</span>
                                             <input type="text" ng-model="newPhone['phone_number']" class="form-control" name="phone">
                                         </div>
                                     </div>
@@ -416,7 +416,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Email</label>
+                                                    <label>Email</label><span class="required">*</span>
                                                     <input type="email" ng-model="email.email" name="email" class="form-control" readonly>
                                                 </div>
                                             </div>
@@ -452,7 +452,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingEmail">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Email</label>
+                                            <label>Email</label><span class="required">*</span>
                                             <input type="email" ng-model="newEmail.email" name="email" class="form-control">
                                         </div>
                                     </div>
@@ -521,7 +521,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Address</label>
+                                                    <label>Address</label><span class="required">*</span>
                                                     <input type="text" ng-model="address.address" name='address' class="form-control" readonly>
                                                 </div>
                                             </div>
@@ -569,7 +569,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingAddress">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Address</label>
+                                            <label>Address</label><span class="required">*</span>
                                             <input type="text" ng-model="newAddress.address" name='address' class="form-control">
                                         </div>
                                     </div>
@@ -606,7 +606,7 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <!-- /address information -->
-                            <div class="box collapsed-box blue-box">
+                            <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editMembership === ''}">
                                     <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                     <div class="box-tools pull-right">
@@ -649,13 +649,13 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadMembershipList()">
-                                                    <label>Membership type</label>
+                                                    <label>Membership type</label><span class="required">*</span>
                                                     <select ng-model="membership['membership_class_name']" name="memType" class="form-control">
                                                         <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
-                                                    <label>Subscription amount</label>
+                                                    <label>Subscription amount</label><span class="required">*</span>
                                                     <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                                 </div>
                                             </div>
@@ -667,7 +667,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
-                                                    <label>Membership start date</label>
+                                                    <label>Membership start date</label><span class="required">*</span>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
@@ -676,7 +676,7 @@ and open the template in the editor.
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
-                                                    <label>Membership end date</label>
+                                                    <label>Membership end date</label><span class="required">*</span>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
@@ -753,13 +753,13 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingMembership">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadMembershipList()">
-                                            <label>Membership type</label>
+                                            <label>Membership type</label><span class="required">*</span>
                                             <select ng-model="newMembership['membership_class']" name="memType" class="form-control">
                                                 <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
-                                            <label>Subscription amount</label>
+                                            <label>Subscription amount</label><span class="required">*</span>
                                             <input type="number" ng-model="newMembership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                         </div>
                                     </div>
@@ -771,7 +771,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
-                                            <label>Membership start date</label>
+                                            <label>Membership start date</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -780,7 +780,7 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
-                                            <label>Membership end date</label>
+                                            <label>Membership end date</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -857,7 +857,7 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <!-- /membership information -->
-                            <div class="box collapsed-box blue-box">
+                            <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editOfficeHeld === ''}">
                                     <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                     <div class="box-tools pull-right">
@@ -900,7 +900,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadOfficeHoldList()">
-                                                    <label>Office held</label>
+                                                    <label>Office held</label><span class="required">*</span>
                                                     <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
                                                         <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
                                                     </select>
@@ -908,7 +908,7 @@ and open the template in the editor.
                                             </div> 
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
-                                                    <label>Start office</label>
+                                                    <label>Start office</label><span class="required">*</span>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
@@ -917,7 +917,7 @@ and open the template in the editor.
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
-                                                    <label>End office</label>
+                                                    <label>End office</label><span class="required">*</span>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
@@ -947,7 +947,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingOffice">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadOfficeHoldList()">
-                                            <label>Office held</label>
+                                            <label>Office held</label><span class="required">*</span>
                                             <select class='form-control' ng-model="newOffice['office_held_name']" name="off">
                                                 <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
                                             </select>
@@ -955,7 +955,7 @@ and open the template in the editor.
                                     </div> 
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
-                                            <label>Start office</label>
+                                            <label>Start office</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -964,7 +964,7 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
-                                            <label>End office</label>
+                                            <label>End office</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -1016,7 +1016,7 @@ and open the template in the editor.
                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                     <i class="fa fa-chevron-up"></i>
                                                 </button>
-                                                <b>Donation Received Date <span ng-bind="donation['date_received']"></span></b>
+                                                <b>Donation received on <span ng-bind="donation['date_shown']"></span></b>
                                             </h5>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
@@ -1037,7 +1037,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
-                                                    <label>Date received</label>
+                                                    <label>Date received</label><span class="required">*</span>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
@@ -1046,13 +1046,13 @@ and open the template in the editor.
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
-                                                    <label>Donation amount</label>
+                                                    <label>Donation amount</label><span class="required">*</span>
                                                     <input type="number" step='any' class="form-control" ng-model="donation['donation_amount']" name='donAmt'>        
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadPaymentModeList()">
-                                                    <label>Payment mode</label>
+                                                    <label>Payment mode</label><span class="required">*</span>
                                                     <select class="form-control" ng-model="donation['payment_mode']" name='payModDon'>
                                                         <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                                     </select>
@@ -1160,7 +1160,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingDonation">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
-                                            <label>Date received</label>
+                                            <label>Date received</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
@@ -1169,13 +1169,13 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
-                                            <label>Donation amount</label>
+                                            <label>Donation amount</label><span class="required">*</span>
                                             <input type="number" step='any' class="form-control" ng-model="newDonation['donation_amount']" name='donAmt'>        
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadPaymentModeList()">
-                                            <label>Payment mode</label>
+                                            <label>Payment mode</label><span class="required">*</span>
                                             <select class="form-control" ng-model="newDonation['payment_mode']" name='payModDon'>
                                                 <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                             </select>
@@ -1326,7 +1326,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadTeamAffiliationList()">
-                                                    <label>Team</label>
+                                                    <label>Team</label><span class="required">*</span>
                                                     <select class="form-control" ng-model="team['team_name']" name='team' readonly>
                                                         <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                                     </select>
@@ -1344,7 +1344,7 @@ and open the template in the editor.
                                                     <input ng-model="team['sub_team']" name='subteam' type="text" class="form-control">
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
-                                                    <label>Permission</label>
+                                                    <label>Permission</label><span class="required">*</span>
                                                     <select class="form-control" ng-model="team['permission']" name='permission'>
                                                         <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                                     </select>
@@ -1382,7 +1382,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingTeam">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
-                                            <label>Team</label>
+                                            <label>Team</label><span class="required">*</span>
                                             <select class="form-control" ng-model="newTeam['team']" name='team'>
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
@@ -1400,7 +1400,7 @@ and open the template in the editor.
                                             <input ng-model="newTeam['subteam']" name='subteam' type="text" class="form-control">
                                         </div>
                                         <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
-                                            <label>Permission</label>
+                                            <label>Permission</label><span class="required">*</span>
                                             <select class="form-control" ng-model="newTeam['permission_level']" name='permission'>
                                                 <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                             </select>
@@ -1460,7 +1460,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
-                                            <label>Team</label>
+                                            <label>Team</label><span class="required">*</span>
                                             <select class="form-control">
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
@@ -1524,12 +1524,12 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editAppreciation == '')">
                                     <div class="box collapsed-box" ng-repeat="appreciation in editAppreciation">
-                                        <div class="box-header with-border" style="color: white; text-align: center">
+                                        <div class="box-header with-border">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
                                                     <i class="fa fa-chevron-up"></i>
                                                 </button>
-                                                <b>Appreciation created on <span ng-bind="appreciation['date_created']"></span></b>
+                                                <b>Appreciation #<span ng-bind="($index + 1)"></span></b>
                                             </h5>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
@@ -1714,7 +1714,7 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <label style="padding-left: 15px">Proxy</label>
+                                                <label style="padding-left: 15px">Proxy</label><span class="required">*</span>
                                                 <div class="col-md-12">
                                                     <div class="no-padding-left col-md-5 no-padding-right">
                                                         <input type='text' ng-model="selected" name="proxy" class="form-control" placeholder="Search proxy..." uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html">
@@ -1762,7 +1762,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingProxy">
                                     <div class="form-group col-md-12">
-                                        <label style="padding-left: 15px">Proxy</label>
+                                        <label style="padding-left: 15px">Proxy</label><span class="required">*</span>
                                         <div class="col-md-12">
                                             <div class="no-padding-left col-md-5 no-padding-right">
                                                 <input type='text' ng-model="selected" name="proxy" class="form-control" placeholder="Search proxy..." uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html">
@@ -1842,7 +1842,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadLanguageList()">
-                                                    <label>Language</label>
+                                                    <label>Language</label><span class="required">*</span>
                                                     <select class="form-control" ng-model="language['language_name']" name='languages'>
                                                         <option ng-repeat="language in languageList">{{language.language}}</option>
                                                     </select>  
@@ -1893,7 +1893,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingLanguages">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadLanguageList()">
-                                            <label>Language</label>
+                                            <label>Language</label><span class="required">*</span>
                                             <select class="form-control" ng-model="newLanguages['language']" name='languages'>
                                                 <option ng-repeat="language in languageList">{{language.language}}</option>
                                             </select>  
@@ -1976,7 +1976,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12" style="margin-top: 15px">
                                                 <div class="col-md-5" ng-init="loadLSAList()">
-                                                    <label>Skills or Assets</label>
+                                                    <label>Skills or Assets</label><span class="required">*</span>
                                                     <select class="form-control" ng-model="skill['skill_name']" name='LSA'>
                                                         <option ng-repeat="skill in LSAList">{{skill.lsaClass}}</option>
                                                     </select>    
@@ -2020,7 +2020,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingSkills">
                                     <div class="form-group col-md-12" style="margin-top: 15px">
                                         <div class="col-md-5" ng-init="loadLSAList()">
-                                            <label>Skills or Assets</label>
+                                            <label>Skills or Assets</label><span class="required">*</span>
                                             <select class="form-control" ng-model="newSkills['skill_asset']" name='LSA'>
                                                 <option ng-repeat="skill in LSAList">{{skill.lsaClass}}</option>
                                             </select>    

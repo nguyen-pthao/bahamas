@@ -31,31 +31,51 @@ app.directive('compare', function () {
     };
 });
 
-app.directive('dateparse',['$filter', function ($filter) {
-    return {
-        restrict: 'EAC',
-        require: '?ngModel',
-        link: function (scope, elem, attrs, ngModel) {
-            ngModel.$parsers.push(function toModel(date) {
-                var dateString = $filter('date')(date ,"dd-MMM-yyyy");
-                return dateString;
-                //return date.getDate() + ' ' + (date.getMonth() + 1) + ' ' +  date.getFullYear();
-            });
-        }
-    };
-}]);
+app.directive('dateparse', ['$filter', function ($filter) {
+        return {
+            restrict: 'EAC',
+            require: '?ngModel',
+            link: function (scope, elem, attrs, ngModel) {
+                ngModel.$parsers.push(function toModel(date) {
+                    var dateString = $filter('date')(date, "dd-MMM-yyyy");
+                    return dateString;
+                    //return date.getDate() + ' ' + (date.getMonth() + 1) + ' ' +  date.getFullYear();
+                });
+            }
+        };
+    }]);
 
 app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'ngDialog', '$timeout',
-            'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 
+            'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList',
             'retrieveContactByCid', 'loadAllContacts',
             'dataSubmit', 'deleteService', 'retrieveOwnContactInfo', '$filter',
             function ($scope, $http, $state, session, ngDialog, $timeout,
-                    loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, 
+                    loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList,
                     retrieveContactByCid, loadAllContacts,
                     dataSubmit, deleteService, retrieveOwnContactInfo, $filter) {
 
                 var permission = session.getSession('userType');
+
+//PAGES TRANSITION
+                var toContact = '';
+                if ($scope.authorised && $scope.editMode == 'true') {
+                    toContact = permission + '.viewIndivContact';
+                } else {
+                    toContact = permission + '.userManagement';
+                }
+                var homepage = permission + '.homepage';
+                var toContacts = permission + '.viewContacts';
+
+                $scope.backHome = function () {
+                    $state.go(homepage);
+                };
+                $scope.viewContact = function () {
+                    $state.go(toContact);
+                };
+                $scope.viewAllContacts = function () {
+                    $state.go(toContacts);
+                };
 
                 //viewing mode: false for own contact and true for other people contact
                 $scope.editMode = session.getSession('otherContact');
@@ -67,20 +87,31 @@ app.controller('editContact',
                 $scope.authorised = false;
                 if (permission != 'associate' && permission != 'novice') {
                     $scope.authorised = true;
+                } else {
+                    if ($scope.editMode == 'true') {
+                        $scope.viewAllContacts();
+                    }
                 }
 
                 //only admin is allowed to view username and to deactivate user
                 $scope.isAdmin = false;
                 $scope.isEventLeader = false;
+                $scope.isTeamManager = false;
                 var contactToRetrieve = {};
 
                 if ($scope.authorised && $scope.editMode == 'true') {
                     if (permission === 'admin') {
                         $scope.isAdmin = true;
+                        $scope.isTeamManager = false;
                         $scope.isEventLeader = false;
                     } else if (permission === 'eventleader') {
                         $scope.isAdmin = false;
                         $scope.isEventLeader = true;
+                        $scope.isTeamManager = false;
+                    } else if (permission == 'teammanager') {
+                        $scope.isTeamManager = true;
+                        $scope.isAdmin = false;
+                        $scope.isEventLeader = false;
                     }
 
 //CONTACT TO BE EDITTED       
@@ -106,27 +137,6 @@ app.controller('editContact',
                         'token': session.getSession('token')
                     };
                 }
-
-//PAGES TRANSITION
-                var toContact = '';
-                if ($scope.authorised && $scope.editMode == 'true') {
-                    toContact = permission + '.viewIndivContact';
-                } else {
-                    toContact = permission + '.userManagement';
-                }
-                var homepage = permission + '.homepage';
-                var toContacts = permission + '.viewContacts';
-                var toEditContact = permission + '.editContact';
-
-                $scope.backHome = function () {
-                    $state.go(homepage);
-                };
-                $scope.viewContact = function () {
-                    $state.go(toContact);
-                };
-                $scope.viewAllContacts = function () {
-                    $state.go(toContacts);
-                };
 
 //CALL DROPDOWN LIST SERVICES        
                 $scope.loadContactTypeList = function () {
@@ -220,7 +230,7 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-                                
+
                                 retrieveAllContacts();
                             } else {
                                 return contactToEdit;
@@ -247,7 +257,7 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-                                
+
                                 retrieveAllContacts();
                             } else {
                                 console.log("Wrong data passed");
@@ -259,7 +269,7 @@ app.controller('editContact',
                         });
                     }
                 };
-                
+
 //RETRIEVE ALL CONTACT FOR PROXY
                 var proxyToRetrieve = {};
                 var selectedProxy = {};
@@ -295,7 +305,7 @@ app.controller('editContact',
                         console.log(selectedProxy);
                     };
                 };
-                
+
 //DECLARE OBJECTS FOR EDIT CONTACT
                 $scope.editUser = {
                     'username': ''
@@ -348,7 +358,7 @@ app.controller('editContact',
                 var retrievePhoneInfo = function (contactToEdit) {
                     if (contactToEdit.phone != '') {
                         $scope.editPhone = contactToEdit.phone;
-                        for(var i = 0; i<contactToEdit.phone.length; i++){
+                        for (var i = 0; i < contactToEdit.phone.length; i++) {
                             $scope.editPhone[i]['date_obsolete'] = new Date(contactToEdit.phone[i]['date_obsolete']);
                         }
                     } else {
@@ -360,9 +370,9 @@ app.controller('editContact',
                     if (contactToEdit.email != '') {
                         $scope.editEmail = contactToEdit.email;
                         $scope.emailList = [];
-                        for(var i = 0; i < contactToEdit.email.length; i++){
+                        for (var i = 0; i < contactToEdit.email.length; i++) {
                             $scope.editEmail[i]['date_obsolete'] = new Date(contactToEdit.email[i]['date_obsolete']);
-                            $scope.emailList.push({'email' : $scope.editEmail[i]['email']});
+                            $scope.emailList.push({'email': $scope.editEmail[i]['email']});
                         }
                     } else {
                         $scope.editEmail = '';
@@ -372,7 +382,7 @@ app.controller('editContact',
                 var retrieveAddressInfo = function (contactToEdit) {
                     if (contactToEdit.address != '') {
                         $scope.editAddress = contactToEdit.address;
-                        for(var i = 0; i<contactToEdit.address.length; i++){
+                        for (var i = 0; i < contactToEdit.address.length; i++) {
                             $scope.editAddress[i]['date_obsolete'] = new Date(contactToEdit.address[i]['date_obsolete']);
                         }
                     } else {
@@ -383,7 +393,7 @@ app.controller('editContact',
                 var retrieveMembershipInfo = function (contactToEdit) {
                     if (contactToEdit.membership != '') {
                         $scope.editMembership = contactToEdit.membership;
-                        for(var i = 0; i<contactToEdit.membership.length; i++){
+                        for (var i = 0; i < contactToEdit.membership.length; i++) {
                             $scope.editMembership[i]['date_obsolete'] = new Date(contactToEdit.membership[i]['date_obsolete']);
                             $scope.editMembership[i]['start_date'] = new Date(contactToEdit.membership[i]['start_date']);
                             $scope.editMembership[i]['end_date'] = new Date(contactToEdit.membership[i]['end_date']);
@@ -397,7 +407,7 @@ app.controller('editContact',
                 var retrieveOfficeInfo = function (contactToEdit) {
                     if (contactToEdit['office_held'] != '') {
                         $scope.editOfficeHeld = contactToEdit['office_held'];
-                        for(var i = 0; i<contactToEdit['office_held'].length; i++){
+                        for (var i = 0; i < contactToEdit['office_held'].length; i++) {
                             $scope.editOfficeHeld[i]['start_office'] = new Date(contactToEdit['office_held'][i]['start_office']);
                             $scope.editOfficeHeld[i]['end_office'] = new Date(contactToEdit['office_held'][i]['end_office']);
                         }
@@ -409,7 +419,8 @@ app.controller('editContact',
                 var retrieveDonationInfo = function (contactToEdit) {
                     if (contactToEdit.donation != '') {
                         $scope.editDonation = contactToEdit.donation;
-                        for(var i = 0; i<contactToEdit.donation.length; i++){
+                        for (var i = 0; i < contactToEdit.donation.length; i++) {
+                            $scope.editDonation[i]['date_shown'] = contactToEdit.donation[i]['date_received'];
                             $scope.editDonation[i]['date_received'] = new Date(contactToEdit.donation[i]['date_received']);
                             $scope.editDonation[i]['receipt_date'] = new Date(contactToEdit.donation[i]['receipt_date']);
                         }
@@ -421,7 +432,7 @@ app.controller('editContact',
                 var retrieveTeamInfo = function (contactToEdit) {
                     if (contactToEdit['team_join'] != '') {
                         $scope.editTeam = contactToEdit['team_join'];
-                        for(var i = 0; i<contactToEdit['team_join'].length; i++){
+                        for (var i = 0; i < contactToEdit['team_join'].length; i++) {
                             $scope.editTeam[i]['date_obsolete'] = new Date(contactToEdit['team_join'][i]['date_obsolete']);
                         }
                     } else {
@@ -444,7 +455,7 @@ app.controller('editContact',
                 var retrieveAppreciationInfo = function (contactToEdit) {
                     if (contactToEdit.appreciation != '') {
                         $scope.editAppreciation = contactToEdit.appreciation;
-                        for(var i = 0; i<contactToEdit.appreciation.length; i++){
+                        for (var i = 0; i < contactToEdit.appreciation.length; i++) {
                             $scope.editAppreciation[i]['appraisal_date'] = new Date(contactToEdit.appreciation[i]['appraisal_date']);
                             $scope.editAppreciation[i]['appreciation_date'] = new Date(contactToEdit.appreciation[i]['appreciation_date']);
                         }
@@ -464,7 +475,7 @@ app.controller('editContact',
                 var retrieveLanguagesInfo = function (contactToEdit) {
                     if (contactToEdit['language_assignment'] != '') {
                         $scope.editLanguages = contactToEdit['language_assignment'];
-                        for(var i = 0; i<contactToEdit['language_assignment'].length; i++){
+                        for (var i = 0; i < contactToEdit['language_assignment'].length; i++) {
                             $scope.editLanguages[i]['date_obsolete'] = new Date(contactToEdit['language_assignment'][i]['date_obsolete']);
                         }
                     } else {
@@ -475,7 +486,7 @@ app.controller('editContact',
                 var retrieveSkillsInfo = function (contactToEdit) {
                     if (contactToEdit['skill_assignment'] != '') {
                         $scope.editSkillsAssets = contactToEdit['skill_assignment'];
-                        for(var i = 0; i<contactToEdit['skill_assignment'].length; i++){
+                        for (var i = 0; i < contactToEdit['skill_assignment'].length; i++) {
                             $scope.editSkillsAssets[i]['date_obsolete'] = new Date(contactToEdit['skill_assignment'][i]['date_obsolete']);
                         }
                     } else {
@@ -493,27 +504,27 @@ app.controller('editContact',
                 $scope.changePassword = function () {
                     $scope.changePass = !$scope.changePass;
                 };
-                
+
 //HTTP REQUEST TO EDIT CONTACT
 
                 //define general return message
                 var successMsg = "Successfully saved!";
                 var failMsg = "Fail to save changes. Please check through your data again.";
-                
+
                 //user
                 $scope.existedUsername = false;
                 $scope.checkingUsername = false;
                 $scope.checkedUsername = false;
                 $scope.ignore = false;
-                
-                $scope.$watch('editUser.username', function(){
-                    console.log('username: '+$scope.editUser.username);
-                    console.log("1 "+$scope.ignore);
-                    if($scope.editUser.username == '') {
+                //control errors shown
+                $scope.$watch('editUser.username', function () {
+                    console.log('username: ' + $scope.editUser.username);
+                    console.log("1 " + $scope.ignore);
+                    if ($scope.editUser.username == '') {
                         $scope.ignore = false;
                     }
                 });
-                
+
                 $scope.resultUser = {
                     status: false,
                     message: ''
@@ -555,7 +566,7 @@ app.controller('editContact',
                                 }
                             }, function () {
                                 window.alert("Fail to send request!");
-                            });  
+                            });
                         }
                     } else {
                         datasend['token'] = session.getSession('token');
@@ -568,17 +579,17 @@ app.controller('editContact',
                         submitUser(datasend);
                     }
                 };
-                
-                var submitUser = function(datasend) {
+                //to update user info
+                var submitUser = function (datasend) {
                     var url = AppAPI.updateUser;
                     dataSubmit.submitData(datasend, url).then(function (response) {
-                    $scope.resultUser.status = true;
-                    if (response.data.message == 'success') {
-                        $scope.resultUser.message = successMsg;
-                        $scope.retrieveFunc();
-                    } else {
-                        $scope.resultUser.message = failMsg;
-                    }
+                        $scope.resultUser.status = true;
+                        if (response.data.message == 'success') {
+                            $scope.resultUser.message = successMsg;
+                            $scope.retrieveFunc();
+                        } else {
+                            $scope.resultUser.message = failMsg;
+                        }
                     }, function () {
                         window.alert("Fail to send request!");
                     });
@@ -1497,7 +1508,8 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['proxy_of'] = session.getSession('contactToDisplayCid');
-                    datasend['principal_of'] = selectedProxy.cid;;
+                    datasend['principal_of'] = selectedProxy.cid;
+                    ;
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
                     datasend['date_obsolete'] = proxy['date_obsolete'];
@@ -1546,7 +1558,7 @@ app.controller('editContact',
                         });
                     });
                 };
-                
+
                 $scope.newProxy = {
                     'token': session.getSession('token'),
                     'contact_id': session.getSession('contactToDisplayCid'),
@@ -1681,7 +1693,7 @@ app.controller('editContact',
                         window.alert("Fail to send request!");
                     });
                 };
-                
+
                 //skills and assets
                 $scope.addingSkills = false;
                 $scope.addNewSkills = function () {
@@ -1806,105 +1818,105 @@ app.controller('editContact',
                         $scope.openedPhone[index] = true;
                     });
                 };
-                
+
                 $scope.openedEmail = [];
-                $scope.openEmail = function(index){
-                    $timeout(function(){
-                       $scope.openedEmail[index] = true; 
+                $scope.openEmail = function (index) {
+                    $timeout(function () {
+                        $scope.openedEmail[index] = true;
                     });
                 };
-                
+
                 $scope.openedAddress = [];
-                $scope.openAddress = function(index){
-                    $timeout(function(){
+                $scope.openAddress = function (index) {
+                    $timeout(function () {
                         $scope.openedAddress[index] = true;
                     });
                 };
-                
+
                 $scope.openedMStart = [];
-                $scope.openMStart = function(index){
-                    $timeout(function(){
+                $scope.openMStart = function (index) {
+                    $timeout(function () {
                         $scope.openedMStart[index] = true;
                     });
                 };
-                
+
                 $scope.openedMEnd = [];
-                $scope.openMEnd = function(index){
-                    $timeout(function(){
+                $scope.openMEnd = function (index) {
+                    $timeout(function () {
                         $scope.openedMEnd[index] = true;
                     });
                 };
-                
+
                 $scope.openedMembership = [];
-                $scope.openMembership = function(index){
-                    $timeout(function(){
+                $scope.openMembership = function (index) {
+                    $timeout(function () {
                         $scope.openedMembership[index] = true;
                     });
                 };
-                
+
                 $scope.openedOStart = [];
-                $scope.openOStart = function(index){
-                    $timeout(function(){
+                $scope.openOStart = function (index) {
+                    $timeout(function () {
                         $scope.openedOStart[index] = true;
                     });
                 };
-                
+
                 $scope.openedOEnd = [];
-                $scope.openOEnd = function(index){
-                    $timeout(function(){
+                $scope.openOEnd = function (index) {
+                    $timeout(function () {
                         $scope.openedOEnd[index] = true;
                     });
                 };
-                
+
                 $scope.openedDonationReceived = [];
-                $scope.openDonationReceived = function(index){
-                    $timeout(function(){
+                $scope.openDonationReceived = function (index) {
+                    $timeout(function () {
                         $scope.openedDonationReceived[index] = true;
                     });
                 };
-                
+
                 $scope.openedDonationReceipt = [];
-                $scope.openDonationReceipt = function(index){
-                    $timeout(function(){
+                $scope.openDonationReceipt = function (index) {
+                    $timeout(function () {
                         $scope.openedDonationReceipt[index] = true;
                     });
                 };
-                
+
                 $scope.openedTeamJoin = [];
-                $scope.openTeamJoin = function(index){
-                    $timeout(function(){
+                $scope.openTeamJoin = function (index) {
+                    $timeout(function () {
                         $scope.openedTeamJoin[index] = true;
                     });
                 };
 
                 $scope.openedAppraisal = [];
-                $scope.openAppraisal = function(index){
-                    $timeout(function(){
+                $scope.openAppraisal = function (index) {
+                    $timeout(function () {
                         $scope.openedAppraisal[index] = true;
                     });
                 };
-                
+
                 $scope.openedAppreciation = [];
-                $scope.openAppreciation = function(index){
-                    $timeout(function(){
+                $scope.openAppreciation = function (index) {
+                    $timeout(function () {
                         $scope.openedAppreciation[index] = true;
                     });
                 };
-                
+
                 $scope.openedLanguages = [];
-                $scope.openLanguages = function(index){
-                    $timeout(function(){
+                $scope.openLanguages = function (index) {
+                    $timeout(function () {
                         $scope.openedLanguages[index] = true;
                     });
                 };
-                
+
                 $scope.openedSkills = [];
-                $scope.openSkills = function(index){
-                    $timeout(function(){
+                $scope.openSkills = function (index) {
+                    $timeout(function () {
                         $scope.openedSkills[index] = true;
                     });
                 };
-                
+
                 function getDayClass(data) {
                     var date = data.date,
                             mode = data.mode;
