@@ -218,7 +218,7 @@ and open the template in the editor.
                                             <label>NRIC/FIN</label>
                                             <input type="text" ng-model="editContact['nric_fin']" name="nric" class="form-control"> 
                                         </div>    
-                                        <div ng-class="col-md-offset-1 : (isAdmin || isTeamManager)" class="col-md-2">
+                                        <div ng-class="{'col-md-offset-1' : (isAdmin || isTeamManager)}" class="col-md-2">
                                             <label>Gender</label>
                                             <select name="gender" class="form-control" ng-model="editContact['gender']">
                                                 <option></option>
@@ -279,12 +279,17 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="phone in editPhone">
                                         <div class="box-header" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="phone['country_code']"></span></b> 
                                                 <b><span ng-bind="phone['phone_number']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Phone Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -392,11 +397,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="email in editEmail">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="email.email"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Email Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display:none">
                                             <div class="form-group col-md-12">
@@ -497,11 +507,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="address in editAddress">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Zipcode <span ng-bind="address['zipcode']"></span> <span ng-bind="address['country']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Address Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -626,10 +641,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="membership in editMembership">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <b><span ng-bind="membership['membership_class_name']"></span></b>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
+                                                <b><span ng-bind="membership['membership_class_name']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Membership Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style='display: none'>
                                             <div class="form-group col-md-12">
@@ -876,11 +897,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="officeHeld in editOfficeHeld">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="officeHeld['office_held']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Office Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -1013,11 +1039,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="donation in editDonation">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Donation received on <span ng-bind="donation['date_shown']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Donation Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -1302,11 +1333,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="team in editTeam">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </button>
+                                                 <b>Team <span ng-bind="team['team_name']"></span></b>
+                                            </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Team Info">
                                                     <i class="fa fa-chevron-up"></i>
                                                 </button>
-                                                <b>Team <span ng-bind="team['team_name']"></span></b>
-                                            </h5>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -1526,11 +1562,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="appreciation in editAppreciation">
                                         <div class="box-header with-border">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Appreciation #<span ng-bind="($index + 1)"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Appreciation Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -1691,11 +1732,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="proxy in editProxy">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="proxy['proxy_name']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Proxy Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -1818,11 +1864,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="language in editLanguages">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="language['language_name']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Language Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
@@ -1952,11 +2003,16 @@ and open the template in the editor.
                                     <div class="box collapsed-box" ng-repeat="skill in editSkillsAssets">
                                         <div class="box-header with-border" style="padding: 5px">
                                             <h5 class="box-title">
-                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="Collapse">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="skill['skill_name']"></span></b>
                                             </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip" title="View Skill/Asset Info">
+                                                    <i class="fa fa-chevron-up"></i>
+                                                </button>
+                                            </div>
                                         </div>
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
