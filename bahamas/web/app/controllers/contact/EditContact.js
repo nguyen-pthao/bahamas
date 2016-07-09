@@ -1992,7 +1992,61 @@ app.controller('editContact',
                         $scope.openedSkills[index] = true;
                     });
                 };
-
+                
+                $scope.openNewMStart = function(){
+                    $timeout(function(){
+                        $scope.openedNewMStart = true;
+                    });
+                };
+                
+                $scope.openNewMEnd = function(){
+                    $timeout(function(){
+                        $scope.openedNewMEnd = true;
+                    });
+                };
+                
+                $scope.openNewMReceipt = function(){
+                    $timeout(function(){
+                        $scope.openedNewMReceipt = true;
+                    });
+                };
+                
+                $scope.openNewOStart = function(){
+                    $timeout(function(){
+                        $scope.openedNewOStart = true;
+                    });
+                };
+                
+                $scope.openNewOEnd = function(){
+                    $timeout(function(){
+                        $scope.openedNewOEnd = true;
+                    });
+                };
+                
+                $scope.openNewDReceived = function(){
+                    $timeout(function(){
+                        $scope.openedNewDReceived = true;
+                    });
+                };
+                
+                $scope.openNewDReceipt = function(){
+                    $timeout(function(){
+                        $scope.openedNewDReceipt = true;
+                    });
+                };
+                
+                $scope.openNewAppraisal = function(){
+                    $timeout(function(){
+                        $scope.openedNewAppraisal = true;
+                    });
+                };
+                
+                $scope.openNewAppreciation = function(){
+                    $timeout(function(){
+                        $scope.openedNewAppreciation = true;
+                    });
+                };
+                
                 function getDayClass(data) {
                     var date = data.date,
                             mode = data.mode;

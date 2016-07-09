@@ -797,7 +797,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newMembership['start_membership']" name="startdateMem" class="form-control pull-right">
+                                                <input type='text' ng-model="newMembership['start_membership']" ng-click="openNewMStart()" uib-datepicker-popup="{{format}}" is-open="openedNewMStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right" dateparse>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -806,7 +806,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newMembership['end_membership']" name="enddateMem" class="form-control pull-right">
+                                                <input type='text' ng-model="newMembership['end_membership']" ng-click="openNewMEnd()" uib-datepicker-popup="{{format}}" is-open="openedNewMEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right" dateparse>
                                             </div>
                                         </div>
                                     </div>
@@ -847,7 +847,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="newMembership['receipt_date']" class="form-control pull-right" name="dateRecMem">
+                                                <input type="text" ng-model="newMembership['receipt_date']" ng-click="openNewMReceipt()" uib-datepicker-popup="{{format}}" is-open="openedNewMReceipt" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name="dateRecMem" dateparse>
                                             </div>
                                         </div>
                                     </div>
@@ -986,7 +986,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newOffice['start_office']" name="startdateOff" class="form-control pull-right">
+                                                <input type='text' ng-model="newOffice['start_office']" ng-click="openNewOStart()" uib-datepicker-popup="{{format}}" is-open="openedNewOStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right" dateparse>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -995,7 +995,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newOffice['end_office']" name="enddateOff" class="form-control pull-right">
+                                                <input type='text' ng-model="newOffice['end_office']" ng-click="openNewOEnd()" uib-datepicker-popup="{{format}}" is-open="openedNewOEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right" dateparse>
                                             </div>
                                         </div>
                                     </div>
@@ -1196,7 +1196,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="newDonation['date_received']" class="form-control pull-right" name='dateRecvDon'>
+                                                <input type="text" ng-model="newDonation['date_received']" ng-click="openNewDReceived()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceived" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name='dateRecvDon' dateparse>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -1241,7 +1241,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control pull-right" ng-model="newDonation['receipt_date']" name='dateRecDon'>
+                                                <input type="text" class="form-control pull-right" ng-model="newDonation['receipt_date']" ng-click="openNewDReceipt()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceipt" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateRecDon' dateparse>
                                             </div>
                                         </div>
                                     </div>
@@ -1667,7 +1667,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newAppreciation['appraisal_date']" name="apprDate" class="form-control pull-right">
+                                                <input type='text' ng-model="newAppreciation['appraisal_date']" ng-click="openNewAppraisal()" uib-datepicker-popup="{{format}}" is-open="openedNewAppraisal" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right" dateparse>
                                             </div>
                                         </div>
                                     </div>
@@ -1688,7 +1688,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newAppreciation['appreciation_date']" name="appnDate" class="form-control pull-right" id="appnDate">
+                                                <input type='text' ng-model="newAppreciation['appreciation_date']" ng-click="openNewAppreciation()" uib-datepicker-popup="{{format}}" is-open="openedNewAppreciation" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right" id="appnDate" dateparse>
                                             </div>
                                         </div>
                                     </div>
