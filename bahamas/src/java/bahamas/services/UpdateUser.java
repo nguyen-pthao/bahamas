@@ -109,8 +109,12 @@ public class UpdateUser extends HttpServlet {
 
                     if (user.isIsAdmin()) {
                         String uName = Validator.containsBlankField(jobject.get("username").getAsString());
-                        if (uName != null) {
+                        if (uName != null && cDAO.retrieveContactByUsername(uName) == null) {
                             c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
+                        } else {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
                         }
 
                         c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
@@ -124,8 +128,11 @@ public class UpdateUser extends HttpServlet {
                     if (ContactDAO.updateUser(c)) {
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
                         if (email != null && password != null) {
-                            String[] temp = {c.getName(), c.getUsername(), password};
-                            Email.sendEmail(email, temp);
+                            String[] temp = {c.getName(), c.getUsername(), password};                        
+                            new Thread(() -> {
+                                // Send Email in a separate thread
+                                Email.sendEmail(email, temp);
+                            }).start();
                         }
 
                         AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update Contact under contact: Contact ID: " + contactId);
@@ -144,7 +151,7 @@ public class UpdateUser extends HttpServlet {
         }
     }
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
