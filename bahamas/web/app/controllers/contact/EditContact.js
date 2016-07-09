@@ -539,7 +539,7 @@ app.controller('editContact',
                                 datasend['password'] = '';
                                 datasend['is_admin'] = $scope.editUser['is_admin'];
                                 datasend['email'] = '';
-                                submitUser(datasend);
+                                submitUser(datasend, false);
                             }
                         } else {
                             $scope.checkingUsername = true;
@@ -557,10 +557,7 @@ app.controller('editContact',
                                     datasend['email'] = $scope.editUser['email'];
                                     datasend['deactivated'] = '';
                                     datasend['is_admin'] = '';
-                                    submitUser(datasend);
-                                    $timeout(function(){
-                                        $scope.isUser = true;
-                                    }, 15000);
+                                    submitUser(datasend, true);
                                 } else {
                                     $scope.existedUsername = true;
                                     $scope.ignore = true;
@@ -577,17 +574,20 @@ app.controller('editContact',
                         datasend['email'] = '';
                         datasend['deactivated'] = '';
                         datasend['is_admin'] = '';
-                        submitUser(datasend);
+                        submitUser(datasend, false);
                     }
                 };
                 //to update user info
-                var submitUser = function (datasend) {
+                var submitUser = function (datasend, create) {
                     var url = AppAPI.updateUser;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultUser.status = true;
                         if (response.data.message == 'success') {
                             $scope.resultUser.message = successMsg;
                             $scope.retrieveFunc();
+                            if(create) {
+                                $scope.isUser = true;
+                            }
                         } else {
                             $scope.resultUser.message = failMsg;
                         }
@@ -614,6 +614,9 @@ app.controller('editContact',
                         if (response.data.message == 'success') {
                             $scope.resultContact.message = successMsg;
                             $scope.retrieveFunc();
+                            $timeout(function(){
+                                $scope.resultContact.status = false;
+                            }, 5000);
                         } else {
                             $scope.resultContact.message = failMsg;
                         }
