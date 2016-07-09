@@ -558,6 +558,9 @@ app.controller('editContact',
                                     datasend['deactivated'] = '';
                                     datasend['is_admin'] = '';
                                     submitUser(datasend);
+                                    $timeout(function(){
+                                        $scope.isUser = true;
+                                    }, 15000);
                                 } else {
                                     $scope.existedUsername = true;
                                     $scope.ignore = true;
@@ -601,6 +604,9 @@ app.controller('editContact',
                     $scope.editContact['token'] = session.getSession('token');
                     $scope.editContact['contact_id'] = session.getSession('contactToDisplayCid');
                     $scope.editContact['user_type'] = session.getSession('userType');
+                    if($scope.editContact['date_of_birth'] == null) {
+                        $scope.editContact['date_of_birth'] = '';
+                    }
                     //to be modified
                     var url = AppAPI.updateContact;
                     dataSubmit.submitData($scope.editContact, url).then(function (response) {
@@ -662,7 +668,11 @@ app.controller('editContact',
                     datasend['country_code'] = phone['country_code'];
                     datasend['phone_number'] = phone['phone_number'];
                     datasend['phone_remarks'] = phone['remarks'];
-                    datasend['date_obsolete'] = phone['date_obsolete'];
+                    if(phone['date_obsolete'] != null) {
+                        datasend['date_obsolete'] = phone['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     var url = AppAPI.updatePhone;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultPhone.status = true;
@@ -760,7 +770,11 @@ app.controller('editContact',
                     datasend['user_type'] = session.getSession('userType');
                     datasend['email'] = email['email'];
                     datasend['email_remarks'] = email['remarks'];
-                    datasend['date_obsolete'] = email['date_obsolete'];
+                    if(email['date_obsolete'] != null) {
+                        datasend['date_obsolete'] = email['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     var url = AppAPI.updateEmail;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultEmail.status = true;
@@ -859,7 +873,11 @@ app.controller('editContact',
                     datasend['address'] = address['address'];
                     datasend['zipcode'] = address['zipcode'];
                     datasend['address_remarks'] = address['remarks'];
-                    datasend['date_obsolete'] = address['date_obsolete'];
+                    if(address['date_obsolete'] != null) {  
+                        datasend['date_obsolete'] = address['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     var url = AppAPI.updateAddress;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultAddress.status = true;
@@ -956,9 +974,21 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['membership_id'] = membership['membership_id'];
-                    datasend['start_membership'] = membership['start_date'];
-                    datasend['end_membership'] = membership['end_date'];
-                    datasend['receipt_date'] = membership['receipt_date'];
+                    if(membership['start_date'] != null) {
+                        datasend['start_membership'] = membership['start_date'];
+                    } else {
+                        datasend['start_membership'] = '';
+                    }
+                    if(membership['end_date'] != null) {
+                        datasend['end_membership'] = membership['end_date'];
+                    } else {
+                        datasend['end_membership'] = '';
+                    }
+                    if(membership['receipt_date'] != null) {
+                        datasend['receipt_date'] = membership['receipt_date'];
+                    } else {
+                        datasend['receipt_date'] = '';
+                    }
                     datasend['subscription_amount'] = membership['subscription_amount'];
                     datasend['ext_transaction_ref'] = membership['ext_transaction_ref'];
                     datasend['receipt_number'] = membership['receipt_number'];
@@ -1074,8 +1104,16 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['office_held_name'] = officeHeld['office_held'];
-                    datasend['start_office'] = officeHeld['start_office'];
-                    datasend['end_office'] = officeHeld['end_office'];
+                    if(officeHeld['start_office'] != null) {
+                        datasend['start_office'] = officeHeld['start_office'];
+                    } else {
+                        datasend['start_office'] = '';
+                    }
+                    if(officeHeld['end_office'] != null) {
+                        datasend['end_office'] = officeHeld['end_office'];
+                    } else {
+                        datasend['end_office'] = '';
+                    }
                     datasend['remarks'] = officeHeld['remarks'];
                     var url = AppAPI.updateOfficeHeld;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -1173,13 +1211,21 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['donation_id'] = donation['donation_id'];
-                    datasend['date_received'] = donation['date_received'];
+                    if(donation['date_received'] != null) {
+                        datasend['date_received'] = donation['date_received'];
+                    } else {
+                        datasend['date_received'] = '';
+                    }
                     datasend['donation_amount'] = donation['donation_amount'];
                     datasend['payment_mode'] = donation['payment_mode'];
                     datasend['explain_if_other_payment'] = donation['explain_if_other_payment'];
                     datasend['ext_transaction_ref'] = donation['ext_transaction_ref'];
                     datasend['receipt_number'] = donation['receipt_number'];
-                    datasend['receipt_date'] = donation['receipt_date'];
+                    if(donation['receipt_date'] != null) {
+                        datasend['receipt_date'] = donation['receipt_date'];
+                    } else {
+                        datasend['receipt_date'] = '';
+                    }
                     datasend['receipt_mode'] = donation['receipt_mode_name'];
                     datasend['explain_if_other_receipt'] = donation['explain_if_other_receipt'];
                     datasend['donor_instruction'] = donation['donor_instructions'];
@@ -1302,7 +1348,11 @@ app.controller('editContact',
                     datasend['permission_level'] = team['permission'];
                     datasend['explain_if_other'] = team['explain_if_others'];
                     datasend['subteam'] = team['sub_team'];
-                    datasend['date_obsolete'] = team['date_obsolete'];
+                    if(team['date_obsolete'] != null) {
+                        datasend['date_obsolete'] = team['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     datasend['remarks'] = team['remarks'];
                     var url = AppAPI.updateTeamJoin;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -1403,10 +1453,18 @@ app.controller('editContact',
                     datasend['appreciation_id'] = appreciation['appreciation_id'];
                     datasend['appraisal_comment'] = appreciation['appraisal_comments'];
                     datasend['appraisal_by'] = appreciation['appraisal_by'];
-                    datasend['appraisal_date'] = appreciation['appraisal_date'];
+                    if(appreciation['appraisal_date'] != null) {
+                        datasend['appraisal_date'] = appreciation['appraisal_date'];
+                    } else {
+                        datasend['appraisal_date'] = '';
+                    }
                     datasend['appreciation_gesture'] = appreciation['appreciation_gesture'];
                     datasend['appreciation_by'] = appreciation['appreciation_by'];
-                    datasend['appreciation_date'] = appreciation['appreciation_date'];
+                    if(appreciation['appreciation_date'] != null) {
+                        datasend['appreciation_date'] = appreciation['appreciation_date'];
+                    } else {
+                        datasend['appreciation_date'] = '';
+                    }
                     datasend['remarks'] = appreciation['remarks'];
                     var url = AppAPI.updateAppreciation;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -1507,10 +1565,13 @@ app.controller('editContact',
                     datasend['user_type'] = session.getSession('userType');
                     datasend['proxy_of'] = session.getSession('contactToDisplayCid');
                     datasend['principal_of'] = selectedProxy.cid;
-                    ;
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
-                    datasend['date_obsolete'] = proxy['date_obsolete'];
+                    if(proxy['date_obsolete'] != null) {
+                        datasend['date_obsolete'] = proxy['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     var url = AppAPI.updateProxy;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultProxy.status = true;
@@ -1613,7 +1674,11 @@ app.controller('editContact',
                     datasend['speak_write'] = language['proficiency'];
                     datasend['explain_if_other'] = language['explain_if_other'];
                     datasend['remarks'] = language['remarks'];
-                    datasend['date_obsolete'] = language['date_obsolete'];
+                    if(language['date_obsolete'] != null) {
+                        datasend['date_obsolete'] = language['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     var url = AppAPI.updateLanguage;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultLanguage.status = true;
@@ -1710,7 +1775,11 @@ app.controller('editContact',
                     datasend['skill_asset'] = skill['skill_name'];
                     datasend['explain_if_other'] = skill['explain_if_other'];
                     datasend['remarks'] = skill['remarks'];
-                    datasend['date_obsolete'] = skill['date_obsolete'];
+                    if(skill['date_obsolete'] != null) {
+                        datasend['date_obsolete'] = skill['date_obsolete'];
+                    } else {
+                        datasend['date_obsolete'] = '';
+                    }
                     var url = AppAPI.updateSkill;
                     dataSubmit.submitData(datasend, url).then(function (response) {
                         $scope.resultSkill.status = true;
