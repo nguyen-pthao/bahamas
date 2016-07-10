@@ -28,8 +28,8 @@ public class Validator {
     private static Pattern pattern;
     private static Matcher matcher;
 
-    private static final String DATE_FORMAT = "dd-MMM-yyyy";
-    private static final String DATE_TIME_FORMAT = "dd-MMM-yyyy HH:mm:ss";
+    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
     /*
      This class should contain all the validation rules for every unique fields present in the DB
@@ -139,6 +139,8 @@ public class Validator {
      * @return boolean value, true if date is valid
      */
     public static Date isDateValid(String date) {
+        
+        date = date.substring(0, 10);      
         if (date.length() == DATE_FORMAT.length()) {
             try {
                 SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
