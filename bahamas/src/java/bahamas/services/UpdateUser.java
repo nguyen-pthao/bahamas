@@ -108,20 +108,23 @@ public class UpdateUser extends HttpServlet {
                             return;
                         }
                     }
-                    
-                    String password = Validator.containsBlankField(jobject.get("password").getAsString());
-                    String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
 
-                    if (password != null) {
-                        if (!password.equals(confirmPassword)) {
-                            json.addProperty("message", "password mismatch");
-                            out.println(gson.toJson(json));
-                            return;
+                    String password = null;
+                    if (jobject.get("password") != null) {
+                        password = Validator.containsBlankField(jobject.get("password").getAsString());
+                        if (jobject.get("confirm_password") != null) {
+                            String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
+                            if (!password.equals(confirmPassword)) {
+                                json.addProperty("message", "password mismatch");
+                                out.println(gson.toJson(json));
+                                return;
+                            }
                         }
-
-                        String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
-                        c.setPassword(passwordGenerate[0]);
-                        c.setSalt(passwordGenerate[1]);
+                        if (password != null) {
+                            String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
+                            c.setPassword(passwordGenerate[0]);
+                            c.setSalt(passwordGenerate[1]);
+                        }
                     }
 
                     if (user.isIsAdmin()) {

@@ -271,7 +271,7 @@ and open the template in the editor.
                                     <center>
                                         <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.name.$invalid || editUserForm.altName.$invalid || 
                                                     editUserForm.otherExpContact.$invalid || editUserForm.profession.$invalid || editUserForm.job.$invalid || editUserForm.nric.$invalid
-                                                    || editUserForm.nationality.$invalid || editUserForm.remarksContact.$invalid || !resultContact.status' ng-click="editTheContact()">Save Changes</button>
+                                                    || editUserForm.nationality.$invalid || editUserForm.remarksContact.$invalid' ng-click="editTheContact()">Save Changes</button>
                                         &nbsp;
                                         <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheContact()">Delete contact</button>
                                         <br>
@@ -1039,7 +1039,7 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <!-- /office-held information -->
-                            <div class="box collapsed-box blue-box">
+                            <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editDonation === ''}">
                                     <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                     <div class="box-tools pull-right">
@@ -1562,7 +1562,7 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <!-- /training information -->
-                            <div class="box collapsed-box blue-box">
+                            <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAppreciation === ''}">
                                     <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                     <div class="box-tools pull-right">
