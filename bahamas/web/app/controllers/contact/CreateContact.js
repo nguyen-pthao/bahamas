@@ -9,13 +9,13 @@
 var app = angular.module('bahamas');
 
 app.controller('createContact',
-        ['$scope', '$state', 'session', 'dataSubmit','loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter',
-            function ($scope, $state, session, dataSubmit, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter) {
+        ['$scope', '$state', 'session', 'dataSubmit', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter', '$timeout',
+            function ($scope, $state, session, dataSubmit, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter, $timeout) {
 //PAGES TRANSITION
                 var user = session.getSession('userType');
                 var viewContact = user + '.viewContacts';
                 var currentState = user + '.addContact';
-                
+
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -23,11 +23,11 @@ app.controller('createContact',
                 $scope.viewContact = function () {
                     $state.go(viewContact);
                 };
-                
+
                 $scope.addContact = function () {
                     $state.reload(currentState);
                 };
-                
+
                 $scope.form = {};
 //CALL DROPDOWN LIST SERVICES        
                 $scope.loadContactTypeList = function () {
@@ -307,17 +307,17 @@ app.controller('createContact',
                     dataSend.remarks = '';
                     dataSend['date_obsolete'] = '';
                     var url = "/teamjoin.add";
-                    
+
                     dataSubmit.submitData(dataSend, url).then(function (response) {
                         if (response.data.message == 'success') {
                             if ($scope.additionalContactInfo.teamInfo.team2 != '') {
                                 dataSend.team = $scope.additionalContactInfo.teamInfo.team2;
-                                
-                                 dataSubmit.submitData(dataSend, url).then(function (response) {
+
+                                dataSubmit.submitData(dataSend, url).then(function (response) {
                                     if (response.data.message == 'success') {
                                         if ($scope.additionalContactInfo.teamInfo.team3 != '') {
                                             dataSend.team = $scope.additionalContactInfo.teamInfo.team3;
-                                            
+
                                             dataSubmit.submitData(dataSend, url).then(function (response) {
                                                 if (response.data.message == 'success') {
                                                     $scope.submittedTeam = true;
@@ -338,7 +338,7 @@ app.controller('createContact',
                                 $scope.submittedTeam = true;
                                 $scope.message = 'Submitted successfully.';
                             }
-                        } 
+                        }
                     }, function () {
                         window.alert("Fail to send request!");
                     });
@@ -414,17 +414,16 @@ app.controller('createContact',
                 $scope.$watch('dob', function(){
                     if(angular.isUndefined($scope.dob)){
                         $scope.contactInfo['date_of_birth'] = "";
+                    }else if($scope.dob === ""){
+                        $scope.contactInfo['date_of_birth'] = "";
+                    }else if($scope.dob === null){
+                        $scope.contactInfo['date_of_birth'] = "";
+                    }else{
+                        $scope.contactInfo['date_of_birth'] = new Date($scope.dob).toLocaleDateString();
                     }
                 });
-                $scope.dateChanged = function(){
-                  if(angular.isUndefined($scope.dob)){
-                      $scope.contactInfo['date_of_birth'] = "";
-                  }
-                  if(angular.isDefined($scope.dob)){
-                       $scope.contactInfo['date_of_birth'] = $filter('date')($scope.dob ,'dd-MMM-yyyy');
-                  }
-                };
-                
+
+                //datepickerrrrr
                 $scope.today = function () {
                     $scope.dt = new Date();
                 };
@@ -436,7 +435,6 @@ app.controller('createContact',
 
                 $scope.inlineOptions = {
                     customClass: getDayClass,
-                    minDate: new Date(),
                     showWeeks: true
                 };
 
@@ -444,32 +442,15 @@ app.controller('createContact',
                     formatYear: 'yy',
                     formatMonth: 'MMM',
                     formatDay: 'dd',
-                    minDate: new Date(),
+                    maxDate: new Date(),
                     startingDay: 1
                 };
 
-                $scope.toggleMin = function () {
-                    $scope.inlineOptions.minDate = $scope.inlineOptions.minDate ? null : new Date();
-                    $scope.dateOptions.minDate = $scope.inlineOptions.minDate;
-                };
-
-                $scope.toggleMin();
-
-                $scope.open1 = function () {
-                    $scope.popup1.opened = true;
-                };
-
-                $scope.setDate = function (year, month, day) {
-                    $scope.dt = new Date(year, month, day);
-                };
-
-                $scope.formats = ['dd MMM yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-                $scope.format = $scope.formats[0];
-                $scope.altInputFormats = ['M!/d!/yyyy'];
-
-                $scope.popup1 = {
-                    opened: false
-                };
+                $scope.open = function () {
+                    $timeout(function () {
+                        $scope.opened = true;
+                    })
+                }
 
                 function getDayClass(data) {
                     var date = data.date,
@@ -488,6 +469,8 @@ app.controller('createContact',
 
                     return '';
                 }
+                $scope.format = 'dd MMM yyyy';
+                $scope.altInputFormats = ['M!/d!/yyyy'];
             }]);
 
 
