@@ -31,6 +31,28 @@ app.directive('compare', function () {
     };
 });
 
+app.directive('empty', function () {
+    return {
+        restrict: 'A',
+        require: 'ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            if (!ngModel) {
+                return;
+            }
+            scope.$watch(attrs.ngModel, function () {
+                validate();
+            });
+            attrs.$observe('empty', function () {
+                validate();
+            });
+            var validate = function () {
+                var val1 = ngModel.$viewValue;
+                ngModel.$setValidity('empty', val1 != '' && val1 != null);
+            };
+        }
+    };
+});
+
 app.directive('dateparse', ['$filter', function ($filter) {
         return {
             restrict: 'EAC',
@@ -79,6 +101,13 @@ app.controller('editContact',
 
                 //viewing mode: false for own contact and true for other people contact
                 $scope.editMode = session.getSession('otherContact');
+
+//DEFINE REGEX
+                $scope.nationalityRegex = '[A-Za-z ]{0,49}';
+                $scope.nricRegex = '[A-Za-z][0-9]\\d{6}[A-Za-z]'; //notice that \d won't work but \\d
+                $scope.phoneRegex = '[0-9]\\d{0,19}';
+                $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
+                
 //GET USER PERMISSION
                 if ($scope.editMode == null) {
                     $scope.editMode = 'false';

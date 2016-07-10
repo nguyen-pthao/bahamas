@@ -36,13 +36,13 @@ and open the template in the editor.
                                     <div class="form-group">
                                         <label>Name</label><span class="required">*</span>
                                         <input type="text" ng-model="contactInfo.name" ng-maxlength="50" ng-required="true" name="name" class="form-control">
-                                        <span ng-show="contactForm.name.$error.maxlength" style="color:red">Input field name is too long.</span>
+                                        <span ng-show="contactForm.name.$error.maxlength" class='error'>Input field name is too long.</span>
                                         <span ng-show="contactForm.name.$error.required && contactForm.name.$touched" style="color: red">Name is required.</span>
                                     </div>
                                     <div class="form-group">
                                         <label>Alternative Name</label>
                                         <input type="text" ng-model="contactInfo['alt_name']" ng-maxlength="50" name="altname" class="form-control"> 
-                                        <span ng-show="contactForm.altname.$error.maxlength" style="color:red">Input field alternative name is too long.</span>
+                                        <span ng-show="contactForm.altname.$error.maxlength" class='error'>Input field alternative name is too long.</span>
                                     </div>
                                     <div class="form-group" ng-init="loadContactTypeList()">
                                         <label>Contact type</label><span class="required">*</span>
@@ -52,22 +52,22 @@ and open the template in the editor.
                                     </div>
                                     <label>Explain if above is 'Other'</label>
                                     <textarea class="custom-remarks" ng-model="contactInfo['explain_if_other']" ng-maxlength="200" name="explainifother" contenteditable="true" spellcheck="true"></textarea>
-                                    <span ng-show="contactForm.explainifother.$error.maxlength" style="color:red">Input field explanation is too long.</span>
+                                    <span ng-show="contactForm.explainifother.$error.maxlength" class='error'>Input field explanation is too long.</span>
                                     <div class="form-group">
                                         <label>Profession</label>
                                         <input type="text" ng-model="contactInfo.profession" ng-maxlength="200" name="profession" class="form-control" spellcheck="true"> 
-                                        <span ng-show="contactForm.profession.$error.maxlength" style="color:red">Input field profession is too long.</span>
+                                        <span ng-show="contactForm.profession.$error.maxlength" class='error'>Input field profession is too long.</span>
                                     </div>
                                     <div class="form-group">
                                         <label>Job title</label>
                                         <input type="text" ng-model="contactInfo['job_title']" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
-                                        <span ng-show="contactForm.jobtitle.$error.maxlength" style="color:red">Input field job title is too long.</span>
+                                        <span ng-show="contactForm.jobtitle.$error.maxlength" class='error'>Input field job title is too long.</span>
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>NRIC/FIN</label>
                                             <input type="text" ng-model="contactInfo['nric_fin']" ng-pattern="nricRegex" name="nricfin" class="form-control">
-                                            <span ng-show="contactForm.nricfin.$invalid && contactForm.nricfin.$touched" style="color:red">Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
+                                            <span ng-show="contactForm.nricfin.$invalid && contactForm.nricfin.$touched" class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
                                         </div>    
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Gender</label>
@@ -80,7 +80,7 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                                             <label>Nationality</label>
                                             <input type="text" ng-model="contactInfo.nationality" ng-pattern="nationalityRegex" class="form-control" name="nationality">
-                                            <span ng-show="contactForm.nationality.$invalid && contactForm.nricfin.$touched" style="color:red">Invalid nationality.</span>
+                                            <span ng-show="contactForm.nationality.$invalid && contactForm.nationality.$touched" class='error'>Invalid nationality.</span>
                                         </div>    
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
@@ -95,8 +95,8 @@ and open the template in the editor.
                                         </div>
                                     </div>                     
                                     <label>Remark</label>
-                                    <textarea class="custom-remarks" ng-model="contactInfo.remarks" ng-maxlength="200" name="remarks" contenteditable="true" spellcheck="true"></textarea>
-                                    <span ng-show="contactForm.remarks.$error.maxlength" style="color:red">Input field explanation is too long.</span>
+                                    <textarea class="custom-remarks" ng-model="contactInfo.remarks" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+                                    <span ng-show="contactForm.remarks.$error.maxlength" class='error'>Input field explanation is too long.</span>
                                 </div>    
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="nextForm()" 
@@ -115,7 +115,7 @@ and open the template in the editor.
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"></span>
                                             </button>
-                                            <h4 ng-hide="result.message" class="modal-title" id="modalLabel" style="color:red">Error</h4>
+                                            <h4 ng-hide="result.message" class="modal-title" id="modalLabel" class='error'>Error</h4>
                                             <h4 ng-show="result.message" class="modal-title" id="modalLabel">{{result.deliver}}</h4>
                                         </div>
                                         <div class="modal-body" ng-hide="result.message">
@@ -137,13 +137,13 @@ and open the template in the editor.
                                                             <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                                                                 <label>Phone number</label><span class="required">*</span>
                                                                 <input type="text" ng-model="additionalContactInfo.phoneInfo['phone_number']" ng-pattern="phoneRegex" ng-maxlength='20' ng-minlength="0" ng-required="true" name="additionalphonenumber" class="form-control">
-                                                                <span ng-show="form.additionalContactForm.additionalphonenumber.$error.pattern && form.additionalContactForm.additionalphonenumber.$touched" style="color:red">Invalid phone number.</span>
-                                                                <span ng-show="form.additionalContactForm.additionalphonenumber.$error.required && form.additionalContactForm.additionalphonenumber.$dirty" style="color:red">Phone number is required.</span>
-                                                                <span ng-show="form.additionalContactForm.additionalphonenumber.$error.maxlength" style='color:red'>Input field phone number is too long.</span>
+                                                                <span ng-show="form.additionalContactForm.additionalphonenumber.$error.pattern && form.additionalContactForm.additionalphonenumber.$touched" class='error'>Invalid phone number.</span>
+                                                                <span ng-show="form.additionalContactForm.additionalphonenumber.$error.required && form.additionalContactForm.additionalphonenumber.$dirty" class='error'>Phone number is required.</span>
+                                                                <span ng-show="form.additionalContactForm.additionalphonenumber.$error.maxlength" class='error'>Input field phone number is too long.</span>
                                                             </div>
                                                         </div>
                                                         <label>Remark</label>
-                                                        <textarea  class="custom-remarks" ng-model="additionalContactInfo.phoneInfo['phone_remarks']" ng-maxlength="200" name="phoneremarks" contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea  class="custom-remarks" ng-model="additionalContactInfo.phoneInfo['phone_remarks']" ng-maxlength="1000" name="phoneremarks" contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.phoneremarks.$error.maxlength">Input field explanation is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addPhone()" 
@@ -161,12 +161,12 @@ and open the template in the editor.
                                                         <div class="form-group">
                                                             <label>Email</label><span class="required">*</span>
                                                             <input type="email" ng-model="additionalContactInfo.emailInfo.email" ng-pattern="emailRegex" ng-maxlength='50' ng-required="true" name="additionalemail" class="form-control">
-                                                            <span ng-show="form.additionalContactForm.additionalemail.$error.pattern && form.additionalContactForm.additionalemail.$touched" style="color:red">Invalid email.</span>
-                                                            <span ng-show="form.additionalContactForm.additionalemail.$error.required && form.additionalContactForm.additionalemail.$dirty" style="color:red">Email is required.</span>
-                                                            <span ng-show="form.additionalContactForm.additionalemail.$error.maxlength" style='color:red'>Input field email is too long.</span>
+                                                            <span ng-show="form.additionalContactForm.additionalemail.$error.pattern && form.additionalContactForm.additionalemail.$touched" class='error'>Invalid email.</span>
+                                                            <span ng-show="form.additionalContactForm.additionalemail.$error.required && form.additionalContactForm.additionalemail.$dirty" class='error'>Email is required.</span>
+                                                            <span ng-show="form.additionalContactForm.additionalemail.$error.maxlength" class='error'>Input field email is too long.</span>
                                                         </div>
                                                         <label>Remark</label>
-                                                        <textarea class="custom-remarks" ng-model="additionalContactInfo.emailInfo['email_remarks']" ng-maxlength="200" name="emailremarks" contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea class="custom-remarks" ng-model="additionalContactInfo.emailInfo['email_remarks']" ng-maxlength="1000" name="emailremarks" contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.emailremarks.$error.maxlength">Input field explanation is too long.</span>     
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addEmail()"
@@ -183,8 +183,8 @@ and open the template in the editor.
                                                         <div class="form-group">
                                                             <label>Address</label><span class="required">*</span>
                                                             <input type="text" ng-model="additionalContactInfo.addressInfo.address" ng-maxlength='1000' ng-required="true" name='additionaladdress' class="form-control">
-                                                            <span ng-show="form.additionalContactForm.additionaladdress.$error.required && form.additionalContactForm.additionaladdress.$dirty" style="color:red">Address is required.</span>
-                                                            <span ng-show="form.additionalContactForm.additionaladdress.$error.maxlength" style='color:red'>Input field address is too long.</span>
+                                                            <span ng-show="form.additionalContactForm.additionaladdress.$error.required && form.additionalContactForm.additionaladdress.$dirty" class='error'>Address is required.</span>
+                                                            <span ng-show="form.additionalContactForm.additionaladdress.$error.maxlength" class='error'>Input field address is too long.</span>
                                                         </div>
                                                         <div class="form-group col-md-12" style="padding: 0px">
                                                             <div class="col-md-4" style="padding: 0px">
@@ -200,7 +200,7 @@ and open the template in the editor.
                                                             </div>
                                                         </div>  
                                                         <label>Remark</label>
-                                                        <textarea class="custom-remarks" ng-model="additionalContactInfo.addressInfo['address_remarks']" ng-maxlength="200" name="addressremarks" contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea class="custom-remarks" ng-model="additionalContactInfo.addressInfo['address_remarks']" ng-maxlength="1000" name="addressremarks" contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.addressremarks.$error.maxlength">Input field explanation is too long.</span>      
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addAddress()"
@@ -220,7 +220,7 @@ and open the template in the editor.
                                                             <select class="form-control" ng-model="additionalContactInfo.teamInfo.team1" ng-required="true" name="choice1">
                                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                                             </select>
-                                                            <span ng-show="form.additionalContactForm.choice1.$invalid && form.additionalContactForm.choice1.$touched" style="color: red">Team preference is required.</span>
+                                                            <span ng-show="form.additionalContactForm.choice1.$invalid && form.additionalContactForm.choice1.$touched" class='error'>Team preference is required.</span>
                                                         </div>
                                                         <div class="form-group">
                                                             <label>Second choice</label>
@@ -283,7 +283,7 @@ and open the template in the editor.
                                                         <textarea ng-model="additionalContactInfo.skillassetInfo['explain_if_other']" ng-maxlength="200" name="additionalexplainifotherLSA" style='min-width: 100%; max-width: 100%; min-height: 80px' contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.additionalexplainifotherLSA.$error.maxlength">Input field explanation is too long.</span>
                                                         <label>Remark</label>
-                                                        <textarea class="custom-remarks" ng-model="additionalContactInfo.skillassetInfo.remarks" ng-maxlength="200" name="LSAremarks" contenteditable="true" spellcheck="true"></textarea>
+                                                        <textarea class="custom-remarks" ng-model="additionalContactInfo.skillassetInfo.remarks" ng-maxlength="1000" name="LSAremarks" contenteditable="true" spellcheck="true"></textarea>
                                                         <span ng-show="form.additionalContactForm.LSAremarks.$error.maxlength">Input field remarks is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addSkillasset()"

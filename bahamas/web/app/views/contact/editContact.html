@@ -46,8 +46,9 @@ and open the template in the editor.
                                                 <label>Username</label><span class="required">*</span>
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU">
-                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>
+                                                        <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU" empty>
+                                                        <span ng-show="editUserForm.usernameNU.$error.empty && editUserForm.usernameNU.$dirty" class='error'>Username is required.</span>
+<!--                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>-->
                                                         <span ng-show="existedUsername && ignore" style="color: red">This username is already existed.</span>
                                                     </div>
                                                     <!--    <div class="no-padding-left col-md-1 no-padding-top">
@@ -62,8 +63,8 @@ and open the template in the editor.
                                                 <label>Password</label><span class="required">*</span>
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <input type="text" ng-model='editUser.password' class="form-control" name="passwordNU" ng-minlength="8" ng-maxlength="20">
-                                                        <span ng-show="editUserForm.passwordNU.$error.required && editUserForm.passwordNU.$dirty" style="color: red">Password is required.</span>
+                                                        <input type="text" ng-model='editUser.password' class="form-control" name="passwordNU" ng-minlength="8" ng-maxlength="20" empty>
+                                                        <span ng-show="editUserForm.passwordNU.$error.empty && editUserForm.passwordNU.$dirty" class='error'>Password is required.</span>
                                                         <span ng-show="(editUserForm.passwordNU.$error.maxlength || editUserForm.passwordNU.$error.minlength) && editUserForm.passwordNU.$touched" style="color: red">Password has to be 8 to 20 characters long.</span>
                                                     </div>
                                                     <div class="no-padding-left col-md-4 no-padding-top">
@@ -76,9 +77,10 @@ and open the template in the editor.
                                                 <!--<input type="text" ng-model='editUser.email' class="form-control" name="useremailNU">-->
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-show="!(editEmail == '')">
+                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-show="!(editEmail == '')" empty>
                                                             <option ng-repeat="userEmail in emailList">{{userEmail.email}}</option>
                                                         </select>
+                                                        <span ng-show='editUserForm.useremailNU.$error.empty && editUserForm.useremailNU.$dirty' class='error'>Email is required</span>
                                                     </div>
                                                     <label ng-show="editEmail == ''">This user does not have an email. Please add his/her email before proceeding.</label>
                                                 </div>
@@ -97,13 +99,19 @@ and open the template in the editor.
                                                 </center>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
+                                                <label>Old Password</label><span class="required">*</span>
+                                                <input type="password" ng-model='editUser.password' class="form-control" name="oldPassword" empty>
+                                                <span ng-show='editUserForm.oldPassword.$error.empty && editUserForm.oldPassword.$dirty' class='error'>Old password is required.</span>
+                                            </div>
+                                            <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>New Password</label><span class="required">*</span>
-                                                <input type="password" ng-model='editUser.password' compare="{{editUser.confirmPassword}}" class="form-control" name="newPassword">
+                                                <input type="password" ng-model='editUser.password' compare="{{editUser.confirmPassword}}" class="form-control" name="newPassword" empty>
+                                                <span ng-show='editUserForm.newPassword.$error.empty && editUserForm.newPassword.$dirty' class='error'>New password is required.</span>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>Confirm Password</label><span class="required">*</span>
                                                 <input type="password" ng-model='editUser.confirmPassword' compare="{{editUser.password}}" class="form-control" name="confirmPassword">
-                                                <span ng-show="editUserForm.confirmPassword.$error.compare" style="color: red">Confirmed password is not the same.</span>
+                                                <span ng-show="editUserForm.confirmPassword.$error.compare" class='error'>Confirmed password is not the same.</span>
                                             </div>
                                             <!-- The contact is a user and admin wants to deactivate him/her -->
                                             <div class="form-group" ng-show="isUser && isAdmin">
@@ -134,12 +142,12 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center ng-show="!isUser && isAdmin">
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheUser()">Create new user</button>
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.usernameNU.$invalid || existedUsername || editUserForm.passwordNU.$invalid' ng-click="editTheUser()">Create new user</button>
                                         <br>
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
                                     </center>
                                     <center ng-show="(editMode == 'false')">
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheUser()">Change my password</button>
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.oldPassword.$invalid || editUserForm.newPassword.$invalid || editUserForm.confirmPassword.$invalid' ng-click="editTheUser()">Change my password</button>
                                         <br>
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
                                     </center>
@@ -178,13 +186,16 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Name</label><span class="required">*</span>
-                                            <input type="text" ng-model="editContact['name']"  name="name" class="form-control"> 
+                                            <input type="text" ng-model="editContact['name']"  name="name" class="form-control" ng-maxlength='50' empty>
+                                            <span ng-show='editUserForm.name.$error.empty && editUserForm.name.$dirty' class='error'>Name is required.</span>
+                                            <span ng-show='editUserForm.name.$error.maxlength' class='error'>Input field name is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Alternative name</label>
-                                            <input type="text" ng-model="editContact['alt_name']" name="altName" class="form-control"> 
+                                            <input type="text" ng-model="editContact['alt_name']" name="altName" class="form-control" ng-maxlength='50'>
+                                            <span ng-show='editUserForm.altName.$error.maxlength' class='error'>Input field alternative name is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" ng-init="loadContactTypeList()">
@@ -198,25 +209,29 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class="custom-remarks" ng-model="editContact['explain_if_other']" name="otherExpContact" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="editContact['explain_if_other']" name="otherExpContact" contenteditable="true" spellcheck="true" ng-maxlength='200'></textarea>
+                                            <span ng-show='editUserForm.otherExpContact.$error.maxlength' class='error'>Input field explanation is too long.</span>          
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Profession</label>
-                                            <input type="text" ng-model="editContact['profession']" name="profession" class="form-control"> 
+                                            <input type="text" ng-model="editContact['profession']" name="profession" class="form-control" ng-maxlength='200'>
+                                            <span ng-show='editUserForm.profession.$error.maxlength' class='error'>Input field profession is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Job title</label>
-                                            <input type="text" ng-model="editContact['job_title']" name="job" class="form-control"> 
+                                            <input type="text" ng-model="editContact['job_title']" name="job" class="form-control" ng-maxlength='50'>
+                                            <span ng-show='editUserForm.job.$error.maxlength' class='error'>Input field job title is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-4" ng-show="isAdmin || isTeamManager">
                                             <label>NRIC/FIN</label>
-                                            <input type="text" ng-model="editContact['nric_fin']" name="nric" class="form-control"> 
+                                            <input type="text" ng-model="editContact['nric_fin']" name="nric" class="form-control" ng-pattern='nricRegex'>
+                                            <span ng-show='editUserForm.nric.$invalid && editUserForm.nric.$touched' class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
                                         </div>    
                                         <div ng-class="{'col-md-offset-1' : (isAdmin || isTeamManager)}" class="col-md-2">
                                             <label>Gender</label>
@@ -229,7 +244,8 @@ and open the template in the editor.
                                         </div>  
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Nationality</label>
-                                            <input type="text" ng-model="editContact.nationality" name="nationality" class="form-control"> 
+                                            <input type="text" ng-model="editContact.nationality" name="nationality" class="form-control" ng-pattern='nationalityRegex'>
+                                            <span ng-show="editUserForm.nationality.$invalid && editUserForm.nationality.$touched" class='error'>Invalid nationality.</span>                                           
                                         </div>    
                                     </div>
                                     <div class="form-group col-md-12" style="margin-top: 15px">
@@ -245,14 +261,17 @@ and open the template in the editor.
                                     </div>                      
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remarks</label>
-                                            <textarea class="custom-remarks" ng-model="editContact.remarks" name="remarksContact" contenteditable="true" spellcheck="true"></textarea>
+                                            <label>Remark</label>
+                                            <textarea class="custom-remarks" ng-model="editContact.remarks" name="remarksContact" contenteditable="true" spellcheck="true" ng-maxlength='1000'></textarea>
+                                            <span ng-show='editUserForm.remarksContact.$error.maxlength' class='error'>Input field remark is too long.</span>  
                                         </div>
                                     </div>
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheContact()">Save Changes</button>
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.name.$invalid || editUserForm.altName.$invalid || 
+                                                    editUserForm.otherExpContact.$invalid || editUserForm.profession.$invalid || editUserForm.job.$invalid || editUserForm.nric.$invalid
+                                                    || editUserForm.nationality.$invalid || editUserForm.remarksContact.$invalid || !resultContact.status' ng-click="editTheContact()">Save Changes</button>
                                         &nbsp;
                                         <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheContact()">Delete contact</button>
                                         <br>
