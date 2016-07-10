@@ -171,21 +171,49 @@ app.controller('editContact',
                 $scope.loadContactTypeList = function () {
                     loadContactType.retrieveContactType().then(function (response) {
                         $scope.contactTypeList = response.data.contact;
+                        var other;
+                        for(var obj in $scope.contactTypeList) {
+                            if($scope.contactTypeList[obj].contactType == 'Other') {
+                                other = $scope.contactTypeList.splice(obj, 1);
+                            }
+                        }
+                        $scope.contactTypeList.push(other[0]);
                     });
                 };
                 $scope.loadMembershipList = function () {
                     loadMembershipClass.retrieveMembershipClass().then(function (response) {
                         $scope.membershipList = response.data.membershipClassList;
+                        var other;
+                        for(var obj in $scope.membershipList) {
+                            if($scope.membershipList[obj].membershipClass == 'Other') {
+                                other = $scope.membershipList.splice(obj, 1);
+                            }
+                        }
+                        $scope.membershipList.push(other[0]);
                     });
                 };
                 $scope.loadPaymentModeList = function () {
                     loadPaymentMode.retrievePaymentMode().then(function (response) {
                         $scope.paymentModeList = response.data.paymentModeList;
+                        var other;
+                        for(var obj in $scope.paymentModeList) {
+                            if($scope.paymentModeList[obj].paymentMode == 'Other') {
+                                other = $scope.paymentModeList.splice(obj, 1);
+                            }
+                        }
+                        $scope.paymentModeList.push(other[0]);
                     });
                 };
                 $scope.loadSendReceiptModeList = function () {
                     loadModeOfSendingReceipt.retrieveModeOfSendingReceipt().then(function (response) {
                         $scope.sendReceiptModList = response.data.mode;
+                        var other;
+                        for(var obj in $scope.sendReceiptModList) {
+                            if($scope.sendReceiptModList[obj].modeOfSendingReceipt == 'Other') {
+                                other = $scope.sendReceiptModList.splice(obj, 1);
+                            }
+                        }
+                        $scope.sendReceiptModList.push(other[0]);
                     });
                 };
                 $scope.loadOfficeHoldList = function () {
@@ -196,6 +224,13 @@ app.controller('editContact',
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
+                        var other;
+                        for(var obj in $scope.teamAffiliationList) {
+                            if($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                                other = $scope.teamAffiliationList.splice(obj, 1);
+                            }
+                        }
+                        $scope.teamAffiliationList.push(other[0]);
                     });
                 };
                 $scope.loadPermissionLevelList = function () {
@@ -206,11 +241,25 @@ app.controller('editContact',
                 $scope.loadLanguageList = function () {
                     loadLanguage.retrieveLanguage().then(function (response) {
                         $scope.languageList = response.data.languageList;
+                        var other;
+                        for(var obj in $scope.languageList) {
+                            if($scope.languageList[obj].language == 'Other') {
+                                other = $scope.languageList.splice(obj, 1);
+                            }
+                        }
+                        $scope.languageList.push(other[0]);
                     });
                 };
                 $scope.loadLSAList = function () {
                     loadLSAClass.retrieveLSAClass().then(function (response) {
                         $scope.LSAList = response.data.lsaClassList;
+                        var other;
+                        for(var obj in $scope.LSAList) {
+                            if($scope.LSAList[obj].lsaClass == 'Other') {
+                                other = $scope.LSAList.splice(obj, 1);
+                            }
+                        }
+                        $scope.LSAList.push(other[0]);
                     });
                 };
                 $scope.loadCountryNames = function () {
