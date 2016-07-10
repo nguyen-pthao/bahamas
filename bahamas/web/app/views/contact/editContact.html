@@ -99,18 +99,18 @@ and open the template in the editor.
                                                 </center>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
-                                                <label>Old Password</label><span class="required">*</span>
-                                                <input type="password" ng-model='editUser.password' class="form-control" name="oldPassword" empty>
-                                                <span ng-show='editUserForm.oldPassword.$error.empty && editUserForm.oldPassword.$dirty' class='error'>Old password is required.</span>
+                                                <label>Current Password</label><span class="required">*</span>
+                                                <input type="password" ng-model='editUser["current_password"]' class="form-control" name="oldPassword" empty>
+                                                <span ng-show='editUserForm.oldPassword.$error.empty && editUserForm.oldPassword.$dirty' class='error'>Current password is required.</span>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>New Password</label><span class="required">*</span>
-                                                <input type="password" ng-model='editUser.password' compare="{{editUser.confirmPassword}}" class="form-control" name="newPassword" empty>
+                                                <input type="password" ng-model='editUser.password' compare='{{editUser["confirm_password"]}}' class="form-control" name="newPassword" empty>
                                                 <span ng-show='editUserForm.newPassword.$error.empty && editUserForm.newPassword.$dirty' class='error'>New password is required.</span>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>Confirm Password</label><span class="required">*</span>
-                                                <input type="password" ng-model='editUser.confirmPassword' compare="{{editUser.password}}" class="form-control" name="confirmPassword">
+                                                <input type="password" ng-model='editUser["confirm_password"]' compare="{{editUser.password}}" class="form-control" name="confirmPassword">
                                                 <span ng-show="editUserForm.confirmPassword.$error.compare" class='error'>Confirmed password is not the same.</span>
                                             </div>
                                             <!-- The contact is a user and admin wants to deactivate him/her -->
@@ -142,7 +142,7 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center ng-show="!isUser && isAdmin">
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.usernameNU.$invalid || existedUsername || editUserForm.passwordNU.$invalid' ng-click="editTheUser()">Create new user</button>
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.usernameNU.$invalid || existedUsername || editUserForm.passwordNU.$invalid || editUserForm.useremailNU.$invalid || (editEmail == "")' ng-click="editTheUser()">Create new user</button>
                                         <br>
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
                                     </center>

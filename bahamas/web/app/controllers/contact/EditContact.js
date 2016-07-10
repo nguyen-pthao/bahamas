@@ -599,7 +599,9 @@ app.controller('editContact',
                         datasend['token'] = session.getSession('token');
                         datasend['contact_id'] = session.getSession('contactToDisplayCid');
                         datasend['username'] = $scope.editUser['username'];
+                        datasend['current_password'] = $scope.editUser['current_password'];
                         datasend['password'] = $scope.editUser['password'];
+                        datasend['confirm_password'] = $scope.editUser['confirm_password'];
                         datasend['email'] = '';
                         datasend['deactivated'] = '';
                         datasend['is_admin'] = '';
