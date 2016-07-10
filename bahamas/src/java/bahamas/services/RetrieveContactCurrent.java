@@ -192,7 +192,7 @@ public class RetrieveContactCurrent extends HttpServlet {
  
 
         jsonContactObj = new JsonObject();
-        jsonContactObj.addProperty("cid", Integer.toString(contact.getContactId()));
+        jsonContactObj.addProperty("cid", contact.getContactId());
         if (contact.getUsername() != null) {
             jsonContactObj.addProperty("username", contact.getUsername());
         } else {
