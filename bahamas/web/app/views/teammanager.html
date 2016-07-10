@@ -166,7 +166,7 @@
                                     <li style="padding-top: 5px">
                                         <form ng-submit="searchContact()" class="sidebar-form">
                                             <div class="input-group" ng-init="retrieveAllContacts()">
-                                                <input type="text" placeholder="Search Contacts..." class="form-control" ng-model="selected" uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html">
+                                                <input type="text" placeholder="Search Contacts..." class="form-control" ng-model="selected" uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html" typeahead-on-select='onSelect($item, $model, $label)'>
                                                 <span class="input-group-btn">
                                                     <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i>
                                                     </button>                                               

@@ -5,6 +5,7 @@
  */
 package bahamas.util;
 
+import com.google.gson.JsonElement;
 import com.mysql.jdbc.StringUtils;
 import java.sql.SQLException;
 import java.text.DateFormat;
@@ -28,8 +29,17 @@ public class Validator {
     private static Pattern pattern;
     private static Matcher matcher;
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd";
+    private static final String DATE_FORMAT = "MM/dd/yyyy";
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static ArrayList<String> errorList = new ArrayList<String>();
+
+    public static ArrayList<String> getErrorList() {
+        return errorList;
+    }
+
+    public static void setErrorList(ArrayList<String> errorList) {
+        Validator.errorList = errorList;
+    }
 
     /*
      This class should contain all the validation rules for every unique fields present in the DB
@@ -98,38 +108,53 @@ public class Validator {
      * @param str the inputted String
      * @return boolean value, true if string is valid
      */
-    public static String containsBlankField(String str) {
+    public static String containsBlankField(JsonElement e) {
 
-        if (str == null || str.trim().isEmpty()) {
-            return null;
-        } else {
-            return str;
+        if (e != null && !e.isJsonNull()) {
+            String str = e.getAsString();
+            if (str == null || str.trim().isEmpty()) {
+                return null;
+            } else {
+                return str;
+            }
+
         }
+        return null;
     }
 
-    public static int isIntValid(String num) {
-        try {
-            return Integer.parseInt(num);
-        } catch (NumberFormatException | NullPointerException e) {
-            return 0;
+    public static int isIntValid(JsonElement e) {
+        if (e != null && !e.isJsonNull()) {
+            try {
+                return e.getAsInt();
+            } catch (Exception ex) {
+                return 0;
+            }
         }
+        return 0;
     }
 
-    public static double isDoubleValid(String num) {
-        try {
-            return Double.parseDouble(num);
-        } catch (NumberFormatException | NullPointerException e) {
-            return 0;
+    public static double isDoubleValid(JsonElement e) {
+        if (e != null && !e.isJsonNull()) {
+            try {
+                return e.getAsDouble();
+            } catch (Exception ex) {
+                return 0;
+            }
         }
+        return 0;
     }
 
-    public static boolean isBooleanValid(String value){
-        if(value == null || value.trim().isEmpty()){
-            return false;
+    public static boolean isBooleanValid(JsonElement e) {
+        if (e != null && !e.isJsonNull()) {
+            try {
+                return e.getAsBoolean();
+            } catch (Exception ex) {
+                return false;
+            }
         }
-        else return value.equals("true");
+        return false;
     }
-    
+
     /**
      * <p>
      * Return a boolean value on whether inputted date is valid
@@ -138,21 +163,28 @@ public class Validator {
      * @param date the date
      * @return boolean value, true if date is valid
      */
-    public static Date isDateValid(String date) {
-        
-        date = date.substring(0, 10);      
-        if (date.length() == DATE_FORMAT.length()) {
-            try {
-                SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-                //df.setLenient(false);
-                return df.parse(date);
+    public static Date isDateValid(JsonElement e, String field) {
 
-            } catch (ParseException | NullPointerException e) {
+        if (e != null && !e.isJsonNull()) {
+            try {
+                String date = e.getAsString();
+                if (date.length() == DATE_FORMAT.length()) {
+                    try {
+                        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
+                        return df.parse(date);
+                    } catch (ParseException | NullPointerException exp) {
+                        errorList.add(field + " field error!");
+                        return null;
+                    }
+                }
+            } catch (IndexOutOfBoundsException | NullPointerException ex) {
+                errorList.add(field + " field error!");
                 return null;
             }
-        }
-        return null;
 
+        }
+        errorList.add("Date field error!");
+        return null;
     }
 
     /**

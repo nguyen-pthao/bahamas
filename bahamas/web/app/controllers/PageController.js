@@ -104,13 +104,19 @@ app.controller('pageController',
                         });
                         $scope.userType = user;
                     });
-
+                    
+                    $scope.onSelect = function ($item, $model, $label) {
+                        $scope.$item = $item;
+                        $scope.$model = $model;
+                        $scope.$label = $label;
+                        $scope.searchContact();
+                    };
+                    
                     $scope.searchContact = function () {
                         var contactCid = $scope.selected.cid;
                         var toURL = $scope.userType + ".viewIndivContact";
                         session.setSession('contactToDisplayCid', contactCid);
                         $state.go(toURL, {}, {reload: true});
-
                     };
 
                     $scope.toProfile = function () {

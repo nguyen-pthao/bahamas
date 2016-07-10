@@ -19,28 +19,31 @@ public class Email {
     private String remarks;
     private String createdBy;
     private Date dateObsolete;
+    private boolean verified;
 
-    public Email(Contact contact, String email, String createdBy) {
+    public Email(Contact contact, String email, String createdBy, boolean verified) {
         this.contact = contact;
         this.email = email;
         this.createdBy = createdBy;
-
+        this.verified = verified;
     }
 
-    public Email(Contact contact, String email, String createdBy, String remarks, Date dateObsolete) {
+    public Email(Contact contact, String email, String createdBy, String remarks, Date dateObsolete, boolean verified) {
         this.contact = contact;
         this.email = email;
         this.remarks = remarks;
         this.createdBy = createdBy;
         this.dateObsolete = dateObsolete;
+        this.verified = verified;
     }
     
-    public Email(String email, String createdBy, String remarks, Date dateObsolete, Date dateCreated) {
+    public Email(String email, String createdBy, String remarks, Date dateObsolete, Date dateCreated, boolean verified) {
         this.email = email;
         this.remarks = remarks;
         this.createdBy = createdBy;
         this.dateObsolete = dateObsolete;
         this.dateCreated = dateCreated;
+        this.verified = verified;
     }
     
     public Contact getContact() {
@@ -51,7 +54,13 @@ public class Email {
         this.contact = contact;
     }
 
-    
+    public boolean getVerified() {
+        return verified;
+    }
+
+    public void setVerified(boolean verified) {
+        this.verified = verified;
+    }
 
     public Date getDateCreated() {
         return dateCreated;

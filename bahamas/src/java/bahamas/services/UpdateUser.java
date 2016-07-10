@@ -11,7 +11,7 @@ import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
-import bahamas.util.Email;
+import bahamas.util.EmailGenerator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -150,8 +150,8 @@ public class UpdateUser extends HttpServlet {
                         if (email != null && password != null) {
                             String[] temp = {c.getName(), c.getUsername(), password};
                             new Thread(() -> {
-                                // Send Email in a separate thread
-                                Email.sendEmail(email, temp);
+                                // Send EmailGenerator in a separate thread
+                                EmailGenerator.sendEmail(email, temp);
                             }).start();
                         }
 

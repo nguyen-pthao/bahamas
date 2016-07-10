@@ -70,7 +70,7 @@ public class AddContact extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -81,24 +81,36 @@ public class AddContact extends HttpServlet {
 
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
-                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(),userType)) {
+                    String userType = Validator.containsBlankField(jobject.get("user_type"));
+                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } 
-                                   
-                    String name = Validator.containsBlankField(jobject.get("name").getAsString());
-                    String altName = Validator.containsBlankField(jobject.get("alt_name").getAsString());
-                    String contactType = Validator.containsBlankField(jobject.get("contact_type").getAsString());
-                    String otherExplanation = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
-                    String profession = Validator.containsBlankField(jobject.get("profession").getAsString());
-                    String jobTitle = Validator.containsBlankField(jobject.get("job_title").getAsString());
-                    String nric = Validator.containsBlankField(jobject.get("nric_fin").getAsString());
-                    String gender = Validator.containsBlankField(jobject.get("gender").getAsString());
-                    String nationality = Validator.containsBlankField(jobject.get("nationality").getAsString());
-                    Date dob = Validator.isDateValid(jobject.get("date_of_birth").getAsString());
-                    String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                    }
+
+                    String name = Validator.containsBlankField(jobject.get("name"));
+                    String altName = Validator.containsBlankField(jobject.get("alt_name"));
+                    String contactType = Validator.containsBlankField(jobject.get("contact_type"));
+                    String otherExplanation = Validator.containsBlankField(jobject.get("explain_if_other"));
+                    String profession = Validator.containsBlankField(jobject.get("profession"));
+                    String jobTitle = Validator.containsBlankField(jobject.get("job_title"));
+                    String nric = Validator.containsBlankField(jobject.get("nric_fin"));
+                    String gender = Validator.containsBlankField(jobject.get("gender"));
+                    String nationality = Validator.containsBlankField(jobject.get("nationality"));
+                    Date dob = Validator.isDateValid(jobject.get("date_of_birth"), "date of birth");
+                    String remarks = Validator.containsBlankField(jobject.get("remarks"));
+
+                    if (!Validator.getErrorList().isEmpty()) {
+                        JsonArray errorArray = new JsonArray();
+                        for (String s : Validator.getErrorList()) {
+                            JsonPrimitive o = new JsonPrimitive(s);
+                            errorArray.add(o);
+                        }
+                        Validator.getErrorList().clear();
+                        json.add("message", errorArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    }
 
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
@@ -107,7 +119,7 @@ public class AddContact extends HttpServlet {
                     int newContactId = ContactDAO.addContact(newContact);
 
                     if (newContactId <= 0) {
-                        json.addProperty("message", "fail");
+                        json.addProperty("message", "failure insert into system");
                         out.println(gson.toJson(json));
                         return;
                     } else {
