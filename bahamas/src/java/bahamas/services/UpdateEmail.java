@@ -104,13 +104,12 @@ public class UpdateEmail extends HttpServlet {
                             out.println(gson.toJson(json));
                             return;
                         }
-
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
                         String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
+                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete, true);
 
                         if (EmailDAO.updateEmail(newEmail)) {
                             AuditLogDAO.insertAuditLog(username, "UPDATE EMAIL", "Update email under contact: Contact ID: " + contactId);

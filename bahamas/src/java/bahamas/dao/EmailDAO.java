@@ -23,7 +23,7 @@ import java.util.logging.Logger;
  */
 public class EmailDAO {
 
-    public static boolean addEmail(Email e) {
+    public static boolean addEmail(Email e, String hashID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -34,8 +34,8 @@ public class EmailDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO EMAIL (CONTACT_ID,"
-                    + "DATE_CREATED,CREATED_BY,EMAIL,REMARKS,DATE_OBSOLETE)"
-                    + " VALUES (?,?,?,?,?,?)");
+                    + "DATE_CREATED,CREATED_BY,EMAIL,REMARKS,DATE_OBSOLETE,VERIFICATIONID)"
+                    + " VALUES (?,?,?,?,?,?,?)");
 
             stmt.setInt(1, e.getContact().getContactId());
             stmt.setTimestamp(2, new java.sql.Timestamp(e.getDateCreated().getTime()));
@@ -48,7 +48,7 @@ public class EmailDAO {
             } else {
                 stmt.setDate(6, null);
             }
-
+            stmt.setString(7, hashID);
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -72,7 +72,7 @@ public class EmailDAO {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE FROM EMAIL WHERE CONTACT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE, VERIFIED FROM EMAIL WHERE CONTACT_ID = (?)");
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -87,7 +87,8 @@ public class EmailDAO {
                 if (dateobs != null && !dateobs.isEmpty()) {
                     dateObsolete = date.parse(dateobs);
                 }
-                Email e = new Email(email, createdBy, remarks, dateObsolete, dateCreated);
+                boolean verified  = rs.getBoolean(7);
+                Email e = new Email(email, createdBy, remarks, dateObsolete, dateCreated, verified);
 
                 emailList.add(e);
             }
@@ -177,7 +178,7 @@ public class EmailDAO {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT CONTACT_ID,DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE FROM EMAIL WHERE EMAIL = (?)");
+            stmt = conn.prepareStatement("SELECT CONTACT_ID,DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE, VERIFIED FROM EMAIL WHERE EMAIL = (?)");
             stmt.setString(1, e);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -193,7 +194,8 @@ public class EmailDAO {
                 if (dateobs != null && !dateobs.isEmpty()) {
                     dateObsolete = date.parse(dateobs);
                 }
-                Email temp = new Email(email, createdBy, remarks, dateObsolete, dateCreated);
+                boolean verified  = rs.getBoolean(7);
+                Email temp = new Email(email, createdBy, remarks, dateObsolete, dateCreated, verified);
 
                 return temp;
             }
@@ -211,5 +213,32 @@ public class EmailDAO {
 
         return null;
 
+    }
+    
+    //UPDATE EMAIL SET VERIFIED = 1 WHERE VERIFICATIONID = ""
+    public static boolean updateVerification(String verificationID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE EMAIL SET VERIFIED = 1, VERIFICATIONID = NULL WHERE VERIFICATIONID = ?");
+
+            stmt.setString(1, verificationID);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
     }
 }

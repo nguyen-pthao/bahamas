@@ -11,6 +11,8 @@ import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.entity.*;
 import bahamas.util.Authenticator;
+import bahamas.util.EmailGenerator;
+import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -109,10 +111,15 @@ public class AddEmail extends HttpServlet {
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
 
-                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete);
-
-                        if (EmailDAO.addEmail(newEmail)) {
-                            AuditLogDAO.insertAuditLog(username, "ADD EMAIL", "Add email under contact: Contact ID: " + c.getContactId());
+                        Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete, false);
+                        String hashID = PasswordHash.generateRandomString(64);
+                        
+                        if (EmailDAO.addEmail(newEmail,hashID)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD EMAIL", "Add email under contact: Contact ID: " + c.getContactId()); 
+                            new Thread(() -> {
+                                // Send EmailGenerator in a separate thread
+                                EmailGenerator.verifyEmail(email,c.getName(),hashID);
+                            }).start();
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
