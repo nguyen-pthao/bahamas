@@ -109,7 +109,6 @@ public class Validator {
      * @return boolean value, true if string is valid
      */
     public static String containsBlankField(JsonElement e) {
-
         if (e != null && !e.isJsonNull()) {
             String str = e.getAsString();
             if (str == null || str.trim().isEmpty()) {
@@ -167,23 +166,19 @@ public class Validator {
 
         if (e != null && !e.isJsonNull()) {
             try {
-                String date = e.getAsString();
-                if (date.length() == DATE_FORMAT.length()) {
-                    try {
-                        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-                        return df.parse(date);
-                    } catch (ParseException | NullPointerException exp) {
-                        errorList.add(field + " field error!");
-                        return null;
-                    }
+                if (!e.getAsString().isEmpty()) {
+                    long date = Long.parseLong(e.getAsString());                   
+                    return new Date(date);
                 }
-            } catch (IndexOutOfBoundsException | NullPointerException ex) {
+                else{
+                    return null;
+                }
+            } catch (ClassCastException | IllegalStateException | NumberFormatException exp) {
                 errorList.add(field + " field error!");
                 return null;
             }
-
         }
-        errorList.add("Date field error!");
+        errorList.add(field + " field error!");
         return null;
     }
 

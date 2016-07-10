@@ -87,7 +87,7 @@ public class EmailDAO {
                 if (dateobs != null && !dateobs.isEmpty()) {
                     dateObsolete = date.parse(dateobs);
                 }
-                boolean verified  = rs.getBoolean(7);
+                boolean verified  = rs.getBoolean(6);
                 Email e = new Email(email, createdBy, remarks, dateObsolete, dateCreated, verified);
 
                 emailList.add(e);
