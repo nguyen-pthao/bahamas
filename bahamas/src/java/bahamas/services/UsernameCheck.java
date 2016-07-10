@@ -72,7 +72,7 @@ public class UsernameCheck extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -96,7 +96,7 @@ public class UsernameCheck extends HttpServlet {
                     }
 
                     if (jobject.get("nric_fin") != null) {
-                        String nric = Validator.containsBlankField(jobject.get("nric_fin").getAsString());
+                        String nric = Validator.containsBlankField(jobject.get("nric_fin"));
                         Contact c = cDAO.retrieveContactByNric(nric);
                         if (c != null) {
                             json.addProperty("message", "fail");
@@ -104,10 +104,10 @@ public class UsernameCheck extends HttpServlet {
                             return;
                         }
                     } else if (jobject.get("username") != null) {
-                        String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                        String uName = Validator.containsBlankField(jobject.get("username"));
                         Contact c = cDAO.retrieveContactByUsername(uName);
                         if (c != null) {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure to verify system");
                             out.println(gson.toJson(json));
                             return;
                         }

@@ -15,9 +15,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -77,7 +79,7 @@ public class UpdatePhone extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -86,7 +88,7 @@ public class UpdatePhone extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -97,7 +99,7 @@ public class UpdatePhone extends HttpServlet {
                     } else {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
-                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        String userType = Validator.containsBlankField(jobject.get("user_type"));
                         if (!user.isIsAdmin() && (!userType.equals("teammanager")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (!userType.equals("eventleader")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && !c.getUsername().equals(username)) {
@@ -106,19 +108,31 @@ public class UpdatePhone extends HttpServlet {
                             return;
                         }
 
-                        int countryCode = Validator.isIntValid(jobject.get("country_code").getAsString());
-                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
-                        String phoneRemarks = Validator.containsBlankField(jobject.get("phone_remarks").getAsString());
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                        int countryCode = Validator.isIntValid(jobject.get("country_code"));
+                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number"));
+                        String phoneRemarks = Validator.containsBlankField(jobject.get("phone_remarks"));
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
                         Phone newPhone = new Phone(c, countryCode, phoneNumber, username, phoneRemarks, dateObsolete);
+
+                        if (!Validator.getErrorList().isEmpty()) {
+                            JsonArray errorArray = new JsonArray();
+                            for (String s : Validator.getErrorList()) {
+                                JsonPrimitive o = new JsonPrimitive(s);
+                                errorArray.add(o);
+                            }
+                            Validator.getErrorList().clear();
+                            json.add("message", errorArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         if (PhoneDAO.updatePhone(newPhone)) {
                             AuditLogDAO.insertAuditLog(username, "UPDATE PHONE", "Update phone contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure to update into system");
                             out.println(gson.toJson(json));
                         }
 

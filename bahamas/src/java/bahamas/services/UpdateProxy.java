@@ -17,9 +17,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,7 +77,7 @@ public class UpdateProxy extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -84,8 +86,8 @@ public class UpdateProxy extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int proxyId = Validator.isIntValid(jobject.get("proxy_of").getAsString());
-                    int principalId = Validator.isIntValid(jobject.get("principal_of").getAsString());
+                    int proxyId = Validator.isIntValid(jobject.get("proxy_of"));
+                    int principalId = Validator.isIntValid(jobject.get("principal_of"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact proxy = cDAO.retrieveContactById(proxyId);
@@ -98,8 +100,8 @@ public class UpdateProxy extends HttpServlet {
                     } else {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
-                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
-                         if (!user.isIsAdmin() && (!userType.equals("teammanager")
+                        String userType = Validator.containsBlankField(jobject.get("user_type"));
+                        if (!user.isIsAdmin() && (!userType.equals("teammanager")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (!userType.equals("eventleader")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType))) {
                             json.addProperty("message", "fail");
@@ -107,18 +109,30 @@ public class UpdateProxy extends HttpServlet {
                             return;
                         }
 
-                        String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing").getAsString());
-                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
-                        Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                        String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing"));
+                        String remarks = Validator.containsBlankField(jobject.get("remarks"));
+                        Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
                         Proxy p = new Proxy(proxy, principal, username, proxyStanding, dateObosolete, remarks);
+
+                        if (!Validator.getErrorList().isEmpty()) {
+                            JsonArray errorArray = new JsonArray();
+                            for (String s : Validator.getErrorList()) {
+                                JsonPrimitive o = new JsonPrimitive(s);
+                                errorArray.add(o);
+                            }
+                            Validator.getErrorList().clear();
+                            json.add("message", errorArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         if (ProxyDAO.updateProxy(p)) {
                             AuditLogDAO.insertAuditLog(username, "UPDATE PROXY", "Update proxy under contact: proxy ID: " + proxyId + " principal ID: " + principalId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure to update into system");
                             out.println(gson.toJson(json));
                         }
 

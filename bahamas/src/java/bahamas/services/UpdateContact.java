@@ -66,7 +66,7 @@ public class UpdateContact extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -77,7 +77,7 @@ public class UpdateContact extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
 
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null || user == null) {
@@ -86,7 +86,7 @@ public class UpdateContact extends HttpServlet {
                         return;
                     }
 
-                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                    String userType = Validator.containsBlankField(jobject.get("user_type"));
                     if (!user.isIsAdmin() && (!userType.equals("teammanager")
                             && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (!userType.equals("eventleader")
                             && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && !c.getUsername().equals(username)) {
@@ -95,19 +95,31 @@ public class UpdateContact extends HttpServlet {
                         return;
                     }
 
-                    c.setName(Validator.containsBlankField(jobject.get("name").getAsString()));
-                    c.setAltName(Validator.containsBlankField(jobject.get("alt_name").getAsString()));
-                    c.setContactType(Validator.containsBlankField(jobject.get("contact_type").getAsString()));
-                    c.setExplainIfOther(Validator.containsBlankField(jobject.get("explain_if_other").getAsString()));
-                    c.setProfession(Validator.containsBlankField(jobject.get("profession").getAsString()));
-                    c.setJobTitle(Validator.containsBlankField(jobject.get("job_title").getAsString()));
-                    c.setGender(Validator.containsBlankField(jobject.get("gender").getAsString()));
-                    c.setNationality(Validator.containsBlankField(jobject.get("nationality").getAsString()));
-                    c.setRemarks(Validator.containsBlankField(jobject.get("remarks").getAsString()));
+                    c.setName(Validator.containsBlankField(jobject.get("name")));
+                    c.setAltName(Validator.containsBlankField(jobject.get("alt_name")));
+                    c.setContactType(Validator.containsBlankField(jobject.get("contact_type")));
+                    c.setExplainIfOther(Validator.containsBlankField(jobject.get("explain_if_other")));
+                    c.setProfession(Validator.containsBlankField(jobject.get("profession")));
+                    c.setJobTitle(Validator.containsBlankField(jobject.get("job_title")));
+                    c.setGender(Validator.containsBlankField(jobject.get("gender")));
+                    c.setNationality(Validator.containsBlankField(jobject.get("nationality")));
+                    c.setRemarks(Validator.containsBlankField(jobject.get("remarks")));
 
                     if (userType.equals("admin") || userType.equals("teammanager")) {
-                        c.setNric(Validator.containsBlankField(jobject.get("nric_fin").getAsString()));
-                        c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth").getAsString()));
+                        c.setNric(Validator.containsBlankField(jobject.get("nric_fin")));
+                        c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth"), "date of birth"));
+                    }
+
+                    if (!Validator.getErrorList().isEmpty()) {
+                        JsonArray errorArray = new JsonArray();
+                        for (String s : Validator.getErrorList()) {
+                            JsonPrimitive o = new JsonPrimitive(s);
+                            errorArray.add(o);
+                        }
+                        Validator.getErrorList().clear();
+                        json.add("message", errorArray);
+                        out.println(gson.toJson(json));
+                        return;
                     }
 
                     if (ContactDAO.updateContact(c)) {
@@ -115,7 +127,7 @@ public class UpdateContact extends HttpServlet {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
-                        json.addProperty("message", "fail");
+                        json.addProperty("message", "failure update into system");
                         out.println(gson.toJson(json));
                     }
 

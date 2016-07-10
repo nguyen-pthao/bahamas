@@ -30,6 +30,7 @@ import bahamas.entity.Proxy;
 import bahamas.entity.SkillAssignment;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -92,7 +93,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 //edit here
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 if (token == null || token.isEmpty()) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));

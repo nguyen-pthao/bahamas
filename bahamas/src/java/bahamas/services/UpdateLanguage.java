@@ -17,9 +17,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -74,7 +76,7 @@ public class UpdateLanguage extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -83,7 +85,7 @@ public class UpdateLanguage extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
                     Contact c = cDAO.retrieveContactById(contactId);
 
@@ -94,7 +96,7 @@ public class UpdateLanguage extends HttpServlet {
                     } else {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
-                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        String userType = Validator.containsBlankField(jobject.get("user_type"));
                         if (!user.isIsAdmin() && (!userType.equals("teammanager")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (!userType.equals("eventleader")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && !c.getUsername().equals(username)) {
@@ -103,22 +105,34 @@ public class UpdateLanguage extends HttpServlet {
                             return;
                         }
 
-                        String language = Validator.containsBlankField(jobject.get("language").getAsString());
-                        String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other").getAsString());
-                        String speakWrite = Validator.containsBlankField(jobject.get("speak_write").getAsString());
-                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        String language = Validator.containsBlankField(jobject.get("language"));
+                        String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other"));
+                        String speakWrite = Validator.containsBlankField(jobject.get("speak_write"));
+                        String remarks = Validator.containsBlankField(jobject.get("remarks"));
 
-                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());
+                        Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
                         LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
                                 dateObsolete, speakWrite, remarks, username);
+
+                        if (!Validator.getErrorList().isEmpty()) {
+                            JsonArray errorArray = new JsonArray();
+                            for (String s : Validator.getErrorList()) {
+                                JsonPrimitive o = new JsonPrimitive(s);
+                                errorArray.add(o);
+                            }
+                            Validator.getErrorList().clear();
+                            json.add("message", errorArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         if (LanguageDAO.updateLanguage(la)) {
                             AuditLogDAO.insertAuditLog(username, "UPDATE LANGUAGE", "Update language under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure to update into system");
                             out.println(gson.toJson(json));
                         }
                     }

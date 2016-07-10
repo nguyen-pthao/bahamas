@@ -74,7 +74,7 @@ public class DeleteEmail extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -83,7 +83,7 @@ public class DeleteEmail extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -100,14 +100,14 @@ public class DeleteEmail extends HttpServlet {
                             return;
                         }
 
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
+                        String email = Validator.containsBlankField(jobject.get("email"));
 
                         if (EmailDAO.deleteEmail(contactId, email)) {
                             AuditLogDAO.insertAuditLog(username, "DELETE EMAIL", "Delete email under Contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure delete into system");
                             out.println(gson.toJson(json));
                         }
 

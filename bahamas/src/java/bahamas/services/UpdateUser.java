@@ -15,9 +15,11 @@ import bahamas.util.EmailGenerator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -74,7 +76,7 @@ public class UpdateUser extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -85,7 +87,7 @@ public class UpdateUser extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
 
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     Contact c = cDAO.retrieveContactById(contactId);
 
                     if (c == null || user == null) {
@@ -101,7 +103,7 @@ public class UpdateUser extends HttpServlet {
                     }
 
                     if (jobject.get("current_password") != null) {
-                        String currentPassword = Validator.containsBlankField(jobject.get("current_password").getAsString());
+                        String currentPassword = Validator.containsBlankField(jobject.get("current_password"));
                         if (!PasswordHash.verify(currentPassword, c.getPassword(), c.getSalt())) {
                             json.addProperty("message", "current password failed");
                             out.println(gson.toJson(json));
@@ -111,9 +113,9 @@ public class UpdateUser extends HttpServlet {
 
                     String password = null;
                     if (jobject.get("password") != null) {
-                        password = Validator.containsBlankField(jobject.get("password").getAsString());
+                        password = Validator.containsBlankField(jobject.get("password"));
                         if (jobject.get("confirm_password") != null) {
-                            String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
+                            String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password"));
                             if (!password.equals(confirmPassword)) {
                                 json.addProperty("message", "password mismatch");
                                 out.println(gson.toJson(json));
@@ -128,25 +130,38 @@ public class UpdateUser extends HttpServlet {
                     }
 
                     if (user.isIsAdmin()) {
-                        String uName = Validator.containsBlankField(jobject.get("username").getAsString());
+                        String uName = Validator.containsBlankField(jobject.get("username"));
                         if (uName != null && cDAO.retrieveContactByUsername(uName) == null) {
-                            c.setUsername(Validator.containsBlankField(jobject.get("username").getAsString()));
+                            c.setUsername(Validator.containsBlankField(jobject.get("username")));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
                         }
 
-                        c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin").getAsString()));
-                        if (Validator.isBooleanValid(jobject.get("is_admin").getAsString()) == true) {
+                        c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin")));
+                        if (Validator.isBooleanValid(jobject.get("is_admin")) == true) {
                             cDAO.changeNovicePermission(c, false);
                         }
-                        c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated").getAsString()));
+                        c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated")));
 
                     }
 
+                    String email = Validator.containsBlankField(jobject.get("email"));
+
+                    if (!Validator.getErrorList().isEmpty()) {
+                        JsonArray errorArray = new JsonArray();
+                        for (String s : Validator.getErrorList()) {
+                            JsonPrimitive o = new JsonPrimitive(s);
+                            errorArray.add(o);
+                        }
+                        Validator.getErrorList().clear();
+                        json.add("message", errorArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
                     if (ContactDAO.updateUser(c)) {
-                        String email = Validator.containsBlankField(jobject.get("email").getAsString());
                         if (email != null && password != null) {
                             String[] temp = {c.getName(), c.getUsername(), password};
                             new Thread(() -> {
@@ -160,7 +175,7 @@ public class UpdateUser extends HttpServlet {
                         out.println(gson.toJson(json));
 
                     } else {
-                        json.addProperty("message", "fail");
+                        json.addProperty("message", "failure to update into system");
                         out.println(gson.toJson(json));
                     }
 

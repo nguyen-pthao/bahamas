@@ -72,7 +72,7 @@ public class DeleteAppreciation extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -88,14 +88,14 @@ public class DeleteAppreciation extends HttpServlet {
                         return;
                     }
 
-                    int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id").getAsString());
+                    int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id"));
 
                     if (AppreciationDAO.deleteAppreciation(appreciation_id)) {
                         AuditLogDAO.insertAuditLog(username, "DELETE APPRECIATION", "Delete appreciation under appreciation: appreciation ID: " + appreciation_id);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
-                        json.addProperty("message", "fail");
+                        json.addProperty("message", "failure delete into system");
                         out.println(gson.toJson(json));
                     }
 

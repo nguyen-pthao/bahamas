@@ -77,7 +77,7 @@ public class TokenUpdate extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username != null) {
@@ -86,7 +86,7 @@ public class TokenUpdate extends HttpServlet {
                     json.addProperty("token", token);
                     out.println(gson.toJson(json));
                 } else {
-                    json.addProperty("message", "fail");                  
+                    json.addProperty("message", "failure to update from system");                  
                     out.println(gson.toJson(json));
                 }
             }

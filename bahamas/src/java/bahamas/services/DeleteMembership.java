@@ -74,7 +74,7 @@ public class DeleteMembership extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -92,14 +92,14 @@ public class DeleteMembership extends HttpServlet {
                         return;
                     }
 
-                    int membershipId = Validator.isIntValid(jobject.get("membership_id").getAsString());
+                    int membershipId = Validator.isIntValid(jobject.get("membership_id"));
 
                     if (MembershipDAO.deleteMembership(membershipId)) {
                         AuditLogDAO.insertAuditLog(username, "DELETE MEMBERSHIP", "Delete membership under membership: Membership ID: " + membershipId);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
-                        json.addProperty("message", "fail");
+                        json.addProperty("message", "failure delete into system");
                         out.println(gson.toJson(json));
                     }
 

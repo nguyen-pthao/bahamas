@@ -33,6 +33,7 @@ import bahamas.entity.Proxy;
 import bahamas.entity.SkillAssignment;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -96,9 +97,9 @@ public class RetrieveContactIndiv extends HttpServlet {
                 //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 //String cidString = jobject.get("cid").getAsString();
-                String otherCidString = jobject.get("other_cid").getAsString();
+                String otherCidString = Validator.containsBlankField(jobject.get("other_cid"));
                 //String permission = jobject.get("permission").getAsString();
                 //String teamName = jobject.get("team_name").getAsString();
 

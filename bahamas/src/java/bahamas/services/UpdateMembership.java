@@ -17,9 +17,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -75,7 +77,7 @@ public class UpdateMembership extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -84,7 +86,7 @@ public class UpdateMembership extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -96,7 +98,7 @@ public class UpdateMembership extends HttpServlet {
                     } else {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
-                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        String userType = Validator.containsBlankField(jobject.get("user_type"));
                         if (!user.isIsAdmin() && !userType.equals("teammanager")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                             json.addProperty("message", "fail");
@@ -104,33 +106,45 @@ public class UpdateMembership extends HttpServlet {
                             return;
                         }
 
-                        int membershipId = Validator.isIntValid(jobject.get("membership_id").getAsString());
-                        String membershipClass = Validator.containsBlankField(jobject.get("membership_class").getAsString());
-                        String explainIfOtherClass = Validator.containsBlankField(jobject.get("explain_if_other_class").getAsString());
-                        Date startMembership = Validator.isDateValid(jobject.get("start_membership").getAsString());
-                        Date endMembership = Validator.isDateValid(jobject.get("end_membership").getAsString());
-                        double subscriptionAmount = Validator.isDoubleValid(jobject.get("subscription_amount").getAsString());
-                        String paymentMode = Validator.containsBlankField(jobject.get("payment_mode").getAsString());
-                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explain_if_other_payment").getAsString());
-                        String extTransactionRef = Validator.containsBlankField(jobject.get("ext_transaction_ref").getAsString());
-                        String receiptNumber = Validator.containsBlankField(jobject.get("receipt_number").getAsString());
-                        Date receiptDate = Validator.isDateValid(jobject.get("receipt_date").getAsString());
-                        String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode").getAsString());
-                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt").getAsString());
-                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        int membershipId = Validator.isIntValid(jobject.get("membership_id"));
+                        String membershipClass = Validator.containsBlankField(jobject.get("membership_class"));
+                        String explainIfOtherClass = Validator.containsBlankField(jobject.get("explain_if_other_class"));
+                        Date startMembership = Validator.isDateValid(jobject.get("start_membership"),"start membership date");
+                        Date endMembership = Validator.isDateValid(jobject.get("end_membership"),"end membership date");
+                        double subscriptionAmount = Validator.isDoubleValid(jobject.get("subscription_amount"));
+                        String paymentMode = Validator.containsBlankField(jobject.get("payment_mode"));
+                        String explainIfOtherPayment = Validator.containsBlankField(jobject.get("explain_if_other_payment"));
+                        String extTransactionRef = Validator.containsBlankField(jobject.get("ext_transaction_ref"));
+                        String receiptNumber = Validator.containsBlankField(jobject.get("receipt_number"));
+                        Date receiptDate = Validator.isDateValid(jobject.get("receipt_date"),"receipt date");
+                        String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode"));
+                        String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt"));
+                        String remarks = Validator.containsBlankField(jobject.get("remarks"));
 
                         Membership m = new Membership(c, startMembership, endMembership, receiptDate, subscriptionAmount, extTransactionRef,
                                 receiptNumber, remarks, receiptMode, explainIfOtherReceipt, membershipClass, explainIfOtherClass, paymentMode, explainIfOtherPayment,
                                 username);
 
                         m.setMembershipId(membershipId);
+                        
+                        if (!Validator.getErrorList().isEmpty()) {
+                            JsonArray errorArray = new JsonArray();
+                            for (String s : Validator.getErrorList()) {
+                                JsonPrimitive o = new JsonPrimitive(s);
+                                errorArray.add(o);
+                            }
+                            Validator.getErrorList().clear();
+                            json.add("message", errorArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         if (MembershipDAO.updateMembership(m)) {
                             AuditLogDAO.insertAuditLog(username, "UPDATE MEMBERSHIP", "Update membership under membership: Membership ID: " + membershipId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure to update into system");
                             out.println(gson.toJson(json));
                         }
 

@@ -10,6 +10,7 @@ import bahamas.dao.ContactDAO;
 import bahamas.entity.AuditLog;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -72,8 +73,8 @@ public class RetrieveAuditLog extends HttpServlet {
                 
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
-                String token = jobject.get("token").getAsString();
-                String cidString = jobject.get("cid").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
+                String cidString = Validator.containsBlankField(jobject.get("cid"));
                 SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
 
                 if ((token == null || token.isEmpty()) || (cidString == null || cidString.isEmpty()) ) {
@@ -111,7 +112,7 @@ public class RetrieveAuditLog extends HttpServlet {
                     return;
                     
                 }else{
-                    json.addProperty("message", "fail");
+                    json.addProperty("message", "failure retrieve from system");
                     out.println(gson.toJson(json));
                     return;
                 }

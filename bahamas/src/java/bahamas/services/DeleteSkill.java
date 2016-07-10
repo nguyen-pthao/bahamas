@@ -68,7 +68,7 @@ public class DeleteSkill extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -78,8 +78,8 @@ public class DeleteSkill extends HttpServlet {
                 } else {
                     //Verified token
 
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
-                    String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
+                    String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset"));
 
                     //Validation of fields
                     ContactDAO cDAO = new ContactDAO();
@@ -93,7 +93,7 @@ public class DeleteSkill extends HttpServlet {
                     } else {
 
                         if (!cDAO.retrieveContactByUsername(username).isIsAdmin() && !c.getUsername().equals(username)) {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure delete into system");
                             out.println(gson.toJson(json));
                             return;
                         }

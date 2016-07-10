@@ -78,7 +78,7 @@ public class DeleteDonation extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -94,14 +94,14 @@ public class DeleteDonation extends HttpServlet {
                         return;
                     }
 
-                    int donation_id = Validator.isIntValid(jobject.get("donation_id").getAsString());
+                    int donation_id = Validator.isIntValid(jobject.get("donation_id"));
 
                     if (DonationDAO.deleteDonation(donation_id)) {
                         AuditLogDAO.insertAuditLog(username, "DELETE DONATION", "Delete donation under donation: Donation ID: " + donation_id);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
-                        json.addProperty("message", "fail");
+                        json.addProperty("message", "failure delete into system");
                         out.println(gson.toJson(json));
                     }
 

@@ -15,9 +15,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -77,7 +79,7 @@ public class UpdateAppreciation extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -86,7 +88,7 @@ public class UpdateAppreciation extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
                     Contact c = cDAO.retrieveContactById(contactId);
 
@@ -97,7 +99,7 @@ public class UpdateAppreciation extends HttpServlet {
                     } else {
 
                         Contact user = cDAO.retrieveContactByUsername(username);
-                        String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                        String userType = Validator.containsBlankField(jobject.get("user_type"));
                         if (!user.isIsAdmin() && !userType.equals("teammanager")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                             json.addProperty("message", "fail");
@@ -105,19 +107,32 @@ public class UpdateAppreciation extends HttpServlet {
                             return;
                         }
 
-                        String appraisalComment = Validator.containsBlankField(jobject.get("appraisal_comment").getAsString());
-                        String appraisalBy = Validator.containsBlankField(jobject.get("appraisal_by").getAsString());
-                        Date appraisalDate = Validator.isDateValid(jobject.get("appraisal_date").getAsString());
-                        String appreciationGesture = Validator.containsBlankField(jobject.get("appreciation_gesture").getAsString());
-                        String appreciationBy = Validator.containsBlankField(jobject.get("appreciation_by").getAsString());
-                        Date appreciationDate = Validator.isDateValid(jobject.get("appreciation_date").getAsString());
-                        String appreciationRemarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        String appraisalComment = Validator.containsBlankField(jobject.get("appraisal_comment"));
+                        String appraisalBy = Validator.containsBlankField(jobject.get("appraisal_by"));
+                        Date appraisalDate = Validator.isDateValid(jobject.get("appraisal_date"), "appraisal date");
+                        String appreciationGesture = Validator.containsBlankField(jobject.get("appreciation_gesture"));
+                        String appreciationBy = Validator.containsBlankField(jobject.get("appreciation_by"));
+                        Date appreciationDate = Validator.isDateValid(jobject.get("appreciation_date"), "appreciation date");
+                        String appreciationRemarks = Validator.containsBlankField(jobject.get("remarks"));
+
+                        int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id"));
+
+                        if (!Validator.getErrorList().isEmpty()) {
+                            JsonArray errorArray = new JsonArray();
+                            for (String s : Validator.getErrorList()) {
+                                JsonPrimitive o = new JsonPrimitive(s);
+                                errorArray.add(o);
+                            }
+                            Validator.getErrorList().clear();
+                            json.add("message", errorArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         Appreciation appreciation = new Appreciation(c, appraisalComment, appraisalBy, appraisalDate, appreciationGesture,
                                 appreciationBy, appreciationDate, appreciationRemarks, username);
 
                         //IMPORTANT SET THE ID
-                        int appreciation_id = Validator.isIntValid(jobject.get("appreciation_id").getAsString());
                         appreciation.setAppreciationId(appreciation_id);
 
                         if (AppreciationDAO.updateAppreciation(appreciation)) {
@@ -125,7 +140,7 @@ public class UpdateAppreciation extends HttpServlet {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure update into system");
                             out.println(gson.toJson(json));
                         }
 

@@ -15,6 +15,7 @@ import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
+import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -81,7 +82,7 @@ public class RetrieveContact extends HttpServlet {
                 //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 //String cidString = jobject.get("cid").getAsString();
                 //Optional for admin and novice
                 //String teamName = jobject.get("teamname").getAsString();
@@ -168,7 +169,7 @@ public class RetrieveContact extends HttpServlet {
                     out.println(gson.toJson(json));
                     return;
                 }
-                json.addProperty("message", "fail");
+                json.addProperty("message", "failure retrieve from system");
                 out.println(gson.toJson(json));
             }
 

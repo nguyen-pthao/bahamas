@@ -77,7 +77,7 @@ public class DeleteTeamJoin extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -86,7 +86,7 @@ public class DeleteTeamJoin extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -103,7 +103,7 @@ public class DeleteTeamJoin extends HttpServlet {
                             return;
                         }
 
-                        String team = Validator.containsBlankField(jobject.get("team").getAsString());
+                        String team = Validator.containsBlankField(jobject.get("team"));
 
                         if (TeamJoinDAO.deleteTeamJoin(contactId, team)) {
                             //change contact to a non novice account
@@ -112,7 +112,7 @@ public class DeleteTeamJoin extends HttpServlet {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure delete into system");
                             out.println(gson.toJson(json));
                         }
 

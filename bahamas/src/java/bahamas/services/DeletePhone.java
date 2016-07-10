@@ -76,7 +76,7 @@ public class DeletePhone extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -85,7 +85,7 @@ public class DeletePhone extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact c = cDAO.retrieveContactById(contactId);
@@ -101,14 +101,14 @@ public class DeletePhone extends HttpServlet {
                             return;
                         }
 
-                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number").getAsString());
+                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number"));
 
                         if (PhoneDAO.deletePhone(contactId, phoneNumber)) {
                             AuditLogDAO.insertAuditLog(username, "DELETE PHONE", "Delete phone under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure delete into system");
                             out.println(gson.toJson(json));
                         }
 

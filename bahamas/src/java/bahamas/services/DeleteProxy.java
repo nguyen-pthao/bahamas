@@ -78,7 +78,7 @@ public class DeleteProxy extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -87,8 +87,8 @@ public class DeleteProxy extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int proxyId = Validator.isIntValid(jobject.get("proxy_of").getAsString());
-                    int principalId = Validator.isIntValid(jobject.get("principal_of").getAsString());
+                    int proxyId = Validator.isIntValid(jobject.get("proxy_of"));
+                    int principalId = Validator.isIntValid(jobject.get("principal_of"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact proxy = cDAO.retrieveContactById(proxyId);
@@ -112,7 +112,7 @@ public class DeleteProxy extends HttpServlet {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure delete into system");
                             out.println(gson.toJson(json));
                         }
 
