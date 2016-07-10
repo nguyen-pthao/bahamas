@@ -8,7 +8,7 @@ package bahamas.services;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
-import bahamas.dao.TeamJoinDAO;
+import bahamas.dao.TeamJoinDAO; 
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.TeamJoin;

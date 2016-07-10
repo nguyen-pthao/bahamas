@@ -17,9 +17,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -79,7 +81,7 @@ public class AddOfficeHeld extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String token = jobject.get("token").getAsString();
+                String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -88,11 +90,11 @@ public class AddOfficeHeld extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id").getAsString());
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
                     Contact user = cDAO.retrieveContactByUsername(username);
-                    String userType = Validator.containsBlankField(jobject.get("user_type").getAsString());
+                    String userType = Validator.containsBlankField(jobject.get("user_type"));
                     if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
@@ -107,10 +109,22 @@ public class AddOfficeHeld extends HttpServlet {
                         return;
                     } else {
 
-                        Date startOffice = Validator.isDateValid(jobject.get("start_office").getAsString());
-                        Date endOffice = Validator.isDateValid(jobject.get("end_office").getAsString());
-                        String officeHeld = Validator.containsBlankField(jobject.get("office_held_name").getAsString());
-                        String remarks = Validator.containsBlankField(jobject.get("remarks").getAsString());
+                        Date startOffice = Validator.isDateValid(jobject.get("start_office"), "start office date");
+                        Date endOffice = Validator.isDateValid(jobject.get("end_office"), "end office date");
+                        String officeHeld = Validator.containsBlankField(jobject.get("office_held_name"));
+                        String remarks = Validator.containsBlankField(jobject.get("remarks"));
+
+                        if (!Validator.getErrorList().isEmpty()) {
+                            JsonArray errorArray = new JsonArray();
+                            for (String s : Validator.getErrorList()) {
+                                JsonPrimitive o = new JsonPrimitive(s);
+                                errorArray.add(o);
+                            }
+                            Validator.getErrorList().clear();
+                            json.add("message", errorArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         OfficeHeld o = new OfficeHeld(c, startOffice, endOffice, remarks, username, officeHeld);
 
@@ -119,7 +133,7 @@ public class AddOfficeHeld extends HttpServlet {
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "fail");
+                            json.addProperty("message", "failure insert into system");
                             out.println(gson.toJson(json));
                         }
 

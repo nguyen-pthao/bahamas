@@ -1734,7 +1734,7 @@ app.controller('editContact',
                     datasend['token'] = session.getSession('token');
 //                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
-                    datasend['proxy_of'] = selectedProxy.cid;
+                    datasend['proxy_of'] = selectedProxy.cid + "";
                     datasend['principal_of'] = session.getSession('contactToDisplayCid');
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
@@ -1805,7 +1805,7 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.addProxy = function () {
-                    $scope.newProxy['proxy_of'] = selectedProxy.cid;
+                    $scope.newProxy['proxy_of'] = selectedProxy.cid + "";
                     $scope.newProxy['principal_of'] = session.getSession('contactToDisplayCid');
                     var url = AppAPI.addProxy;
                     dataSubmit.submitData($scope.newProxy, url).then(function (response) {
