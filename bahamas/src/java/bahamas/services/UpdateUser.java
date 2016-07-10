@@ -111,7 +111,7 @@ public class UpdateUser extends HttpServlet {
 
                     String password = null;
                     if (jobject.get("password") != null) {
-                        password = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
+                        password = Validator.containsBlankField(jobject.get("password").getAsString());
                         if (jobject.get("confirm_password") != null) {
                             String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
                             if (!password.equals(confirmPassword)) {
