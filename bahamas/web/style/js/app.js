@@ -562,7 +562,7 @@ function _init() {
       var box_content = box.find("> .box-body, > .box-footer, > form  >.box-body, > form > .box-footer");
       if (!box.hasClass("collapsed-box")) {
         //Convert minus into plus
-        element.children(":first")
+        element.find("div").find('i')
             .removeClass(_this.icons.collapse)
             .addClass(_this.icons.open);
         //Hide the content
@@ -571,7 +571,7 @@ function _init() {
         });
       } else {
         //Convert plus into minus
-        element.children(":first")
+        element.find("div").find('i')
             .removeClass(_this.icons.open)
             .addClass(_this.icons.collapse);
         //Show the content
