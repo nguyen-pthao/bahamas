@@ -328,7 +328,14 @@ app.controller('editContact',
                         });
                         $scope.userType = permission;
                     });
-
+                    
+                    $scope.onSelect = function ($item, $model, $label) {
+                        $scope.$item = $item;
+                        $scope.$model = $model;
+                        $scope.$label = $label;
+                        $scope.searchContact();
+                    };
+                    
                     $scope.searchContact = function () {
                         selectedProxy = $scope.selected;
                         console.log(selectedProxy);
@@ -1442,33 +1449,163 @@ app.controller('editContact',
                     'date_obsolete': '',
                     'remarks': ''
                 };
+                //For team preference
+                $scope.teamPref = {
+                    team1: '',
+                    team2: '',
+                    team3: ''
+                };
+                var teamPreference = {
+                    token: session.getSession('token'),
+                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'user_type': session.getSession('userType'),
+                    team: '',
+                    'permission_level': '',
+                    'explain_if_other': '',
+                    'subteam': '',
+                    'date_obsolete': '',
+                    'remarks': ''
+                };
+//DEFINE TEAM LISTS
+//watch for change in team list 1
+                $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+                $scope.$watch('teamPref.team1', function () {
+                    if ($scope.teamPref.team1 !== '') {
+                        var choice = $scope.teamPref.team1;
+                        var position = -1;
+                        for (var i in $scope.teamAffiliationList) {
+                            var teamCheck = $scope.teamAffiliationList[i];
+                            if (teamCheck.teamAffiliation == $scope.teamPref.team1) {
+                                position = i;
+                            }
+                        }
+                        if (position == -1) {
+                            $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList);
+                        } else {
+                            var list = angular.copy($scope.teamAffiliationList);
+                            list.splice(position, 1);
+                            $scope.teamAffiliationList1 = list;
+                            if ($scope.teamPref.team3 != '' && choice == $scope.teamPref.team3) {
+                                var list2 = angular.copy($scope.teamAffiliationList1);
+                                list2.splice(position, 1);
+                                $scope.teamAffiliationList2 = list2;
+                            }
+                        }
+                    } else {
+                        $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+                        $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+                    }
+                });
+//watch for change in team list 2
+                $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+                $scope.$watch('teamPref.team2', function () {
+                    if ($scope.teamPref.team2 !== '') {
+                        var position = -1;
+                        for (var i in $scope.teamAffiliationList1) {
+                            var teamCheck = $scope.teamAffiliationList1[i];
+                            if (teamCheck.teamAffiliation == $scope.teamPref.team2) {
+                                position = i;
+                            }
+                        }
+                        if (position == -1) {
+                            $scope.teamAffiliationList2 = angular.copy($scope.teamAffiliationList1);
+                        } else {
+                            var list = angular.copy($scope.teamAffiliationList1);
+                            list.splice(position, 1);
+                            $scope.teamAffiliationList2 = list;
+                        }
+                    }
+                });
                 $scope.copyTeam = angular.copy($scope.newTeam);
+                $scope.copyTeamPref = angular.copy($scope.teamPref);
                 $scope.submitNewTeam = {
                     'submittedTeam': false,
                     'message': ''
                 };
                 $scope.addTeam = function () {
                     var url = AppAPI.addTeamJoin;
-                    dataSubmit.submitData($scope.newTeam, url).then(function (response) {
-                        console.log(response.data);
-                        if (response.data.message == 'success') {
-                            $scope.submitNewTeam.submittedTeam = true;
-                            $scope.submitNewTeam.message = successMsg;
-                            $scope.retrieveFunc();
-                            $scope.newTeam = angular.copy($scope.copyTeam);
-                            $timeout(function () {
-                                $scope.submitNewTeam.submittedTeam = false;
-                            }, 1000);
-                            //can set $scope.addingPhone = false if wanting to hide
-                            $scope.addingTeam = false;
-                        } else {
-                            $scope.submitNewTeam.message = failMsg;
-                        }
-                    }, function () {
-                        window.alert("Fail to send request!");
-                    });
+                    if($scope.editMode == 'true') {
+                        dataSubmit.submitData($scope.newTeam, url).then(function (response) {
+                            if (response.data.message == 'success') {
+                                $scope.submitNewTeam.submittedTeam = true;
+                                $scope.submitNewTeam.message = successMsg;
+                                $scope.retrieveFunc();
+                                $scope.newTeam = angular.copy($scope.copyTeam);
+                                $timeout(function () {
+                                    $scope.submitNewTeam.submittedTeam = false;
+                                }, 1000);
+                                //can set $scope.addingPhone = false if wanting to hide
+                                $scope.addingTeam = false;
+                            } else {
+                                $scope.submitNewTeam.message = failMsg;
+                            }
+                        }, function () {
+                            window.alert("Fail to send request!");
+                        });
+                    } else {
+                        teamPreference.team = $scope.teamPref.team1;
+                        dataSubmit.submitData(teamPreference, url).then(function (response) {
+                            if (response.data.message == 'success') {
+                                if($scope.teamPref.team2 != '') {
+                                    teamPreference.team = $scope.teamPref.team2;
+                                    dataSubmit.submitData(teamPreference, url).then(function (response) {
+                                        if(response.data.message == 'success') {
+                                            if($scope.teamPref.team3 != '') {
+                                                teamPreference.team = $scope.teamPref.team3;
+                                                dataSubmit.submitData(teamPreference, url).then(function (response) {
+                                                    if (response.data.message = 'success') {
+                                                        $scope.submitNewTeam.submittedTeam = true;
+                                                        $scope.submitNewTeam.message = successMsg;
+                                                        $scope.retrieveFunc();
+                                                        $scope.teamPref = angular.copy($scope.copyTeamPref);
+                                                        $timeout(function () {
+                                                            $scope.submitNewTeam.submittedTeam = false;
+                                                        }, 1000);
+                                                        //can set $scope.addingPhone = false if wanting to hide
+                                                        $scope.addingTeam = false;
+                                                    } else {
+                                                        $scope.submitNewTeam.message = failMsg;
+                                                    }
+                                                }, function() {
+                                                    window.alert("Fail to send request!");
+                                                });
+                                            } else {
+                                                $scope.submitNewTeam.submittedTeam = true;
+                                                $scope.submitNewTeam.message = successMsg;
+                                                $scope.retrieveFunc();
+                                                $scope.teamPref = angular.copy($scope.copyTeamPref);
+                                                $timeout(function () {
+                                                    $scope.submitNewTeam.submittedTeam = false;
+                                                }, 1000);
+                                                //can set $scope.addingPhone = false if wanting to hide
+                                                $scope.addingTeam = false;
+                                            }
+                                        } else {
+                                            $scope.submitNewTeam.message = failMsg;
+                                        }
+                                    }, function() {
+                                        window.alert("Fail to send request!");
+                                    });
+                                } else {
+                                    $scope.submitNewTeam.submittedTeam = true;
+                                    $scope.submitNewTeam.message = successMsg;
+                                    $scope.retrieveFunc();
+                                    $scope.teamPref = angular.copy($scope.copyTeamPref);
+                                    $timeout(function () {
+                                        $scope.submitNewTeam.submittedTeam = false;
+                                    }, 1000);
+                                    //can set $scope.addingPhone = false if wanting to hide
+                                    $scope.addingTeam = false;
+                                }
+                            } else {
+                                $scope.submitNewTeam.message = failMsg;
+                            }
+                        }, function () {
+                            window.alert("Fail to send request!");
+                        });
+                    }
                 };
-
+                
                 //appreciation
                 $scope.addingAppreciation = false;
                 $scope.addNewAppreciation = function () {
@@ -1917,8 +2054,8 @@ app.controller('editContact',
                 $scope.open = function(){
                     $timeout(function(){
                         $scope.opened = true;
-                    })
-                }
+                    });
+                };
                 
                 $scope.openedPhone = [];
                 $scope.openPhone = function (index) {
