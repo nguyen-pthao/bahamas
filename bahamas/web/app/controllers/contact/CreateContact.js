@@ -411,15 +411,16 @@ app.controller('createContact',
                     $scope.submittedLSA = false;
                 };
 //DATEPICKER    
-                $scope.$watch('dob', function(){
-                    if(angular.isUndefined($scope.dob)){
+                $scope.$watch('dob', function () {
+                    if (angular.isUndefined($scope.dob)) {
                         $scope.contactInfo['date_of_birth'] = "";
-                    }else if($scope.dob === ""){
+                    } else if ($scope.dob === "") {
                         $scope.contactInfo['date_of_birth'] = "";
-                    }else if($scope.dob === null){
+                    } else if ($scope.dob === null) {
                         $scope.contactInfo['date_of_birth'] = "";
-                    }else{
-                        $scope.contactInfo['date_of_birth'] = new Date($scope.dob).toLocaleDateString();
+                    } else {
+                        //$scope.contactInfo['date_of_birth'] = new Date($scope.dob).toLocaleDateString();
+                        $scope.contactInfo['date_of_birth'] = $scope.dob.valueOf() + "";
                     }
                 });
 
