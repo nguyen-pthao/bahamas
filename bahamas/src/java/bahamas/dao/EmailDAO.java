@@ -241,4 +241,28 @@ public class EmailDAO {
         }
         return false;
     }
+    
+    public static boolean checkVerificationID(String verificationID) {
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean verified = true;
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT VERIFIED FROM EMAIL WHERE VERIFICATIONID = (?)");
+            stmt.setString(1, verificationID);
+            rs = stmt.executeQuery();
+            while (rs.next()) {             
+                verified =  rs.getBoolean(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return verified;
+    }
+    
 }
