@@ -98,6 +98,13 @@ public class AddEmail extends HttpServlet {
                         return;
                     } else {
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
+
+                        if (email == null || EmailDAO.retrieveEmail(email) != null) {
+                            json.addProperty("message", "duplicate email");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks").getAsString());
 
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete").getAsString());

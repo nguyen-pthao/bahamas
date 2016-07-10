@@ -140,7 +140,7 @@ public class EmailDAO {
         return false;
     }
 
-    public static boolean deleteEmail(int id,String email) {
+    public static boolean deleteEmail(int id, String email) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -152,7 +152,7 @@ public class EmailDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("DELETE FROM EMAIL"
                     + " WHERE CONTACT_ID=? AND EMAIL=?");
-      
+
             stmt.setInt(1, id);
             stmt.setString(2, email);
 
@@ -166,5 +166,50 @@ public class EmailDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+
+    public static Email retrieveEmail(String e) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID,DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE FROM EMAIL WHERE EMAIL = (?)");
+            stmt.setString(1, e);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int cid = rs.getInt(1);
+                String dateStr = rs.getString(2);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(3);
+                String email = rs.getString(4);
+                String remarks = rs.getString(5);
+                String dateobs = rs.getString(6);
+                Date dateObsolete = null;
+                if (dateobs != null && !dateobs.isEmpty()) {
+                    dateObsolete = date.parse(dateobs);
+                }
+                Email temp = new Email(email, createdBy, remarks, dateObsolete, dateCreated);
+
+                return temp;
+            }
+
+            return null;
+
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return null;
+
     }
 }

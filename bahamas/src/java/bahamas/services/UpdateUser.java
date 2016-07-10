@@ -100,8 +100,25 @@ public class UpdateUser extends HttpServlet {
                         return;
                     }
 
+                    if (jobject.get("current_password") != null) {
+                        String currentPassword = Validator.containsBlankField(jobject.get("current_password").getAsString());
+                        if (!PasswordHash.verify(currentPassword, c.getPassword(), c.getSalt())) {
+                            json.addProperty("message", "current password failed");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                    }
+                    
                     String password = Validator.containsBlankField(jobject.get("password").getAsString());
+                    String confirmPassword = Validator.containsBlankField(jobject.get("confirm_password").getAsString());
+
                     if (password != null) {
+                        if (!password.equals(confirmPassword)) {
+                            json.addProperty("message", "password mismatch");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+
                         String[] passwordGenerate = PasswordHash.getHashAndSalt(password);
                         c.setPassword(passwordGenerate[0]);
                         c.setSalt(passwordGenerate[1]);
@@ -128,7 +145,7 @@ public class UpdateUser extends HttpServlet {
                     if (ContactDAO.updateUser(c)) {
                         String email = Validator.containsBlankField(jobject.get("email").getAsString());
                         if (email != null && password != null) {
-                            String[] temp = {c.getName(), c.getUsername(), password};                        
+                            String[] temp = {c.getName(), c.getUsername(), password};
                             new Thread(() -> {
                                 // Send Email in a separate thread
                                 Email.sendEmail(email, temp);
