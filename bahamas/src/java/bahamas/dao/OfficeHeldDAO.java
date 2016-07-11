@@ -170,5 +170,37 @@ public class OfficeHeldDAO {
         return false;
 
     }
+    
+    public static boolean officeHeldExist(int id, String startDate, String endDate, String officeHeldName) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND START_OFFICE = (?) AND END_OFFICE = (?) AND OFFICE_HELD_NAME = (?)");
+            stmt.setInt(1, id);
+            stmt.setString(2, startDate);
+            stmt.setString(3, endDate);
+            stmt.setString(4, officeHeldName);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int count = rs.getInt(1);
+                if (count >= 1) {
+                    exist = true;
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_HELD from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return exist;
+    }
+
 
 }
