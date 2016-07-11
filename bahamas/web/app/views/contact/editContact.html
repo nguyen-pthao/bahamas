@@ -158,7 +158,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
-                            <!-- /user information -->
+                        </form>
+                        <!-- /user information -->
+                        <form name="form.editPersonalForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Personal information</h4>
@@ -187,15 +189,15 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Name</label><span class="required">*</span>
                                             <input type="text" ng-model="editContact['name']"  name="name" class="form-control" ng-maxlength='50' empty>
-                                            <span ng-show='editUserForm.name.$error.empty && editUserForm.name.$dirty' class='error'>Name is required.</span>
-                                            <span ng-show='editUserForm.name.$error.maxlength' class='error'>Input field name is too long.</span>
+                                            <span ng-show='form.editPersonalForm.name.$error.empty && form.editPersonalForm.name.$dirty' class='error'>Name is required.</span>
+                                            <span ng-show='form.editPersonalForm.name.$error.maxlength' class='error'>Input field name is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Alternative name</label>
                                             <input type="text" ng-model="editContact['alt_name']" name="altName" class="form-control" ng-maxlength='50'>
-                                            <span ng-show='editUserForm.altName.$error.maxlength' class='error'>Input field alternative name is too long.</span>
+                                            <span ng-show='form.editPersonalForm.altName.$error.maxlength' class='error'>Input field alternative name is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12" ng-init="loadContactTypeList()">
@@ -210,28 +212,28 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
                                             <textarea class="custom-remarks" ng-model="editContact['explain_if_other']" name="otherExpContact" contenteditable="true" spellcheck="true" ng-maxlength='200'></textarea>
-                                            <span ng-show='editUserForm.otherExpContact.$error.maxlength' class='error'>Input field explanation is too long.</span>          
+                                            <span ng-show='form.editPersonalForm.otherExpContact.$error.maxlength' class='error'>Input field explanation is too long.</span>          
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Profession</label>
                                             <input type="text" ng-model="editContact['profession']" name="profession" class="form-control" ng-maxlength='200'>
-                                            <span ng-show='editUserForm.profession.$error.maxlength' class='error'>Input field profession is too long.</span>
+                                            <span ng-show='form.editPersonalForm.profession.$error.maxlength' class='error'>Input field profession is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Job title</label>
                                             <input type="text" ng-model="editContact['job_title']" name="job" class="form-control" ng-maxlength='50'>
-                                            <span ng-show='editUserForm.job.$error.maxlength' class='error'>Input field job title is too long.</span>
+                                            <span ng-show='form.editPersonalForm.job.$error.maxlength' class='error'>Input field job title is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-4" ng-show="isAdmin || isTeamManager">
                                             <label>NRIC/FIN</label>
                                             <input type="text" ng-model="editContact['nric_fin']" name="nric" class="form-control" ng-pattern='nricRegex'>
-                                            <span ng-show='editUserForm.nric.$invalid && editUserForm.nric.$touched' class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
+                                            <span ng-show='form.editPersonalForm.nric.$invalid && form.editPersonalForm.nric.$touched' class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
                                         </div>    
                                         <div ng-class="{'col-md-offset-1' : (isAdmin || isTeamManager)}" class="col-md-2">
                                             <label>Gender</label>
@@ -245,17 +247,17 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Nationality</label>
                                             <input type="text" ng-model="editContact.nationality" name="nationality" class="form-control" ng-pattern='nationalityRegex'>
-                                            <span ng-show="editUserForm.nationality.$invalid && editUserForm.nationality.$touched" class='error'>Invalid nationality.</span>                                           
+                                            <span ng-show="form.editPersonalForm.nationality.$invalid && form.editPersonalForm.nationality.$touched" class='error'>Invalid nationality.</span>                                           
                                         </div>    
                                     </div>
                                     <div class="form-group col-md-12" style="margin-top: 15px">
                                         <div class="col-md-4">
                                             <label>Date of birth</label>
                                             <div class="input-group date">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-addon btn" ng-click="open()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="editContact['date_of_birth']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" class="form-control pull-right">
+                                                <input type="text" uib-datepicker-popup="{{format}}" ng-model="editContact['date_of_birth']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" class="form-control pull-right" readonly>
                                             </div>
                                         </div>
                                     </div>                      
@@ -263,15 +265,15 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remark</label>
                                             <textarea class="custom-remarks" ng-model="editContact.remarks" name="remarksContact" contenteditable="true" spellcheck="true" ng-maxlength='1000'></textarea>
-                                            <span ng-show='editUserForm.remarksContact.$error.maxlength' class='error'>Input field remark is too long.</span>  
+                                            <span ng-show='form.editPersonalForm.remarksContact.$error.maxlength' class='error'>Input field remark is too long.</span>  
                                         </div>
                                     </div>
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='editUserForm.name.$invalid || editUserForm.altName.$invalid || 
-                                                    editUserForm.otherExpContact.$invalid || editUserForm.profession.$invalid || editUserForm.job.$invalid || editUserForm.nric.$invalid
-                                                    || editUserForm.nationality.$invalid || editUserForm.remarksContact.$invalid' ng-click="editTheContact()">Save Changes</button>
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='form.editPersonalForm.name.$invalid || form.editPersonalForm.altName.$invalid || 
+                                                    form.editPersonalForm.otherExpContact.$invalid || form.editPersonalForm.profession.$invalid || form.editPersonalForm.job.$invalid || form.editPersonalForm.nric.$invalid
+                                                    || form.editPersonalForm.nationality.$invalid || form.editPersonalForm.remarksContact.$invalid' ng-click="editTheContact()">Save Changes</button>
                                         &nbsp;
                                         <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheContact()">Delete contact</button>
                                         <br>
@@ -279,7 +281,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
-                            <!-- /contact information -->
+                        </form>
+                        <!-- /contact information -->
+                        <form name="form.editPhoneForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editPhone === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
@@ -329,8 +333,9 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-2" ng-init="loadCountryCodes()">
                                                     <label>Country code</label><span class="required">*</span>
-                                                    <input type="number" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])">            
+                                                    <input type="number" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])" empty>            
                                                     <span>{{newCountryName}}</span>
+                                                    <span ng-show="form.editPhoneForm.countrycode.$error.empty && form.editPhoneForm.countrycode.$dirty" class="error">Country code is required.</span>
                                                 </div>
                                                 <div class="col-md-offset-5 col-md-5">
                                                     <label>Phone number</label><span class="required">*</span>
@@ -340,23 +345,24 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remark</label>
-                                                    <textarea class="custom-remarks" ng-model="phone['remarks']" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="phone['remarks']" ng-maxlength="1000" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-show="form.editPhoneForm.remarksPhone.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon btn" ng-click="openPhone($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input ng-model="phone['date_obsolete']" ng-click="openPhone($index)" uib-datepicker-popup="{{format}}" is-open="openedPhone[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"  type="text" name="dateObsPhone" class="form-control pull-right">
+                                                        <input ng-model="phone['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedPhone[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" type="text" name="dateObsPhone" class="form-control pull-right" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editThePhone($event, phone)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editPhoneForm.countrycode.$invalid || form.editPhoneForm.remarksPhone.$invalid" ng-click="editThePhone($event, phone)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteThePhone($event, phone)">Delete phone</button>
                                                     <br>
@@ -370,33 +376,40 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-2" ng-init="loadCountryCodes()">
                                             <label>Country code</label><span class="required">*</span>
-                                            <input type="number" ng-model="newPhone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(newPhone['country_code'])">            
+                                            <input type="number" ng-model="newPhone['country_code']" class="form-control" name='additionalcountrycode' ng-change="updateCountryNames(newPhone['country_code'])" empty>            
                                             <span>{{newCountryName}}</span>
+                                            <span ng-show="form.editPhoneForm.additionalcountrycode.$error.empty && form.editPhoneForm.additionalcountrycode.$dirty" class="error">Country code is required.</span>
                                         </div>
                                         <div class="col-md-offset-5 col-md-5">
                                             <label>Phone number</label><span class="required">*</span>
-                                            <input type="text" ng-model="newPhone['phone_number']" class="form-control" name="phone">
+                                            <input type="number" ng-model="newPhone['phone_number']" class="form-control" name="additionalphone" ng-pattern="phoneRegex" ng-maxlength="20" empty>
+                                            <span ng-show="form.editPhoneForm.additionalphone.$error.pattern && form.editPhoneForm.additionalphone.$touched" class='error'>Invalid phone number.</span>
+                                            <span ng-show="form.editPhoneForm.additionalphone.$error.empty && form.editPhoneForm.additionalphone.$dirty" class='error'>Phone number is required.</span>
+                                            <span ng-show="form.editPhoneForm.additionalphone.$error.maxlength" class='error'>Input field phone number is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remark</label>
-                                            <textarea class="custom-remarks" ng-model="newPhone['phone_remarks']" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newPhone['phone_remarks']" name="additionalremarksPhone" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editPhoneForm.additionalremarksPhone.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
                                     </div>
                                     <center>
-                                        <button type="submit" class="btn btn-primary uppercase" ng-click="addPhone()">Done</button>
+                                        <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editPhoneForm.additionalcountrycode.$invalid || form.editPhoneForm.additionalphone.$invalid || form.editPhoneForm.additionalremarksPhone.$invalid" ng-click="addPhone()">Done</button>
                                         <br>
                                         <span ng-bind="submitNewPhone.message" ng-show="submitNewPhone.submittedPhone"></span>
                                     </center>
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewPhone()">Add new phone</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewPhone()" ng-hide="addingPhone">Add new phone</button>
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /phone information -->
+                        <form name="form.editEmailForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editEmail === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
@@ -452,23 +465,24 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remark</label>
-                                                    <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                                     <span ng-show="form.editEmailForm.remarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon btn" ng-click="openEmail($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" ng-model="email['date_obsolete']" ng-click="openEmail($index)" uib-datepicker-popup="{{format}}" is-open="openedEmail[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dateObsEmail" class="form-control pull-right">
+                                                        <input type="text" ng-model="email['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedEmail[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dateObsEmail" class="form-control pull-right" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheEmail($event, email)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editEmailForm.remarksEmail.$invalid" ng-click="editTheEmail($event, email)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheEmail($event, email)">Delete email</button>
                                                     <br>
@@ -482,18 +496,22 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Email</label><span class="required">*</span>
-                                            <input type="email" ng-model="newEmail.email" name="email" class="form-control">
+                                            <input type="email" ng-model="newEmail.email" ng-pattern="emailRegex" ng-maxlength="50" name="additionalemail" class="form-control" empty>
+                                            <span ng-show="form.editEmailForm.additionalemail.$error.pattern && form.editEmailForm.additionalemail.$touched" class='error'>Invalid email.</span>
+                                            <span ng-show="form.editEmailForm.additionalemail.$error.empty && form.editEmailForm.additionalemail.$dirty" class='error'>Email is required.</span>
+                                            <span ng-show="form.editEmailForm.additionalemail.$error.maxlength" class='error'>Input field email is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remark</label>
-                                            <textarea class="custom-remarks" name="remarksEmail" ng-model="newEmail['email_remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" name="additionalremarksEmail" ng-model="newEmail['email_remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editEmailForm.additionalremarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-click="addEmail()">Done</button>
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editEmailForm.additionalemail.$invalid || form.editEmailForm.additionalremarksEmail.$invalid" ng-click="addEmail()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewEmail.message" ng-show="submitNewEmail.submittedEmail"></span>
                                         </center>
@@ -501,11 +519,13 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewEmail()">Add new email</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewEmail()" ng-hide="addingEmail">Add new email</button>
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /email information -->
+                        <form name="form.editAddressForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAddress === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
@@ -568,29 +588,31 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">    
                                                     <label>Zipcode</label>
-                                                    <input type="text" ng-model="address.zipcode" class="form-control" name='zipcode'>
+                                                    <input type="text" ng-model="address.zipcode" ng-maxlength="20" class="form-control" name='zipcode'>
+                                                    <span ng-show="form.editAddressForm.zipcode.$error.maxlength" class="error">Input field zipcode is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remark</label>
-                                                    <textarea class="custom-remarks" name="remarksAddress" ng-model="address['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" name="remarksAddress" ng-model="address['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-show="form.editAddressForm.remarksAddress.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon btn" ng-click="openAddress($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" ng-model="address['date_obsolete']" ng-click="openAddress($index)" uib-datepicker-popup="{{format}}" is-open="openedAddress[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dateObsAddress" class="form-control pull-right">
+                                                        <input type="text" ng-model="address['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedAddress[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dateObsAddress" class="form-control pull-right" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheAddress($event, address)">Save changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editAddressForm.zipcode.$invalid || form.editAddressForm.remarksAddress.$invalid" ng-click="editTheAddress($event, address)">Save changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAddress($event, address)">Delete address</button>
                                                     <br>
@@ -604,7 +626,9 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Address</label><span class="required">*</span>
-                                            <input type="text" ng-model="newAddress.address" name='address' class="form-control">
+                                            <input type="text" ng-model="newAddress.address" name='additionaladdress' ng-maxlength="1000" class="form-control" empty>
+                                            <span ng-show="form.editAddressForm.additionaladdress.$error.empty && form.editAddressForm.additionaladdress.$dirty" class='error'>Address is required.</span>
+                                            <span ng-show="form.editAddressForm.additionaladdress.$error.maxlength" class='error'>Input field address is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -616,18 +640,20 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">    
                                             <label>Zipcode</label>
-                                            <input type="text" ng-model="newAddress.zipcode" class="form-control" name='zipcode'>
+                                            <input type="text" ng-model="newAddress.zipcode" ng-maxlength="20" class="form-control" name='additionalzipcode'>
+                                            <span ng-show="form.editAddressForm.additionalzipcode.$error.maxlength" class="error">Input field zipcode is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remark</label>
-                                            <textarea class="custom-remarks" name="remarksAddress" ng-model="newAddress['address_remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" name="additionalremarksAddress" ng-model="newAddress['address_remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editAddressForm.additionalremarksAddress.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-click="addAddress()">Done</button>
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editAddressForm.additionaladdress.$invalid || form.editAddressForm.additionalzipcode.$invalid || form.editAddressForm.additionalremarksAddress.$invalid" ng-click="addAddress()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewAddress.message" ng-show="submitNewAddress.submittedAddress"></span>
                                         </center>
@@ -635,11 +661,13 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewAddress()">Add new address</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewAddress()" ng-hide="addingAddress">Add new address</button>
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /address information -->
+                        <form name="editMembershipForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editMembership === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
@@ -721,7 +749,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="membership['end_date']" ng-click="openMEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"name="enddateMem" class="form-control pull-right">
+                                                        <input type='text' ng-model="membership['end_date']" ng-click="openMEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right">
                                                     </div>
                                                 </div>
                                             </div>
@@ -762,7 +790,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" ng-model="membership['receipt_date']" ng-click="openMembership($index)" uib-datepicker-popup="{{format}}" is-open="openedMembership[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"class="form-control pull-right" name="dateRecMem">
+                                                        <input type="text" ng-model="membership['receipt_date']" ng-click="openMembership($index)" uib-datepicker-popup="{{format}}" is-open="openedMembership[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name="dateRecMem">
                                                     </div>
                                                 </div>
                                             </div>
@@ -896,7 +924,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /membership information -->
+                        <form name="editOfficeForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editOfficeHeld === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
@@ -1038,7 +1068,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /office-held information -->
+                        <form name="editDonationForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editDonation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
@@ -1137,7 +1169,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" ng-click="openDonationReceipt($index)" uib-datepicker-popup="{{format}}" is-open="openedDonationReceipt[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"name='dateRecDon'>
+                                                        <input type="text" class="form-control pull-right" ng-model="donation['receipt_date']" ng-click="openDonationReceipt($index)" uib-datepicker-popup="{{format}}" is-open="openedDonationReceipt[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateRecDon'>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1332,7 +1364,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /donation information -->
+                        <form name="editTeamForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTeam === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
@@ -1478,7 +1512,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'false'">
                                     <div class="form-group" ng-init="loadTeamAffiliationList()">
                                         <label>First choice</label><span class="required">*</span>
-                                        <select class="form-control" ng-model="teamPref.team1" ng-required="true" name="teamPref1">
+                                        <select class="form-control" ng-model="teamPref.team1" name="teamPref1">
                                             <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                         </select>
                                     </div>
@@ -1509,7 +1543,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /team information -->
+                        <form name="editTrainingForm">
                             <div class="box collapsed-box blue-box" ng-hide="true">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTraining === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
@@ -1589,7 +1625,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /training information -->
+                        <form name="editAppreciationForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAppreciation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
@@ -1759,7 +1797,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /appreciation information -->
+                        <form name="editProxyForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editProxy === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
@@ -1891,7 +1931,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /proxy information -->
+                        <form name="editLanguageForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editLanguages === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
@@ -2030,7 +2072,9 @@ and open the template in the editor.
                                     </center>
                                 </div>
                             </div>
+                        </form>
                             <!-- /languages information -->
+                        <form name="editSkillForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editSkillsAssets === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
@@ -2156,11 +2200,11 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <!-- /skills & assets information -->
-                            <!-- /.box-body -->
-                            <!-- /.box -->
                         </form>
                     </div>
+                    <!-- /.box-body -->
                 </div>
+                <!-- /.box -->
             </section>
             <!-- /.content -->
         </div>
