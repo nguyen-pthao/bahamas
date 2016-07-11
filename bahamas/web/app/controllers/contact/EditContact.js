@@ -53,19 +53,19 @@ app.directive('empty', function () {
     };
 });
 
-app.directive('dateparse', ['$filter', function ($filter) {
-        return {
-            restrict: 'EAC',
-            require: '?ngModel',
-            link: function (scope, elem, attrs, ngModel) {
-                ngModel.$parsers.push(function toModel(date) {
-                    var dateString = $filter('date')(date, "dd-MMM-yyyy");
-                    return dateString;
-                    //return date.getDate() + ' ' + (date.getMonth() + 1) + ' ' +  date.getFullYear();
-                });
-            }
-        };
-    }]);
+//app.directive('dateparse', ['$filter', function ($filter) {
+//        return {
+//            restrict: 'EAC',
+//            require: '?ngModel',
+//            link: function (scope, elem, attrs, ngModel) {
+//                ngModel.$parsers.push(function toModel(date) {
+//                    var dateString = $filter('date')(date, "dd-MMM-yyyy");
+//                    return dateString;
+//                    //return date.getDate() + ' ' + (date.getMonth() + 1) + ' ' +  date.getFullYear();
+//                });
+//            }
+//        };
+//    }]);
 
 app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'ngDialog', '$timeout',
@@ -107,7 +107,7 @@ app.controller('editContact',
                 $scope.nricRegex = '[A-Za-z][0-9]\\d{6}[A-Za-z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9]\\d{0,19}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
-                
+
 //GET USER PERMISSION
                 if ($scope.editMode == null) {
                     $scope.editMode = 'false';
@@ -172,8 +172,8 @@ app.controller('editContact',
                     loadContactType.retrieveContactType().then(function (response) {
                         $scope.contactTypeList = response.data.contact;
                         var other;
-                        for(var obj in $scope.contactTypeList) {
-                            if($scope.contactTypeList[obj].contactType == 'Other') {
+                        for (var obj in $scope.contactTypeList) {
+                            if ($scope.contactTypeList[obj].contactType == 'Other') {
                                 other = $scope.contactTypeList.splice(obj, 1);
                             }
                         }
@@ -184,8 +184,8 @@ app.controller('editContact',
                     loadMembershipClass.retrieveMembershipClass().then(function (response) {
                         $scope.membershipList = response.data.membershipClassList;
                         var other;
-                        for(var obj in $scope.membershipList) {
-                            if($scope.membershipList[obj].membershipClass == 'Other') {
+                        for (var obj in $scope.membershipList) {
+                            if ($scope.membershipList[obj].membershipClass == 'Other') {
                                 other = $scope.membershipList.splice(obj, 1);
                             }
                         }
@@ -196,8 +196,8 @@ app.controller('editContact',
                     loadPaymentMode.retrievePaymentMode().then(function (response) {
                         $scope.paymentModeList = response.data.paymentModeList;
                         var other;
-                        for(var obj in $scope.paymentModeList) {
-                            if($scope.paymentModeList[obj].paymentMode == 'Other') {
+                        for (var obj in $scope.paymentModeList) {
+                            if ($scope.paymentModeList[obj].paymentMode == 'Other') {
                                 other = $scope.paymentModeList.splice(obj, 1);
                             }
                         }
@@ -208,8 +208,8 @@ app.controller('editContact',
                     loadModeOfSendingReceipt.retrieveModeOfSendingReceipt().then(function (response) {
                         $scope.sendReceiptModList = response.data.mode;
                         var other;
-                        for(var obj in $scope.sendReceiptModList) {
-                            if($scope.sendReceiptModList[obj].modeOfSendingReceipt == 'Other') {
+                        for (var obj in $scope.sendReceiptModList) {
+                            if ($scope.sendReceiptModList[obj].modeOfSendingReceipt == 'Other') {
                                 other = $scope.sendReceiptModList.splice(obj, 1);
                             }
                         }
@@ -225,8 +225,8 @@ app.controller('editContact',
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
                         var other;
-                        for(var obj in $scope.teamAffiliationList) {
-                            if($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                        for (var obj in $scope.teamAffiliationList) {
+                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
                                 other = $scope.teamAffiliationList.splice(obj, 1);
                             }
                         }
@@ -242,8 +242,8 @@ app.controller('editContact',
                     loadLanguage.retrieveLanguage().then(function (response) {
                         $scope.languageList = response.data.languageList;
                         var other;
-                        for(var obj in $scope.languageList) {
-                            if($scope.languageList[obj].language == 'Other') {
+                        for (var obj in $scope.languageList) {
+                            if ($scope.languageList[obj].language == 'Other') {
                                 other = $scope.languageList.splice(obj, 1);
                             }
                         }
@@ -254,8 +254,8 @@ app.controller('editContact',
                     loadLSAClass.retrieveLSAClass().then(function (response) {
                         $scope.LSAList = response.data.lsaClassList;
                         var other;
-                        for(var obj in $scope.LSAList) {
-                            if($scope.LSAList[obj].lsaClass == 'Other') {
+                        for (var obj in $scope.LSAList) {
+                            if ($scope.LSAList[obj].lsaClass == 'Other') {
                                 other = $scope.LSAList.splice(obj, 1);
                             }
                         }
@@ -377,14 +377,14 @@ app.controller('editContact',
                         });
                         $scope.userType = permission;
                     });
-                    
+
                     $scope.onSelect = function ($item, $model, $label) {
                         $scope.$item = $item;
                         $scope.$model = $model;
                         $scope.$label = $label;
                         $scope.searchContact();
                     };
-                    
+
                     $scope.searchContact = function () {
                         selectedProxy = $scope.selected;
                         console.log(selectedProxy);
@@ -672,7 +672,7 @@ app.controller('editContact',
                         if (response.data.message == 'success') {
                             $scope.resultUser.message = successMsg;
                             $scope.retrieveFunc();
-                            if(create) {
+                            if (create) {
                                 $scope.isUser = true;
                             }
                         } else {
@@ -691,8 +691,12 @@ app.controller('editContact',
                     $scope.editContact['token'] = session.getSession('token');
                     $scope.editContact['contact_id'] = session.getSession('contactToDisplayCid');
                     $scope.editContact['user_type'] = session.getSession('userType');
-                    if($scope.editContact['date_of_birth'] == null) {
+                    if ($scope.editContact['date_of_birth'] == null) {
                         $scope.editContact['date_of_birth'] = '';
+                    } else if (angular.isUndefined($scope.editContact['date_of_birth'])) {
+                        $scope.editContact['date_of_birth'] = '';
+                    } else {
+                        $scope.editContact['date_of_birth'] = $scope.editContact['date_of_birth'].valueOf() + "";
                     }
                     //to be modified
                     var url = AppAPI.updateContact;
@@ -701,7 +705,7 @@ app.controller('editContact',
                         if (response.data.message == 'success') {
                             $scope.resultContact.message = successMsg;
                             $scope.retrieveFunc();
-                            $timeout(function(){
+                            $timeout(function () {
                                 $scope.resultContact.status = false;
                             }, 5000);
                         } else {
@@ -758,10 +762,12 @@ app.controller('editContact',
                     datasend['country_code'] = phone['country_code'];
                     datasend['phone_number'] = phone['phone_number'];
                     datasend['phone_remarks'] = phone['remarks'];
-                    if(phone['date_obsolete'] != null) {
-                        datasend['date_obsolete'] = phone['date_obsolete'];
-                    } else {
+                    if (phone['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(phone['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_obsolete'] = phone['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updatePhone;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -860,10 +866,12 @@ app.controller('editContact',
                     datasend['user_type'] = session.getSession('userType');
                     datasend['email'] = email['email'];
                     datasend['email_remarks'] = email['remarks'];
-                    if(email['date_obsolete'] != null) {
-                        datasend['date_obsolete'] = email['date_obsolete'];
-                    } else {
+                    if (email['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(email['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_obsolete'] = email['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateEmail;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -963,10 +971,12 @@ app.controller('editContact',
                     datasend['address'] = address['address'];
                     datasend['zipcode'] = address['zipcode'];
                     datasend['address_remarks'] = address['remarks'];
-                    if(address['date_obsolete'] != null) {  
-                        datasend['date_obsolete'] = address['date_obsolete'];
-                    } else {
+                    if (address['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(address['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_obsolete'] = address['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateAddress;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -1064,20 +1074,26 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['membership_id'] = membership['membership_id'];
-                    if(membership['start_date'] != null) {
-                        datasend['start_membership'] = membership['start_date'];
-                    } else {
+                    if (membership['start_date'] == null) {
                         datasend['start_membership'] = '';
-                    }
-                    if(membership['end_date'] != null) {
-                        datasend['end_membership'] = membership['end_date'];
+                    } else if (angular.isUndefined(membership['start_date'])) {
+                        datasend['start_membership'] = '';
                     } else {
+                        datasend['start_membership'] = membership['start_date'].valueOf() + "";
+                    }
+                    if (membership['end_date'] == null) {
                         datasend['end_membership'] = '';
-                    }
-                    if(membership['receipt_date'] != null) {
-                        datasend['receipt_date'] = membership['receipt_date'];
+                    } else if (angular.isUndefined(membership['end_date'])) {
+                        datasend['end_membership'] = '';
                     } else {
+                        datasend['end_membership'] = membership['end_date'].valueOf() + "";
+                    }
+                    if (membership['receipt_date'] == null) {
                         datasend['receipt_date'] = '';
+                    } else if (angular.isUndefined(membership['receipt_date'])) {
+                        datasend['receipt_date'] = '';
+                    } else {
+                        datasend['receipt_date'] = membership['receipt_date'].valueOf() + "";
                     }
                     datasend['subscription_amount'] = membership['subscription_amount'];
                     datasend['ext_transaction_ref'] = membership['ext_transaction_ref'];
@@ -1158,6 +1174,27 @@ app.controller('editContact',
                 };
                 $scope.addMembership = function () {
                     var url = AppAPI.addMembership;
+                    if ($scope.newMembership['start_membership'] == null) {
+                        $scope.newMembership['start_membership'] = '';
+                    } else if (angular.isUndefined($scope.newMembership['start_membership'])) {
+                        $scope.newMembership['start_membership'] = '';
+                    } else {
+                        $scope.newMembership['start_membership'] = $scope.newMembership['start_membership'].valueOf() + "";
+                    }
+                    if ($scope.newMembership['end_membership'] == null) {
+                        $scope.newMembership['end_membership'] = '';
+                    } else if (angular.isUndefined($scope.newMembership['end_membership'])) {
+                        $scope.newMembership['end_membership'] = '';
+                    } else {
+                        $scope.newMembership['end_membership'] = $scope.newMembership['end_membership'].valueOf() + "";
+                    }
+                    if ($scope.newMembership['receipt_date'] == null) {
+                        $scope.newMembership['receipt_date'] = '';
+                    } else if (angular.isUndefined($scope.newMembership['receipt_date'])) {
+                        $scope.newMembership['receipt_date'] = '';
+                    } else {
+                        $scope.newMembership['receipt_date'] = $scope.newMembership['receipt_date'].valueOf() + "";
+                    }
                     dataSubmit.submitData($scope.newMembership, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewMembership.submittedMembership = true;
@@ -1194,15 +1231,19 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['office_held_name'] = officeHeld['office_held'];
-                    if(officeHeld['start_office'] != null) {
-                        datasend['start_office'] = officeHeld['start_office'];
-                    } else {
+                    if (officeHeld['start_office'] == null) {
                         datasend['start_office'] = '';
-                    }
-                    if(officeHeld['end_office'] != null) {
-                        datasend['end_office'] = officeHeld['end_office'];
+                    } else if (angular.isUndefined(officeHeld['start_office'])) {
+                        datasend['start_office'] = '';
                     } else {
+                        datasend['start_office'] = officeHeld['start_office'].valueOf() + "";
+                    }
+                    if (officeHeld['end_office'] == null) {
                         datasend['end_office'] = '';
+                    } else if (angular.isUndefined(officeHeld['end_office'])) {
+                        datasend['end_office'] = '';
+                    } else {
+                        datasend['end_office'] = officeHeld['end_office'].valueOf() + "";
                     }
                     datasend['remarks'] = officeHeld['remarks'];
                     var url = AppAPI.updateOfficeHeld;
@@ -1266,6 +1307,20 @@ app.controller('editContact',
                 };
                 $scope.addOffice = function () {
                     var url = AppAPI.addOfficeHeld;
+                    if ($scope.newOffice['start_office'] == null) {
+                        $scope.newOffice['start_office'] = '';
+                    } else if (angular.isUndefined($scope.newOffice['start_office'])) {
+                        $scope.newOffice['start_office'] = '';
+                    } else {
+                        $scope.newOffice['start_office'] = $scope.newOffice['start_office'].valueOf() + "";
+                    }
+                    if ($scope.newOffice['end_office'] == null) {
+                        $scope.newOffice['end_office'] = '';
+                    } else if (angular.isUndefined($scope.newOffice['end_office'])) {
+                        $scope.newOffice['end_office'] = '';
+                    } else {
+                        $scope.newOffice['end_office'] = $scope.newOffice['end_office'].valueOf() + "";
+                    }
                     dataSubmit.submitData($scope.newOffice, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewOffice.submittedOffice = true;
@@ -1301,20 +1356,24 @@ app.controller('editContact',
                     datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['donation_id'] = donation['donation_id'];
-                    if(donation['date_received'] != null) {
-                        datasend['date_received'] = donation['date_received'];
-                    } else {
+                    if (donation['date_received'] == null) {
                         datasend['date_received'] = '';
+                    } else if (angular.isUndefined(donation['date_received'])) {
+                        datasend['date_received'] = '';
+                    } else {
+                        datasend['date_received'] = donation['date_received'].valueOf() + "";
                     }
                     datasend['donation_amount'] = donation['donation_amount'];
                     datasend['payment_mode'] = donation['payment_mode'];
                     datasend['explain_if_other_payment'] = donation['explain_if_other_payment'];
                     datasend['ext_transaction_ref'] = donation['ext_transaction_ref'];
                     datasend['receipt_number'] = donation['receipt_number'];
-                    if(donation['receipt_date'] != null) {
-                        datasend['receipt_date'] = donation['receipt_date'];
-                    } else {
+                    if (donation['receipt_date'] == null) {
                         datasend['receipt_date'] = '';
+                    } else if (angular.isUndefined(donation['receipt_date'])) {
+                        datasend['receipt_date'] = '';
+                    } else {
+                        datasend['receipt_date'] = donation['receipt_date'].valueOf() + "";
                     }
                     datasend['receipt_mode'] = donation['receipt_mode_name'];
                     datasend['explain_if_other_receipt'] = donation['explain_if_other_receipt'];
@@ -1401,6 +1460,20 @@ app.controller('editContact',
                 };
                 $scope.addDonation = function () {
                     var url = AppAPI.addDonation;
+                    if ($scope.newDonation['date_received'] == null) {
+                        $scope.newDonation['date_received'] = '';
+                    } else if (angular.isUndefined($scope.newDonation['date_received'])) {
+                        $scope.newDonation['date_received'] = '';
+                    } else {
+                        $scope.newDonation['date_received'] = $scope.newDonation['date_received'].valueOf() + "";
+                    }
+                    if ($scope.newDonation['receipt_date'] == null) {
+                        $scope.newDonation['receipt_date'] = '';
+                    } else if (angular.isUndefined($scope.newDonation['receipt_date'])) {
+                        $scope.newDonation['receipt_date'] = '';
+                    } else {
+                        $scope.newDonation['receipt_date'] = $scope.newDonation['receipt_date'].valueOf() + "";
+                    }
                     dataSubmit.submitData($scope.newDonation, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewDonation.submittedDonation = true;
@@ -1438,10 +1511,12 @@ app.controller('editContact',
                     datasend['permission_level'] = team['permission'];
                     datasend['explain_if_other'] = team['explain_if_others'];
                     datasend['subteam'] = team['sub_team'];
-                    if(team['date_obsolete'] != null) {
-                        datasend['date_obsolete'] = team['date_obsolete'];
-                    } else {
+                    if (team['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(team['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_received'] = team['date_obsolete'].valueOf() + "";
                     }
                     datasend['remarks'] = team['remarks'];
                     var url = AppAPI.updateTeamJoin;
@@ -1573,7 +1648,7 @@ app.controller('editContact',
                 };
                 $scope.addTeam = function () {
                     var url = AppAPI.addTeamJoin;
-                    if($scope.editMode == 'true') {
+                    if ($scope.editMode == 'true') {
                         dataSubmit.submitData($scope.newTeam, url).then(function (response) {
                             if (response.data.message == 'success') {
                                 $scope.submitNewTeam.submittedTeam = true;
@@ -1595,11 +1670,11 @@ app.controller('editContact',
                         teamPreference.team = $scope.teamPref.team1;
                         dataSubmit.submitData(teamPreference, url).then(function (response) {
                             if (response.data.message == 'success') {
-                                if($scope.teamPref.team2 != '') {
+                                if ($scope.teamPref.team2 != '') {
                                     teamPreference.team = $scope.teamPref.team2;
                                     dataSubmit.submitData(teamPreference, url).then(function (response) {
-                                        if(response.data.message == 'success') {
-                                            if($scope.teamPref.team3 != '') {
+                                        if (response.data.message == 'success') {
+                                            if ($scope.teamPref.team3 != '') {
                                                 teamPreference.team = $scope.teamPref.team3;
                                                 dataSubmit.submitData(teamPreference, url).then(function (response) {
                                                     if (response.data.message = 'success') {
@@ -1615,7 +1690,7 @@ app.controller('editContact',
                                                     } else {
                                                         $scope.submitNewTeam.message = failMsg;
                                                     }
-                                                }, function() {
+                                                }, function () {
                                                     window.alert("Fail to send request!");
                                                 });
                                             } else {
@@ -1632,7 +1707,7 @@ app.controller('editContact',
                                         } else {
                                             $scope.submitNewTeam.message = failMsg;
                                         }
-                                    }, function() {
+                                    }, function () {
                                         window.alert("Fail to send request!");
                                     });
                                 } else {
@@ -1654,7 +1729,7 @@ app.controller('editContact',
                         });
                     }
                 };
-                
+
                 //appreciation
                 $scope.addingAppreciation = false;
                 $scope.addNewAppreciation = function () {
@@ -1673,17 +1748,21 @@ app.controller('editContact',
                     datasend['appreciation_id'] = appreciation['appreciation_id'];
                     datasend['appraisal_comment'] = appreciation['appraisal_comments'];
                     datasend['appraisal_by'] = appreciation['appraisal_by'];
-                    if(appreciation['appraisal_date'] != null) {
-                        datasend['appraisal_date'] = appreciation['appraisal_date'];
-                    } else {
+                    if (appreciation['appraisal_date'] == null) {
                         datasend['appraisal_date'] = '';
+                    } else if (angular.isUndefined(appreciation['appraisal_date'])) {
+                        datasend['appraisal_date'] = '';
+                    } else {
+                        datasend['appraisal_date'] = appreciation['appraisal_date'].valueOf() + "";
                     }
                     datasend['appreciation_gesture'] = appreciation['appreciation_gesture'];
                     datasend['appreciation_by'] = appreciation['appreciation_by'];
-                    if(appreciation['appreciation_date'] != null) {
-                        datasend['appreciation_date'] = appreciation['appreciation_date'];
-                    } else {
+                    if (appreciation['appreciation_date'] == null) {
                         datasend['appreciation_date'] = '';
+                    } else if (angular.isUndefined(appreciation['appreciation_date'])) {
+                        datasend['appreciation_date'] = '';
+                    } else {
+                        datasend['appreciation_date'] = appreciation['appreciation_date'].valueOf() + "";
                     }
                     datasend['remarks'] = appreciation['remarks'];
                     var url = AppAPI.updateAppreciation;
@@ -1749,6 +1828,20 @@ app.controller('editContact',
                 };
                 $scope.addAppreciation = function () {
                     var url = AppAPI.addAppreciation;
+                    if ($scope.newAppreciation['appraisal_date'] == null) {
+                        $scope.newAppreciation['appraisal_date'] = '';
+                    } else if (angular.isUndefined($scope.newAppreciation['appraisal_date'])) {
+                        $scope.newAppreciation['appraisal_date'] = '';
+                    } else {
+                        $scope.newAppreciation['appraisal_date'] = $scope.newAppreciation['appraisal_date'].valueOf() + "";
+                    }
+                    if ($scope.newAppreciation['appreciation_date'] == null) {
+                        $scope.newAppreciation['appreciation_date'] = '';
+                    } else if (angular.isUndefined($scope.newAppreciation['appreciation_date'])) {
+                        $scope.newAppreciation['appreciation_date'] = '';
+                    } else {
+                        $scope.newAppreciation['appreciation_date'] = $scope.newAppreciation['appreciation_date'].valueOf() + "";
+                    }
                     dataSubmit.submitData($scope.newAppreciation, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewAppreciation.submittedAppreciation = true;
@@ -1787,10 +1880,12 @@ app.controller('editContact',
                     datasend['principal_of'] = session.getSession('contactToDisplayCid');
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
-                    if(proxy['date_obsolete'] != null) {
-                        datasend['date_obsolete'] = proxy['date_obsolete'];
-                    } else {
+                    if (proxy['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(proxy['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_obsolete'] = proxy['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateProxy;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -1856,6 +1951,13 @@ app.controller('editContact',
                 $scope.addProxy = function () {
                     $scope.newProxy['proxy_of'] = selectedProxy.cid + "";
                     $scope.newProxy['principal_of'] = session.getSession('contactToDisplayCid');
+                    if ($scope.newProxy['date_obsolete'] == null) {
+                        $scope.newProxy['date_obsolete'] = '';
+                    } else if (angular.isUndefined($scope.newProxy['date_obsolete'])) {
+                        $scope.newProxy['date_obsolete'] = '';
+                    } else {
+                        $scope.newProxy['date_obsolete'] = $scope.newProxy['date_obsolete'].valueOf() + "";
+                    }
                     var url = AppAPI.addProxy;
                     dataSubmit.submitData($scope.newProxy, url).then(function (response) {
                         if (response.data.message == 'success') {
@@ -1895,10 +1997,12 @@ app.controller('editContact',
                     datasend['speak_write'] = language['proficiency'];
                     datasend['explain_if_other'] = language['explain_if_other'];
                     datasend['remarks'] = language['remarks'];
-                    if(language['date_obsolete'] != null) {
-                        datasend['date_obsolete'] = language['date_obsolete'];
-                    } else {
+                    if (language['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(language['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_obsolete'] = language['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateLanguage;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -1959,6 +2063,13 @@ app.controller('editContact',
                 };
                 $scope.addLanguages = function () {
                     var url = AppAPI.addLanguage;
+                    if ($scope.newLanguages['date_obsolete'] == null) {
+                        $scope.newLanguages['date_obsolete'] = '';
+                    } else if (angular.isUndefined($scope.newLanguages['date_obsolete'])) {
+                        $scope.newLanguages['date_obsolete'] = '';
+                    } else {
+                        $scope.newLanguages['date_obsolete'] = $scope.newLanguages['date_obsolete'].valueOf() + "";
+                    }
                     dataSubmit.submitData($scope.newLanguages, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewLanguages.submittedLanguages = true;
@@ -1996,10 +2107,12 @@ app.controller('editContact',
                     datasend['skill_asset'] = skill['skill_name'];
                     datasend['explain_if_other'] = skill['explain_if_other'];
                     datasend['remarks'] = skill['remarks'];
-                    if(skill['date_obsolete'] != null) {
-                        datasend['date_obsolete'] = skill['date_obsolete'];
-                    } else {
+                    if (skill['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
+                    } else if (angular.isUndefined(skill['date_obsolete'])) {
+                        datasend['date_obsolete'] = '';
+                    } else {
+                        datasend['date_obsolete'] = skill['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateSkill;
                     dataSubmit.submitData(datasend, url).then(function (response) {
@@ -2059,6 +2172,13 @@ app.controller('editContact',
                 };
                 $scope.addSkills = function () {
                     var url = AppAPI.addSkill;
+                    if ($scope.newSkills['date_obsolete'] == null) {
+                        $scope.newSkills['date_obsolete'] = '';
+                    } else if (angular.isUndefined($scope.newSkills['date_obsolete'])) {
+                        $scope.newSkills['date_obsolete'] = '';
+                    } else {
+                        $scope.newSkills['date_obsolete'] = $scope.newSkills['date_obsolete'].valueOf() + "";
+                    }
                     dataSubmit.submitData($scope.newSkills, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewSkills.submittedSkills = true;
@@ -2099,13 +2219,13 @@ app.controller('editContact',
                     formatDay: 'dd',
                     startingDay: 1
                 };
-                
-                $scope.open = function(){
-                    $timeout(function(){
+
+                $scope.open = function () {
+                    $timeout(function () {
                         $scope.opened = true;
                     });
                 };
-                
+
                 $scope.openedPhone = [];
                 $scope.openPhone = function (index) {
                     $timeout(function () {
@@ -2210,61 +2330,61 @@ app.controller('editContact',
                         $scope.openedSkills[index] = true;
                     });
                 };
-                
-                $scope.openNewMStart = function(){
-                    $timeout(function(){
+
+                $scope.openNewMStart = function () {
+                    $timeout(function () {
                         $scope.openedNewMStart = true;
                     });
                 };
-                
-                $scope.openNewMEnd = function(){
-                    $timeout(function(){
+
+                $scope.openNewMEnd = function () {
+                    $timeout(function () {
                         $scope.openedNewMEnd = true;
                     });
                 };
-                
-                $scope.openNewMReceipt = function(){
-                    $timeout(function(){
+
+                $scope.openNewMReceipt = function () {
+                    $timeout(function () {
                         $scope.openedNewMReceipt = true;
                     });
                 };
-                
-                $scope.openNewOStart = function(){
-                    $timeout(function(){
+
+                $scope.openNewOStart = function () {
+                    $timeout(function () {
                         $scope.openedNewOStart = true;
                     });
                 };
-                
-                $scope.openNewOEnd = function(){
-                    $timeout(function(){
+
+                $scope.openNewOEnd = function () {
+                    $timeout(function () {
                         $scope.openedNewOEnd = true;
                     });
                 };
-                
-                $scope.openNewDReceived = function(){
-                    $timeout(function(){
+
+                $scope.openNewDReceived = function () {
+                    $timeout(function () {
                         $scope.openedNewDReceived = true;
                     });
                 };
-                
-                $scope.openNewDReceipt = function(){
-                    $timeout(function(){
+
+                $scope.openNewDReceipt = function () {
+                    $timeout(function () {
                         $scope.openedNewDReceipt = true;
                     });
                 };
-                
-                $scope.openNewAppraisal = function(){
-                    $timeout(function(){
+
+                $scope.openNewAppraisal = function () {
+                    $timeout(function () {
                         $scope.openedNewAppraisal = true;
                     });
                 };
-                
-                $scope.openNewAppreciation = function(){
-                    $timeout(function(){
+
+                $scope.openNewAppreciation = function () {
+                    $timeout(function () {
                         $scope.openedNewAppreciation = true;
                     });
                 };
-                
+
                 function getDayClass(data) {
                     var date = data.date,
                             mode = data.mode;
