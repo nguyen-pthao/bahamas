@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -171,7 +173,7 @@ public class OfficeHeldDAO {
 
     }
     
-    public static boolean officeHeldExist(int id, String startDate, String endDate, String officeHeldName) {
+    public static boolean officeHeldExist(int id, Date startDate, Date endDate, String officeHeldName) {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -180,15 +182,24 @@ public class OfficeHeldDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND START_OFFICE = (?) AND END_OFFICE = (?) AND OFFICE_HELD_NAME = (?)");
+            stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?)");
             stmt.setInt(1, id);
-            stmt.setString(2, startDate);
-            stmt.setString(3, endDate);
-            stmt.setString(4, officeHeldName);
+            //stmt.setString(2, startDate);
+            //stmt.setString(3, endDate);
+            stmt.setString(2, officeHeldName);
             rs = stmt.executeQuery();
             while (rs.next()) {
-                int count = rs.getInt(1);
-                if (count >= 1) {
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                String strStartDate1 = rs.getString(1) + " 00:00:00";
+                String strEndDate2 = rs.getString(2) + " 23:59:59";
+                Date startDateDB = date.parse(strStartDate1);
+                Date endDateDB = date.parse(strEndDate2);
+
+                if(startDate.equals(startDateDB) || startDate.equals(endDateDB) || ( startDate.after(startDateDB) && startDate.before(endDateDB))){
+                    exist = true;
+                }else if(endDate.equals(startDateDB) || endDate.equals(endDateDB) || ( endDate.after(startDateDB) && endDate.before(endDateDB))){
+                    exist = true;
+                }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
                     exist = true;
                 }
             }
@@ -196,6 +207,8 @@ public class OfficeHeldDAO {
         } catch (SQLException ex) {
             Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_HELD from database", ex);
             ex.printStackTrace();
+        } catch (ParseException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
