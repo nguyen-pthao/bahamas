@@ -98,11 +98,11 @@ public class EmailGenerator {
             Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(USERNAME));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
-            message.setSubject("TWC2 Bahamas - Verify tyour email address");
+            message.setSubject("TWC2 Bahamas - Email Verification");
             message.setText("Dear " + name + ","
-                    + "\n\n Your email address has not been verified."
-                    + " Verify your email address: http://localhost:8084/bahamas/verifyemail?verifyemail=" + hashID
-                    + "\n\n Regards," + "\n TWC2 Team");
+                    + "\n\nYour email address has not been verified."
+                    + "\nClick this link to complete the verification: http://localhost:8084/bahamas/verifyemail?verifyemail=" + hashID
+                    + "\n\nRegards," + "\n TWC2 Team");
 
             Transport.send(message);
             System.out.println("Sent message successfully....");
