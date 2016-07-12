@@ -53,20 +53,6 @@ app.directive('empty', function () {
     };
 });
 
-//app.directive('dateparse', ['$filter', function ($filter) {
-//        return {
-//            restrict: 'EAC',
-//            require: '?ngModel',
-//            link: function (scope, elem, attrs, ngModel) {
-//                ngModel.$parsers.push(function toModel(date) {
-//                    var dateString = $filter('date')(date, "dd-MMM-yyyy");
-//                    return dateString;
-//                    //return date.getDate() + ' ' + (date.getMonth() + 1) + ' ' +  date.getFullYear();
-//                });
-//            }
-//        };
-//    }]);
-
 app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'ngDialog', '$timeout',
             'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList',
@@ -78,26 +64,6 @@ app.controller('editContact',
                     dataSubmit, deleteService, retrieveOwnContactInfo, $filter) {
 
                 var permission = session.getSession('userType');
-
-//PAGES TRANSITION
-                var toContact = '';
-                if ($scope.authorised && $scope.editMode == 'true') {
-                    toContact = permission + '.viewIndivContact';
-                } else {
-                    toContact = permission + '.userManagement';
-                }
-                var homepage = permission + '.homepage';
-                var toContacts = permission + '.viewContacts';
-
-                $scope.backHome = function () {
-                    $state.go(homepage);
-                };
-                $scope.viewContact = function () {
-                    $state.go(toContact);
-                };
-                $scope.viewAllContacts = function () {
-                    $state.go(toContacts);
-                };
 
                 //viewing mode: false for own contact and true for other people contact
                 $scope.editMode = session.getSession('otherContact');
@@ -166,6 +132,26 @@ app.controller('editContact',
                         'token': session.getSession('token')
                     };
                 }
+
+//PAGES TRANSITION
+                var toContact = '';
+                if ($scope.authorised && $scope.editMode == 'true') {
+                    toContact = permission + '.viewIndivContact';
+                } else {
+                    toContact = permission + '.userManagement';
+                }
+                var homepage = permission + '.homepage';
+                var toContacts = permission + '.viewContacts';
+
+                $scope.backHome = function () {
+                    $state.go(homepage);
+                };
+                $scope.viewContact = function () {
+                    $state.go(toContact);
+                };
+                $scope.viewAllContacts = function () {
+                    $state.go(toContacts);
+                };
 
 //CALL DROPDOWN LIST SERVICES        
                 $scope.loadContactTypeList = function () {
