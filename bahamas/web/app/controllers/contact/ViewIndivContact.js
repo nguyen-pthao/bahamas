@@ -8,8 +8,17 @@
 
 var app = angular.module('bahamas');
 
+app.filter('verifiedFilter', function () {
+    return function(text, length, end) {
+        if (text) {
+            return 'Yes';
+        }
+        return 'No';
+    }
+});
+
 app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveContactByCid', function ($scope, session, $state, retrieveContactByCid) {
-        $scope.contactToDisplayCid = session.getSession('contactToDisplayCid'); 
+        $scope.contactToDisplayCid = session.getSession('contactToDisplayCid');
         $scope.permission = session.getSession('userType');
         $scope.ownContactCid = angular.fromJson(session.getSession('contact')).cid;
 //        console.log($scope.ownContactCid);
@@ -37,40 +46,41 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         } else if ($scope.permission === 'teammanager') {
             $scope.isAuthorised = true;
         }
-        
-        $scope.isAdmin=false;
+
+        $scope.isAdmin = false;
         $scope.isTM = false;
         $scope.isEL = false;
         $scope.isAssociate = false;
         $scope.editable = false;
         $scope.permissionViewNricDob = true;
-        if($scope.permission === 'admin'){
+        if ($scope.permission === 'admin') {
             $scope.isAdmin = true;
             $scope.editable = true;
             $scope.permissionViewNricDob = false;
-        }else if ($scope.permission === 'teammanager'){
+        } else if ($scope.permission === 'teammanager') {
             $scope.isTM = true;
             $scope.editable = true;
-        }else if($scope.permission === 'eventleader'){
+        } else if ($scope.permission === 'eventleader') {
             $scope.isEL = true;
             $scope.editable = true;
             $scope.permissionViewNricDob = true;
-        }else if($scope.permission === 'associate'){
+        } else if ($scope.permission === 'associate') {
             $scope.isAssociate = true;
             $scope.permissionViewNricDob = true;
         }
-        
-        $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response){
+
+        $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
+            console.log(response);
             $scope.contactInfo = response.data.contact[0];
             //user info
             $scope.username = $scope.contactInfo.username;
             $scope.isUser = false;
-            if($scope.username != ""){
-                if($scope.permission === 'admin'){
-                     $scope.isUser = true;
+            if ($scope.username != "") {
+                if ($scope.permission === 'admin') {
+                    $scope.isUser = true;
                 }
             }
-            
+
             //contact info
             $scope.dateCreated = $scope.contactInfo['date_created'];
             $scope.name = $scope.contactInfo['name'];
@@ -85,80 +95,80 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.dateOfBirth = $scope.contactInfo['date_of_birth'];
             $scope.remarks = $scope.contactInfo['remarks'];
             $scope.createdBy = $scope.contactInfo['created_by'];
-            
+
             //phone info
             $scope.phoneInfo = $scope.contactInfo['phone'];
             $scope.hasPhone = true;
-            if(angular.isUndefined($scope.phoneInfo)){
+            if (angular.isUndefined($scope.phoneInfo)) {
                 $scope.hasPhone = false;
             }
-            
+
             //email info
             $scope.email = $scope.contactInfo['email'];
             $scope.hasEmail = true;
-            if(angular.isUndefined($scope.email)){
+            if (angular.isUndefined($scope.email)) {
                 $scope.hasEmail = false;
             }
-            
+
             //address info
             $scope.address = $scope.contactInfo['address'];
             $scope.hasAddress = true;
-            if(angular.isUndefined($scope.address)){
+            if (angular.isUndefined($scope.address)) {
                 $scope.hasAddress = false;
             }
             //membership info
             $scope.membership = $scope.contactInfo['membership'];
             $scope.hasMembership = true;
-            if(angular.isUndefined($scope.membership)){
+            if (angular.isUndefined($scope.membership)) {
                 $scope.hasMembership = false;
             }
             //office held info
             $scope.officeHeld = $scope.contactInfo['office_held'];
             $scope.hasOffice = true;
-            if(angular.isUndefined($scope.officeHeld)){
+            if (angular.isUndefined($scope.officeHeld)) {
                 $scope.hasOffice = false;
             }
             //donation info
             $scope.donation = $scope.contactInfo['donation'];
             $scope.hasDonation = true;
-            if(angular.isUndefined($scope.donation)){
+            if (angular.isUndefined($scope.donation)) {
                 $scope.hasDonation = false;
             }
             //team info
             $scope.team = $scope.contactInfo['team_join'];
             $scope.hasTeam = true;
-            if(angular.isUndefined($scope.team)){
+            if (angular.isUndefined($scope.team)) {
                 $scope.hasTeam = false;
             }
             //training info
             $scope.training = $scope.contactInfo['training'];
             $scope.hasTraining = true;
-            if(angular.isUndefined($scope.training)){
+            if (angular.isUndefined($scope.training)) {
                 $scope.hasTraining = false;
             }
-            
+
             //appreciation info
             $scope.appreciation = $scope.contactInfo['appreciation'];
             $scope.hasAppreciation = true;
-            if(angular.isUndefined($scope.appreciation)){
+            if (angular.isUndefined($scope.appreciation)) {
                 $scope.hasAppreciation = false;
             }
             //proxy info
             $scope.proxy = $scope.contactInfo['proxy'];
             $scope.hasProxy = true;
-            if(angular.isUndefined($scope.proxy)){
+            if (angular.isUndefined($scope.proxy)) {
                 $scope.hasProxy = false;
             }
             //languages info
             $scope.languages = $scope.contactInfo['language_assignment'];
             $scope.hasLanguages = true;
-            if(angular.isUndefined($scope.languages)){
+            if (angular.isUndefined($scope.languages)) {
                 $scope.hasLanguages = false;
             }
             //skills and assets info
             $scope.skills = $scope.contactInfo['skill_assignment'];
             $scope.hasSkills = true;
-            if(angular.isUndefined($scope.skills)){
+            if (angular.isUndefined($scope.skills)) {
                 $scope.hasSkills = false;
             }
         });
