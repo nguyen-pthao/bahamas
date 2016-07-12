@@ -333,7 +333,7 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-2" ng-init="loadCountryCodes()">
                                                     <label>Country code</label><span class="required">*</span>
-                                                    <input type="number" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])" empty>            
+                                                    <input type="number" step="1" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])" empty>            
                                                     <span>{{newCountryName}}</span>
                                                     <span ng-show="form.editPhoneForm.countrycode.$error.empty && form.editPhoneForm.countrycode.$dirty" class="error">Country code is required.</span>
                                                 </div>
@@ -376,13 +376,13 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-2" ng-init="loadCountryCodes()">
                                             <label>Country code</label><span class="required">*</span>
-                                            <input type="number" ng-model="newPhone['country_code']" class="form-control" name='additionalcountrycode' ng-change="updateCountryNames(newPhone['country_code'])" empty>            
+                                            <input type="number" step="1" ng-model="newPhone['country_code']" class="form-control" name='additionalcountrycode' ng-change="updateCountryNames(newPhone['country_code'])" empty>            
                                             <span>{{newCountryName}}</span>
                                             <span ng-show="form.editPhoneForm.additionalcountrycode.$error.empty && form.editPhoneForm.additionalcountrycode.$dirty" class="error">Country code is required.</span>
                                         </div>
                                         <div class="col-md-offset-5 col-md-5">
                                             <label>Phone number</label><span class="required">*</span>
-                                            <input type="number" ng-model="newPhone['phone_number']" class="form-control" name="additionalphone" ng-pattern="phoneRegex" ng-maxlength="20" empty>
+                                            <input type="text" ng-model="newPhone['phone_number']" class="form-control" name="additionalphone" ng-pattern="phoneRegex" ng-maxlength="20" empty>
                                             <span ng-show="form.editPhoneForm.additionalphone.$error.pattern && form.editPhoneForm.additionalphone.$touched" class='error'>Invalid phone number.</span>
                                             <span ng-show="form.editPhoneForm.additionalphone.$error.empty && form.editPhoneForm.additionalphone.$dirty" class='error'>Phone number is required.</span>
                                             <span ng-show="form.editPhoneForm.additionalphone.$error.maxlength" class='error'>Input field phone number is too long.</span>
@@ -718,38 +718,39 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadMembershipList()">
                                                     <label>Membership type</label><span class="required">*</span>
-                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control">
+                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control" readonly>
                                                         <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Subscription amount</label><span class="required">*</span>
-                                                    <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                                    <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" name="otherExpMemClass" ng-model="membership['explain_if_other_class']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" name="otherExpMemClass" ng-model="membership['explain_if_other_class']" ng-maxlength="200" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-show="form.editMembershipForm.otherExpMemClass.$error.maxlength" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Membership start date</label><span class="required">*</span>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon btn" ng-click="openMStart($index)" ng-disabled="true">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="membership['start_date']" ng-click="openMStart($index)" uib-datepicker-popup="{{format}}" is-open="openedMStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right">
+                                                        <input type='text' ng-model="membership['start_date']" uib-datepicker-popup="{{format}}" is-open="openedMStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right" readonly>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Membership end date</label><span class="required">*</span>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon btn" ng-click="openMEnd($index)" ng-disabled="true">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="membership['end_date']" ng-click="openMEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right">
+                                                        <input type='text' ng-model="membership['end_date']" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -764,17 +765,20 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_payment']" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_payment']" ng-maxlength="200" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-show="form.editMembershipForm.otherExpPayModMem.$error.maxlength" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>External transaction reference</label>
-                                                    <input type='text' ng-model="membership['ext_transaction_ref']" class='form-control' name="transRefMem">
+                                                    <input type='text' ng-model="membership['ext_transaction_ref']" ng-maxlength="50" class='form-control' name="transRefMem">
+                                                    <span ng-show="form.editMembershipForm.transRefMem.$error.maxlength" class="error">Input field reference is too long.</span>
                                                 </div>    
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Receipt number</label>
-                                                    <input type='text' ng-model="membership['receipt_number']" class='form-control' name="recNoMem">
+                                                    <input type='text' ng-model="membership['receipt_number']" ng-maxlength="50" class='form-control' name="recNoMem">
+                                                    <span ng-show="form.editMembershipForm.recNoMem.$error.maxlength" class="error">Input field receipt number is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -787,28 +791,33 @@ and open the template in the editor.
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Date of receipt</label>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon">
+                                                        <div class="input-group-addon btn" ng-click="openMembership($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" ng-model="membership['receipt_date']" ng-click="openMembership($index)" uib-datepicker-popup="{{format}}" is-open="openedMembership[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name="dateRecMem">
+                                                        <input type="text" ng-model="membership['receipt_date']" uib-datepicker-popup="{{format}}" is-open="openedMembership[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name="dateRecMem" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_receipt']" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_receipt']" ng-maxlength="200" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-show="form.editMembershipForm.otherExpRecModMem.$error.maxlength" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remark</label>
-                                                    <textarea class="custom-remarks" ng-model="membership['remarks']" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="membership['remarks']" ng-maxlength="1000" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-show="form.editMembershipForm.remarksMem.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheMembership($event, membership)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" 
+                                                            ng-disabled="form.editMembershipForm.otherExpMemClass.$invalid || form.editMembershipForm.otherExpPayModMem.$invalid || form.editMembershipForm.transRefMem.$invalid
+                                                            || form.editMembershipForm.recNoMem.$invalid || form.editMembershipForm.otherExpRecModMem.$invalid || form.editMembershipForm.remarksMem.$invalid"
+                                                            ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
                                                     <br>
@@ -828,7 +837,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Subscription amount</label><span class="required">*</span>
-                                            <input type="number" ng-model="newMembership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                            <input type="number" step="0.01" ng-model="newMembership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">

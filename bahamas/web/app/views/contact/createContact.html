@@ -131,7 +131,7 @@ and open the template in the editor.
                                                         <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                                             <div class="col-md-3" style="padding: 0px" ng-init="loadCountryCodes()">
                                                                 <label>Country code</label><span class="required">*</span>
-                                                                <input type="number" class="form-control" ng-model="additionalContactInfo.phoneInfo['country_code']" ng-required="true" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)" name="additionalcountrycode">            
+                                                                <input type="number" step="1" class="form-control" ng-model="additionalContactInfo.phoneInfo['country_code']" ng-required="true" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)" name="additionalcountrycode">            
                                                                 <span>{{newCountryName}}</span>
                                                                 <span ng-show="form.additionalContactForm.additionalcountrycode.$error.required && form.additionalContactForm.additionalcountrycode.$dirty" class="error">Country code is required.</span>
                                                             </div>
