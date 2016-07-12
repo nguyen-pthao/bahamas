@@ -101,6 +101,12 @@ public class AddSkill extends HttpServlet {
                         return;
                     } else {
 
+                        if (skillsAsset != null) {
+                            if (SkillDAO.skillExist(contactId, skillsAsset)) {
+                                Validator.getErrorList().add("duplicate language");
+                            }
+                        }
+
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
                             for (String s : Validator.getErrorList()) {

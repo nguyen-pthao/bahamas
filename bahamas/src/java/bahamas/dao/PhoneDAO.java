@@ -188,7 +188,7 @@ public class PhoneDAO {
         return false;
     }
      
-    public static boolean phoneExist(String countryCode, String phone) {
+    public static boolean phoneExist(int countryCode, String phone) {
         
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -198,7 +198,7 @@ public class PhoneDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM PHONE WHERE COUNTRY_CODE = (?) AND PHONE_NUMBER = (?)");
-            stmt.setString(1, countryCode);
+            stmt.setInt(1, countryCode);
             stmt.setString(2, phone);
             rs = stmt.executeQuery();
             while (rs.next()) {

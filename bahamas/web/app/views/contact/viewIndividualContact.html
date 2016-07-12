@@ -187,6 +187,10 @@ and open the template in the editor.
                                                 <h4><b>Created By</b></h4>
                                                 <div>{{emailObj.created_by}}</div>
                                             </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remark</b></h4>
+                                                <div>{{emailObj.remarks}}</div>
+                                            </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;"  ng-hide="isAssociate">
@@ -197,11 +201,9 @@ and open the template in the editor.
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{emailObj.date_obsolete}}</div>
                                             </div>
-                                        </div>
-                                        <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Remark</b></h4>
-                                                <div>{{emailObj.remarks}}</div>
+                                                <h4><b>Verified</b></h4>
+                                                <div>{{emailObj.verified | verifiedFilter}}</div>
                                             </div>
                                         </div>
                                     </div>                                 

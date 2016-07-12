@@ -107,6 +107,12 @@ public class AddLanguage extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
+                        
+                        if(language != null){
+                            if(LanguageDAO.languageExist(contactId, language)){
+                                Validator.getErrorList().add("duplicate language");
+                            }
+                        }
 
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
