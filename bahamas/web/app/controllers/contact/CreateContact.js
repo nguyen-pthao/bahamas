@@ -9,8 +9,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createContact',
-        ['$scope', '$state', 'session', 'dataSubmit', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter', '$timeout',
-            function ($scope, $state, session, dataSubmit, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter, $timeout) {
+        ['$scope', '$state', 'session', 'dataSubmit', 'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', '$filter', '$timeout', 'ngDialog',
+            function ($scope, $state, session, dataSubmit, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter, $timeout, ngDialog) {
 //PAGES TRANSITION
                 var user = session.getSession('userType');
                 var viewContact = user + '.viewContacts';
@@ -34,8 +34,8 @@ app.controller('createContact',
                     loadContactType.retrieveContactType().then(function (response) {
                         $scope.contactTypeList = response.data.contact;
                         var other;
-                        for(var obj in $scope.contactTypeList) {
-                            if($scope.contactTypeList[obj].contactType == 'Other') {
+                        for (var obj in $scope.contactTypeList) {
+                            if ($scope.contactTypeList[obj].contactType == 'Other') {
                                 other = $scope.contactTypeList.splice(obj, 1);
                             }
                         }
@@ -47,8 +47,8 @@ app.controller('createContact',
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
                         var other;
-                        for(var obj in $scope.teamAffiliationList) {
-                            if($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                        for (var obj in $scope.teamAffiliationList) {
+                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
                                 other = $scope.teamAffiliationList.splice(obj, 1);
                             }
                         }
@@ -66,8 +66,8 @@ app.controller('createContact',
                     loadLanguage.retrieveLanguage().then(function (response) {
                         $scope.languageList = response.data.languageList;
                         var other;
-                        for(var obj in $scope.languageList) {
-                            if($scope.languageList[obj].language == 'Other') {
+                        for (var obj in $scope.languageList) {
+                            if ($scope.languageList[obj].language == 'Other') {
                                 other = $scope.languageList.splice(obj, 1);
                             }
                         }
@@ -79,8 +79,8 @@ app.controller('createContact',
                     loadLSAClass.retrieveLSAClass().then(function (response) {
                         $scope.LSAList = response.data.lsaClassList;
                         var other;
-                        for(var obj in $scope.LSAList) {
-                            if($scope.LSAList[obj].lsaClass == 'Other') {
+                        for (var obj in $scope.LSAList) {
+                            if ($scope.LSAList[obj].lsaClass == 'Other') {
                                 other = $scope.LSAList.splice(obj, 1);
                             }
                         }
@@ -296,7 +296,12 @@ app.controller('createContact',
                             $scope.submittedEmail = true;
                             $scope.message = 'Submitted successfully.';
                         } else {
-                            $scope.message = 'There is error in the data, please check again.';
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -313,7 +318,12 @@ app.controller('createContact',
                             $scope.submittedAddress = true;
                             $scope.message = 'Submitted successfully.';
                         } else {
-                            $scope.message = 'There is error in the data, please check again.';
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -382,7 +392,12 @@ app.controller('createContact',
                             $scope.submittedLanguage = true;
                             $scope.message = 'Submitted successfully.';
                         } else {
-                            $scope.message = 'There is error in the data, please check again.';
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -399,7 +414,12 @@ app.controller('createContact',
                             $scope.submittedLSA = true;
                             $scope.message = 'Submitted successfully.';
                         } else {
-                            $scope.message = 'There is error in the data, please check again.';
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");

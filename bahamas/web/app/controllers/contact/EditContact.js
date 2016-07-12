@@ -47,7 +47,7 @@ app.directive('empty', function () {
             });
             var validate = function () {
                 var val1 = ngModel.$viewValue;
-                ngModel.$setValidity('empty',  val1 != null && val1.length != 0);
+                ngModel.$setValidity('empty', val1 != null && val1.length != 0);
             };
         }
     };
@@ -880,6 +880,9 @@ app.controller('editContact',
                             $scope.resultEmail['email'] = datasend['email'];
                             $scope.resultEmail.message = successMsg;
                             $scope.retrieveFunc();
+                            $timeout(function () {
+                                $scope.resultEmail.status = false;
+                            }, 1000);
                         } else {
                             $scope.resultEmail.message = failMsg;
                         }
@@ -946,6 +949,12 @@ app.controller('editContact',
                             $scope.addingEmail = false;
                         } else {
                             $scope.submitNewEmail.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -1112,12 +1121,19 @@ app.controller('editContact',
                             $scope.resultMembership['membership_id'] = datasend['membership_id'];
                             $scope.resultMembership.message = successMsg;
                             $scope.retrieveFunc();
+                            $timeout(function () {
+                                $scope.resultMembership.status = false;
+                            }, 1000);
                         } else {
                             $scope.resultMembership.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
-                        $timeout(function () {
-                            $scope.resultMembership.status = false;
-                        }, 1000);
+
                     }, function () {
                         window.alert("Fail to send request!");
                     });
@@ -1208,6 +1224,12 @@ app.controller('editContact',
                             $scope.addingMembership = false;
                         } else {
                             $scope.submitNewMembership.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -1253,12 +1275,18 @@ app.controller('editContact',
                             $scope.resultOffice['office_held'] = datasend['office_held_name']; //to be modified
                             $scope.resultOffice.message = successMsg;
                             $scope.retrieveFunc();
+                            $timeout(function () {
+                                $scope.resultOffice.status = false;
+                            }, 1000);
                         } else {
                             $scope.resultOffice.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
-                        $timeout(function () {
-                            $scope.resultOffice.status = false;
-                        }, 1000);
                     }, function () {
                         window.alert("Fail to send request!");
                     });
@@ -1334,6 +1362,12 @@ app.controller('editContact',
                             $scope.addingOffice = false;
                         } else {
                             $scope.submitNewOffice.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -1529,6 +1563,12 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                         } else {
                             $scope.resultTeam.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -1662,6 +1702,12 @@ app.controller('editContact',
                                 $scope.addingTeam = false;
                             } else {
                                 $scope.submitNewTeam.message = failMsg;
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
                             }
                         }, function () {
                             window.alert("Fail to send request!");
@@ -1689,6 +1735,12 @@ app.controller('editContact',
                                                         $scope.addingTeam = false;
                                                     } else {
                                                         $scope.submitNewTeam.message = failMsg;
+                                                        $scope.errorMessages = response.data.message;
+                                                        ngDialog.openConfirm({
+                                                            template: './style/ngTemplate/errorMessage.html',
+                                                            className: 'ngdialog-theme-default',
+                                                            scope: $scope
+                                                        })
                                                     }
                                                 }, function () {
                                                     window.alert("Fail to send request!");
@@ -1706,6 +1758,12 @@ app.controller('editContact',
                                             }
                                         } else {
                                             $scope.submitNewTeam.message = failMsg;
+                                            $scope.errorMessages = response.data.message;
+                                            ngDialog.openConfirm({
+                                                template: './style/ngTemplate/errorMessage.html',
+                                                className: 'ngdialog-theme-default',
+                                                scope: $scope
+                                            })
                                         }
                                     }, function () {
                                         window.alert("Fail to send request!");
@@ -1723,6 +1781,12 @@ app.controller('editContact',
                                 }
                             } else {
                                 $scope.submitNewTeam.message = failMsg;
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
                             }
                         }, function () {
                             window.alert("Fail to send request!");
@@ -1896,6 +1960,12 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                         } else {
                             $scope.resultProxy.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                         $timeout(function () {
                             $scope.resultProxy.status = false;
@@ -1972,6 +2042,12 @@ app.controller('editContact',
                             $scope.addingProxy = false;
                         } else {
                             $scope.submitNewProxy.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -2013,6 +2089,12 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                         } else {
                             $scope.resultLanguage.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -2083,6 +2165,12 @@ app.controller('editContact',
                             $scope.addingLanguages = false;
                         } else {
                             $scope.submitNewLanguages.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -2123,6 +2211,12 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                         } else {
                             $scope.resultSkill.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -2192,6 +2286,12 @@ app.controller('editContact',
                             $scope.addingSkills = false;
                         } else {
                             $scope.submitNewSkills.message = failMsg;
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
