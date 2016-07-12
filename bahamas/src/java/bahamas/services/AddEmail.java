@@ -103,8 +103,10 @@ public class AddEmail extends HttpServlet {
                     } else {
                         String email = Validator.containsBlankField(jobject.get("email"));
 
-                        if (email == null || EmailDAO.retrieveEmail(email) != null) {
-                           Validator.getErrorList().add("duplicate email");
+                        if (email != null) {
+                            if (EmailDAO.emailExist(email)) {
+                                Validator.getErrorList().add("duplicate email");
+                            }
                         }
 
                         String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks"));
@@ -125,12 +127,12 @@ public class AddEmail extends HttpServlet {
 
                         Email newEmail = new Email(c, email, username, emailRemarks, dateObsolete, false);
                         String hashID = PasswordHash.generateRandomString(64);
-                        
-                        if (EmailDAO.addEmail(newEmail,hashID)) {
-                            AuditLogDAO.insertAuditLog(username, "ADD EMAIL", "Add email under contact: Contact ID: " + c.getContactId()); 
+
+                        if (EmailDAO.addEmail(newEmail, hashID)) {
+                            AuditLogDAO.insertAuditLog(username, "ADD EMAIL", "Add email under contact: Contact ID: " + c.getContactId());
                             new Thread(() -> {
                                 // Send EmailGenerator in a separate thread
-                                EmailGenerator.verifyEmail(email,c.getName(),hashID);
+                                EmailGenerator.verifyEmail(email, c.getName(), hashID);
                             }).start();
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
