@@ -119,6 +119,10 @@ public class AddTeamJoin extends HttpServlet {
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
+                        if (TeamJoinDAO.teamJoinExist(contactId, team)) {
+                            Validator.getErrorList().add("Team preference already exist");
+                        }
+
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
                             for (String s : Validator.getErrorList()) {

@@ -105,7 +105,7 @@ public class AddEmail extends HttpServlet {
 
                         if (email != null) {
                             if (EmailDAO.emailExist(email)) {
-                                Validator.getErrorList().add("duplicate email");
+                                Validator.getErrorList().add("Email already exist");
                             }
                         }
 
