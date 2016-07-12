@@ -122,6 +122,8 @@ public class AddMembership extends HttpServlet {
                         String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode"));
                         String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt"));
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
+                        
+                       
 
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
