@@ -47,7 +47,7 @@ app.directive('empty', function () {
             });
             var validate = function () {
                 var val1 = ngModel.$viewValue;
-                ngModel.$setValidity('empty', !val1 & val1 != null);
+                ngModel.$setValidity('empty',  val1 != null && val1.length != 0);
             };
         }
     };

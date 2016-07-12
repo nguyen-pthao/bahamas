@@ -87,10 +87,10 @@ and open the template in the editor.
                                         <div class="col-md-4" style="padding: 0px">
                                             <label>Date of birth</label>
                                             <div class="input-group date">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-addon btn" ng-click="open()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                    <input type="text" class="form-control" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats"/>
+                                                <input type="text" class="form-control white-background" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
                                             </div>
                                         </div>
                                     </div>                     
@@ -131,7 +131,7 @@ and open the template in the editor.
                                                         <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                                             <div class="col-md-3" style="padding: 0px" ng-init="loadCountryCodes()">
                                                                 <label>Country code</label><span class="required">*</span>
-                                                                <input type="number" step="1" class="form-control" ng-model="additionalContactInfo.phoneInfo['country_code']" ng-required="true" ng-change="updateCountryNames(additionalContactInfo.phoneInfo.countrycode)" name="additionalcountrycode">            
+                                                                <input type="number" step="1" class="form-control" ng-model="additionalContactInfo.phoneInfo['country_code']" ng-required="true" ng-change="updateCountryNames(additionalContactInfo.phoneInfo['country_code'])" name="additionalcountrycode">            
                                                                 <span>{{newCountryName}}</span>
                                                                 <span ng-show="form.additionalContactForm.additionalcountrycode.$error.required && form.additionalContactForm.additionalcountrycode.$dirty" class="error">Country code is required.</span>
                                                             </div>
