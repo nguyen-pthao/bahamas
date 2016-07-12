@@ -92,7 +92,7 @@ public class LanguageDAO {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LANGUAGE from database", ex);
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LANGUAGE_ASSIGNNMENT from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
@@ -164,6 +164,36 @@ public class LanguageDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+    
+    
+    public static boolean languageExist(int id, String languageName) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM LANGUAGE_ASSIGNMENT WHERE CONTACT_ID = (?) AND LANGUAGE_NAME = (?)");
+            stmt.setInt(1, id);
+            stmt.setString(2, languageName);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int count = rs.getInt(1);
+                if (count >= 1) {
+                    exist = true;
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LANGUAGE_ASSIGNNMENT from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return exist;
     }
 
 }

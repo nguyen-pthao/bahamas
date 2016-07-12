@@ -325,5 +325,35 @@ public class MembershipDAO {
         }
         return false;
     }
+    
+    public static boolean membershipExist(int id, String startDate, String endDate) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM MEMBERSHIP WHERE CONTACT_ID = (?) AND START_MEMBERSHIP = (?) AND END_MEMBERSHIP = (?)");
+            stmt.setInt(1, id);
+            stmt.setString(2, startDate);
+            stmt.setString(3, endDate);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int count = rs.getInt(1);
+                if (count >= 1) {
+                    exist = true;
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return exist;
+    }
 
 }

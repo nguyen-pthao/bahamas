@@ -196,5 +196,35 @@ public class ProxyDAO {
         }
         return false;
     }
+    
+    public static boolean proxyExist(int principalId, int proxyId) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM PROXY WHERE PRINCIPAL_ID = (?) AND PROXY_ID = (?)");
+            stmt.setInt(1, principalId);
+            stmt.setInt(2, proxyId);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int count = rs.getInt(1);
+                if (count >= 1) {
+                    exist = true;
+                }
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PROXY from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return exist;
+    }
+
 
 }
