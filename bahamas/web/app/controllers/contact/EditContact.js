@@ -392,6 +392,7 @@ app.controller('editContact',
                                 $scope.editUser['username'] = contactToEdit.username;
                                 $scope.editUser.deactivated = contactToEdit.deactivated;
                                 $scope.editUser['is_admin'] = contactToEdit['is_admin'];
+                                $scope.editUser['contact_id'] = contactToEdit['other_cid'];
                             } else {
                                 $scope.isUser = false;
                                 $scope.editUser['username'] = '';
@@ -404,6 +405,7 @@ app.controller('editContact',
                         $scope.editUser['username'] = contactToEdit.username;
                         $scope.editUser['newPassword'] = '';
                         $scope.editUser['confirmPassword'] = '';
+                        $scope.editUser['contact_id'] = contactToEdit['cid'];
                     }
                 };
                 //contact
@@ -608,12 +610,10 @@ app.controller('editContact',
                         if ($scope.isUser) {
                             if ($scope.isAdmin) {
                                 datasend['token'] = session.getSession('token');
-                                datasend['contact_id'] = contactToRetrieve['other_cid'];
+                                datasend['contact_id'] = $scope.editUser['contact_id'];
                                 datasend['deactivated'] = ($scope.editUser['deactivated'] === 'true');
-                                datasend['username'] = $scope.editUser['username'];
-                                datasend['password'] = '';
                                 datasend['is_admin'] = ($scope.editUser['is_admin'] === 'true');
-                                datasend['email'] = '';
+                                console.log(datasend);
                                 submitUser(datasend, false);
                             }
                         } else {
@@ -621,36 +621,32 @@ app.controller('editContact',
                             var dataToSend = {};
                             dataToSend['token'] = session.getSession('token');
                             dataToSend['username'] = $scope.editUser['username'];
-                            var url = AppAPI.usernameCheck;
-                            dataSubmit.submitData(dataToSend, url).then(function (response) {
-                                $scope.checkedUsername = true;
-                                if (response.data.message == 'success') {
+//                            var url = AppAPI.usernameCheck;
+//                            dataSubmit.submitData(dataToSend, url).then(function (response) {
+//                                $scope.checkedUsername = true;
+//                                if (response.data.message == 'success') {
                                     datasend['token'] = session.getSession('token');
                                     datasend['contact_id'] = contactToRetrieve['other_cid'];
                                     datasend['username'] = $scope.editUser['username'];
                                     datasend['password'] = $scope.editUser['password'];
                                     datasend['email'] = $scope.editUser['email'];
-                                    datasend['deactivated'] = '';
-                                    datasend['is_admin'] = '';
                                     submitUser(datasend, true);
-                                } else {
-                                    $scope.existedUsername = true;
-                                    $scope.ignore = true;
-                                }
-                            }, function () {
-                                window.alert("Fail to send request!");
-                            });
+//                                } else {
+//                                    $scope.existedUsername = true;
+//                                    $scope.ignore = true;
+//                                }
+//                            }, function () {
+//                                window.alert("Fail to send request!");
+//                            });
                         }
                     } else {
+                        console.log(contactToRetrieve['contact_id']);
                         datasend['token'] = session.getSession('token');
-                        datasend['contact_id'] = contactToRetrieve['other_cid'];
-                        datasend['username'] = $scope.editUser['username'];
+                        datasend['contact_id'] = $scope.editUser['contact_id'];
                         datasend['current_password'] = $scope.editUser['current_password'];
                         datasend['password'] = $scope.editUser['password'];
                         datasend['confirm_password'] = $scope.editUser['confirm_password'];
-//                        datasend['email'] = '';
-//                        datasend['deactivated'] = '';
-//                        datasend['is_admin'] = '';
+                        console.log(datasend);
                         submitUser(datasend, false);
                     }
                 };
