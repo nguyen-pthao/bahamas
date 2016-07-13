@@ -101,14 +101,12 @@ public class AddPhone extends HttpServlet {
                         String phoneNumber = Validator.containsBlankField(jobject.get("phone_number"));
                         String phoneRemarks = Validator.containsBlankField(jobject.get("phone_remarks"));
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
-                        
-                        /*
+
                         if (phoneNumber != null) {
                             if (PhoneDAO.phoneExist(countryCode, phoneNumber)) {
-                                Validator.getErrorList().add("Phone record exists");
+                                Validator.getErrorList().add("Phone number exists");
                             }
                         }
-                        */
 
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
