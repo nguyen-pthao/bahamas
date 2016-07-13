@@ -93,7 +93,7 @@ app.controller('editContact',
                 $scope.isEventLeader = false;
                 $scope.isTeamManager = false;
                 var contactToRetrieve = {};
-
+                var other_cid = -1;
                 if ($scope.authorised && $scope.editMode == 'true') {
                     if (permission === 'admin') {
                         $scope.isAdmin = true;
@@ -109,12 +109,13 @@ app.controller('editContact',
                         $scope.isEventLeader = false;
                     }
 
-//CONTACT TO BE EDITTED       
+//CONTACT TO BE EDITTED
+                    other_cid = parseInt(session.getSession('contactToDisplayCid'));
                     if (session.getSession('teams') === 'undefined') {
                         contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
-                            'other_cid': session.getSession('contactToDisplayCid'),
+                            'other_cid': other_cid,
                             'team_name': '',
                             'permission': permission
                         };
@@ -122,7 +123,7 @@ app.controller('editContact',
                         contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
-                            'other_cid': session.getSession('contactToDisplayCid'),
+                            'other_cid': other_cid,
                             'team_name': angular.fromJson(session.getSession('teams'))[0].teamname,
                             'permission': permission
                         };
@@ -604,11 +605,11 @@ app.controller('editContact',
                         if ($scope.isUser) {
                             if ($scope.isAdmin) {
                                 datasend['token'] = session.getSession('token');
-                                datasend['contact_id'] = session.getSession('contactToDisplayCid');
-                                datasend['deactivated'] = $scope.editUser['deactivated'];
+                                datasend['contact_id'] = contactToRetrieve['other_cid'];
+                                datasend['deactivated'] = ($scope.editUser['deactivated'] === 'true');
                                 datasend['username'] = $scope.editUser['username'];
                                 datasend['password'] = '';
-                                datasend['is_admin'] = $scope.editUser['is_admin'];
+                                datasend['is_admin'] = ($scope.editUser['is_admin'] === 'true');
                                 datasend['email'] = '';
                                 submitUser(datasend, false);
                             }
@@ -622,7 +623,7 @@ app.controller('editContact',
                                 $scope.checkedUsername = true;
                                 if (response.data.message == 'success') {
                                     datasend['token'] = session.getSession('token');
-                                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                                     datasend['username'] = $scope.editUser['username'];
                                     datasend['password'] = $scope.editUser['password'];
                                     datasend['email'] = $scope.editUser['email'];
@@ -639,7 +640,7 @@ app.controller('editContact',
                         }
                     } else {
                         datasend['token'] = session.getSession('token');
-                        datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                        datasend['contact_id'] = contactToRetrieve['other_cid'];
                         datasend['username'] = $scope.editUser['username'];
                         datasend['current_password'] = $scope.editUser['current_password'];
                         datasend['password'] = $scope.editUser['password'];
