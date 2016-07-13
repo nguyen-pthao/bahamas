@@ -697,7 +697,7 @@ app.controller('editContact',
                         $scope.editContact['date_of_birth'] = '';
                     } else if (angular.isUndefined($scope.editContact['date_of_birth'])) {
                         $scope.editContact['date_of_birth'] = '';
-                    } else if(isNan($scope.editContact['date_of_birth'])){
+                    } else if(isNaN($scope.editContact['date_of_birth'])){
                         $scope.editContact['date_of_birth'] = '';
                     }else {
                         $scope.editContact['date_of_birth'] = $scope.editContact['date_of_birth'].valueOf() + "";
