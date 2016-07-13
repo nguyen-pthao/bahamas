@@ -103,7 +103,7 @@ public class AddSkill extends HttpServlet {
 
                         if (skillsAsset != null) {
                             if (SkillDAO.skillExist(contactId, skillsAsset)) {
-                                Validator.getErrorList().add("Skill asset already exist");
+                                Validator.getErrorList().add("Skill asset already exists");
                             }
                         }
 

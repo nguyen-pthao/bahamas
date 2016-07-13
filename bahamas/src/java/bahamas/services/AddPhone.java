@@ -105,7 +105,7 @@ public class AddPhone extends HttpServlet {
                         /*
                         if (phoneNumber != null) {
                             if (PhoneDAO.phoneExist(countryCode, phoneNumber)) {
-                                Validator.getErrorList().add("Phone record exist");
+                                Validator.getErrorList().add("Phone record exists");
                             }
                         }
                         */
