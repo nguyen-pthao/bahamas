@@ -695,6 +695,7 @@ app.controller('editContact',
                         if (response.data.message == 'success') {
                             $scope.resultContact.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editPersonalForm.$setValidity();
                             $timeout(function () {
                                 $scope.resultContact.status = false;
                             }, 5000);
@@ -714,7 +715,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteContact = {};
                         deleteContact['token'] = session.getSession('token');
-                        deleteContact['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteContact['contact_id'] = contactToRetrieve['other_cid'];
                         var url = AppAPI.deleteContact;
                         deleteService.deleteDataService(deleteContact, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -747,7 +748,7 @@ app.controller('editContact',
                 $scope.editThePhone = function ($event, phone) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['country_code'] = phone['country_code'];
                     datasend['phone_number'] = phone['phone_number'];
@@ -786,7 +787,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deletePhone = {};
                         deletePhone['token'] = session.getSession('token');
-                        deletePhone['contact_id'] = session.getSession('contactToDisplayCid');
+                        deletePhone['contact_id'] = contactToRetrieve['other_cid'];
                         deletePhone['phone_number'] = phone['phone_number'];
                         var url = AppAPI.deletePhone;
                         deleteService.deleteDataService(deletePhone, url).then(function (response) {
@@ -808,7 +809,7 @@ app.controller('editContact',
                 };
                 $scope.newPhone = {
                     token: session.getSession("token"),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'country_code': 65,
                     'phone_number': '',
                     'phone_remarks': '',
@@ -827,6 +828,7 @@ app.controller('editContact',
                             $scope.submitNewPhone.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newPhone = angular.copy($scope.copyPhone);
+                            $scope.form.editPhoneForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewPhone.submittedPhone = false;
                             }, 1000);
@@ -853,7 +855,7 @@ app.controller('editContact',
                 $scope.editTheEmail = function ($event, email) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['email'] = email['email'];
                     datasend['email_remarks'] = email['remarks'];
@@ -871,6 +873,7 @@ app.controller('editContact',
                             $scope.resultEmail['email'] = datasend['email'];
                             $scope.resultEmail.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editEmailForm.$setValidity();
                             $timeout(function () {
                                 $scope.resultEmail.status = false;
                             }, 1000);
@@ -893,7 +896,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteEmail = {};
                         deleteEmail['token'] = session.getSession('token');
-                        deleteEmail['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteEmail['contact_id'] = contactToRetrieve['other_cid'];
                         deleteEmail['email'] = email['email'];
                         var url = AppAPI.deleteEmail;
                         deleteService.deleteDataService(deleteEmail, url).then(function (response) {
@@ -915,7 +918,7 @@ app.controller('editContact',
                 };
                 $scope.newEmail = {
                     token: session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     email: '',
                     'email_remarks': '',
                     'date_obsolete': ''
@@ -933,6 +936,7 @@ app.controller('editContact',
                             $scope.submitNewEmail.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newEmail = angular.copy($scope.copyEmail);
+                            $scope.form.editEmailForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewEmail.submittedEmail = false;
                             }, 1000);
@@ -965,7 +969,7 @@ app.controller('editContact',
                 $scope.editTheAddress = function ($event, address) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['country'] = address['country'];
                     datasend['address'] = address['address'];
@@ -985,6 +989,7 @@ app.controller('editContact',
                             $scope.resultAddress.address = datasend['address'];
                             $scope.resultAddress.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editAddressForm.$setValidity();
                         } else {
                             $scope.resultAddress.message = failMsg;
                         }
@@ -1003,7 +1008,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteAddress = {};
                         deleteAddress['token'] = session.getSession('token');
-                        deleteAddress['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteAddress['contact_id'] = contactToRetrieve['other_cid'];
                         deleteAddress['address'] = address['address'];
                         var url = AppAPI.deleteAddress;
                         deleteService.deleteDataService(deleteAddress, url).then(function (response) {
@@ -1025,7 +1030,7 @@ app.controller('editContact',
                 };
                 $scope.newAddress = {
                     token: session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     address: '',
                     country: '',
                     zipcode: '',
@@ -1045,6 +1050,7 @@ app.controller('editContact',
                             $scope.submitNewAddress.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newAddress = angular.copy($scope.copyAddress);
+                            $scope.form.editAddressForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewAddress.submittedAddress = false;
                             }, 1000);
@@ -1071,7 +1077,7 @@ app.controller('editContact',
                 $scope.editTheMembership = function ($event, membership) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['membership_id'] = membership['membership_id'];
                     if (membership['start_date'] == null) {
@@ -1112,6 +1118,7 @@ app.controller('editContact',
                             $scope.resultMembership['membership_id'] = datasend['membership_id'];
                             $scope.resultMembership.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editMembershipForm.$setValidity();
                             $timeout(function () {
                                 $scope.resultMembership.status = false;
                             }, 1000);
@@ -1158,7 +1165,7 @@ app.controller('editContact',
                 };
                 $scope.newMembership = {
                     token: session.getSession("token"),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     'start_membership': '',
                     'end_membership': '',
@@ -1208,6 +1215,7 @@ app.controller('editContact',
                             $scope.submitNewMembership.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newMembership = angular.copy($scope.copyMembership);
+                            $scope.form.editMembershipForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewMembership.submittedMembership = false;
                             }, 1000);
@@ -1241,7 +1249,7 @@ app.controller('editContact',
                 $scope.editTheOffice = function ($event, officeHeld) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['office_held_name'] = officeHeld['office_held'];
                     if (officeHeld['start_office'] == null) {
@@ -1266,6 +1274,7 @@ app.controller('editContact',
                             $scope.resultOffice['office_held'] = datasend['office_held_name']; //to be modified
                             $scope.resultOffice.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editOfficeForm.$setValidity();
                             $timeout(function () {
                                 $scope.resultOffice.status = false;
                             }, 1000);
@@ -1290,7 +1299,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteOffice = {};
                         deleteOffice['token'] = session.getSession('token');
-                        deleteOffice['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteOffice['contact_id'] = contactToRetrieve['other_cid'];
                         deleteOffice['office_held_name'] = officeHeld['office_held'];
                         var url = AppAPI.deleteOfficeHeld;
                         deleteService.deleteDataService(deleteOffice, url).then(function (response) {
@@ -1312,7 +1321,7 @@ app.controller('editContact',
                 };
                 $scope.newOffice = {
                     token: session.getSession("token"),
-                    'contact_id': session.getSession('contactToDisplayCid'), //to be confirmed
+                    'contact_id': contactToRetrieve['other_cid'], //to be confirmed
                     'user_type': session.getSession('userType'),
                     'office_held_name': '',
                     'start_office': '',
@@ -1346,6 +1355,7 @@ app.controller('editContact',
                             $scope.submitNewOffice.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newOffice = angular.copy($scope.copyOffice);
+                            $scope.form.editOfficeForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewOffice.submittedOffice = false;
                             }, 1000);
@@ -1378,7 +1388,7 @@ app.controller('editContact',
                 $scope.editTheDonation = function ($event, donation) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['donation_id'] = donation['donation_id'];
                     if (donation['date_received'] == null) {
@@ -1418,6 +1428,7 @@ app.controller('editContact',
                             $scope.resultDonation['donation_id'] = datasend['donation_id'];
                             $scope.resultDonation.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editDonationForm.$setValidity();
                         } else {
                             $scope.resultDonation.message = "Fail to update donation.";
                         }
@@ -1457,7 +1468,7 @@ app.controller('editContact',
                 };
                 $scope.newDonation = {
                     token: session.getSession("token"),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     'date_received': '',
                     'donation_amount': '',
@@ -1505,6 +1516,7 @@ app.controller('editContact',
                             $scope.submitNewDonation.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newDonation = angular.copy($scope.copyDonation);
+                            $scope.form.editDonationForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewDonation.submittedDonation = false;
                             }, 1000);
@@ -1530,7 +1542,7 @@ app.controller('editContact',
                 $scope.editTheTeam = function ($event, team) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['team'] = team['team_name'];
                     datasend['permission_level'] = team['permission'];
@@ -1552,6 +1564,7 @@ app.controller('editContact',
                             $scope.resultTeam['team_name'] = datasend['team'];
                             $scope.resultTeam.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editTeamForm.$setValidity();
                         } else {
                             $scope.resultTeam.message = failMsg;
                             $scope.errorMessages = response.data.message;
@@ -1573,7 +1586,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteTeamjoin = {};
                         deleteTeamjoin['token'] = session.getSession('token');
-                        deleteTeamjoin['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteTeamjoin['contact_id'] = contactToRetrieve['other_cid'];
                         deleteTeamjoin['team'] = team['team_name'];
                         var url = AppAPI.deleteTeamJoin;
                         deleteService.deleteDataService(deleteTeamjoin, url).then(function (response) {
@@ -1595,7 +1608,7 @@ app.controller('editContact',
                 };
                 $scope.newTeam = {
                     'token': session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     'team': '',
                     'permission_level': '',
@@ -1612,7 +1625,7 @@ app.controller('editContact',
                 };
                 var teamPreference = {
                     token: session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     team: '',
                     'permission_level': '',
@@ -1686,6 +1699,7 @@ app.controller('editContact',
                                 $scope.submitNewTeam.message = successMsg;
                                 $scope.retrieveFunc();
                                 $scope.newTeam = angular.copy($scope.copyTeam);
+                                $scope.form.editTeamForm.$setValidity();
                                 $timeout(function () {
                                     $scope.submitNewTeam.submittedTeam = false;
                                 }, 1000);
@@ -1719,6 +1733,7 @@ app.controller('editContact',
                                                         $scope.submitNewTeam.message = successMsg;
                                                         $scope.retrieveFunc();
                                                         $scope.teamPref = angular.copy($scope.copyTeamPref);
+                                                        $scope.form.editTeamForm.$setValidity();
                                                         $timeout(function () {
                                                             $scope.submitNewTeam.submittedTeam = false;
                                                         }, 1000);
@@ -1741,6 +1756,7 @@ app.controller('editContact',
                                                 $scope.submitNewTeam.message = successMsg;
                                                 $scope.retrieveFunc();
                                                 $scope.teamPref = angular.copy($scope.copyTeamPref);
+                                                $scope.form.editTeamForm.$setValidity();
                                                 $timeout(function () {
                                                     $scope.submitNewTeam.submittedTeam = false;
                                                 }, 1000);
@@ -1764,6 +1780,7 @@ app.controller('editContact',
                                     $scope.submitNewTeam.message = successMsg;
                                     $scope.retrieveFunc();
                                     $scope.teamPref = angular.copy($scope.copyTeamPref);
+                                    $scope.form.editTeamForm.$setValidity();
                                     $timeout(function () {
                                         $scope.submitNewTeam.submittedTeam = false;
                                     }, 1000);
@@ -1798,7 +1815,7 @@ app.controller('editContact',
                 $scope.editTheAppreciation = function ($event, appreciation) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['appreciation_id'] = appreciation['appreciation_id'];
                     datasend['appraisal_comment'] = appreciation['appraisal_comments'];
@@ -1827,6 +1844,7 @@ app.controller('editContact',
                             $scope.resultAppreciation['appreciation_id'] = datasend['appreciation_id'];
                             $scope.resultAppreciation.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editAppreciationForm.$setValidity();
                         } else {
                             $scope.resultAppreciation.message = failMsg;
                         }
@@ -1866,7 +1884,7 @@ app.controller('editContact',
                 };
                 $scope.newAppreciation = {
                     'token': session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     'appraisal_comment': '',
                     'appraisal_by': '',
@@ -1903,6 +1921,7 @@ app.controller('editContact',
                             $scope.submitNewAppreciation.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newAppreciation = angular.copy($scope.copyAppreciation);
+                            $scope.form.editAppreciationForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewAppreciation.submittedAppreciation = false;
                             }, 1000);
@@ -1931,8 +1950,8 @@ app.controller('editContact',
                     datasend['token'] = session.getSession('token');
 //                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
-                    datasend['proxy_of'] = selectedProxy.cid + "";
-                    datasend['principal_of'] = session.getSession('contactToDisplayCid');
+                    datasend['proxy_of'] = selectedProxy.cid;
+                    datasend['principal_of'] = contactToRetrieve['other_cid'];
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
                     if (proxy['date_obsolete'] == null) {
@@ -1949,6 +1968,7 @@ app.controller('editContact',
                             $scope.resultProxy['proxy_id'] = datasend['proxy_of'];
                             $scope.resultProxy.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editProxyForm.$setValidity();
                         } else {
                             $scope.resultProxy.message = failMsg;
                             $scope.errorMessages = response.data.message;
@@ -1996,9 +2016,9 @@ app.controller('editContact',
 
                 $scope.newProxy = {
                     'token': session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
-                    'proxy_of': session.getSession('contactToDisplayCid'),
+                    'proxy_of': -1,
                     'principal_of': '',
                     'proxy_standing': '',
                     'remarks': '',
@@ -2010,8 +2030,8 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.addProxy = function () {
-                    $scope.newProxy['proxy_of'] = selectedProxy.cid + "";
-                    $scope.newProxy['principal_of'] = session.getSession('contactToDisplayCid');
+                    $scope.newProxy['proxy_of'] = selectedProxy.cid;
+                    $scope.newProxy['principal_of'] = contactToRetrieve['other_cid'];
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
                     } else if (angular.isUndefined($scope.newProxy['date_obsolete'])) {
@@ -2026,6 +2046,7 @@ app.controller('editContact',
                             $scope.submitNewProxy.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newProxy = angular.copy($scope.copyProxy);
+                            $scope.form.editProxyForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewProxy.submittedProxy = false;
                             }, 1000);
@@ -2058,7 +2079,7 @@ app.controller('editContact',
                 $scope.editTheLanguage = function ($event, language) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['language'] = language['language_name'];
                     datasend['speak_write'] = language['proficiency'];
@@ -2078,6 +2099,7 @@ app.controller('editContact',
                             $scope.resultLanguage['language_name'] = datasend['language'];
                             $scope.resultLanguage.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editLanguageForm.$setValidity();
                         } else {
                             $scope.resultLanguage.message = failMsg;
                             $scope.errorMessages = response.data.message;
@@ -2099,7 +2121,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteLanguage = {};
                         deleteLanguage['token'] = session.getSession('token');
-                        deleteLanguage['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteLanguage['contact_id'] = contactToRetrieve['other_cid'];
                         deleteLanguage['language'] = language['language_name'];
                         var url = AppAPI.deleteLanguage;
                         deleteService.deleteDataService(deleteLanguage, url).then(function (response) {
@@ -2121,7 +2143,7 @@ app.controller('editContact',
                 };
                 $scope.newLanguages = {
                     'token': session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     'language': '',
                     'speak_write': '',
@@ -2149,6 +2171,7 @@ app.controller('editContact',
                             $scope.submitNewLanguages.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newLanguages = angular.copy($scope.copyLanguages);
+                            $scope.form.editLanguageForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewLanguages.submittedLanguages = false;
                             }, 1000);
@@ -2181,7 +2204,7 @@ app.controller('editContact',
                 $scope.editTheSkill = function ($event, skill) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
+                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['skill_asset'] = skill['skill_name'];
                     datasend['explain_if_other'] = skill['explain_if_other'];
@@ -2200,6 +2223,7 @@ app.controller('editContact',
                             $scope.resultSkill['skill_name'] = datasend['skill_asset'];
                             $scope.resultSkill.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editSkillForm.$setValidity();
                         } else {
                             $scope.resultSkill.message = failMsg;
                             $scope.errorMessages = response.data.message;
@@ -2221,7 +2245,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteSkill = {};
                         deleteSkill['token'] = session.getSession('token');
-                        deleteSkill['contact_id'] = session.getSession('contactToDisplayCid');
+                        deleteSkill['contact_id'] = contactToRetrieve['other_cid'];
                         deleteSkill['skill_asset'] = skill['skill_name'];
                         var url = AppAPI.deleteSkill;
                         deleteService.deleteDataService(deleteSkill, url).then(function (response) {
@@ -2243,7 +2267,7 @@ app.controller('editContact',
                 };
                 $scope.newSkills = {
                     'token': session.getSession('token'),
-                    'contact_id': session.getSession('contactToDisplayCid'),
+                    'contact_id': contactToRetrieve['other_cid'],
                     'user_type': session.getSession('userType'),
                     'skill_asset': '',
                     'explain_if_other': '',
@@ -2270,6 +2294,7 @@ app.controller('editContact',
                             $scope.submitNewSkills.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.newSkills = angular.copy($scope.copySkills);
+                            $scope.form.editSkillForm.$setValidity();
                             $timeout(function () {
                                 $scope.submitNewSkills.submittedSkills = false;
                             }, 1000);
