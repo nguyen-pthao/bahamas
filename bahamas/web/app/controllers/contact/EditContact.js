@@ -577,6 +577,9 @@ app.controller('editContact',
                     $scope.changePass = !$scope.changePass;
                 };
 
+//DECLARE FORM FOR VALIDITY RESET                
+               $scope.form = {}; 
+               
 //HTTP REQUEST TO EDIT CONTACT
 
                 //define general return message
@@ -645,9 +648,9 @@ app.controller('editContact',
                         datasend['current_password'] = $scope.editUser['current_password'];
                         datasend['password'] = $scope.editUser['password'];
                         datasend['confirm_password'] = $scope.editUser['confirm_password'];
-                        datasend['email'] = '';
-                        datasend['deactivated'] = '';
-                        datasend['is_admin'] = '';
+//                        datasend['email'] = '';
+//                        datasend['deactivated'] = '';
+//                        datasend['is_admin'] = '';
                         submitUser(datasend, false);
                     }
                 };
@@ -676,7 +679,7 @@ app.controller('editContact',
                 };
                 $scope.editTheContact = function () {
                     $scope.editContact['token'] = session.getSession('token');
-                    $scope.editContact['contact_id'] = session.getSession('contactToDisplayCid');
+                    $scope.editContact['contact_id'] = contactToRetrieve['other_cid'];
                     $scope.editContact['user_type'] = session.getSession('userType');
                     if ($scope.editContact['date_of_birth'] == null) {
                         $scope.editContact['date_of_birth'] = '';
@@ -763,6 +766,7 @@ app.controller('editContact',
                             $scope.resultPhone['phone_number'] = datasend['phone_number'];
                             $scope.resultPhone.message = successMsg;
                             $scope.retrieveFunc();
+                            $scope.form.editPhoneForm.$setValidity();
                         } else {
                             $scope.resultPhone.message = failMsg;
                         }
@@ -1165,7 +1169,7 @@ app.controller('editContact',
                     'remarks': '',
                     'receipt_mode': '',
                     'explain_if_other_receipt': '',
-                    'membership_class': '',
+                    'membership_class': 'Ordinary',
                     'explain_if_other_class': '',
                     'payment_mode': '',
                     'explain_if_other_payment': ''
@@ -1694,7 +1698,7 @@ app.controller('editContact',
                                     template: './style/ngTemplate/errorMessage.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                })
+                                });
                             }
                         }, function () {
                             window.alert("Fail to send request!");
@@ -1727,7 +1731,7 @@ app.controller('editContact',
                                                             template: './style/ngTemplate/errorMessage.html',
                                                             className: 'ngdialog-theme-default',
                                                             scope: $scope
-                                                        })
+                                                        });
                                                     }
                                                 }, function () {
                                                     window.alert("Fail to send request!");
@@ -1750,7 +1754,7 @@ app.controller('editContact',
                                                 template: './style/ngTemplate/errorMessage.html',
                                                 className: 'ngdialog-theme-default',
                                                 scope: $scope
-                                            })
+                                            });
                                         }
                                     }, function () {
                                         window.alert("Fail to send request!");
@@ -1773,7 +1777,7 @@ app.controller('editContact',
                                     template: './style/ngTemplate/errorMessage.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
-                                })
+                                });
                             }
                         }, function () {
                             window.alert("Fail to send request!");
@@ -1868,7 +1872,7 @@ app.controller('editContact',
                     'appraisal_by': '',
                     'appraisal_date': '',
                     'appreciation_gesture': '',
-                    'appreciation_by': '',
+                    'appreciation_by': 'TWC2',
                     'appreciation_date': '',
                     'remarks': ''
                 };
@@ -2278,7 +2282,7 @@ app.controller('editContact',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
                     }, function () {
                         window.alert("Fail to send request!");
