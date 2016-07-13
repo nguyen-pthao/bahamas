@@ -201,7 +201,7 @@ and open the template in the editor.
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{emailObj.date_obsolete}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
+                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
                                                 <h4><b>Verified</b></h4>
                                                 <div>{{emailObj.verified | verifiedFilter}}</div>
                                             </div>
