@@ -147,7 +147,7 @@ public class DonationDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE DONATION SET CONTACT_ID=?"
+            stmt = conn.prepareStatement("UPDATE DONATION SET CONTACT_ID=?,"
                     + "DATE_RECEIVED=?,DONATION_AMOUNT=?,PAYMENT_MODE_NAME=?,"
                     + "EXPLAIN_IF_OTHER_PAYMENT=?,EXT_TRANSACTION_REF=?,RECEIPT_NUMBER=?,RECEIPT_DATE=?,"
                     + "RECEIPT_MODE_NAME=?,EXPLAIN_IF_OTHER_RECEIPT=?,DONOR_INSTRUCTIONS=?,ALLOCATION_1=?,SUBAMOUNT_1=?,"
