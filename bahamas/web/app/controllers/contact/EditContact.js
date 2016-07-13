@@ -322,7 +322,7 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-
+                                console.log(contactToEdit);
                                 retrieveAllContacts();
                             } else {
                                 console.log("Wrong data passed");
@@ -691,7 +691,11 @@ app.controller('editContact',
                 };
                 $scope.editTheContact = function () {
                     $scope.editContact['token'] = session.getSession('token');
-                    $scope.editContact['contact_id'] = contactToRetrieve['other_cid'];
+                    if($scope.editMode == 'true') {
+                        $scope.editContact['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.editContact['contact_id'] = contactToEdit['cid'];
+                    }
                     $scope.editContact['user_type'] = session.getSession('userType');
                     if ($scope.editContact['date_of_birth'] == null) {
                         $scope.editContact['date_of_birth'] = '';
@@ -745,7 +749,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteContact = {};
                         deleteContact['token'] = session.getSession('token');
-                        deleteContact['contact_id'] = contactToRetrieve['other_cid'];
+                        deleteContact['contact_id'] = contactToEdit['other_cid'];
                         var url = AppAPI.deleteContact;
                         deleteService.deleteDataService(deleteContact, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -778,7 +782,12 @@ app.controller('editContact',
                 $scope.editThePhone = function ($event, phone) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['country_code'] = phone['country_code'];
                     datasend['phone_number'] = phone['phone_number'];
@@ -836,7 +845,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deletePhone = {};
                         deletePhone['token'] = session.getSession('token');
-                        deletePhone['contact_id'] = contactToRetrieve['other_cid'];
+                        if($scope.editMode == 'true') {
+                            deletePhone['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deletePhone['contact_id'] = contactToEdit['cid'];
+                        }
+//                        deletePhone['contact_id'] = contactToRetrieve['other_cid'];
                         deletePhone['phone_number'] = phone['phone_number'];
                         var url = AppAPI.deletePhone;
                         deleteService.deleteDataService(deletePhone, url).then(function (response) {
@@ -858,7 +872,7 @@ app.controller('editContact',
                 };
                 $scope.newPhone = {
                     token: session.getSession("token"),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'country_code': 65,
                     'phone_number': '',
                     'phone_remarks': '',
@@ -871,6 +885,14 @@ app.controller('editContact',
                 };
                 $scope.addPhone = function () {
                     var url = AppAPI.addPhone;
+                    if($scope.editMode == 'true') {
+                        $scope.newPhone['contact_id'] = contactToEdit['other_cid'];
+                         console.log($scope.newPhone);
+                    } else {
+                        $scope.newPhone['contact_id'] = contactToEdit['cid'];
+                         console.log($scope.newPhone);
+                    }
+                    console.log($scope.newPhone);
                     dataSubmit.submitData($scope.newPhone, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewPhone.submittedPhone = true;
@@ -920,7 +942,14 @@ app.controller('editContact',
                 $scope.editTheEmail = function ($event, email) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                         console.log($scope.newPhone);
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                         console.log($scope.newPhone);
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['email'] = email['email'];
                     datasend['email_remarks'] = email['remarks'];
@@ -963,7 +992,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteEmail = {};
                         deleteEmail['token'] = session.getSession('token');
-                        deleteEmail['contact_id'] = contactToRetrieve['other_cid'];
+//                        deleteEmail['contact_id'] = contactToEdit['other_cid'];
+                        if($scope.editMode == 'true') {
+                            deleteEmail['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deleteEmail['contact_id'] = contactToEdit['cid'];
+                        }
                         deleteEmail['email'] = email['email'];
                         var url = AppAPI.deleteEmail;
                         deleteService.deleteDataService(deleteEmail, url).then(function (response) {
@@ -985,7 +1019,7 @@ app.controller('editContact',
                 };
                 $scope.newEmail = {
                     token: session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     email: '',
                     'email_remarks': '',
                     'date_obsolete': ''
@@ -997,6 +1031,11 @@ app.controller('editContact',
                 };
                 $scope.addEmail = function () {
                     var url = AppAPI.addEmail;
+                    if ($scope.editMode == 'true') {
+                        $scope.newEmail['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newEmail['contact_id'] = contactToEdit['cid'];
+                    }
                     dataSubmit.submitData($scope.newEmail, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewEmail.submittedEmail = true;
@@ -1046,7 +1085,12 @@ app.controller('editContact',
                 $scope.editTheAddress = function ($event, address) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['country'] = address['country'];
                     datasend['address'] = address['address'];
@@ -1088,7 +1132,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteAddress = {};
                         deleteAddress['token'] = session.getSession('token');
-                        deleteAddress['contact_id'] = contactToRetrieve['other_cid'];
+                        if ($scope.editMode == 'true') {
+                            deleteAddress['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deleteAddress['contact_id'] = contactToEdit['cid'];
+                        }
+//                        deleteAddress['contact_id'] = contactToEdit['other_cid'];
                         deleteAddress['address'] = address['address'];
                         var url = AppAPI.deleteAddress;
                         deleteService.deleteDataService(deleteAddress, url).then(function (response) {
@@ -1110,7 +1159,7 @@ app.controller('editContact',
                 };
                 $scope.newAddress = {
                     token: session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     address: '',
                     country: '',
                     zipcode: '',
@@ -1124,6 +1173,11 @@ app.controller('editContact',
                 };
                 $scope.addAddress = function () {
                     var url = AppAPI.addAddress;
+                    if ($scope.editMode == 'true') {
+                        $scope.newAddress['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newAddress['contact_id'] = contactToEdit['cid'];
+                    }
                     dataSubmit.submitData($scope.newAddress, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewAddress.submittedAddress = true;
@@ -1157,7 +1211,12 @@ app.controller('editContact',
                 $scope.editTheMembership = function ($event, membership) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['membership_id'] = membership['membership_id'];
                     if (membership['start_date'] == null) {
@@ -1262,7 +1321,7 @@ app.controller('editContact',
                 };
                 $scope.newMembership = {
                     token: session.getSession("token"),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'start_membership': '',
                     'end_membership': '',
@@ -1285,6 +1344,11 @@ app.controller('editContact',
                 };
                 $scope.addMembership = function () {
                     var url = AppAPI.addMembership;
+                    if ($scope.editMode == 'true') {
+                        $scope.newMembership['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newMembership['contact_id'] = contactToEdit['cid'];
+                    }
                     if ($scope.newMembership['start_membership'] == null) {
                         $scope.newMembership['start_membership'] = '';
                     }else if(isNaN($scope.newMembership['start_membership'])){
@@ -1362,7 +1426,12 @@ app.controller('editContact',
                 $scope.editTheOffice = function ($event, officeHeld) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['office_held_name'] = officeHeld['office_held'];
                     if (officeHeld['start_office'] == null) {
@@ -1426,7 +1495,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteOffice = {};
                         deleteOffice['token'] = session.getSession('token');
-                        deleteOffice['contact_id'] = contactToRetrieve['other_cid'];
+                        if ($scope.editMode == 'true') {
+                            deleteOffice['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deleteOffice['contact_id'] = contactToEdit['cid'];
+                        }
+//                        deleteOffice['contact_id'] = contactToEdit['other_cid'];
                         deleteOffice['office_held_name'] = officeHeld['office_held'];
                         var url = AppAPI.deleteOfficeHeld;
                         deleteService.deleteDataService(deleteOffice, url).then(function (response) {
@@ -1448,7 +1522,7 @@ app.controller('editContact',
                 };
                 $scope.newOffice = {
                     token: session.getSession("token"),
-                    'contact_id': contactToRetrieve['other_cid'], //to be confirmed
+                    'contact_id': -1, //to be confirmed
                     'user_type': session.getSession('userType'),
                     'office_held_name': '',
                     'start_office': '',
@@ -1462,6 +1536,11 @@ app.controller('editContact',
                 };
                 $scope.addOffice = function () {
                     var url = AppAPI.addOfficeHeld;
+                    if ($scope.editMode == 'true') {
+                        $scope.newOffice['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newOffice['contact_id'] = contactToEdit['cid'];
+                    }
                     if ($scope.newOffice['start_office'] == null) {
                         $scope.newOffice['start_office'] = '';
                     }else if(isNaN($scope.newOffice['start_office'])){
@@ -1530,7 +1609,12 @@ app.controller('editContact',
                 $scope.editTheDonation = function ($event, donation) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['donation_id'] = donation['donation_id'];
                     if (donation['date_received'] == null) {
@@ -1614,7 +1698,7 @@ app.controller('editContact',
                 };
                 $scope.newDonation = {
                     token: session.getSession("token"),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'date_received': '',
                     'donation_amount': '',
@@ -1642,6 +1726,11 @@ app.controller('editContact',
                 };
                 $scope.addDonation = function () {
                     var url = AppAPI.addDonation;
+                    if ($scope.editMode == 'true') {
+                        $scope.newDonation['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newDonation['contact_id'] = contactToEdit['cid'];
+                    }
                     if ($scope.newDonation['date_received'] == null) {
                         $scope.newDonation['date_received'] = '';
                     }else if(isNaN($scope.newDonation['date_received'])){
@@ -1692,7 +1781,12 @@ app.controller('editContact',
                 $scope.editTheTeam = function ($event, team) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['team'] = team['team_name'];
                     datasend['permission_level'] = team['permission'];
@@ -1748,7 +1842,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteTeamjoin = {};
                         deleteTeamjoin['token'] = session.getSession('token');
-                        deleteTeamjoin['contact_id'] = contactToRetrieve['other_cid'];
+                        if ($scope.editMode == 'true') {
+                            deleteTeamjoin['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deleteTeamjoin['contact_id'] = contactToEdit['cid'];
+                        }
+//                        deleteTeamjoin['contact_id'] = contactToEdit['other_cid'];
                         deleteTeamjoin['team'] = team['team_name'];
                         var url = AppAPI.deleteTeamJoin;
                         deleteService.deleteDataService(deleteTeamjoin, url).then(function (response) {
@@ -1770,7 +1869,7 @@ app.controller('editContact',
                 };
                 $scope.newTeam = {
                     'token': session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'team': '',
                     'permission_level': '',
@@ -1787,7 +1886,7 @@ app.controller('editContact',
                 };
                 var teamPreference = {
                     token: session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': contactToRetrieve['cid'],
                     'user_type': session.getSession('userType'),
                     team: '',
                     'permission_level': '',
@@ -1854,6 +1953,7 @@ app.controller('editContact',
                 };
                 $scope.addTeam = function () {
                     var url = AppAPI.addTeamJoin;
+                    
                     if ($scope.editMode == 'true') {
                         dataSubmit.submitData($scope.newTeam, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -2017,7 +2117,12 @@ app.controller('editContact',
                 $scope.editTheAppreciation = function ($event, appreciation) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['appreciation_id'] = appreciation['appreciation_id'];
                     datasend['appraisal_comment'] = appreciation['appraisal_comments'];
@@ -2091,7 +2196,7 @@ app.controller('editContact',
                 };
                 $scope.newAppreciation = {
                     'token': session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'appraisal_comment': '',
                     'appraisal_by': '',
@@ -2108,6 +2213,11 @@ app.controller('editContact',
                 };
                 $scope.addAppreciation = function () {
                     var url = AppAPI.addAppreciation;
+                    if ($scope.editMode == 'true') {
+                        $scope.newAppreciation['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newAppreciation['contact_id'] = contactToEdit['cid'];
+                    }
                     if ($scope.newAppreciation['appraisal_date'] == null) {
                         $scope.newAppreciation['appraisal_date'] = '';
                     } else if(isNaN($scope.newAppreciation['appraisal_date'])){
@@ -2162,7 +2272,7 @@ app.controller('editContact',
 //                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['proxy_of'] = selectedProxy.cid;
-                    datasend['principal_of'] = contactToRetrieve['other_cid'];
+                    datasend['principal_of'] = contactToEdit['other_cid'];
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
                     if (proxy['date_obsolete'] == null) {
@@ -2239,7 +2349,7 @@ app.controller('editContact',
 
                 $scope.newProxy = {
                     'token': session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'proxy_of': -1,
                     'principal_of': '',
@@ -2254,7 +2364,7 @@ app.controller('editContact',
                 };
                 $scope.addProxy = function () {
                     $scope.newProxy['proxy_of'] = selectedProxy.cid;
-                    $scope.newProxy['principal_of'] = contactToRetrieve['other_cid'];
+                    $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
                     } else if(isNaN($scope.newProxy['date_obsolete'])){
@@ -2314,7 +2424,12 @@ app.controller('editContact',
                 $scope.editTheLanguage = function ($event, language) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                        datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['language'] = language['language_name'];
                     datasend['speak_write'] = language['proficiency'];
@@ -2368,7 +2483,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteLanguage = {};
                         deleteLanguage['token'] = session.getSession('token');
-                        deleteLanguage['contact_id'] = contactToRetrieve['other_cid'];
+                        if ($scope.editMode == 'true') {
+                            deleteLanguage['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deleteLanguage['contact_id'] = contactToEdit['cid'];
+                        }
+//                        deleteLanguage['contact_id'] = contactToEdit['other_cid'];
                         deleteLanguage['language'] = language['language_name'];
                         var url = AppAPI.deleteLanguage;
                         deleteService.deleteDataService(deleteLanguage, url).then(function (response) {
@@ -2390,7 +2510,7 @@ app.controller('editContact',
                 };
                 $scope.newLanguages = {
                     'token': session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'language': '',
                     'speak_write': '',
@@ -2405,6 +2525,11 @@ app.controller('editContact',
                 };
                 $scope.addLanguages = function () {
                     var url = AppAPI.addLanguage;
+                    if ($scope.editMode == 'true') {
+                        $scope.newLanguages['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newLanguages['contact_id'] = contactToEdit['cid'];
+                    }
                     if ($scope.newLanguages['date_obsolete'] == null) {
                         $scope.newLanguages['date_obsolete'] = '';
                     } else if(isNaN($scope.newLanguages['date_obsolete'])){
@@ -2463,7 +2588,12 @@ app.controller('editContact',
                 $scope.editTheSkill = function ($event, skill) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
+                    if ($scope.editMode == 'true') {
+                       datasend['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        datasend['contact_id'] = contactToEdit['cid'];
+                    }
+//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['skill_asset'] = skill['skill_name'];
                     datasend['explain_if_other'] = skill['explain_if_other'];
@@ -2516,7 +2646,12 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteSkill = {};
                         deleteSkill['token'] = session.getSession('token');
-                        deleteSkill['contact_id'] = contactToRetrieve['other_cid'];
+                        if ($scope.editMode == 'true') {
+                            deleteSkill['contact_id'] = contactToEdit['other_cid'];
+                        } else {
+                            deleteSkill['contact_id'] = contactToEdit['cid'];
+                        }
+//                        deleteSkill['contact_id'] = contactToEdit['other_cid'];
                         deleteSkill['skill_asset'] = skill['skill_name'];
                         var url = AppAPI.deleteSkill;
                         deleteService.deleteDataService(deleteSkill, url).then(function (response) {
@@ -2538,7 +2673,7 @@ app.controller('editContact',
                 };
                 $scope.newSkills = {
                     'token': session.getSession('token'),
-                    'contact_id': contactToRetrieve['other_cid'],
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'skill_asset': '',
                     'explain_if_other': '',
@@ -2552,6 +2687,11 @@ app.controller('editContact',
                 };
                 $scope.addSkills = function () {
                     var url = AppAPI.addSkill;
+                    if ($scope.editMode == 'true') {
+                        $scope.newSkills['contact_id'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newSkills['contact_id'] = contactToEdit['cid'];
+                    }
                     if ($scope.newSkills['date_obsolete'] == null) {
                         $scope.newSkills['date_obsolete'] = '';
                     } else if(isNaN($scope.newSkills['date_obsolete'])){
