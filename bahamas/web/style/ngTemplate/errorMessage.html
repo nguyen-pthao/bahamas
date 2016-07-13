@@ -1,7 +1,7 @@
 <div class="ngdialog-message">
     <h3><b>Error Submitting</b></h3>
     <table>
-        <tr ng-repeat="error in errorMessages">
+        <tr ng-repeat="error in errorMessages track by $index">
             <td>{{error}}</td>
         </tr>
     </table>
