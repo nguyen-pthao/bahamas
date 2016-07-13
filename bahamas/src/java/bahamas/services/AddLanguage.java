@@ -110,7 +110,7 @@ public class AddLanguage extends HttpServlet {
                         
                         if(language != null){
                             if(LanguageDAO.languageExist(contactId, language)){
-                                Validator.getErrorList().add("Language already exist");
+                                Validator.getErrorList().add("Language already exists");
                             }
                         }
 

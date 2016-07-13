@@ -127,6 +127,10 @@ public class UpdateMembership extends HttpServlet {
 
                         m.setMembershipId(membershipId);
                         
+                        if(MembershipDAO.membershipExist(contactId, startMembership, endMembership)){
+                            Validator.getErrorList().add("Membership already exists");
+                        }
+                        
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
                             for (String s : Validator.getErrorList()) {

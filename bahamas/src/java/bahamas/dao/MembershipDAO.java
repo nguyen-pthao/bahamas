@@ -163,8 +163,8 @@ public class MembershipDAO {
                 String explainIfOtherPayment = rs.getString(15);
                 String createdBy = rs.getString(16);
                 Date dateCreated = rs.getTimestamp(17);
-                
-                Membership membership = new Membership(mid,cid, startMembership, endMembership, receiptDate, subscriptionAmount, extTransactionRef, receiptNumber, remarks, receiptModeName, explainIfOtherMode, membershipClassName, explainIfOtherClass, paymentModeName, explainIfOtherPayment, createdBy, dateCreated);
+
+                Membership membership = new Membership(mid, cid, startMembership, endMembership, receiptDate, subscriptionAmount, extTransactionRef, receiptNumber, remarks, receiptModeName, explainIfOtherMode, membershipClassName, explainIfOtherClass, paymentModeName, explainIfOtherPayment, createdBy, dateCreated);
                 membershipList.add(membership);
             }
 
@@ -286,7 +286,6 @@ public class MembershipDAO {
             stmt.setString(13, m.getPaymentModeName());
             stmt.setString(14, m.getRemarks());
             stmt.setInt(15, m.getMembershipId());
-      
 
             result = stmt.executeUpdate();
 
@@ -313,7 +312,7 @@ public class MembershipDAO {
             stmt = conn.prepareStatement("DELETE FROM MEMBERSHIP WHERE MEMBERSHIP_ID=?");
 
             stmt.setInt(1, id);
-           
+
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -325,7 +324,7 @@ public class MembershipDAO {
         }
         return false;
     }
-    
+
     public static boolean membershipExist(int id, Date startDate, Date endDate) {
 
         Connection conn = null;
@@ -335,11 +334,15 @@ public class MembershipDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT START_MEMBERSHIP, START_MEMBERSHIP FROM MEMBERSHIP WHERE CONTACT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT COUNT(*) FROM MEMBERSHIP WHERE CONTACT_ID =(?)"
+                    + " AND START_MEMBERSHIP >=? AND START_MEMBERSHIP <=?");
             stmt.setInt(1, id);
+            stmt.setDate(2, new java.sql.Date(startDate.getTime()));
+            stmt.setDate(3, new java.sql.Date(endDate.getTime()));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
+                /*
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 String strStartDate1 = rs.getString(1) + " 00:00:00";
                 String strEndDate2 = rs.getString(2) + " 23:59:59";
@@ -353,14 +356,13 @@ public class MembershipDAO {
                 }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
                     exist = true;
                 }
-                
+                 */
+                return rs.getInt(1) > 0;
             }
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
             ex.printStackTrace();
-        } catch (ParseException ex) {
-            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }

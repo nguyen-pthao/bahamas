@@ -117,7 +117,7 @@ public class AddProxy extends HttpServlet {
                         Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
                         if(ProxyDAO.proxyExist(principalId, proxyId)){
-                            Validator.getErrorList().add("Principal and proxy relationship already exist");
+                            Validator.getErrorList().add("Principal and proxy relationship already exists");
                         }
                         
                         if (!Validator.getErrorList().isEmpty()) {
