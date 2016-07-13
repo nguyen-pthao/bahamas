@@ -1903,10 +1903,10 @@ and open the template in the editor.
                                                 <div class="col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon btn"> <!-- MARCUS ONG -->
+                                                        <div class="input-group-addon btn" ng-click="openProxy($index)"><!--Marcus-->
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="proxy['date_obsolete']" name='dateObsProx' class="form-control pull-right white-background">
+                                                        <input type='text' ng-model="proxy['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedProxy[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" type='text' name='dateObsProx' class="form-control pull-right white-background" readonly>
                                                     </div>
                                                 </div>
                                             </div>

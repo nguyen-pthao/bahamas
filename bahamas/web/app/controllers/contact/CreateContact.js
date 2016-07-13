@@ -280,6 +280,12 @@ app.controller('createContact',
                             $scope.message = 'Submitted successfully.';
                         } else {
                             $scope.message = 'There is error in the data, please check again.';
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
                         }
                     }, function () {
                         window.alert("Fail to send request!");
