@@ -265,7 +265,7 @@ and open the template in the editor.
                                     </div>                      
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class="custom-remarks" ng-model="editContact.remarks" name="remarksContact" contenteditable="true" spellcheck="true" ng-maxlength='1000'></textarea>
                                             <span ng-show='form.editPersonalForm.remarksContact.$error.maxlength' class='error'>Input field remark is too long.</span>  
                                         </div>
@@ -346,7 +346,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class="custom-remarks" ng-model="phone['remarks']" ng-maxlength="1000" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-show="form.editPhoneForm.remarksPhone.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -392,7 +392,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class="custom-remarks" ng-model="newPhone['phone_remarks']" name="additionalremarksPhone" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editPhoneForm.additionalremarksPhone.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
@@ -466,7 +466,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
                                                      <span ng-show="form.editEmailForm.remarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -506,7 +506,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class="custom-remarks" name="additionalremarksEmail" ng-model="newEmail['email_remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editEmailForm.additionalremarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
@@ -596,7 +596,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class="custom-remarks" name="remarksAddress" ng-model="address['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-show="form.editAddressForm.remarksAddress.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -648,7 +648,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class="custom-remarks" name="additionalremarksAddress" ng-model="newAddress['address_remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editAddressForm.additionalremarksAddress.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
@@ -720,13 +720,13 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadMembershipList()">
                                                     <label>Membership type</label><span class="required">*</span>
-                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control" readonly>
+                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control">
                                                         <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Subscription amount</label><span class="required">*</span>
-                                                    <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem" readonly>
+                                                    <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -809,7 +809,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class="custom-remarks" ng-model="membership['remarks']" ng-maxlength="1000" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-show="form.editMembershipForm.remarksMem.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -917,7 +917,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class="custom-remarks" ng-model="newMembership['remarks']" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                     </div>
@@ -985,11 +985,12 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <div class="col-md-5" ng-init="loadOfficeHoldList()">
+                                                <div class="col-md-5">
                                                     <label>Office held</label><span class="required">*</span>
-                                                    <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
+                                                    <input type='text' class='form-control' ng-model="officeHeld['office_held']" name="off" readonly> 
+<!--                                                    <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
                                                         <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
-                                                    </select>
+                                                    </select>-->
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1014,7 +1015,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class="custom-remarks" name='remarksOff' ng-model="officeHeld['remarks']" contenteditable="true" spellcheck="true"></textarea>
                                                 </div>
                                             </div>
@@ -1061,7 +1062,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class="custom-remarks" name='remarksOff' ng-model="newOffice['remarks']" contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                     </div>
@@ -1234,7 +1235,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="donation['remarks']" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
                                                 </div>
                                             </div>
@@ -1357,7 +1358,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newDonation['remarks']" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                     </div>
@@ -1425,11 +1426,12 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                                                <div class="col-md-5">
                                                     <label>Team</label><span class="required">*</span>
-                                                    <select class="form-control" ng-model="team['team_name']" name='team' readonly>
+                                                    <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly> 
+<!--                                                    <select class="form-control" ng-model="team['team_name']" name='team' readonly>
                                                         <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
-                                                    </select>
+                                                    </select>-->
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1452,7 +1454,7 @@ and open the template in the editor.
                                             </div> 
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="team['remarks']" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
                                                 </div>
                                             </div>
@@ -1508,7 +1510,7 @@ and open the template in the editor.
                                     </div> 
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newTeam['remarks']" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                     </div>
@@ -1625,7 +1627,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' name='remarksTrain' contenteditable="true" spellcheck="true"></textarea>
                                         </div>
                                     </div>
@@ -1733,7 +1735,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="appreciation['remarks']" ng-maxlength="1000" name='remarksAppn' contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-show="form.editAppreciationForm.remarksAppn.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -1802,7 +1804,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newAppreciation['remarks']" ng-maxlength="1000" name='additionalremarksAppn' contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editAppreciationForm.additionalremarksAppn.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
@@ -1894,7 +1896,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="proxy['remarks']" ng-maxlength="1000" name='remarksProx' contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-show="form.editProxyForm.remarksProx.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -1944,7 +1946,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newProxy['remarks']" ng-maxlength="1000" name='additionalremarksProx' contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editProxyForm.additionalremarksProx.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
@@ -2036,7 +2038,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="language['remarks']" ng-maxlength="1000" name='remarksLang' contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-show="form.editLanguageForm.remarksLang.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -2089,7 +2091,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newLanguages['remarks']" name='additionalremarksLang' contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editLanguageForm.additionalremarksLang.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
@@ -2174,7 +2176,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Remark</label>
+                                                    <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="skill['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true" name="remarksSkill"></textarea>
                                                     <span ng-show="form.editSkillForm.remarksSkill.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
@@ -2220,7 +2222,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Remark</label>
+                                            <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newSkills['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true" name="additionalremarksSkill"></textarea>
                                             <span ng-show="form.editSkillForm.additionalremarksSkill.$error.maxlength" class="error">Input field remark is too long.</span>
                                         </div>
