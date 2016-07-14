@@ -962,6 +962,22 @@ app.controller('editContact',
                             }, 1000);
                         } else {
                             $scope.resultEmail.message = failMsg;
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                         $timeout(function () {
                             $scope.resultEmail.status = false;
@@ -1101,6 +1117,22 @@ app.controller('editContact',
                             $scope.form.editAddressForm.$setValidity();
                         } else {
                             $scope.resultAddress.message = failMsg;
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                         $timeout(function () {
                             $scope.resultAddress.status = false;
@@ -1176,6 +1208,22 @@ app.controller('editContact',
                             $scope.addingAddress = false;
                         } else {
                             $scope.submitNewAddress.message = failMsg;
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -1641,6 +1689,22 @@ app.controller('editContact',
                             $scope.form.editDonationForm.$setValidity();
                         } else {
                             $scope.resultDonation.message = "Fail to update donation.";
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                         $timeout(function () {
                             $scope.resultDonation.status = false;
@@ -1743,6 +1807,22 @@ app.controller('editContact',
                             $scope.addingDonation = false;
                         } else {
                             $scope.submitNewDonation.message = failMsg;
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -2137,6 +2217,22 @@ app.controller('editContact',
                             $scope.form.editAppreciationForm.$setValidity();
                         } else {
                             $scope.resultAppreciation.message = failMsg;
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                         $timeout(function () {
                             $scope.resultAppreciation.status = false;
@@ -2228,6 +2324,22 @@ app.controller('editContact',
                             $scope.addingAppreciation = false;
                         } else {
                             $scope.submitNewAppreciation.message = failMsg;
+                            if (Array.isArray(response.data.message)) {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = [];
+                                $scope.errorMessages.push(response.data.message);
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         }
                     }, function () {
                         window.alert("Fail to send request!");
