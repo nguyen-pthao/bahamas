@@ -63,7 +63,6 @@ public class AddressDAO {
         return false;
     }
 
-    //SELECT * FROM ADDRESS WHERE CONTACT_ID = 3
     public static ArrayList<Address> retrieveAllAddress(Contact contact) {
         ArrayList<Address> addressList = new ArrayList<Address>();
         Connection conn = null;

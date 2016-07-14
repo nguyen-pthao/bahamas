@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class Address {
 
+    private int addressId;
     private Contact contact;
     private Date dateCreated = new java.util.Date();
     private String zipcode;
@@ -50,10 +51,15 @@ public class Address {
         this.dateObsolete = dateObsolete;
         this.dateCreated = dateCreated;
     }
+
+    public int getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(int addressId) {
+        this.addressId = addressId;
+    }
       
-    
-    
-    
     public Contact getContact() {
         return contact;
     }
