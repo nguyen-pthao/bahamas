@@ -295,7 +295,8 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-
+                                
+                                console.log(contactToEdit);
                                 retrieveAllContacts();
                             } else {
                                 return contactToEdit;

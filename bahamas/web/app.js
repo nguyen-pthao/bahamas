@@ -170,8 +170,8 @@ app.config(function (ngDialogProvider) {
 });
 
 app.config(['IdleProvider', function (IdleProvider) {
-        IdleProvider.idle(10);
-        IdleProvider.timeout(10);
+        IdleProvider.idle(900);
+        IdleProvider.timeout(30);
     }]);
 
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {

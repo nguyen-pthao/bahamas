@@ -310,6 +310,7 @@ and open the template in the editor.
                                                 <b><span ng-bind="phone['country_code']"></span></b>
                                                 <b><span>-</span></b>
                                                 <b><span ng-bind="phone['phone_number']"></span></b>
+                                                <b ng-if="phone['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Phone Details">
@@ -436,6 +437,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="email.email"></span></b>
+                                                <b ng-if="email['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Email Details">
@@ -553,6 +555,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span>{{address['address']| limitTo: 15}}</span>... <span ng-bind="address['country']"></span></b>
+                                                <b ng-if="address['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Address Details">
@@ -989,9 +992,9 @@ and open the template in the editor.
                                                 <div class="col-md-5">
                                                     <label>Office held</label><span class="required">*</span>
                                                     <input type='text' class='form-control' ng-model="officeHeld['office_held']" name="off" readonly> 
-                                                    <!--                                                    <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
-                                                                                                            <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
-                                                                                                        </select>-->
+                                                    <!-- <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
+                                                    <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
+                                                    </select> -->
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1137,7 +1140,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openDonationReceived($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type="text" ng-model="donation['date_received']" ng-click="openDonationReceived($index)" uib-datepicker-popup="{{format}}" is-open="openedDonationReceived[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right white-background" name='dateRecvDon' readonly>
+                                                        <input type="text" ng-model="donation['date_received']" ng-click="openDonationReceived($index)" uib-datepicker-popup="{{format}}" is-open="openedDonationReceived[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right white-background" name='dateRecvDon'>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
@@ -1403,6 +1406,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Team <span ng-bind="team['team_name']"></span></b>
+                                                <b ng-if="team['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">
@@ -1430,9 +1434,9 @@ and open the template in the editor.
                                                 <div class="col-md-5">
                                                     <label>Team</label><span class="required">*</span>
                                                     <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly> 
-                                                    <!--                                                    <select class="form-control" ng-model="team['team_name']" name='team' readonly>
-                                                                                                            <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
-                                                                                                        </select>-->
+                                                    <!-- <select class="form-control" ng-model="team['team_name']" name='team' readonly>
+                                                    <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                                    </select> -->
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1853,6 +1857,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="proxy['proxy_name']"></span></b>
+                                                <b ng-if="proxy['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
@@ -1992,6 +1997,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="language['language_name']"></span></b>
+                                                <b ng-if="language['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
@@ -2137,6 +2143,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="skill['skill_name']"></span></b>
+                                                <b ng-if="skill['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">
