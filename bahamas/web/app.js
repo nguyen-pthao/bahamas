@@ -5,7 +5,7 @@
 // */
 'use strict';
 
-var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'timer', 'LocalStorageModule']);
+var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -66,7 +66,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/editContact',
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
-            })       
+            })
             .state('associate', {
                 url: '/associate',
                 templateUrl: 'app/views/associate.html',
@@ -169,10 +169,16 @@ app.config(function (ngDialogProvider) {
     ngDialogProvider.setForceBodyReload(true);
 });
 
+app.config(['IdleProvider', function (IdleProvider) {
+        IdleProvider.idle(900);
+        IdleProvider.timeout(10);
+    }]);
+
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
         //$rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
+
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
             var permission = targetScope.name.split('.')[0];
 
