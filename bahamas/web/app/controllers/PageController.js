@@ -120,7 +120,7 @@ app.controller('pageController',
                     };
 
                     $scope.toProfile = function () {
-                        var toURL = $scope.userType + ".userManagement";
+                        var toURL = $scope.userType + ".profile";
                         $state.go(toURL);
                     };
                 };

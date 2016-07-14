@@ -42,10 +42,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
             })
-            .state('admin.userManagement', {
-                url: '/userManagement',
-                templateUrl: 'app/views/contact/userManagement.html',
-                controller: 'userManagement'
+            .state('admin.profile', {
+                url: '/profile',
+                templateUrl: 'app/views/contact/profile.html',
+                controller: 'profileCtrl'
             })
             .state('admin.editContact', {
                 url: '/editContact',
@@ -57,10 +57,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/novice.html',
                 controller: 'pageController'
             })
-            .state('novice.userManagement', {
-                url: '/userManagement',
-                templateUrl: 'app/views/contact/userManagement.html',
-                controller: 'userManagement'
+            .state('novice.profile', {
+                url: '/profile',
+                templateUrl: 'app/views/contact/profile.html',
+                controller: 'profileCtrl'
             })
             .state('novice.editContact', {
                 url: '/editContact',
@@ -82,10 +82,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
             })
-            .state('associate.userManagement', {
-                url: '/userManagement',
-                templateUrl: 'app/views/contact/userManagement.html',
-                controller: 'userManagement'
+            .state('associate.profile', {
+                url: '/profile',
+                templateUrl: 'app/views/contact/profile.html',
+                controller: 'profileCtrl'
             })
             .state('associate.editContact', {
                 url: '/editContact',
@@ -112,10 +112,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
             })
-            .state('teammanager.userManagement', {
-                url: '/userManagement',
-                templateUrl: 'app/views/contact/userManagement.html',
-                controller: 'userManagement'
+            .state('teammanager.profile', {
+                url: '/profile',
+                templateUrl: 'app/views/contact/profile.html',
+                controller: 'profileCtrl'
             })
             .state('teammanager.editContact', {
                 url: '/editContact',
@@ -137,10 +137,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/viewIndividualContact.html',
                 controller: 'viewIndivContact'
             })
-            .state('eventleader.userManagement', {
-                url: '/userManagement',
-                templateUrl: 'app/views/contact/userManagement.html',
-                controller: 'userManagement'
+            .state('eventleader.profile', {
+                url: '/profile',
+                templateUrl: 'app/views/contact/profile.html',
+                controller: 'profileCtrl'
             })
             .state('eventleader.editContact', {
                 url: '/editContact',

@@ -80,9 +80,9 @@ $.AdminLTE.options = {
   boxWidgetOptions: {
     boxWidgetIcons: {
       //Collapse icon
-      collapse: 'fa-chevron-down',
+      collapse: 'fa-chevron-up',
       //Open icon
-      open: 'fa-chevron-up',
+      open: 'fa-chevron-down',
       //Remove icon
       remove: 'fa-times'
     },

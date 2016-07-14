@@ -37,7 +37,7 @@ and open the template in the editor.
                                     <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View User Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box">
@@ -50,7 +50,7 @@ and open the template in the editor.
                                                     <div class="no-padding-left col-md-6">
                                                         <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU" empty>
                                                         <span ng-show="editUserForm.usernameNU.$error.empty && editUserForm.usernameNU.$dirty" class='error'>Username is required.</span>
-<!--                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>-->
+                                                        <!--                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>-->
                                                         <span ng-show="existedUsername && ignore" style="color: red">This username is already existed.</span>
                                                     </div>
                                                     <!--    <div class="no-padding-left col-md-1 no-padding-top">
@@ -168,7 +168,7 @@ and open the template in the editor.
                                     <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Personal information</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Personal Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body">
@@ -273,7 +273,7 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='form.editPersonalForm.name.$invalid || form.editPersonalForm.altName.$invalid || 
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-disabled='form.editPersonalForm.name.$invalid || form.editPersonalForm.altName.$invalid ||
                                                     form.editPersonalForm.otherExpContact.$invalid || form.editPersonalForm.profession.$invalid || form.editPersonalForm.job.$invalid || form.editPersonalForm.nric.$invalid
                                                     || form.editPersonalForm.nationality.$invalid || form.editPersonalForm.remarksContact.$invalid' ng-click="editTheContact()">Save Changes</button>
                                         &nbsp;
@@ -291,7 +291,7 @@ and open the template in the editor.
                                     <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Phone Information">
-                                            <i class="fa fa-chevron-up"></i>
+                                            <i class="fa fa-chevron-down"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -307,12 +307,13 @@ and open the template in the editor.
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
-                                                <b><span ng-bind="phone['country_code']"></span></b> 
+                                                <b><span ng-bind="phone['country_code']"></span></b>
+                                                <b><span>-</span></b>
                                                 <b><span ng-bind="phone['phone_number']"></span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Phone Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -410,14 +411,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /phone information -->
+                        <!-- /phone information -->
                         <form name="form.editEmailForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editEmail === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Email Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editEmail == ''">
@@ -438,7 +439,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Email Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -468,7 +469,7 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
-                                                     <span ng-show="form.editEmailForm.remarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <span ng-show="form.editEmailForm.remarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -526,14 +527,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /email information -->
+                        <!-- /email information -->
                         <form name="form.editAddressForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAddress === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Address Information">
-                                            <i class="fa fa-chevron-up"></i>
+                                            <i class="fa fa-chevron-down"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -551,11 +552,11 @@ and open the template in the editor.
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
-                                                <b>Zipcode <span ng-bind="address['zipcode']"></span> <span ng-bind="address['country']"></span></b>
+                                                <b><span>{{address['address']| limitTo: 15}}</span>... <span ng-bind="address['country']"></span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Address Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -668,14 +669,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /address information -->
+                        <!-- /address information -->
                         <form name="form.editMembershipForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editMembership === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Membership Information">
-                                            <i class="fa fa-chevron-up"></i>
+                                            <i class="fa fa-chevron-down"></i>
                                         </button>
                                     </div>
                                 </div>
@@ -697,7 +698,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Membership Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -818,7 +819,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" 
                                                             ng-disabled="form.editMembershipForm.otherExpMemClass.$invalid || form.editMembershipForm.otherExpPayModMem.$invalid || form.editMembershipForm.transRefMem.$invalid
-                                                            || form.editMembershipForm.recNoMem.$invalid || form.editMembershipForm.otherExpRecModMem.$invalid || form.editMembershipForm.remarksMem.$invalid"
+                                                                        || form.editMembershipForm.recNoMem.$invalid || form.editMembershipForm.otherExpRecModMem.$invalid || form.editMembershipForm.remarksMem.$invalid"
                                                             ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
@@ -936,14 +937,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /membership information -->
+                        <!-- /membership information -->
                         <form name="form.editOfficeForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editOfficeHeld === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Office Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editOfficeHeld == ''">
@@ -964,7 +965,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Office Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -988,9 +989,9 @@ and open the template in the editor.
                                                 <div class="col-md-5">
                                                     <label>Office held</label><span class="required">*</span>
                                                     <input type='text' class='form-control' ng-model="officeHeld['office_held']" name="off" readonly> 
-<!--                                                    <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
-                                                        <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
-                                                    </select>-->
+                                                    <!--                                                    <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
+                                                                                                            <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
+                                                                                                        </select>-->
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1081,14 +1082,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /office-held information -->
+                        <!-- /office-held information -->
                         <form name="form.editDonationForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editDonation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Donation Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editDonation == ''">
@@ -1109,7 +1110,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Donation Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -1377,14 +1378,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /donation information -->
+                        <!-- /donation information -->
                         <form name="form.editTeamForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTeam === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Join Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editTeam == ''">
@@ -1401,11 +1402,11 @@ and open the template in the editor.
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
-                                                 <b>Team <span ng-bind="team['team_name']"></span></b>
+                                                <b>Team <span ng-bind="team['team_name']"></span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -1429,9 +1430,9 @@ and open the template in the editor.
                                                 <div class="col-md-5">
                                                     <label>Team</label><span class="required">*</span>
                                                     <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly> 
-<!--                                                    <select class="form-control" ng-model="team['team_name']" name='team' readonly>
-                                                        <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
-                                                    </select>-->
+                                                    <!--                                                    <select class="form-control" ng-model="team['team_name']" name='team' readonly>
+                                                                                                            <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                                                                                        </select>-->
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1557,14 +1558,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /team information -->
+                        <!-- /team information -->
                         <form name="form.editTrainingForm">
                             <div class="box collapsed-box blue-box" ng-hide="true">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTraining === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Training Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editTraining == ''">
@@ -1639,14 +1640,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /training information -->
+                        <!-- /training information -->
                         <form name="form.editAppreciationForm">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAppreciation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editAppreciation == ''">
@@ -1667,7 +1668,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -1744,7 +1745,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" 
                                                             ng-disabled="form.editAppreciationForm.apprComm.$invalid || form.editAppreciationForm.apprBy.$invalid || form.editAppreciationForm.appnGest.$invalid
-                                                            || form.editAppreciationForm.appnBy.$invalid || form.editAppreciationForm.remarksAppn.$invalid" 
+                                                                        || form.editAppreciationForm.appnBy.$invalid || form.editAppreciationForm.remarksAppn.$invalid" 
                                                             ng-click="editTheAppreciation($event, appreciation)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
@@ -1813,7 +1814,7 @@ and open the template in the editor.
                                         <center>
                                             <button type="submit" class="btn btn-primary uppercase"
                                                     ng-disabled="form.editAppreciationForm.additionalapprComm.$invalid || form.editAppreciationForm.additionalapprBy.$invalid || form.editAppreciationForm.additionalappnGest.$invalid
-                                                    || form.editAppreciationForm.additionalappnBy.$invalid || form.editAppreciationForm.additionalremarksAppn.$invalid"
+                                                                || form.editAppreciationForm.additionalappnBy.$invalid || form.editAppreciationForm.additionalremarksAppn.$invalid"
                                                     ng-click="addAppreciation()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewAppreciation.message" ng-show="submitNewAppreciation.submittedAppreciation"></span>
@@ -1827,14 +1828,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /appreciation information -->
+                        <!-- /appreciation information -->
                         <form name="form.editProxyForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editProxy === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editProxy == ''">
@@ -1855,7 +1856,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -1966,14 +1967,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /proxy information -->
+                        <!-- /proxy information -->
                         <form name="form.editLanguageForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editLanguages === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editLanguages == ''">
@@ -1994,7 +1995,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -2111,14 +2112,14 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                            <!-- /languages information -->
+                        <!-- /languages information -->
                         <form name="form.editSkillForm">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editSkillsAssets === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
                                     <div class="box-tools pull-right">
                                         <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skills/Assets Information">
-                                            <i class="fa fa-chevron-up"></i></button>
+                                            <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
                                 <div class="box-body" ng-show="editSkillsAssets == ''">
@@ -2139,7 +2140,7 @@ and open the template in the editor.
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">
-                                                    <i class="fa fa-chevron-up"></i>
+                                                    <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
                                         </div>

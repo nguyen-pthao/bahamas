@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('userManagement', ['$scope', 'session', '$state', 'retrieveOwnContactInfo', function ($scope, session, $state, retrieveOwnContactInfo) {
+app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContactInfo', function ($scope, session, $state, retrieveOwnContactInfo) {
         $scope.ownContact = angular.fromJson(session.getSession('contact'));
 
        
