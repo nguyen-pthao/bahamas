@@ -1263,7 +1263,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewDReceived()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="newDonation['date_received']" ng-click="openNewDReceived()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceived" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name='dateRecvDon' readonly>
+                                                <input type="text" ng-model="newDonation['date_received']" ng-click="openNewDReceived()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceived" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name='dateRecvDon'>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -1734,7 +1734,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openAppreciation($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="appreciation['appreciation_date']" uib-datepicker-popup="{{format}}" is-open="openedAppreciation[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="appreciation['appreciation_date']" ng-click="openAppreciation($index)" uib-datepicker-popup="{{format}}" is-open="openedAppreciation[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right white-background" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1780,7 +1780,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewAppraisal()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newAppreciation['appraisal_date']" uib-datepicker-popup="{{format}}" is-open="openedNewAppraisal" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="newAppreciation['appraisal_date']" ng-click="openNewAppraisal()" uib-datepicker-popup="{{format}}" is-open="openedNewAppraisal" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right white-background" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -2057,7 +2057,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openLanguages($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input ng-model="language['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedLanguages[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsLang' type='text' class="form-control pull-right white-background" readonly>
+                                                        <input ng-model="language['date_obsolete']" ng-click="openLanguages($index)" uib-datepicker-popup="{{format}}" is-open="openedLanguages[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsLang' type='text' class="form-control pull-right white-background" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -2196,7 +2196,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openSkills($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input ng-model="skill['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedSkills[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsLSA' type='text' class="form-control pull-right white-background" readonly>
+                                                        <input ng-model="skill['date_obsolete']" ng-click="openSkills($index)" uib-datepicker-popup="{{format}}" is-open="openedSkills[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsLSA' type='text' class="form-control pull-right white-background" readonly>
                                                     </div>
                                                 </div>
                                             </div>
