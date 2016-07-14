@@ -251,7 +251,7 @@ public class MembershipDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("UPDATE MEMBERSHIP SET CONTACT_ID=?,EXPLAIN_IF_OTHER_CLASS=?,START_MEMBERSHIP=?,END_MEMBERSHIP=?,"
                     + "SUBSCRIPTION_AMOUNT=?,EXPLAIN_IF_OTHER_PAYMENT=?,EXT_TRANSACTION_REF=?,RECEIPT_NUMBER=?,RECEIPT_DATE=?,"
-                    + "EXPLAIN_IF_OTHER_RECEIPT=?,RECEIPT_MODE_NAME=?,MEMBERSHIP_CLASS_NAME=?,PAYMENT_MODE_NAME=?,REMARK=? "
+                    + "EXPLAIN_IF_OTHER_RECEIPT=?,RECEIPT_MODE_NAME=?,MEMBERSHIP_CLASS_NAME=?,PAYMENT_MODE_NAME=?,REMARKS=? "
                     + "WHERE MEMBERSHIP_ID=?");
 
             stmt.setInt(1, m.getContact().getContactId());

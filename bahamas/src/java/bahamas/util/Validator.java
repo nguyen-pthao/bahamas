@@ -7,6 +7,7 @@ package bahamas.util;
 
 import com.google.gson.JsonElement;
 import com.mysql.jdbc.StringUtils;
+import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -132,10 +133,18 @@ public class Validator {
         return 0;
     }
 
+    private static BigDecimal truncateDecimal(double x, int numberofDecimals) {
+        if (x > 0) {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
+        } else {
+            return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_CEILING);
+        }
+    }
+
     public static double isDoubleValid(JsonElement e) {
         if (e != null && !e.isJsonNull()) {
             try {
-                return e.getAsDouble();
+                return truncateDecimal(e.getAsDouble(), 2).doubleValue();
             } catch (Exception ex) {
                 return 0;
             }
@@ -167,10 +176,9 @@ public class Validator {
         if (e != null && !e.isJsonNull()) {
             try {
                 if (!e.getAsString().isEmpty()) {
-                    long date = Long.parseLong(e.getAsString());                   
+                    long date = Long.parseLong(e.getAsString());
                     return new Date(date);
-                }
-                else{
+                } else {
                     return null;
                 }
             } catch (ClassCastException | IllegalStateException | NumberFormatException exp) {

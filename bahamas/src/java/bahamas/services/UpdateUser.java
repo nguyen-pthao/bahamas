@@ -144,11 +144,16 @@ public class UpdateUser extends HttpServlet {
 
                         }
 
-                        c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin")));
-                        if (Validator.isBooleanValid(jobject.get("is_admin")) == true) {
-                            cDAO.changeNovicePermission(c, false);
+                        if (jobject.get("is_admin") != null) {
+                            c.setIsAdmin(Validator.isBooleanValid(jobject.get("is_admin")));
+                            if (Validator.isBooleanValid(jobject.get("is_admin")) == true) {
+                                cDAO.changeNovicePermission(c, false);
+                            }
                         }
-                        c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated")));
+
+                        if (jobject.get("deactivated") != null) {
+                            c.setDeactivated(Validator.isBooleanValid(jobject.get("deactivated")));
+                        }
 
                     }
 
