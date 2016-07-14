@@ -322,7 +322,7 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-                                console.log(contactToEdit);
+//                                console.log(contactToEdit);
                                 retrieveAllContacts();
                             } else {
                                 console.log("Wrong data passed");
@@ -370,6 +370,7 @@ app.controller('editContact',
                         $scope.$model = $model;
                         $scope.$label = $label;
                         $scope.searchContact();
+                        console.log(selectedProxy);
                     };
 
                     $scope.searchContact = function () {
@@ -621,32 +622,21 @@ app.controller('editContact',
                             var dataToSend = {};
                             dataToSend['token'] = session.getSession('token');
                             dataToSend['username'] = $scope.editUser['username'];
-//                            var url = AppAPI.usernameCheck;
-//                            dataSubmit.submitData(dataToSend, url).then(function (response) {
-//                                $scope.checkedUsername = true;
-//                                if (response.data.message == 'success') {
-                                    datasend['token'] = session.getSession('token');
-                                    datasend['contact_id'] = contactToRetrieve['other_cid'];
-                                    datasend['username'] = $scope.editUser['username'];
-                                    datasend['password'] = $scope.editUser['password'];
-                                    datasend['email'] = $scope.editUser['email'];
-                                    submitUser(datasend, true);
-//                                } else {
-//                                    $scope.existedUsername = true;
-//                                    $scope.ignore = true;
-//                                }
-//                            }, function () {
-//                                window.alert("Fail to send request!");
-//                            });
+                            datasend['token'] = session.getSession('token');
+                            datasend['contact_id'] = contactToRetrieve['other_cid'];
+                            datasend['username'] = $scope.editUser['username'];
+                            datasend['password'] = $scope.editUser['password'];
+                            datasend['email'] = $scope.editUser['email'];
+                            submitUser(datasend, true);
                         }
                     } else {
-                        console.log(contactToRetrieve['contact_id']);
+//                        console.log(contactToRetrieve['contact_id']);
                         datasend['token'] = session.getSession('token');
                         datasend['contact_id'] = $scope.editUser['contact_id'];
                         datasend['current_password'] = $scope.editUser['current_password'];
                         datasend['password'] = $scope.editUser['password'];
                         datasend['confirm_password'] = $scope.editUser['confirm_password'];
-                        console.log(datasend);
+//                        console.log(datasend);
                         submitUser(datasend, false);
                     }
                 };
@@ -787,7 +777,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToRetrieve['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['country_code'] = phone['country_code'];
                     datasend['phone_number'] = phone['phone_number'];
@@ -850,7 +839,6 @@ app.controller('editContact',
                         } else {
                             deletePhone['contact_id'] = contactToEdit['cid'];
                         }
-//                        deletePhone['contact_id'] = contactToRetrieve['other_cid'];
                         deletePhone['phone_number'] = phone['phone_number'];
                         var url = AppAPI.deletePhone;
                         deleteService.deleteDataService(deletePhone, url).then(function (response) {
@@ -887,10 +875,10 @@ app.controller('editContact',
                     var url = AppAPI.addPhone;
                     if($scope.editMode == 'true') {
                         $scope.newPhone['contact_id'] = contactToEdit['other_cid'];
-                         console.log($scope.newPhone);
+//                         console.log($scope.newPhone);
                     } else {
                         $scope.newPhone['contact_id'] = contactToEdit['cid'];
-                         console.log($scope.newPhone);
+//                         console.log($scope.newPhone);
                     }
                     console.log($scope.newPhone);
                     dataSubmit.submitData($scope.newPhone, url).then(function (response) {
@@ -949,7 +937,6 @@ app.controller('editContact',
                         datasend['contact_id'] = contactToEdit['cid'];
                          console.log($scope.newPhone);
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['email'] = email['email'];
                     datasend['email_remarks'] = email['remarks'];
@@ -992,7 +979,6 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteEmail = {};
                         deleteEmail['token'] = session.getSession('token');
-//                        deleteEmail['contact_id'] = contactToEdit['other_cid'];
                         if($scope.editMode == 'true') {
                             deleteEmail['contact_id'] = contactToEdit['other_cid'];
                         } else {
@@ -1090,7 +1076,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['country'] = address['country'];
                     datasend['address'] = address['address'];
@@ -1137,7 +1122,6 @@ app.controller('editContact',
                         } else {
                             deleteAddress['contact_id'] = contactToEdit['cid'];
                         }
-//                        deleteAddress['contact_id'] = contactToEdit['other_cid'];
                         deleteAddress['address'] = address['address'];
                         var url = AppAPI.deleteAddress;
                         deleteService.deleteDataService(deleteAddress, url).then(function (response) {
@@ -1216,7 +1200,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['membership_id'] = membership['membership_id'];
                     if (membership['start_date'] == null) {
@@ -1431,7 +1414,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['office_held_name'] = officeHeld['office_held'];
                     if (officeHeld['start_office'] == null) {
@@ -1500,7 +1482,6 @@ app.controller('editContact',
                         } else {
                             deleteOffice['contact_id'] = contactToEdit['cid'];
                         }
-//                        deleteOffice['contact_id'] = contactToEdit['other_cid'];
                         deleteOffice['office_held_name'] = officeHeld['office_held'];
                         var url = AppAPI.deleteOfficeHeld;
                         deleteService.deleteDataService(deleteOffice, url).then(function (response) {
@@ -1522,7 +1503,7 @@ app.controller('editContact',
                 };
                 $scope.newOffice = {
                     token: session.getSession("token"),
-                    'contact_id': -1, //to be confirmed
+                    'contact_id': -1, 
                     'user_type': session.getSession('userType'),
                     'office_held_name': '',
                     'start_office': '',
@@ -1614,7 +1595,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['donation_id'] = donation['donation_id'];
                     if (donation['date_received'] == null) {
@@ -1786,7 +1766,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['team'] = team['team_name'];
                     datasend['permission_level'] = team['permission'];
@@ -1847,7 +1826,6 @@ app.controller('editContact',
                         } else {
                             deleteTeamjoin['contact_id'] = contactToEdit['cid'];
                         }
-//                        deleteTeamjoin['contact_id'] = contactToEdit['other_cid'];
                         deleteTeamjoin['team'] = team['team_name'];
                         var url = AppAPI.deleteTeamJoin;
                         deleteService.deleteDataService(deleteTeamjoin, url).then(function (response) {
@@ -1953,7 +1931,7 @@ app.controller('editContact',
                 };
                 $scope.addTeam = function () {
                     var url = AppAPI.addTeamJoin;
-                    
+                    $scope.newTeam['contact_id'] = contactToEdit['other_cid'];
                     if ($scope.editMode == 'true') {
                         dataSubmit.submitData($scope.newTeam, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -1990,6 +1968,7 @@ app.controller('editContact',
                             window.alert("Fail to send request!");
                         });
                     } else {
+                        teamPreference['contact_id'] = contactToEdit['cid'];
                         teamPreference.team = $scope.teamPref.team1;
                         dataSubmit.submitData(teamPreference, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -2122,7 +2101,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['appreciation_id'] = appreciation['appreciation_id'];
                     datasend['appraisal_comment'] = appreciation['appraisal_comments'];
@@ -2269,7 +2247,6 @@ app.controller('editContact',
                 $scope.editTheProxy = function ($event, proxy) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-//                    datasend['contact_id'] = session.getSession('contactToDisplayCid');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['proxy_of'] = selectedProxy.cid;
                     datasend['principal_of'] = contactToEdit['other_cid'];
@@ -2363,8 +2340,13 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.addProxy = function () {
-                    $scope.newProxy['proxy_of'] = selectedProxy.cid;
-                    $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
+//                    if($scope.editMode == 'true') {
+//                        $scope.newProxy['contact_id'] = contactToEdit['other_cid'];
+//                    } else {
+//                        $scope.newProxy['contact_id'] = contactToEdit['cid'];
+//                    }
+                    $scope.newProxy['proxy_of'] = contactToEdit['other_cid'];
+                    $scope.newProxy['principal_of'] = selectedProxy.cid;
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
                     } else if(isNaN($scope.newProxy['date_obsolete'])){
@@ -2429,7 +2411,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['language'] = language['language_name'];
                     datasend['speak_write'] = language['proficiency'];
@@ -2488,7 +2469,6 @@ app.controller('editContact',
                         } else {
                             deleteLanguage['contact_id'] = contactToEdit['cid'];
                         }
-//                        deleteLanguage['contact_id'] = contactToEdit['other_cid'];
                         deleteLanguage['language'] = language['language_name'];
                         var url = AppAPI.deleteLanguage;
                         deleteService.deleteDataService(deleteLanguage, url).then(function (response) {
@@ -2593,7 +2573,6 @@ app.controller('editContact',
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
-//                    datasend['contact_id'] = contactToEdit['other_cid'];
                     datasend['user_type'] = session.getSession('userType');
                     datasend['skill_asset'] = skill['skill_name'];
                     datasend['explain_if_other'] = skill['explain_if_other'];
@@ -2651,7 +2630,6 @@ app.controller('editContact',
                         } else {
                             deleteSkill['contact_id'] = contactToEdit['cid'];
                         }
-//                        deleteSkill['contact_id'] = contactToEdit['other_cid'];
                         deleteSkill['skill_asset'] = skill['skill_name'];
                         var url = AppAPI.deleteSkill;
                         deleteService.deleteDataService(deleteSkill, url).then(function (response) {
