@@ -170,7 +170,7 @@ app.config(function (ngDialogProvider) {
 });
 
 app.config(['IdleProvider', function (IdleProvider) {
-        IdleProvider.idle(900);
+        IdleProvider.idle(10);
         IdleProvider.timeout(10);
     }]);
 
