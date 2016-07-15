@@ -7,11 +7,11 @@
 var app = angular.module('bahamas');
 
 app.controller('pageController',
-        ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', '$http', '$timeout', '$rootScope', 'Idle',
-            function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, $http, $timeout, $rootScope, Idle) {
+        ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', '$http', '$timeout', 'Idle',
+            function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, $http, $timeout, Idle) {
                 var user = session.getSession('userType');
 
-                $rootScope.$on('IdleStart', function () {
+                $scope.$on('IdleStart', function () {
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/refreshToken.html',
                         className: 'ngdialog-theme-default',
@@ -20,14 +20,14 @@ app.controller('pageController',
                     })
                 })
 
-                $rootScope.$on('IdleTimeout', function () {
+                $scope.$on('IdleTimeout', function () {
                     ngDialog.closeAll();
                     session.terminateSession();
                     localStorageService.clearAll();
                     $state.go('login');
                 });
 
-                $rootScope.$on('IdleEnd', function () {
+                $scope.$on('IdleEnd', function () {
                     ngDialog.closeAll();
                 });
 
