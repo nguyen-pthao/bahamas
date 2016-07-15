@@ -250,10 +250,10 @@ public class RetrieveContact extends HttpServlet {
                 
                 for(int i = 0; i < phoneList.size()-1; i++){
                     Phone phone = phoneList.get(i);
-                    phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
+                    phoneStr += "+" +phone.getCountryCode() + "-" + phone.getPhoneNumber() + " | ";
                 }
                 Phone phone = phoneList.get(phoneList.size()-1);
-                phoneStr += "+" +phone.getCountryCode() + " " + phone.getPhoneNumber();
+                phoneStr += "+" +phone.getCountryCode() + "-" + phone.getPhoneNumber();
                 
             }
             if(!addressList.isEmpty()){

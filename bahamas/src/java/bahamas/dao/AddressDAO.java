@@ -75,7 +75,7 @@ public class AddressDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT ZIPCODE, ADDRESS, COUNTRY, REMARKS, CREATED_BY, DATE_OBSOLETE, DATE_CREATED FROM ADDRESS WHERE CONTACT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT ZIPCODE, ADDRESS, COUNTRY, REMARKS, CREATED_BY, DATE_OBSOLETE, DATE_CREATED FROM ADDRESS WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {

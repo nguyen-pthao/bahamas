@@ -80,7 +80,7 @@ public class PhoneDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT COUNTRY_CODE, PHONE_NUMBER, REMARKS, CREATED_BY, DATE_CREATED, DATE_OBSOLETE FROM PHONE WHERE CONTACT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT COUNTRY_CODE, PHONE_NUMBER, REMARKS, CREATED_BY, DATE_CREATED, DATE_OBSOLETE FROM PHONE WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {

@@ -205,6 +205,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         JsonObject jsonContactObj;
         JsonArray jsonObjPhone = new JsonArray();
         JsonArray jsonObjEmail = new JsonArray();
+        JsonArray jsonObjEmailVerified = new JsonArray();
         JsonArray jsonObjAddress = new JsonArray();
         JsonArray jsonObjOfficeHeld = new JsonArray();
         JsonArray jsonObjProxy = new JsonArray();
@@ -214,6 +215,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         JsonArray jsonObjAppreciation = new JsonArray();
         JsonArray jsonObjDonation = new JsonArray();
         JsonArray jsonObjTeamJoin = new JsonArray();
+        boolean emailVerified = false;
         
 
         ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(contact);
@@ -354,6 +356,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             
             for (int i = 0; i < emailList.size(); i++) {
                 JsonObject jsonEmailObj = new JsonObject();
+                JsonObject jsonEmailVerifiedObj = new JsonObject();
                 Email email = emailList.get(i);
                 
                 jsonEmailObj.addProperty("email", email.getEmail());
@@ -373,15 +376,25 @@ public class RetrieveContactIndiv extends HttpServlet {
                 if (isAdmin || isTeamMgt || isEventLead){
                     jsonEmailObj.addProperty("created_by", email.getCreatedBy());
                     jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));    
-                    jsonEmailObj.addProperty("verified", email.getVerified());
+                    jsonEmailObj.addProperty("verified", Boolean.toString(email.getVerified()));
+                    if(email.getVerified()){
+                        jsonEmailVerifiedObj.addProperty("verified_email", email.getEmail());
+                        jsonObjEmailVerified.add(jsonEmailVerifiedObj);
+                        jsonContactObj.add("verified_email", jsonObjEmailVerified);
+                        emailVerified = true;
+                    }
                 }
                 
-                jsonObjEmail.add(jsonEmailObj);
+                jsonObjEmail.add(jsonEmailObj);  
                 jsonContactObj.add("email", jsonObjEmail);
+                
             }
 
         } else {
             jsonContactObj.addProperty("email", "");
+        }
+        if (!emailVerified && isAdmin) {
+            jsonContactObj.addProperty("verified_email", "");
         }
        
         if(isAdmin || isTeamMgt || isEventLead){
