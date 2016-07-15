@@ -72,7 +72,7 @@ public class EmailDAO {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE, VERIFIED FROM EMAIL WHERE CONTACT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE, VERIFIED FROM EMAIL WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
