@@ -5,6 +5,7 @@
  */
 package bahamas.util;
 
+import is203.JWTException;
 import is203.JWTUtility;
 import java.io.InputStream;
 import java.util.Properties;
@@ -41,7 +42,7 @@ public class Authenticator {
         }
     }
 
-    public static String verifyToken(String token) {
+    public static String verifyToken(String token) throws JWTException {
         String username = null;
         try {
             InputStream is = Authenticator.class.getResourceAsStream(PROPS_FILENAME);

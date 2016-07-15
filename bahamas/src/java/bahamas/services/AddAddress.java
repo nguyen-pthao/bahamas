@@ -18,6 +18,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import is203.JWTException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -80,8 +81,15 @@ public class AddAddress extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String username = Authenticator.verifyToken(token);
-
+                String username = null;
+                try {
+                    username = Authenticator.verifyToken(token);
+                } catch (JWTException e) {
+                    json.addProperty("message", "invalid token");
+                    out.println(gson.toJson(json));
+                    return;
+                }
+                
                 if (username == null) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
