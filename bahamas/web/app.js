@@ -52,6 +52,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
             })
+            .state('admin.globalSettings', {
+                url: '/globalSettings',
+                templateUrl: 'app/views/settings/globalSettings.html',
+                controller: 'globalSettings'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',

@@ -27,7 +27,7 @@ app.controller('viewAuditLog',
             function (filterFilter, dateFilter, $scope, $http, $location, session, $window, $state, $log, loadAllAudit, localStorageService) {
 
                 $scope.backHome = function () {
-                    $state.go('admin.homepage');
+                    $state.go('admin');
                 };
 
                 $scope.retrieveAllAuditLog = function () {
