@@ -11,12 +11,15 @@ import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
 import com.google.gson.*;
+import is203.JWTException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,7 +43,7 @@ public class AddContact extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, JWTException {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
@@ -149,7 +152,11 @@ public class AddContact extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JWTException ex) {
+            Logger.getLogger(AddContact.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -163,7 +170,11 @@ public class AddContact extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (JWTException ex) {
+            Logger.getLogger(AddContact.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**

@@ -724,13 +724,14 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadMembershipList()">
                                                     <label>Membership type</label><span class="required">*</span>
-                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control">
+                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control" empty>
                                                         <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Subscription amount</label><span class="required">*</span>
-                                                    <input type="number" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                                    <input type="text" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem" empty setDecimal='number'>
+                                                    <span ng-show="form.editMembershipForm.subsrcAmtMem.$error.empty" class="error">Subscription amount is required.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -747,7 +748,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openMStart($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="membership['start_date']" ng-click="openMStart($index)" uib-datepicker-popup="{{format}}" is-open="openedMStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="membership['start_date']" ng-click="openMStart($index)" uib-datepicker-popup="{{format}}" is-open="openedMStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right white-background" readonly empty>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
@@ -756,7 +757,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openMEnd($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="membership['end_date']" ng-click="openMEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="membership['end_date']" ng-click="openMEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedMEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right white-background" readonly empty>
                                                     </div>
                                                 </div>
                                             </div>
@@ -821,7 +822,8 @@ and open the template in the editor.
                                             <div class='row'>
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" 
-                                                            ng-disabled="form.editMembershipForm.otherExpMemClass.$invalid || form.editMembershipForm.otherExpPayModMem.$invalid || form.editMembershipForm.transRefMem.$invalid
+                                                            ng-disabled="form.editMembershipForm.memType.$invalid || form.editMembershipForm.subsrcAmtMem.$invalid || form.editMembershipForm.startdateMem.$invalid || form.editMembershipForm.enddateMem.$invalid ||
+                                                                        form.editMembershipForm.otherExpMemClass.$invalid || form.editMembershipForm.otherExpPayModMem.$invalid || form.editMembershipForm.transRefMem.$invalid
                                                                         || form.editMembershipForm.recNoMem.$invalid || form.editMembershipForm.otherExpRecModMem.$invalid || form.editMembershipForm.remarksMem.$invalid"
                                                             ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                     &nbsp;
@@ -991,10 +993,7 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Office held</label><span class="required">*</span>
-                                                    <input type='text' class='form-control' ng-model="officeHeld['office_held']" name="off" readonly> 
-                                                    <!-- <select class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
-                                                    <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
-                                                    </select> -->
+                                                    <input type='text' class='form-control' ng-model="officeHeld['office_held']" name="off" readonly>
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1433,10 +1432,7 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Team</label><span class="required">*</span>
-                                                    <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly> 
-                                                    <!-- <select class="form-control" ng-model="team['team_name']" name='team' readonly>
-                                                    <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
-                                                    </select> -->
+                                                    <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly>
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1711,7 +1707,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openAppraisal($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="appreciation['appraisal_date']" uib-datepicker-popup="{{format}}" is-open="openedAppraisal[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="appreciation['appraisal_date']" ng-click="openAppraisal($index)" uib-datepicker-popup="{{format}}" is-open="openedAppraisal[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right white-background" readonly>
                                                     </div>
                                                 </div>
                                             </div>
@@ -1803,7 +1799,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewAppreciation()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newAppreciation['appreciation_date']" uib-datepicker-popup="{{format}}" is-open="openedNewAppreciation" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="newAppreciation['appreciation_date']" ng-click="openNewAppreciation()" uib-datepicker-popup="{{format}}" is-open="openedNewAppreciation" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right white-background" readonly>
                                             </div>
                                         </div>
                                     </div>
@@ -2024,9 +2020,7 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadLanguageList()">
                                                     <label>Language</label><span class="required">*</span>
-                                                    <select class="form-control" ng-model="language['language_name']" name='languages' readonly>
-                                                        <option ng-repeat="language in languageList">{{language.language}}</option>
-                                                    </select>  
+                                                    <input type='text' class="form-control" ng-model="language['language_name']" name='languages' readonly>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Speak / Write</label>
@@ -2170,9 +2164,7 @@ and open the template in the editor.
                                             <div class="form-group col-md-12" style="margin-top: 15px">
                                                 <div class="col-md-5" ng-init="loadLSAList()">
                                                     <label>Skills or Assets</label><span class="required">*</span>
-                                                    <select class="form-control" ng-model="skill['skill_name']" name='LSA'>
-                                                        <option ng-repeat="skill in LSAList">{{skill.lsaClass}}</option>
-                                                    </select>    
+                                                    <input type='text' class="form-control" ng-model="skill['skill_name']" name='LSA' readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">

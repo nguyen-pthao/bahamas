@@ -11,7 +11,7 @@ var app = angular.module('bahamas');
 app.directive('compare', function () {
     return {
         restrict: 'A',
-        require: 'ngModel',
+        require: '?ngModel',
         link: function (scope, elem, attrs, ngModel) {
             if (!ngModel) {
                 return;
@@ -34,15 +34,12 @@ app.directive('compare', function () {
 app.directive('empty', function () {
     return {
         restrict: 'A',
-        require: 'ngModel',
+        require: '?ngModel',
         link: function (scope, elem, attrs, ngModel) {
             if (!ngModel) {
                 return;
             }
             scope.$watch(attrs.ngModel, function () {
-                validate();
-            });
-            attrs.$observe('empty', function () {
                 validate();
             });
             var validate = function () {
@@ -52,6 +49,30 @@ app.directive('empty', function () {
         }
     };
 });
+
+app.directive('setDecimal', ['$filter', function($filter) {
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function(scope, elem, attrs, ngModel) {
+            if(!ngModel) {
+                return;
+            }
+            
+            ngModel.$formatters.unshift(function(a) {
+                return $filter(attrs.format)(ngModel.$modelValue)
+            });
+            
+            ngModel.$parsers.unshift(function(viewValue) {
+                var plainNumber = viewValue.replace('/[^\d|\\-+|\\.+]/g', '');
+                elem.val($filter(attrs.format)(plainNumber));
+                return plainNumber;
+            });
+            
+            ngModel.$render();
+        }
+    };
+}]);
 
 app.controller('editContact',
         ['$scope', '$http', '$state', 'session', 'ngDialog', '$timeout',
@@ -2163,7 +2184,7 @@ app.controller('editContact',
                         });
                     }
                 };
-
+                
                 //appreciation
                 $scope.addingAppreciation = false;
                 $scope.addNewAppreciation = function () {

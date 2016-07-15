@@ -70,7 +70,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         }
 
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
-            console.log(response);
+//            console.log(response);
             $scope.contactInfo = response.data.contact[0];
             //user info
             $scope.username = $scope.contactInfo.username;
