@@ -32,22 +32,51 @@ and open the template in the editor.
                     <div class="box-body">
                         <div class="col-md-12">
                             <div class="col-md-3">
-                            <label>Select drop-down list to edit: </label>
-                            <select class="form-control" ng-Model="selectedList" ng-change="getList()">
-                                <option disabled selected value>--Select a List--</option>
-                                <option value="1">Contact Type List</option>
-                                <option value="2">Event Class List</option>
-                                <option value="3">Event Location List</option>
-                                <option value="4">LSA Class List</option>
-                                <option value="5">Language List</option>
-                                <option value="6">Membership Class List</option>
-                                <option value="7">Mode Of Sending Receipt List</option>
-                                <option value="8">Office List</option>
-                                <option value="9">Payment Mode List</option>
-                                <option value="10">Permission Level List</option>
-                                <option value="11">Team Affiliation List</option>
-                            </select>     
-                        </div>
+                                <label>Select drop-down list to edit: </label>
+                                <select class="form-control" ng-Model="selectedList" ng-change="getList()">
+                                    <option disabled selected value>--Select a List--</option>
+                                    <option value="1">Contact Type List</option>
+                                    <option value="2">Event Class List</option>
+                                    <option value="3">Event Location List</option>
+                                    <option value="4">LSA Class List</option>
+                                    <option value="5">Language List</option>
+                                    <option value="6">Membership Class List</option>
+                                    <option value="7">Mode Of Sending Receipt List</option>
+                                    <option value="8">Office List</option>
+                                    <option value="9">Payment Mode List</option>
+                                    <option value="10">Permission Level List</option>
+                                    <option value="11">Team Affiliation List</option>
+                                </select>     
+                            </div>
+                            <div class="col-md-9">
+                                <table ui-tree id="tree-root" class="table table-responsive">
+                                    <thead>
+                                        <tr>
+                                            <th>Sort</th>
+                                            <th width="80%">Name</th>
+                                            <th>
+                                                <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newItem()" uib-tooltip="Add New"><span
+                                                        class="glyphicon glyphicon-plus"></span></a>
+                                            </th>		   
+                                        </tr>
+                                    </thead>
+                                    <tbody ui-tree-nodes ng-model="list">
+                                        <tr ng-repeat="item in list" ui-tree-node>
+                                            <td>
+                                                <i class="glyphicon glyphicon-resize-vertical" ui-tree-handle></i> 
+                                            </td>
+                                            <td>
+                                                <strong>{{item}}</strong> 
+                                            </td>
+                                            <td>
+                                                <a class="pull-right btn btn-danger btn-xs" data-nodrag ng-click="remove(this)" uib-tooltip="Remove">
+                                                    <span class="glyphicon glyphicon-remove"></span>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                     <!-- view contact ends -->
@@ -57,4 +86,3 @@ and open the template in the editor.
         </div>
     </body>
 </html>
-
