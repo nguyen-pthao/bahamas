@@ -847,7 +847,7 @@ and open the template in the editor.
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Subscription amount</label><span class="required">*</span>
                                             <input type="number" ng-model="newMembership['subscription_amount']" set-decimal="newMembership['subscription_amount']" class="form-control" name="additionalsubsrcAmtMem" empty>
-                                            <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.empty && form.editMembershipForm.additionalsubsrcAmtMem.$dirty" class="error">Subscription amount is required.</span>
+                                            <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.empty && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Subscription amount is required.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -1299,7 +1299,7 @@ and open the template in the editor.
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Donation amount</label><span class="required">*</span>
                                             <input type="number" class="form-control" ng-model="newDonation['donation_amount']" set-decimal="newDonation['donation_amount']" name='additionaldonAmt' empty>
-                                            <span ng-show="form.editDonationForm.additionaldonAmt.$error.empty && form.editDonationForm.additionaldonAmt.$dirty" class="error">Donation amount is required.</span>
+                                            <span ng-show="form.editDonationForm.additionaldonAmt.$error.empty && form.editDonationForm.additionaldonAmt.$touched" class="error">Donation amount is required.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -1664,10 +1664,10 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'false'">
-                                    <div class="form-group" ng-init="loadTeamAffiliationList()">
+                                    <div class="form-group">
                                         <label>First choice</label><span class="required">*</span>
                                         <select class="form-control" ng-model="teamPref.team1" name="teamPref1" empty>
-                                            <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                            <option ng-repeat="teamAffiliation in teamAffiliationList0">{{teamAffiliation.teamAffiliation}}</option>
                                         </select>
                                     </div>
                                     <div class="form-group">
@@ -1832,14 +1832,14 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Appraisal comments</label>
                                                     <textarea class='custom-remarks' ng-model="appreciation['appraisal_comments']" ng-maxlength="500" name='apprComm' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editAppreciationForm.apprComm.$error.maxlength" class="error">Input field appraisal comment is too long.</span>
+                                                    <span ng-hide="appreciation['appraisal_comments'].length < 500 && appreciation['appraisal_comments'].length > -1" class="error">Input field appraisal comment is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Appraised by</label>
                                                     <input type='text' ng-model="appreciation['appraisal_by']" ng-maxlength="50" name="apprBy" class="form-control"> 
-                                                    <span ng-show="form.editAppreciationForm.apprBy.$error.maxlength" class="error">Input field appraisal by is too long.</span>
+                                                    <span ng-hide="appreciation['appraisal_by'].length < 50 && appreciation['appraisal_by'].length > -1" class="error">Input field appraisal by is too long.</span>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Appraisal date</label>
@@ -1855,14 +1855,15 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Appreciation gesture</label>
                                                     <textarea class='custom-remarks' ng-model="appreciation['appreciation_gesture']" ng-maxlength="500" name='appnGest' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editAppreciationForm.appnGest.$error.maxlength" class="error">Input field appreciation gesture is too long.</span>
+                                                    <span ng-hide="appreciation['appreciation_gesture'].length < 500 && appreciation['appreciation_gesture'].length > -1" class="error">Input field appreciation gesture is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Appreciation by</label>
                                                     <input ng-model="appreciation['appreciation_by']" ng-maxlength="50" name='appnBy' type='text' class="form-control"> 
-                                                    <span ng-show="form.editAppreciationForm.appnBy.$error.maxlength" class="error">Input field appreciation by is too long.</span>
+                                                    <span ng-hide="appreciation['appreciation_by'].length < 50 && appreciation['appreciation_by'].length > -1" class="error">Input field appreciation by is too long.</span>
+                                                    
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Appreciation date</label>
@@ -1878,14 +1879,15 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="appreciation['remarks']" ng-maxlength="1000" name='remarksAppn' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editAppreciationForm.remarksAppn.$error.maxlength" class="error">Input field remarks is too long.</span>
+                                                    <span ng-hide="appreciation['remarks'].length < 1000 && appreciation['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" 
-                                                            ng-disabled="form.editAppreciationForm.apprComm.$invalid || form.editAppreciationForm.apprBy.$invalid || form.editAppreciationForm.appnGest.$invalid
-                                                                        || form.editAppreciationForm.appnBy.$invalid || form.editAppreciationForm.remarksAppn.$invalid" 
+                                                            ng-disabled="!(appreciation['appraisal_comments'].length < 500 && appreciation['appraisal_comments'].length > -1) || !(appreciation['appraisal_by'].length < 50 && appreciation['appraisal_by'].length > -1)
+                                                                        || !(appreciation['appreciation_gesture'].length < 500 && appreciation['appreciation_gesture'].length > -1) || !(appreciation['appreciation_by'].length < 50 && appreciation['appreciation_by'].length > -1)
+                                                                        || !(appreciation['remarks'].length < 1000 && appreciation['remarks'].length > -1)" 
                                                             ng-click="editTheAppreciation($event, appreciation)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
@@ -2018,45 +2020,39 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <label style="padding-left: 15px">Proxy</label><span class="required">*</span>
-                                                <div class="col-md-12">
-                                                    <div class="no-padding-left col-md-5 no-padding-right">
-                                                        <input type='text' ng-model="selected" name="proxy" class="form-control" placeholder="Search proxy..." uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html" typeahead-on-select='onSelect($item, $model, $label)' empty>
-                                                    </div>
-                                                    <div class="no-padding-left col-md-1">
-                                                        <button type="button" class="btn btn-flat" ng-click="searchContact()"><i class="fa fa-search"></i></button>
-                                                    </div>
-                                                    <span ng-show="form.editProxyForm.proxy.$error.empty && form.editProxyForm.proxy.$dirty" class="error">Proxy is required.</span>
+                                                <div class="col-md-5">
+                                                    <label>Proxy</label><span class="required">*</span>
+                                                    <input class="form-control" type='text' ng-model="proxy['proxy_name']" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Proxy standing</label>
                                                     <textarea class='custom-remarks' ng-model="proxy['proxy_standing']" ng-maxlength="500" name='proxStand' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editProxyForm.proxStand.$error.maxlength" class="error">Input field proxy standing is too long.</span>
+                                                    <span ng-hide="proxy['proxy_standing'].length < 500 && proxy['proxy_standing'].length > -1" class="error">Input field proxy standing is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="proxy['remarks']" ng-maxlength="1000" name='remarksProx' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editProxyForm.remarksProx.$error.maxlength" class="error">Input field remarks is too long.</span>
+                                                    <span ng-hide="proxy['remarks'].length < 1000 && proxy['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon btn" ng-click="openProxy($index)"><!--Marcus-->
+                                                        <div class="input-group-addon btn" ng-click="openProxy($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="proxy['date_obsolete']" uib-datepicker-popup="{{format}}" is-open="openedProxy[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsProx' class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="proxy['date_obsolete']" ng-click="openProxy($index)" uib-datepicker-popup="{{format}}" is-open="openedProxy[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateObsProx' class="form-control pull-right white-background" readonly>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editProxyForm.proxy.$invalid || form.editProxyForm.proxStand.$invalid || form.editProxyForm.remarksProx.$invalid" ng-click="editTheProxy($event, proxy)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(proxy['proxy_standing'].length < 500 && proxy['proxy_standing'].length > -1) || !(proxy['remarks'].length < 1000 && proxy['remarks'].length > -1)" ng-click="editTheProxy($event, proxy)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
                                                     <br>

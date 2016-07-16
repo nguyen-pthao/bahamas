@@ -35,7 +35,7 @@ app.controller('createContact',
                         $scope.contactTypeList = response.data.contact;
                         var other;
                         for (var obj in $scope.contactTypeList) {
-                            if ($scope.contactTypeList[obj].contactType == 'Other') {
+                            if ($scope.contactTypeList[obj].contactType == 'Others') {
                                 other = $scope.contactTypeList.splice(obj, 1);
                             }
                         }
@@ -48,11 +48,11 @@ app.controller('createContact',
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
                         var other;
                         for (var obj in $scope.teamAffiliationList) {
-                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
                                 other = $scope.teamAffiliationList.splice(obj, 1);
                             }
                         }
-                        $scope.teamAffiliationList.push(other[0]);
+                        //$scope.teamAffiliationList.push(other[0]);
                     });
                 };
 
@@ -67,7 +67,7 @@ app.controller('createContact',
                         $scope.languageList = response.data.languageList;
                         var other;
                         for (var obj in $scope.languageList) {
-                            if ($scope.languageList[obj].language == 'Other') {
+                            if ($scope.languageList[obj].language == 'Others') {
                                 other = $scope.languageList.splice(obj, 1);
                             }
                         }
@@ -80,7 +80,7 @@ app.controller('createContact',
                         $scope.LSAList = response.data.lsaClassList;
                         var other;
                         for (var obj in $scope.LSAList) {
-                            if ($scope.LSAList[obj].lsaClass == 'Other') {
+                            if ($scope.LSAList[obj].lsaClass == 'Others') {
                                 other = $scope.LSAList.splice(obj, 1);
                             }
                         }

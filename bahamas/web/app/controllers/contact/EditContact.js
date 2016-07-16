@@ -248,8 +248,14 @@ app.controller('editContact',
                             }
                         }
                         $scope.teamAffiliationList.push(other[0]);
+                        $scope.teamAffiliationList0 = angular.copy($scope.teamAffiliationList);
+                        $scope.teamAffiliationList0.pop();
                     });
                 };
+//                $scope.loadTeamAffiliationList1 = function () {
+//                    $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList);
+//                    $scope.teamAffiliationList1.pop();
+//                };
                 $scope.loadPermissionLevelList = function () {
                     loadPermissionLevel.retrievePermissionLevel().then(function (response) {
                         $scope.permissionLevelList = response.data.permissionLevelList;
@@ -395,17 +401,14 @@ app.controller('editContact',
                         });
                         $scope.userType = permission;
                     });
-
+//for edit proxy
                     $scope.onSelect = function ($item, $model, $label) {
-                        $scope.$item = $item;
-                        $scope.$model = $model;
-                        $scope.$label = $label;
                         $scope.searchContact();
                         console.log(selectedProxy);
                     };
-
+//for edit proxy                  
                     $scope.searchContact = function () {
-                        selectedProxy = $scope.selected;
+                        selectedProxy = $scope.proxy['proxy_name'];
                         console.log(selectedProxy);
                     };
                 };
@@ -573,6 +576,9 @@ app.controller('editContact',
                 var retrieveProxyInfo = function (contactToEdit) {
                     if (contactToEdit.proxy != '') {
                         $scope.editProxy = contactToEdit.proxy;
+                        for(var i = 0; i < contactToEdit.proxy.length; i++) {
+                            $scope.editProxy[i]['date_obsolete'] = new Date(contactToEdit.proxy[i]['date_obsolete']);
+                        }
                     } else {
                         $scope.editProxy = '';
                     }
@@ -669,6 +675,7 @@ app.controller('editContact',
                         datasend['confirm_password'] = $scope.editUser['confirm_password'];
 //                        console.log(datasend);
                         submitUser(datasend, false);
+                        $scope.changePassword();
                     }
                 };
                 //to update user info
@@ -1078,6 +1085,7 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                             $scope.newEmail = angular.copy($scope.copyEmail);
                             $scope.form.editEmailForm.$setValidity();
+                            $scope.form.editEmailForm.$setPristine();
                             $timeout(function () {
                                 $scope.submitNewEmail.submittedEmail = false;
                             }, 1000);
@@ -1234,6 +1242,7 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                             $scope.newAddress = angular.copy($scope.copyAddress);
                             $scope.form.editAddressForm.$setValidity();
+                            $scope.form.editAddressForm.$setPristine();
                             $timeout(function () {
                                 $scope.submitNewAddress.submittedAddress = false;
                             }, 1000);
@@ -1447,6 +1456,7 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                             $scope.newMembership = angular.copy($scope.copyMembership);
                             $scope.form.editMembershipForm.$setValidity();
+                            $scope.form.editMembershipForm.$setUntouched();
                             $timeout(function () {
                                 $scope.submitNewMembership.submittedMembership = false;
                             }, 1000);
@@ -1833,6 +1843,7 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                             $scope.newDonation = angular.copy($scope.copyDonation);
                             $scope.form.editDonationForm.$setValidity();
+                            $scope.form.editDonationForm.$setUntouched();
                             $timeout(function () {
                                 $scope.submitNewDonation.submittedDonation = false;
                             }, 1000);
@@ -1993,16 +2004,16 @@ app.controller('editContact',
                     if ($scope.teamPref.team1 !== '') {
                         var choice = $scope.teamPref.team1;
                         var position = -1;
-                        for (var i in $scope.teamAffiliationList) {
-                            var teamCheck = $scope.teamAffiliationList[i];
+                        for (var i in $scope.teamAffiliationList0) {
+                            var teamCheck = $scope.teamAffiliationList0[i];
                             if (teamCheck.teamAffiliation == $scope.teamPref.team1) {
                                 position = i;
                             }
                         }
                         if (position == -1) {
-                            $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList);
+                            $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList0);
                         } else {
-                            var list = angular.copy($scope.teamAffiliationList);
+                            var list = angular.copy($scope.teamAffiliationList0);
                             list.splice(position, 1);
                             $scope.teamAffiliationList1 = list;
                             if ($scope.teamPref.team3 != '' && choice == $scope.teamPref.team3) {
@@ -2393,7 +2404,7 @@ app.controller('editContact',
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
                     datasend['user_type'] = session.getSession('userType');
-                    datasend['proxy_of'] = selectedProxy.cid;
+                    datasend['proxy_of'] = proxy['proxy_id'];
                     datasend['principal_of'] = contactToEdit['other_cid'];
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
@@ -2471,8 +2482,6 @@ app.controller('editContact',
 
                 $scope.newProxy = {
                     'token': session.getSession('token'),
-//                    'contact_id': -1,
-//                    'user_type': session.getSession('userType'),
                     'proxy_of': -1,
                     'principal_of': '',
                     'proxy_standing': '',
@@ -2485,13 +2494,8 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.addProxy = function () {
-//                    if($scope.editMode == 'true') {
-//                        $scope.newProxy['contact_id'] = contactToEdit['other_cid'];
-//                    } else {
-//                        $scope.newProxy['contact_id'] = contactToEdit['cid'];
-//                    }
-                    $scope.newProxy['proxy_of'] = contactToEdit['other_cid'];
-                    $scope.newProxy['principal_of'] = selectedProxy.cid;
+                    $scope.newProxy['proxy_of'] = selectedProxy.cid;
+                    $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
                     } else if(isNaN($scope.newProxy['date_obsolete'])){
