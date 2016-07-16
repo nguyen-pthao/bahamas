@@ -107,9 +107,9 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>New Password</label><span class="required">*</span>
-                                                <input type="password" ng-model='editUser.password' ng-minlength="8" ng-maxlength="20" compare='{{editUser["confirm_password"]}}' class="form-control" name="newPassword" empty>
+                                                <input type="password" ng-model='editUser.password' ng-maxlength="20" compare='{{editUser["confirm_password"]}}' class="form-control" name="newPassword" empty>
                                                 <span ng-show='editUserForm.newPassword.$error.empty && editUserForm.newPassword.$dirty' class='error'>New password is required.</span>
-                                                <span ng-show='editUserForm.newPassword.$error.minlength || editUserForm.newPassword.$error.maxlength' class='error'>Password has to be 8 to 20 characters long.</span>
+                                                <span ng-show='((editUser.password.length < 8 && editUser.password.length > 0) || editUserForm.newPassword.$error.maxlength) && editUserForm.newPassword.$dirty' class='error'>Password has to be 8 to 20 characters long.</span>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>Confirm Password</label><span class="required">*</span>
