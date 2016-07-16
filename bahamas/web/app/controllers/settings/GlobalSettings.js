@@ -7,13 +7,14 @@
 var app = angular.module('bahamas');
 
 app.controller('globalSettings',
-        ['$scope', '$rootScope', '$state', 'loadContactType', 'loadEventClass', 'loadEventLocation', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'ngDialog', '$uibModal',
-            function ($scope, $rootScope, $state, loadContactType, loadEventClass, loadEventLocation, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, ngDialog, $uibModal) {
+        ['$scope', '$rootScope', '$state', 'session', 'loadContactType', 'loadEventClass', 'loadEventLocation', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'ngDialog', '$uibModal',
+            function ($scope, $rootScope, $state, session, loadContactType, loadEventClass, loadEventLocation, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, ngDialog, $uibModal) {
 
                 $scope.backHome = function () {
                     $state.go('admin');
                 };
                 $scope.listNotChosen = true;
+                $rootScope.list = null;
                 $scope.getList = function () {
                     $scope.listNotChosen = false;
                     if ($scope.selectedList == 1) {
@@ -128,7 +129,9 @@ app.controller('globalSettings',
                         closeByEscape: false
                     }).then(function(){
                         $scope.listToSend = {};
-                        $scope.listToSend[$scope.selectedList] = $rootScope.list;
+                        $scope.listToSend['token'] = session.getSession('token');
+                        $scope.listToSend['list'] = $rootScope.list;
+                        $scope.listToSend['selectedList'] = $scope.selectedList;
                         console.log($scope.listToSend);
                         //call api to update list in DB. and upon success prompt update success.
                         
