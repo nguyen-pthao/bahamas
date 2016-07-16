@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('globalSettings',
-        ['$scope', '$rootScope', '$state', 'session', 'loadContactType', 'loadEventClass', 'loadEventLocation', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'ngDialog', '$uibModal',
-            function ($scope, $rootScope, $state, session, loadContactType, loadEventClass, loadEventLocation, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, ngDialog, $uibModal) {
+        ['$scope', '$rootScope', '$state', 'session', '$http', 'loadContactType', 'loadEventClass', 'loadEventLocation', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList', 'ngDialog', '$uibModal',
+            function ($scope, $rootScope, $state, session, $http, loadContactType, loadEventClass, loadEventLocation, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList, ngDialog, $uibModal) {
 
                 $scope.backHome = function () {
                     $state.go('admin');
@@ -127,14 +127,20 @@ app.controller('globalSettings',
                         className: 'ngdialog-theme-default',
                         closeByDocument: false,
                         closeByEscape: false
-                    }).then(function(){
+                    }).then(function () {
                         $scope.listToSend = {};
                         $scope.listToSend['token'] = session.getSession('token');
                         $scope.listToSend['list'] = $rootScope.list;
                         $scope.listToSend['selectedList'] = $scope.selectedList;
                         console.log($scope.listToSend);
                         //call api to update list in DB. and upon success prompt update success.
-                        
+                        $http({
+                            method: 'POST',
+                            url: $rootScope.commonUrl + '/updatelist',
+                            data: JSON.stringify($scope.listToSend)
+                        }).then(function(response){
+                            console.log(response);
+                        })
                     })
                 };
 
