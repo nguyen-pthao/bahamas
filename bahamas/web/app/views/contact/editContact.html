@@ -376,6 +376,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingPhone">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewPhone()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-2" ng-init="loadCountryCodes()">
                                             <label>Country code</label><span class="required">*</span>
@@ -475,6 +481,12 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
+                                                    <label>Verified email</label>
+                                                    <input type="text" ng-model="email['is_verified']" class="form-control white-background" readonly>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon btn" ng-click="openEmail($index)">
@@ -497,6 +509,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingEmail">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewEmail()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Email</label><span class="required">*</span>
@@ -629,6 +647,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingAddress">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewAddress()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Address</label><span class="required">*</span>
@@ -837,6 +861,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingMembership">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewMembership()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadMembershipList()">
                                             <label>Membership type</label><span class="required">*</span>
@@ -1048,6 +1078,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingOffice">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewOffice()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadOfficeHoldList()">
                                             <label>Office held</label><span class="required">*</span>
@@ -1286,6 +1322,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingDonation">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewDonation()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
                                             <label>Date received</label><span class="required">*</span>
@@ -1618,6 +1660,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'true'">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewTeam()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                             <label>Team</label><span class="required">*</span>
@@ -1664,6 +1712,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'false'">
+                                     <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewTeam()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label>First choice</label><span class="required">*</span>
                                         <select class="form-control" ng-model="teamPref.team1" name="teamPref1" empty>
@@ -1899,6 +1953,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingAppreciation">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewAppreciation()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Appraisal comments</label>
@@ -2063,6 +2123,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingProxy">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewProxy()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <label style="padding-left: 15px">Proxy</label><span class="required">*</span>
                                         <div class="col-md-12">
@@ -2204,6 +2270,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingLanguages">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewLanguages()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadLanguageList()">
                                             <label>Language</label><span class="required">*</span>
@@ -2341,6 +2413,12 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingSkills">
+                                    <div class="box-header">
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewSkills()">
+                                                <i class="fa fa-times fa-lg"></i></button>
+                                        </div>
+                                    </div>
                                     <div class="form-group col-md-12" style="margin-top: 15px">
                                         <div class="col-md-5" ng-init="loadLSAList()">
                                             <label>Skills or Assets</label><span class="required">*</span>

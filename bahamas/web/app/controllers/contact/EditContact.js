@@ -482,6 +482,11 @@ app.controller('editContact',
                         $scope.editEmail = contactToEdit.email;
                         for (var i = 0; i < contactToEdit.email.length; i++) {
                             $scope.editEmail[i]['date_obsolete'] = new Date(contactToEdit.email[i]['date_obsolete']);
+                            if(contactToEdit.email[i]['verified'] == 'true') {
+                                $scope.editEmail[i]['is_verified'] = 'Yes';
+                            } else {
+                                $scope.editEmail[i]['is_verified'] = 'No';
+                            }
                         }
                     } else {
                         $scope.editEmail = '';
@@ -813,7 +818,8 @@ app.controller('editContact',
                 //phone
                 $scope.addingPhone = false;
                 $scope.addNewPhone = function () {
-                    $scope.addingPhone = true;
+                    //$scope.addingPhone = true;
+                    $scope.addingPhone = !$scope.addingPhone;
                 };
                 $scope.resultPhone = {
                     'phone_number': '',
@@ -972,7 +978,8 @@ app.controller('editContact',
                 //email
                 $scope.addingEmail = false;
                 $scope.addNewEmail = function () {
-                    $scope.addingEmail = true;
+                    //$scope.addingEmail = true;
+                    $scope.addingEmail = !$scope.addingEmail;
                 };
                 $scope.resultEmail = {
                     email: '',
@@ -1130,7 +1137,8 @@ app.controller('editContact',
                 //address
                 $scope.addingAddress = false;
                 $scope.addNewAddress = function () {
-                    $scope.addingAddress = true;
+                    //$scope.addingAddress = true;
+                    $scope.addingAddress = !$scope.addingAddress;
                 };
                 $scope.resultAddress = {
                     address: '',
@@ -1287,7 +1295,8 @@ app.controller('editContact',
                 //membership
                 $scope.addingMembership = false;
                 $scope.addNewMembership = function () {
-                    $scope.addingMembership = true;
+                    //$scope.addingMembership = true;
+                    $scope.addingMembership = !$scope.addingMembership;
                 };
                 $scope.resultMembership = {
                     'membership_id': '',
@@ -1502,7 +1511,8 @@ app.controller('editContact',
                 //require office_held_id to be returned as well???
                 $scope.addingOffice = false;
                 $scope.addNewOffice = function () {
-                    $scope.addingOffice = true;
+                    //$scope.addingOffice = true;
+                    $scope.addingOffice = !$scope.addingOffice;
                 };
                 $scope.resultOffice = {
                     'office_held': '',
@@ -1683,7 +1693,8 @@ app.controller('editContact',
                 //donation
                 $scope.addingDonation = false;
                 $scope.addNewDonation = function () {
-                    $scope.addingDonation = true;
+                    //$scope.addingDonation = true;
+                    $scope.addingDonation = !$scope.addingDonation;
                 };
                 $scope.resultDonation = {
                     'donation_id': '',
@@ -1887,7 +1898,8 @@ app.controller('editContact',
                 //team join
                 $scope.addingTeam = false;
                 $scope.addNewTeam = function () {
-                    $scope.addingTeam = true;
+                    //$scope.addingTeam = true;
+                    $scope.addingTeam = !$scope.addingTeam;
                 };
                 $scope.resultTeam = {
                     'team_name': '',
@@ -2222,7 +2234,8 @@ app.controller('editContact',
                 //appreciation
                 $scope.addingAppreciation = false;
                 $scope.addNewAppreciation = function () {
-                    $scope.addingAppreciation = true;
+                    //$scope.addingAppreciation = true;
+                    $scope.addingAppreciation = !$scope.addingAppreciation;
                 };
                 $scope.resultAppreciation = {
                     'appreciation_id': '',
@@ -2405,7 +2418,8 @@ app.controller('editContact',
                 //proxy
                 $scope.addingProxy = false;
                 $scope.addNewProxy = function () {
-                    $scope.addingProxy = true;
+                    //$scope.addingProxy = true;
+                    $scope.addingProxy = !$scope.addingProxy;
                 };
                 $scope.resultProxy = {
                     'proxy_id': '',
@@ -2558,7 +2572,8 @@ app.controller('editContact',
                 //languages
                 $scope.addingLanguages = false;
                 $scope.addNewLanguages = function () {
-                    $scope.addingLanguages = true;
+                    //$scope.addingLanguages = true;
+                    $scope.addingLanguages = !$scope.addingLanguages;
                 };
                 $scope.resultLanguage = {
                     'language_name': '',
@@ -2720,7 +2735,8 @@ app.controller('editContact',
                 //skills and assets
                 $scope.addingSkills = false;
                 $scope.addNewSkills = function () {
-                    $scope.addingSkills = true;
+                    //$scope.addingSkills = true;
+                    $scope.addingSkills = !$scope.addingSkills;
                 };
                 $scope.resultSkill = {
                     'skill_name': '',
