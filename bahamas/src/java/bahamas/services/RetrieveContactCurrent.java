@@ -286,6 +286,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("email", "");
         }
+        jsonContactObj.addProperty("verified_email", "");
 
         if (addressList != null && !addressList.isEmpty()) {
 
