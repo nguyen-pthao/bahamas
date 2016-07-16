@@ -179,17 +179,20 @@ public class OfficeHeldDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean exist = false;
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?)");
+            //stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?) AND START_OFFICE = (?)");
+            stmt = conn.prepareStatement("SELECT COUNT(*) FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?) AND START_OFFICE = (?)");
             stmt.setInt(1, id);
             //stmt.setString(2, startDate);
             //stmt.setString(3, endDate);
             stmt.setString(2, officeHeldName);
+            stmt.setString(3, date.format(startDate));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                /*
                 String strStartDate1 = rs.getString(1) + " 00:00:00";
                 String strEndDate2 = rs.getString(2) + " 23:59:59";
                 Date startDateDB = date.parse(strStartDate1);
@@ -202,14 +205,20 @@ public class OfficeHeldDAO {
                 }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
                     exist = true;
                 }
+                */
+                int count = rs.getInt(1);
+                if (count >= 1) {
+                    exist = true;
+                }
             }
 
         } catch (SQLException ex) {
             Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_HELD from database", ex);
             ex.printStackTrace();
-        } catch (ParseException ex) {
-            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        }// catch (ParseException ex) {
+         //   Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, null, ex);
+         //} 
+        finally {
             ConnectionManager.close(conn, stmt, rs);
         }
         return exist;
