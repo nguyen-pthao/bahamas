@@ -86,9 +86,9 @@ public class AddAppreciation extends HttpServlet {
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
-                    json.addProperty("message", "fail");
+                    json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
-
+                    return;
                 } else {
                     //Verified token
                     int contactId = Validator.isIntValid(jobject.get("contact_id"));

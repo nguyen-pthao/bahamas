@@ -87,6 +87,12 @@ public class RetrieveAuditLog extends HttpServlet {
                 }
 
                 String username = Authenticator.verifyToken(token);
+                if (username == null) {
+                    json.addProperty("message", "invalid token");
+                    out.println(gson.toJson(json));
+                    return;
+                } 
+                
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 int cidTemp = Integer.parseInt(cidString);
