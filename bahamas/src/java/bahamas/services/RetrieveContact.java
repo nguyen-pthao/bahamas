@@ -98,6 +98,12 @@ public class RetrieveContact extends HttpServlet {
                 }
 
                 String username = Authenticator.verifyToken(token);
+                if (username == null) {
+                    json.addProperty("message", "invalid token");
+                    out.println(gson.toJson(json));
+                    return;
+                }
+                
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
@@ -107,7 +113,7 @@ public class RetrieveContact extends HttpServlet {
                 if (!contactList.isEmpty() && !contact.isIsNovice()) {
 
                     json.addProperty("message", "success");
-                    
+
                     if (contact.isIsAdmin()) {
                         JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
@@ -129,8 +135,7 @@ public class RetrieveContact extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-                    
-                    
+
                     /*                       
                     if (contact.isIsAdmin()) { //Admin
                         JsonArray contactArray = retrieveAll(contactList, true);
@@ -163,8 +168,7 @@ public class RetrieveContact extends HttpServlet {
                         }
 
                     }
-                    */
-
+                     */
                     //}
                 } else {
 
@@ -185,11 +189,11 @@ public class RetrieveContact extends HttpServlet {
         JsonObject jsonContactObj;
 
         for (Contact c : contactList) {
-            
+
             ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
             ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
             ArrayList<Address> addressList = AddressDAO.retrieveAllAddress(c);
-            
+
             String emailStr = "";
             String phoneStr = "";
             String addressStr = "";
@@ -203,76 +207,73 @@ public class RetrieveContact extends HttpServlet {
             String gender = c.getGender();
             String nationality = c.getNationality();
             String remarks = c.getRemarks();
-            
-            if(name == null){
+
+            if (name == null) {
                 name = "";
             }
-            if(altName == null){
+            if (altName == null) {
                 altName = "";
             }
-            if(contactType == null){
+            if (contactType == null) {
                 contactType = "";
             }
-            if(explainIfOther == null){
+            if (explainIfOther == null) {
                 explainIfOther = "";
             }
-            if(profession == null){
+            if (profession == null) {
                 profession = "";
             }
-            if(jobTitle == null){
+            if (jobTitle == null) {
                 jobTitle = "";
             }
-            if(nric == null){
+            if (nric == null) {
                 nric = "";
             }
-            if(gender == null){
+            if (gender == null) {
                 gender = "";
             }
-            if(nationality == null){
+            if (nationality == null) {
                 nationality = "";
             }
-            if(remarks == null){
+            if (remarks == null) {
                 remarks = "";
             }
-            
-            
-            if(!emailList.isEmpty()){
-                
-                for(int i = 0; i < emailList.size()-1; i++){
+
+            if (!emailList.isEmpty()) {
+
+                for (int i = 0; i < emailList.size() - 1; i++) {
                     Email email = emailList.get(i);
                     emailStr += email.getEmail() + " | ";
                 }
-                Email email = emailList.get(emailList.size()-1);
+                Email email = emailList.get(emailList.size() - 1);
                 emailStr += email.getEmail();
-                
+
             }
-            if(!phoneList.isEmpty()){
-                
-                for(int i = 0; i < phoneList.size()-1; i++){
+            if (!phoneList.isEmpty()) {
+
+                for (int i = 0; i < phoneList.size() - 1; i++) {
                     Phone phone = phoneList.get(i);
-                    phoneStr += "+" +phone.getCountryCode() + "-" + phone.getPhoneNumber() + " | ";
+                    phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber() + " | ";
                 }
-                Phone phone = phoneList.get(phoneList.size()-1);
-                phoneStr += "+" +phone.getCountryCode() + "-" + phone.getPhoneNumber();
-                
+                Phone phone = phoneList.get(phoneList.size() - 1);
+                phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber();
+
             }
-            if(!addressList.isEmpty()){
-                
-                for(int i = 0; i < addressList.size()-1; i++){
+            if (!addressList.isEmpty()) {
+
+                for (int i = 0; i < addressList.size() - 1; i++) {
                     Address address = addressList.get(i);
                     addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode() + " | ";
                 }
-                Address address = addressList.get(addressList.size()-1);
+                Address address = addressList.get(addressList.size() - 1);
                 addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode();
-                
+
             }
-            
-            
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", name);
             jsonContactObj.addProperty("alt_name", altName);
-            if(unlock){
+            if (unlock) {
                 jsonContactObj.addProperty("phone", phoneStr);
             }
             jsonContactObj.addProperty("email", emailStr);
@@ -293,7 +294,7 @@ public class RetrieveContact extends HttpServlet {
             }
             jsonContactObj.addProperty("address", addressStr);
             jsonContactObj.addProperty("remarks", remarks);
-            */
+             */
             contactArray.add(jsonContactObj);
             jsonContactObj.addProperty("cid", c.getContactId());
         }

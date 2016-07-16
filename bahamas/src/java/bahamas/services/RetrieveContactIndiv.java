@@ -5,7 +5,6 @@ package bahamas.services;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import bahamas.dao.AddressDAO;
 import bahamas.dao.AppreciationDAO;
 import bahamas.dao.ContactDAO;
@@ -62,7 +61,8 @@ import javax.servlet.http.HttpServletResponse;
 public class RetrieveContactIndiv extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -106,36 +106,43 @@ public class RetrieveContactIndiv extends HttpServlet {
                 //String permission = jobject.get("permission").getAsString();
                 //String teamName = jobject.get("team_name").getAsString();
 
-                if ((token == null || token.isEmpty()) || (otherCidString == null || otherCidString.isEmpty() ) ) {
+                if ((token == null || token.isEmpty()) || (otherCidString == null || otherCidString.isEmpty())) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
                 }
 
                 String username = Authenticator.verifyToken(token);
+
+                if (username == null) {
+                    json.addProperty("message", "invalid token");
+                    out.println(gson.toJson(json));
+                    return;
+                }
+
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 //int cid = Integer.parseInt(cidString);
                 int otherCid = Integer.parseInt(otherCidString);
                 Contact viewContact = contactDAO.retrieveContactById(otherCid);
-                
+
                 if (viewContact != null && !contact.isIsNovice()) {
 
                     json.addProperty("message", "success");
-                    
+
                     /*
                     try to add there
                     if (contact.isIsNovice()) {
                         json.addProperty("user_type", "novice");
                     } 
-                    */
+                     */
                     if (contact.isIsAdmin()) {
-                        JsonArray contactArray = retrieveContactDetails(viewContact, contact.isIsAdmin(),false, false, Integer.toString(contact.getContactId()));
+                        JsonArray contactArray = retrieveContactDetails(viewContact, contact.isIsAdmin(), false, false, Integer.toString(contact.getContactId()));
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
-                        JsonArray contactArray = retrieveContactDetails(viewContact, false, true , false, Integer.toString(contact.getContactId()));
+                        JsonArray contactArray = retrieveContactDetails(viewContact, false, true, false, Integer.toString(contact.getContactId()));
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
@@ -144,13 +151,13 @@ public class RetrieveContactIndiv extends HttpServlet {
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
-                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")){
+                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
                         JsonArray contactArray = retrieveContactDetails(viewContact, false, false, false, Integer.toString(contact.getContactId()));
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
                     }
-                    
+
                     /*                     
                     if (contact.isIsAdmin()) { //Admin
                         JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
@@ -184,8 +191,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
                     }
                     
-                    */
-                  
+                     */
                 } else {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
@@ -197,7 +203,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
         }
     }
-    
+
     private static JsonArray retrieveContactDetails(Contact contact, boolean isAdmin, boolean isTeamMgt, boolean isEventLead, String cidString) {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
         SimpleDateFormat sdft = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -216,13 +222,12 @@ public class RetrieveContactIndiv extends HttpServlet {
         JsonArray jsonObjDonation = new JsonArray();
         JsonArray jsonObjTeamJoin = new JsonArray();
         boolean emailVerified = false;
-        
 
         ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(contact);
         ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(contact);
         ArrayList<Address> addressList = AddressDAO.retrieveAllAddress(contact);
         ArrayList<OfficeHeld> officeHeldList = OfficeHeldDAO.retrieveOfficeHeldByCID(contact.getContactId());
-        
+
         ArrayList<Proxy> proxyList = ProxyDAO.retrieveByProxyCID(contact.getContactId());
         ArrayList<Membership> membershipList = MembershipDAO.retrieveMembershipByCID(contact.getContactId());
         ArrayList<LanguageAssignment> languageAssignmentList = LanguageDAO.retrieveLanguageByCID(contact.getContactId());
@@ -235,7 +240,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         String phoneStr = "";
         String addressStr = "";
         String officeHeldStr = "";
-        
+
         String name = contact.getName();
         String altName = contact.getAltName();
         String contactType = contact.getContactType();
@@ -277,21 +282,20 @@ public class RetrieveContactIndiv extends HttpServlet {
         if (remarks == null) {
             remarks = "";
         }
- 
 
         jsonContactObj = new JsonObject();
         jsonContactObj.addProperty("other_cid", contact.getContactId());
         jsonContactObj.addProperty("is_admin", Boolean.toString(contact.isIsAdmin()));
-        if(isAdmin){
+        if (isAdmin) {
             if (contact.getUsername() != null) {
                 jsonContactObj.addProperty("username", contact.getUsername());
             } else {
                 jsonContactObj.addProperty("username", "");
             }
-            jsonContactObj.addProperty("deactivated",Boolean.toString(contact.isDeactivated()));
+            jsonContactObj.addProperty("deactivated", Boolean.toString(contact.isDeactivated()));
         }
         jsonContactObj.addProperty("name", name);
-        if (isAdmin || isTeamMgt){
+        if (isAdmin || isTeamMgt) {
             if (contact.getNric() != null) {
                 jsonContactObj.addProperty("nric_fin", contact.getNric());
             } else {
@@ -301,9 +305,9 @@ public class RetrieveContactIndiv extends HttpServlet {
         jsonContactObj.addProperty("alt_name", altName);
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
-        
-        if (isAdmin || isTeamMgt){
-            
+
+        if (isAdmin || isTeamMgt) {
+
             jsonContactObj.addProperty("profession", profession);
             jsonContactObj.addProperty("job_title", jobTitle);
             jsonContactObj.addProperty("gender", gender);
@@ -313,12 +317,12 @@ public class RetrieveContactIndiv extends HttpServlet {
             } else {
                 jsonContactObj.addProperty("date_of_birth", "");
             }
-            jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
-            jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
-            
+            jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));
+            jsonContactObj.addProperty("created_by", contact.getCreatedBy());
+
         }
         jsonContactObj.addProperty("remarks", remarks);
-        if (isAdmin || isTeamMgt || isEventLead){
+        if (isAdmin || isTeamMgt || isEventLead) {
             if (phoneList != null && !phoneList.isEmpty()) {
 
                 for (int i = 0; i < phoneList.size(); i++) {
@@ -341,7 +345,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                         jsonPhoneObj.addProperty("date_obsolete", "");
                     }
                     jsonPhoneObj.addProperty("created_by", phone.getCreatedBy());
-                    jsonPhoneObj.addProperty("date_created", sdft.format(phone.getDateCreated()));    
+                    jsonPhoneObj.addProperty("date_created", sdft.format(phone.getDateCreated()));
                     jsonObjPhone.add(jsonPhoneObj);
                     jsonContactObj.add("phone", jsonObjPhone);
                 }
@@ -350,17 +354,16 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("phone", "");
             }
         }
-        
-        
+
         if (emailList != null && !emailList.isEmpty()) {
-            
+
             for (int i = 0; i < emailList.size(); i++) {
                 JsonObject jsonEmailObj = new JsonObject();
                 JsonObject jsonEmailVerifiedObj = new JsonObject();
                 Email email = emailList.get(i);
-                
+
                 jsonEmailObj.addProperty("email", email.getEmail());
-                
+
                 if (email.getRemarks() != null) {
                     jsonEmailObj.addProperty("remarks", email.getRemarks());
                 } else {
@@ -372,22 +375,22 @@ public class RetrieveContactIndiv extends HttpServlet {
                 } else {
                     jsonEmailObj.addProperty("date_obsolete", "");
                 }
-             
-                if (isAdmin || isTeamMgt || isEventLead){
+
+                if (isAdmin || isTeamMgt || isEventLead) {
                     jsonEmailObj.addProperty("created_by", email.getCreatedBy());
-                    jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));    
+                    jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));
                     jsonEmailObj.addProperty("verified", Boolean.toString(email.getVerified()));
-                    if(email.getVerified()){
+                    if (email.getVerified()) {
                         jsonEmailVerifiedObj.addProperty("verified_email", email.getEmail());
                         jsonObjEmailVerified.add(jsonEmailVerifiedObj);
                         jsonContactObj.add("verified_email", jsonObjEmailVerified);
                         emailVerified = true;
                     }
                 }
-                
-                jsonObjEmail.add(jsonEmailObj);  
+
+                jsonObjEmail.add(jsonEmailObj);
                 jsonContactObj.add("email", jsonObjEmail);
-                
+
             }
 
         } else {
@@ -396,8 +399,8 @@ public class RetrieveContactIndiv extends HttpServlet {
         if (!emailVerified && isAdmin) {
             jsonContactObj.addProperty("verified_email", "");
         }
-       
-        if(isAdmin || isTeamMgt || isEventLead){
+
+        if (isAdmin || isTeamMgt || isEventLead) {
             if (addressList != null && !addressList.isEmpty()) {
 
                 for (int i = 0; i < addressList.size(); i++) {
@@ -429,7 +432,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                         jsonAddressObj.addProperty("date_obsolete", "");
                     }
                     jsonAddressObj.addProperty("created_by", address.getCreatedBy());
-                    jsonAddressObj.addProperty("date_created", sdft.format(address.getDateCreated()));    
+                    jsonAddressObj.addProperty("date_created", sdft.format(address.getDateCreated()));
                     jsonObjAddress.add(jsonAddressObj);
                     jsonContactObj.add("address", jsonObjAddress);
                 }
@@ -438,9 +441,9 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("address", "");
             }
         }
-        
+
         //offic
-        if(isAdmin || isTeamMgt || isEventLead){
+        if (isAdmin || isTeamMgt || isEventLead) {
             if (officeHeldList != null && !officeHeldList.isEmpty()) {
 
                 for (int i = 0; i < officeHeldList.size(); i++) {
@@ -466,7 +469,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             }
         }
         //proxyList
-        if(isAdmin || isTeamMgt || isEventLead){
+        if (isAdmin || isTeamMgt || isEventLead) {
             if (proxyList != null && !proxyList.isEmpty()) {
 
                 for (int i = 0; i < proxyList.size(); i++) {
@@ -486,7 +489,6 @@ public class RetrieveContactIndiv extends HttpServlet {
                     } else {
                         jsonProxyObj.addProperty("proxy_standing", "");
                     }
-
 
                     if (proxy.getRemarks() != null) {
                         jsonProxyObj.addProperty("remarks", proxy.getRemarks());
@@ -509,7 +511,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             }
         }
         //membershipList
-        if(isAdmin || isTeamMgt || isEventLead){
+        if (isAdmin || isTeamMgt || isEventLead) {
             if (membershipList != null && !membershipList.isEmpty()) {
 
                 for (int i = 0; i < membershipList.size(); i++) {
@@ -526,7 +528,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                     } else {
                         jsonMembershipObj.addProperty("end_date", "");
                     }
-                    if (membership.getReceiptDate()!= null) {
+                    if (membership.getReceiptDate() != null) {
                         jsonMembershipObj.addProperty("receipt_date", sdf.format(membership.getReceiptDate()));
                     } else {
                         jsonMembershipObj.addProperty("receipt_date", "");
@@ -561,27 +563,27 @@ public class RetrieveContactIndiv extends HttpServlet {
                     } else {
                         jsonMembershipObj.addProperty("receipt_mode_name", "");
                     }
-                    if (membership.getExplainIfOtherReceipt()!= null) {
+                    if (membership.getExplainIfOtherReceipt() != null) {
                         jsonMembershipObj.addProperty("explain_if_other_receipt", membership.getExplainIfOtherReceipt());
                     } else {
                         jsonMembershipObj.addProperty("explain_if_other_receipt", "");
                     }
-                    if (membership.getMembershipClassName()!= null) {
+                    if (membership.getMembershipClassName() != null) {
                         jsonMembershipObj.addProperty("membership_class_name", membership.getMembershipClassName());
                     } else {
                         jsonMembershipObj.addProperty("membership_class_name", "");
                     }
-                    if (membership.getExplainIfOtherClass()!= null) {
+                    if (membership.getExplainIfOtherClass() != null) {
                         jsonMembershipObj.addProperty("explain_if_other_class", membership.getExplainIfOtherClass());
                     } else {
                         jsonMembershipObj.addProperty("explain_if_other_class", "");
                     }
-                    if (membership.getPaymentModeName()!= null) {
+                    if (membership.getPaymentModeName() != null) {
                         jsonMembershipObj.addProperty("payment_mode_name", membership.getPaymentModeName());
                     } else {
                         jsonMembershipObj.addProperty("payment_mode_name", "");
                     }
-                    if (membership.getExplainIfOtherPayment()!= null) {
+                    if (membership.getExplainIfOtherPayment() != null) {
                         jsonMembershipObj.addProperty("explain_if_other_payment", membership.getExplainIfOtherPayment());
                     } else {
                         jsonMembershipObj.addProperty("explain_if_other_payment", "");
@@ -597,18 +599,18 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
         //languageAssignmentList
         if (languageAssignmentList != null && !languageAssignmentList.isEmpty()) {
-            
+
             for (int i = 0; i < languageAssignmentList.size(); i++) {
                 JsonObject jsonLanguageListObj = new JsonObject();
                 LanguageAssignment languageAssignment = languageAssignmentList.get(i);
-                
+
                 jsonLanguageListObj.addProperty("language_name", languageAssignment.getLanguage());
-                if (languageAssignment.getProficiency()!= null) {
+                if (languageAssignment.getProficiency() != null) {
                     jsonLanguageListObj.addProperty("proficiency", languageAssignment.getProficiency());
                 } else {
                     jsonLanguageListObj.addProperty("proficiency", "");
                 }
-                if (languageAssignment.getExplainIfOther()!= null) {
+                if (languageAssignment.getExplainIfOther() != null) {
                     jsonLanguageListObj.addProperty("explain_if_other", languageAssignment.getExplainIfOther());
                 } else {
                     jsonLanguageListObj.addProperty("explain_if_other", "");
@@ -623,7 +625,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                 } else {
                     jsonLanguageListObj.addProperty("date_obsolete", "");
                 }
-                if(isAdmin || isTeamMgt || isEventLead){
+                if (isAdmin || isTeamMgt || isEventLead) {
                     jsonLanguageListObj.addProperty("created_by", languageAssignment.getCreatedBy());
                     jsonLanguageListObj.addProperty("date_created", sdft.format(languageAssignment.getDateCreated()));
                 }
@@ -634,17 +636,17 @@ public class RetrieveContactIndiv extends HttpServlet {
         } else {
             jsonContactObj.addProperty("language_assignment", "");
         }
-        
+
         //skillAssignmentList
         if (skillAssignmentList != null && !skillAssignmentList.isEmpty()) {
-            
+
             for (int i = 0; i < skillAssignmentList.size(); i++) {
                 JsonObject jsonSkillListObj = new JsonObject();
                 SkillAssignment skillAssignment = skillAssignmentList.get(i);
 
                 jsonSkillListObj.addProperty("skill_name", skillAssignment.getSkillName());
-                
-                if (skillAssignment.getExplainIfOther()!= null) {
+
+                if (skillAssignment.getExplainIfOther() != null) {
                     jsonSkillListObj.addProperty("explain_if_other", skillAssignment.getExplainIfOther());
                 } else {
                     jsonSkillListObj.addProperty("explain_if_other", "");
@@ -659,7 +661,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                 } else {
                     jsonSkillListObj.addProperty("date_obsolete", "");
                 }
-                if(isAdmin || isTeamMgt || isEventLead){
+                if (isAdmin || isTeamMgt || isEventLead) {
                     jsonSkillListObj.addProperty("created_by", skillAssignment.getCreatedBy());
                     jsonSkillListObj.addProperty("date_created", sdft.format(skillAssignment.getDateCreated()));
                 }
@@ -672,7 +674,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         }
 
         //appreciationList jsonObjappreciation
-        if(isAdmin || isTeamMgt){
+        if (isAdmin || isTeamMgt) {
             if (appreciationList != null && !appreciationList.isEmpty()) {
 
                 for (int i = 0; i < appreciationList.size(); i++) {
@@ -681,14 +683,12 @@ public class RetrieveContactIndiv extends HttpServlet {
 
                     jsonAppreciationObj.addProperty("appreciation_id", Integer.toString(appreciation.getAppreciationId()));
 
-
-
-                    if (appreciation.getAppraisalComments()!= null) {
+                    if (appreciation.getAppraisalComments() != null) {
                         jsonAppreciationObj.addProperty("appraisal_comments", appreciation.getAppraisalComments());
                     } else {
                         jsonAppreciationObj.addProperty("appraisal_comments", "");
                     }
-                    if (appreciation.getAppraisalBy()!= null) {
+                    if (appreciation.getAppraisalBy() != null) {
                         jsonAppreciationObj.addProperty("appraisal_by", appreciation.getAppraisalBy());
                     } else {
                         jsonAppreciationObj.addProperty("appraisal_by", "");
@@ -698,17 +698,17 @@ public class RetrieveContactIndiv extends HttpServlet {
                     } else {
                         jsonAppreciationObj.addProperty("appraisal_date", "");
                     }
-                    if (appreciation.getAppreciationGesture()!= null) {
+                    if (appreciation.getAppreciationGesture() != null) {
                         jsonAppreciationObj.addProperty("appreciation_gesture", appreciation.getAppreciationGesture());
                     } else {
                         jsonAppreciationObj.addProperty("appreciation_gesture", "");
                     }
-                     if (appreciation.getAppreciationBy()!= null) {
+                    if (appreciation.getAppreciationBy() != null) {
                         jsonAppreciationObj.addProperty("appreciation_by", appreciation.getAppreciationBy());
                     } else {
                         jsonAppreciationObj.addProperty("appreciation_by", "");
                     }
-                    if (appreciation.getAppreciationDate()!= null) {
+                    if (appreciation.getAppreciationDate() != null) {
                         jsonAppreciationObj.addProperty("appreciation_date", sdf.format(appreciation.getAppreciationDate()));
                     } else {
                         jsonAppreciationObj.addProperty("appreciation_date", "");
@@ -729,9 +729,9 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("appreciation", "");
             }
         }
-        
+
         //donationList
-        if(isAdmin || isTeamMgt){
+        if (isAdmin || isTeamMgt) {
             if (donationList != null && !donationList.isEmpty()) {
 
                 for (int i = 0; i < donationList.size(); i++) {
@@ -739,7 +739,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                     Donation donation = donationList.get(i);
 
                     jsonDonationObj.addProperty("donation_id", Integer.toString(donation.getDonationId()));
-                    if (donation.getDateReceived()!= null) {
+                    if (donation.getDateReceived() != null) {
                         jsonDonationObj.addProperty("date_received", sdf.format(donation.getDateReceived()));
                     } else {
                         jsonDonationObj.addProperty("date_received", "");
@@ -747,34 +747,33 @@ public class RetrieveContactIndiv extends HttpServlet {
                     jsonDonationObj.addProperty("donation_amount", donation.getDonationAmount());
                     jsonDonationObj.addProperty("payment_mode", donation.getPaymentMode());
 
-
-                    if (donation.getExplainIfOtherPayment()!= null) {
+                    if (donation.getExplainIfOtherPayment() != null) {
                         jsonDonationObj.addProperty("explain_if_other_payment", donation.getExplainIfOtherPayment());
                     } else {
                         jsonDonationObj.addProperty("explain_if_other_payment", "");
                     }
-                    if (donation.getExtTransactionRef()!= null) {
+                    if (donation.getExtTransactionRef() != null) {
                         jsonDonationObj.addProperty("ext_transaction_ref", donation.getExtTransactionRef());
                     } else {
                         jsonDonationObj.addProperty("ext_transaction_ref", "");
                     }
-                    if (donation.getReceiptNumber()!= null) {
+                    if (donation.getReceiptNumber() != null) {
                         jsonDonationObj.addProperty("receipt_number", donation.getReceiptNumber());
                     } else {
                         jsonDonationObj.addProperty("receipt_number", "");
                     }
-                    if (donation.getReceiptDate()!= null) {
+                    if (donation.getReceiptDate() != null) {
                         jsonDonationObj.addProperty("receipt_date", sdf.format(donation.getReceiptDate()));
                     } else {
                         jsonDonationObj.addProperty("receipt_date", "");
                     }
                     jsonDonationObj.addProperty("receipt_mode_name", donation.getReceiptMode());
-                    if (donation.getExplainIfOtherReceipt()!= null) {
+                    if (donation.getExplainIfOtherReceipt() != null) {
                         jsonDonationObj.addProperty("explain_if_other_receipt", donation.getExplainIfOtherReceipt());
                     } else {
                         jsonDonationObj.addProperty("explain_if_other_receipt", "");
                     }
-                    if (donation.getDonorInstructions()!= null) {
+                    if (donation.getDonorInstructions() != null) {
                         jsonDonationObj.addProperty("donor_instructions", donation.getDonorInstructions());
                     } else {
                         jsonDonationObj.addProperty("donor_instructions", "");
@@ -809,7 +808,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                     } else {
                         jsonDonationObj.addProperty("subtotal3", "");
                     }
-                    if (donation.getAssociatedOccasion()!= null) {
+                    if (donation.getAssociatedOccasion() != null) {
                         jsonDonationObj.addProperty("associated_occasion", donation.getAssociatedOccasion());
                     } else {
                         jsonDonationObj.addProperty("associated_occasion", "");
@@ -829,9 +828,9 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("donation", "");
             }
         }
-        
-        if(isAdmin || isTeamMgt || isEventLead){
-        //jsonObjTeamJoin teamJoinList
+
+        if (isAdmin || isTeamMgt || isEventLead) {
+            //jsonObjTeamJoin teamJoinList
             if (teamJoinList != null && !teamJoinList.isEmpty()) {
 
                 for (int i = 0; i < teamJoinList.size(); i++) {
@@ -839,18 +838,18 @@ public class RetrieveContactIndiv extends HttpServlet {
                     TeamJoin teamJoin = teamJoinList.get(i);
 
                     jsonTeamJoinObj.addProperty("team_name", teamJoin.getTeamName());
-                    if(teamJoin.getPermission() == null || teamJoin.getPermission().isEmpty()){
+                    if (teamJoin.getPermission() == null || teamJoin.getPermission().isEmpty()) {
                         jsonTeamJoinObj.addProperty("permission", "Pending");
-                    }else{
+                    } else {
                         jsonTeamJoinObj.addProperty("permission", teamJoin.getPermission());
                     }
 
-                    if (teamJoin.getExplainIfOthers()!= null) {
+                    if (teamJoin.getExplainIfOthers() != null) {
                         jsonTeamJoinObj.addProperty("explain_if_others", teamJoin.getExplainIfOthers());
                     } else {
                         jsonTeamJoinObj.addProperty("explain_if_others", "");
                     }
-                    if (teamJoin.getSubTeam()!= null) {
+                    if (teamJoin.getSubTeam() != null) {
                         jsonTeamJoinObj.addProperty("sub_team", teamJoin.getSubTeam());
                     } else {
                         jsonTeamJoinObj.addProperty("sub_team", "");
@@ -866,7 +865,6 @@ public class RetrieveContactIndiv extends HttpServlet {
                         jsonTeamJoinObj.addProperty("remarks", "");
                     }
 
-
                     jsonTeamJoinObj.addProperty("created_by", teamJoin.getCreatedBy());
                     jsonTeamJoinObj.addProperty("date_created", sdft.format(teamJoin.getDateCreated()));
                     jsonObjTeamJoin.add(jsonTeamJoinObj);
@@ -877,13 +875,12 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("team_join", "");
             }
         }
-        
+
         contactArray.add(jsonContactObj);
         jsonContactObj.addProperty("cid", Integer.parseInt(cidString));
 
         return contactArray;
     }
-    
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

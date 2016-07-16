@@ -81,19 +81,12 @@ public class AddAddress extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String username = null;
-                try {
-                    username = Authenticator.verifyToken(token);
-                } catch (JWTException e) {
+                String username = Authenticator.verifyToken(token);
+                             
+                if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                     return;
-                }
-                
-                if (username == null) {
-                    json.addProperty("message", "fail");
-                    out.println(gson.toJson(json));
-
                 } else {
                     //Verified token
                     int contactId = Validator.isIntValid(jobject.get("contact_id"));

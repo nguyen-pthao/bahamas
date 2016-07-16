@@ -5,8 +5,6 @@
  */
 package bahamas.util;
 
-import is203.JWTException;
-import is203.JWTUtility;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -28,7 +26,9 @@ public class Authenticator {
             props.load(is);
 
             String key = props.getProperty("secret.key");
-            token = JWTUtility.sign(key, username);
+            token = JWT.createJWT(username, key);
+
+            return token;
 
         } catch (Exception ex) {
             String message = "Unable to load '" + PROPS_FILENAME + "'.";
@@ -42,7 +42,7 @@ public class Authenticator {
         }
     }
 
-    public static String verifyToken(String token) throws JWTException {
+    public static String verifyToken(String token) {
         String username = null;
         try {
             InputStream is = Authenticator.class.getResourceAsStream(PROPS_FILENAME);
@@ -50,8 +50,8 @@ public class Authenticator {
             props.load(is);
 
             String key = props.getProperty("secret.key");
-            username = JWTUtility.verify(token,key);
-            
+            username = JWT.parseJWT(token, key);
+
             return username;
 
         } catch (Exception ex) {

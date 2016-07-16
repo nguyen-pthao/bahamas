@@ -59,7 +59,8 @@ import javax.servlet.http.HttpServletResponse;
 public class RetrieveContactCurrent extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -103,6 +104,13 @@ public class RetrieveContactCurrent extends HttpServlet {
                     return;
                 }
                 String username = Authenticator.verifyToken(token);
+
+                if (username == null) {
+                    json.addProperty("message", "invalid token");
+                    out.println(gson.toJson(json));
+                    return;
+                }
+
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 if (contact != null) {
@@ -110,12 +118,12 @@ public class RetrieveContactCurrent extends HttpServlet {
                     json.addProperty("message", "success");
                     json.add("contact", contactArray);
                     out.println(gson.toJson(json));
-                    
+
                 }
             }
         }
     }
-    
+
     private static JsonObject retrieveContact(Contact contact) {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
         SimpleDateFormat sdft = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
@@ -131,13 +139,12 @@ public class RetrieveContactCurrent extends HttpServlet {
         JsonArray jsonObjAppreciation = new JsonArray();
         JsonArray jsonObjDonation = new JsonArray();
         JsonArray jsonObjTeamJoin = new JsonArray();
-        
 
         ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(contact);
         ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(contact);
         ArrayList<Address> addressList = AddressDAO.retrieveAllAddress(contact);
         ArrayList<OfficeHeld> officeHeldList = OfficeHeldDAO.retrieveOfficeHeldByCID(contact.getContactId());
-        
+
         ArrayList<Proxy> proxyList = ProxyDAO.retrieveByProxyCID(contact.getContactId());
         ArrayList<Membership> membershipList = MembershipDAO.retrieveMembershipByCID(contact.getContactId());
         ArrayList<LanguageAssignment> languageAssignmentList = LanguageDAO.retrieveLanguageByCID(contact.getContactId());
@@ -150,7 +157,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         String phoneStr = "";
         String addressStr = "";
         String officeHeldStr = "";
-        
+
         String name = contact.getName();
         String altName = contact.getAltName();
         String contactType = contact.getContactType();
@@ -192,7 +199,6 @@ public class RetrieveContactCurrent extends HttpServlet {
         if (remarks == null) {
             remarks = "";
         }
- 
 
         jsonContactObj = new JsonObject();
         jsonContactObj.addProperty("cid", contact.getContactId());
@@ -216,11 +222,11 @@ public class RetrieveContactCurrent extends HttpServlet {
             jsonContactObj.addProperty("date_of_birth", "");
         }
         jsonContactObj.addProperty("remarks", remarks);
-        jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));    
-        jsonContactObj.addProperty("created_by", contact.getCreatedBy());   
-        
+        jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));
+        jsonContactObj.addProperty("created_by", contact.getCreatedBy());
+
         if (phoneList != null && !phoneList.isEmpty()) {
-            
+
             for (int i = 0; i < phoneList.size(); i++) {
                 JsonObject jsonPhoneObj = new JsonObject();
                 Phone phone = phoneList.get(i);
@@ -228,20 +234,20 @@ public class RetrieveContactCurrent extends HttpServlet {
                 jsonPhoneObj.addProperty("country_code", phone.getCountryCode());
                 jsonPhoneObj.addProperty("phone_number", phone.getPhoneNumber());
                 //jsonPhoneObj.addProperty("remarks", phone.getRemarks());
-                
+
                 if (phone.getRemarks() != null) {
                     jsonPhoneObj.addProperty("remarks", phone.getRemarks());
                 } else {
                     jsonPhoneObj.addProperty("remarks", "");
                 }
-                
+
                 if (phone.getDateObsolete() != null) {
                     jsonPhoneObj.addProperty("date_obsolete", sdf.format(phone.getDateObsolete()));
                 } else {
                     jsonPhoneObj.addProperty("date_obsolete", "");
                 }
                 jsonPhoneObj.addProperty("created_by", phone.getCreatedBy());
-                jsonPhoneObj.addProperty("date_created", sdft.format(phone.getDateCreated()));    
+                jsonPhoneObj.addProperty("date_created", sdft.format(phone.getDateCreated()));
                 jsonObjPhone.add(jsonPhoneObj);
                 jsonContactObj.add("phone", jsonObjPhone);
             }
@@ -249,32 +255,29 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("phone", "");
         }
-        
-        
-        
+
         if (emailList != null && !emailList.isEmpty()) {
-            
+
             for (int i = 0; i < emailList.size(); i++) {
                 JsonObject jsonEmailObj = new JsonObject();
                 Email email = emailList.get(i);
                 //phoneStr += "+" + phone.getCountryCode() + " " + phone.getPhoneNumber() + " | ";
                 jsonEmailObj.addProperty("email", email.getEmail());
-                
+
                 //jsonPhoneObj.addProperty("remarks", phone.getRemarks());
-                
                 if (email.getRemarks() != null) {
                     jsonEmailObj.addProperty("remarks", email.getRemarks());
                 } else {
                     jsonEmailObj.addProperty("remarks", "");
                 }
-                
+
                 if (email.getDateObsolete() != null) {
                     jsonEmailObj.addProperty("date_obsolete", sdf.format(email.getDateObsolete()));
                 } else {
                     jsonEmailObj.addProperty("date_obsolete", "");
                 }
                 jsonEmailObj.addProperty("created_by", email.getCreatedBy());
-                jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));    
+                jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));
                 jsonObjEmail.add(jsonEmailObj);
                 jsonContactObj.add("email", jsonObjEmail);
                 jsonEmailObj.addProperty("verified", email.getVerified());
@@ -283,28 +286,27 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("email", "");
         }
-       
-        
+
         if (addressList != null && !addressList.isEmpty()) {
-            
+
             for (int i = 0; i < addressList.size(); i++) {
                 JsonObject jsonAddressObj = new JsonObject();
                 Address address = addressList.get(i);
-                
+
                 if (address.getCountry() != null) {
                     jsonAddressObj.addProperty("country", address.getCountry());
                 } else {
                     jsonAddressObj.addProperty("country", "");
                 }
-                            
+
                 jsonAddressObj.addProperty("address", address.getAddress());
-                
+
                 if (address.getCountry() != null) {
                     jsonAddressObj.addProperty("zipcode", address.getZipcode());
                 } else {
                     jsonAddressObj.addProperty("zipcode", "");
                 }
-                
+
                 if (address.getRemarks() != null) {
                     jsonAddressObj.addProperty("remarks", address.getRemarks());
                 } else {
@@ -316,7 +318,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                     jsonAddressObj.addProperty("date_obsolete", "");
                 }
                 jsonAddressObj.addProperty("created_by", address.getCreatedBy());
-                jsonAddressObj.addProperty("date_created", sdft.format(address.getDateCreated()));    
+                jsonAddressObj.addProperty("date_created", sdft.format(address.getDateCreated()));
                 jsonObjAddress.add(jsonAddressObj);
                 jsonContactObj.add("address", jsonObjAddress);
             }
@@ -324,15 +326,14 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("address", "");
         }
-        
-        
+
         //offic
         if (officeHeldList != null && !officeHeldList.isEmpty()) {
-            
+
             for (int i = 0; i < officeHeldList.size(); i++) {
                 JsonObject jsonOfficeHObj = new JsonObject();
                 OfficeHeld officeHeld = officeHeldList.get(i);
-                
+
                 jsonOfficeHObj.addProperty("office_held", officeHeld.getOfficeHeldPosition());
                 jsonOfficeHObj.addProperty("start_office", sdf.format(officeHeld.getStartOffice()));
                 jsonOfficeHObj.addProperty("end_office", sdf.format(officeHeld.getEndOffice()));
@@ -350,10 +351,10 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("office_held", "");
         }
-        
+
         //proxyList
         if (proxyList != null && !proxyList.isEmpty()) {
-            
+
             for (int i = 0; i < proxyList.size(); i++) {
                 JsonObject jsonProxyObj = new JsonObject();
                 Proxy proxy = proxyList.get(i);
@@ -371,7 +372,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonProxyObj.addProperty("proxy_standing", "");
                 }
-                
+
                 if (proxy.getRemarks() != null) {
                     jsonProxyObj.addProperty("remarks", proxy.getRemarks());
                 } else {
@@ -391,10 +392,10 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("proxy", "");
         }
-        
+
         //membershipList
         if (membershipList != null && !membershipList.isEmpty()) {
-            
+
             for (int i = 0; i < membershipList.size(); i++) {
                 JsonObject jsonMembershipObj = new JsonObject();
                 Membership membership = membershipList.get(i);
@@ -409,7 +410,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonMembershipObj.addProperty("end_date", "");
                 }
-                if (membership.getReceiptDate()!= null) {
+                if (membership.getReceiptDate() != null) {
                     jsonMembershipObj.addProperty("receipt_date", sdf.format(membership.getReceiptDate()));
                 } else {
                     jsonMembershipObj.addProperty("receipt_date", "");
@@ -444,27 +445,27 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonMembershipObj.addProperty("receipt_mode_name", "");
                 }
-                if (membership.getExplainIfOtherReceipt()!= null) {
+                if (membership.getExplainIfOtherReceipt() != null) {
                     jsonMembershipObj.addProperty("explain_if_other_receipt", membership.getExplainIfOtherReceipt());
                 } else {
                     jsonMembershipObj.addProperty("explain_if_other_receipt", "");
                 }
-                if (membership.getMembershipClassName()!= null) {
+                if (membership.getMembershipClassName() != null) {
                     jsonMembershipObj.addProperty("membership_class_name", membership.getMembershipClassName());
                 } else {
                     jsonMembershipObj.addProperty("membership_class_name", "");
                 }
-                if (membership.getExplainIfOtherClass()!= null) {
+                if (membership.getExplainIfOtherClass() != null) {
                     jsonMembershipObj.addProperty("explain_if_other_class", membership.getExplainIfOtherClass());
                 } else {
                     jsonMembershipObj.addProperty("explain_if_other_class", "");
                 }
-                if (membership.getPaymentModeName()!= null) {
+                if (membership.getPaymentModeName() != null) {
                     jsonMembershipObj.addProperty("payment_mode_name", membership.getPaymentModeName());
                 } else {
                     jsonMembershipObj.addProperty("payment_mode_name", "");
                 }
-                if (membership.getExplainIfOtherPayment()!= null) {
+                if (membership.getExplainIfOtherPayment() != null) {
                     jsonMembershipObj.addProperty("explain_if_other_payment", membership.getExplainIfOtherPayment());
                 } else {
                     jsonMembershipObj.addProperty("explain_if_other_payment", "");
@@ -477,21 +478,21 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("membership", "");
         }
-            
+
         //languageAssignmentList
         if (languageAssignmentList != null && !languageAssignmentList.isEmpty()) {
-            
+
             for (int i = 0; i < languageAssignmentList.size(); i++) {
                 JsonObject jsonLanguageListObj = new JsonObject();
                 LanguageAssignment languageAssignment = languageAssignmentList.get(i);
 
                 jsonLanguageListObj.addProperty("language_name", languageAssignment.getLanguage());
-                if (languageAssignment.getProficiency()!= null) {
+                if (languageAssignment.getProficiency() != null) {
                     jsonLanguageListObj.addProperty("proficiency", languageAssignment.getProficiency());
                 } else {
                     jsonLanguageListObj.addProperty("proficiency", "");
                 }
-                if (languageAssignment.getExplainIfOther()!= null) {
+                if (languageAssignment.getExplainIfOther() != null) {
                     jsonLanguageListObj.addProperty("explain_if_other", languageAssignment.getExplainIfOther());
                 } else {
                     jsonLanguageListObj.addProperty("explain_if_other", "");
@@ -515,17 +516,17 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("language_assignment", "");
         }
-        
+
         //skillAssignmentList
         if (skillAssignmentList != null && !skillAssignmentList.isEmpty()) {
-            
+
             for (int i = 0; i < skillAssignmentList.size(); i++) {
                 JsonObject jsonSkillListObj = new JsonObject();
                 SkillAssignment skillAssignment = skillAssignmentList.get(i);
 
                 jsonSkillListObj.addProperty("skill_name", skillAssignment.getSkillName());
-                
-                if (skillAssignment.getExplainIfOther()!= null) {
+
+                if (skillAssignment.getExplainIfOther() != null) {
                     jsonSkillListObj.addProperty("explain_if_other", skillAssignment.getExplainIfOther());
                 } else {
                     jsonSkillListObj.addProperty("explain_if_other", "");
@@ -552,21 +553,19 @@ public class RetrieveContactCurrent extends HttpServlet {
 
         //appreciationList jsonObjappreciation
         if (appreciationList != null && !appreciationList.isEmpty()) {
-            
+
             for (int i = 0; i < appreciationList.size(); i++) {
                 JsonObject jsonAppreciationObj = new JsonObject();
                 Appreciation appreciation = appreciationList.get(i);
 
                 jsonAppreciationObj.addProperty("appreciation_id", Integer.toString(appreciation.getAppreciationId()));
-                
-                
-                
-                if (appreciation.getAppraisalComments()!= null) {
+
+                if (appreciation.getAppraisalComments() != null) {
                     jsonAppreciationObj.addProperty("appraisal_comments", appreciation.getAppraisalComments());
                 } else {
                     jsonAppreciationObj.addProperty("appraisal_comments", "");
                 }
-                if (appreciation.getAppraisalBy()!= null) {
+                if (appreciation.getAppraisalBy() != null) {
                     jsonAppreciationObj.addProperty("appraisal_by", appreciation.getAppraisalBy());
                 } else {
                     jsonAppreciationObj.addProperty("appraisal_by", "");
@@ -576,17 +575,17 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonAppreciationObj.addProperty("appraisal_date", "");
                 }
-                if (appreciation.getAppreciationGesture()!= null) {
+                if (appreciation.getAppreciationGesture() != null) {
                     jsonAppreciationObj.addProperty("appreciation_gesture", appreciation.getAppreciationGesture());
                 } else {
                     jsonAppreciationObj.addProperty("appreciation_gesture", "");
                 }
-                 if (appreciation.getAppreciationBy()!= null) {
+                if (appreciation.getAppreciationBy() != null) {
                     jsonAppreciationObj.addProperty("appreciation_by", appreciation.getAppreciationBy());
                 } else {
                     jsonAppreciationObj.addProperty("appreciation_by", "");
                 }
-                if (appreciation.getAppreciationDate()!= null) {
+                if (appreciation.getAppreciationDate() != null) {
                     jsonAppreciationObj.addProperty("appreciation_date", sdf.format(appreciation.getAppreciationDate()));
                 } else {
                     jsonAppreciationObj.addProperty("appreciation_date", "");
@@ -596,7 +595,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonAppreciationObj.addProperty("remarks", "");
                 }
-               
+
                 jsonAppreciationObj.addProperty("created_by", appreciation.getCreatedBy());
                 jsonAppreciationObj.addProperty("date_created", sdft.format(appreciation.getDateCreated()));
                 jsonObjAppreciation.add(jsonAppreciationObj);
@@ -606,51 +605,50 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("appreciation", "");
         }
-        
+
         //donationList
         if (donationList != null && !donationList.isEmpty()) {
-            
+
             for (int i = 0; i < donationList.size(); i++) {
                 JsonObject jsonDonationObj = new JsonObject();
                 Donation donation = donationList.get(i);
 
                 jsonDonationObj.addProperty("donation_id", Integer.toString(donation.getDonationId()));
-                if (donation.getDateReceived()!= null) {
+                if (donation.getDateReceived() != null) {
                     jsonDonationObj.addProperty("date_received", sdf.format(donation.getDateReceived()));
                 } else {
                     jsonDonationObj.addProperty("date_received", "");
                 }
                 jsonDonationObj.addProperty("donation_amount", donation.getDonationAmount());
                 jsonDonationObj.addProperty("payment_mode", donation.getPaymentMode());
-                
-                
-                if (donation.getExplainIfOtherPayment()!= null) {
+
+                if (donation.getExplainIfOtherPayment() != null) {
                     jsonDonationObj.addProperty("explain_if_other_payment", donation.getExplainIfOtherPayment());
                 } else {
                     jsonDonationObj.addProperty("explain_if_other_payment", "");
                 }
-                if (donation.getExtTransactionRef()!= null) {
+                if (donation.getExtTransactionRef() != null) {
                     jsonDonationObj.addProperty("ext_transaction_ref", donation.getExtTransactionRef());
                 } else {
                     jsonDonationObj.addProperty("ext_transaction_ref", "");
                 }
-                if (donation.getReceiptNumber()!= null) {
+                if (donation.getReceiptNumber() != null) {
                     jsonDonationObj.addProperty("receipt_number", donation.getReceiptNumber());
                 } else {
                     jsonDonationObj.addProperty("receipt_number", "");
                 }
-                if (donation.getReceiptDate()!= null) {
+                if (donation.getReceiptDate() != null) {
                     jsonDonationObj.addProperty("receipt_date", sdf.format(donation.getReceiptDate()));
                 } else {
                     jsonDonationObj.addProperty("receipt_date", "");
                 }
                 jsonDonationObj.addProperty("receipt_mode_name", donation.getReceiptMode());
-                if (donation.getExplainIfOtherReceipt()!= null) {
+                if (donation.getExplainIfOtherReceipt() != null) {
                     jsonDonationObj.addProperty("explain_if_other_receipt", donation.getExplainIfOtherReceipt());
                 } else {
                     jsonDonationObj.addProperty("explain_if_other_receipt", "");
                 }
-                if (donation.getDonorInstructions()!= null) {
+                if (donation.getDonorInstructions() != null) {
                     jsonDonationObj.addProperty("donor_instructions", donation.getDonorInstructions());
                 } else {
                     jsonDonationObj.addProperty("donor_instructions", "");
@@ -685,7 +683,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonDonationObj.addProperty("subtotal3", "");
                 }
-                if (donation.getAssociatedOccasion()!= null) {
+                if (donation.getAssociatedOccasion() != null) {
                     jsonDonationObj.addProperty("associated_occasion", donation.getAssociatedOccasion());
                 } else {
                     jsonDonationObj.addProperty("associated_occasion", "");
@@ -695,7 +693,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonDonationObj.addProperty("remarks", "");
                 }
-               
+
                 jsonDonationObj.addProperty("created_by", donation.getCreatedBy());
                 jsonDonationObj.addProperty("date_created", sdft.format(donation.getDateCreated()));
                 jsonObjDonation.add(jsonDonationObj);
@@ -704,27 +702,27 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("donation", "");
         }
-        
+
         //jsonObjTeamJoin teamJoinList
         if (teamJoinList != null && !teamJoinList.isEmpty()) {
-            
+
             for (int i = 0; i < teamJoinList.size(); i++) {
                 JsonObject jsonTeamJoinObj = new JsonObject();
                 TeamJoin teamJoin = teamJoinList.get(i);
-                
+
                 jsonTeamJoinObj.addProperty("team_name", teamJoin.getTeamName());
-                if(teamJoin.getPermission() == null || teamJoin.getPermission().isEmpty()){
+                if (teamJoin.getPermission() == null || teamJoin.getPermission().isEmpty()) {
                     jsonTeamJoinObj.addProperty("permission", "Pending");
-                }else{
+                } else {
                     jsonTeamJoinObj.addProperty("permission", teamJoin.getPermission());
                 }
-                
-                if (teamJoin.getExplainIfOthers()!= null) {
+
+                if (teamJoin.getExplainIfOthers() != null) {
                     jsonTeamJoinObj.addProperty("explain_if_others", teamJoin.getExplainIfOthers());
                 } else {
                     jsonTeamJoinObj.addProperty("explain_if_others", "");
                 }
-                if (teamJoin.getSubTeam()!= null) {
+                if (teamJoin.getSubTeam() != null) {
                     jsonTeamJoinObj.addProperty("sub_team", teamJoin.getSubTeam());
                 } else {
                     jsonTeamJoinObj.addProperty("sub_team", "");
@@ -739,8 +737,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 } else {
                     jsonTeamJoinObj.addProperty("remarks", "");
                 }
-                
-               
+
                 jsonTeamJoinObj.addProperty("created_by", teamJoin.getCreatedBy());
                 jsonTeamJoinObj.addProperty("date_created", sdft.format(teamJoin.getDateCreated()));
                 jsonObjTeamJoin.add(jsonTeamJoinObj);
