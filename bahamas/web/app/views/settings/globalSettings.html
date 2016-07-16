@@ -52,7 +52,7 @@ and open the template in the editor.
                                 <table ui-tree id="tree-root" class="table table-responsive">
                                     <thead>
                                         <tr>
-                                            <th>Sort</th>
+                                            <th>Sort<i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Drag the directional arrows and drop!" popover-trigger="mouseenter"></i></th>
                                             <th width="80%">Name</th>
                                             <th>
                                                 <a class="pull-right btn btn-primary btn-xs" data-nodrag ng-click="newItem()" uib-tooltip="Add New"><span
@@ -78,6 +78,9 @@ and open the template in the editor.
                                 </table>
                             </div>
                         </div>
+                    </div>
+                    <div class="box-footer">
+                        <center><button type="submit" ng-click="submit()" class="btn btn-primary" ng-disabled="listNotChosen">Update List</button></center>
                     </div>
                     <!-- view contact ends -->
                 </div>
