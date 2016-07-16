@@ -17,7 +17,7 @@ app.controller('globalSettings',
                 $scope.getList = function () {
                     $scope.listNotChosen = false;
                     if ($scope.selectedList == 1) {
-                        loadContactType.retrieveContactType().then(function (response) {
+                        $scope.myPromise = loadContactType.retrieveContactType().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.contact, function (value, key) {
                                 var value1 = value.contactType;
@@ -25,7 +25,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 2) {
-                        loadEventClass.retrieveEventClass().then(function (response) {
+                        $scope.myPromise = loadEventClass.retrieveEventClass().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.eventClassList, function (value, key) {
                                 var value1 = value.eventClass;
@@ -33,7 +33,7 @@ app.controller('globalSettings',
                             })
                         })
                     } else if ($scope.selectedList == 3) {
-                        loadEventLocation.retrieveEventLocation().then(function (response) {
+                        $scope.myPromise = loadEventLocation.retrieveEventLocation().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.eventLocationList, function (value, key) {
                                 var value1 = value.eventLocation;
@@ -41,7 +41,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 4) {
-                        loadLSAClass.retrieveLSAClass().then(function (response) {
+                        $scope.myPromise = loadLSAClass.retrieveLSAClass().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.lsaClassList, function (value, key) {
                                 var value1 = value.lsaClass;
@@ -49,7 +49,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 5) {
-                        loadLanguage.retrieveLanguage().then(function (response) {
+                        $scope.myPromise = loadLanguage.retrieveLanguage().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.languageList, function (value, key) {
                                 var value1 = value.language;
@@ -57,7 +57,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 6) {
-                        loadMembershipClass.retrieveMembershipClass().then(function (response) {
+                        $scope.myPromise = loadMembershipClass.retrieveMembershipClass().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.membershipClassList, function (value, key) {
                                 var value1 = value.membershipClass;
@@ -65,7 +65,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 7) {
-                        loadModeOfSendingReceipt.retrieveModeOfSendingReceipt().then(function (response) {
+                        $scope.myPromise = loadModeOfSendingReceipt.retrieveModeOfSendingReceipt().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.mode, function (value, key) {
                                 var value1 = value.modeOfSendingReceipt;
@@ -73,7 +73,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 8) {
-                        loadOfficeList.retrieveOfficeList().then(function (response) {
+                        $scope.myPromise = loadOfficeList.retrieveOfficeList().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.officeList, function (value, key) {
                                 var value1 = value.office;
@@ -81,7 +81,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 9) {
-                        loadPaymentMode.retrievePaymentMode().then(function (response) {
+                        $scope.myPromise = loadPaymentMode.retrievePaymentMode().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.paymentModeList, function (value, key) {
                                 var value1 = value.paymentMode;
@@ -89,7 +89,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 10) {
-                        loadPermissionLevel.retrievePermissionLevel().then(function (response) {
+                        $scope.myPromise = loadPermissionLevel.retrievePermissionLevel().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.permissionLevelList, function (value, key) {
                                 var value1 = value.permissionLevel;
@@ -97,7 +97,7 @@ app.controller('globalSettings',
                             })
                         });
                     } else if ($scope.selectedList == 11) {
-                        loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
+                        $scope.myPromise = loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.teamAffiliationList, function (value, key) {
                                 var value1 = value.teamAffiliation;
@@ -127,8 +127,11 @@ app.controller('globalSettings',
                         closeByDocument: false,
                         closeByEscape: false
                     }).then(function(){
-                        console.log($rootScope.list);
+                        $scope.listToSend = {};
+                        $scope.listToSend[$scope.selectedList] = $rootScope.list;
+                        console.log($scope.listToSend);
                         //call api to update list in DB. and upon success prompt update success.
+                        
                     })
                 };
 
