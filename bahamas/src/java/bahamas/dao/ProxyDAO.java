@@ -31,7 +31,7 @@ public class ProxyDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO PROXY (PRINCIPAL_ID,PROXY_ID"
+            stmt = conn.prepareStatement("INSERT INTO PROXY (PRINCIPAL_ID,PROXY_ID,"
                     + "DATE_CREATED,CREATED_BY,PROXY_STANDING,DATE_OBSOLETE,REMARKS)"
                     + " VALUES (?,?,?,?,?,?,?)");
 
