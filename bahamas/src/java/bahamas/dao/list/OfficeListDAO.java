@@ -36,7 +36,7 @@ public class OfficeListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM OFFICE_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM OFFICE_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

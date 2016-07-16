@@ -36,7 +36,7 @@ public class PaymentModeListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM PAYMENT_MODE_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM PAYMENT_MODE_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

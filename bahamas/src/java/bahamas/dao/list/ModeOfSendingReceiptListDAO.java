@@ -36,7 +36,7 @@ public class ModeOfSendingReceiptListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM MODE_OF_SENDING_RECEIPT_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM MODE_OF_SENDING_RECEIPT_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

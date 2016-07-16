@@ -36,7 +36,7 @@ public class PermissionLevelListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM PERMISSION_LEVEL_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM PERMISSION_LEVEL_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

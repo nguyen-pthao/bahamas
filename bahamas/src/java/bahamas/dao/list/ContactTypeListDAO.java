@@ -40,7 +40,7 @@ public class ContactTypeListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM TYPE_OF_CONTACT_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM TYPE_OF_CONTACT_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

@@ -203,7 +203,8 @@ and open the template in the editor.
                                             </div>
                                             <div style="padding-top: 10px;" ng-hide="isAssociate">
                                                 <h4><b>Verified</b></h4>
-                                                <div>{{emailObj.verified | verifiedFilter}}</div>
+                                                <div ng-show="emailObj.verified == 'true'">Yes</div>
+                                                <div ng-hide="emailObj.verified == 'true'">No</div>
                                             </div>
                                         </div>
                                     </div>                                 

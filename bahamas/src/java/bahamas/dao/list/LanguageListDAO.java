@@ -39,7 +39,7 @@ public class LanguageListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM LANGUAGE_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM LANGUAGE_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
