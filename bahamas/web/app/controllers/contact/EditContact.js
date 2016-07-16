@@ -169,7 +169,7 @@ app.controller('editContact',
                 if ($scope.authorised && $scope.editMode == 'true') {
                     toContact = permission + '.viewIndivContact';
                 } else {
-                    toContact = permission + '.userManagement';
+                    toContact = permission + '.profile';
                 }
                 var homepage = permission;
                 var toContacts = permission + '.viewContacts';
@@ -190,7 +190,7 @@ app.controller('editContact',
                         $scope.contactTypeList = response.data.contact;
                         var other;
                         for (var obj in $scope.contactTypeList) {
-                            if ($scope.contactTypeList[obj].contactType == 'Other') {
+                            if ($scope.contactTypeList[obj].contactType == 'Others') {
                                 other = $scope.contactTypeList.splice(obj, 1);
                             }
                         }
@@ -202,7 +202,7 @@ app.controller('editContact',
                         $scope.membershipList = response.data.membershipClassList;
                         var other;
                         for (var obj in $scope.membershipList) {
-                            if ($scope.membershipList[obj].membershipClass == 'Other') {
+                            if ($scope.membershipList[obj].membershipClass == 'Others') {
                                 other = $scope.membershipList.splice(obj, 1);
                             }
                         }
@@ -214,7 +214,7 @@ app.controller('editContact',
                         $scope.paymentModeList = response.data.paymentModeList;
                         var other;
                         for (var obj in $scope.paymentModeList) {
-                            if ($scope.paymentModeList[obj].paymentMode == 'Other') {
+                            if ($scope.paymentModeList[obj].paymentMode == 'Others') {
                                 other = $scope.paymentModeList.splice(obj, 1);
                             }
                         }
@@ -226,7 +226,7 @@ app.controller('editContact',
                         $scope.sendReceiptModList = response.data.mode;
                         var other;
                         for (var obj in $scope.sendReceiptModList) {
-                            if ($scope.sendReceiptModList[obj].modeOfSendingReceipt == 'Other') {
+                            if ($scope.sendReceiptModList[obj].modeOfSendingReceipt == 'Others') {
                                 other = $scope.sendReceiptModList.splice(obj, 1);
                             }
                         }
@@ -243,7 +243,7 @@ app.controller('editContact',
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
                         var other;
                         for (var obj in $scope.teamAffiliationList) {
-                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
                                 other = $scope.teamAffiliationList.splice(obj, 1);
                             }
                         }
@@ -260,7 +260,7 @@ app.controller('editContact',
                         $scope.languageList = response.data.languageList;
                         var other;
                         for (var obj in $scope.languageList) {
-                            if ($scope.languageList[obj].language == 'Other') {
+                            if ($scope.languageList[obj].language == 'Others') {
                                 other = $scope.languageList.splice(obj, 1);
                             }
                         }
@@ -272,7 +272,7 @@ app.controller('editContact',
                         $scope.LSAList = response.data.lsaClassList;
                         var other;
                         for (var obj in $scope.LSAList) {
-                            if ($scope.LSAList[obj].lsaClass == 'Other') {
+                            if ($scope.LSAList[obj].lsaClass == 'Others') {
                                 other = $scope.LSAList.splice(obj, 1);
                             }
                         }
@@ -830,6 +830,7 @@ app.controller('editContact',
                             $scope.resultPhone.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.form.editPhoneForm.$setValidity();
+                            $scope.form.editPhoneForm.additionalphone.$setPristine();
                             $timeout(function () {
                                 $scope.resultPhone.status = false;
                             }, 1000);
@@ -919,6 +920,7 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                             $scope.newPhone = angular.copy($scope.copyPhone);
                             $scope.form.editPhoneForm.$setValidity();
+                            $scope.form.editPhoneForm.$setPristine();
                             $timeout(function () {
                                 $scope.submitNewPhone.submittedPhone = false;
                             }, 1000);
