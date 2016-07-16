@@ -30,7 +30,7 @@ insert into TYPE_OF_CONTACT_LIST(CONTACT_TYPE) value
 ('Financial services'),
 ('Maintenance & repair'),
 ('TWC2'),
-('Other');
+('Others');
 
 #LANGUAGE_LIST
 insert into LANGUAGE_LIST(LANGUAGE_NAME) value
@@ -47,7 +47,7 @@ insert into LANGUAGE_LIST(LANGUAGE_NAME) value
 ('Tamil'),
 ('Telugu'),
 ('Vietnamese'),
-('Other');
+('Others');
 
 #OFFICE_LIST
 insert into OFFICE_LIST(OFFICE_HELD_NAME) value
@@ -62,7 +62,7 @@ insert into MODE_OF_SENDING_RECEIPT_LIST(RECEIPT_MODE_NAME) value
 ('Email'),
 ('Post'),
 ('No address'),
-('Other');
+('Others');
 
 #MEMBERSHIP_CLASS_LIST
 insert into MEMBERSHIP_CLASS_LIST(MEMBERSHIP_CLASS_NAME) value
@@ -70,7 +70,7 @@ insert into MEMBERSHIP_CLASS_LIST(MEMBERSHIP_CLASS_NAME) value
 ('Discounted'),
 ('Associate'),
 ('Honorary'),
-('Other');
+('Others');
 
 #PAYMENT_MODE_LIST
 insert into PAYMENT_MODE_LIST(PAYMENT_MODE_NAME) value
@@ -79,7 +79,7 @@ insert into PAYMENT_MODE_LIST(PAYMENT_MODE_NAME) value
 ('Cheque'),
 ('Paypal'),
 ('Giving Sg'),
-('Other');
+('Others');
 
 #LSA_CLASS_LIST
 insert into LSA_CLASS_LIST(SKILL_NAME) value
@@ -99,7 +99,7 @@ insert into LSA_CLASS_LIST(SKILL_NAME) value
 ('Has event space'),
 ('Has vehicle'),
 ('Has shelter space'),
-('Other');
+('Others');
 
 #EVENT_CLASS_LIST
 insert into EVENT_CLASS_LIST(EVENT_CLASS_NAME) value
@@ -107,7 +107,7 @@ insert into EVENT_CLASS_LIST(EVENT_CLASS_NAME) value
 ('Open'),
 ('Training'),
 ('Cancelled'),
-('Other');
+('Others');
 
 #EVENT_LOCATION_LIST
 insert into EVENT_LOCATION_LIST(EVENT_LOCATION_NAME) value
@@ -133,7 +133,7 @@ insert into TEAM_AFFILIATION_LIST(TEAM_NAME, DESCRIPTION) value
 ('Communications','This is Communications team'),
 ('Research','This is Research team'),
 ('Fundraising','This is Fundraising team'),
-('Other','This is Other team');
+('Others','This is Other team');
 
 
 #CONTACT
