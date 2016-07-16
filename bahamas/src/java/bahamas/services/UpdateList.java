@@ -107,10 +107,7 @@ public class UpdateList extends HttpServlet {
                 }
             }
             
-        } catch (JWTException ex) {
-            Logger.getLogger(UpdateList.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+        }    }
     
     private static boolean dbTableMapping(String tableID, JsonArray jsonlist){
         boolean status = false;
