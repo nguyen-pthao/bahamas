@@ -50,39 +50,35 @@ app.directive('empty', function () {
     };
 });
 
-app.directive('setDecimal', ['$filter', function($filter) {
+app.directive('setDecimal',['$timeout', function($timeout){
     return {
         restrict: 'A',
         require: '?ngModel',
         link: function(scope, elem, attrs, ngModel) {
-            if(!ngModel) {
-                return;
-            }
-            
-            ngModel.$formatters.unshift(function(a) {
-                return $filter(attrs.format)(ngModel.$modelValue)
+            ngModel.$parsers.push(function(data){
+                if(data != '' && data != null) {
+                    data = parseFloat(data).toFixed(2);
+                    $timeout(function(){
+                        elem.val(data);
+                    }, 5000);    
+                    return data;
+                } else {
+                    return '';
+                }
             });
-            
-            ngModel.$parsers.unshift(function(viewValue) {
-                var plainNumber = viewValue.replace('/[^\d|\\-+|\\.+]/g', '');
-                elem.val($filter(attrs.format)(plainNumber));
-                return plainNumber;
-            });
-            
-            ngModel.$render();
         }
     };
 }]);
 
 app.controller('editContact',
-        ['$scope', '$http', '$state', 'session', 'ngDialog', '$timeout',
+        ['$scope', '$state', 'session', 'ngDialog', '$timeout',
             'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList',
             'retrieveContactByCid', 'loadAllContacts',
-            'dataSubmit', 'deleteService', 'retrieveOwnContactInfo', '$filter',
-            function ($scope, $http, $state, session, ngDialog, $timeout,
+            'dataSubmit', 'deleteService', 'retrieveOwnContactInfo',
+            function ($scope, $state, session, ngDialog, $timeout,
                     loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList,
                     retrieveContactByCid, loadAllContacts,
-                    dataSubmit, deleteService, retrieveOwnContactInfo, $filter) {
+                    dataSubmit, deleteService, retrieveOwnContactInfo) {
 
                 var permission = session.getSession('userType');
 
@@ -150,6 +146,19 @@ app.controller('editContact',
                         };
                     }
                 } else {
+                    if (permission === 'admin') {
+                        $scope.isAdmin = true;
+                        $scope.isTeamManager = false;
+                        $scope.isEventLeader = false;
+                    } else if (permission === 'eventleader') {
+                        $scope.isAdmin = false;
+                        $scope.isEventLeader = true;
+                        $scope.isTeamManager = false;
+                    } else if (permission == 'teammanager') {
+                        $scope.isTeamManager = true;
+                        $scope.isAdmin = false;
+                        $scope.isEventLeader = false;
+                    }
                     contactToRetrieve = {
                         'token': session.getSession('token')
                     };
@@ -162,7 +171,7 @@ app.controller('editContact',
                 } else {
                     toContact = permission + '.userManagement';
                 }
-                var homepage = permission + '.homepage';
+                var homepage = permission;
                 var toContacts = permission + '.viewContacts';
 
                 $scope.backHome = function () {
@@ -317,7 +326,7 @@ app.controller('editContact',
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
                                 
-                                console.log(contactToEdit);
+//                                console.log(contactToEdit);
                                 retrieveAllContacts();
                             } else {
                                 return contactToEdit;
@@ -400,7 +409,7 @@ app.controller('editContact',
                         console.log(selectedProxy);
                     };
                 };
-
+                
 //DECLARE OBJECTS FOR EDIT CONTACT
                 $scope.editUser = {
                     'username': ''
@@ -590,7 +599,7 @@ app.controller('editContact',
                         $scope.editSkillsAssets = '';
                     }
                 };
-
+                
                 //For generating password
                 $scope.generatePassword = function () {
                     var a = Math.floor((Math.random() * 10) + 10);
@@ -752,34 +761,34 @@ app.controller('editContact',
                         window.alert("Fail to send request!");
                     });
                 };
-                $scope.deleteTheContact = function () {
-                    //to add ngDialog for confirmation
-                    ngDialog.openConfirm({
-                        template: './style/ngTemplate/deletePrompt.html',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    }).then(function (response) {
-                        var deleteContact = {};
-                        deleteContact['token'] = session.getSession('token');
-                        deleteContact['contact_id'] = contactToEdit['other_cid'];
-                        var url = AppAPI.deleteContact;
-                        deleteService.deleteDataService(deleteContact, url).then(function (response) {
-                            if (response.data.message == 'success') {
-                                ngDialog.openConfirm({
-                                    template: './style/ngTemplate/deleteSuccess.html',
-                                    className: 'ngdialog-theme-default',
-                                    scope: $scope
-                                }).then(function () {
-                                    $state.go(toContacts);
-                                });
-                            } else {
-                                console.log("del contact fail");
-                            }
-                        }, function () {
-                            window.alert("Fail to send request!");
-                        });
-                    });
-                };
+//                $scope.deleteTheContact = function () {
+//                    //to add ngDialog for confirmation
+//                    ngDialog.openConfirm({
+//                        template: './style/ngTemplate/deletePrompt.html',
+//                        className: 'ngdialog-theme-default',
+//                        scope: $scope
+//                    }).then(function (response) {
+//                        var deleteContact = {};
+//                        deleteContact['token'] = session.getSession('token');
+//                        deleteContact['contact_id'] = contactToEdit['other_cid'];
+//                        var url = AppAPI.deleteContact;
+//                        deleteService.deleteDataService(deleteContact, url).then(function (response) {
+//                            if (response.data.message == 'success') {
+//                                ngDialog.openConfirm({
+//                                    template: './style/ngTemplate/deleteSuccess.html',
+//                                    className: 'ngdialog-theme-default',
+//                                    scope: $scope
+//                                }).then(function () {
+//                                    $state.go(toContacts);
+//                                });
+//                            } else {
+//                                console.log("del contact fail");
+//                            }
+//                        }, function () {
+//                            window.alert("Fail to send request!");
+//                        });
+//                    });
+//                };
 
                 //phone
                 $scope.addingPhone = false;
@@ -2460,8 +2469,8 @@ app.controller('editContact',
 
                 $scope.newProxy = {
                     'token': session.getSession('token'),
-                    'contact_id': -1,
-                    'user_type': session.getSession('userType'),
+//                    'contact_id': -1,
+//                    'user_type': session.getSession('userType'),
                     'proxy_of': -1,
                     'principal_of': '',
                     'proxy_standing': '',

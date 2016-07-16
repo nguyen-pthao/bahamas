@@ -107,8 +107,9 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>New Password</label><span class="required">*</span>
-                                                <input type="password" ng-model='editUser.password' compare='{{editUser["confirm_password"]}}' class="form-control" name="newPassword" empty>
+                                                <input type="password" ng-model='editUser.password' ng-minlength="8" ng-maxlength="20" compare='{{editUser["confirm_password"]}}' class="form-control" name="newPassword" empty>
                                                 <span ng-show='editUserForm.newPassword.$error.empty && editUserForm.newPassword.$dirty' class='error'>New password is required.</span>
+                                                <span ng-show='editUserForm.newPassword.$error.minlength || editUserForm.newPassword.$error.maxlength' class='error'>Password has to be 8 to 20 characters long.</span>
                                             </div>
                                             <div class="form-group" ng-show="(editMode == 'false') && changePass">
                                                 <label>Confirm Password</label><span class="required">*</span>
@@ -267,7 +268,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class="custom-remarks" ng-model="editContact.remarks" name="remarksContact" contenteditable="true" spellcheck="true" ng-maxlength='1000'></textarea>
-                                            <span ng-show='form.editPersonalForm.remarksContact.$error.maxlength' class='error'>Input field remark is too long.</span>  
+                                            <span ng-show='form.editPersonalForm.remarksContact.$error.maxlength' class='error'>Input field remarks is too long.</span>  
                                         </div>
                                     </div>
                                 </div>
@@ -276,8 +277,6 @@ and open the template in the editor.
                                         <button type="submit" class="btn btn-link uppercase bold" ng-disabled='form.editPersonalForm.name.$invalid || form.editPersonalForm.altName.$invalid ||
                                                     form.editPersonalForm.otherExpContact.$invalid || form.editPersonalForm.profession.$invalid || form.editPersonalForm.job.$invalid || form.editPersonalForm.nric.$invalid
                                                     || form.editPersonalForm.nationality.$invalid || form.editPersonalForm.remarksContact.$invalid' ng-click="editTheContact()">Save Changes</button>
-                                        &nbsp;
-                                        <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheContact()">Delete contact</button>
                                         <br>
                                         <span ng-bind="resultContact.message" ng-show="resultContact.status"></span>
                                     </center>
@@ -337,9 +336,9 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-2" ng-init="loadCountryCodes()">
                                                     <label>Country code</label><span class="required">*</span>
-                                                    <input type="number" step="1" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])" empty>            
-                                                    <span>{{newCountryName}}</span>
-                                                    <span ng-show="form.editPhoneForm.countrycode.$error.empty && form.editPhoneForm.countrycode.$dirty" class="error">Country code is required.</span>
+                                                    <input type="number" step="1" ng-model="phone['country_code']" class="form-control" name='countrycode' ng-change="updateCountryNames(phone['country_code'])">            
+                                                    <span ng-hide="phone['country_code'] == null">{{newCountryName}}</span>
+                                                    <span ng-show="phone['country_code'] == null  && form.editPhoneForm.countrycode.$dirty" class="error">Country code is required.</span>
                                                 </div>
                                                 <div class="col-md-offset-5 col-md-5">
                                                     <label>Phone number</label><span class="required">*</span>
@@ -349,8 +348,8 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
-                                                    <textarea class="custom-remarks" ng-model="phone['remarks']" ng-maxlength="1000" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editPhoneForm.remarksPhone.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <textarea class="custom-remarks" ng-model="phone['remarks']" name="remarksPhone" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="phone['remarks'].length < 1000 && phone['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -366,7 +365,7 @@ and open the template in the editor.
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editPhoneForm.countrycode.$invalid || form.editPhoneForm.remarksPhone.$invalid" ng-click="editThePhone($event, phone)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="phone['country_code'] == null || !(phone['remarks'].length < 1000 && phone['remarks'].length > -1)" ng-click="editThePhone($event, phone)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteThePhone($event, phone)">Delete phone</button>
                                                     <br>
@@ -396,7 +395,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class="custom-remarks" ng-model="newPhone['phone_remarks']" name="additionalremarksPhone" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="form.editPhoneForm.additionalremarksPhone.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editPhoneForm.additionalremarksPhone.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <center>
@@ -470,8 +469,8 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
-                                                    <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editEmailForm.remarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <textarea class="custom-remarks" name="remarksEmail" ng-model="email['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="email['remarks'].length < 1000 && email['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -487,7 +486,7 @@ and open the template in the editor.
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editEmailForm.remarksEmail.$invalid" ng-click="editTheEmail($event, email)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(email['remarks'].length < 1000 && email['remarks'].length > -1)" ng-click="editTheEmail($event, email)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheEmail($event, email)">Delete email</button>
                                                     <br>
@@ -511,7 +510,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class="custom-remarks" name="additionalremarksEmail" ng-model="newEmail['email_remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="form.editEmailForm.additionalremarksEmail.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editEmailForm.additionalremarksEmail.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -594,15 +593,15 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">    
                                                     <label>Zipcode</label>
-                                                    <input type="text" ng-model="address.zipcode" ng-maxlength="20" class="form-control" name='zipcode'>
-                                                    <span ng-show="form.editAddressForm.zipcode.$error.maxlength" class="error">Input field zipcode is too long.</span>
+                                                    <input type="text" ng-model="address.zipcode" class="form-control" name='zipcode'>
+                                                    <span ng-hide="address.zipcode.length < 20 && address.zipcode.length > -1" class="error">Input field zipcode is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
-                                                    <textarea class="custom-remarks" name="remarksAddress" ng-model="address['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editAddressForm.remarksAddress.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <textarea class="custom-remarks" name="remarksAddress" ng-model="address['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="address['remarks'].length < 1000 && address['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -618,7 +617,8 @@ and open the template in the editor.
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editAddressForm.zipcode.$invalid || form.editAddressForm.remarksAddress.$invalid" ng-click="editTheAddress($event, address)">Save changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled=" !(address['remarks'].length < 1000 && address['remarks'].length > -1)
+                                                                || !(address.zipcode.length < 20 && address.zipcode.length > -1)" ng-click="editTheAddress($event, address)">Save changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAddress($event, address)">Delete address</button>
                                                     <br>
@@ -654,7 +654,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class="custom-remarks" name="additionalremarksAddress" ng-model="newAddress['address_remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="form.editAddressForm.additionalremarksAddress.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editAddressForm.additionalremarksAddress.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -724,21 +724,21 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadMembershipList()">
                                                     <label>Membership type</label><span class="required">*</span>
-                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control" empty>
+                                                    <select ng-model="membership['membership_class_name']" name="memType" class="form-control">
                                                         <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                                     </select>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Subscription amount</label><span class="required">*</span>
-                                                    <input type="text" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem" empty setDecimal='number'>
-                                                    <span ng-show="form.editMembershipForm.subsrcAmtMem.$error.empty" class="error">Subscription amount is required.</span>
+                                                    <input type="text" ng-model="membership['subscription_amount']" set-decimal="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                                    <span ng-show="membership['subscription_amount'] == ''" class="error">Subscription amount is required.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" name="otherExpMemClass" ng-model="membership['explain_if_other_class']" ng-maxlength="200" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editMembershipForm.otherExpMemClass.$error.maxlength" class="error">Input field explanation is too long.</span>
+                                                    <textarea class="custom-remarks" name="otherExpMemClass" ng-model="membership['explain_if_other_class']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="membership['explain_if_other_class'].length < 200 && membership['explain_if_other_class'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -772,20 +772,20 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_payment']" ng-maxlength="200" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editMembershipForm.otherExpPayModMem.$error.maxlength" class="error">Input field explanation is too long.</span>
+                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_payment']" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="membership['explain_if_other_payment'].length < 200 && membership['explain_if_other_payment'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>External transaction reference</label>
-                                                    <input type='text' ng-model="membership['ext_transaction_ref']" ng-maxlength="50" class='form-control' name="transRefMem">
-                                                    <span ng-show="form.editMembershipForm.transRefMem.$error.maxlength" class="error">Input field reference is too long.</span>
+                                                    <input type='text' ng-model="membership['ext_transaction_ref']" class='form-control' name="transRefMem">
+                                                    <span ng-hide="membership['ext_transaction_ref'].length < 50 && membership['ext_transaction_ref'].length > -1" class="error">Input field reference is too long.</span>
                                                 </div>    
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Receipt number</label>
                                                     <input type='text' ng-model="membership['receipt_number']" ng-maxlength="50" class='form-control' name="recNoMem">
-                                                    <span ng-show="form.editMembershipForm.recNoMem.$error.maxlength" class="error">Input field receipt number is too long.</span>
+                                                    <span ng-hide="membership['receipt_number'].length < 50 && membership['receipt_number'].length > -1" class="error">Input field receipt number is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -808,23 +808,24 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_receipt']" ng-maxlength="200" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editMembershipForm.otherExpRecModMem.$error.maxlength" class="error">Input field explanation is too long.</span>
+                                                    <textarea class="custom-remarks" ng-model="membership['explain_if_other_receipt']" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="membership['explain_if_other_receipt'].length < 200 && membership['explain_if_other_receipt'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class="custom-remarks" ng-model="membership['remarks']" ng-maxlength="1000" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editMembershipForm.remarksMem.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <span ng-hide="membership['remarks'].length < 1000 && membership['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" 
-                                                            ng-disabled="form.editMembershipForm.memType.$invalid || form.editMembershipForm.subsrcAmtMem.$invalid || form.editMembershipForm.startdateMem.$invalid || form.editMembershipForm.enddateMem.$invalid ||
-                                                                        form.editMembershipForm.otherExpMemClass.$invalid || form.editMembershipForm.otherExpPayModMem.$invalid || form.editMembershipForm.transRefMem.$invalid
-                                                                        || form.editMembershipForm.recNoMem.$invalid || form.editMembershipForm.otherExpRecModMem.$invalid || form.editMembershipForm.remarksMem.$invalid"
+                                                            ng-disabled="form.editMembershipForm.memType.$invalid || membership['subscription_amount'] == '' || membership['start_date'] == null || membership['end_date'] == null ||
+                                                                        !(membership['explain_if_other_class'].length < 200 && membership['explain_if_other_class'].length > -1) || !(membership['explain_if_other_payment'].length < 200 && membership['explain_if_other_payment'].length > -1)
+                                                                        || !(membership['ext_transaction_ref'].length < 50 && membership['ext_transaction_ref'].length > -1) || !(membership['receipt_number'].length < 50 && membership['receipt_number'].length > -1)
+                                                                        || !(membership['explain_if_other_receipt'].length < 200 && membership['explain_if_other_receipt'].length > -1) || !(membership['remarks'].length < 1000 && membership['remarks'].length > -1)"
                                                             ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
@@ -839,19 +840,21 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadMembershipList()">
                                             <label>Membership type</label><span class="required">*</span>
-                                            <select ng-model="newMembership['membership_class']" name="memType" class="form-control">
+                                            <select ng-model="newMembership['membership_class']" name="additionalmemType" class="form-control" empty>
                                                 <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
                                             </select>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Subscription amount</label><span class="required">*</span>
-                                            <input type="number" step="0.01" ng-model="newMembership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                            <input type="number" ng-model="newMembership['subscription_amount']" set-decimal="newMembership['subscription_amount']" class="form-control" name="additionalsubsrcAmtMem" empty>
+                                            <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.empty && form.editMembershipForm.additionalsubsrcAmtMem.$dirty" class="error">Subscription amount is required.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class="custom-remarks" name="otherExpMemClass" ng-model="newMembership['explain_if_other_class']" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" name="additionalotherExpMemClass" ng-model="newMembership['explain_if_other_class']" ng-maxlength="200" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editMembershipForm.additionalotherExpMemClass.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -861,7 +864,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewMStart()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newMembership['start_membership']" ng-click="openNewMStart()" uib-datepicker-popup="{{format}}" is-open="openedNewMStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateMem" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="newMembership['start_membership']" ng-click="openNewMStart()" uib-datepicker-popup="{{format}}" is-open="openedNewMStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="additionalstartdateMem" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -870,14 +873,14 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewMEnd()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newMembership['end_membership']" ng-click="openNewMEnd()" uib-datepicker-popup="{{format}}" is-open="openedNewMEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateMem" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="newMembership['end_membership']" ng-click="openNewMEnd()" uib-datepicker-popup="{{format}}" is-open="openedNewMEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="additionalenddateMem" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label>
-                                            <select ng-model="newMembership['payment_mode']" name="payModMem" class="form-control">
+                                            <select ng-model="newMembership['payment_mode']" name="additionalpayModMem" class="form-control">
                                                 <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                             </select>  
                                         </div>
@@ -885,23 +888,26 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class="custom-remarks" ng-model="newMembership['explain_if_other_payment']" name="otherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newMembership['explain_if_other_payment']" ng-maxlength="200" name="additionalotherExpPayModMem" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editMembershipForm.additionalotherExpPayModMem.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
                                             <label>External transaction reference</label>
-                                            <input type='text' ng-model="newMembership['ext_transaction_ref']" class='form-control' name="transRefMem">
+                                            <input type='text' ng-model="newMembership['ext_transaction_ref']" ng-maxlength="50" class='form-control' name="additionaltransRefMem">
+                                            <span ng-show="form.editMembershipForm.additionaltransRefMem.$error.maxlength" class="error">Input field reference is too long.</span>
                                         </div>    
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Receipt number</label>
-                                            <input type='text' ng-model="newMembership['receipt_number']" class='form-control' name="recNoMem">
+                                            <input type='text' ng-model="newMembership['receipt_number']" ng-maxlength="50" class='form-control' name="additionalrecNoMem">
+                                            <span ng-show="form.editMembershipForm.additionalrecNoMem.$error.maxlength" class="error">Input field receipt number is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadSendReceiptModeList()">
                                             <label>Mode of sending receipt</label>
-                                            <select class='form-control' ng-model="newMembership['receipt_mode']" name="modSendRecMem">
+                                            <select class='form-control' ng-model="newMembership['receipt_mode']" name="additionalmodSendRecMem">
                                                 <option ng-repeat="receiptMode in sendReceiptModList">{{receiptMode.modeOfSendingReceipt}}</option>
                                             </select>
                                         </div>    
@@ -911,25 +917,31 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewMReceipt()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="newMembership['receipt_date']" ng-click="openNewMReceipt()" uib-datepicker-popup="{{format}}" is-open="openedNewMReceipt" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right white-background" name="dateRecMem" readonly>
+                                                <input type="text" ng-model="newMembership['receipt_date']" ng-click="openNewMReceipt()" uib-datepicker-popup="{{format}}" is-open="openedNewMReceipt" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right white-background" name="additionaldateRecMem" readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class="custom-remarks" ng-model="newMembership['explain_if_other_receipt']" name="otherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newMembership['explain_if_other_receipt']" ng-maxlength="200" name="additionalotherExpRecModMem" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editMembershipForm.additionalotherExpRecModMem.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remarks</label>
-                                            <textarea class="custom-remarks" ng-model="newMembership['remarks']" name="remarksMem" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newMembership['remarks']" ng-maxlength="1000" name="additionalremarksMem" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editMembershipForm.additionalremarksMem.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase bold" ng-click="addMembership()">Done</button>
+                                            <button type="submit" class="btn btn-primary uppercase bold" ng-disabled="form.editMembershipForm.additionalmemType.$invalid || form.editMembershipForm.additionalsubsrcAmtMem.$invalid
+                                                    || form.editMembershipForm.additionalotherExpMemClass.$invalid || form.editMembershipForm.additionalstartdateMem.$invalid || form.editMembershipForm.additionalenddateMem.$invalid
+                                                    || form.editMembershipForm.additionalotherExpPayModMem.$invalid || form.editMembershipForm.additionaltransRefMem.$invalid || form.editMembershipForm.additionalrecNoMem.$invalid
+                                                    || form.editMembershipForm.additionalotherExpRecModMem.$invalid || form.editMembershipForm.additionalremarksMem.$invalid" 
+                                                    ng-click="addMembership()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewMembership.message" ng-show="submitNewMembership.submittedMembership"></span>
                                         </center>
@@ -937,7 +949,7 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewMembership()">Add new membership</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewMembership()" ng-hide="addingMembership">Add new membership</button>
                                     </center>
                                 </div>
                             </div>
@@ -1003,7 +1015,7 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openOStart($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="officeHeld['start_office']" ng-click="openOStart($index)" uib-datepicker-popup="{{format}}" is-open="openedOStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="officeHeld['start_office']" ng-click="openOStart($index)" uib-datepicker-popup="{{format}}" is-open="openedOStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right white-background" readonly empty>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
@@ -1012,19 +1024,20 @@ and open the template in the editor.
                                                         <div class="input-group-addon btn" ng-click="openOEnd($index)">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="officeHeld['end_office']" ng-click="openOEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedOEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right white-background" readonly>
+                                                        <input type='text' ng-model="officeHeld['end_office']" ng-click="openOEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedOEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right white-background" readonly empty>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
-                                                    <textarea class="custom-remarks" name='remarksOff' ng-model="officeHeld['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" name='remarksOff' ng-model="officeHeld['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="officeHeld['remarks'].length < 1000 && officeHeld['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheOffice($event, officeHeld)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="officeHeld['start_office'] == null || officeHeld['end_office'] == null || !(officeHeld['remarks'].length < 1000 && officeHeld['remarks'].length > -1)" ng-click="editTheOffice($event, officeHeld)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheOffice($event, officeHeld)">Delete office</button>
                                                     <br>
@@ -1038,7 +1051,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadOfficeHoldList()">
                                             <label>Office held</label><span class="required">*</span>
-                                            <select class='form-control' ng-model="newOffice['office_held_name']" name="off">
+                                            <select class='form-control' ng-model="newOffice['office_held_name']" name="additionaloff" empty> 
                                                 <option ng-repeat="officeHold in officeList">{{officeHold.office}}</option>
                                             </select>
                                         </div>
@@ -1050,7 +1063,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewOStart()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newOffice['start_office']" ng-click="openNewOStart()" uib-datepicker-popup="{{format}}" is-open="openedNewOStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="newOffice['start_office']" ng-click="openNewOStart()" uib-datepicker-popup="{{format}}" is-open="openedNewOStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="additionalstartdateOff" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -1059,19 +1072,20 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewOEnd()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="newOffice['end_office']" ng-click="openNewOEnd()" uib-datepicker-popup="{{format}}" is-open="openedNewOEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="newOffice['end_office']" ng-click="openNewOEnd()" uib-datepicker-popup="{{format}}" is-open="openedNewOEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="additionalenddateOff" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remarks</label>
-                                            <textarea class="custom-remarks" name='remarksOff' ng-model="newOffice['remarks']" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" name='additionalremarksOff' ng-model="newOffice['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editOfficeForm.additionalremarksOff.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-click="addOffice()">Done</button>
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editOfficeForm.additionaloff.$invalid || form.editOfficeForm.additionalstartdateOff.$invalid || form.editOfficeForm.additionalenddateOff.$invalid || form.editOfficeForm.additionalremarksOff.$invalid" ng-click="addOffice()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewOffice.message" ng-show="submitNewOffice.submittedOffice"></span>
                                         </center>
@@ -1079,7 +1093,7 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewOffice()">Add new office</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewOffice()" ng-hide="addingOffice">Add new office</button>
                                     </center>
                                 </div>
                             </div>
@@ -1144,13 +1158,14 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Donation amount</label><span class="required">*</span>
-                                                    <input type="number" step='any' class="form-control" ng-model="donation['donation_amount']" name='donAmt'>        
+                                                    <input type="number" class="form-control" ng-model="donation['donation_amount']" set-decimal="donation['donation_amount']" name='donAmt'>
+                                                    <span ng-show="donation['donation_amount'] == ''" class="error">Donation amount is required.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5" ng-init="loadPaymentModeList()">
                                                     <label>Payment mode</label><span class="required">*</span>
-                                                    <select class="form-control" ng-model="donation['payment_mode']" name='payModDon'>
+                                                    <select class="form-control" ng-model="donation['payment_mode']" name='payModDon' empty>
                                                         <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                                     </select>
                                                 </div>
@@ -1158,17 +1173,20 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" ng-model="donation['explain_if_other_payment']" name='otherExpPayModDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="donation['explain_if_other_payment']" ng-maxlength="200" name='otherExpPayModDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['explain_if_other_payment'].length < 200 && donation['explain_if_other_payment'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>External transaction reference</label>
-                                                    <input type='text' ng-model="donation['ext_transaction_ref']" name='tranRefDon' class='form-control' contenteditable="true" spellcheck="true">
+                                                    <input type='text' ng-model="donation['ext_transaction_ref']" ng-maxlength="50" name='tranRefDon' class='form-control' contenteditable="true" spellcheck="true">
+                                                    <span ng-hide="donation['ext_transaction_ref'].length < 50 && donation['ext_transaction_ref'].length > -1" class="error">Input field reference is too long.</span>
                                                 </div>    
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Receipt number</label>
-                                                    <input type='text' ng-model="donation['receipt_number']" name='recNoDon' class='form-control' contenteditable="true" spellcheck="true">
+                                                    <input type='text' ng-model="donation['receipt_number']" ng-maxlength="50" name='recNoDon' class='form-control' contenteditable="true" spellcheck="true">
+                                                    <span ng-hide="donation['receipt_number'].length < 50 && donation['receipt_number'].length > -1" class="error">Input field receipt number is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1191,60 +1209,73 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class="custom-remarks" ng-model="donation['explain_if_other_receipt']" name='otherExpRecModDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="donation['explain_if_other_receipt']" ng-maxlength="200" name='otherExpRecModDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['explain_if_other_receipt'].length < 200 && donation['explain_if_other_receipt'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Donor's instructions</label>
-                                                    <textarea class="custom-remarks" ng-model="donation['donor_instructions']" name='donInstr' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class="custom-remarks" ng-model="donation['donor_instructions']" ng-maxlength="1000" name='donInstr' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['donor_instructions'].length < 1000 && donation['donor_instructions'].length > -1" class="error">Input field instructions is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
                                                 <div class='col-md-7'>
                                                     <label>Allocation 1</label>
-                                                    <textarea class='custom-remarks' ng-model="donation['allocation1']" name='allo1' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="donation['allocation1']" ng-maxlength="200" name='allo1' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['allocation1'].length < 200 && donation['allocation1'].length > -1" class="error">Input field allocation 1 is too long.</span>
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 1</label>
-                                                    <input ng-model="donation['subtotal1']" name='subAmtDon1' type="number" step='any' class="form-control">
+                                                    <input ng-model="donation['subtotal1']" set-decimal="donation['subtotal1']" name='subAmtDon1' type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
                                                 <div class='col-md-7'>
                                                     <label>Allocation 2</label>
-                                                    <textarea class='custom-remarks' ng-model="donation['allocation2']" name='allo2' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="donation['allocation2']" ng-maxlength="200" name='allo2' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['allocation2'].length < 200 && donation['allocation2'].length > -1" class="error">Input field allocation 2 is too long.</span>
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 2</label>
-                                                    <input ng-model="donation['subtotal2']" name='subAmtDon2' type="number" step='any' class="form-control">
+                                                    <input ng-model="donation['subtotal2']" set-decimal="donation['subtotal2']" name='subAmtDon2' type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
                                                 <div class='col-md-7'>
                                                     <label>Allocation 3</label>
-                                                    <textarea class='custom-remarks' ng-model="donation['allocation3']" name='allo3' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="donation['allocation3']" ng-maxlength="200" name='allo3' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['allocation3'].length < 200 && donation['allocation3'].length > -1" class="error">Input field allocation 3 is too long.</span>
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 3</label>
-                                                    <input ng-model="donation['subtotal3']" name='subAmtDon3' type="number" class="form-control">
+                                                    <input ng-model="donation['subtotal3']" set-decimal="donation['subtotal3']" name='subAmtDon3' type="number" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Associated occasion</label>
-                                                    <textarea class='custom-remarks' ng-model="donation['associated_occasion']" name='assoOccasDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="donation['associated_occasion']" ng-maxlength="500" name='assoOccasDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['associated_occasion'].length < 500 && donation['associated_occasion'].length > -1" class="error">Input field occasion is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
-                                                    <textarea class='custom-remarks' ng-model="donation['remarks']" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="donation['remarks']" ng-maxlength="1000" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="donation['remarks'].length < 1000 && donation['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheDonation($event, donation)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="donation['date_received'] == null || donation['donation_amount'] == ''
+                                                            || !(donation['explain_if_other_payment'].length < 200 && donation['explain_if_other_payment'].length > -1) || !(donation['ext_transaction_ref'].length < 50 && donation['ext_transaction_ref'].length > -1)
+                                                            || !(donation['receipt_number'].length < 50 && donation['receipt_number'].length > -1) || !(donation['explain_if_other_receipt'].length < 200 && donation['explain_if_other_receipt'].length > -1)
+                                                            || !(donation['donor_instructions'].length < 1000 && donation['donor_instructions'].length > -1) || !(donation['allocation1'].length < 200 && donation['allocation1'].length > -1)
+                                                            || !(donation['allocation2'].length < 200 && donation['allocation2'].length > -1) || !(donation['allocation3'].length < 200 && donation['allocation3'].length > -1)
+                                                            || !(donation['associated_occasion'].length < 500 && donation['associated_occasion'].length > -1) || !(donation['remarks'].length < 1000 && donation['remarks'].length > -1)"
+                                                            ng-click="editTheDonation($event, donation)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
                                                     <br>
@@ -1262,18 +1293,19 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewDReceived()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" ng-model="newDonation['date_received']" ng-click="openNewDReceived()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceived" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name='dateRecvDon'>
+                                                <input type="text" ng-model="newDonation['date_received']" ng-click="openNewDReceived()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceived" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" class="form-control pull-right" name='additionaldateRecvDon' empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Donation amount</label><span class="required">*</span>
-                                            <input type="number" step='any' class="form-control" ng-model="newDonation['donation_amount']" name='donAmt'>        
+                                            <input type="number" class="form-control" ng-model="newDonation['donation_amount']" set-decimal="newDonation['donation_amount']" name='additionaldonAmt' empty>
+                                            <span ng-show="form.editDonationForm.additionaldonAmt.$error.empty && form.editDonationForm.additionaldonAmt.$dirty" class="error">Donation amount is required.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="newDonation['payment_mode']" name='payModDon'>
+                                            <select class="form-control" ng-model="newDonation['payment_mode']" name='additionalpayModDon' empty>
                                                 <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                             </select>
                                         </div>
@@ -1281,23 +1313,26 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class="custom-remarks" ng-model="newDonation['explain_if_other_payment']" name='otherExpPayModDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newDonation['explain_if_other_payment']" ng-maxlength="200" name='additionalotherExpPayModDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalotherExpPayModDon.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
                                             <label>External transaction reference</label>
-                                            <input type='text' ng-model="newDonation['ext_transaction_ref']" name='tranRefDon' class='form-control' contenteditable="true" spellcheck="true">
+                                            <input type='text' ng-model="newDonation['ext_transaction_ref']" ng-maxlength="50" name='additionaltranRefDon' class='form-control' contenteditable="true" spellcheck="true">
+                                            <span ng-show="form.editDonationForm.additionaltranRefDon.$error.maxlength" class="error">Input field reference is too long.</span>
                                         </div>    
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Receipt number</label>
-                                            <input type='text' ng-model="newDonation['receipt_number']" name='recNoDon' class='form-control' contenteditable="true" spellcheck="true">
+                                            <input type='text' ng-model="newDonation['receipt_number']" ng-maxlength="50" name='additionalrecNoDon' class='form-control' contenteditable="true" spellcheck="true">
+                                            <span ng-show="form.editDonationForm.additionalrecNoDon.$error.maxlength" class="error">Input field receipt number is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadSendReceiptModeList()">
                                             <label>Mode of sending receipt</label>
-                                            <select class='form-control' ng-model="newDonation['receipt_mode']" name='modSendRecDon'>
+                                            <select class='form-control' ng-model="newDonation['receipt_mode']" name='additionalmodSendRecDon'>
                                                 <option ng-repeat="receiptMode in sendReceiptModList">{{receiptMode.modeOfSendingReceipt}}</option>
                                             </select>
                                         </div>    
@@ -1307,67 +1342,78 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openNewDReceipt()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control pull-right white-background" ng-model="newDonation['receipt_date']" ng-click="openNewDReceipt()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceipt" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='dateRecDon' readonly>
+                                                <input type="text" class="form-control pull-right white-background" ng-model="newDonation['receipt_date']" ng-click="openNewDReceipt()" uib-datepicker-popup="{{format}}" is-open="openedNewDReceipt" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name='additionaldateRecDon' readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class="custom-remarks" ng-model="newDonation['explain_if_other_receipt']" name='otherExpRecModDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newDonation['explain_if_other_receipt']" ng-maxlength="200" name='additionalotherExpRecModDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalotherExpRecModDon.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Donor's instructions</label>
-                                            <textarea class="custom-remarks" ng-model="newDonation['donor_instruction']" name='donInstr' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newDonation['donor_instruction']" ng-maxlength="1000" name='additionaldonInstr' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionaldonInstr.$error.maxlength" class="error">Input field instructions is too long.</span>
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
                                         <div class='col-md-7'>
                                             <label>Allocation 1</label>
-                                            <textarea class='custom-remarks' ng-model="newDonation['allocation1']" name='allo1' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newDonation['allocation1']" ng-maxlength="200" name='additionalallo1' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalallo1.$error.maxlength" class="error">Input field allocation 1 is too long.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 1</label>
-                                            <input ng-model="newDonation['subamount1']" name='subAmtDon1' type="number" step='any' class="form-control">
+                                            <input ng-model="newDonation['subamount1']" set-decimal="newDonation['subtotal1']" name='additionalsubAmtDon1' type="number" class="form-control">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
                                         <div class='col-md-7'>
                                             <label>Allocation 2</label>
-                                            <textarea class='custom-remarks' ng-model="newDonation['allocation2']" name='allo2' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newDonation['allocation2']" ng-maxlength="200" name='additionalallo2' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalallo2.$error.maxlength" class="error">Input field allocation 2 is too long.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 2</label>
-                                            <input ng-model="newDonation['subamount2']" name='subAmtDon2' type="number" step='any' class="form-control">
+                                            <input ng-model="newDonation['subamount2']" set-decimal="newDonation['subamount2']" name='additionalsubAmtDon2' type="number" step='any' class="form-control">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
                                         <div class='col-md-7'>
                                             <label>Allocation 3</label>
-                                            <textarea class='custom-remarks' ng-model="newDonation['allocation3']" name='allo3' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newDonation['allocation3']" ng-maxlength="200" name='additionalallo3' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalallo3.$error.maxlength" class="error">Input field allocation 3 is too long.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 3</label>
-                                            <input ng-model="newDonation['subamount3']" name='subAmtDon3' type="number" class="form-control">
+                                            <input ng-model="newDonation['subamount3']" set-decimal="newDonation['subamount3']" name='additionalsubAmtDon3' type="number" class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Associated occasion</label>
-                                            <textarea class='custom-remarks' ng-model="newDonation['associated_occasion']" name='assoOccasDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newDonation['associated_occasion']" ng-maxlength="500" name='additionalassoOccasDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalassoOccasDon.$error.maxlength" class="error">Input field occasion is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remarks</label>
-                                            <textarea class='custom-remarks' ng-model="newDonation['remarks']" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newDonation['remarks']" ng-maxlength="1000" name='additionalremarksDon' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editDonationForm.additionalremarksDon.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-click="addDonation()">Done</button> 
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editDonationForm.additionaldateRecvDon.$invalid || form.editDonationForm.additionaldonAmt.$invalid || form.editDonationForm.additionalpayModDon.$invalid
+                                                    || form.editDonationForm.additionalotherExpPayModDon.$invalid || form.editDonationForm.additionaltranRefDon.$invalid || form.editDonationForm.additionalrecNoDon.$invalid || form.editDonationForm.additionalotherExpRecModDon.$invalid
+                                                    || form.editDonationForm.additionaldonInstr.$invalid || form.editDonationForm.additionalallo1.$invalid || form.editDonationForm.additionalallo2.$invalid || form.editDonationForm.additionalallo3.$invalid 
+                                                    || form.editDonationForm.additionalassoOccasDon.$invalid || form.editDonationForm.additionalremarksDon.$invalid"
+                                                    ng-click="addDonation()">Done</button> 
                                             <br>
                                             <span ng-bind="submitNewDonation.message" ng-show="submitNewDonation.submittedDonation"></span>
                                         </center>
@@ -1375,7 +1421,7 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewDonation()">Add new donation</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewDonation()" ng-hide="addingDonation">Add new donation</button>
                                     </center>
                                 </div>
                             </div>
@@ -1397,7 +1443,7 @@ and open the template in the editor.
                                         </span>
                                     </div>
                                 </div>
-                                <div class="box-body hidden-blue-box" ng-show="!(editTeam == '')">
+                                <div class="box-body hidden-blue-box" ng-show="!(editTeam == '') && editMode == 'true'">
                                     <div class="box collapsed-box" ng-repeat="team in editTeam">
                                         <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
                                             <h5 class="box-title">
@@ -1412,7 +1458,7 @@ and open the template in the editor.
                                                     <i class="fa fa-chevron-down"></i>
                                                 </button>
                                             </div>
-                                        </div>
+                                        </div>  
                                         <div class="box-body with-border" style="display: none">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
@@ -1438,17 +1484,19 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class='custom-remarks' ng-model="team['explain_if_others']" name='otherExpTeam' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="team['explain_if_others']" ng-maxlength="200" name='otherExpTeam' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="team['explain_if_others'].length < 200 && team['explain_if_others'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Subteam</label>
-                                                    <input ng-model="team['sub_team']" name='subteam' type="text" class="form-control">
+                                                    <input ng-model="team['sub_team']" ng-maxlength="50" name='subteam' type="text" class="form-control">
+                                                    <span ng-hide="team['sub_team'].length < 50 && team['sub_team'].length > -1" class="error">Input field sub-team is too long.</span>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
                                                     <label>Permission</label><span class="required">*</span>
-                                                    <select class="form-control" ng-model="team['permission']" name='permission'>
+                                                    <select class="form-control" ng-model="team['permission']" name='permission' empty>
                                                         <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                                     </select>
                                                 </div>
@@ -1456,7 +1504,8 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
-                                                    <textarea class='custom-remarks' ng-model="team['remarks']" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
+                                                    <textarea class='custom-remarks' ng-model="team['remarks']" ng-maxlength="1000" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="team['remarks'].length < 1000 && team['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1472,9 +1521,95 @@ and open the template in the editor.
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheTeam($event, team)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="team['permission'] == '' || !(team['remarks'].length < 1000 && team['remarks'].length > -1) || !(team['sub_team'].length < 50 && team['sub_team'].length > -1) || !(team['explain_if_others'].length < 200 && team['explain_if_others'].length > -1)" 
+                                                            ng-click="editTheTeam($event, team)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheTeam($event, team)">Delete team</button>
+                                                    <br>
+                                                    <span ng-bind="resultTeam.message" ng-show="resultTeam.status && (resultTeam['team_name'] == team['team_name'])"></span>
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body hidden-blue-box" ng-show="!(editTeam == '') && editMode == 'false'">
+                                    <div class="box collapsed-box" ng-repeat="team in editTeam">
+                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                            <h5 class="box-title">
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </button>
+                                                <b>Team <span ng-bind="team['team_name']"></span></b>
+                                                <b ng-if="team['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </button>
+                                            </div>
+                                        </div>  
+                                        <div class="box-body with-border" style="display: none">
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Date created</label>
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type='text' ng-model="team['date_created']" name="dateCreatedTeam" class="form-control pull-right" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-offset-2 col-md-5">
+                                                    <label>Created by</label>
+                                                    <input type='text' ng-model="team['created_by']" name="createdByTeam" class="form-control" readonly> 
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Team</label><span class="required">*</span>
+                                                    <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-12">
+                                                    <label>Explain if above is 'Other'</label>
+                                                    <textarea class='custom-remarks' ng-model="team['explain_if_others']" ng-maxlength="200" name='otherExpTeam' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="team['explain_if_others'].length < 200 && team['explain_if_others'].length > -1" class="error">Input field explanation is too long.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Subteam</label>
+                                                    <input ng-model="team['sub_team']" ng-maxlength="50" name='subteam' type="text" class="form-control">
+                                                    <span ng-hide="team['sub_team'].length < 50 && team['sub_team'].length > -1" class="error">Input field sub-team is too long.</span>
+                                                </div>
+                                                <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
+                                                    <label>Permission</label><span class="required">*</span>
+                                                    <input ng-model="team['permission']" name='permission' type="text" class="form-control white-background" readonly>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-12">
+                                                    <label>Remarks</label>
+                                                    <textarea class='custom-remarks' ng-model="team['remarks']" ng-maxlength="1000" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="team['remarks'].length < 1000 && team['remarks'].length > -1" class="error">Input field remarks is too long.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Date obsolete</label>
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon btn">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input ng-model="team['date_obsolete']"name='dateObsTeam' type='text' class="form-control pull-right" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class='row'>
+                                                <center>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(team['remarks'].length < 1000 && team['remarks'].length > -1) || !(team['sub_team'].length < 50 && team['sub_team'].length > -1) || !(team['explain_if_others'].length < 200 && team['explain_if_others'].length > -1)" 
+                                                            ng-click="editTheTeam($event, team)">Save Changes</button>
                                                     <br>
                                                     <span ng-bind="resultTeam.message" ng-show="resultTeam.status && (resultTeam['team_name'] == team['team_name'])"></span>
                                                 </center>
@@ -1486,7 +1621,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                             <label>Team</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="newTeam['team']" name='team'>
+                                            <select class="form-control" ng-model="newTeam['team']" name='additionalteam' empty>
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
                                         </div>
@@ -1494,17 +1629,19 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class='custom-remarks' ng-model="newTeam['explain_if_others']" name='otherExpTeam' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newTeam['explain_if_others']" ng-maxlength="200" name='additionalotherExpTeam' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editTeamForm.additionalotherExpTeam.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
                                             <label>Subteam</label>
-                                            <input ng-model="newTeam['subteam']" name='subteam' type="text" class="form-control">
+                                            <input ng-model="newTeam['subteam']" ng-maxlength="50" name='additionalsubteam' type="text" class="form-control">
+                                            <span ng-show="form.editTeamForm.additionalsubteam.$error.maxlength" class="error">Input field sub-team is too long.</span>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
                                             <label>Permission</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="newTeam['permission_level']" name='permission'>
+                                            <select class="form-control" ng-model="newTeam['permission_level']" name='additionalpermission' empty>
                                                 <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                             </select>
                                         </div>
@@ -1512,12 +1649,15 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remarks</label>
-                                            <textarea class='custom-remarks' ng-model="newTeam['remarks']" name='remarksTeam' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newTeam['remarks']" ng-maxlength="1000" name='additionalremarksTeam' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editTeamForm.additionalremarksTeam.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-click="addTeam()">Done</button>
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editTeamForm.additionalteam.$invalid || form.editTeamForm.additionalotherExpTeam.$invalid
+                                                    || form.editTeamForm.additionalsubteam.$invalid || form.editTeamForm.additionalpermission.$invalid || form.editTeamForm.additionalremarksTeam.$invalid" 
+                                                    ng-click="addTeam()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewTeam.message" ng-show="submitNewTeam.submittedTeam"></span>
                                         </center>
@@ -1526,7 +1666,7 @@ and open the template in the editor.
                                 <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'false'">
                                     <div class="form-group" ng-init="loadTeamAffiliationList()">
                                         <label>First choice</label><span class="required">*</span>
-                                        <select class="form-control" ng-model="teamPref.team1" name="teamPref1">
+                                        <select class="form-control" ng-model="teamPref.team1" name="teamPref1" empty>
                                             <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                         </select>
                                     </div>
@@ -1544,7 +1684,7 @@ and open the template in the editor.
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-click="addTeam()">Done</button>
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editTeamForm.teamPref1.$invalid" ng-click="addTeam()">Done</button>
                                             <br>
                                             <span ng-bind="submitNewTeam.message" ng-show="submitNewTeam.submittedTeam"></span>
                                         </center>
@@ -1552,8 +1692,8 @@ and open the template in the editor.
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'true'" ng-click="addNewTeam()">Add new team</button>
-                                        <button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'false'" ng-click="addNewTeam()">Select new team</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'true' && !addingTeam" ng-click="addNewTeam()">Add new team</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'false' && !addingTeam" ng-click="addNewTeam()">Select new team</button>
                                     </center>
                                 </div>
                             </div>
@@ -1738,7 +1878,7 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="appreciation['remarks']" ng-maxlength="1000" name='remarksAppn' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editAppreciationForm.remarksAppn.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <span ng-show="form.editAppreciationForm.remarksAppn.$error.maxlength" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class='row'>
@@ -1807,7 +1947,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newAppreciation['remarks']" ng-maxlength="1000" name='additionalremarksAppn' contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="form.editAppreciationForm.additionalremarksAppn.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editAppreciationForm.additionalremarksAppn.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -1900,7 +2040,7 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="proxy['remarks']" ng-maxlength="1000" name='remarksProx' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editProxyForm.remarksProx.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <span ng-show="form.editProxyForm.remarksProx.$error.maxlength" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1950,7 +2090,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newProxy['remarks']" ng-maxlength="1000" name='additionalremarksProx' contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="form.editProxyForm.additionalremarksProx.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editProxyForm.additionalremarksProx.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -2041,7 +2181,7 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="language['remarks']" ng-maxlength="1000" name='remarksLang' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editLanguageForm.remarksLang.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <span ng-show="form.editLanguageForm.remarksLang.$error.maxlength" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -2094,7 +2234,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newLanguages['remarks']" name='additionalremarksLang' contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="form.editLanguageForm.additionalremarksLang.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editLanguageForm.additionalremarksLang.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
@@ -2178,7 +2318,7 @@ and open the template in the editor.
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="skill['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true" name="remarksSkill"></textarea>
-                                                    <span ng-show="form.editSkillForm.remarksSkill.$error.maxlength" class="error">Input field remark is too long.</span>
+                                                    <span ng-show="form.editSkillForm.remarksSkill.$error.maxlength" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -2224,7 +2364,7 @@ and open the template in the editor.
                                         <div class="col-md-12">
                                             <label>Remarks</label>
                                             <textarea class='custom-remarks' ng-model="newSkills['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true" name="additionalremarksSkill"></textarea>
-                                            <span ng-show="form.editSkillForm.additionalremarksSkill.$error.maxlength" class="error">Input field remark is too long.</span>
+                                            <span ng-show="form.editSkillForm.additionalremarksSkill.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
                                     <div class='row'>
