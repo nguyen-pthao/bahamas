@@ -34,21 +34,17 @@ public class VerifyEmail extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>VerifyEmail</title>");            
-            out.println("</head>");
-            out.println("<body>");
+
             String verifyID = request.getParameter("verifyemail");
             if(!EmailDAO.checkVerificationID(verifyID)){
                 EmailDAO.updateVerification(verifyID);
-                out.println("<h1>Email successfully verified!</h1>");
+                response.sendRedirect("/bahamas/app/views/email/verifiedEmail.html");
+               
             }else{
-                out.println("<h1>Your link is expired!</h1>");
+                //response.sendRedirect("/bahamas/app/views/email/verifiedEmail.html");
+                
             }
-            out.println("</body>");
-            out.println("</html>");
+
         }
     }
 
