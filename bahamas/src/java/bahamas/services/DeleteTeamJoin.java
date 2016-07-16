@@ -84,7 +84,7 @@ public class DeleteTeamJoin extends HttpServlet {
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
-                    json.addProperty("message", "fail");
+                    json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
 
                 } else {

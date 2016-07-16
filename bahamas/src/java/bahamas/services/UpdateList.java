@@ -5,15 +5,14 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.PhoneDAO;
+import bahamas.dao.list.UpdateListDAO;
 import bahamas.entity.Contact;
-import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -21,9 +20,6 @@ import is203.JWTException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -34,14 +30,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Darryl Mok
+ * @author tan.si.hao
  */
-@WebServlet(name = "DeletePhone", urlPatterns = {"/phone.delete"})
-public class DeletePhone extends HttpServlet {
+@WebServlet(name = "UpdateList", urlPatterns = {"/updatelist"})
+public class UpdateList extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -49,12 +44,12 @@ public class DeletePhone extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException, JWTException {
-        response.setContentType("text/html;charset=UTF-8");
+            throws ServletException, IOException {
+        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
+            
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
             try {
@@ -80,50 +75,98 @@ public class DeletePhone extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
+                String selectedList = Validator.containsBlankField(jobject.get("selectedList"));
+                JsonArray jsonlist = jobject.getAsJsonArray("list");
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
-                    json.addProperty("message", "invalid token");
+                    json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
-
+                    
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
-
-                    Contact c = cDAO.retrieveContactById(contactId);
-
-                    if (c == null) {
+                    Contact contact = cDAO.retrieveContactByUsername(username);
+                    if (contact == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
+                        return;
                     } else {
-
-                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() && !c.getUsername().equals(username)) {
+                        if(contact.isIsAdmin() && !jsonlist.isJsonNull()){
+                            //update db
+                            if(UpdateList.dbTableMapping(selectedList, jsonlist)){
+                                json.addProperty("message", "success");
+                                out.println(gson.toJson(json));
+                                return;
+                            }
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
                         }
-
-                        String phoneNumber = Validator.containsBlankField(jobject.get("phone_number"));
-
-                        if (PhoneDAO.deletePhone(contactId, phoneNumber)) {
-                            AuditLogDAO.insertAuditLog(username, "DELETE PHONE", "Delete phone under contact: Contact ID: " + contactId);
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "failure delete into system");
-                            out.println(gson.toJson(json));
-                        }
-
                     }
-
                 }
             }
-
+            
+        } catch (JWTException ex) {
+            Logger.getLogger(UpdateList.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+    private static boolean dbTableMapping(String tableID, JsonArray jsonlist){
+        boolean status = false;
+        switch (tableID) {
+            case "1":
+                //tableName = "TYPE_OF_CONTACT_LIST";
+                UpdateListDAO.updateTypeOfContactList(jsonlist);
+                status = true;
+                break;
+            case "2":
+                UpdateListDAO.updateEventClassList(jsonlist);
+                status = true;
+                break;
+            case "3":
+                UpdateListDAO.updateEventLocationList(jsonlist);
+                status = true;
+                break;
+            case "4":
+                UpdateListDAO.updateLSAClassList(jsonlist);
+                status = true;
+                break;
+            case "5":
+                UpdateListDAO.updateLanguageList(jsonlist);
+                status = true;
+                break;
+            case "6":
+                UpdateListDAO.updateMembershipClassList(jsonlist);
+                status = true;
+                break;
+            case "7":
+                UpdateListDAO.updateModeOfSendingReceiptList(jsonlist);
+                status = true;
+                break;
+            case "8":
+                UpdateListDAO.updateOfficeList(jsonlist);
+                status = true;
+                break;
+            case "9":
+                UpdateListDAO.updatePaymentModeList(jsonlist);
+                status = true;
+                break;
+            case "10":
+                UpdateListDAO.updatePermissionLevelList(jsonlist);
+                status = true;
+                break;
+            case "11":
+                UpdateListDAO.updateTeamAffiliationList(jsonlist);
+                status = true;
+                break;
+            default:
+                return false;
+        }
+        return status;
+    }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -135,11 +178,7 @@ public class DeletePhone extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (JWTException ex) {
-            Logger.getLogger(DeletePhone.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -153,11 +192,7 @@ public class DeletePhone extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try {
-            processRequest(request, response);
-        } catch (JWTException ex) {
-            Logger.getLogger(DeletePhone.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        processRequest(request, response);
     }
 
     /**

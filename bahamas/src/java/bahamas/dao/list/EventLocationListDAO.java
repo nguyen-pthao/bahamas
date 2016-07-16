@@ -36,7 +36,7 @@ public class EventLocationListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM EVENT_LOCATION_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM EVENT_LOCATION_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

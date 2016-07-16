@@ -9,11 +9,12 @@
 var app = angular.module('bahamas');
 
 app.filter('verifiedFilter', function () {
-    return function(text, length, end) {
+    return function (text, length, end) {
         if (text) {
             return 'Yes';
+        } else {
+            return 'No';
         }
-        return 'No';
     }
 });
 
@@ -105,6 +106,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
 
             //email info
             $scope.email = $scope.contactInfo['email'];
+            console.log($scope.email);
             $scope.hasEmail = true;
             if (angular.isUndefined($scope.email)) {
                 $scope.hasEmail = false;

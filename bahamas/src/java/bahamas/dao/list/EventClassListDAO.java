@@ -35,7 +35,7 @@ public class EventClassListDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM EVENT_CLASS_LIST");
+            stmt = conn.prepareStatement("SELECT * FROM EVENT_CLASS_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {

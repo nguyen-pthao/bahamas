@@ -85,7 +85,7 @@ public class AddPhone extends HttpServlet {
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
-                    json.addProperty("message", "fail");
+                    json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
 
                 } else {
@@ -106,7 +106,7 @@ public class AddPhone extends HttpServlet {
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
                         if (phoneNumber != null) {
-                            if (PhoneDAO.phoneExist(countryCode, phoneNumber)) {
+                            if (PhoneDAO.phoneExist(contactId,countryCode, phoneNumber)) {
                                 Validator.getErrorList().add("Phone number exists");
                             }
                         }
