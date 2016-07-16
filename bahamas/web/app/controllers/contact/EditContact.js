@@ -321,6 +321,7 @@ app.controller('editContact',
                                 retrievePersonalInfo(contactToEdit);
                                 retrievePhoneInfo(contactToEdit);
                                 retrieveEmailInfo(contactToEdit);
+                                retrieveVerifiedEmailInfo(contactToEdit);
                                 retrieveAddressInfo(contactToEdit);
                                 retrieveMembershipInfo(contactToEdit);
                                 retrieveOfficeInfo(contactToEdit);
@@ -349,6 +350,7 @@ app.controller('editContact',
                                 retrievePersonalInfo(contactToEdit);
                                 retrievePhoneInfo(contactToEdit);
                                 retrieveEmailInfo(contactToEdit);
+                                retrieveVerifiedEmailInfo(contactToEdit);
                                 retrieveAddressInfo(contactToEdit);
                                 retrieveMembershipInfo(contactToEdit);
                                 retrieveOfficeInfo(contactToEdit);
@@ -478,13 +480,24 @@ app.controller('editContact',
                 var retrieveEmailInfo = function (contactToEdit) {
                     if (contactToEdit.email != '') {
                         $scope.editEmail = contactToEdit.email;
-                        $scope.emailList = [];
                         for (var i = 0; i < contactToEdit.email.length; i++) {
                             $scope.editEmail[i]['date_obsolete'] = new Date(contactToEdit.email[i]['date_obsolete']);
-                            $scope.emailList.push({'email': $scope.editEmail[i]['email']});
                         }
                     } else {
                         $scope.editEmail = '';
+                    }
+                };
+                //verified_email
+                var retrieveVerifiedEmailInfo = function (contactToEdit) {
+                    if (contactToEdit['verified_email'] != '') {
+                        $scope.editVerifiedEmail = contactToEdit['verified_email'];
+                        $scope.emailList = [];
+                        for (var i = 0; i < contactToEdit['verified_email'].length; i++) {
+                            $scope.emailList.push({'email': $scope.editVerifiedEmail[i]['verified_email']});
+                        }
+                        console.log($scope.emailList);
+                    } else {
+                        $scope.editVerifiedEmail = '';
                     }
                 };
                 //address
@@ -837,7 +850,6 @@ app.controller('editContact',
                             $scope.resultPhone.message = successMsg;
                             $scope.retrieveFunc();
                             $scope.form.editPhoneForm.$setValidity();
-                            $scope.form.editPhoneForm.additionalphone.$setPristine();
                             $timeout(function () {
                                 $scope.resultPhone.status = false;
                             }, 1000);
@@ -2513,6 +2525,7 @@ app.controller('editContact',
                             $scope.retrieveFunc();
                             $scope.newProxy = angular.copy($scope.copyProxy);
                             $scope.form.editProxyForm.$setValidity();
+                            $scope.form.editProxyForm.$setPristine();
                             $timeout(function () {
                                 $scope.submitNewProxy.submittedProxy = false;
                             }, 1000);

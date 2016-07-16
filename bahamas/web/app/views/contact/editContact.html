@@ -79,12 +79,12 @@ and open the template in the editor.
                                                 <!--<input type="text" ng-model='editUser.email' class="form-control" name="useremailNU">-->
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
-                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-show="!(editEmail == '')" empty>
+                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-show="!(editVerifiedEmail == '')" empty>
                                                             <option ng-repeat="userEmail in emailList">{{userEmail.email}}</option>
                                                         </select>
                                                         <span ng-show='editUserForm.useremailNU.$error.empty && editUserForm.useremailNU.$dirty' class='error'>Email is required</span>
                                                     </div>
-                                                    <label ng-show="editEmail == ''">This user does not have an email. Please add his/her email before proceeding.</label>
+                                                    <label ng-show="editVerifiedEmail == ''">This user does not have a verified email. Please let him/her verify email before proceeding.</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -2169,15 +2169,15 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class='custom-remarks' ng-model="language['explain_if_other']" ng-maxlength="200" name='otherExpLang' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editLanguageForm.otherExpLang.$error.maxlength" class="error">Input field explanation is too long.</span>
+                                                    <textarea class='custom-remarks' ng-model="language['explain_if_other']" name='otherExpLang' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="language['explain_if_other'].length < 200 && language['explain_if_other'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="language['remarks']" ng-maxlength="1000" name='remarksLang' contenteditable="true" spellcheck="true"></textarea>
-                                                    <span ng-show="form.editLanguageForm.remarksLang.$error.maxlength" class="error">Input field remarks is too long.</span>
+                                                    <span ng-hide="language['remarks'].length < 1000 && language['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -2193,7 +2193,7 @@ and open the template in the editor.
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editLanguageForm.otherExpLang.$invalid || form.editLanguageForm.remarksLang.$invalid" ng-click="editTheLanguage($event, language)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(language['explain_if_other'].length < 200 && language['explain_if_other'].length > -1) || !(language['remarks'].length < 1000 && language['remarks'].length > -1)" ng-click="editTheLanguage($event, language)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheLanguage($event, language)">Delete language</button>
                                                     <br>
@@ -2306,15 +2306,15 @@ and open the template in the editor.
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Explain if above is 'Other'</label>
-                                                    <textarea class='custom-remarks' ng-model="skill['explain_if_other']" ng-maxlength="200" contenteditable="true" spellcheck="true" name="otherExpSkill"></textarea>
-                                                    <span ng-show="form.editSkillForm.otherExpSkill.$error.maxlength" class="error">Input field explanation is too long.</span>
+                                                    <textarea class='custom-remarks' ng-model="skill['explain_if_other']" contenteditable="true" spellcheck="true" name="otherExpSkill"></textarea>
+                                                    <span ng-hide="skill['explain_if_other'].length < 200 && skill['explain_if_other'].length > -1" class="error">Input field explanation is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="skill['remarks']" ng-maxlength="1000" contenteditable="true" spellcheck="true" name="remarksSkill"></textarea>
-                                                    <span ng-show="form.editSkillForm.remarksSkill.$error.maxlength" class="error">Input field remarks is too long.</span>
+                                                    <span ng-hide="skill['remarks'].length < 1000 && skill['remarks'].length > -1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -2330,7 +2330,7 @@ and open the template in the editor.
                                             </div>
                                             <div class='row'>
                                                 <center>
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="form.editSkillForm.otherExpSkill.$invalid || form.editSkillForm.remarksSkill.$invalid" ng-click="editTheSkill($event, skill)">Save Changes</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(skill['explain_if_other'].length < 200 && skill['explain_if_other'].length > -1) || !(skill['remarks'].length < 1000 && skill['remarks'].length > -1)" ng-click="editTheSkill($event, skill)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
                                                     <br>
