@@ -1703,6 +1703,7 @@ app.controller('editContact',
                     message: ''
                 };
                 $scope.editTheDonation = function ($event, donation) {
+                    console.log(donation);
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
                     if ($scope.editMode == 'true') {
@@ -1822,11 +1823,11 @@ app.controller('editContact',
                     'explain_if_other_receipt': '',
                     'donor_instruction': '',
                     'allocation1': '',
-                    'subamount1': '',
+                    'subamount1': 0,
                     'allocation2': '',
-                    'subamount2': '',
+                    'subamount2': 0,
                     'allocation3': '',
-                    'subamount3': '',
+                    'subamount3': 0,
                     'associated_occasion': '',
                     'remarks': ''
                 };
@@ -1860,6 +1861,7 @@ app.controller('editContact',
                     } else {
                         $scope.newDonation['receipt_date'] = $scope.newDonation['receipt_date'].valueOf() + "";
                     }
+                    console.log($scope.newDonation);
                     dataSubmit.submitData($scope.newDonation, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewDonation.submittedDonation = true;
@@ -1932,7 +1934,6 @@ app.controller('editContact',
                     datasend['remarks'] = team['remarks'];
                     var url = AppAPI.updateTeamJoin;
                     dataSubmit.submitData(datasend, url).then(function (response) {
-                        console.log(response.data);
                         $scope.resultTeam.status = true;
                         if (response.data.message == 'success') {
                             $scope.resultTeam['team_name'] = datasend['team'];
