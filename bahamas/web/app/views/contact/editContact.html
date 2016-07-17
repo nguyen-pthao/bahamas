@@ -876,7 +876,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Subscription amount</label><span class="required">*</span>
-                                            <input type="number" ng-model="newMembership['subscription_amount']" class="form-control" name="additionalsubsrcAmtMem" empty>
+                                            <input ng-model="newMembership['subscription_amount']" class="form-control" name="additionalsubsrcAmtMem" empty>
                                             <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.empty && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Subscription amount is required.</span>
                                         </div>
                                     </div>
@@ -1264,7 +1264,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 1</label>
-                                                    <input ng-model="donation['subtotal1']" name='subAmtDon1' type="number" class="form-control">
+                                                    <input ng-model="donation['subtotal1']" name='subAmtDon1' class="form-control">
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
@@ -1275,7 +1275,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 2</label>
-                                                    <input ng-model="donation['subtotal2']" name='subAmtDon2' type="number" class="form-control">
+                                                    <input ng-model="donation['subtotal2']" name='subAmtDon2' class="form-control">
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
@@ -1286,7 +1286,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 3</label>
-                                                    <input ng-model="donation['subtotal3']" name='subAmtDon3' type="number" class="form-control">
+                                                    <input ng-model="donation['subtotal3']" name='subAmtDon3' class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1340,7 +1340,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Donation amount</label><span class="required">*</span>
-                                            <input type="number" class="form-control" ng-model="newDonation['donation_amount']" name='additionaldonAmt' empty>
+                                            <input class="form-control" ng-model="newDonation['donation_amount']" name='additionaldonAmt' empty>
                                             <span ng-show="form.editDonationForm.additionaldonAmt.$error.empty && form.editDonationForm.additionaldonAmt.$touched" class="error">Donation amount is required.</span>
                                         </div>
                                     </div>
@@ -1410,7 +1410,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 1</label>
-                                            <input ng-model="newDonation['subamount1']" name='additionalsubAmtDon1' type="number" class="form-control">
+                                            <input ng-model="newDonation['subamount1']" name='additionalsubAmtDon1' class="form-control">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
@@ -1421,7 +1421,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 2</label>
-                                            <input ng-model="newDonation['subamount2']" name='additionalsubAmtDon2' type="number" step='any' class="form-control">
+                                            <input ng-model="newDonation['subamount2']" name='additionalsubAmtDon2' step='any' class="form-control">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
@@ -1432,7 +1432,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 3</label>
-                                            <input ng-model="newDonation['subamount3']" name='additionalsubAmtDon3' type="number" class="form-control">
+                                            <input ng-model="newDonation['subamount3']" name='additionalsubAmtDon3' class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
