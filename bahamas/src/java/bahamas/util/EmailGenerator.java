@@ -20,6 +20,7 @@ public class EmailGenerator {
 
     private static final String USERNAME = "mailagent@twc2.org.sg";
     private static final String PASSWORD = "0kS3%6su31RR";
+    private static final String location = "https://rms.twc2.org.sg";
 
     /*
     public static void main(String[] args){
@@ -101,7 +102,7 @@ public class EmailGenerator {
             message.setSubject("TWC2 Bahamas - Email Verification");
             message.setText("Dear " + name + ","
                     + "\n\nYour email address has not been verified."
-                    + "\nClick this link to complete the verification: http://localhost:8084/bahamas/verifyemail?verifyemail=" + hashID
+                    + "\nClick this link to complete the verification: "+ location +"/bahamas/verifyemail?verifyemail=" + hashID
                     + "\n\nRegards," + "\n TWC2 Team");
 
             Transport.send(message);
