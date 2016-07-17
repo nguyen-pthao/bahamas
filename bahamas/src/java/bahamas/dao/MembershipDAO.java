@@ -331,27 +331,20 @@ public class MembershipDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         boolean exist = false;
-
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT COUNT(*) FROM MEMBERSHIP WHERE CONTACT_ID =(?)"
-                    + " AND START_MEMBERSHIP >=? AND END_MEMBERSHIP <=? OR START_MEMBERSHIP >= (?)"
-                    + " AND END_MEMBERSHIP <= (?)");
+            stmt = conn.prepareStatement("SELECT START_MEMBERSHIP, END_MEMBERSHIP FROM MEMBERSHIP WHERE CONTACT_ID =(?)");
             
             stmt.setInt(1, id);
-            stmt.setDate(2, new java.sql.Date(startDate.getTime()));
-            stmt.setDate(3, new java.sql.Date(startDate.getTime()));
-            stmt.setDate(4, new java.sql.Date(endDate.getTime()));
-            stmt.setDate(5, new java.sql.Date(endDate.getTime()));
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                /*
-                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                String strStartDate1 = rs.getString(1) + " 00:00:00";
-                String strEndDate2 = rs.getString(2) + " 23:59:59";
-                Date startDateDB = date.parse(strStartDate1);
-                Date endDateDB = date.parse(strEndDate2);
+                String strStartDate = rs.getString(1);
+                String strEndDate = rs.getString(2);
+                Date startDateDB = date.parse(strStartDate);
+                Date endDateDB = date.parse(strEndDate);
+                
 
                 if(startDate.equals(startDateDB) || startDate.equals(endDateDB) || ( startDate.after(startDateDB) && startDate.before(endDateDB))){
                     exist = true;
@@ -360,10 +353,10 @@ public class MembershipDAO {
                 }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
                     exist = true;
                 }
-                 */
-                return rs.getInt(1) > 0;
             }
 
+        } catch (ParseException ex) {
+            Logger.getLogger(OfficeHeldDAO.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
             ex.printStackTrace();

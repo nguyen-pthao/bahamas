@@ -185,21 +185,10 @@ public class OfficeHeldDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?)");
-            //stmt = conn.prepareStatement("SELECT COUNT(*) FROM OFFICE_HELD WHERE CONTACT_ID = (?) "
-            //        + "AND OFFICE_HELD_NAME = (?) AND (START_OFFICE >= (?) OR END_OFFICE <= (?)) "
-            //        + "OR (START_OFFICE >= (?) OR END_OFFICE <= (?))");
             stmt.setInt(1, id);
-            //stmt.setString(2, startDate);
-            //stmt.setString(3, endDate);
             stmt.setString(2, officeHeldName);
-            //stmt.setDate(3, new java.sql.Date(startDate.getTime()));
-            //stmt.setDate(4, new java.sql.Date(startDate.getTime()));
-            //stmt.setDate(5, new java.sql.Date(endStart.getTime()));
-            //stmt.setDate(6, new java.sql.Date(endStart.getTime()));
             rs = stmt.executeQuery();
             while (rs.next()) {
-                //String strStartDate1 = rs.getString(1) + " 00:00:00";
-                //String strEndDate2 = rs.getString(2) + " 23:59:59";
                 String strStartDate = rs.getString(1);
                 String strEndDate = rs.getString(2);
                 Date startDateDB = date.parse(strStartDate);
@@ -213,12 +202,6 @@ public class OfficeHeldDAO {
                 }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
                     exist = true;
                 }
-                /*
-                int count = rs.getInt(1);
-                if (count >= 1) {
-                    exist = true;
-                }
-                 */
             }
 
         } catch (ParseException ex) {
