@@ -42,7 +42,7 @@ public class VerifyEmail extends HttpServlet {
                
             }else{
                 //response.sendRedirect("/bahamas/app/views/email/verifiedEmail.html");
-                
+                out.println("<div align=\"center\"><h1>Link is invalid.</h1></div>");
             }
 
         }
