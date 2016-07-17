@@ -134,13 +134,6 @@ public class Validator {
     }
 
     private static BigDecimal truncateDecimal(double x, int numberofDecimals) throws Exception {
-        String temp = String.valueOf(x);
-        final String DOUBLE_PATTERN = "[0-9]+(\\.){0,1}[0-9]*";
-
-        if (!Pattern.matches(DOUBLE_PATTERN, temp)) {
-            throw new Exception("Illegal Decimal");         
-        }
-
         if (x > 0) {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
         } else {
@@ -150,7 +143,7 @@ public class Validator {
 
     public static double isDoubleValid(JsonElement e) {
         if (e != null && !e.isJsonNull()) {
-            try {
+            try {              
                 return truncateDecimal(e.getAsDouble(), 2).doubleValue();
             } catch (Exception ex) {
                 errorList.add("Please enter a valid value");
