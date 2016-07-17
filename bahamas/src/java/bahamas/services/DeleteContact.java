@@ -107,7 +107,7 @@ public class DeleteContact extends HttpServlet {
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                     } else {
-                        json.addProperty("message", "failure delete into system");
+                        json.addProperty("message", "failure delete into system, contact cannot be deleted due to dependencies");
                         out.println(gson.toJson(json));
                     }
 
