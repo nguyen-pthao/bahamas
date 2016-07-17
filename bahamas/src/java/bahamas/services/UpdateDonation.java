@@ -139,6 +139,7 @@ public class UpdateDonation extends HttpServlet {
 
                         int donationId = Validator.isIntValid(jobject.get("donation_id"));
                         d.setDonationId(donationId);
+                        
 
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();

@@ -181,7 +181,7 @@ public class DonationDAO {
             stmt.setDouble(17, d.getSubAmount3());
             stmt.setString(18, d.getAssociatedOccasion());
             stmt.setString(19, d.getRemarks());
-            stmt.setInt(20, d.getContact().getContactId());
+            stmt.setInt(20, d.getDonationId());
 
             result = stmt.executeUpdate();
 
