@@ -132,14 +132,12 @@ app.controller('globalSettings',
                         $scope.listToSend['token'] = session.getSession('token');
                         $scope.listToSend['list'] = $rootScope.list;
                         $scope.listToSend['selectedList'] = $scope.selectedList;
-                        console.log($scope.listToSend);
                         //call api to update list in DB. and upon success prompt update success.
                         $http({
                             method: 'POST',
                             url: $rootScope.commonUrl + '/updatelist',
                             data: JSON.stringify($scope.listToSend)
                         }).then(function (response) {
-                            console.log(response);
                             if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     templateUrl: './style/ngTemplate/updateListSuccess.html',

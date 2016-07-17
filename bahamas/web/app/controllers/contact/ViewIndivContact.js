@@ -22,7 +22,6 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         $scope.contactToDisplayCid = session.getSession('contactToDisplayCid');
         $scope.permission = session.getSession('userType');
         $scope.ownContactCid = angular.fromJson(session.getSession('contact')).cid;
-//        console.log($scope.ownContactCid);
         if (session.getSession('teams') === 'undefined') {
             var contactToRetrieve = {
                 'token': session.getSession('token'),
@@ -71,7 +70,6 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         }
 
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
-//            console.log(response);
             $scope.contactInfo = response.data.contact[0];
             //user info
             $scope.username = $scope.contactInfo.username;
@@ -106,7 +104,6 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
 
             //email info
             $scope.email = $scope.contactInfo['email'];
-            console.log($scope.email);
             $scope.hasEmail = true;
             if (angular.isUndefined($scope.email)) {
                 $scope.hasEmail = false;
