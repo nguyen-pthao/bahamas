@@ -173,7 +173,7 @@ public class OfficeHeldDAO {
 
     }
     
-    public static boolean officeHeldExist(int id, Date startDate, Date endDate, String officeHeldName) {
+    public static boolean officeHeldExist(int id, Date startDate, String officeHeldName) {
 
         Connection conn = null;
         PreparedStatement stmt = null;

@@ -117,7 +117,7 @@ public class AddOfficeHeld extends HttpServlet {
                         String officeHeld = Validator.containsBlankField(jobject.get("office_held_name"));
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
 
-                        if (OfficeHeldDAO.officeHeldExist(contactId, startOffice, endOffice, officeHeld)) {
+                        if (OfficeHeldDAO.officeHeldExist(contactId, startOffice, officeHeld)) {
                             Validator.getErrorList().add("Office Held already exists");
                         }
                         
