@@ -772,7 +772,7 @@ public class RetrieveContactIndiv extends HttpServlet {
                     JsonObject jsonDonationObj = new JsonObject();
                     Donation donation = donationList.get(i);
 
-                    jsonDonationObj.addProperty("donation_id", Integer.toString(donation.getDonationId()));
+                    jsonDonationObj.addProperty("donation_id", donation.getDonationId());
                     if (donation.getDateReceived() != null) {
                         jsonDonationObj.addProperty("date_received", sdf.format(donation.getDateReceived()));
                     } else {
