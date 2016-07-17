@@ -79,7 +79,7 @@ and open the template in the editor.
                                         </div>  
                                         <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                                             <label>Nationality</label>
-                                            <input type="text" ng-model="contactInfo.nationality" ng-pattern="nationalityRegex" class="form-control" name="nationality">
+                                            <input type="text" ng-model="contactInfo.nationality" ng-pattern="nationalityRegex" ng-maxlength="20" class="form-control" name="nationality">
                                             <span ng-show="contactForm.nationality.$invalid && contactForm.nationality.$touched" class='error'>Invalid nationality.</span>
                                         </div>    
                                     </div>
@@ -100,7 +100,7 @@ and open the template in the editor.
                                 </div>    
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="nextForm()" 
-                                                    ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength)
+                                                    ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength) || (contactForm.altname.$invalid)
                                                     || (contactForm.nricfin.$invalid) || (contactForm.profession.$invalid) || (contactForm.jobtitle.$invalid)
                                                     || (contactForm.nationality.$invalid) || submitted"
                                                     class="btn btn-primary" data-toggle="modal" data-target="#additionalForm" data-keyboard="false" data-backdrop="static">

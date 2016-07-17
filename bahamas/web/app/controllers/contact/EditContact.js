@@ -405,13 +405,13 @@ app.controller('editContact',
                     });
 //for edit proxy
                     $scope.onSelect = function ($item, $model, $label) {
-                        $scope.searchContact();
-                        console.log(selectedProxy);
+                        $scope.searchContact($item);
                     };
 //for edit proxy                  
-                    $scope.searchContact = function () {
-                        selectedProxy = $scope.proxy['proxy_name'];
-                        console.log(selectedProxy);
+                    $scope.searchContact = function (selected) {
+                        console.log(selected);
+//                        selectedProxy = $scope.proxy['proxy_name'];
+                        $scope.selectedProxyCid = selected.cid;
                     };
                 };
                 
@@ -2520,7 +2520,7 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.addProxy = function () {
-                    $scope.newProxy['proxy_of'] = selectedProxy.cid;
+                    $scope.newProxy['proxy_of'] = $scope.selectedProxyCid;
                     $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
