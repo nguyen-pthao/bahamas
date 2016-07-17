@@ -117,10 +117,17 @@ public class AddOfficeHeld extends HttpServlet {
                         String officeHeld = Validator.containsBlankField(jobject.get("office_held_name"));
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
 
-                        if (OfficeHeldDAO.officeHeldExist(contactId, startOffice, endOffice,officeHeld)) {
+                        if (startOffice != null && endOffice != null) {
+                            if (endOffice.before(startOffice) || !startOffice.before(endOffice)) {
+                                Validator.getErrorList().add("Start office date must be before end office date");
+                            }
+
+                        }
+
+                        if (OfficeHeldDAO.officeHeldExist(contactId, startOffice, endOffice, officeHeld)) {
                             Validator.getErrorList().add("Office Held already exists");
                         }
-                        
+
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
                             for (String s : Validator.getErrorList()) {

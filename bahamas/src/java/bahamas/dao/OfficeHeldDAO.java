@@ -155,7 +155,7 @@ public class OfficeHeldDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("DELETE FROM OFFICE_HELD "
-                    + "WHERE CONTACT_ID AND OFFICE_HELD_NAME=? AND START_OFFICE=?");
+                    + "WHERE CONTACT_ID=? AND OFFICE_HELD_NAME=? AND START_OFFICE=?");
 
             stmt.setInt(1, id);
             stmt.setString(2, officeName);
@@ -186,8 +186,8 @@ public class OfficeHeldDAO {
             conn = ConnectionManager.getConnection();
             //stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?) AND START_OFFICE = (?)");
             stmt = conn.prepareStatement("SELECT COUNT(*) FROM OFFICE_HELD WHERE CONTACT_ID = (?) "
-                    + "AND OFFICE_HELD_NAME = (?) AND START_OFFICE >= (?) AND END_OFFICE <= (?) "
-                    + "OR START_OFFICE >= (?) AND END_OFFICE <= (?)");
+                    + "AND OFFICE_HELD_NAME = (?) AND (START_OFFICE >= (?) OR END_OFFICE <= (?)) "
+                    + "OR (START_OFFICE >= (?) OR END_OFFICE <= (?))");
             stmt.setInt(1, id);
             //stmt.setString(2, startDate);
             //stmt.setString(3, endDate);
