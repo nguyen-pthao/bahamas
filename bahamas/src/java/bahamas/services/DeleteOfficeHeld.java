@@ -104,9 +104,10 @@ public class DeleteOfficeHeld extends HttpServlet {
                         }
 
                         String officeHeld = Validator.containsBlankField(jobject.get("office_held_name"));
+                        Date startOffice = Validator.isDateValid(jobject.get("start_office"), "start_office");
 
-                        if (OfficeHeldDAO.deleteOfficeHeld(contactId, officeHeld)) {
-                            AuditLogDAO.insertAuditLog(username, "DELETE PHONE", "Delete phone under contact: Contact ID: " + contactId);
+                        if (OfficeHeldDAO.deleteOfficeHeld(contactId, officeHeld,startOffice)) {
+                            AuditLogDAO.insertAuditLog(username, "DELETE OFFICE HELD", "Delete office held under contact: Contact ID: " + contactId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

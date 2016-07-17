@@ -335,10 +335,14 @@ public class MembershipDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT COUNT(*) FROM MEMBERSHIP WHERE CONTACT_ID =(?)"
-                    + " AND START_MEMBERSHIP >=? AND START_MEMBERSHIP <=?");
+                    + " AND START_MEMBERSHIP >=? AND END_MEMBERSHIP <=? OR START_MEMBERSHIP >= (?)"
+                    + " AND END_MEMBERSHIP <= (?)");
+            
             stmt.setInt(1, id);
             stmt.setDate(2, new java.sql.Date(startDate.getTime()));
-            stmt.setDate(3, new java.sql.Date(endDate.getTime()));
+            stmt.setDate(3, new java.sql.Date(startDate.getTime()));
+            stmt.setDate(4, new java.sql.Date(endDate.getTime()));
+            stmt.setDate(5, new java.sql.Date(endDate.getTime()));
             rs = stmt.executeQuery();
             while (rs.next()) {
 

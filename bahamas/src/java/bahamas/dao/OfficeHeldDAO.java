@@ -144,7 +144,7 @@ public class OfficeHeldDAO {
         return false;
     }
 
-    public static boolean deleteOfficeHeld(int id, String officeName) {
+    public static boolean deleteOfficeHeld(int id, String officeName, Date startOffice) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -155,11 +155,12 @@ public class OfficeHeldDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("DELETE FROM OFFICE_HELD "
-                    + "WHERE CONTACT_ID AND OFFICE_HELD_NAME=?");
+                    + "WHERE CONTACT_ID AND OFFICE_HELD_NAME=? AND START_OFFICE=?");
 
             stmt.setInt(1, id);
             stmt.setString(2, officeName);
-
+            stmt.setDate(3, new java.sql.Date(startOffice.getTime()));
+            
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -172,8 +173,8 @@ public class OfficeHeldDAO {
         return false;
 
     }
-    
-    public static boolean officeHeldExist(int id, Date startDate, String officeHeldName) {
+
+    public static boolean officeHeldExist(int id, Date startDate, Date endStart, String officeHeldName) {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -184,12 +185,17 @@ public class OfficeHeldDAO {
         try {
             conn = ConnectionManager.getConnection();
             //stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?) AND START_OFFICE = (?)");
-            stmt = conn.prepareStatement("SELECT COUNT(*) FROM OFFICE_HELD WHERE CONTACT_ID = (?) AND OFFICE_HELD_NAME = (?) AND START_OFFICE = (?)");
+            stmt = conn.prepareStatement("SELECT COUNT(*) FROM OFFICE_HELD WHERE CONTACT_ID = (?) "
+                    + "AND OFFICE_HELD_NAME = (?) AND START_OFFICE >= (?) AND END_OFFICE <= (?) "
+                    + "OR START_OFFICE >= (?) AND END_OFFICE <= (?)");
             stmt.setInt(1, id);
             //stmt.setString(2, startDate);
             //stmt.setString(3, endDate);
             stmt.setString(2, officeHeldName);
-            stmt.setString(3, date.format(startDate));
+            stmt.setDate(3, new java.sql.Date(startDate.getTime()));
+            stmt.setDate(4, new java.sql.Date(startDate.getTime()));
+            stmt.setDate(5, new java.sql.Date(endStart.getTime()));
+            stmt.setDate(6, new java.sql.Date(endStart.getTime()));
             rs = stmt.executeQuery();
             while (rs.next()) {
                 /*
@@ -205,7 +211,7 @@ public class OfficeHeldDAO {
                 }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
                     exist = true;
                 }
-                */
+                 */
                 int count = rs.getInt(1);
                 if (count >= 1) {
                     exist = true;
@@ -216,13 +222,12 @@ public class OfficeHeldDAO {
             Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_HELD from database", ex);
             ex.printStackTrace();
         }// catch (ParseException ex) {
-         //   Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, null, ex);
-         //} 
+        //   Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, null, ex);
+        //} 
         finally {
             ConnectionManager.close(conn, stmt, rs);
         }
         return exist;
     }
-
 
 }
