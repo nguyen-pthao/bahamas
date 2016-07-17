@@ -119,10 +119,14 @@ public class AddProxy extends HttpServlet {
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
                         Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
-                        if(ProxyDAO.proxyExist(principalId, proxyId)){
+                        if (proxyId == principalId) {
+                            Validator.getErrorList().add("Principal and proxy should not be the same contact");
+                        }
+
+                        if (ProxyDAO.proxyExist(principalId, proxyId)) {
                             Validator.getErrorList().add("Principal and proxy relationship already exists");
                         }
-                        
+
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
                             for (String s : Validator.getErrorList()) {

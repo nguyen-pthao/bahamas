@@ -125,11 +125,17 @@ public class AddMembership extends HttpServlet {
                         String receiptMode = Validator.containsBlankField(jobject.get("receipt_mode"));
                         String explainIfOtherReceipt = Validator.containsBlankField(jobject.get("explain_if_other_receipt"));
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
-                                              
-                        if(MembershipDAO.membershipExist(contactId, startMembership, endMembership)){
+
+                        if (startMembership != null && endMembership != null) {
+                            if (endMembership.before(startMembership) || !startMembership.before(endMembership)) {
+                                Validator.getErrorList().add("Start office date must be before end office date");
+                            }
+                        }
+
+                        if (MembershipDAO.membershipExist(contactId, startMembership, endMembership)) {
                             Validator.getErrorList().add("Membership already exists");
                         }
-                        
+
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
                             for (String s : Validator.getErrorList()) {
