@@ -1042,19 +1042,19 @@ and open the template in the editor.
                                                 <div class="col-md-5">
                                                     <label>Start office</label><span class="required">*</span>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon btn" ng-click="openOStart($index)">
+                                                        <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="officeHeld['start_office']" ng-click="openOStart($index)" uib-datepicker-popup="{{format}}" is-open="openedOStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right white-background" readonly empty>
+                                                        <input type='text' ng-model="officeHeld['start_office']" uib-datepicker-popup="{{format}}"  datepicker-options="dateOptions" alt-input-formats="altInputFormats" name="startdateOff" class="form-control pull-right" readonly empty>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>End office</label><span class="required">*</span>
                                                     <div class="input-group date">
-                                                        <div class="input-group-addon btn" ng-click="openOEnd($index)">
+                                                        <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input type='text' ng-model="officeHeld['end_office']" ng-click="openOEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedOEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right white-background" readonly empty>
+                                                        <input type='text' ng-model="officeHeld['end_office']" uib-datepicker-popup="{{format}}" datepicker-options="dateOptions" alt-input-formats="altInputFormats" name="enddateOff" class="form-control pull-right" readonly empty>
                                                     </div>
                                                 </div>
                                             </div>
