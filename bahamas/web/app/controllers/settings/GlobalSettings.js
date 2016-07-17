@@ -138,8 +138,16 @@ app.controller('globalSettings',
                             method: 'POST',
                             url: $rootScope.commonUrl + '/updatelist',
                             data: JSON.stringify($scope.listToSend)
-                        }).then(function(response){
+                        }).then(function (response) {
                             console.log(response);
+                            if (response.data.message == 'success') {
+                                ngDialog.openConfirm({
+                                    templateUrl: './style/ngTemplate/updateListSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    closeByDocument: false,
+                                    closeByEscape: false
+                                })
+                            }
                         })
                     })
                 };
