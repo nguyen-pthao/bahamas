@@ -1596,7 +1596,7 @@ app.controller('editContact',
                             deleteOffice['contact_id'] = contactToEdit['cid'];
                         }
                         deleteOffice['office_held_name'] = officeHeld['office_held'];
-                        deleteOffice['start_office'] = officeHeld['start_office'];
+                        deleteOffice['start_office'] = officeHeld['start_office'].valueOf() + "";
                         var url = AppAPI.deleteOfficeHeld;
                         deleteService.deleteDataService(deleteOffice, url).then(function (response) {
                             if (response.data.message == 'success') {
