@@ -364,9 +364,9 @@ public class RetrieveContactCurrent extends HttpServlet {
                 Contact c1 = cDAO.retrieveContactById(proxy.getPrincipalID());
                 Contact c2 = cDAO.retrieveContactById(proxy.getProxyID());
 
-                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getProxyID()));
+                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getPrincipalID()));
                 jsonProxyObj.addProperty("proxy_name", c1.getName());
-                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getPrincipalID()));
+                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getProxyID()));
                 jsonProxyObj.addProperty("principal_name", c2.getName());
                 if (proxy.getProxyStanding() != null) {
                     jsonProxyObj.addProperty("proxy_standing", proxy.getProxyStanding());
@@ -398,10 +398,10 @@ public class RetrieveContactCurrent extends HttpServlet {
                 Contact c1 = cDAO.retrieveContactById(proxy.getProxyID());
                 Contact c2 = cDAO.retrieveContactById(proxy.getPrincipalID());
 
-                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getProxyID()));
-                jsonProxyObj.addProperty("proxy_name", c1.getName());
-                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getPrincipalID()));
-                jsonProxyObj.addProperty("principal_name", c2.getName());
+                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getPrincipalID()));
+                jsonProxyObj.addProperty("proxy_name", c2.getName());
+                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getProxyID()));
+                jsonProxyObj.addProperty("principal_name", c1.getName());
                 if (proxy.getProxyStanding() != null) {
                     jsonProxyObj.addProperty("proxy_standing", proxy.getProxyStanding());
                 } else {
