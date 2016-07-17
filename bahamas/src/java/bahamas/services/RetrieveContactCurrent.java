@@ -353,8 +353,7 @@ public class RetrieveContactCurrent extends HttpServlet {
             jsonContactObj.addProperty("office_held", "");
         }
 
-        //proxyList
-        if ((proxyList != null && !proxyList.isEmpty()) && (principalList != null && !principalList.isEmpty())) {
+        if ((proxyList != null && !proxyList.isEmpty()) || (principalList != null && !principalList.isEmpty())) {
             //proxyList
             for (int i = 0; i < proxyList.size(); i++) {
                 JsonObject jsonProxyObj = new JsonObject();
@@ -426,7 +425,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("proxy", "");
         }
-        //principalList
+        
 
         //membershipList
         if (membershipList != null && !membershipList.isEmpty()) {
