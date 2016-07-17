@@ -2432,7 +2432,7 @@ app.controller('editContact',
                     datasend['token'] = session.getSession('token');
                     datasend['user_type'] = session.getSession('userType');
                     datasend['proxy_of'] = proxy['proxy_id'];
-                    datasend['principal_of'] = contactToEdit['other_cid'];
+                    datasend['principal_of'] = proxy['principal_id'];
                     datasend['proxy_standing'] = proxy['proxy_standing'];
                     datasend['remarks'] = proxy['remarks'];
                     if (proxy['date_obsolete'] == null) {
