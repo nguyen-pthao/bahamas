@@ -146,6 +146,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         ArrayList<OfficeHeld> officeHeldList = OfficeHeldDAO.retrieveOfficeHeldByCID(contact.getContactId());
 
         ArrayList<Proxy> proxyList = ProxyDAO.retrieveByProxyCID(contact.getContactId());
+        ArrayList<Proxy> principalList = ProxyDAO.retrieveByPrincipalCID(contact.getContactId());
         ArrayList<Membership> membershipList = MembershipDAO.retrieveMembershipByCID(contact.getContactId());
         ArrayList<LanguageAssignment> languageAssignmentList = LanguageDAO.retrieveLanguageByCID(contact.getContactId());
         ArrayList<SkillAssignment> skillAssignmentList = SkillDAO.retrieveSkillByCID(contact.getContactId());
@@ -286,7 +287,6 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("email", "");
         }
-        jsonContactObj.addProperty("verified_email", "");
 
         if (addressList != null && !addressList.isEmpty()) {
 
@@ -354,11 +354,45 @@ public class RetrieveContactCurrent extends HttpServlet {
         }
 
         //proxyList
-        if (proxyList != null && !proxyList.isEmpty()) {
-
+        if ((proxyList != null && !proxyList.isEmpty()) && (principalList != null && !principalList.isEmpty())) {
+            //proxyList
             for (int i = 0; i < proxyList.size(); i++) {
                 JsonObject jsonProxyObj = new JsonObject();
                 Proxy proxy = proxyList.get(i);
+
+                ContactDAO cDAO = new ContactDAO();
+                Contact c1 = cDAO.retrieveContactById(proxy.getPrincipalID());
+                Contact c2 = cDAO.retrieveContactById(proxy.getProxyID());
+
+                jsonProxyObj.addProperty("proxy_id", Integer.toString(proxy.getProxyID()));
+                jsonProxyObj.addProperty("proxy_name", c1.getName());
+                jsonProxyObj.addProperty("principal_id", Integer.toString(proxy.getPrincipalID()));
+                jsonProxyObj.addProperty("principal_name", c2.getName());
+                if (proxy.getProxyStanding() != null) {
+                    jsonProxyObj.addProperty("proxy_standing", proxy.getProxyStanding());
+                } else {
+                    jsonProxyObj.addProperty("proxy_standing", "");
+                }
+
+                if (proxy.getRemarks() != null) {
+                    jsonProxyObj.addProperty("remarks", proxy.getRemarks());
+                } else {
+                    jsonProxyObj.addProperty("remarks", "");
+                }
+                if (proxy.getDateObsolete() != null) {
+                    jsonProxyObj.addProperty("date_obsolete", sdf.format(proxy.getDateObsolete()));
+                } else {
+                    jsonProxyObj.addProperty("date_obsolete", "");
+                }
+                jsonProxyObj.addProperty("created_by", proxy.getCreatedBy());
+                jsonProxyObj.addProperty("date_created", sdft.format(proxy.getDateCreated()));
+                jsonObjProxy.add(jsonProxyObj);
+                jsonContactObj.add("proxy", jsonObjProxy);
+            }
+            //principalList
+            for (int i = 0; i < principalList.size(); i++) {
+                JsonObject jsonProxyObj = new JsonObject();
+                Proxy proxy = principalList.get(i);
 
                 ContactDAO cDAO = new ContactDAO();
                 Contact c1 = cDAO.retrieveContactById(proxy.getProxyID());
@@ -389,10 +423,10 @@ public class RetrieveContactCurrent extends HttpServlet {
                 jsonObjProxy.add(jsonProxyObj);
                 jsonContactObj.add("proxy", jsonObjProxy);
             }
-
         } else {
             jsonContactObj.addProperty("proxy", "");
         }
+        //principalList
 
         //membershipList
         if (membershipList != null && !membershipList.isEmpty()) {
