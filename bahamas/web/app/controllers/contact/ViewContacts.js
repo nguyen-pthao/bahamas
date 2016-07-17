@@ -157,7 +157,6 @@ app.controller('viewContacts',
                                 scope: $scope
                             }).then(function (response) {
                                 deleteService.deleteDataService(toDelete, '/contact.delete').then(function (response) {
-                                    console.log(response);
                                     if (response.data.message === "success") {
                                         ngDialog.openConfirm({
                                             template: './style/ngTemplate/deleteSuccess.html',
@@ -167,6 +166,7 @@ app.controller('viewContacts',
                                             $state.reload(toURL);
                                         })
                                     } else {
+                                        $scope.error = response.data.message;
                                         ngDialog.openConfirm({
                                             template: './style/ngTemplate/deleteFailure.html',
                                             className: 'ngdialog-theme-default',
