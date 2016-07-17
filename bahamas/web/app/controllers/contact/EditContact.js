@@ -86,9 +86,9 @@ app.controller('editContact',
                 $scope.editMode = session.getSession('otherContact');
 
 //DEFINE REGEX
-                $scope.nationalityRegex = '[A-Za-z ]{0,49}';
+                $scope.nationalityRegex = '[A-Za-z ]{0,20}';
                 $scope.nricRegex = '[A-Za-z][0-9]\\d{6}[A-Za-z]'; //notice that \d won't work but \\d
-                $scope.phoneRegex = '[0-9]\\d{0,19}';
+                $scope.phoneRegex = '[0-9-]{0,20}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
 
 //GET USER PERMISSION
