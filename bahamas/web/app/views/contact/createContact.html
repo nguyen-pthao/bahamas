@@ -102,14 +102,14 @@ and open the template in the editor.
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="nextForm()" 
                                                     ng-disabled="(contactForm.name.$error.required || contactForm.name.$error.maxlength) || (contactForm.altname.$invalid)
-                                                    || (contactForm.nricfin.$invalid) || (contactForm.profession.$invalid) || (contactForm.jobtitle.$invalid)
-                                                    || (contactForm.nationality.$invalid) || submitted"
+                                                                        || (contactForm.nricfin.$invalid) || (contactForm.profession.$invalid) || (contactForm.jobtitle.$invalid)
+                                                                        || (contactForm.nationality.$invalid) || submitted"
                                                     class="btn btn-primary" data-toggle="modal" data-target="#additionalForm" data-keyboard="false" data-backdrop="static">
                                             Save new contact
                                         </button></center>
                                 </div>
                             </form>
-                            <div class="modal fade" id="additionalForm" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+                            <div class="modal fade" id="additionalForm" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-keyboard="false" data-backdrop="static">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -150,10 +150,10 @@ and open the template in the editor.
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addPhone()" 
                                                                         ng-disabled="form.additionalContactForm.additionalphonenumber.$invalid || form.additionalContactForm.additionalcountrycode.$invalid
-                                                                                    || form.additionalContactForm.phoneremarks.$error.maxlength || submittedPhone">
+                                                                                            || form.additionalContactForm.phoneremarks.$error.maxlength || submittedPhone">
                                                                 Done
                                                             </button>
-                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedPhone' ng-click='addMorePhone()'>Add new phone number</button></center>
+                                                            &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedPhone' ng-click='addMorePhone()'>Add new phone number</button></center>
                                                         <center><span ng-show="submittedPhone"><span ng-bind="message"></span></span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
@@ -175,7 +175,7 @@ and open the template in the editor.
                                                                         ng-disabled="form.additionalContactForm.additionalemail.$invalid || form.additionalContactForm.emailremarks.$error.maxlength || submittedEmail">
                                                                 Done
                                                             </button>
-                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedEmail' ng-click='addMoreEmail()'>Add new email</button></center>
+                                                            &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedEmail' ng-click='addMoreEmail()'>Add new email</button></center>
                                                         <center><span ng-show="submittedEmail"><span ng-bind="message"></span></span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-primary'>
@@ -207,10 +207,10 @@ and open the template in the editor.
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addAddress()"
                                                                         ng-disabled="form.additionalContactForm.additionaladdress.$invalid || form.additionalContactForm.additionalzipcode.$invalid
-                                                                        || form.vadditionalContactForm.addressremarks.$error.maxlength || submittedAddress">
+                                                                                            || form.vadditionalContactForm.addressremarks.$error.maxlength || submittedAddress">
                                                                 Done
                                                             </button>
-                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedAddress' ng-click='addMoreAddress()'>Add new address</button></center>
+                                                            &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedAddress' ng-click='addMoreAddress()'>Add new address</button></center>
                                                         <center><span ng-show="submittedAddress"><span ng-bind="message"></span></span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
@@ -268,7 +268,7 @@ and open the template in the editor.
                                                                         ng-disabled="form.additionalContactForm.additionallanguage.$invalid || form.additionalContactForm.additionalexplainifotherL.$error.maxlength || submittedLanguage">
                                                                 Done
                                                             </button>
-                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedLanguage' ng-click='addMoreLanguage()'>Add new language</button></center>
+                                                            &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedLanguage' ng-click='addMoreLanguage()'>Add new language</button></center>
                                                         <center><span ng-show="submittedLanguage"><span ng-bind="message"></span></span></center>
                                                     </uib-accordion-group>
                                                     <uib-accordion-group class='panel panel-default'>
@@ -289,11 +289,11 @@ and open the template in the editor.
                                                         <span ng-show="form.additionalContactForm.LSAremarks.$error.maxlength" class="error">Input field remarks is too long.</span>
                                                         <br><br>
                                                         <center><button type="button" class="btn btn-primary" ng-click="addSkillasset()"
-                                                                        ng-disabled="form.additionalContactForm.additionalexplainifotherLSA.$invalid || form.additionalContactForm.additionalexplainifotherLSA.$error.maxlength 
-                                                                                    || form.additionalContactForm.LSAremarks.$error.maxlength ||submittedLSA">
+                                                                        ng-disabled="form.additionalContactForm.additionalexplainifotherLSA.$invalid || form.additionalContactForm.additionalexplainifotherLSA.$error.maxlength
+                                                                                            || form.additionalContactForm.LSAremarks.$error.maxlength || submittedLSA">
                                                                 Done
                                                             </button>
-                                                        &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedLSA' ng-click='addMoreLSA()'>Add new skills and assets</button></center>
+                                                            &nbsp;<button type='button' class='btn btn-warning' ng-show='submittedLSA' ng-click='addMoreLSA()'>Add new skills and assets</button></center>
                                                         <center><span ng-show="submittedLSA"><span ng-bind="message"></span></span></center>
                                                     </uib-accordion-group>
                                                 </form>
@@ -311,5 +311,10 @@ and open the template in the editor.
             </section>
             <!-- /.content -->
         </div>
+        <script>
+                    $(window).on('popstate', function () {
+                        $('#additionalForm').modal('hide')
+                    });
+        </script>
     </body>
 </html>

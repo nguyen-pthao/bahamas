@@ -130,8 +130,8 @@ public class UpdateMembership extends HttpServlet {
 
                         m.setMembershipId(membershipId);
                         
-                        if(MembershipDAO.membershipExist(contactId, startMembership, endMembership)){
-                            Validator.getErrorList().add("Membership already exists");
+                        if(MembershipDAO.membershipExistUpdate(contactId,membershipId, startMembership, endMembership)){
+                            Validator.getErrorList().add("Date range is overlapped with existing membership records");
                         }
                         
                         if (!Validator.getErrorList().isEmpty()) {
