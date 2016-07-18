@@ -49,26 +49,26 @@ app.directive('empty', function () {
         }
     };
 });
-
-app.directive('setDecimal',['$timeout', function($timeout){
-    return {
-        restrict: 'A',
-        require: '?ngModel',
-        link: function(scope, elem, attrs, ngModel) {
-            ngModel.$parsers.push(function(data){
-                if(data != '' && data != null) {
-                    data = parseFloat(data).toFixed(2);
-                    $timeout(function(){
-                        elem.val(data);
-                    }, 5000);    
-                    return data;
-                } else {
-                    return '';
-                }
-            });
-        }
-    };
-}]);
+//
+//app.directive('setDecimal',['$timeout', function($timeout){
+//    return {
+//        restrict: 'A',
+//        require: '?ngModel',
+//        link: function(scope, elem, attrs, ngModel) {
+//            ngModel.$parsers.push(function(data){
+//                if(data != '' && data != null) {
+//                    data = parseFloat(data).toFixed(2);
+//                    $timeout(function(){
+//                        elem.val(data);
+//                    }, 5000);    
+//                    return data;
+//                } else {
+//                    return '';
+//                }
+//            });
+//        }
+//    };
+//}]);
 
 app.controller('editContact',
         ['$scope', '$state', 'session', 'ngDialog', '$timeout',
@@ -90,7 +90,7 @@ app.controller('editContact',
                 $scope.nricRegex = '[A-Za-z][0-9]\\d{6}[A-Za-z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9-]{0,20}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
-
+//                $scope.decimalRegex = '\\d*\\.{0,1}\\d*';
 //GET USER PERMISSION
                 if ($scope.editMode == null) {
                     $scope.editMode = 'false';
@@ -521,6 +521,8 @@ app.controller('editContact',
                     if (contactToEdit.membership != '') {
                         $scope.editMembership = contactToEdit.membership;
                         for (var i = 0; i < contactToEdit.membership.length; i++) {
+                            $scope.editMembership[i]['start'] = contactToEdit.membership[i]['start_date'];
+                            $scope.editMembership[i]['end'] = contactToEdit.membership[i]['end_date'];
                             $scope.editMembership[i]['date_obsolete'] = new Date(contactToEdit.membership[i]['date_obsolete']);
                             $scope.editMembership[i]['start_date'] = new Date(contactToEdit.membership[i]['start_date']);
                             $scope.editMembership[i]['end_date'] = new Date(contactToEdit.membership[i]['end_date']);

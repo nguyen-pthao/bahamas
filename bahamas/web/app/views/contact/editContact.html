@@ -723,6 +723,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="membership['membership_class_name']"></span></b>
+                                                <b> starts from </b><b><span ng-bind="membership['start']"></span></b><b> to </b><b><span ng-bind="membership['end']"></span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Membership Details">
@@ -755,7 +756,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Subscription amount</label><span class="required">*</span>
-                                                    <input type="number" step="any" ng-model="membership['subscription_amount']" set-decimal="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                                     <span ng-show="membership['subscription_amount'] == ''" class="error">Subscription amount is required.</span>
                                                 </div>
                                             </div>
@@ -877,8 +878,9 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Subscription amount</label><span class="required">*</span>
-                                            <input type="number" step="any" ng-model="newMembership['subscription_amount']" set-decimal="newMembership['subscription_amount']" class="form-control" name="additionalsubsrcAmtMem" empty>
+                                            <input type="text" ng-model="newMembership['subscription_amount']" ng-pattern="decimalRegex" class="form-control" name="additionalsubsrcAmtMem" empty>
                                             <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.empty && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Subscription amount is required.</span>
+                                            <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.pattern && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Subscription amount is invalid.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -1195,7 +1197,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Donation amount</label><span class="required">*</span>
-                                                    <input type="number" step="any" class="form-control" ng-model="donation['donation_amount']" set-decimal="donation['donation_amount']" name='donAmt'>
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" class="form-control" ng-model="donation['donation_amount']" name='donAmt'>
                                                     <span ng-show="donation['donation_amount'] == ''" class="error">Donation amount is required.</span>
                                                 </div>
                                             </div>
@@ -1265,7 +1267,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 1</label>
-                                                    <input type="number" step="any" ng-model="donation['subtotal1']" set-decimal="donation['subtotal1']" name='subAmtDon1' class="form-control">
+                                                    <input type="number" step="any" ng-model="donation['subtotal1']" name='subAmtDon1' class="form-control">
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
@@ -1276,7 +1278,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 2</label>
-                                                    <input type="number" step="any" ng-model="donation['subtotal2']" set-decimal="donation['subtotal2']" name='subAmtDon2' class="form-control">
+                                                    <input type="number" step="any" ng-model="donation['subtotal2']" name='subAmtDon2' class="form-control">
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
@@ -1287,7 +1289,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 3</label>
-                                                    <input type="number" step="any" ng-model="donation['subtotal3']" set-decimal="donation['subtotal3']" name='subAmtDon3' class="form-control">
+                                                    <input type="number" step="any" ng-model="donation['subtotal3']" name='subAmtDon3' class="form-control">
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1341,7 +1343,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Donation amount</label><span class="required">*</span>
-                                            <input type="number" step="any" class="form-control" ng-model="newDonation['donation_amount']" set-decimal="newDonation['donation_amount']" name='additionaldonAmt' empty>
+                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" class="form-control" ng-model="newDonation['donation_amount']" name='additionaldonAmt' empty>
                                             <span ng-show="form.editDonationForm.additionaldonAmt.$error.empty && form.editDonationForm.additionaldonAmt.$touched" class="error">Donation amount is required.</span>
                                         </div>
                                     </div>
@@ -1411,7 +1413,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 1</label>
-                                            <input type="number" step="any" ng-model="newDonation['subamount1']" set-decimal="newDonation['subamount1']" name='additionalsubAmtDon1' class="form-control">
+                                            <input type="number" step="any" ng-model="newDonation['subamount1']" name='additionalsubAmtDon1' class="form-control">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
@@ -1422,7 +1424,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 2</label>
-                                            <input type="number" step="any" ng-model="newDonation['subamount2']" set-decimal="newDonation['subamount2']" name='additionalsubAmtDon2' class="form-control">
+                                            <input type="number" step="any" ng-model="newDonation['subamount2']" name='additionalsubAmtDon2' class="form-control">
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
@@ -1433,7 +1435,7 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 3</label>
-                                            <input type="number" step="any" ng-model="newDonation['subamount3']" set-decimal="newDonation['subamount3']" name='additionalsubAmtDon3' class="form-control">
+                                            <input type="number" step="any" ng-model="newDonation['subamount3']" name='additionalsubAmtDon3' class="form-control">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
