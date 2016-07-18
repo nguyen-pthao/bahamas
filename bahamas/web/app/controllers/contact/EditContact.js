@@ -1238,7 +1238,7 @@ app.controller('editContact',
                     token: session.getSession('token'),
                     'contact_id': -1,
                     address: '',
-                    country: '',
+                    country: 'Singapore',
                     zipcode: '',
                     'address_remarks': '',
                     'date_obsolete': ''
@@ -2523,7 +2523,11 @@ app.controller('editContact',
                 };
                 $scope.addProxy = function () {
                     $scope.newProxy['proxy_of'] = $scope.selectedProxyCid;
-                    $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
+                    if($scope.editMode == 'true') { 
+                        $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
+                    } else {
+                        $scope.newProxy['principal_of'] = contactToEdit['cid'];
+                    }
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
                     } else if(isNaN($scope.newProxy['date_obsolete'])){

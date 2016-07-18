@@ -117,7 +117,7 @@ and open the template in the editor.
                                                 <span ng-show="editUserForm.confirmPassword.$error.compare" class='error'>Confirmed password is not the same.</span>
                                             </div>
                                             <!-- The contact is a user and admin wants to deactivate him/her -->
-                                            <div class="form-group" ng-show="isUser && isAdmin">
+                                            <div class="form-group" ng-show="isUser && isAdmin && editMode == 'true'">
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
                                                         <label>Deactivate</label><span class="required">*</span>
@@ -129,7 +129,7 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                             <!-- The contact is a user and admin wants to promote him/her to be admin-->
-                                            <div class="form-group" ng-show="isUser && isAdmin">
+                                            <div class="form-group" ng-show="isUser && isAdmin && editMode == 'true'">
                                                 <div class="no-padding-left col-md-12">
                                                     <div class="no-padding-left col-md-6">
                                                         <label>Upgrade To Admin?</label>
@@ -154,7 +154,7 @@ and open the template in the editor.
                                         <br>
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
                                     </center>
-                                    <center ng-show="isUser && isAdmin">
+                                    <center ng-show="isUser && isAdmin && editMode == 'true'">
                                         <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheUser()">Save Changes</button>
                                         <br>
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
