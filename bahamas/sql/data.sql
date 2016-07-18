@@ -38,6 +38,7 @@ insert into LANGUAGE_LIST(LANGUAGE_NAME) value
 ('Burmese'),
 ('Cambodian'),
 ('Chinese'),
+('English'),
 ('Filipino'),
 ('Hindi'),
 ('Indonesian'),
@@ -138,7 +139,7 @@ insert into TEAM_AFFILIATION_LIST(TEAM_NAME, DESCRIPTION) value
 
 #CONTACT
 insert into CONTACT(CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION) value
-(1, 'TWC2', 'admin1', 'GwvbMoaGY9yVMnOiMfujehEdmE7jLDXX8DZAM1uUcTw=','1/rqffBv5u4=', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'Thao1', 'Cool Thao1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1);
+(1, 'TWC2', 'admin1', 'GwvbMoaGY9yVMnOiMfujehEdmE7jLDXX8DZAM1uUcTw=','1/rqffBv5u4=', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'System Admin', 'Admin', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1);
 
 #(2, 'TWC2', 'admin2', '7c222fb2927d828af22f592134e8932480637c0d', 1, 0, 0, '2016-05-24 23:00:00', 'admin', 'Thao2', 'Cool Thao2', '', 'IT', 'TSO', 'S1234567A', 'F', 'Singapore', '1977-02-22', '', '', 0),
 #(3, 'Religious', 'teammanager1', '7c222fb2927d828af22f592134e8932480637c0d', 0, 0, 0, '2016-05-24 23:00:00', 'admin', 'tan1', 'Cool tan1', '', 'IT', 'TSO', 'S1234567A', 'M', 'Singapore', '1977-02-22', '', '', 1),
