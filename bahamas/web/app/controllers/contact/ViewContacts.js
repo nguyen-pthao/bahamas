@@ -68,7 +68,7 @@ app.controller('viewContacts',
                             $scope.takeNoColumns = 4;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 4);
                         } else if ($scope.userType === 'eventleader') {
-                            $scope.isAuthorised = false;
+                            $scope.isAuthorised = true;
                             $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
                             $scope.showFive = true;
                         } else {
