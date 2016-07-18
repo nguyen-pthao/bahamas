@@ -366,4 +366,45 @@ public class MembershipDAO {
         return exist;
     }
 
+    public static boolean membershipExistUpdate(int id, int membershipId, Date startDate, Date endDate) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT START_MEMBERSHIP, END_MEMBERSHIP FROM MEMBERSHIP WHERE CONTACT_ID =(?) AND MEMBERSHIP_ID <> (?)");
+
+            stmt.setInt(1, id);
+            stmt.setInt(2, membershipId);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                String strStartDate = rs.getString(1);
+                String strEndDate = rs.getString(2);
+                Date startDateDB = date.parse(strStartDate);
+                Date endDateDB = date.parse(strEndDate);
+
+                if (startDate.equals(startDateDB) || startDate.equals(endDateDB) || (startDate.after(startDateDB) && startDate.before(endDateDB))) {
+                    exist = true;
+                } else if (endDate.equals(startDateDB) || endDate.equals(endDateDB) || (endDate.after(startDateDB) && endDate.before(endDateDB))) {
+                    exist = true;
+                } else if (startDate.before(startDateDB) && endDate.after(endDateDB)) {
+                    exist = true;
+                }
+            }
+
+        } catch (ParseException ex) {
+            Logger.getLogger(OfficeHeldDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return exist;
+    }
+
 }
