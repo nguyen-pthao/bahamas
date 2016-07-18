@@ -116,12 +116,6 @@ public class UpdateOfficeHeld extends HttpServlet {
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
 
                         OfficeHeld oh = new OfficeHeld(c, startOffice, endOffice, remarks, username, officeHeld);
-
-                        
-                        if (OfficeHeldDAO.officeHeldExist(contactId, startOffice,endOffice, officeHeld)) {
-                            Validator.getErrorList().add("Office Held already exists");
-                        }
-                        
                         
                         if (!Validator.getErrorList().isEmpty()) {
                             JsonArray errorArray = new JsonArray();
