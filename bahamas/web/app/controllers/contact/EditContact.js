@@ -1731,12 +1731,24 @@ app.controller('editContact',
                     datasend['receipt_mode'] = donation['receipt_mode_name'];
                     datasend['explain_if_other_receipt'] = donation['explain_if_other_receipt'];
                     datasend['donor_instruction'] = donation['donor_instructions'];
+                    if(donation['subtotal1'] == ''){
+                        datasend['subamount1'] = "0";
+                    }else{
+                        datasend['subamount1'] = donation['subtotal1'];
+                    }
+                    if(donation['subtotal2'] == ''){
+                        datasend['subamount2'] = "0";
+                    }else{
+                        datasend['subamount2'] = donation['subtotal2'];
+                    }
+                    if(donation['subtotal3'] == ''){
+                        datasend['subamount3'] = "0";
+                    }else{
+                        datasend['subamount3'] = donation['subtotal3'];
+                    }
                     datasend['allocation1'] = donation['allocation1'];
-                    datasend['subamount1'] = donation['subtotal1'];
                     datasend['allocation2'] = donation['allocation2'];
-                    datasend['subamount2'] = donation['subtotal2'];
                     datasend['allocation3'] = donation['allocation3'];
-                    datasend['subamount3'] = donation['subtotal3'];
                     datasend['associated_occasion'] = donation['associated_occasion'];
                     datasend['remarks'] = donation['remarks'];
                     var url = AppAPI.updateDonation;
