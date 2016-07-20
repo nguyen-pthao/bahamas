@@ -485,9 +485,7 @@ and open the template in the editor.
                                                     <label>Verified email</label>
                                                     <input type="text" ng-model="email['is_verified']" class="form-control" readonly>
                                                 </div>
-                                            </div>
-                                            <div class="form-group col-md-12">
-                                                <div class="col-md-5">
+                                                <div class="col-md-offset-2 col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon btn" ng-click="openEmail($index)">
@@ -723,7 +721,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="membership['membership_class_name']"></span></b>
-                                                <b> starts from </b><b><span ng-bind="membership['start']"></span></b><b> to </b><b><span ng-bind="membership['end']"></span></b>
+                                                <b> from </b><b><span ng-bind="membership['start']"></span></b><b> to </b><b><span ng-bind="membership['end']"></span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Membership Details">
@@ -756,8 +754,9 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Subscription amount</label><span class="required">*</span>
-                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="membership['subscription_amount']" class="form-control" name="subsrcAmtMem">
                                                     <span ng-show="membership['subscription_amount'] == ''" class="error">Subscription amount is required.</span>
+                                                    <span ng-show="!decimalRegex.test(membership['subscription_amount']) && membership['subscription_amount'].length > 1" class="error">Invalid subscription amount.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -848,10 +847,11 @@ and open the template in the editor.
                                             <div class='row'>
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" 
-                                                            ng-disabled="form.editMembershipForm.memType.$invalid || membership['subscription_amount'] == '' || membership['start_date'] == null || membership['end_date'] == null ||
-                                                                        !(membership['explain_if_other_class'].length <= 200 && membership['explain_if_other_class'].length > -1) || !(membership['explain_if_other_payment'].length <= 200 && membership['explain_if_other_payment'].length > -1)
+                                                            ng-disabled="form.editMembershipForm.memType.$invalid || membership['subscription_amount'] == '' || membership['start_date'] == null || membership['end_date'] == null 
+                                                                        || !(membership['explain_if_other_class'].length <= 200 && membership['explain_if_other_class'].length > -1) || !(membership['explain_if_other_payment'].length <= 200 && membership['explain_if_other_payment'].length > -1)
                                                                         || !(membership['ext_transaction_ref'].length <= 50 && membership['ext_transaction_ref'].length > -1) || !(membership['receipt_number'].length <= 50 && membership['receipt_number'].length > -1)
-                                                                        || !(membership['explain_if_other_receipt'].length <= 200 && membership['explain_if_other_receipt'].length > -1) || !(membership['remarks'].length <= 1000 && membership['remarks'].length > -1)"
+                                                                        || !(membership['explain_if_other_receipt'].length <= 200 && membership['explain_if_other_receipt'].length > -1) || !(membership['remarks'].length <= 1000 && membership['remarks'].length > -1) 
+                                                                        || (!decimalRegex.test(membership['subscription_amount']) && membership['subscription_amount'].length > 1)"
                                                             ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
@@ -878,9 +878,9 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Subscription amount</label><span class="required">*</span>
-                                            <input type="text" ng-model="newMembership['subscription_amount']" ng-pattern="decimalRegex" class="form-control" name="additionalsubsrcAmtMem" empty>
+                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="newMembership['subscription_amount']" ng-pattern="decimalRegex" class="form-control" name="additionalsubsrcAmtMem" empty>
                                             <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.empty && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Subscription amount is required.</span>
-                                            <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.pattern && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Subscription amount is invalid.</span>
+                                            <span ng-show="form.editMembershipForm.additionalsubsrcAmtMem.$error.pattern && newMembership['subscription_amount'].length > 1 && form.editMembershipForm.additionalsubsrcAmtMem.$touched" class="error">Invalid subscription amount.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -970,7 +970,8 @@ and open the template in the editor.
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase bold" ng-disabled="form.editMembershipForm.additionalmemType.$invalid || form.editMembershipForm.additionalsubsrcAmtMem.$invalid
+                                            <button type="submit" class="btn btn-primary uppercase bold" ng-disabled="form.editMembershipForm.additionalmemType.$invalid || form.editMembershipForm.additionalsubsrcAmtMem.$error.empty 
+                                                    || (form.editMembershipForm.additionalsubsrcAmtMem.$error.pattern && newMembership['subscription_amount'].length > 1)
                                                     || form.editMembershipForm.additionalotherExpMemClass.$invalid || form.editMembershipForm.additionalstartdateMem.$invalid || form.editMembershipForm.additionalenddateMem.$invalid
                                                     || form.editMembershipForm.additionalotherExpPayModMem.$invalid || form.editMembershipForm.additionaltransRefMem.$invalid || form.editMembershipForm.additionalrecNoMem.$invalid
                                                     || form.editMembershipForm.additionalotherExpRecModMem.$invalid || form.editMembershipForm.additionalremarksMem.$invalid" 
@@ -1012,6 +1013,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="officeHeld['office_held']"></span></b>
+                                                <b> from </b><b><span ng-bind="officeHeld['start']"></span></b><b> to </b><b><span ng-bind="officeHeld['end']"></span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Office Details">
@@ -1197,8 +1199,9 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Donation amount</label><span class="required">*</span>
-                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" class="form-control" ng-model="donation['donation_amount']" name='donAmt'>
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" class="form-control" ng-model="donation['donation_amount']" name='donAmt'>
                                                     <span ng-show="donation['donation_amount'] == ''" class="error">Donation amount is required.</span>
+                                                    <span ng-show="!decimalRegex.test(donation['donation_amount']) && donation['donation_amount'].length > 1" class="error">Invalid donation amount.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1267,7 +1270,8 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 1</label>
-                                                    <input type="number" step="any" ng-model="donation['subtotal1']" name='subAmtDon1' class="form-control">
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="donation['subtotal1']" name='subAmtDon1' class="form-control">
+                                                    <span ng-show="!decimalRegex.test(donation['subtotal1']) && donation['subtotal1'].length > 1" class="error">Invalid subtotal amount.</span>
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
@@ -1278,7 +1282,8 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 2</label>
-                                                    <input type="number" step="any" ng-model="donation['subtotal2']" name='subAmtDon2' class="form-control">
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="donation['subtotal2']" name='subAmtDon2' class="form-control">
+                                                    <span ng-show="!decimalRegex.test(donation['subtotal2']) && donation['subtotal2'].length > 1" class="error">Invalid subtotal amount.</span>
                                                 </div>
                                             </div>
                                             <div class='form-group col-md-12'>
@@ -1289,7 +1294,8 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-4">
                                                     <label>Subamount 3</label>
-                                                    <input type="number" step="any" ng-model="donation['subtotal3']" name='subAmtDon3' class="form-control">
+                                                    <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="donation['subtotal3']" name='subAmtDon3' class="form-control">
+                                                    <span ng-show="!decimalRegex.test(donation['subtotal3']) && donation['subtotal3'].length > 1" class="error">Invalid subtotal amount.</span>
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
@@ -1313,7 +1319,9 @@ and open the template in the editor.
                                                             || !(donation['receipt_number'].length <= 50 && donation['receipt_number'].length > -1) || !(donation['explain_if_other_receipt'].length <= 200 && donation['explain_if_other_receipt'].length > -1)
                                                             || !(donation['donor_instructions'].length <= 1000 && donation['donor_instructions'].length > -1) || !(donation['allocation1'].length <= 200 && donation['allocation1'].length > -1)
                                                             || !(donation['allocation2'].length <= 200 && donation['allocation2'].length > -1) || !(donation['allocation3'].length <= 200 && donation['allocation3'].length > -1)
-                                                            || !(donation['associated_occasion'].length <= 500 && donation['associated_occasion'].length > -1) || !(donation['remarks'].length <= 1000 && donation['remarks'].length > -1)"
+                                                            || !(donation['associated_occasion'].length <= 500 && donation['associated_occasion'].length > -1) || !(donation['remarks'].length <= 1000 && donation['remarks'].length > -1)
+                                                            || (!decimalRegex.test(donation['subtotal3']) && donation['subtotal3'].length > 1) || (!decimalRegex.test(donation['subtotal2']) && donation['subtotal2'].length > 1)
+                                                            || (!decimalRegex.test(donation['subtotal1']) && donation['subtotal1'].length > 1) || (!decimalRegex.test(donation['donation_amount']) && donation['donation_amount'].length > 1)"
                                                             ng-click="editTheDonation($event, donation)">Save Changes</button>
                                                     &nbsp;
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
@@ -1343,8 +1351,9 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Donation amount</label><span class="required">*</span>
-                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" class="form-control" ng-model="newDonation['donation_amount']" name='additionaldonAmt' empty>
+                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-pattern="decimalRegex" class="form-control" ng-model="newDonation['donation_amount']" name='additionaldonAmt' empty>
                                             <span ng-show="form.editDonationForm.additionaldonAmt.$error.empty && form.editDonationForm.additionaldonAmt.$touched" class="error">Donation amount is required.</span>
+                                            <span ng-show="form.editDonationForm.additionaldonAmt.$error.pattern && newDonation['donation_amount'].length > 1 && form.editDonationForm.additionaldonAmt.$touched" class="error">Invalid donation amount.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -1413,7 +1422,8 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 1</label>
-                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" ng-model="newDonation['subamount1']" name='additionalsubAmtDon1' class="form-control">
+                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="newDonation['subamount1']" ng-pattern="decimalRegex" name='additionalsubAmtDon1' class="form-control">
+                                            <span ng-show="form.editDonationForm.additionalsubAmtDon1.$error.pattern && newDonation['subamount1'].length > 1 && form.editDonationForm.additionalsubAmtDon1.$touched" class="error">Invalid subtotal amount.</span>
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
@@ -1424,7 +1434,8 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 2</label>
-                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" ng-model="newDonation['subamount2']" name='additionalsubAmtDon2' class="form-control">
+                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="newDonation['subamount2']" ng-pattern="decimalRegex" name='additionalsubAmtDon2' class="form-control">
+                                            <span ng-show="form.editDonationForm.additionalsubAmtDon2.$error.pattern && newDonation['subamount2'].length > 1 && form.editDonationForm.additionalsubAmtDon1.$touched" class="error">Invalid subtotal amount.</span>
                                         </div>
                                     </div>
                                     <div class='form-group col-md-12'>
@@ -1435,7 +1446,8 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-4">
                                             <label>Subamount 3</label>
-                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57" ng-model="newDonation['subamount3']" name='additionalsubAmtDon3' class="form-control">
+                                            <input type="text" onkeypress="return event.charCode >= 46 && event.charCode <= 57 && event.charCode != 47" ng-model="newDonation['subamount3']" ng-pattern="decimalRegex" name='additionalsubAmtDon3' class="form-control">
+                                            <span ng-show="form.editDonationForm.additionalsubAmtDon3.$error.pattern && newDonation['subamount3'].length > 1 && form.editDonationForm.additionalsubAmtDon3.$touched" class="error">Invalid subtotal amount.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
@@ -1454,10 +1466,12 @@ and open the template in the editor.
                                     </div>
                                     <div class='row'>
                                         <center>
-                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editDonationForm.additionaldateRecvDon.$invalid || form.editDonationForm.additionaldonAmt.$invalid || form.editDonationForm.additionalpayModDon.$invalid
+                                            <button type="submit" class="btn btn-primary uppercase" ng-disabled="form.editDonationForm.additionaldateRecvDon.$invalid || form.editDonationForm.additionaldonAmt.$error.empty || form.editDonationForm.additionalpayModDon.$invalid
                                                     || form.editDonationForm.additionalotherExpPayModDon.$invalid || form.editDonationForm.additionaltranRefDon.$invalid || form.editDonationForm.additionalrecNoDon.$invalid || form.editDonationForm.additionalotherExpRecModDon.$invalid
                                                     || form.editDonationForm.additionaldonInstr.$invalid || form.editDonationForm.additionalallo1.$invalid || form.editDonationForm.additionalallo2.$invalid || form.editDonationForm.additionalallo3.$invalid 
-                                                    || form.editDonationForm.additionalassoOccasDon.$invalid || form.editDonationForm.additionalremarksDon.$invalid"
+                                                    || form.editDonationForm.additionalassoOccasDon.$invalid || form.editDonationForm.additionalremarksDon.$invalid || (form.editDonationForm.additionaldonAmt.$error.pattern && newDonation['donation_amount'].length > 1) 
+                                                    || (form.editDonationForm.additionalsubAmtDon1.$error.pattern && newDonation['subamount1'].length > 1) || (form.editDonationForm.additionalsubAmtDon2.$error.pattern && newDonation['subamount2'].length > 1) 
+                                                    || (form.editDonationForm.additionalsubAmtDon3.$error.pattern && newDonation['subamount3'].length > 1)"
                                                     ng-click="addDonation()">Done</button> 
                                             <br>
                                             <span ng-bind="submitNewDonation.message" ng-show="submitNewDonation.submittedDonation"></span>
@@ -1525,6 +1539,12 @@ and open the template in the editor.
                                                     <label>Team</label><span class="required">*</span>
                                                     <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly>
                                                 </div>
+                                                <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
+                                                    <label>Permission</label><span class="required">*</span>
+                                                    <select class="form-control" ng-model="team['permission']" name='permission' empty>
+                                                        <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
+                                                    </select>
+                                                </div>
                                             </div> 
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
@@ -1538,12 +1558,6 @@ and open the template in the editor.
                                                     <label>Subteam</label>
                                                     <input ng-model="team['sub_team']" name='subteam' type="text" class="form-control">
                                                     <span ng-hide="team['sub_team'].length <= 50 && team['sub_team'].length > -1" class="error">Input field sub-team is too long.</span>
-                                                </div>
-                                                <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
-                                                    <label>Permission</label><span class="required">*</span>
-                                                    <select class="form-control" ng-model="team['permission']" name='permission' empty>
-                                                        <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
-                                                    </select>
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1614,6 +1628,10 @@ and open the template in the editor.
                                                     <label>Team</label><span class="required">*</span>
                                                     <input type='text' class="form-control" ng-model="team['team_name']" name='team' readonly>
                                                 </div>
+                                                <div class="col-md-offset-2 col-md-5">
+                                                    <label>Permission</label><span class="required">*</span>
+                                                    <input ng-model="team['permission']" name='permission' type="text" class="form-control white-background" readonly>
+                                                </div>
                                             </div> 
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
@@ -1627,10 +1645,6 @@ and open the template in the editor.
                                                     <label>Subteam</label>
                                                     <input ng-model="team['sub_team']" name='subteam' type="text" class="form-control">
                                                     <span ng-hide="team['sub_team'].length <= 50 && team['sub_team'].length > -1" class="error">Input field sub-team is too long.</span>
-                                                </div>
-                                                <div class="col-md-offset-2 col-md-5">
-                                                    <label>Permission</label><span class="required">*</span>
-                                                    <input ng-model="team['permission']" name='permission' type="text" class="form-control white-background" readonly>
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">
@@ -1676,6 +1690,12 @@ and open the template in the editor.
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
                                         </div>
+                                        <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
+                                            <label>Permission</label><span class="required">*</span>
+                                            <select class="form-control" ng-model="newTeam['permission_level']" name='additionalpermission' empty>
+                                                <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
+                                            </select>
+                                        </div>
                                     </div> 
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
@@ -1689,12 +1709,6 @@ and open the template in the editor.
                                             <label>Subteam</label>
                                             <input ng-model="newTeam['subteam']" ng-maxlength="50" name='additionalsubteam' type="text" class="form-control">
                                             <span ng-show="form.editTeamForm.additionalsubteam.$error.maxlength" class="error">Input field sub-team is too long.</span>
-                                        </div>
-                                        <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
-                                            <label>Permission</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="newTeam['permission_level']" name='additionalpermission' empty>
-                                                <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
-                                            </select>
                                         </div>
                                     </div> 
                                     <div class="form-group col-md-12">
@@ -1721,19 +1735,19 @@ and open the template in the editor.
                                                 <i class="fa fa-times fa-lg"></i></button>
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-12">
                                         <label>First choice</label><span class="required">*</span>
                                         <select class="form-control" ng-model="teamPref.team1" name="teamPref1" empty>
                                             <option ng-repeat="teamAffiliation in teamAffiliationList0">{{teamAffiliation.teamAffiliation}}</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-12">
                                         <label>Second choice</label>
                                         <select class="form-control" ng-model="teamPref.team2" name="teamPref2">
                                             <option ng-repeat="teamAffiliation in teamAffiliationList1">{{teamAffiliation.teamAffiliation}}</option>
                                         </select>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group col-md-12">
                                         <label>Third choice</label>
                                         <select class="form-control" ng-model="teamPref.team3" name="teamPref3">
                                             <option ng-repeat="teamAffiliation in teamAffiliationList2">{{teamAffiliation.teamAffiliation}}</option>
@@ -2133,13 +2147,13 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
-                                        <label style="padding-left: 15px">Proxy</label><span class="required">*</span>
                                         <div class="col-md-12">
-                                            <div class="no-padding-left col-md-5 no-padding-right">
+                                            <label>Proxy</label><span class="required">*</span>
+                                            <div class="input-group">
                                                 <input type='text' ng-model="selected" name="additionalproxy" class="form-control" placeholder="Search proxy..." uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html" typeahead-on-select='onSelect($item, $model, $label)' empty>
-                                            </div>    
-                                            <div class="no-padding-left col-md-1">
-                                                <button type="button" class="btn btn-flat" ng-click="searchContact()"><i class="fa fa-search"></i></button> 
+                                                <div class="input-group-addon btn" ng-click="searchContact()">
+                                                    <i class="fa fa-search"></i>
+                                                </div>
                                             </div>
                                             <span ng-show="form.editProxyForm.additionalproxy.$error.empty && form.editProxyForm.additionalproxy.$dirty" class="error">Proxy is required.</span>
                                         </div>

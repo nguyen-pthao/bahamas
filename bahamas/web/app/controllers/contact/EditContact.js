@@ -90,7 +90,8 @@ app.controller('editContact',
                 $scope.nricRegex = '[A-Za-z][0-9]\\d{6}[A-Za-z]'; //notice that \d won't work but \\d
                 $scope.phoneRegex = '[0-9-]{0,20}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
-//                $scope.decimalRegex = '\\d*\\.{0,1}\\d*';
+                $scope.decimalRegex = new RegExp('^(\\d+)\\.{0,1}\\d+$');
+                
 //GET USER PERMISSION
                 if ($scope.editMode == null) {
                     $scope.editMode = 'false';
@@ -252,10 +253,6 @@ app.controller('editContact',
                         $scope.teamAffiliationList0.pop();
                     });
                 };
-//                $scope.loadTeamAffiliationList1 = function () {
-//                    $scope.teamAffiliationList1 = angular.copy($scope.teamAffiliationList);
-//                    $scope.teamAffiliationList1.pop();
-//                };
                 $scope.loadPermissionLevelList = function () {
                     loadPermissionLevel.retrievePermissionLevel().then(function (response) {
                         $scope.permissionLevelList = response.data.permissionLevelList;
@@ -537,6 +534,8 @@ app.controller('editContact',
                     if (contactToEdit['office_held'] != '') {
                         $scope.editOfficeHeld = contactToEdit['office_held'];
                         for (var i = 0; i < contactToEdit['office_held'].length; i++) {
+                            $scope.editOfficeHeld[i]['start'] = contactToEdit['office_held'][i]['start_office'];
+                            $scope.editOfficeHeld[i]['end'] = contactToEdit['office_held'][i]['end_office'];
                             $scope.editOfficeHeld[i]['start_office'] = new Date(contactToEdit['office_held'][i]['start_office']);
                             $scope.editOfficeHeld[i]['end_office'] = new Date(contactToEdit['office_held'][i]['end_office']);
                         }
