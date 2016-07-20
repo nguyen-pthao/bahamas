@@ -329,8 +329,6 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-                                
-//                                console.log(contactToEdit);
                                 retrieveAllContacts();
                             } else {
                                 return contactToEdit;
@@ -358,7 +356,6 @@ app.controller('editContact',
                                 retrieveProxyInfo(contactToEdit);
                                 retrieveLanguagesInfo(contactToEdit);
                                 retrieveSkillsInfo(contactToEdit);
-//                                console.log(contactToEdit);
                                 retrieveAllContacts();
                             } else {
                                 console.log("Wrong data passed");
@@ -406,7 +403,6 @@ app.controller('editContact',
                     };
 //for edit proxy                  
                     $scope.searchContact = function (selected) {
-                        console.log(selected);
 //                        selectedProxy = $scope.proxy['proxy_name'];
                         $scope.selectedProxyCid = selected.cid;
                     };
@@ -497,7 +493,6 @@ app.controller('editContact',
                         for (var i = 0; i < contactToEdit['verified_email'].length; i++) {
                             $scope.emailList.push({'email': $scope.editVerifiedEmail[i]['verified_email']});
                         }
-                        console.log($scope.emailList);
                     } else {
                         $scope.editVerifiedEmail = '';
                     }
@@ -524,6 +519,7 @@ app.controller('editContact',
                             $scope.editMembership[i]['start_date'] = new Date(contactToEdit.membership[i]['start_date']);
                             $scope.editMembership[i]['end_date'] = new Date(contactToEdit.membership[i]['end_date']);
                             $scope.editMembership[i]['receipt_date'] = new Date(contactToEdit.membership[i]['receipt_date']);
+                            $scope.editMembership[i]['subscription_amount'] = (Math.floor(contactToEdit.membership[i]['subscription_amount'] * 100) / 100).toFixed(2);
                         }
                     } else {
                         $scope.editMembership = '';
@@ -551,6 +547,10 @@ app.controller('editContact',
                             $scope.editDonation[i]['date_shown'] = contactToEdit.donation[i]['date_received'];
                             $scope.editDonation[i]['date_received'] = new Date(contactToEdit.donation[i]['date_received']);
                             $scope.editDonation[i]['receipt_date'] = new Date(contactToEdit.donation[i]['receipt_date']);
+                            $scope.editDonation[i]['donation_amount'] = (Math.floor(contactToEdit.donation[i]['donation_amount'] * 100) / 100).toFixed(2);
+                            $scope.editDonation[i]['subtotal1'] = (Math.floor(contactToEdit.donation[i]['subtotal1'] * 100) / 100).toFixed(2);
+                            $scope.editDonation[i]['subtotal2'] = (Math.floor(contactToEdit.donation[i]['subtotal2'] * 100) / 100).toFixed(2);
+                            $scope.editDonation[i]['subtotal3'] = (Math.floor(contactToEdit.donation[i]['subtotal3'] * 100) / 100).toFixed(2);
                         }
                     } else {
                         $scope.editDonation = '';
@@ -670,7 +670,6 @@ app.controller('editContact',
                                 datasend['contact_id'] = $scope.editUser['contact_id'];
                                 datasend['deactivated'] = ($scope.editUser['deactivated'] === 'true');
                                 datasend['is_admin'] = ($scope.editUser['is_admin'] === 'true');
-                                console.log(datasend);
                                 submitUser(datasend, false);
                             }
                         } else {
@@ -686,13 +685,11 @@ app.controller('editContact',
                             submitUser(datasend, true);
                         }
                     } else {
-//                        console.log(contactToRetrieve['contact_id']);
                         datasend['token'] = session.getSession('token');
                         datasend['contact_id'] = $scope.editUser['contact_id'];
                         datasend['current_password'] = $scope.editUser['current_password'];
                         datasend['password'] = $scope.editUser['password'];
                         datasend['confirm_password'] = $scope.editUser['confirm_password'];
-//                        console.log(datasend);
                         submitUser(datasend, false);
                         $scope.changePassword();
                     }
@@ -933,12 +930,9 @@ app.controller('editContact',
                     var url = AppAPI.addPhone;
                     if($scope.editMode == 'true') {
                         $scope.newPhone['contact_id'] = contactToEdit['other_cid'];
-//                         console.log($scope.newPhone);
                     } else {
                         $scope.newPhone['contact_id'] = contactToEdit['cid'];
-//                         console.log($scope.newPhone);
                     }
-                    console.log($scope.newPhone);
                     dataSubmit.submitData($scope.newPhone, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewPhone.submittedPhone = true;
@@ -992,10 +986,8 @@ app.controller('editContact',
                     datasend['token'] = session.getSession('token');
                     if($scope.editMode == 'true') {
                         datasend['contact_id'] = contactToEdit['other_cid'];
-                         console.log($scope.newPhone);
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
-                         console.log($scope.newPhone);
                     }
                     datasend['user_type'] = session.getSession('userType');
                     datasend['email'] = email['email'];
@@ -1704,7 +1696,6 @@ app.controller('editContact',
                     message: ''
                 };
                 $scope.editTheDonation = function ($event, donation) {
-                    console.log(donation);
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
                     if ($scope.editMode == 'true') {
@@ -1862,7 +1853,6 @@ app.controller('editContact',
                     } else {
                         $scope.newDonation['receipt_date'] = $scope.newDonation['receipt_date'].valueOf() + "";
                     }
-                    console.log($scope.newDonation);
                     dataSubmit.submitData($scope.newDonation, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewDonation.submittedDonation = true;
