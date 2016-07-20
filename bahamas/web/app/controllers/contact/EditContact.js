@@ -1827,11 +1827,11 @@ app.controller('editContact',
                     'explain_if_other_receipt': '',
                     'donor_instruction': '',
                     'allocation1': '',
-                    'subamount1': 0,
+                    'subamount1': '0',
                     'allocation2': '',
-                    'subamount2': 0,
+                    'subamount2': '0',
                     'allocation3': '',
-                    'subamount3': 0,
+                    'subamount3': '0',
                     'associated_occasion': '',
                     'remarks': ''
                 };
@@ -1865,6 +1865,22 @@ app.controller('editContact',
                     } else {
                         $scope.newDonation['receipt_date'] = $scope.newDonation['receipt_date'].valueOf() + "";
                     }
+                    if(angular.isUndefined($scope.newDonation['subamount1'])){
+                        $scope.newDonation['subamount1'] = '0';
+                    }else if($scope.newDonation['subamount1'] == ''){
+                        $scope.newDonation['subamount1'] = '0';
+                    }
+                    if(angular.isUndefined($scope.newDonation['subamount2'])){
+                        $scope.newDonation['subamount2'] = '0';
+                    }else if($scope.newDonation['subamount2'] == ''){
+                        $scope.newDonation['subamount2'] = '0';
+                    }
+                    if(angular.isUndefined($scope.newDonation['subamount3'])){
+                        $scope.newDonation['subamount3'] = '0';
+                    }else if($scope.newDonation['subamount3'] == ''){
+                        $scope.newDonation['subamount3'] = '0';
+                    }
+                    
                     dataSubmit.submitData($scope.newDonation, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewDonation.submittedDonation = true;
