@@ -249,6 +249,9 @@ body {
 .maroon-box {
     border-top-color: #70103F;
 }
+.green-box {
+    border-top-color: #004d00;
+}
 
 /*editContact.html hidden box*/
 .hidden-box {

@@ -57,6 +57,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/settings/globalSettings.html',
                 controller: 'globalSettings'
             })
+            .state('admin.createEvent', {
+                url: '/createEvent',
+                templateUrl: 'app/views/event/createEvent.html',
+                controller: 'createEvent'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',

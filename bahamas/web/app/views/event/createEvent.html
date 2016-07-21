@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="margin:0px" id="add-new-event">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="" style="color: white"> Events </a><i class="fa fa-chevron-right small"></i><a href="" style="color: white"> Create Event </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Default box -->
+                <div class="box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Create New Event </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Create Event Form">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <!-- form start -->
+                    <div class="box-body">
+                        <div class="box green-box">    
+                            <form role="form" ng-submit='submitEventInfo()' name='eventForm'>
+                                <!-- COMPULSORY INFORMATION SECTION -->
+                                <div class="box-body">
+                                    <div class="form-group">
+                                        <label>Event Title</label><span class="required">*</span>
+                                        <input type="text" ng-model="newEvent['event_title']" ng-maxlength="200" ng-required="true" name="eventTitle" class="form-control">
+                                        <span ng-show="eventForm.eventTitle.$error.maxlength" class='error'>Input for 'Event Title' is too long.</span>
+                                        <span ng-show="eventForm.eventTitle.$error.required && eventForm.eventTitle.$touched" class="error">Event Title is required.</span>
+                                    </div>
+                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+                                        <div class="col-md-3" style="padding: 0px">
+                                            <label>Date of Event</label>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon btn" ng-click="open()">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type="text" class="form-control white-background" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="newEvent['event_date']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>Start Time</label>
+                                            <div uib-timepicker ng-model="newEvent['event_time_start']" show-spinners='false' name='eventStartTime'></div>
+                                        </div>  
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>End Time</label>
+                                            <div uib-timepicker ng-model="newEvent['event_time_end']" show-spinners='false' name='eventEndTime'></div>
+                                        </div>
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>Send Reminder</label>
+                                            <div>
+                                                <input type="checkbox" ng-model="newEvent['send_reminder']"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label>Event Description</label>
+                                    <textarea class="custom-remarks" ng-model="newEvent['event_description']" ng-maxlength="2000" name="eventDescription" contenteditable="true" spellcheck="true"></textarea>
+                                    <span ng-show="eventForm.eventDescription.$error.maxlength" class='error'>Input for 'Event Description' is too long.</span>
+                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
+                                        <div class="col-md-3" style="padding: 0px">
+                                            <label>Minimum participation</label>
+                                            <input type='text' ng-model="newEvent['minimum_participation']" name="minimumParticipation" class="form-control white-background" min="0" ng-pattern="regex"/>
+                                            <span ng-show="eventForm.minimumParticipation.$invalid" class='error'>Please enter a valid integer.</span>
+                                        </div>
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>Event Class</label>
+                                            <div ng-init="loadEventClassList()">
+                                                <select class="form-control" ng-model="newEvent['event_class']">
+                                                    <option ng-repeat="eventClass in eventClassList">{{eventClass.eventClass}}</option>
+                                                </select>     
+                                            </div>
+                                        </div>  
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>Event Location</label>
+                                            <div ng-init="loadEventLocationList()">
+                                                <select class="form-control" ng-model="newEvent['event_location']">
+                                                    <option ng-repeat="eventLocation in eventLocationList">{{eventLocation.eventLocation}}</option>
+                                                </select>     
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <label>Explain If Others</label>
+                                    <textarea class="custom-remarks" ng-model="newEvent['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                    <span ng-show="eventForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>
+                                </div>
+                                <div class="box-footer">
+                                    <center><button type="submit" ng-click="createEvent()" 
+                                                    ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid"
+                                                    class="btn btn-primary">
+                                            Save and proceed
+                                        </button></center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>
