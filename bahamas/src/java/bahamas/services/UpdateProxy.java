@@ -131,7 +131,7 @@ public class UpdateProxy extends HttpServlet {
                         }
 
                         if (ProxyDAO.updateProxy(p)) {
-                            AuditLogDAO.insertAuditLog(username, "UPDATE PROXY", "Update proxy under contact: proxy ID: " + proxyId + " principal ID: " + principalId);
+                            AuditLogDAO.insertAuditLog(username, "UPDATE PROXY", "Update proxy under contact: proxy ID: " + proxyId + " | principal ID: " + principalId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {

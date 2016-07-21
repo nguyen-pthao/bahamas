@@ -95,7 +95,7 @@ public class DonationDAO {
                     + "RECEIPT_MODE_NAME, RECEIPT_NUMBER, RECEIPT_DATE, EXPLAIN_IF_OTHER_RECEIPT, "
                     + "DONOR_INSTRUCTIONS, ALLOCATION_1, SUBAMOUNT_1, ALLOCATION_2, SUBAMOUNT_2, "
                     + "ALLOCATION_3, SUBAMOUNT_3, ASSOCIATED_OCCASION, REMARKS FROM DONATION "
-                    + "WHERE CONTACT_ID = (?) ");
+                    + "WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
 
             stmt.setInt(1, cid);
 

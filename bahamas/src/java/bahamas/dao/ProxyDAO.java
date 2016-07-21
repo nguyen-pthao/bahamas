@@ -70,7 +70,7 @@ public class ProxyDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT PRINCIPAL_ID, PROXY_ID, DATE_CREATED, CREATED_BY, PROXY_STANDING, DATE_OBSOLETE, REMARKS FROM PROXY WHERE PROXY_ID = (?) ");
+            stmt = conn.prepareStatement("SELECT PRINCIPAL_ID, PROXY_ID, DATE_CREATED, CREATED_BY, PROXY_STANDING, DATE_OBSOLETE, REMARKS FROM PROXY WHERE PROXY_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();
@@ -107,7 +107,7 @@ public class ProxyDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT PRINCIPAL_ID, PROXY_ID, DATE_CREATED, CREATED_BY, PROXY_STANDING, DATE_OBSOLETE, REMARKS FROM PROXY WHERE PRINCIPAL_ID = (?) ");
+            stmt = conn.prepareStatement("SELECT PRINCIPAL_ID, PROXY_ID, DATE_CREATED, CREATED_BY, PROXY_STANDING, DATE_OBSOLETE, REMARKS FROM PROXY WHERE PRINCIPAL_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();

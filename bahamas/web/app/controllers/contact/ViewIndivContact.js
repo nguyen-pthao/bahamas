@@ -120,7 +120,12 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasMembership = true;
             if (angular.isUndefined($scope.membership)) {
                 $scope.hasMembership = false;
+            }else{
+                for (var i = 0; i < $scope.membership.length; i++) {
+                    $scope.membership[i]['subscription_amount'] = (Math.floor($scope.membership[i]['subscription_amount'] * 100) / 100).toFixed(2);
+                }
             }
+            
             //office held info
             $scope.officeHeld = $scope.contactInfo['office_held'];
             $scope.hasOffice = true;
@@ -132,6 +137,14 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasDonation = true;
             if (angular.isUndefined($scope.donation)) {
                 $scope.hasDonation = false;
+            }
+            else{
+                for (var i = 0; i < $scope.donation.length; i++) {
+                    $scope.donation[i]['donation_amount'] = (Math.floor($scope.donation[i]['donation_amount'] * 100) / 100).toFixed(2);
+                    $scope.donation[i]['subtotal1'] = (Math.floor($scope.donation[i]['subtotal1'] * 100) / 100).toFixed(2);
+                    $scope.donation[i]['subtotal2'] = (Math.floor($scope.donation[i]['subtotal2'] * 100) / 100).toFixed(2);
+                    $scope.donation[i]['subtotal3'] = (Math.floor($scope.donation[i]['subtotal3'] * 100) / 100).toFixed(2);
+                }
             }
             //team info
             $scope.team = $scope.contactInfo['team_join'];

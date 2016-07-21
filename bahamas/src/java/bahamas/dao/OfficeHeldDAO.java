@@ -78,7 +78,7 @@ public class OfficeHeldDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE, REMARKS, DATE_CREATED, CREATED_BY, OFFICE_HELD_NAME FROM OFFICE_HELD WHERE CONTACT_ID = (?) ");
+            stmt = conn.prepareStatement("SELECT START_OFFICE, END_OFFICE, REMARKS, DATE_CREATED, CREATED_BY, OFFICE_HELD_NAME FROM OFFICE_HELD WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();
@@ -114,23 +114,13 @@ public class OfficeHeldDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE OFFICE_HELD SET START_OFFICE=?,END_OFFICE=?,REMARKS=? "
-                    + "WHERE CONTACT_ID=? AND OFFICE_HELD_NAME=?");
+            stmt = conn.prepareStatement("UPDATE OFFICE_HELD SET REMARKS=? "
+                    + "WHERE CONTACT_ID=? AND OFFICE_HELD_NAME=? AND START_OFFICE=?");
 
-            if (o.getStartOffice() != null) {
-                stmt.setDate(1, new java.sql.Date(o.getStartOffice().getTime()));
-            } else {
-                stmt.setDate(1, null);
-            }
-
-            if (o.getEndOffice() != null) {
-                stmt.setDate(2, new java.sql.Date(o.getEndOffice().getTime()));
-            } else {
-                stmt.setDate(2, null);
-            }
-            stmt.setString(3, o.getRemarks());
-            stmt.setInt(4, o.getContact().getContactId());
-            stmt.setString(5, o.getOfficeHeldPosition());
+            stmt.setString(1, o.getRemarks());
+            stmt.setInt(2, o.getContact().getContactId());
+            stmt.setString(3, o.getOfficeHeldPosition());
+            stmt.setDate(4, new java.sql.Date(o.getStartOffice().getTime()));
 
             result = stmt.executeUpdate();
 
@@ -160,7 +150,7 @@ public class OfficeHeldDAO {
             stmt.setInt(1, id);
             stmt.setString(2, officeName);
             stmt.setDate(3, new java.sql.Date(startOffice.getTime()));
-            
+
             result = stmt.executeUpdate();
 
             return result == 1;
@@ -193,13 +183,12 @@ public class OfficeHeldDAO {
                 String strEndDate = rs.getString(2);
                 Date startDateDB = date.parse(strStartDate);
                 Date endDateDB = date.parse(strEndDate);
-                
 
-                if(startDate.equals(startDateDB) || startDate.equals(endDateDB) || ( startDate.after(startDateDB) && startDate.before(endDateDB))){
+                if (startDate.equals(startDateDB) || startDate.equals(endDateDB) || (startDate.after(startDateDB) && startDate.before(endDateDB))) {
                     exist = true;
-                }else if(endDate.equals(startDateDB) || endDate.equals(endDateDB) || ( endDate.after(startDateDB) && endDate.before(endDateDB))){
+                } else if (endDate.equals(startDateDB) || endDate.equals(endDateDB) || (endDate.after(startDateDB) && endDate.before(endDateDB))) {
                     exist = true;
-                }else if(startDate.before(startDateDB) && endDate.after(endDateDB)){
+                } else if (startDate.before(startDateDB) && endDate.after(endDateDB)) {
                     exist = true;
                 }
             }
