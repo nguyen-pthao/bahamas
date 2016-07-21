@@ -431,22 +431,7 @@ and open the template in the editor.
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Explain If Other Payment Mode</b></h4>
                                                 <div>{{donationObj.explain_if_other_payment}}</div>
-                                            </div> 
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Donation Amount</b></h4>
-                                                <div>{{donationObj.donation_amount}}</div>
-                                            </div><div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{donationObj.date_created}}</div>
-                                            </div>      
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{donationObj.created_by}}</div>
-                                            </div>                                     
-                                        </div>
-                                        <div class="col-sm-6">
+                                            </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>External Transaction Reference</b></h4>
                                                 <div>{{donationObj.ext_transaction_ref}}</div>
@@ -471,8 +456,23 @@ and open the template in the editor.
                                                 <h4><b>Allocation 3</b></h4>
                                                 <div>{{donationObj.allocation3}}</div>
                                             </div>
+                                             <div style="padding-top: 10px;">
+                                                <h4><b>Associated Occasion</b></h4>
+                                                <div>{{donationObj.associated_occasion}}</div>
+                                            </div>
                                         </div>
                                         <div class="col-sm-6">
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Donation Amount</b></h4>
+                                                <div>{{donationObj.donation_amount}}</div>
+                                            </div><div style="padding-top: 10px;">
+                                                <h4><b>Date Created</b></h4>
+                                                <div>{{donationObj.date_created}}</div>
+                                            </div>      
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Created By</b></h4>
+                                                <div>{{donationObj.created_by}}</div>
+                                            </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Receipt Number</b></h4>
                                                 <div>{{donationObj.receipt_number}}</div>
@@ -496,12 +496,6 @@ and open the template in the editor.
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Subamount 3</b></h4>
                                                 <div>{{donationObj.subtotal3}}</div>
-                                            </div>
-                                        </div>
-                                        <div class='col-sm-12'>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Associated Occasion</b></h4>
-                                                <div>{{donationObj.associated_occasion}}</div>
                                             </div>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Remarks</b></h4>
