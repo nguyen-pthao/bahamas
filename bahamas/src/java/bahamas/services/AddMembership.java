@@ -128,7 +128,7 @@ public class AddMembership extends HttpServlet {
 
                         if (startMembership != null && endMembership != null) {
                             if (endMembership.before(startMembership) || !startMembership.before(endMembership)) {
-                                Validator.getErrorList().add("Start office date must be before end office date");
+                                Validator.getErrorList().add("Membership start date must be before membership end date");
                             }
                         }
 

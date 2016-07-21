@@ -130,8 +130,13 @@ public class UpdateMembership extends HttpServlet {
 
                         m.setMembershipId(membershipId);
                         
+                        if (startMembership != null && endMembership != null) {
+                            if (endMembership.before(startMembership) || !startMembership.before(endMembership)) {
+                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                            }
+                        }
                         if(MembershipDAO.membershipExistUpdate(contactId,membershipId, startMembership, endMembership)){
-                            Validator.getErrorList().add("Date range is overlapped with existing membership records");
+                            Validator.getErrorList().add("Date range overlaps with existing membership records");
                         }
                         
                         if (!Validator.getErrorList().isEmpty()) {
