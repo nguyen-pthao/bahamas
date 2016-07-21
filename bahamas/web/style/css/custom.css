@@ -45,6 +45,10 @@ body {
     font-weight: 800;  
 }
 
+.custom-height-1{
+    min-height: 15px;
+}
+
 .error {
     color: #e02222;
 }

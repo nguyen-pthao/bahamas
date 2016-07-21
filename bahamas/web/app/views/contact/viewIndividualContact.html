@@ -42,10 +42,8 @@ and open the template in the editor.
                             </div>
                             <div class="box-body">
                                 <div class="col-sm-6">
-                                    <div style="padding-top: 10px;">
-                                        <h4><b>Username</b></h4>
-                                        <div>{{username}}</div>
-                                    </div>
+                                    <h4 class="bold">Username</h4>
+                                    <div class="custom-height-1">{{username}}</div>
                                 </div>
                             </div>
                         </div>
@@ -58,64 +56,76 @@ and open the template in the editor.
                                         <i class="fa fa-chevron-down"></i></button>
                                 </div>
                             </div>
-                            <div class="box-body" style="display:none">
+                            <div class="box-body">
+                                <div class="box-body">
                                 <!--TABLE HERE.-->
-                                <div class="col-sm-6">
-                                    <div style="padding-top: 10px;">
-                                        <h4><b>Name</b></h4>
-                                        <div>{{name}}</div>
+                                <div class="row col-sm-12">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Name</h4>
+                                        <div class="custom-height-1">{{name}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;">
-                                        <h4><b>Contact Type</b></h4>
-                                        <div>{{contactType}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;">
-                                        <h4><b>Explain If Other</b></h4>
-                                        <div>{{explainIfOther}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="permissionViewNricDob">
-                                        <h4><b>NRIC</b></h4>
-                                        <div>{{nric}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Nationality</b></h4>
-                                        <div>{{nationality}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Job Title</b></h4>
-                                        <div>{{jobTitle}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Remarks</b></h4>
-                                        <div>{{remarks}}</div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Alt Name</h4>
+                                        <div class="custom-height-1">{{altName}}</div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">                
-                                    <div style="padding-top: 10px;">
-                                        <h4><b>Alt Name</b></h4>
-                                        <div>{{altName}}</div>
+                                <div class="row col-md-12">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Contact Type</h4>
+                                        <div class="custom-height-1">{{contactType}}</div>
                                     </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Profession</b></h4>
-                                        <div>{{profession}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Gender</b></h4>
-                                        <div>{{gender}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="permissionViewNricDob">
-                                        <h4><b>Date Of Birth</b></h4>
-                                        <div>{{dateOfBirth}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Date Created</b></h4>
-                                        <div>{{dateCreated}}</div>
-                                    </div>
-                                    <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                        <h4><b>Created By</b></h4>
-                                        <div>{{createdBy}}</div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Explain If Other</h4>
+                                        <div class="custom-height-1">{{explainIfOther}}</div>
                                     </div>
                                 </div>
+                                <div class="row col-md-12" ng-hide="permissionViewNricDob">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">NRIC</h4>
+                                        <div class="custom-height-1">{{nric}}</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Date Of Birth</h4>
+                                        <div class="custom-height-1">{{dateOfBirth}}</div>
+                                    </div>
+                                </div>
+                                <div class="row col-md-12" ng-hide="isAssociate">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Nationality</h4>
+                                        <div class="custom-height-1">{{nationality}}</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Gender</h4>
+                                        <div class="custom-height-1">{{gender}}</div>
+                                    </div>
+                                </div>
+                                <div class="row col-md-12" ng-hide="isAssociate">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Profession</h4>
+                                        <div class="custom-height-1">{{profession}}</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Job Title</h4>
+                                        <div class="custom-height-1">{{jobTitle}}</div>
+                                    </div>
+                                </div>
+                                <div class="row col-md-12" ng-hide="isAssociate">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Date Created</h4>
+                                        <div class="custom-height-1">{{dateCreated}}</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Created By</h4>
+                                        <div class="custom-height-1">{{createdBy}}</div>
+                                    </div>
+                                </div>
+                                <div class="row col-md-12" ng-hide="isAssociate">
+                                    <div class="col-sm-12">
+                                        <h4 class="bold">Remarks</h4>
+                                        <div class="custom-height-1">{{remarks}}</div>
+                                    </div>
+                                </div>
+                            </div>
                             </div>
                         </div>
                         <!-- /contact information -->
@@ -133,30 +143,30 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='phoneObj in phoneInfo' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Phone Number {{$index + 1}}</b></h4>
-                                                <div>+{{phoneObj.country_code}}-{{phoneObj.phone_number}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Phone Number {{$index + 1}}</h4>
+                                                <div class="custom-height-1">+{{phoneObj.country_code}}-{{phoneObj.phone_number}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{phoneObj.created_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{phoneObj.date_created}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{phoneObj.date_obsolete}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{phoneObj.date_obsolete}}</div>
                                             </div>
                                         </div>
-                                        <div class='col-sm-12'>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{phoneObj.remarks}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{phoneObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{phoneObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{phoneObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -178,36 +188,40 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='emailObj in email' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Email {{$index + 1}}</b></h4>
-                                                <div>{{emailObj.email}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Email {{$index + 1}}</h4>
+                                                <div class="custom-height-1">{{emailObj.email}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;"ng-hide="isAssociate">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{emailObj.created_by}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{emailObj.remarks}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{emailObj.date_obsolete}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;"  ng-hide="isAssociate">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{emailObj.date_created}}</div>
+                                        <div class="row col-md-12" ng-hide="isAssociate">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{emailObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{emailObj.date_obsolete}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                                <h4><b>Verified</b></h4>
-                                                <div ng-show="emailObj.verified == 'true'">Yes</div>
-                                                <div ng-hide="emailObj.verified == 'true'">No</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{emailObj.created_by}}</div>
                                             </div>
                                         </div>
-                                    </div>                                 
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6" ng-hide="isAssociate">
+                                                <h4 class="bold">Verified</h4>
+                                                <div ng-show="emailObj.verified == 'true'" class="custom-height-1">Yes</div>
+                                                <div ng-hide="emailObj.verified == 'true'" class="custom-height-1">No</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{emailObj.remarks}}</div>
+                                            </div>
+                                        </div>       
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -226,38 +240,40 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='addressObj in address' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Address {{$index + 1}}</b></h4>
-                                                <div>{{addressObj.address}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Address {{$index + 1}}</h4>
+                                                <div class="custom-height-1">{{addressObj.address}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Country</b></h4>
-                                                <div>{{addressObj.country}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{addressObj.date_created}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Zipcode</h4>
+                                                <div class="custom-height-1">{{addressObj.zipcode}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Zipcode</b></h4>
-                                                <div>{{addressObj.zipcode}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Country</h4>
+                                                <div class="custom-height-1">{{addressObj.country}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{addressObj.date_obsolete}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{addressObj.created_by}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{addressObj.date_obsolete}}</div>
                                             </div>
                                         </div>
-                                        <div class='col-sm-12'>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{addressObj.remarks}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{addressObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{addressObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{addressObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -279,78 +295,82 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='membershipObj in membership' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">                                          
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Membership Type {{$index + 1}}</b></h4>
-                                                <div>{{membershipObj.membership_class_name}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Membership Type {{$index + 1}}</h4>
+                                                <div class="custom-height-1">{{membershipObj.membership_class_name}}</div>
                                             </div>
-                                        </div>        
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Subscription Amount</b></h4>
-                                                <div>{{membershipObj.subscription_amount}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Subscription Amount</h4>
+                                                <div class="custom-height-1">{{membershipObj.subscription_amount}}</div>
                                             </div>
                                         </div>
-                                        <div class='col-sm-12'>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other Membership Type</b></h4>
-                                                <div>{{membershipObj.explain_if_other_class}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If Other Membership Type</h4>
+                                                <div class="custom-height-1">{{membershipObj.explain_if_other_class}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Membership Start Date</b></h4>
-                                                <div>{{membershipObj.start_date}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Start Date</h4>
+                                                <div class="custom-height-1">{{membershipObj.start_date}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Payment Mode</b></h4>
-                                                <div>{{membershipObj.payment_mode_name}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Membership End Date</b></h4>
-                                                <div>{{membershipObj.end_date}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other Payment Mode</b></h4>
-                                                <div>{{membershipObj.explain_if_other_payment}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">End Date</h4>
+                                                <div class="custom-height-1">{{membershipObj.end_date}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>External Transaction Reference</b></h4>
-                                                <div>{{membershipObj.ext_transaction_ref}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Payment Mode</h4>
+                                                <div class="custom-height-1">{{membershipObj.payment_mode_name}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Mode Of Sending Receipt</b></h4>
-                                                <div>{{membershipObj.receipt_mode_name}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Explain If Other Payment Mode</h4>
+                                                <div class="custom-height-1">{{membershipObj.explain_if_other_payment}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other Receipt Mode</b></h4>
-                                                <div>{{membershipObj.explain_if_other_receipt}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">External Transaction Reference</h4>
+                                                <div class="custom-height-1">{{membershipObj.ext_transaction_ref}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{membershipObj.remarks}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Receipt Number</h4>
+                                                <div class="custom-height-1">{{membershipObj.receipt_number}}</div>
                                             </div>
-                                        </div>        
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Receipt Number</b></h4>
-                                                <div>{{membershipObj.receipt_number}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Mode Of Sending Receipt</h4>
+                                                <div class="custom-height-1">{{membershipObj.receipt_mode_name}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Of Receipt</b></h4>
-                                                <div>{{membershipObj.receipt_date}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Of Receipt</h4>
+                                                <div class="custom-height-1">{{membershipObj.receipt_date}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{membershipObj.date_created}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If Other Receipt Mode</h4>
+                                                <div class="custom-height-1">{{membershipObj.explain_if_other_receipt}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{membershipObj.created_by}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{membershipObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{membershipObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{membershipObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -372,32 +392,36 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='officeHeldObj in officeHeld' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Office Held {{$index + 1}}</b></h4>
-                                                <div>{{officeHeldObj.office_held}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Office Held {{$index + 1}}</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.office_held}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{officeHeldObj.remarks}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{officeHeldObj.date_created}}</div>
-                                            </div>                                          
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Start Office</b></h4>
-                                                <div>{{officeHeldObj.start_office}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Start Office</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.start_office}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>End Office</b></h4>
-                                                <div>{{officeHeldObj.end_office}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">End Office</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.end_office}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{officeHeldObj.created_by}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                 
