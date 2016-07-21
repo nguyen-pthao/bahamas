@@ -111,7 +111,7 @@ public class DeleteProxy extends HttpServlet {
 
                         if (ProxyDAO.deleteProxy(principalId, proxyId)) {
                             AuditLogDAO.insertAuditLog(username, "DELETE PROXY", "Delete proxy under contact: proxy ID: " + proxyId
-                            + "principal ID: " + principalId);
+                            + " | principal ID: " + principalId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
