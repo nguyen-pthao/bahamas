@@ -73,7 +73,7 @@ public class SkillDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT SKILL_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
-                    + "REMARKS, CREATED_BY, DATE_CREATED FROM SKILL_ASSIGNMENT WHERE CONTACT_ID = (?) ");
+                    + "REMARKS, CREATED_BY, DATE_CREATED FROM SKILL_ASSIGNMENT WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();

@@ -73,7 +73,7 @@ public class LanguageDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT LANGUAGE_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
-                    + "REMARKS, CREATED_BY, DATE_CREATED, PROFICIENCY FROM LANGUAGE_ASSIGNMENT WHERE CONTACT_ID = (?) ");
+                    + "REMARKS, CREATED_BY, DATE_CREATED, PROFICIENCY FROM LANGUAGE_ASSIGNMENT WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();

@@ -80,7 +80,7 @@ public class AppreciationDAO {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT APPRECIATION_ID, APPRAISAL_COMMENTS, APPRAISAL_BY, APPRAISAL_DATE, APPRECIATION_GESTURE, APPRECIATION_BY, APPRECIATION_DATE, REMARKS, CREATED_BY, DATE_CREATED FROM APPRECIATION WHERE CONTACT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT APPRECIATION_ID, APPRAISAL_COMMENTS, APPRAISAL_BY, APPRAISAL_DATE, APPRECIATION_GESTURE, APPRECIATION_BY, APPRECIATION_DATE, REMARKS, CREATED_BY, DATE_CREATED FROM APPRECIATION WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setString(1, Integer.toString(cid));
             rs = stmt.executeQuery();
             while (rs.next()) {
