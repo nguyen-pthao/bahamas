@@ -1,5 +1,7 @@
 #Dummy data to be loaded to bahamas tables
 
+use bahamas;
+
 #PERMISSION_LEVEL_LIST
 insert into PERMISSION_LEVEL_LIST(PERMISSION, DESCRIPTION) value
 ('Team manager', 'Manages a team'),

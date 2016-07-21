@@ -142,8 +142,8 @@ public class AddProxy extends HttpServlet {
                         Proxy p = new Proxy(proxy, principal, username, proxyStanding, dateObosolete, remarks);
 
                         if (ProxyDAO.addProxy(p)) {
-                            AuditLogDAO.insertAuditLog(username, "ADD PROXY", "Add proxy under proxy: Contact ID: " + proxyId
-                                    + " | principal: Contact ID: " + principalId);
+                            AuditLogDAO.insertAuditLog(username, "ADD PROXY", "Add proxy under contact: proxy ID: " + proxyId
+                                    + " | principal ID: " + principalId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
