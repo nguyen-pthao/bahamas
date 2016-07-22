@@ -10,6 +10,12 @@ app.controller('createEventRoles',
         ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', '$stateParams', 'ngDialog',
             function ($scope, session, $state, localStorageService, $http, $timeout, $stateParams, ngDialog) {
                 console.log($stateParams.eventId);
+                
+                var user = session.getSession('userType');
+                $scope.backHome = function () {
+                    $state.go(user);
+                };
+                
                 $scope.eventInfo = {
                     'event_title': 'EVENT TITLE HERE',
                     'event_date': new Date(),
