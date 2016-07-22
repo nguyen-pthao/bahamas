@@ -52,12 +52,12 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Start Time</label><span class="required">*</span>
-                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" show-spinners='false' name='eventStartTime'></div>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
                                             <span ng-show="eventForm.eventStartTime.$error.required && eventForm.eventStartTime.$touched" class="error">Start Time is required.</span>
                                         </div>  
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>End Time</label><span class="required">*</span>
-                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" show-spinners='false' name='eventEndTime'></div>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
                                             <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
@@ -96,6 +96,12 @@ and open the template in the editor.
                                             </div>
                                             <span ng-show="eventForm.eventLocation.$error.required && eventForm.eventLocation.$touched" class="error">Location is required.</span>
                                         </div>
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;"></i>
+                                            <div>
+                                                <input type="checkbox" ng-model="showGoogleMaps"/>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div>
                                         <label>Explain If Others</label>
@@ -103,12 +109,19 @@ and open the template in the editor.
                                         <span ng-show="eventForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>  
                                     </div>
                                 </div>
+                                <div ng-show='showGoogleMaps'>
+                                        <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
+                                            <ui-gmap-marker idkey='marker.id' coords='marker.coords'></ui-gmap-marker>
+                                            <ui-gmap-search-box template="searchbox.template" events='searchbox.events'></ui-gmap-search-box>
+                                            </ui-gmap-marker>
+                                        </ui-gmap-google-map>
+                                    </div>
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="createEvent()" 
                                                     ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid
-                                                    || eventForm.eventDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
-                                                    || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required
-                                                    || eventForm.explainIfOthers.$error.maxlength"
+                                                                        || eventForm.eventDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
+                                                                        || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required
+                                                                        || eventForm.explainIfOthers.$error.maxlength"
                                                     class="btn btn-primary">
                                             Save and proceed
                                         </button></center>

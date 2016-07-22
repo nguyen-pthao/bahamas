@@ -13,11 +13,11 @@ app.controller('createEvent',
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-                
+
                 $scope.regex = '\\d+';
-                
-                $scope.loadEventLocationList = function(){
-                    loadEventLocation.retrieveEventLocation().then(function(response){
+
+                $scope.loadEventLocationList = function () {
+                    loadEventLocation.retrieveEventLocation().then(function (response) {
                         $scope.eventLocationList = response.data.eventLocationList;
                         var other;
                         for (var obj in $scope.eventLocationList) {
@@ -28,9 +28,9 @@ app.controller('createEvent',
                         $scope.eventLocationList.push(other[0]);
                     })
                 }
-                
-                $scope.loadEventClassList = function(){
-                    loadEventClass.retrieveEventClass().then(function(response){
+
+                $scope.loadEventClassList = function () {
+                    loadEventClass.retrieveEventClass().then(function (response) {
                         $scope.eventClassList = response.data.eventClassList;
                         var other;
                         for (var obj in $scope.eventClassList) {
@@ -41,7 +41,7 @@ app.controller('createEvent',
                         $scope.eventClassList.push(other[0]);
                     })
                 }
-                
+
                 //-----for the datepicker-----
                 $scope.today = function () {
                     $scope.dt = new Date();
@@ -91,9 +91,9 @@ app.controller('createEvent',
                 $scope.format = 'dd MMM yyyy';
                 $scope.altInputFormats = ['M!/d!/yyyy'];
                 //----- end of datepicker settings-----
-                
+
                 $scope.newEvent = {
-                    'event_title' : '',
+                    'event_title': '',
                     'event_date': new Date(),
                     'event_time_start': '',
                     'event_time_end': '',
@@ -102,30 +102,51 @@ app.controller('createEvent',
                     'minimum_participation': '',
                     'event_class': '',
                     'event_location': '',
+                    'event_lat': '',
+                    'event_lng': '',
                     'explain_if_others': ''
                 }
-                
-                $scope.createEvent = function(){
-                    if($scope.newEvent['event_date'] == null){
+
+                //--for google maps--
+                $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
+                $scope.$watch('showGoogleMaps', function () {
+                    if ($scope.showGoogleMaps == true) {
+                        $timeout(function () {
+                            var map = $scope.map.control.refresh({latitude: 1.355865, longitude: 103.819129});
+                        }, 0);
+                    }
+                })
+                $scope.marker = {coords: {latitude: '', longitude: ''}, id: 1};
+                $scope.searchbox = {template: './style/ngTemplate/searchbox.tpl.html', events: {places_changed: function (searchBox) {
+                            $scope.newEvent['event_lat'] = searchBox.getPlaces()[0].geometry.location.lat();
+                            $scope.newEvent['event_lng'] = searchBox.getPlaces()[0].geometry.location.lng();
+                            $scope.marker = {coords: {latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()}};
+                            $scope.map.zoom = 15;
+                            $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
+                        }}};
+                //--end of settings for google maps--
+
+                $scope.createEvent = function () {
+                    if ($scope.newEvent['event_date'] == null) {
                         $scope.newEvent['event_date'] = ''
-                    }else if($scope.newEvent['event_date'] != null || $scope.newEvent['event_date'] != ''){
+                    } else if ($scope.newEvent['event_date'] != null || $scope.newEvent['event_date'] != '') {
                         $scope.newEvent['event_date'] = $scope.newEvent['event_date'].valueOf() + "";
                     }
-                    if($scope.newEvent['event_time_start'] == null){
+                    if ($scope.newEvent['event_time_start'] == null) {
                         $scope.newEvent['event_time_start'] = ''
-                    }else if($scope.newEvent['event_time_start'] != null || $scope.newEvent['event_time_start'] != ''){
+                    } else if ($scope.newEvent['event_time_start'] != null || $scope.newEvent['event_time_start'] != '') {
                         $scope.newEvent['event_time_start'] = $scope.newEvent['event_time_start'].valueOf() + "";
                     }
-                    if($scope.newEvent['event_time_end'] == null){
+                    if ($scope.newEvent['event_time_end'] == null) {
                         $scope.newEvent['event_time_end'] = ''
-                    }else if($scope.newEvent['event_time_end'] != null || $scope.newEvent['event_time_end'] != ''){
+                    } else if ($scope.newEvent['event_time_end'] != null || $scope.newEvent['event_time_end'] != '') {
                         $scope.newEvent['event_time_end'] = $scope.newEvent['event_time_end'].valueOf() + "";
                     }
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/createEventPrompt.html',
                         className: 'ngdialog-theme-default',
                         scope: $scope
-                    }).then(function(response){
+                    }).then(function (response) {
                         console.log($scope.newEvent);
                         //submit $scope.newEvent to backend and also display errorMessages.
                     })

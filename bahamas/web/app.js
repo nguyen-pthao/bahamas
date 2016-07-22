@@ -5,7 +5,7 @@
 // */
 'use strict';
 
-var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree']);
+var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -188,6 +188,17 @@ app.config(['IdleProvider', function (IdleProvider) {
         IdleProvider.idle(1740);
         IdleProvider.timeout(10);
     }]);
+
+app.config([
+    'uiGmapGoogleMapApiProvider',
+    function(uiGmapGoogleMapApiProvider) {
+        uiGmapGoogleMapApiProvider.configure({
+            key      : 'AIzaSyCQeF9t1XxpfqEsfYcX4t03Gd_H7PcKC0Y',
+            v        : '3.23',
+            libraries: 'places,geometry,visualization,weather'
+        });
+    }
+]);
 
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
         //$rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';

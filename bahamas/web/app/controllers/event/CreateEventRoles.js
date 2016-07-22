@@ -10,12 +10,12 @@ app.controller('createEventRoles',
         ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', '$stateParams', 'ngDialog',
             function ($scope, session, $state, localStorageService, $http, $timeout, $stateParams, ngDialog) {
                 console.log($stateParams.eventId);
-                
+
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-                
+
                 $scope.eventInfo = {
                     'event_title': 'EVENT TITLE HERE',
                     'event_date': new Date(),
@@ -47,9 +47,9 @@ app.controller('createEventRoles',
                         var description = $scope.newRoles['description' + i];
                         if ($scope.newRoles['role' + i] == '' && $scope.newRoles['description' + i] != '') {
                             $scope.error = true;
-                        }else if (angular.isUndefined(role)) {
+                        } else if (angular.isUndefined(role)) {
                             $scope.error = true;
-                        } else if (angular.isUndefined(description)){
+                        } else if (angular.isUndefined(description)) {
                             $scope.error = true;
                         }
                     }
@@ -74,5 +74,18 @@ app.controller('createEventRoles',
                     $scope.newRoles[descriptionIntoNewRoles] = '';
                     $scope.numberOfRoles.push($scope.numberOfRoles.length + 1);
                 }
-
+//
+//                $scope.map = {center: {latitude: 1.302918, longitude: 103.864964}, zoom: 15, options: {scrollwheel: false}, control:{}};
+//
+//                $scope.marker = {coords: {latitude: 1.302918, longitude: 103.864964}, id: 1};
+//
+//                $scope.searchbox = {template:'./style/ngTemplate/searchbox.tpl.html', events:{places_changed: function (searchBox) {
+//                    console.log(searchBox.getPlaces()[0].geometry.location.lat());
+//                    console.log(searchBox.getPlaces()[0].geometry.location.lng());
+//                    $scope.marker.coords = {
+//                        latitude: searchBox.getPlaces()[0].geometry.location.lat(),
+//                        longitude: searchBox.getPlaces()[0].geometry.location.lng()
+//                    };
+//                    $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
+//                }}};
             }]);
