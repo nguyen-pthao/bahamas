@@ -94,7 +94,7 @@ app.controller('createEvent',
                 
                 $scope.newEvent = {
                     'event_title' : '',
-                    'event_date': '',
+                    'event_date': new Date(),
                     'event_time_start': '',
                     'event_time_end': '',
                     'send_reminder': false,
