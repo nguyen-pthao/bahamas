@@ -87,8 +87,11 @@ public class EmailDAO {
                 if (dateobs != null && !dateobs.isEmpty()) {
                     dateObsolete = date.parse(dateobs);
                 }
-                boolean verified  = rs.getBoolean(6);
-                Email e = new Email(email, createdBy, remarks, dateObsolete, dateCreated, verified);
+                boolean verified = rs.getBoolean(6);
+                ContactDAO cDAO = new ContactDAO();
+                Contact c = cDAO.retrieveContactById(cid);
+                
+                Email e = new Email(c,email, createdBy, remarks, dateObsolete, dateCreated, verified);
 
                 emailList.add(e);
             }
@@ -194,8 +197,10 @@ public class EmailDAO {
                 if (dateobs != null && !dateobs.isEmpty()) {
                     dateObsolete = date.parse(dateobs);
                 }
-                boolean verified  = rs.getBoolean(7);
-                Email temp = new Email(email, createdBy, remarks, dateObsolete, dateCreated, verified);
+                boolean verified = rs.getBoolean(7);
+                ContactDAO cDAO = new ContactDAO();
+                Contact c = cDAO.retrieveContactById(cid);
+                Email temp = new Email(c, email, createdBy, remarks, dateObsolete, dateCreated, verified);
 
                 return temp;
             }
@@ -214,7 +219,7 @@ public class EmailDAO {
         return null;
 
     }
-    
+
     //UPDATE EMAIL SET VERIFIED = 1 WHERE VERIFICATIONID = ""
     public static boolean updateVerification(String verificationID) {
         Connection conn = null;
@@ -241,9 +246,9 @@ public class EmailDAO {
         }
         return false;
     }
-    
+
     public static boolean checkVerificationID(String verificationID) {
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -253,8 +258,8 @@ public class EmailDAO {
             stmt = conn.prepareStatement("SELECT VERIFIED FROM EMAIL WHERE VERIFICATIONID = (?)");
             stmt.setString(1, verificationID);
             rs = stmt.executeQuery();
-            while (rs.next()) {             
-                verified =  rs.getBoolean(1);
+            while (rs.next()) {
+                verified = rs.getBoolean(1);
             }
         } catch (SQLException ex) {
             Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
@@ -264,7 +269,7 @@ public class EmailDAO {
         }
         return verified;
     }
-    
+
     public static boolean emailExist(String email) {
 
         Connection conn = null;
@@ -292,5 +297,5 @@ public class EmailDAO {
         }
         return exist;
     }
-    
+
 }
