@@ -307,7 +307,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
 
-        if (isAdmin || isTeamMgt) {
+        if (isAdmin || isTeamMgt || isEventLead) {
 
             jsonContactObj.addProperty("profession", profession);
             jsonContactObj.addProperty("job_title", jobTitle);
@@ -320,6 +320,7 @@ public class RetrieveContactIndiv extends HttpServlet {
             }
             jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));
             jsonContactObj.addProperty("created_by", contact.getCreatedBy());
+            
 
         }
         jsonContactObj.addProperty("remarks", remarks);
