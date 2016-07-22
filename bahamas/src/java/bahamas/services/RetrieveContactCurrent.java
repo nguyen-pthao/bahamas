@@ -281,7 +281,7 @@ public class RetrieveContactCurrent extends HttpServlet {
                 jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));
                 jsonObjEmail.add(jsonEmailObj);
                 jsonContactObj.add("email", jsonObjEmail);
-                jsonEmailObj.addProperty("verified", email.getVerified());
+                jsonEmailObj.addProperty("verified", Boolean.toString(email.getVerified()));
             }
 
         } else {
