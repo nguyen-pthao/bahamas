@@ -1635,7 +1635,7 @@ and open the template in the editor.
                                             </div> 
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Explain if above is 'Other'</label>
+                                                    <label>Explain if above is 'Others'</label>
                                                     <textarea class='custom-remarks' ng-model="team['explain_if_others']" name='otherExpTeam' contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-hide="team['explain_if_others'].length <= 200 && team['explain_if_others'].length > - 1" class="error">Input field explanation is too long.</span>
                                                 </div>
@@ -1699,7 +1699,7 @@ and open the template in the editor.
                                     </div> 
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Explain if above is 'Other'</label>
+                                            <label>Explain if above is 'Others'</label>
                                             <textarea class='custom-remarks' ng-model="newTeam['explain_if_others']" ng-maxlength="200" name='additionalotherExpTeam' contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editTeamForm.additionalotherExpTeam.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
@@ -2251,7 +2251,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Explain if above is 'Other'</label>
+                                                    <label>Explain if above is 'Others'</label>
                                                     <textarea class='custom-remarks' ng-model="language['explain_if_other']" name='otherExpLang' contenteditable="true" spellcheck="true"></textarea>
                                                     <span ng-hide="language['explain_if_other'].length <= 200 && language['explain_if_other'].length > - 1" class="error">Input field explanation is too long.</span>
                                                 </div>
@@ -2310,7 +2310,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Explain if above is 'Other'</label>
+                                            <label>Explain if above is 'Others'</label>
                                             <textarea class='custom-remarks' ng-model="newLanguages['explain_if_other']" ng-maxlength="200" name='additionalotherExpLang' contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="form.editLanguageForm.additionalotherExpLang.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
@@ -2394,7 +2394,7 @@ and open the template in the editor.
                                             </div>
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-12">
-                                                    <label>Explain if above is 'Other'</label>
+                                                    <label>Explain if above is 'Others'</label>
                                                     <textarea class='custom-remarks' ng-model="skill['explain_if_other']" contenteditable="true" spellcheck="true" name="otherExpSkill"></textarea>
                                                     <span ng-hide="skill['explain_if_other'].length <= 200 && skill['explain_if_other'].length > - 1" class="error">Input field explanation is too long.</span>
                                                 </div>
@@ -2446,7 +2446,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
-                                            <label>Explain if above is 'Other'</label>
+                                            <label>Explain if above is 'Others'</label>
                                             <textarea class='custom-remarks' ng-model="newSkills['explain_if_other']" ng-maxlength="200" contenteditable="true" spellcheck="true" name="additionalotherExpSkill"></textarea>
                                             <span ng-show="form.editSkillForm.additionalotherExpSkill.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
@@ -2481,13 +2481,14 @@ and open the template in the editor.
             </section>
             <!-- /.content -->
         </div>
-        <script language="JavaScript">
-            function TriggeredKey(e)
-            {
-            var keycode;
-            if (window.event) keycode = window.event.keyCode;
-            if (window.event.keyCode = 13) return false;
-            }
+        <script>
+            $('document').ready(function TriggeredKey(e) {
+                var keycode;
+                if (window.event) keycode = window.event.keyCode;
+                if (window.event.keyCode = 13) {
+                    return false;
+                }
+            });
         </script>
     </body>
 </html>
