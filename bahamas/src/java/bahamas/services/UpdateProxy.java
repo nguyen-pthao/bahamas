@@ -105,7 +105,8 @@ public class UpdateProxy extends HttpServlet {
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type"));
                         if (!user.isIsAdmin() && (!userType.equals("teammanager")
-                                && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (!userType.equals("eventleader")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType)) 
+                                && (!userType.equals("eventleader")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType))) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));

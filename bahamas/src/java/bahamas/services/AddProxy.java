@@ -109,19 +109,22 @@ public class AddProxy extends HttpServlet {
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type"));
 
-                        if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                        if (!user.isIsAdmin() && (!userType.equals("teammanager")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                && (!userType.equals("eventleader")
+                                && !RoleCheckDAO.checkRole(user.getContactId(), userType))) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;
                         }
 
-                        String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing"));
-                        String remarks = Validator.containsBlankField(jobject.get("remarks"));
-                        Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
-
                         if (proxyId == principalId) {
                             Validator.getErrorList().add("Principal and proxy should not be the same contact");
                         }
+
+                        String proxyStanding = Validator.containsBlankField(jobject.get("proxy_standing"));
+                        String remarks = Validator.containsBlankField(jobject.get("remarks"));
+                        Date dateObosolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
                         if (ProxyDAO.proxyExist(principalId, proxyId)) {
                             Validator.getErrorList().add("Principal and proxy relationship already exists");

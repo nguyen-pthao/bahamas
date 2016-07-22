@@ -92,7 +92,7 @@ public class UpdateContact extends HttpServlet {
                     String userType = Validator.containsBlankField(jobject.get("user_type"));
                     if (!user.isIsAdmin() && (!userType.equals("teammanager")
                             && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (!userType.equals("eventleader")
-                            && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && !c.getUsername().equals(username)) {
+                            && !RoleCheckDAO.checkRole(user.getContactId(), userType)) && (c.getContactId()!= user.getContactId())) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
@@ -108,7 +108,7 @@ public class UpdateContact extends HttpServlet {
                     c.setNationality(Validator.containsBlankField(jobject.get("nationality")));
                     c.setRemarks(Validator.containsBlankField(jobject.get("remarks")));
 
-                    if (userType.equals("admin") || userType.equals("teammanager")) {
+                    if (userType.equals("admin") || userType.equals("teammanager") || (c.getContactId()== user.getContactId())) {
                         c.setNric(Validator.containsBlankField(jobject.get("nric_fin")));
                         c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth"), "date of birth"));
                     }
