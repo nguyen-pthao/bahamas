@@ -43,11 +43,13 @@ app.controller('createEventRoles',
                     $scope.error = false;
                     var size = Object.keys($scope.newRoles).length / 2;
                     for (var i = 1; i <= size; i++) {
+                        var role = $scope.newRoles['role' + i];
+                        var description = $scope.newRoles['description' + i];
                         if ($scope.newRoles['role' + i] == '' && $scope.newRoles['description' + i] != '') {
                             $scope.error = true;
-                        } else if ($scope.newRoles['role' + i].length > 50) {
+                        }else if (angular.isUndefined(role)) {
                             $scope.error = true;
-                        } else if ($scope.newRoles['description' + i].length > 200) {
+                        } else if (angular.isUndefined(description)){
                             $scope.error = true;
                         }
                     }
@@ -60,6 +62,7 @@ app.controller('createEventRoles',
                     } else {
                         console.log($scope.newRoles);
                         //submit to backend here.
+                        window.alert('success');
                     }
                 }
 
