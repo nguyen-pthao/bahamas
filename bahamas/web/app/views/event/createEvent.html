@@ -41,62 +41,74 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-3" style="padding: 0px">
-                                            <label>Date of Event</label>
+                                            <label>Date of Event</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon btn" ng-click="open()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type="text" class="form-control white-background" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="newEvent['event_date']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                                <input type="text" name="eventDate" class="form-control white-background" ng-required="true" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="newEvent['event_date']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
                                             </div>
+                                            <span ng-show="eventForm.eventDate.$error.required && eventForm.eventDate.$touched" class="error">Event Date is required.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
-                                            <label>Start Time</label>
-                                            <div uib-timepicker ng-model="newEvent['event_time_start']" show-spinners='false' name='eventStartTime'></div>
+                                            <label>Start Time</label><span class="required">*</span>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" show-spinners='false' name='eventStartTime'></div>
+                                            <span ng-show="eventForm.eventStartTime.$error.required && eventForm.eventStartTime.$touched" class="error">Start Time is required.</span>
                                         </div>  
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
-                                            <label>End Time</label>
-                                            <div uib-timepicker ng-model="newEvent['event_time_end']" show-spinners='false' name='eventEndTime'></div>
+                                            <label>End Time</label><span class="required">*</span>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" show-spinners='false' name='eventEndTime'></div>
+                                            <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
-                                            <label>Send Reminder</label>
+                                            <label>Send Reminder</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
                                             <div>
                                                 <input type="checkbox" ng-model="newEvent['send_reminder']"/>
                                             </div>
                                         </div>
                                     </div>
-                                    <label>Event Description</label>
-                                    <textarea class="custom-remarks" ng-model="newEvent['event_description']" ng-maxlength="2000" name="eventDescription" contenteditable="true" spellcheck="true"></textarea>
-                                    <span ng-show="eventForm.eventDescription.$error.maxlength" class='error'>Input for 'Event Description' is too long.</span>
+                                    <div>
+                                        <label>Event Description</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Tell them what the event is about!" popover-trigger="mouseenter"></i>
+                                        <textarea class="custom-remarks" ng-model="newEvent['event_description']" ng-maxlength="2000" name="eventDescription" contenteditable="true" spellcheck="true"></textarea>
+                                        <span ng-show="eventForm.eventDescription.$error.maxlength" class='error'>Input for 'Event Description' is too long.</span>
+                                    </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-3" style="padding: 0px">
-                                            <label>Minimum participation</label>
+                                            <label>Minimum participation</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send an alert if min. participation is not met" popover-trigger="mouseenter"></i>
                                             <input type='text' ng-model="newEvent['minimum_participation']" name="minimumParticipation" class="form-control white-background" min="0" ng-pattern="regex"/>
                                             <span ng-show="eventForm.minimumParticipation.$invalid" class='error'>Please enter a valid integer.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
-                                            <label>Event Class</label>
+                                            <label>Event Class</label><span class="required">*</span>
                                             <div ng-init="loadEventClassList()">
-                                                <select class="form-control" ng-model="newEvent['event_class']">
+                                                <select ng-required="true" name="eventClass" class="form-control" ng-model="newEvent['event_class']">
                                                     <option ng-repeat="eventClass in eventClassList">{{eventClass.eventClass}}</option>
                                                 </select>     
                                             </div>
+                                            <span ng-show="eventForm.eventClass.$error.required && eventForm.eventClass.$touched" class="error">Event Class is required.</span>
                                         </div>  
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
-                                            <label>Event Location</label>
+                                            <label>Event Location</label><span class="required">*</span>
                                             <div ng-init="loadEventLocationList()">
-                                                <select class="form-control" ng-model="newEvent['event_location']">
+                                                <select ng-required="true" name="eventLocation" class="form-control" ng-model="newEvent['event_location']">
                                                     <option ng-repeat="eventLocation in eventLocationList">{{eventLocation.eventLocation}}</option>
                                                 </select>     
                                             </div>
+                                            <span ng-show="eventForm.eventLocation.$error.required && eventForm.eventLocation.$touched" class="error">Location is required.</span>
                                         </div>
                                     </div>
-                                    <label>Explain If Others</label>
-                                    <textarea class="custom-remarks" ng-model="newEvent['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
-                                    <span ng-show="eventForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>
+                                    <div>
+                                        <label>Explain If Others</label>
+                                        <textarea class="custom-remarks" ng-model="newEvent['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                        <span ng-show="eventForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>  
+                                    </div>
                                 </div>
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="createEvent()" 
-                                                    ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid"
+                                                    ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid
+                                                    || eventForm.eventDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
+                                                    || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required
+                                                    || eventForm.explainIfOthers.$error.maxlength"
                                                     class="btn btn-primary">
                                             Save and proceed
                                         </button></center>
