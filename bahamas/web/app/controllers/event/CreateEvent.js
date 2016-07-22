@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -121,7 +121,14 @@ app.controller('createEvent',
                     }else if($scope.newEvent['event_time_end'] != null || $scope.newEvent['event_time_end'] != ''){
                         $scope.newEvent['event_time_end'] = $scope.newEvent['event_time_end'].valueOf() + "";
                     }
-                    console.log($scope.newEvent);
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/createEventPrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function(response){
+                        console.log($scope.newEvent);
+                        //submit $scope.newEvent to backend and also display errorMessages.
+                    })
                 }
 
             }]);
