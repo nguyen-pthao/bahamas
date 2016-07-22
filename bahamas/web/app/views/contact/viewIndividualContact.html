@@ -58,74 +58,74 @@ and open the template in the editor.
                             </div>
                             <div class="box-body">
                                 <div class="box-body">
-                                <!--TABLE HERE.-->
-                                <div class="row col-sm-12">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Name</h4>
-                                        <div class="custom-height-1">{{name}}</div>
+                                    <div class="row col-md-12" ng-hide="isAssociate">
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Date Created</h4>
+                                            <div class="custom-height-1">{{dateCreated}}</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Created By</h4>
+                                            <div class="custom-height-1">{{createdBy}}</div>
+                                        </div>
                                     </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Alt Name</h4>
-                                        <div class="custom-height-1">{{altName}}</div>
+                                    <!--TABLE HERE.-->
+                                    <div class="row col-sm-12">
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Name</h4>
+                                            <div class="custom-height-1">{{name}}</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Alt Name</h4>
+                                            <div class="custom-height-1">{{altName}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12">
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Contact Type</h4>
+                                            <div class="custom-height-1">{{contactType}}</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Explain If Other</h4>
+                                            <div class="custom-height-1">{{explainIfOther}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12" ng-hide="permissionViewNricDob">
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">NRIC</h4>
+                                            <div class="custom-height-1">{{nric}}</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Date Of Birth</h4>
+                                            <div class="custom-height-1">{{dateOfBirth}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12" ng-hide="isAssociate">
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Nationality</h4>
+                                            <div class="custom-height-1">{{nationality}}</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Gender</h4>
+                                            <div class="custom-height-1">{{gender}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12" ng-hide="isAssociate">
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Profession</h4>
+                                            <div class="custom-height-1">{{profession}}</div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <h4 class="bold">Job Title</h4>
+                                            <div class="custom-height-1">{{jobTitle}}</div>
+                                        </div>
+                                    </div>
+                                    <div class="row col-md-12" ng-hide="isAssociate">
+                                        <div class="col-sm-12">
+                                            <h4 class="bold">Remarks</h4>
+                                            <div class="custom-height-1">{{remarks}}</div>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="row col-md-12">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Contact Type</h4>
-                                        <div class="custom-height-1">{{contactType}}</div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Explain If Other</h4>
-                                        <div class="custom-height-1">{{explainIfOther}}</div>
-                                    </div>
-                                </div>
-                                <div class="row col-md-12" ng-hide="permissionViewNricDob">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">NRIC</h4>
-                                        <div class="custom-height-1">{{nric}}</div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Date Of Birth</h4>
-                                        <div class="custom-height-1">{{dateOfBirth}}</div>
-                                    </div>
-                                </div>
-                                <div class="row col-md-12" ng-hide="isAssociate">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Nationality</h4>
-                                        <div class="custom-height-1">{{nationality}}</div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Gender</h4>
-                                        <div class="custom-height-1">{{gender}}</div>
-                                    </div>
-                                </div>
-                                <div class="row col-md-12" ng-hide="isAssociate">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Profession</h4>
-                                        <div class="custom-height-1">{{profession}}</div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Job Title</h4>
-                                        <div class="custom-height-1">{{jobTitle}}</div>
-                                    </div>
-                                </div>
-                                <div class="row col-md-12" ng-hide="isAssociate">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Date Created</h4>
-                                        <div class="custom-height-1">{{dateCreated}}</div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Created By</h4>
-                                        <div class="custom-height-1">{{createdBy}}</div>
-                                    </div>
-                                </div>
-                                <div class="row col-md-12" ng-hide="isAssociate">
-                                    <div class="col-sm-12">
-                                        <h4 class="bold">Remarks</h4>
-                                        <div class="custom-height-1">{{remarks}}</div>
-                                    </div>
-                                </div>
-                            </div>
                             </div>
                         </div>
                         <!-- /contact information -->
@@ -145,22 +145,22 @@ and open the template in the editor.
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
-                                                <h4 class="bold">Phone Number {{$index + 1}}</h4>
-                                                <div class="custom-height-1">+{{phoneObj.country_code}}-{{phoneObj.phone_number}}</div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Date Obsolete</h4>
-                                                <div class="custom-height-1">{{phoneObj.date_obsolete}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="row col-md-12">
-                                            <div class="col-sm-6">
                                                 <h4 class="bold">Date Created</h4>
                                                 <div class="custom-height-1">{{phoneObj.date_created}}</div>
                                             </div>
                                             <div class="col-sm-6">
                                                 <h4 class="bold">Created By</h4>
                                                 <div class="custom-height-1">{{phoneObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Phone Number {{$index + 1}}</h4>
+                                                <div class="custom-height-1">+{{phoneObj.country_code}}-{{phoneObj.phone_number}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{phoneObj.date_obsolete}}</div>
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
@@ -188,16 +188,6 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='emailObj in email' class="box">
                                     <div class="box-body">
-                                        <div class="row col-md-12">
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Email {{$index + 1}}</h4>
-                                                <div class="custom-height-1">{{emailObj.email}}</div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Date Obsolete</h4>
-                                                <div class="custom-height-1">{{emailObj.date_obsolete}}</div>
-                                            </div>
-                                        </div>
                                         <div class="row col-md-12" ng-hide="isAssociate">
                                             <div class="col-sm-6">
                                                 <h4 class="bold">Date Created</h4>
@@ -206,6 +196,16 @@ and open the template in the editor.
                                             <div class="col-sm-6">
                                                 <h4 class="bold">Created By</h4>
                                                 <div class="custom-height-1">{{emailObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Email {{$index + 1}}</h4>
+                                                <div class="custom-height-1">{{emailObj.email}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{emailObj.date_obsolete}}</div>
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
@@ -242,6 +242,16 @@ and open the template in the editor.
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{addressObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{addressObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
                                                 <h4 class="bold">Address {{$index + 1}}</h4>
                                                 <div class="custom-height-1">{{addressObj.address}}</div>
                                             </div>
@@ -258,16 +268,6 @@ and open the template in the editor.
                                             <div class="col-sm-6">
                                                 <h4 class="bold">Date Obsolete</h4>
                                                 <div class="custom-height-1">{{addressObj.date_obsolete}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="row col-md-12">
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Date Created</h4>
-                                                <div class="custom-height-1">{{addressObj.date_created}}</div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Created By</h4>
-                                                <div class="custom-height-1">{{addressObj.created_by}}</div>
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
@@ -295,6 +295,16 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='membershipObj in membership' class="box">
                                     <div class="box-body">
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{membershipObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{membershipObj.created_by}}</div>
+                                            </div>
+                                        </div>
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
                                                 <h4 class="bold">Membership Type {{$index + 1}}</h4>
@@ -358,16 +368,6 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Date Created</h4>
-                                                <div class="custom-height-1">{{membershipObj.date_created}}</div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Created By</h4>
-                                                <div class="custom-height-1">{{membershipObj.created_by}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="row col-md-12">
                                             <div class="col-sm-12">
                                                 <h4 class="bold">Remarks</h4>
                                                 <div class="custom-height-1">{{membershipObj.remarks}}</div>
@@ -394,6 +394,16 @@ and open the template in the editor.
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{officeHeldObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
                                                 <h4 class="bold">Office Held {{$index + 1}}</h4>
                                                 <div class="custom-height-1">{{officeHeldObj.office_held}}</div>
                                             </div>
@@ -406,16 +416,6 @@ and open the template in the editor.
                                             <div class="col-sm-6">
                                                 <h4 class="bold">End Office</h4>
                                                 <div class="custom-height-1">{{officeHeldObj.end_office}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="row col-md-12">
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Date Created</h4>
-                                                <div class="custom-height-1">{{officeHeldObj.date_created}}</div>
-                                            </div>
-                                            <div class="col-sm-6">
-                                                <h4 class="bold">Created By</h4>
-                                                <div class="custom-height-1">{{officeHeldObj.created_by}}</div>
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
@@ -443,87 +443,108 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='donationObj in donation' class = "box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">                                                                                   
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Received</b></h4>
-                                                <div>{{donationObj.date_received}}</div>
-                                            </div>   
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Payment Mode</b></h4>
-                                                <div>{{donationObj.payment_mode}}</div>
-                                            </div>  
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other Payment Mode</b></h4>
-                                                <div>{{donationObj.explain_if_other_payment}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{donationObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>External Transaction Reference</b></h4>
-                                                <div>{{donationObj.ext_transaction_ref}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Mode Of Sending Receipt</b></h4>
-                                                <div>{{donationObj.receipt_mode_name}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
-                                                <div>{{donationObj.explain_if_other_receipt}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Allocation 1</b></h4>
-                                                <div>{{donationObj.allocation1}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Allocation 2</b></h4>
-                                                <div>{{donationObj.allocation2}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Allocation 3</b></h4>
-                                                <div>{{donationObj.allocation3}}</div>
-                                            </div>
-                                             <div style="padding-top: 10px;">
-                                                <h4><b>Associated Occasion</b></h4>
-                                                <div>{{donationObj.associated_occasion}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{donationObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Donation Amount</b></h4>
-                                                <div>{{donationObj.donation_amount}}</div>
-                                            </div><div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{donationObj.date_created}}</div>
-                                            </div>      
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{donationObj.created_by}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Received</h4>
+                                                <div class="custom-height-1">{{donationObj.date_received}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Receipt Number</b></h4>
-                                                <div>{{donationObj.receipt_number}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Donation Amount</h4>
+                                                <div class="custom-height-1">{{donationObj.donation_amount}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Of Receipt</b></h4>
-                                                <div>{{donationObj.receipt_date}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Payment Mode</h4>
+                                                <div class="custom-height-1">{{donationObj.payment_mode}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Donor's Instructions</b></h4>
-                                                <div>{{donationObj.donor_instructions}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Explain If Other Payment Mode</h4>
+                                                <div class="custom-height-1">{{donationObj.explain_if_other_payment}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Subamount 1</b></h4>
-                                                <div>{{donationObj.subtotal1}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">External Transaction Reference</h4>
+                                                <div class="custom-height-1">{{donationObj.ext_transaction_ref}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Subamount 2</b></h4>
-                                                <div>{{donationObj.subtotal2}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Receipt Number</h4>
+                                                <div class="custom-height-1">{{donationObj.receipt_number}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Subamount 3</b></h4>
-                                                <div>{{donationObj.subtotal3}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Mode Of Sending Receipt</h4>
+                                                <div class="custom-height-1">{{donationObj.receipt_mode_name}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{donationObj.remarks}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Of Receipt</h4>
+                                                <div class="custom-height-1">{{donationObj.receipt_date}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If Other Receipt Mode</h4>
+                                                <div class="custom-height-1">{{donationObj.explain_if_other_receipt}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Donor's Instructions</h4>
+                                                <div class="custom-height-1">{{donationObj.donor_instructions}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Allocation 1</h4>
+                                                <div class="custom-height-1">{{donationObj.allocation1}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Subamount 1</h4>
+                                                <div class="custom-height-1">{{donationObj.subtotal1}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Allocation 2</h4>
+                                                <div class="custom-height-1">{{donationObj.allocation2}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Subamount 2</h4>
+                                                <div class="custom-height-1">{{donationObj.subtotal2}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Allocation 3</h4>
+                                                <div class="custom-height-1">{{donationObj.allocation3}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Subamount 3</h4>
+                                                <div class="custom-height-1">{{donationObj.subtotal3}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Associated Occasion</h4>
+                                                <div class="custom-height-1">{{donationObj.associated_occasion}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{donationObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                   
@@ -545,40 +566,46 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='teamObj in team' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">                                       
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Team {{$index + 1}}</b></h4>
-                                                <div>{{teamObj.team_name}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{teamObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Subteam</b></h4>
-                                                <div>{{teamObj.sub_team}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{teamObj.date_created}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{teamObj.remarks}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{teamObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Permission</b></h4>
-                                                <div>{{teamObj.permission}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Team {{$index + 1}}</h4>
+                                                <div class="custom-height-1">{{teamObj.team_name}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other</b></h4>
-                                                <div>{{teamObj.explain_if_others}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Permission</h4>
+                                                <div class="custom-height-1">{{teamObj.permission}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{teamObj.created_by}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Subteam</h4>
+                                                <div class="custom-height-1">{{teamObj.sub_team}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{teamObj.date_obsolete}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{teamObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If 'Others'</h4>
+                                                <div class="custom-height-1">{{teamObj.explain_if_others}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{teamObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                   
@@ -600,48 +627,46 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='trainingObj in training' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{trainingObj.date_created}}</div>
+                                        <div class="rol col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{trainingObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Team</b></h4>
-                                                <div>{{trainingObj.team_name}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{trainingObj.created_by}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{trainingObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
-                                                <div>{{trainingObj.explain_if_others}}</div>
+                                        <div class="rol col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Team</h4>
+                                                <div class="custom-height-1">{{trainingObj.team_name}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Training Course</h4>
+                                                <div class="custom-height-1">{{trainingObj.training_course}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Training Course</b></h4>
-                                                <div>{{trainingObj.training_course}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Training Date</b></h4>
-                                                <div>{{trainingObj.training_date}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If Other Team</h4>
+                                                <div class="custom-height-1">{{trainingObj.explain_if_others}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Training By</b></h4>
-                                                <div>{{trainingObj.training_by}}</div>
+                                        <div class="rol col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Training Date</h4>
+                                                <div class="custom-height-1">{{trainingObj.training_date}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Training By</h4>
+                                                <div class="custom-height-1">{{trainingObj.training_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{trainingObj.remarks}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{trainingObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>
@@ -663,44 +688,52 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='appreciationObj in appreciation' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appraisal Comments</b></h4>
-                                                <div>{{appreciationObj.appraisal_comments}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{appreciationObj.created_by}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appraisal Date</b></h4>
-                                                <div>{{appreciationObj.appraisal_date}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appreciation Gesture</b></h4>
-                                                <div>{{appreciationObj.appreciaton_gesture}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appreciation By</b></h4>
-                                                <div>{{appreciationObj.appreciation_by}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{appreciationObj.created_by}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{appreciationObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appraised By</b></h4>
-                                                <div>{{appreciationObj.appraisal_by}}</div>
-                                            </div>                                          
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Appreciation Date</b></h4>
-                                                <div>{{appreciationObj.appreciation_date}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Appraisal Comments</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appraisal_comments}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{appreciationObj.remarks}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appraisal Date</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appraisal_date}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{appreciationObj.created_by}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appraised By</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appraisal_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Appreciation Gesture</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appreciaton_gesture}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appreciation Date</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appreciation_date}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appreciation By</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appreciation_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{appreciationObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                  
@@ -722,42 +755,40 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='proxyObj in proxy' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{proxyObj.date_created}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{proxyObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Proxy Name</b></h4>
-                                                <div>{{proxyObj.proxy_name}}</div>
-                                            </div>
-                                        </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{proxyObj.created_by}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Principal Name</b></h4>
-                                                <div>{{proxyObj.principal_name}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{proxyObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-12">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{proxyObj.remarks}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Proxy Name</h4>
+                                                <div class="custom-height-1">{{proxyObj.proxy_name}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Principal Name</h4>
+                                                <div class="custom-height-1">{{proxyObj.principal_name}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{proxyObj.date_obsolete}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Proxy Standing</h4>
+                                                <div class="custom-height-1">{{proxyObj.proxy_standing}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{proxyObj.date_obsolete}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Proxy Standing</b></h4>
-                                                <div>{{proxyObj.proxy_standing}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{proxyObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                  
@@ -779,36 +810,36 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='languageObj in languages' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6"> 
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Language</b></h4>
-                                                <div>{{languageObj.language_name}}</div>
+                                        <div class='row col-md-12' ng-hide="isAssociate">
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{languageObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Other</b></h4>
-                                                <div>{{languageObj.explain_if_other}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{languageObj.date_created}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{languageObj.date_obsolete}}</div>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{languageObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">                   
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Speak/Write</b></h4>
-                                                <div>{{languageObj.proficiency}}</div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Language</h4>
+                                                <div class="custom-height-1">{{languageObj.language_name}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{languageObj.remarks}}</div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Speak/Write</h4>
+                                                <div class="custom-height-1">{{languageObj.proficiency}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{languageObj.created_by}}</div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If 'Others'</h4>
+                                                <div class="custom-height-1">{{languageObj.explain_if_other}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{languageObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                         
@@ -830,32 +861,36 @@ and open the template in the editor.
                                 </div>
                                 <div ng-repeat='skillsObj in skills' class="box">
                                     <div class="box-body">
-                                        <div class="col-sm-6">                                      
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Skills Or Assets</b></h4>
-                                                <div>{{skillsObj.skill_name}}</div>
+                                        <div class='row col-md-12' ng-hide="isAssociate">
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{skillsObj.date_created}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Explain If Others</b></h4>
-                                                <div>{{skillsObj.explain_if_other}}</div>
-                                            </div>
-                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                                <h4><b>Date Created</b></h4>
-                                                <div>{{skillsObj.date_created}}</div>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{skillsObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="col-sm-6">  
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{skillsObj.remarks}}</div>
+                                        <div class='row col-md-12'>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Skills Or Assets</h4>
+                                                <div class="custom-height-1">{{skillsObj.skill_name}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;">
-                                                <h4><b>Date Obsolete</b></h4>
-                                                <div>{{skillsObj.date_obsolete}}</div>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{skillsObj.date_obsolete}}</div>
                                             </div>
-                                            <div style="padding-top: 10px;" ng-hide="isAssociate">
-                                                <h4><b>Created By</b></h4>
-                                                <div>{{skillsObj.created_by}}</div>
+                                        </div>
+                                        <div class='row col-md-12'>
+                                            <div class='col-sm-12'>
+                                                <h4 class="bold">Explain If 'Others'</h4>
+                                                <div class="custom-height-1">{{skillsObj.explain_if_other}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='row col-md-12'>
+                                            <div class='col-sm-12'>
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{skillsObj.remarks}}</div>
                                             </div>
                                         </div>
                                     </div>                                  
