@@ -37,7 +37,8 @@ public class Email {
         this.verified = verified;
     }
     
-    public Email(String email, String createdBy, String remarks, Date dateObsolete, Date dateCreated, boolean verified) {
+    public Email(Contact contact, String email, String createdBy, String remarks, Date dateObsolete, Date dateCreated, boolean verified) {
+        this.contact = contact;
         this.email = email;
         this.remarks = remarks;
         this.createdBy = createdBy;
