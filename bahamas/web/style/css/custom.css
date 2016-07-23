@@ -96,14 +96,6 @@ body {
     background-color: #ffffff!important;
 }
 
-.content-wrapper {
-    min-height: 900px;
-}
-
-.inner-content-wrapper {
-    margin: 0px;
-}
-
 .table-horizontal-scroll {
     overflow-x: auto;
 }
@@ -290,6 +282,32 @@ body {
     .main-sidebar, .left-side, .control-sidebar {
         padding-top: 50px;
     }
+}
+
+/* Main content wrapper */
+@media (max-width: 440px) {
+    .sidebar-open .custom-wrapper-1 {
+        transform: translate(0,0);
+        overflow-x: auto;
+    }
+    .sidebar-open .inner-content-wrapper {
+        transform: translate(230px,0);
+    }
+    .main-header .sidebar-toggle {
+        position: fixed;
+    }
+}
+
+.content-wrapper {
+    min-height: 800px;
+}
+
+.inner-content-wrapper {
+    margin: 0px;
+}
+
+.content-wrapper, .right-side, .main-footer {
+    transition: none;
 }
 
 /*Main page logo*/
