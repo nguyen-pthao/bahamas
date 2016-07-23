@@ -7,12 +7,12 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px" id="edit-contact" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1500}" ng-init="retrieveFunc()">
+        <div class="content-wrapper inner-content-wrapper" id="edit-contact" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1500}" ng-init="retrieveFunc()">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewAllContacts()" style="color: white"> Contact Management </a><i class="fa fa-chevron-right small"></i><a style="color: white"> Edit {{editContact['name']| uppercase}} </a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="viewAllContacts()"> Contact Management </a><i class="fa fa-chevron-right small"></i><a> Edit {{editContact['name']| uppercase}} </a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -22,7 +22,7 @@ and open the template in the editor.
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title uppercase"><b> Edit {{editContact['name']| uppercase}} </b></h3>
-                        <button type="submit" ng-click="viewContact()" class="btn btn-primary" style='float: right'>
+                        <button type="submit" ng-click="viewContact()" class="btn btn-primary">
                             <span>
                                 <i class="fa fa-eye fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
                             </span>   
@@ -51,7 +51,7 @@ and open the template in the editor.
                                                         <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU" empty>
                                                         <span ng-show="editUserForm.usernameNU.$error.empty && editUserForm.usernameNU.$dirty" class='error'>Username is required.</span>
                                                         <!--                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>-->
-                                                        <span ng-show="existedUsername && ignore" style="color: red">This username is already existed.</span>
+                                                        <span ng-show="existedUsername && ignore" class="error">This username is already existed.</span>
                                                     </div>
                                                     <!--    <div class="no-padding-left col-md-1 no-padding-top">
                                                                 <i ng-show="checkingUsername && !checkedUsername && editUserForm.usernameNU.$touched" class="fa fa-spinner fa-spin fa-pulse fa-fw fa-2x"></i>
@@ -67,7 +67,7 @@ and open the template in the editor.
                                                     <div class="no-padding-left col-md-6">
                                                         <input type="text" ng-model='editUser.password' class="form-control" name="passwordNU" ng-minlength="8" ng-maxlength="20" empty>
                                                         <span ng-show="editUserForm.passwordNU.$error.empty && editUserForm.passwordNU.$dirty" class='error'>Password is required.</span>
-                                                        <span ng-show="(editUserForm.passwordNU.$error.maxlength || editUserForm.passwordNU.$error.minlength) && editUserForm.passwordNU.$touched" style="color: red">Password has to be 8 to 20 characters long.</span>
+                                                        <span ng-show="(editUserForm.passwordNU.$error.maxlength || editUserForm.passwordNU.$error.minlength) && editUserForm.passwordNU.$touched" class="error">Password has to be 8 to 20 characters long.</span>
                                                     </div>
                                                     <div class="no-padding-left col-md-4 no-padding-top">
                                                         <button type="button" ng-disabled="editUserForm.usernameNU.$invalid || existedUsername" class="btn btn-primary" ng-click="generatePassword()">Generate Random Password</button>
@@ -302,7 +302,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show='!(editPhone === "")'>
                                     <div class="box collapsed-box" ng-repeat="phone in editPhone">
-                                        <div class="box-header" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -318,7 +318,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -437,7 +437,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editEmail == '')">
                                     <div class="box collapsed-box" ng-repeat="email in editEmail">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -451,7 +451,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display:none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -565,7 +565,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editAddress == '')">
                                     <div class="box collapsed-box" ng-repeat="address in editAddress">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -579,7 +579,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -715,7 +715,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editMembership == '')">
                                     <div class="box collapsed-box" ng-repeat="membership in editMembership">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -729,7 +729,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style='display: none'>
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -1007,7 +1007,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editOfficeHeld == '')">
                                     <div class="box collapsed-box" ng-repeat="officeHeld in editOfficeHeld">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -1021,7 +1021,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -1158,7 +1158,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editDonation == '')">
                                     <div class="box collapsed-box" ng-repeat="donation in editDonation">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -1171,7 +1171,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -1504,7 +1504,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editTeam == '') && editMode == 'true'">
                                     <div class="box collapsed-box" ng-repeat="team in editTeam">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -1518,7 +1518,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>  
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -1593,7 +1593,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editTeam == '') && editMode == 'false'">
                                     <div class="box collapsed-box" ng-repeat="team in editTeam">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -1607,7 +1607,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>  
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -1870,7 +1870,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editAppreciation == '')">
                                     <div class="box collapsed-box" ng-repeat="appreciation in editAppreciation">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -1883,7 +1883,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -2066,7 +2066,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editProxy == '')">
                                     <div class="box collapsed-box" ng-repeat="proxy in editProxy">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -2080,7 +2080,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -2206,7 +2206,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editLanguages == '')">
                                     <div class="box collapsed-box" ng-repeat="language in editLanguages">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -2220,7 +2220,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>
@@ -2356,7 +2356,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editSkillsAssets == '')">
                                     <div class="box collapsed-box" ng-repeat="skill in editSkillsAssets">
-                                        <div class="box-header with-border" style="padding: 5px" data-widget="collapse">
+                                        <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                             <h5 class="box-title">
                                                 <button type="button" class="btn btn-box-tool">
                                                     <i class="fa fa-pencil fa-lg"></i>
@@ -2370,7 +2370,7 @@ and open the template in the editor.
                                                 </button>
                                             </div>
                                         </div>
-                                        <div class="box-body with-border" style="display: none">
+                                        <div class="box-body with-border">
                                             <div class="form-group col-md-12">
                                                 <div class="col-md-5">
                                                     <label>Date created</label>

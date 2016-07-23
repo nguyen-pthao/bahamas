@@ -7,12 +7,12 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px" style='min-height: 900px' id="view-audit"  cg-busy="{promise:myPromise, templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1300}">
+        <div class="content-wrapper inner-content-wrapper" id="view-audit"  cg-busy="{promise:myPromise, templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1300}">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
-                    <ol class="breadcrumb" style="font-size: 24px; background-color: rgba(11, 60, 128, 0.75); color: white">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage</a> <i class="fa fa-chevron-right small"></i> Audit Log </li>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" class="content-header-link"> Homepage</a> <i class="fa fa-chevron-right small"></i><a> Audit Log </a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -72,16 +72,16 @@ and open the template in the editor.
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
-                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{searchFiltered.length}}</span> 
+                            <span><label>Total Entries: </label>&nbsp;</span><span class="denote">{{searchFiltered.length}}</span> 
                             &nbsp;&nbsp;
                             <span> <label> Entries per page: </label>&nbsp;</span>
-                            <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
-                            <span ng-show="isAll" style="color: red">All</span>
+                            <span ng-hide="isAll" class="denote">{{itemsPerPage}}</span>
+                            <span ng-show="isAll" class="denote">All</span>
                             &nbsp;&nbsp;
-                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{filteredAudit.length}}</span> 
+                            <span> <label> Entries in page: </label>&nbsp;</span><span class="denote">{{filteredAudit.length}}</span> 
                         </p>
-
-                        <table id="example1" class="table table-bordered table-striped">
+                        <div class="table-horizontal-scroll">
+                            <table id="example1" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th ng-repeat="auditHeader in allAuditObjectKeys">{{auditHeader}}</th>
@@ -98,6 +98,7 @@ and open the template in the editor.
                                 </tr>
                             </tfoot>
                         </table>
+                        </div>
                         <div>
                             <div style='float: right'>
                                 <uib-pagination total-items="totalFilteredItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>

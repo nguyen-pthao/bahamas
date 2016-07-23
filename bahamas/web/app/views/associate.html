@@ -211,8 +211,8 @@
                 <!-- =============================================== -->
 
                 <!-- Content Wrapper. Contains page content -->
-                <div class="content-wrapper" id="content" style='min-height: 900px' ui-view>
-                    <div class="content-wrapper" style="margin: 0px; min-height: 900px">
+                <div class="content-wrapper" id="content" ui-view>
+                    <div class="content-wrapper inner-content-wrapper">
                         <!-- Content Header (Page header) -->
                         <section class="content-header">
                             <h3>
@@ -325,6 +325,14 @@
             </div>
             <!-- ./wrapper -->
         </div>
+        <script>
+            // apply dropdownHover to all elements with the data-hover="dropdown" attribute
+            (function ($) { 
+                $(document).ready(function () {
+                    $('[data-hover="dropdown"]').dropdownHover();
+                });
+            })(jQuery);
+        </script>
     </body>
 </html>
 

@@ -455,7 +455,7 @@ function _init() {
         e.preventDefault();
         //If the sidebar is not open
         if (!sidebar.hasClass('control-sidebar-open')
-            && !$('div').hasClass('control-sidebar-open')) {
+            && !$('#controlSidebar').hasClass('control-sidebar-open')) {
           //Open the sidebar
           _this.open(sidebar, o.slide);
         } else {
@@ -468,7 +468,7 @@ function _init() {
       _this._fix(bg);
 
       //If the body has a fixed layout, make the control sidebar fixed
-      if ($('div').hasClass('fixed')) {
+      if ($('#controlSidebar').hasClass('fixed')) {
         _this._fixForFixed(sidebar);
       } else {
         //If the content height is less than the sidebar's height, force max height
@@ -485,7 +485,7 @@ function _init() {
       } else {
         //Push the content by adding the open class to the body instead
         //of the sidebar itself
-        $('div').addClass('control-sidebar-open');
+        $('#controlSidebar').addClass('control-sidebar-open');
       }
     },
     //Close the control sidebar
@@ -493,12 +493,12 @@ function _init() {
       if (slide) {
         sidebar.removeClass('control-sidebar-open');
       } else {
-        $('div').removeClass('control-sidebar-open');
+        $('#controlSidebar').removeClass('control-sidebar-open');
       }
     },
     _fix: function (sidebar) {
       var _this = this;
-      if ($("div").hasClass('layout-boxed')) {
+      if ($("#controlSidebar").hasClass('layout-boxed')) {
         sidebar.css('position', 'absolute');
         sidebar.height($(".wrapper").height());
         $(window).resize(function () {
@@ -756,3 +756,5 @@ function _init() {
     });
   };
 }(jQuery));
+
+

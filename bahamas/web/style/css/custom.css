@@ -15,14 +15,20 @@ body {
     height: 100%;
 }
 
-.breadcrumb {
-    font-size: 24px;
-    background-color: rgba(11, 60, 128, 0.75);
-    color: #fff;
-}
-
 .bold {
     font-weight: 600;
+}
+
+.denote, .error {
+    color: #e02222;
+}
+
+.uppercase {
+    text-transform: uppercase!important;
+}
+
+.lowercase {
+    text-transform: lowercase!important;
 }
 
 .no-padding-right {
@@ -37,6 +43,10 @@ body {
     padding-top: 0px!important;
 }
 
+.custom-height-1{
+    min-height: 15px;
+}
+
 .control-label,
 .required {
     color: #e02222;
@@ -45,24 +55,65 @@ body {
     font-weight: 800;  
 }
 
-.custom-height-1{
-    min-height: 15px;
+.breadcrumb {
+    font-size: 24px;
+    background-color: rgba(11, 60, 128, 0.75);
+    color: #fff;
 }
 
-.error {
-    color: #e02222;
+.breadcrumb a {
+    color: white;
 }
 
-.uppercase {
-    text-transform: uppercase!important;
+.breadcrumb a:hover {
+    color: #a5d5ff;
 }
 
-.lowercase {
-    text-transform: lowercase!important;
+.breadcrumb a:active {
+    color: white;
+}
+
+.box-header button {
+    float: right;
+}
+
+.box-title button {
+    float: right;
+    padding-top: 0;
+}
+
+.box-header > .box-tools [data-toggle="tooltip"] {
+    padding-top: 0;
+}
+
+@media (max-width: 440px) {
+    .box-header h5 {
+        margin-right: 20px!important;
+    }
 }
 
 .white-background {
     background-color: #ffffff!important;
+}
+
+.content-wrapper {
+    min-height: 900px;
+}
+
+.inner-content-wrapper {
+    margin: 0px;
+}
+
+.table-horizontal-scroll {
+    overflow-x: auto;
+}
+
+.table-bordered > thead > tr > th, .table-bordered > thead > tr > td {
+    text-transform: capitalize;
+}
+
+.table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td {
+    text-transform: capitalize;
 }
 
 @media (max-width: 1000px) {
@@ -75,7 +126,7 @@ body {
     background-color: #dadde6;
 }
 
-/*Custom background css*/
+/*Custom background css for 404 and unauthorised pages*/
 .notfound {
     background-color: #1e2945;
     color: white;
@@ -106,7 +157,6 @@ body {
     font-size: large;
 }
 
-/*Notfound and unauthorised pages*/
 .site-wrapper {
     display: table;
     width: 100%;
@@ -129,6 +179,16 @@ body {
 
 .inner {
     padding: 30px;
+    font-size: 20px;
+}
+
+@media (max-width: 420px) {
+    .inner {
+        font-size: 15px;
+    }
+    #below-button {
+        margin-top: 15px;
+    }
 }
 
 .mastfoot {
@@ -136,8 +196,10 @@ body {
     color: rgba(255,255,255,.5);
 }
 
-@media (max-width: 360px) {
-/*    ???*/
+@media (max-width: 440px) {
+    .unauthorised-header, .notfound-header {
+        font-size: 45px;
+    }
 }
 
 @media (min-width: 360px) {
@@ -148,7 +210,7 @@ body {
     /* Handle the widths */
     .mastfoot,
     .cover-container {
-        width: 60%; /* Must be percentage or pixels for horizontal alignment */
+        width: 80%; /* Must be percentage or pixels for horizontal alignment */
     }
 }
 
@@ -195,7 +257,7 @@ body {
     }
 }
 
-@media(max-width: 420px) {
+@media(max-width: 440px) {
     .login-box-body, 
     .register-box-body {
         padding-top: 0px;
@@ -213,6 +275,18 @@ body {
     }
 }
 
+@media (max-width: 767px) {
+    .sidebar-open .content-wrapper, .sidebar-open .right-side, .sidebar-open .main-footer {
+        transform: translate(120px, 0);
+    }
+}
+
+@media (max-width: 767px) {
+    .main-sidebar, .left-side, .control-sidebar {
+        padding-top: 50px;
+    }
+}
+
 /*Main page logo*/
 .skin-blue .main-header .logo{
     background-color: #222d32; 
@@ -224,7 +298,7 @@ body {
     background-color: rgb(17, 78, 116);
 }
 
-/*Profile and log out button*/
+/*Profile and logout button*/
 .navbar-nav > .user-menu > .dropdown-menu > .user-footer .btn-default {
     background-color:#3c8dbc;
     color:white
@@ -246,7 +320,7 @@ body {
   overflow: visible;
 }
 
-/*custome box with different box border colours*/
+/*customized box with different box border colours*/
 .blue-box {
     border-top-color: #135a8a;
 }
@@ -257,7 +331,7 @@ body {
     border-top-color: #004d00;
 }
 
-/*editContact.html hidden box*/
+/*hidden box for edit and view contact*/
 .hidden-box {
     padding: 20px 20px 20px 20px;
 }
@@ -267,14 +341,14 @@ body {
     padding: 20px 20px 0px 20px;
 }
 
-/*editContact.html remarks box*/
-
+/*remarks textarea for create and edit contact*/
 .custom-remarks {
     min-width: 100%;
     max-width: 100%;
     min-height: 80px;
 }
 
+/*google map*/
 .angular-google-map-container{
     height: 200px;
 }

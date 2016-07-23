@@ -107,7 +107,7 @@
                                 </li>-->
                                 <!-- User Account: style can be found in dropdown.less -->
                                 <li class="dropdown user user-menu">
-                                    <a href="" class="dropdown-toggle" data-toggle="dropdown">
+                                    <a href="" class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown">
                                         <img src="style/img/avatar.png" class="user-image" alt="User Image">
                                         <span class="hidden-xs">{{name}}</span>
                                     </a>
@@ -230,8 +230,8 @@
                 <!-- =============================================== -->
 
                 <!-- Content Wrapper. Contains page content -->
-                <div class="content-wrapper" style='min-height: 900px' ui-view>
-                    <div class="content-wrapper" style="margin: 0px; min-height: 900px">
+                <div class="content-wrapper" ui-view>
+                    <div class="content-wrapper inner-content-wrapper">
                         <!-- Content Header (Page header) -->
                         <section class="content-header">
                             <h3>
@@ -344,5 +344,13 @@
             </div>
             <!-- ./wrapper -->
         </div>
+        <script>
+            // apply dropdownHover to all elements with the data-hover="dropdown" attribute
+            (function ($) { 
+                $(document).ready(function () {
+                    $('[data-hover="dropdown"]').dropdownHover();
+                });
+            })(jQuery);
+        </script>
     </body>
 </html>

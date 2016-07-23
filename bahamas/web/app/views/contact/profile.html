@@ -7,12 +7,12 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="margin:0px" id="edit-contact"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1000}">
+        <div class="content-wrapper inner-content-wrapper" id="edit-contact"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1000}">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()" style="color: white"> Homepage </a><i class="fa fa-chevron-right small"></i> <a style="color: white"> My Profile </a>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a> My Profile </a>
                     </ol>                    
                 </h3>
             </section>
@@ -22,7 +22,7 @@ and open the template in the editor.
                 <div class="box">
                     <div class="box-header with-border">
                         <h3 class="box-title uppercase"><b> Own Information </b></h3>
-                        <button type="submit" ng-click="editContact()" class="btn btn-primary" style='float: right'>
+                        <button type="submit" ng-click="editContact()" class="btn btn-primary">
                             <span>
                                 <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
                             </span>   

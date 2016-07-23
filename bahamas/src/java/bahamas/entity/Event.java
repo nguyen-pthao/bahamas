@@ -102,7 +102,7 @@ public class Event {
     public String getEventDescription() {
         return eventDescription;
     }
-
+    
     public void setEventDescription(String eventDescription) {
         this.eventDescription = eventDescription;
     }
@@ -131,7 +131,9 @@ public class Event {
         this.eventLocationName = eventLocationName;
     }
     
-    
+    public int getMinimumParticipation() {
+        return minimumParticipation;
+    }
     
     
     
