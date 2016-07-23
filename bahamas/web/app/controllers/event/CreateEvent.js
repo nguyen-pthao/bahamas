@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -93,6 +93,7 @@ app.controller('createEvent',
                 //----- end of datepicker settings-----
 
                 $scope.newEvent = {
+                    'token': session.getSession('token'),
                     'event_title': '',
                     'event_date': new Date(),
                     'event_time_start': '',
@@ -112,7 +113,8 @@ app.controller('createEvent',
                 $scope.$watch('showGoogleMaps', function () {
                     if ($scope.showGoogleMaps == true) {
                         $timeout(function () {
-                            var map = $scope.map.control.refresh({latitude: 1.355865, longitude: 103.819129});
+                            $scope.map.control.refresh({latitude: 1.355865, longitude: 103.819129});
+                            $scope.map.zoom = 10;
                         }, 0);
                     }
                 })
@@ -123,7 +125,7 @@ app.controller('createEvent',
                             $scope.marker = {coords: {latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()}};
                             $scope.map.zoom = 15;
                             $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
-                        }}};
+                        }}, options: {}};
                 //--end of settings for google maps--
 
                 $scope.createEvent = function () {
@@ -142,14 +144,17 @@ app.controller('createEvent',
                     } else if ($scope.newEvent['event_time_end'] != null || $scope.newEvent['event_time_end'] != '') {
                         $scope.newEvent['event_time_end'] = $scope.newEvent['event_time_end'].valueOf() + "";
                     }
-                    ngDialog.openConfirm({
-                        template: './style/ngTemplate/createEventPrompt.html',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    }).then(function (response) {
-                        console.log($scope.newEvent);
-                        //submit $scope.newEvent to backend and also display errorMessages.
+                    if ($scope.showGoogleMaps == false) {
+                        $scope.newEvent['event_lat'] = '';
+                        $scope.newEvent['event_lng'] = '';
+                    }
+                    console.log($scope.newEvent);
+                    //submit $scope.newEvent to backend and also display errorMessages.
+                    var url = "/createevent";
+                    dataSubmit.submitData($scope.newEvent, url).then(function(response){
+                        console.log(response);
                     })
+                    
                 }
 
             }]);
