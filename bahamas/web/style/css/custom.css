@@ -247,12 +247,17 @@ body {
     background: #ffffff;
 }
 
+.alert, .alert-danger {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
 @media(max-width: 768px) {
     .twc2-logo,
     .login-box-body, 
     .register-box-body {
         padding-top: 50px;
-        max-width: 50%;
+        max-width: 70%;
         max-height: 50%;
     }
 }

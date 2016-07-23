@@ -135,7 +135,8 @@ public class Event {
         return minimumParticipation;
     }
     
-    
-    
+    public void setMinimumParticipation(int minimumParticipation) {
+        this.minimumParticipation = minimumParticipation;
+    }
     
 }
