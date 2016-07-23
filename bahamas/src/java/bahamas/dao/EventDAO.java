@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -21,12 +23,11 @@ import java.util.logging.Logger;
  */
 public class EventDAO {
         
-    public static boolean addEvent(Event event, String createdBy) {
+    public static int addEvent(Event event, String createdBy) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
-        int result = 0;
+        int autoIncKeyFromApi = -1;
 
         try {
             //get database connection
@@ -34,8 +35,8 @@ public class EventDAO {
             stmt = conn.prepareStatement("INSERT INTO EVENT (CREATED_BY, DATE_CREATED, "
                     + "EVENT_TITLE, EXPLAIN_IF_OTHER, EVENT_DATE, EVENT_TIME_START, "
                     + "EVENT_TIME_END, SEND_REMINDER, EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, "
-                    + "EVENT_CLASS_NAME, EVENT_LOCATION_NAME) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                    + "EVENT_CLASS_NAME, EVENT_LOCATION_NAME, EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             //stmt.setInt(1, d.getContact().getContactId());
             stmt.setString(1, createdBy);
@@ -50,45 +51,22 @@ public class EventDAO {
             stmt.setInt(10, event.getMinimumParticipation());
             stmt.setString(11, event.getEventClassName());
             stmt.setString(12, event.getEventLocationName());
+            stmt.setString(13, event.getEventLng());
+            stmt.setString(14, event.getEventLat());
 
-            result = stmt.executeUpdate();
-
-            return result == 1;
-
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        } finally {
-            ConnectionManager.close(conn, stmt, rs);
-        }
-        return false;
-    }
-    
-    public static int retrieveEventID(String eventTitle, Date eventTimeStart, Date eventTimeEnd) {
-
-        Connection conn = null;
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        int eventId = 0;
-        try {
-            conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT EVENT_ID FROM EVENT where EVENT_TITLE = (?) AND EVENT_TIME_START = (?) AND EVENT_TIME_END = (?)");
-
-            stmt.setString(1, eventTitle);
-            stmt.setDate(2, new java.sql.Date(eventTimeStart.getTime()));
-            stmt.setDate(3, new java.sql.Date(eventTimeEnd.getTime()));
-
-            rs = stmt.executeQuery();
-            while (rs.next()) {
-                eventId = rs.getInt(1);
+            stmt.executeUpdate();
+            rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                autoIncKeyFromApi = rs.getInt(1);
             }
-
+            
+            return autoIncKeyFromApi;
         } catch (SQLException ex) {
-            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return eventId;
+        return autoIncKeyFromApi;
     }
             
 }

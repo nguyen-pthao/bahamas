@@ -75,17 +75,21 @@ public class AddEvent extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String eventClass = Validator.containsBlankField(jobject.get("event_class"));
-                Date eventDate = Validator.isDateValid(jobject.get("event_date"), "event_date");
-                String eventDescription = Validator.containsBlankField(jobject.get("event_description"));
-                String eventLocation = Validator.containsBlankField(jobject.get("event_location"));
-                Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"),"event_time_end");
-                Date eventTimeStart = Validator.isDateValid(jobject.get("event_time_start"), "event_time_start");
                 String eventTitle = Validator.containsBlankField(jobject.get("event_title"));
-                String explainIfOthers = Validator.containsBlankField(jobject.get("explain_if_others"));
-                String minimumParticipation = Validator.containsBlankField(jobject.get("minimum_participation"));
-                boolean sendReminder = jobject.get("end_reminder").getAsBoolean();
+                Date eventDate = Validator.isDateValid(jobject.get("event_date"), "event_date");
+                Date eventTimeStart = Validator.isDateValid(jobject.get("event_time_start"), "event_time_start");
+                Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"),"event_time_end");
+                boolean sendReminder = jobject.get("send_reminder").getAsBoolean();
+                String eventDescription = Validator.containsBlankField(jobject.get("event_description"));
+                String minimumParticipation = jobject.get("minimum_participation").getAsString();
+                String eventClass = Validator.containsBlankField(jobject.get("event_class"));
+                String eventLocation = jobject.get("event_location").getAsString();
+                String explainIfOthers = jobject.get("explain_if_others").getAsString();
+                String eventLat = jobject.get("event_lat").getAsString();
+                String eventLng = jobject.get("event_lng").getAsString();
                 String username = Authenticator.verifyToken(token);
+                
+                
                 
                 if(eventClass == null || eventDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null){
                     json.addProperty("message", "Missing fields");
@@ -116,24 +120,22 @@ public class AddEvent extends HttpServlet {
                     out.println(gson.toJson(json));
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
-
-                    Contact contact = cDAO.retrieveContactById(contactId);
+                    Contact contact = cDAO.retrieveContactByUsername(username);
 
                     if (contact == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {
+                    } else {    
                         //Only Admin and tm are able to create an event
                         if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")){
                             
-                            Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation);
-                            if(EventDAO.addEvent(event,username)){
+                            Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);
+                            int eventID = EventDAO.addEvent(event,username);
+                            if(eventID > 0){
                                 //return id
-                                AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId());
-                                int eventID = EventDAO.retrieveEventID(eventTitle, eventTimeStart, eventTimeEnd);
+                                AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);
                                 json.addProperty("event_id", Integer.toString(eventID));
                                 out.println(gson.toJson(json));
                             }else{

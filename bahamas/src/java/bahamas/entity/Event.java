@@ -25,13 +25,16 @@ public class Event {
     private boolean sendReminder;
     private String eventClassName;
     private String eventLocationName;
+    private String eventLat;
+    private String eventLng;
     private ArrayList<Contact> participants;
     private ArrayList<Role> roleList;
     private ArrayList<EventAffiliation> teamAffliated;
     private boolean workerRelated;
     private ArrayList<Notice> noticeList;
 
-    public Event(Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName) {
+    public Event(Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng) {
+        this.eventDate = eventDate;
         this.eventStart = eventStart;
         this.eventEnd = eventEnd;
         this.eventTitle = eventTitle;
@@ -41,6 +44,8 @@ public class Event {
         this.sendReminder = sendReminder;
         this.eventClassName = eventClassName;
         this.eventLocationName = eventLocationName;
+        this.eventLat = eventLat;
+        this.eventLng = eventLng;
     }
 
     public Date getEventDate() {
@@ -137,6 +142,22 @@ public class Event {
     
     public void setMinimumParticipation(int minimumParticipation) {
         this.minimumParticipation = minimumParticipation;
+    }
+
+    public String getEventLat() {
+        return eventLat;
+    }
+
+    public void setEventLat(String eventLat) {
+        this.eventLat = eventLat;
+    }
+
+    public String getEventLng() {
+        return eventLng;
+    }
+
+    public void setEventLng(String eventLng) {
+        this.eventLng = eventLng;
     }
     
 }
