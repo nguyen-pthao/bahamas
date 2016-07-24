@@ -15,6 +15,10 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
         };
         
         $scope.userType = session.getSession('userType');
+        $scope.showEdit = true;
+        if($scope.userType == 'novice'){
+            $scope.showEdit = false;
+        }
         
         $scope.myPromise = retrieveOwnContactInfo.retrieveContact(toRetrieve).then(function (response){
             $scope.contactInfo = response.data.contact;
