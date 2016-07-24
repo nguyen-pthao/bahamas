@@ -151,8 +151,13 @@ app.controller('createEvent',
                     console.log($scope.newEvent);
                     //submit $scope.newEvent to backend and also display errorMessages.
                     var url = "/createevent";
-                    dataSubmit.submitData($scope.newEvent, url).then(function(response){
-                        console.log(response);
+                    $scope.myPromise = dataSubmit.submitData($scope.newEvent, url).then(function(response){
+                        if(response.data.message == 'success'){
+                            var id = response.data['event_id'];
+                            $scope.go('admin.createEventRoles',{eventId: id})
+                        }else{
+                            console.log("FAIL!!!");
+                        }
                     })
                     
                 }
