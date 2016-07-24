@@ -151,18 +151,25 @@ app.controller('createEvent',
                     if($scope.newEvent['minimum_participation'] == ''){
                         $scope.newEvent['minimum_participation'] = "1";
                     }
-                    //submit $scope.newEvent to backend and also display errorMessages.
-                    var url = "/event.create";
-                    dataSubmit.submitData($scope.newEvent, url).then(function(response){
-                        if(response.data.message == 'success'){
-                            var id = response.data['event_id'];
-                            localStorageService.set('eventIdCreate', id);
-                            $state.go('admin.createEventRoles');
-                        }else{
-                            console.log("FAIL!!!");
-                        }
-                    })
-                    
+                    if($scope.newEvent['event_time_start'] > $scope.newEvent['event_time_end']){
+                        $scope.errorMessages = ["Start Time cannot be after End Time!"]
+                        ngDialog.openConfirm({
+                            template: './style/ngTemplate/errorMessage.html',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        })
+                    }else{
+                        var url = "/event.create";
+                        dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                            if (response.data.message == 'success') {
+                                var id = response.data['event_id'];
+                                localStorageService.set('eventIdCreate', id);
+                                $state.go('admin.createEventRoles');
+                            } else {
+                                console.log("FAIL!!!");
+                            }
+                        })
+                    }
                 }
 
             }]);
