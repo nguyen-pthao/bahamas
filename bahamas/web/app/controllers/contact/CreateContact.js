@@ -132,7 +132,8 @@ app.controller('createContact',
                     'gender': '',
                     'nationality': '',
                     'date_of_birth': '',
-                    'remarks': ''
+                    'remarks': '',
+                    'notification': true
                 };
 //DECLARE RESULT OBJECT 
                 $scope.result = {

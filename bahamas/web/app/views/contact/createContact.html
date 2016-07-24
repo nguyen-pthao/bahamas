@@ -94,6 +94,12 @@ and open the template in the editor.
                                                 <input type="text" class="form-control white-background" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
                                             </div>
                                         </div>
+                                        <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                                            <label>Send Notification</label>
+                                            <div>
+                                                <input type="checkbox" ng-model="contactInfo.notification" checked/>
+                                            </div>
+                                        </div>
                                     </div>                     
                                     <label>Remarks</label>
                                     <textarea class="custom-remarks" ng-model="contactInfo.remarks" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
