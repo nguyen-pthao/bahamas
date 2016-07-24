@@ -136,6 +136,7 @@ public class AddEvent extends HttpServlet {
                             if(eventID > 0){
                                 //return id
                                 AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);
+                                json.addProperty("message", "success");
                                 json.addProperty("event_id", Integer.toString(eventID));
                                 out.println(gson.toJson(json));
                             }else{
