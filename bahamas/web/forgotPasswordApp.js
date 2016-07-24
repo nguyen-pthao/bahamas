@@ -5,23 +5,36 @@
  */
 'use strict';
 
-var app = angular.module('forgotPassword', []);
+var app = angular.module('forgotPassword', ['ngDialog'])
+        .controller('ForgotPassCtrl', ['$scope', '$http', 'ngDialog', function ($scope, $http, ngDialog) {
+                $scope.toResetPassword = {
+                    username: '',
+                    email: ''
+                }
 
-app.controller('ForgotPassCtrl', ['$scope', '$http', function($scope, $http){
-    $scope.toResetPassword = {
-        username: '',
-        email: ''
-    }  
-    
-    $scope.sendInfo = function(){
-        console.log($scope.toResetPassword);
-        $http({
-                method: 'POST',
-                url:  'http://localhost:8084/bahamas/password.forgot',
-                data: JSON.stringify($scope.toResetPassword)
-            }).then(function(response){
-                console.log(response);
-            })
-    }
-}]);
+                $scope.sendInfo = function () {
+                    console.log($scope.toResetPassword);
+                    $http({
+                        method: 'POST',
+                        url: 'http://localhost:8084/bahamas/password.forgot',
+                        data: JSON.stringify($scope.toResetPassword)
+                    }).then(function (response) {
+                        if (response.data.message == 'success') {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/passwordResetSuccess.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            }).then(function (response) {
+                                window.location = "https://rms.twc2.org.sg";
+                            })
+                        } else {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/passwordResetFailure.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        }
+                    })
+                }
+            }]);
 
