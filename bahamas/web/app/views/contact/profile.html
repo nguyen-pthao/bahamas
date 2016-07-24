@@ -200,10 +200,15 @@ and open the template in the editor.
                                             </div>
                                         </div>
 <!--                                        Include verified email-->
-                                        <div class='col-sm-12'>
+                                        <div class='col-sm-6'>
                                             <div style="padding-top: 10px;">
                                                 <h4><b>Remarks</b></h4>
                                                 <div>{{emailObj.remarks}}</div>
+                                            </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Verified</b></h4>
+                                                <div ng-show="emailObj.verified == 'true'" class="custom-height-1">Yes</div>
+                                                <div ng-hide="emailObj.verified == 'true'" class="custom-height-1">No</div>
                                             </div>
                                         </div>
                                     </div>                                 
