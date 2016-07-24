@@ -254,7 +254,7 @@ and open the template in the editor.
                                             <span ng-show="form.editPersonalForm.nationality.$error.maxlength" class='error'>Input nationality is too long.</span>
                                         </div>    
                                     </div>
-                                    <div class="form-group col-md-12" style="margin-top: 15px">
+                                    <div class="form-group col-md-12" style="margin-top: 15px" ng-show="isAdmin || isTeamManager">
                                         <div class="col-md-4">
                                             <label>Date of birth</label>
                                             <div class="input-group date">
@@ -1630,7 +1630,7 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-offset-2 col-md-5">
                                                     <label>Permission</label><span class="required">*</span>
-                                                    <input ng-model="team['permission']" name='permission' type="text" class="form-control white-background" readonly>
+                                                    <input ng-model="team['permission']" name='permission' type="text" class="form-control" readonly>
                                                 </div>
                                             </div> 
                                             <div class="form-group col-md-12">

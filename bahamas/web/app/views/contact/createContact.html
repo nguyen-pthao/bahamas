@@ -109,14 +109,14 @@ and open the template in the editor.
                                         </button></center>
                                 </div>
                             </form>
-                            <div class="modal fade" id="additionalForm" tabindex="-1" role="dialog" aria-labelledby="modalLabel" data-keyboard="false" data-backdrop="static">
+                            <div class="modal fade" id="additionalForm" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true"></span>
                                             </button>
-                                            <h4 ng-hide="result.message" class="modal-title" id="modalLabel" class='error'>Error</h4>
+                                            <h4 ng-hide="result.message" class="modal-title error" id="modalLabel">Error</h4>
                                             <h4 ng-show="result.message" class="modal-title" id="modalLabel">{{result.deliver}}</h4>
                                         </div>
                                         <div class="modal-body" ng-hide="result.message">
@@ -312,9 +312,9 @@ and open the template in the editor.
             <!-- /.content -->
         </div>
         <script>
-                    $(window).on('popstate', function () {
-                        $('#additionalForm').modal('hide')
-                    });
+            $('window').on('popstate', function () {
+                $('#additionalForm').modal('hide');
+            });
         </script>
     </body>
 </html>
