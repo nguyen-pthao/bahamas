@@ -88,7 +88,7 @@ public class AddEvent extends HttpServlet {
                 String eventLat = jobject.get("event_lat").getAsString();
                 String eventLng = jobject.get("event_lng").getAsString();
                 String username = Authenticator.verifyToken(token);
-                boolean ignore = jobject.get("ignore").getAsBoolean();
+                boolean ignore = jobject.get("toignore").getAsBoolean();
                 
                 
                 if(eventClass == null || eventDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null){
@@ -145,7 +145,8 @@ public class AddEvent extends HttpServlet {
                             }
                             
                             int eventID = EventDAO.addEvent(event,username);
-                            if(eventID > 0){
+                            
+                            if(ignore){
                                 //return id
                                 AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);
                                 json.addProperty("message", "success");
