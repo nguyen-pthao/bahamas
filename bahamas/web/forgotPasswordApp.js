@@ -17,7 +17,7 @@ app.controller('ForgotPassCtrl', ['$scope', '$http', function($scope, $http){
         console.log($scope.toResetPassword);
         $http({
                 method: 'POST',
-                url:  'https://rms.twc2.org.sg/bahamas/password.forgot',
+                url:  'http://localhost:8084/bahamas/password.forgot',
                 data: JSON.stringify($scope.toResetPassword)
             }).then(function(response){
                 console.log(response);
