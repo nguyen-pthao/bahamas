@@ -154,7 +154,7 @@ app.controller('createEvent',
                     $scope.myPromise = dataSubmit.submitData($scope.newEvent, url).then(function(response){
                         if(response.data.message == 'success'){
                             var id = response.data['event_id'];
-                            $scope.go('admin.createEventRoles',{eventId: id})
+                            $state.go('admin.createEventRoles',{eventId: id})
                         }else{
                             console.log("FAIL!!!");
                         }
