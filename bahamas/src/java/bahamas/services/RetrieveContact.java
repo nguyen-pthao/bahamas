@@ -193,6 +193,18 @@ public class RetrieveContact extends HttpServlet {
             ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
             ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
             ArrayList<Address> addressList = AddressDAO.retrieveAllAddress(c);
+            String permissionLevel = "";
+            if (c.isIsNovice()) {
+                permissionLevel = "novice";
+            } else if (c.isIsAdmin()) {
+                permissionLevel = "admin";
+            } else if (RoleCheckDAO.checkRole(c.getContactId(), "teammanager")) {
+                permissionLevel = "teammanager";
+            } else if (RoleCheckDAO.checkRole(c.getContactId(), "eventleader")) {
+                permissionLevel = "eventleader";
+            } else if (RoleCheckDAO.checkRole(c.getContactId(), "associate")) {
+                permissionLevel = "associate";
+            }
 
             String emailStr = "";
             String phoneStr = "";
@@ -243,58 +255,38 @@ public class RetrieveContact extends HttpServlet {
 
                 for (int i = 0; i < emailList.size() - 1; i++) {
                     Email email = emailList.get(i);
-                    emailStr += email.getEmail() + " | ";
+                    if(email.getDateObsolete() != null){
+                        emailStr += email.getEmail() + " | ";
+                    }
                 }
                 Email email = emailList.get(emailList.size() - 1);
-                emailStr += email.getEmail();
+                if(email.getDateObsolete() != null){
+                    emailStr += email.getEmail();
+                }
 
             }
             if (!phoneList.isEmpty()) {
 
                 for (int i = 0; i < phoneList.size() - 1; i++) {
                     Phone phone = phoneList.get(i);
-                    phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber() + " | ";
+                    if(phone.getDateObsolete() != null){
+                        phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber() + " | ";
+                    }
                 }
                 Phone phone = phoneList.get(phoneList.size() - 1);
-                phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber();
-
-            }
-            if (!addressList.isEmpty()) {
-
-                for (int i = 0; i < addressList.size() - 1; i++) {
-                    Address address = addressList.get(i);
-                    addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode() + " | ";
+                if(phone.getDateObsolete() != null){
+                    phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber();
                 }
-                Address address = addressList.get(addressList.size() - 1);
-                addressStr += address.getAddress() + ", " + address.getCountry() + ", " + address.getZipcode();
-
             }
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", name);
-            jsonContactObj.addProperty("alt_name", altName);
             if (unlock) {
                 jsonContactObj.addProperty("phone", phoneStr);
             }
             jsonContactObj.addProperty("email", emailStr);
             jsonContactObj.addProperty("contact_type", contactType);
-            /*
-            jsonContactObj.addProperty("explain_if_other", explainIfOther);
-            if(unlockAll){
-                jsonContactObj.addProperty("profession", profession);
-                jsonContactObj.addProperty("job_title", jobTitle);
-                jsonContactObj.addProperty("nric", nric);
-                jsonContactObj.addProperty("gender", gender);
-                jsonContactObj.addProperty("nationality", nationality);
-            }
-            if(c.getDateOfBirth() != null){
-                jsonContactObj.addProperty("date_of_birth", sdf.format(c.getDateOfBirth()));
-            }else{
-                jsonContactObj.addProperty("date_of_birth", "");
-            }
-            jsonContactObj.addProperty("address", addressStr);
-            jsonContactObj.addProperty("remarks", remarks);
-             */
+            jsonContactObj.addProperty("permision_level", permissionLevel);
             contactArray.add(jsonContactObj);
             jsonContactObj.addProperty("cid", c.getContactId());
         }
