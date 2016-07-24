@@ -266,8 +266,8 @@ public class ContactDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO CONTACT (CONTACT_TYPE,ISADMIN,"
                     + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,USERNAME,PASSWORD,SALT)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION,USERNAME,PASSWORD,SALT)"
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, c.getContactType());
             stmt.setBoolean(2, c.isIsAdmin());
@@ -288,9 +288,10 @@ public class ContactDAO {
             }
             stmt.setString(14, c.getProfilePic());
             stmt.setString(15, c.getRemarks());
-            stmt.setString(16, c.getUsername());
-            stmt.setString(17, c.getPassword());
-            stmt.setString(18, c.getSalt());
+            stmt.setBoolean(16, c.isNotification());
+            stmt.setString(17, c.getUsername());
+            stmt.setString(18, c.getPassword());
+            stmt.setString(19, c.getSalt());
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
