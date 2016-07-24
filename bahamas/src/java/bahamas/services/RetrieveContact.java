@@ -195,15 +195,15 @@ public class RetrieveContact extends HttpServlet {
             ArrayList<Address> addressList = AddressDAO.retrieveAllAddress(c);
             String permissionLevel = "";
             if (c.isIsNovice()) {
-                permissionLevel = "novice";
+                permissionLevel = "Novice";
             } else if (c.isIsAdmin()) {
-                permissionLevel = "admin";
+                permissionLevel = "Admin";
             } else if (RoleCheckDAO.checkRole(c.getContactId(), "teammanager")) {
-                permissionLevel = "teammanager";
+                permissionLevel = "Team Manager";
             } else if (RoleCheckDAO.checkRole(c.getContactId(), "eventleader")) {
-                permissionLevel = "eventleader";
+                permissionLevel = "Event Leader";
             } else if (RoleCheckDAO.checkRole(c.getContactId(), "associate")) {
-                permissionLevel = "associate";
+                permissionLevel = "Associate";
             }
 
             String emailStr = "";
@@ -286,7 +286,7 @@ public class RetrieveContact extends HttpServlet {
             }
             jsonContactObj.addProperty("email", emailStr);
             jsonContactObj.addProperty("contact_type", contactType);
-            jsonContactObj.addProperty("permision_level", permissionLevel);
+            jsonContactObj.addProperty("permission_level", permissionLevel);
             contactArray.add(jsonContactObj);
             jsonContactObj.addProperty("cid", c.getContactId());
         }
