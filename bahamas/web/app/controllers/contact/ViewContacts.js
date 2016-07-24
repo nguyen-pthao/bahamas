@@ -55,7 +55,6 @@ app.controller('viewContacts',
                             allContactObjKey.push(contactHeader);
                         }
                         $scope.allContactObjectKeys = allContactObjKey;
-
                         $scope.isAuthorised = true;
                         $scope.canDelete = false;
                         $scope.takeNoColumns = 5;

@@ -20,7 +20,7 @@ and open the template in the editor.
             <section class="content">
                 <!-- Outer box -->
                 <div class="box">
-                    <div class="box-header with-border">
+                    <div ng-if="showEdit" class="box-header with-border">
                         <h3 class="box-title uppercase"><b> Own Information </b></h3>
                         <button type="submit" ng-click="editContact()" class="btn btn-primary">
                             <span>
@@ -188,6 +188,10 @@ and open the template in the editor.
                                                 <h4><b>Created By</b></h4>
                                                 <div>{{emailObj.created_by}}</div>
                                             </div>
+                                            <div style="padding-top: 10px;">
+                                                <h4><b>Remarks</b></h4>
+                                                <div>{{emailObj.remarks}}</div>
+                                            </div>
                                         </div>
                                         <div class="col-sm-6">
                                             <div style="padding-top: 10px;">
@@ -198,12 +202,10 @@ and open the template in the editor.
                                                 <h4><b>Date Obsolete</b></h4>
                                                 <div>{{emailObj.date_obsolete}}</div>
                                             </div>
-                                        </div>
-<!--                                        Include verified email-->
-                                        <div class='col-sm-12'>
                                             <div style="padding-top: 10px;">
-                                                <h4><b>Remarks</b></h4>
-                                                <div>{{emailObj.remarks}}</div>
+                                                <h4><b>Verified</b></h4>
+                                                <div ng-show="emailObj.verified == 'true'" class="custom-height-1">Yes</div>
+                                                <div ng-hide="emailObj.verified == 'true'" class="custom-height-1">No</div>
                                             </div>
                                         </div>
                                     </div>                                 
