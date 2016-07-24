@@ -102,6 +102,7 @@ public class AddContact extends HttpServlet {
                     String nationality = Validator.containsBlankField(jobject.get("nationality"));
                     Date dob = Validator.isDateValid(jobject.get("date_of_birth"), "date of birth");
                     String remarks = Validator.containsBlankField(jobject.get("remarks"));
+                    boolean notification = Validator.isBooleanValid(jobject.get("notification"));
 
                     if (!Validator.getErrorList().isEmpty()) {
                         JsonArray errorArray = new JsonArray();
@@ -118,7 +119,8 @@ public class AddContact extends HttpServlet {
                     //Create new contact object
                     Contact newContact = new Contact(contactType, username, name, altName, otherExplanation, profession,
                             jobTitle, nric, gender, nationality, dob, remarks);
-
+                    
+                    newContact.setNotification(notification);
                     int newContactId = ContactDAO.addContact(newContact);
 
                     if (newContactId <= 0) {
