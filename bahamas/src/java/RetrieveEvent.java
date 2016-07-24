@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
@@ -21,19 +20,20 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 
 /**
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "AddEvent", urlPatterns = {"/event.create"})
-public class AddEvent extends HttpServlet {
+@WebServlet(urlPatterns = {"/event.retrieve"})
+public class RetrieveEvent extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -70,50 +70,12 @@ public class AddEvent extends HttpServlet {
                 out.println(gson.toJson(json));
 
             } else {
-                //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String eventTitle = Validator.containsBlankField(jobject.get("event_title"));
-                Date eventDate = Validator.isDateValid(jobject.get("event_date"), "event_date");
-                Date eventTimeStart = Validator.isDateValid(jobject.get("event_time_start"), "event_time_start");
-                Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"),"event_time_end");
-                boolean sendReminder = jobject.get("send_reminder").getAsBoolean();
-                String eventDescription = Validator.containsBlankField(jobject.get("event_description"));
-                String minimumParticipation = jobject.get("minimum_participation").getAsString();
-                String eventClass = Validator.containsBlankField(jobject.get("event_class"));
-                String eventLocation = jobject.get("event_location").getAsString();
-                String explainIfOthers = jobject.get("explain_if_others").getAsString();
-                String eventLat = jobject.get("event_lat").getAsString();
-                String eventLng = jobject.get("event_lng").getAsString();
+                String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String username = Authenticator.verifyToken(token);
-                
-                
-                
-                if(eventClass == null || eventDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null){
-                    json.addProperty("message", "Missing fields");
-                    if(eventClass == null){
-                        json.addProperty("event_class", "Missing Event Class");
-                    }
-                    if(eventDate == null){
-                        json.addProperty("event_date", "Missing Event Date");
-                    }
-                    if(eventLocation == null){
-                        json.addProperty("event_location", "Missing Event Location");
-                    }
-                    if(eventTimeEnd == null){
-                        json.addProperty("event_time_end", "Missing Event Time End");
-                    }
-                    if(eventTimeStart == null){
-                        json.addProperty("event_time_start", "Missing Event Time Start");
-                    }
-                    if(eventTitle == null){
-                        json.addProperty("event_title", "Missing Event Title");
-                    }
-                    out.println(gson.toJson(json));
-                    return;
-                }
                 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -129,28 +91,38 @@ public class AddEvent extends HttpServlet {
                         return;
                     } else {    
                         //Only Admin and tm are able to create an event
-                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")){
                             
-                            Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);
-                            int eventID = EventDAO.addEvent(event,username);
-                            if(eventID > 0){
-                                //return id
-                                AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);
+                            EventDAO eventDAO = new EventDAO();
+                            Event event = eventDAO.retrieveContactById(Integer.parseInt(eventId));
+                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            if(event != null){
+                                
                                 json.addProperty("message", "success");
-                                json.addProperty("event_id", Integer.toString(eventID));
+                                json.addProperty("event_id", eventId);
+                                json.addProperty("event_title", event.getEventTitle());
+                                json.addProperty("event_date", datetime.format(event.getEventDate()));
+                                json.addProperty("event_time_start", datetime.format(event.getEventStart()));
+                                json.addProperty("event_time_end", datetime.format(event.getEventEnd()));
+                                json.addProperty("send_reminder", event.isSendReminder());
+                                json.addProperty("event_description", event.getEventDescription());
+                                json.addProperty("minimum_participation", event.getMinimumParticipation());
+                                json.addProperty("event_class", event.getEventClassName());
+                                json.addProperty("event_location", event.getEventLocationName());
+                                json.addProperty("explain_if_others", event.getExplainIfOthers());
+                                json.addProperty("event_lat", event.getEventLat());
+                                json.addProperty("event_lng", event.getEventLng());
+                                json.addProperty("date_created", datetime.format(event.getDateCreated()));
                                 out.println(gson.toJson(json));
                             }else{
-                                json.addProperty("message", "Fail to insert");
+                                json.addProperty("message", "Fail retrieve event");
                                 out.println(gson.toJson(json));
                             }
                                 
                             
-                        }else{
-                            json.addProperty("message", "fail");
-                            out.println(gson.toJson(json));
-                        }
+                      
                     }
                 }
+                
             }
         }
     }

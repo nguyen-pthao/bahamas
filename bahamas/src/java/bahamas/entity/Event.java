@@ -33,6 +33,22 @@ public class Event {
     private boolean workerRelated;
     private ArrayList<Notice> noticeList;
 
+    public Event(Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated) {
+        this.eventDate = eventDate;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+        this.eventTitle = eventTitle;
+        this.explainIfOthers = explainIfOthers;
+        this.eventDescription = eventDescription;
+        this.minimumParticipation = minimumParticipation;
+        this.sendReminder = sendReminder;
+        this.eventClassName = eventClassName;
+        this.eventLocationName = eventLocationName;
+        this.eventLat = eventLat;
+        this.eventLng = eventLng;
+        this.dateCreated = dateCreated;
+    }
+    
     public Event(Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng) {
         this.eventDate = eventDate;
         this.eventStart = eventStart;
