@@ -97,7 +97,7 @@ and open the template in the editor.
                                             <span ng-show="eventForm.eventLocation.$error.required && eventForm.eventLocation.$touched" class="error">Location is required.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
-                                            <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;"></i>
+                                            <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i>
                                             <div>
                                                 <input type="checkbox" ng-model="showGoogleMaps"/>
                                             </div>
@@ -110,18 +110,17 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div ng-show='showGoogleMaps'>
-                                        <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
-                                            <ui-gmap-marker idkey='marker.id' coords='marker.coords'></ui-gmap-marker>
-                                            <ui-gmap-search-box template="searchbox.template" events='searchbox.events' options="searchbox.options"></ui-gmap-search-box>
-                                            </ui-gmap-marker>
-                                        </ui-gmap-google-map>
-                                    </div>
+                                    <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
+                                        <ui-gmap-marker idkey='marker.id' coords='marker.coords'></ui-gmap-marker>
+                                        <ui-gmap-search-box template="searchbox.template" events='searchbox.events' options="searchbox.options"></ui-gmap-search-box>
+                                    </ui-gmap-google-map>
+                                </div>
                                 <div class="box-footer">
                                     <center><button type="submit" ng-click="createEvent()" 
                                                     ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid
                                                                         || eventForm.eventDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
                                                                         || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required
-                                                                        || eventForm.explainIfOthers.$error.maxlength || (showGoogleMaps && newEvent['event_lat']=='' && newEvent['event_lng'] =='')"
+                                                                        || eventForm.explainIfOthers.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '')"
                                                     class="btn btn-primary">
                                             Save and proceed
                                         </button></center>
