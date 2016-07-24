@@ -63,9 +63,14 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'createEvent'
             })
             .state('admin.createEventRoles', {
-                url: '/createEventRoles/{eventId: int}',
+                url: '/createEventRoles',
                 templateUrl: 'app/views/event/createEventRoles.html',
                 controller: 'createEventRoles'
+            })
+            .state('admin.createEventAffiliation', {
+                url: '/createEventRoles',
+                templateUrl: 'app/views/event/createEventAffiliation.html',
+                controller: 'createEventAffiliation'
             })
             .state('novice', {
                 url: '/novice',
@@ -191,10 +196,10 @@ app.config(['IdleProvider', function (IdleProvider) {
 
 app.config([
     'uiGmapGoogleMapApiProvider',
-    function(uiGmapGoogleMapApiProvider) {
+    function (uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
-            key      : 'AIzaSyCQeF9t1XxpfqEsfYcX4t03Gd_H7PcKC0Y',
-            v        : '3.23',
+            key: 'AIzaSyCQeF9t1XxpfqEsfYcX4t03Gd_H7PcKC0Y',
+            v: '3.23',
             libraries: 'places,geometry,visualization,weather'
         });
     }
