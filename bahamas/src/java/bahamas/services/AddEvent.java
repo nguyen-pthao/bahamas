@@ -88,7 +88,7 @@ public class AddEvent extends HttpServlet {
                 String eventLat = jobject.get("event_lat").getAsString();
                 String eventLng = jobject.get("event_lng").getAsString();
                 String username = Authenticator.verifyToken(token);
-                
+                boolean ignore = jobject.get("ignore").getAsBoolean();
                 
                 
                 if(eventClass == null || eventDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null){
@@ -115,6 +115,12 @@ public class AddEvent extends HttpServlet {
                     return;
                 }
                 
+                if(eventTimeEnd.before(eventTimeStart) || eventTimeEnd.equals(eventTimeStart)){
+                    json.addProperty("message", "End time must be after start time");
+                    out.println(gson.toJson(json));
+                    return;
+                }
+                
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -126,12 +132,18 @@ public class AddEvent extends HttpServlet {
                     if (contact == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
-                        return;
                     } else {    
-                        //Only Admin and tm are able to create an event
-                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")){
+                        //Only Admin, tm and eventleader are able to create an event
+                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader") ){
                             
+                            //check if exist
                             Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);
+                            String errorMsg = EventDAO.eventExist(event);
+                            if(EventDAO.eventExist(event) == null){
+                                json.addProperty("message", errorMsg);
+                                out.println(gson.toJson(json));
+                            }
+                            
                             int eventID = EventDAO.addEvent(event,username);
                             if(eventID > 0){
                                 //return id

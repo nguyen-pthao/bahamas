@@ -57,8 +57,9 @@ and open the template in the editor.
                                         </div>  
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>End Time</label><span class="required">*</span>
-                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" min="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
                                             <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.</span>
+                                            <span ng-show="(newEvent['event_time_start'] > newEvent['event_time_end']) && eventForm.eventEndTime.$touched" class="error">End Time cannot be before Start Time.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Send Reminder</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
