@@ -65,14 +65,14 @@ and open the template in the editor.
                                     <div class='box' ng-repeat="role in numberOfRoles track by $index">
                                         <div class="form-group">
                                             <label>Role {{$index + 1}}</label>
-                                            <input type="text" ng-model="newRoles['role' + ($index + 1)]" ng-maxlength="50" name="role{{$index + 1}}" class="form-control" placeholder='Not Specified'>
+                                            <input type="text" ng-model="newRoles['roleArray'][$index]['role' + ($index + 1)]" ng-maxlength="50" name="role{{$index + 1}}" class="form-control" placeholder='Not Specified'>
                                             <span ng-show="addRolesForm['role' + ($index + 1)].$error.maxlength" class='error'>Input for 'Role {{$index + 1}}' is too long.</span>
                                         </div>
                                         <div>
                                             <label>Role {{$index + 1}} Description</label>
-                                            <textarea class="custom-remarks" ng-model="newRoles['description' + ($index + 1)]" ng-maxlength="200" name="description{{$index + 1}}" contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class="custom-remarks" ng-model="newRoles['roleArray'][$index]['description' + ($index + 1)]" ng-maxlength="200" name="description{{$index + 1}}" contenteditable="true" spellcheck="true"></textarea>
                                             <span ng-show="addRolesForm['description' + ($index + 1)].$error.maxlength" class='error'>Input for 'Role {{$index + 1}} Description' is too long.</span>
-                                            <span ng-show="(newRoles['description' + ($index + 1)] != '' && newRoles['role' + ($index + 1)] == '')" class='error'>Input for 'Role {{$index + 1}}' cannot be empty.</span>
+                                            <span ng-show="(newRoles['roleArray'][$index]['description' + ($index + 1)] != '' && newRoles['roleArray'][$index]['role' + ($index + 1)] == '')" class='error'>Input for 'Role {{$index + 1}}' cannot be empty.</span>
                                         </div>
                                     </div>
                                 </div>

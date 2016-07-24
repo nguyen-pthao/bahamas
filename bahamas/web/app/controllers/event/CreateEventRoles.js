@@ -19,43 +19,32 @@ app.controller('createEventRoles',
                 $scope.eventDetails = function () {
                     var urlToRetrieve = "/event.retrieve";
                     var toRetrieve = {
-                        'eventId': eventId,
+                        'event_id': eventId,
                         'token': session.getSession('token')
                     }
                     dataSubmit.submitData(toRetrieve, urlToRetrieve).then(function (response) {
                         $scope.eventInfo = response.data;
-//                        $scope.eventInfo = {
-//                            'event_title': 'EVENT TITLE HERE',
-//                            'event_date': new Date(),
-//                            'event_time_start': '11:00 AM',
-//                            'event_time_end': '12:30 PM',
-//                            'send_reminder': false,
-//                            'event_description': 'EVENT DESCRIPTION',
-//                            'minimum_participation': '5',
-//                            'event_class': 'Closed',
-//                            'event_location': 'TWC2 Day Office',
-//                            'explain_if_others': 'HELLO EXPLAIN HERE'
-//                        }
                     })
                 }
-                
+
                 $scope.newRoles = {
-                    'role1': '',
-                    'description1': '',
-                    'role2': '',
-                    'description2': '',
-                    'role3': '',
-                    'description3': ''
+                    'event_id': eventId,
+                    'roleArray': [
+                        {'role1': '', 'description1': ''},
+                        {'role2': '', 'description2': ''},
+                        {'role3': '', 'description3': ''}
+                    ]
                 }
 
 
                 $scope.submitRoles = function () {
                     $scope.error = false;
-                    var size = Object.keys($scope.newRoles).length / 2;
+//                    var size = Object.keys($scope.newRoles).length / 2;
+                      var size = $scope.newRoles['roleArray'].length;
                     for (var i = 1; i <= size; i++) {
-                        var role = $scope.newRoles['role' + i];
-                        var description = $scope.newRoles['description' + i];
-                        if ($scope.newRoles['role' + i] == '' && $scope.newRoles['description' + i] != '') {
+                        var role = $scope.newRoles['roleArray'][(i-1)]['role' + i];
+                        var description = $scope.newRoles['roleArray'][(i-1)]['description' + i];
+                        if (role == '' && description != '') {
                             $scope.error = true;
                         } else if (angular.isUndefined(role)) {
                             $scope.error = true;
@@ -81,8 +70,10 @@ app.controller('createEventRoles',
                 $scope.addNumberOfRoles = function () {
                     var roleIntoNewRoles = "role" + ($scope.numberOfRoles.length + 1);
                     var descriptionIntoNewRoles = "description" + ($scope.numberOfRoles.length + 1);
-                    $scope.newRoles[roleIntoNewRoles] = '';
-                    $scope.newRoles[descriptionIntoNewRoles] = '';
+                    var newRole = {};
+                    newRole[roleIntoNewRoles] = '';
+                    newRole[descriptionIntoNewRoles] = '';
+                    $scope.newRoles.roleArray.push(newRole);
                     $scope.numberOfRoles.push($scope.numberOfRoles.length + 1);
                 }
 //

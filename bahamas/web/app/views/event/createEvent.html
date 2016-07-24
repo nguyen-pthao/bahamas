@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper inner-content-wrapper" id="add-new-event" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html'}">
+        <div class="content-wrapper inner-content-wrapper" id="add-new-event">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -57,7 +57,7 @@ and open the template in the editor.
                                         </div>  
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>End Time</label><span class="required">*</span>
-                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" min="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
                                             <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
@@ -75,7 +75,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
                                         <div class="col-md-3" style="padding: 0px">
                                             <label>Minimum participation</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send an alert if min. participation is not met" popover-trigger="mouseenter"></i>
-                                            <input type='text' ng-model="newEvent['minimum_participation']" name="minimumParticipation" class="form-control white-background" min="0" ng-pattern="regex"/>
+                                            <input type='text' ng-model="newEvent['minimum_participation']" name="minimumParticipation" class="form-control white-background" min="0" ng-pattern="regex" placeholder='1'/>
                                             <span ng-show="eventForm.minimumParticipation.$invalid" class='error'>Please enter a valid integer.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
