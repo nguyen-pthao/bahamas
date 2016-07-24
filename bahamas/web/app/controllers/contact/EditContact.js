@@ -460,7 +460,7 @@ app.controller('editContact',
                 };
                 //phone
                 var retrievePhoneInfo = function (contactToEdit) {
-                    if (contactToEdit.phone != '' || angular.isUndefined(contactToEdit.phone)) {
+                    if (angular.isUndefined(contactToEdit.phone) && contactToEdit.phone != '') {
                         $scope.editPhone = contactToEdit.phone;
                         for (var i = 0; i < contactToEdit.phone.length; i++) {
                             $scope.editPhone[i]['date_obsolete'] = new Date(contactToEdit.phone[i]['date_obsolete']);
@@ -471,7 +471,7 @@ app.controller('editContact',
                 };
                 //email
                 var retrieveEmailInfo = function (contactToEdit) {
-                    if (contactToEdit.email != '' || angular.isUndefined(contactToEdit.email)) {
+                    if (!angular.isUndefined(contactToEdit.email) && contactToEdit.email != '') {
                         $scope.editEmail = contactToEdit.email;
                         for (var i = 0; i < contactToEdit.email.length; i++) {
                             $scope.editEmail[i]['date_obsolete'] = new Date(contactToEdit.email[i]['date_obsolete']);
@@ -487,7 +487,7 @@ app.controller('editContact',
                 };
                 //verified_email
                 var retrieveVerifiedEmailInfo = function (contactToEdit) {
-                    if (contactToEdit['verified_email'] != '' || angular.isUndefined(contactToEdit['verified_email'])) {
+                    if (!angular.isUndefined(contactToEdit['verified_email']) && contactToEdit['verified_email'] != '') {
                         $scope.editVerifiedEmail = contactToEdit['verified_email'];
                         $scope.emailList = [];
                         for (var i = 0; i < contactToEdit['verified_email'].length; i++) {
@@ -499,7 +499,7 @@ app.controller('editContact',
                 };
                 //address
                 var retrieveAddressInfo = function (contactToEdit) {
-                    if (contactToEdit.address != '' || angular.isUndefined(contactToEdit.address)) {
+                    if (!angular.isUndefined(contactToEdit.address) && contactToEdit.address != '') {
                         $scope.editAddress = contactToEdit.address;
                         for (var i = 0; i < contactToEdit.address.length; i++) {
                             $scope.editAddress[i]['date_obsolete'] = new Date(contactToEdit.address[i]['date_obsolete']);
@@ -510,7 +510,7 @@ app.controller('editContact',
                 };
                 //membership
                 var retrieveMembershipInfo = function (contactToEdit) {
-                    if (contactToEdit.membership != '' || angular.isUndefined(contactToEdit.membership)) {
+                    if (!angular.isUndefined(contactToEdit.membership) && contactToEdit.membership != '') {
                         $scope.editMembership = contactToEdit.membership;
                         for (var i = 0; i < contactToEdit.membership.length; i++) {
                             $scope.editMembership[i]['start'] = contactToEdit.membership[i]['start_date'];
@@ -527,7 +527,7 @@ app.controller('editContact',
                 };
                 //office held
                 var retrieveOfficeInfo = function (contactToEdit) {
-                    if (contactToEdit['office_held'] != '' || angular.isUndefined(contactToEdit['office_held'])) {
+                    if (!angular.isUndefined(contactToEdit['office_held']) && contactToEdit['office_held'] != '') {
                         $scope.editOfficeHeld = contactToEdit['office_held'];
                         for (var i = 0; i < contactToEdit['office_held'].length; i++) {
                             $scope.editOfficeHeld[i]['start'] = contactToEdit['office_held'][i]['start_office'];
@@ -541,7 +541,7 @@ app.controller('editContact',
                 };
                 //donation
                 var retrieveDonationInfo = function (contactToEdit) {
-                    if (contactToEdit.donation != '' || angular.isUndefined(contactToEdit.membership)) {
+                    if (!angular.isUndefined(contactToEdit.donation) && contactToEdit.donation != '') {
                         $scope.editDonation = contactToEdit.donation;
                         for (var i = 0; i < contactToEdit.donation.length; i++) {
                             $scope.editDonation[i]['date_shown'] = contactToEdit.donation[i]['date_received'];
@@ -558,7 +558,7 @@ app.controller('editContact',
                 };
                 //team join
                 var retrieveTeamInfo = function (contactToEdit) {
-                    if (contactToEdit['team_join'] != '' || angular.isUndefined(contactToEdit['team_join'])) {
+                    if (!angular.isUndefined(contactToEdit['team_join']) && contactToEdit['team_join'] != '') {
                         $scope.editTeam = contactToEdit['team_join'];
                         for (var i = 0; i < contactToEdit['team_join'].length; i++) {
                             $scope.editTeam[i]['date_obsolete'] = new Date(contactToEdit['team_join'][i]['date_obsolete']);
@@ -570,7 +570,7 @@ app.controller('editContact',
                 //training
                 var retrieveTrainingInfo = function (contactToEdit) {
                     if (contactToEdit.hasOwnProperty('training')) {
-                        if (contactToEdit.training != '' || angular.isUndefined(contactToEdit.training)) {
+                        if (!angular.isUndefined(contactToEdit.training) && contactToEdit.training != '') {
                             $scope.editTraining = contactToEdit.training;
                         } else {
                             $scope.editTraining = '';
@@ -581,7 +581,7 @@ app.controller('editContact',
                 };
                 //appreciation
                 var retrieveAppreciationInfo = function (contactToEdit) {
-                    if (contactToEdit.appreciation != '' || angular.isUndefined(contactToEdit.appreciation)) {
+                    if (!angular.isUndefined(contactToEdit.appreciation) && contactToEdit.appreciation != '') {
                         $scope.editAppreciation = contactToEdit.appreciation;
                         for (var i = 0; i < contactToEdit.appreciation.length; i++) {
                             $scope.editAppreciation[i]['appraisal_date'] = new Date(contactToEdit.appreciation[i]['appraisal_date']);
@@ -593,7 +593,7 @@ app.controller('editContact',
                 };
                 //proxy
                 var retrieveProxyInfo = function (contactToEdit) {
-                    if (contactToEdit.proxy != '' || angular.isUndefined(contactToEdit.proxy)) {
+                    if (!angular.isUndefined(contactToEdit.proxy) && contactToEdit.proxy != '') {
                         $scope.editProxy = contactToEdit.proxy;
                         for(var i = 0; i < contactToEdit.proxy.length; i++) {
                             $scope.editProxy[i]['date_obsolete'] = new Date(contactToEdit.proxy[i]['date_obsolete']);
@@ -604,7 +604,7 @@ app.controller('editContact',
                 };
                 //languages
                 var retrieveLanguagesInfo = function (contactToEdit) {
-                    if (contactToEdit['language_assignment'] != '' || angular.isUndefined(contactToEdit['language_assignment'])) {
+                    if (!angular.isUndefined(contactToEdit['language_assignment']) && contactToEdit['language_assignment'] != '') {
                         $scope.editLanguages = contactToEdit['language_assignment'];
                         for (var i = 0; i < contactToEdit['language_assignment'].length; i++) {
                             $scope.editLanguages[i]['date_obsolete'] = new Date(contactToEdit['language_assignment'][i]['date_obsolete']);
@@ -615,7 +615,7 @@ app.controller('editContact',
                 };
                 //skills and assets
                 var retrieveSkillsInfo = function (contactToEdit) {
-                    if (contactToEdit['skill_assignment'] != '' || angular.isUndefined(contactToEdit['skill_assignment'])) {
+                    if (!angular.isUndefined(contactToEdit['skill_assignment']) && contactToEdit['skill_assignment'] != '') {
                         $scope.editSkillsAssets = contactToEdit['skill_assignment'];
                         for (var i = 0; i < contactToEdit['skill_assignment'].length; i++) {
                             $scope.editSkillsAssets[i]['date_obsolete'] = new Date(contactToEdit['skill_assignment'][i]['date_obsolete']);

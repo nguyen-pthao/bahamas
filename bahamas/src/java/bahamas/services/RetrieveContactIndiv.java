@@ -397,10 +397,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
         } else {
             jsonContactObj.addProperty("email", "");
-        }
-        if (!emailVerified && isAdmin) {
-            jsonContactObj.addProperty("verified_email", "");
-        }
+        }  
 
         if (isAdmin || isTeamMgt || isEventLead) {
             if (addressList != null && !addressList.isEmpty()) {
@@ -863,7 +860,6 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("donation", "");
             }
         }
-
         if (isAdmin || isTeamMgt || isEventLead) {
             //jsonObjTeamJoin teamJoinList
             if (teamJoinList != null && !teamJoinList.isEmpty()) {
