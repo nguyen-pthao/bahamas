@@ -7,28 +7,38 @@
 var app = angular.module('bahamas');
 
 app.controller('createEventRoles',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', '$stateParams', 'ngDialog',
-            function ($scope, session, $state, localStorageService, $http, $timeout, $stateParams, ngDialog) {
-                console.log($stateParams.eventId);
-
+        ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', '$stateParams', 'ngDialog', 'dataSubmit',
+            function ($scope, session, $state, localStorageService, $http, $timeout, $stateParams, ngDialog, dataSubmit) {
+                var eventId = localStorageService.get('eventIdCreate');
+                console.log(eventId);
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
 
-                $scope.eventInfo = {
-                    'event_title': 'EVENT TITLE HERE',
-                    'event_date': new Date(),
-                    'event_time_start': '11:00 AM',
-                    'event_time_end': '12:30 PM',
-                    'send_reminder': false,
-                    'event_description': 'EVENT DESCRIPTION',
-                    'minimum_participation': '5',
-                    'event_class': 'Closed',
-                    'event_location': 'TWC2 Day Office',
-                    'explain_if_others': 'HELLO EXPLAIN HERE'
+                $scope.eventDetails = function () {
+                    var urlToRetrieve = "/event.retrieve";
+                    var toRetrieve = {
+                        'eventId': eventId,
+                        'token': session.getSession('token')
+                    }
+                    dataSubmit.submitData(toRetrieve, urlToRetrieve).then(function (response) {
+                        $scope.eventInfo = response.data;
+//                        $scope.eventInfo = {
+//                            'event_title': 'EVENT TITLE HERE',
+//                            'event_date': new Date(),
+//                            'event_time_start': '11:00 AM',
+//                            'event_time_end': '12:30 PM',
+//                            'send_reminder': false,
+//                            'event_description': 'EVENT DESCRIPTION',
+//                            'minimum_participation': '5',
+//                            'event_class': 'Closed',
+//                            'event_location': 'TWC2 Day Office',
+//                            'explain_if_others': 'HELLO EXPLAIN HERE'
+//                        }
+                    })
                 }
-
+                
                 $scope.newRoles = {
                     'role1': '',
                     'description1': '',
@@ -60,6 +70,7 @@ app.controller('createEventRoles',
                             scope: $scope
                         })
                     } else {
+                        $scope.newRoles.token = session.getSession('token');
                         console.log($scope.newRoles);
                         //submit to backend here.
                         window.alert('success');
