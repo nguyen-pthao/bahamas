@@ -417,7 +417,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
                     jsonAddressObj.addProperty("address", address.getAddress());
 
-                    if (address.getCountry() != null) {
+                    if (address.getZipcode() != null) {
                         jsonAddressObj.addProperty("zipcode", address.getZipcode());
                     } else {
                         jsonAddressObj.addProperty("zipcode", "");

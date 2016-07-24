@@ -119,5 +119,47 @@ public class EventDAO {
         }
         return null;
     }
+    
+    public static String eventExist(Event event) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+        Date startDate = event.getEventStart();
+        Date endDate = event.getEventEnd();
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String errorMsg = null;
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END FROM EVENT WHEHE EVENT_LOCATION_NAME = (?)");
+            stmt.setString(1, event.getEventLocationName());
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                String strStartDateTime = rs.getString(1);
+                String strEndDateTime = rs.getString(2);
+                Date startDateTimeDB = datetime.parse(strStartDateTime);
+                Date endDateTimeDB = datetime.parse(strEndDateTime);
+                if (startDate.equals(startDateTimeDB) || startDate.equals(endDateTimeDB) || (startDate.after(startDateTimeDB) && startDate.before(endDateTimeDB))) {
+                    return "System has detected an Event("+ event.getEventTitle() +") conflict. Do you want to proceed?";
+                } else if (endDate.equals(startDateTimeDB) || endDate.equals(endDateTimeDB) || (endDate.after(startDateTimeDB) && endDate.before(endDateTimeDB))) {
+                    return "System has detected an Event("+ event.getEventTitle() +") conflict. Do you want to proceed?";
+                } else if (startDate.before(startDateTimeDB) && endDate.after(endDateTimeDB)) {
+                    return "System has detected an Event("+ event.getEventTitle() +") conflict. Do you want to proceed?";
+                }
+                
+            }
+            
+        } catch (ParseException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return errorMsg;
+    }
+    
             
 }
