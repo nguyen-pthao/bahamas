@@ -24,6 +24,7 @@ public class Contact {
     private boolean isAdmin;
     private boolean isNovice;
     private boolean deactivated;
+    private boolean notification;
     private Date dateCreated = new java.util.Date();
     private String createdBy;
     private String name;
@@ -49,7 +50,7 @@ public class Contact {
     private ArrayList<EventParticipation> eventParticipationList = new ArrayList<EventParticipation>();
     private ArrayList<Appreciation> appreciationList = new ArrayList<Appreciation>();
     private ArrayList<Donation> donationList = new ArrayList<Donation>();
-    private boolean notification;
+
     private ArrayList<TeamJoin> teamJoinList = new ArrayList<TeamJoin>();
 
     // certification that a contact have
@@ -76,7 +77,6 @@ public class Contact {
         this.nationality = nationality;
         this.dateOfBirth = dateOfBirth;
         this.remarks = remarks;
-      
 
     }
 
@@ -142,7 +142,7 @@ public class Contact {
     public void setSalt(String salt) {
         this.salt = salt;
     }
-    
+
     public boolean isDeactivated() {
         return deactivated;
     }

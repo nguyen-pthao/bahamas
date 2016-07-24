@@ -133,10 +133,12 @@ public class AddEmail extends HttpServlet {
 
                         if (EmailDAO.addEmail(newEmail, hashID)) {
                             AuditLogDAO.insertAuditLog(username, "ADD EMAIL", "Add email under contact: Contact ID: " + c.getContactId());
-                            new Thread(() -> {
-                                // Send EmailGenerator in a separate thread
-                                EmailGenerator.verifyEmail(email, c.getName(), hashID);
-                            }).start();
+                            if (c.isNotification()) {
+                                new Thread(() -> {
+                                    // Send EmailGenerator in a separate thread
+                                    EmailGenerator.verifyEmail(email, c.getName(), hashID);
+                                }).start();
+                            }
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
