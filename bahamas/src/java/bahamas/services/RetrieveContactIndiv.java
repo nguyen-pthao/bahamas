@@ -23,7 +23,6 @@ import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
 import bahamas.entity.Donation;
 import bahamas.entity.Email;
-import bahamas.entity.EventParticipation;
 import bahamas.entity.LanguageAssignment;
 import bahamas.entity.Membership;
 import bahamas.entity.OfficeHeld;

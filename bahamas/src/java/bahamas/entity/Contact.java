@@ -47,7 +47,6 @@ public class Contact {
     private ArrayList<Membership> membershipList = new ArrayList<Membership>();
     private ArrayList<LanguageAssignment> languageAssignmentList = new ArrayList<LanguageAssignment>();
     private ArrayList<SkillAssignment> skillAssignmentList = new ArrayList<SkillAssignment>();
-    private ArrayList<EventParticipation> eventParticipationList = new ArrayList<EventParticipation>();
     private ArrayList<Appreciation> appreciationList = new ArrayList<Appreciation>();
     private ArrayList<Donation> donationList = new ArrayList<Donation>();
 
@@ -357,14 +356,6 @@ public class Contact {
 
     public void setSkillAssignmentList(ArrayList<SkillAssignment> skillAssignmentList) {
         this.skillAssignmentList = skillAssignmentList;
-    }
-
-    public ArrayList<EventParticipation> getEventParticipationList() {
-        return eventParticipationList;
-    }
-
-    public void setEventParticipationList(ArrayList<EventParticipation> eventParticipationList) {
-        this.eventParticipationList = eventParticipationList;
     }
 
     public ArrayList<Appreciation> getAppreciationList() {
