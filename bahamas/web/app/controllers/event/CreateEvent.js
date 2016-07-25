@@ -105,7 +105,8 @@ app.controller('createEvent',
                     'event_location': '',
                     'event_lat': '',
                     'event_lng': '',
-                    'explain_if_others': ''
+                    'explain_if_others': '',
+                    'ignore': false
                 }
 
                 //--for google maps--
