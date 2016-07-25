@@ -69,7 +69,8 @@ app.controller('createEventAffiliation',
                     'token': session.getSession('token'),
                     'event_id': eventId,
                     'teams': [
-                    ]
+                    ],
+                    'remarks': ''
                 };
 
                 $scope.submit = function () {
@@ -80,7 +81,24 @@ app.controller('createEventAffiliation',
                         $scope.toSubmit['teams'].push('Others');
                         $scope.toSubmit['explain_if_others'] = $scope.others['explain_if_others'];
                     }
-                    console.log($scope.toSubmit);
+                    var url = "/event.addaffiliation";
+                    dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/addEventSuccess.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        } else {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/addEventAffiliationFailure.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            }).then(function (response) {
+                                $state.reload();
+                            })
+                        }
+                    })
                 };
 
             }]);
