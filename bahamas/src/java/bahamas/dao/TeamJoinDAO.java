@@ -136,7 +136,7 @@ public class TeamJoinDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
 
-        return null;
+        return teamJoinList;
 
     }
 
