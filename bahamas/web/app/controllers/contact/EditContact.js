@@ -91,7 +91,7 @@ app.controller('editContact',
                 $scope.phoneRegex = '[0-9-]{0,20}';
                 $scope.emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}';
                 $scope.decimalRegex = new RegExp('^(\\d+)\\.{0,1}\\d+$');
-                
+
 //GET USER PERMISSION
                 if ($scope.editMode == null) {
                     $scope.editMode = 'false';
@@ -407,7 +407,7 @@ app.controller('editContact',
                         $scope.selectedProxyCid = selected.cid;
                     };
                 };
-                
+
 //DECLARE OBJECTS FOR EDIT CONTACT
                 $scope.editUser = {
                     'username': ''
@@ -475,7 +475,7 @@ app.controller('editContact',
                         $scope.editEmail = contactToEdit.email;
                         for (var i = 0; i < contactToEdit.email.length; i++) {
                             $scope.editEmail[i]['date_obsolete'] = new Date(contactToEdit.email[i]['date_obsolete']);
-                            if(contactToEdit.email[i]['verified'] == 'true') {
+                            if (contactToEdit.email[i]['verified'] == 'true') {
                                 $scope.editEmail[i]['is_verified'] = 'Yes';
                             } else {
                                 $scope.editEmail[i]['is_verified'] = 'No';
@@ -595,7 +595,7 @@ app.controller('editContact',
                 var retrieveProxyInfo = function (contactToEdit) {
                     if (!angular.isUndefined(contactToEdit.proxy) && contactToEdit.proxy != '') {
                         $scope.editProxy = contactToEdit.proxy;
-                        for(var i = 0; i < contactToEdit.proxy.length; i++) {
+                        for (var i = 0; i < contactToEdit.proxy.length; i++) {
                             $scope.editProxy[i]['date_obsolete'] = new Date(contactToEdit.proxy[i]['date_obsolete']);
                         }
                     } else {
@@ -624,7 +624,7 @@ app.controller('editContact',
                         $scope.editSkillsAssets = '';
                     }
                 };
-                
+
                 //For generating password
                 $scope.generatePassword = function () {
                     var a = Math.floor((Math.random() * 10) + 10);
@@ -735,7 +735,7 @@ app.controller('editContact',
                 };
                 $scope.editTheContact = function () {
                     $scope.editContact['token'] = session.getSession('token');
-                    if($scope.editMode == 'true') {
+                    if ($scope.editMode == 'true') {
                         $scope.editContact['contact_id'] = contactToEdit['other_cid'];
                     } else {
                         $scope.editContact['contact_id'] = contactToEdit['cid'];
@@ -745,9 +745,9 @@ app.controller('editContact',
                         $scope.editContact['date_of_birth'] = '';
                     } else if (angular.isUndefined($scope.editContact['date_of_birth'])) {
                         $scope.editContact['date_of_birth'] = '';
-                    } else if(isNaN($scope.editContact['date_of_birth'])){
+                    } else if (isNaN($scope.editContact['date_of_birth'])) {
                         $scope.editContact['date_of_birth'] = '';
-                    }else {
+                    } else {
                         $scope.editContact['date_of_birth'] = $scope.editContact['date_of_birth'].valueOf() + "";
                     }
                     //to be modified
@@ -827,7 +827,7 @@ app.controller('editContact',
                 $scope.editThePhone = function ($event, phone) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    if($scope.editMode == 'true') {
+                    if ($scope.editMode == 'true') {
                         datasend['contact_id'] = contactToEdit['other_cid'];
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
@@ -840,10 +840,9 @@ app.controller('editContact',
                         datasend['date_obsolete'] = '';
                     } else if (angular.isUndefined(phone['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else if(isNaN(phone['date_obsolete'])){
+                    } else if (isNaN(phone['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    } 
-                    else {
+                    } else {
                         datasend['date_obsolete'] = phone['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updatePhone;
@@ -889,7 +888,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deletePhone = {};
                         deletePhone['token'] = session.getSession('token');
-                        if($scope.editMode == 'true') {
+                        if ($scope.editMode == 'true') {
                             deletePhone['contact_id'] = contactToEdit['other_cid'];
                         } else {
                             deletePhone['contact_id'] = contactToEdit['cid'];
@@ -928,7 +927,7 @@ app.controller('editContact',
                 };
                 $scope.addPhone = function () {
                     var url = AppAPI.addPhone;
-                    if($scope.editMode == 'true') {
+                    if ($scope.editMode == 'true') {
                         $scope.newPhone['contact_id'] = contactToEdit['other_cid'];
                     } else {
                         $scope.newPhone['contact_id'] = contactToEdit['cid'];
@@ -984,7 +983,7 @@ app.controller('editContact',
                 $scope.editTheEmail = function ($event, email) {
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
-                    if($scope.editMode == 'true') {
+                    if ($scope.editMode == 'true') {
                         datasend['contact_id'] = contactToEdit['other_cid'];
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
@@ -996,9 +995,9 @@ app.controller('editContact',
                         datasend['date_obsolete'] = '';
                     } else if (angular.isUndefined(email['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else if(isNaN(email['date_obsolete'])){
+                    } else if (isNaN(email['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else {
+                    } else {
                         datasend['date_obsolete'] = email['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateEmail;
@@ -1047,7 +1046,7 @@ app.controller('editContact',
                     }).then(function (response) {
                         var deleteEmail = {};
                         deleteEmail['token'] = session.getSession('token');
-                        if($scope.editMode == 'true') {
+                        if ($scope.editMode == 'true') {
                             deleteEmail['contact_id'] = contactToEdit['other_cid'];
                         } else {
                             deleteEmail['contact_id'] = contactToEdit['cid'];
@@ -1155,10 +1154,9 @@ app.controller('editContact',
                         datasend['date_obsolete'] = '';
                     } else if (angular.isUndefined(address['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else if(isNaN(address['date_obsolete'])){
+                    } else if (isNaN(address['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    } 
-                    else {
+                    } else {
                         datasend['date_obsolete'] = address['date_obsolete'].valueOf() + "";
                     }
                     var url = AppAPI.updateAddress;
@@ -1310,26 +1308,25 @@ app.controller('editContact',
                         datasend['start_membership'] = '';
                     } else if (angular.isUndefined(membership['start_date'])) {
                         datasend['start_membership'] = '';
-                    }else if(isNaN(membership['start_date'])){
+                    } else if (isNaN(membership['start_date'])) {
                         datasend['start_membership'] = '';
-                    } 
-                    else {
+                    } else {
                         datasend['start_membership'] = membership['start_date'].valueOf() + "";
                     }
                     if (membership['end_date'] == null) {
                         datasend['end_membership'] = '';
                     } else if (angular.isUndefined(membership['end_date'])) {
                         datasend['end_membership'] = '';
-                    }else if(isNaN(membership['end_date'])){
+                    } else if (isNaN(membership['end_date'])) {
                         datasend['end_membership'] = '';
-                    }  else {
+                    } else {
                         datasend['end_membership'] = membership['end_date'].valueOf() + "";
                     }
                     if (membership['receipt_date'] == null) {
                         datasend['receipt_date'] = '';
                     } else if (angular.isUndefined(membership['receipt_date'])) {
                         datasend['receipt_date'] = '';
-                    } else if(isNaN(membership['receipt_date'])){
+                    } else if (isNaN(membership['receipt_date'])) {
                         datasend['receipt_date'] = '';
                     } else {
                         datasend['receipt_date'] = membership['receipt_date'].valueOf() + "";
@@ -1429,6 +1426,12 @@ app.controller('editContact',
                     'submittedMembership': false,
                     'message': ''
                 };
+                $scope.$watch("newMembership['start_membership']", function () {
+                    if ($scope.newMembership['start_membership'] != '' && $scope.newMembership['start_membership'] != null) {
+                        var newYear = $scope.newMembership['start_membership'].getFullYear() + 1;
+                        $scope.newMembership['end_membership'] = $scope.newMembership['start_membership'].setFullYear(newYear);
+                    };
+                });
                 $scope.addMembership = function () {
                     var url = AppAPI.addMembership;
                     if ($scope.editMode == 'true') {
@@ -1438,25 +1441,25 @@ app.controller('editContact',
                     }
                     if ($scope.newMembership['start_membership'] == null) {
                         $scope.newMembership['start_membership'] = '';
-                    }else if(isNaN($scope.newMembership['start_membership'])){
+                    } else if (isNaN($scope.newMembership['start_membership'])) {
                         $scope.newMembership['start_membership'] = '';
-                    }else if (angular.isUndefined($scope.newMembership['start_membership'])) {
+                    } else if (angular.isUndefined($scope.newMembership['start_membership'])) {
                         $scope.newMembership['start_membership'] = '';
                     } else {
                         $scope.newMembership['start_membership'] = $scope.newMembership['start_membership'].valueOf() + "";
                     }
                     if ($scope.newMembership['end_membership'] == null) {
                         $scope.newMembership['end_membership'] = '';
-                    } else if(isNaN($scope.newMembership['end_membership'])){
+                    } else if (isNaN($scope.newMembership['end_membership'])) {
                         $scope.newMembership['end_membership'] = '';
-                    }else if (angular.isUndefined($scope.newMembership['end_membership'])) {
+                    } else if (angular.isUndefined($scope.newMembership['end_membership'])) {
                         $scope.newMembership['end_membership'] = '';
                     } else {
                         $scope.newMembership['end_membership'] = $scope.newMembership['end_membership'].valueOf() + "";
                     }
                     if ($scope.newMembership['receipt_date'] == null) {
                         $scope.newMembership['receipt_date'] = '';
-                    } else if(isNaN($scope.newMembership['receipt_date'])){
+                    } else if (isNaN($scope.newMembership['receipt_date'])) {
                         $scope.newMembership['receipt_date'] = '';
                     } else if (angular.isUndefined($scope.newMembership['receipt_date'])) {
                         $scope.newMembership['receipt_date'] = '';
@@ -1524,7 +1527,7 @@ app.controller('editContact',
                     datasend['office_held_name'] = officeHeld['office_held'];
                     if (officeHeld['start_office'] == null) {
                         datasend['start_office'] = '';
-                    } else if(isNaN(officeHeld['start_office'])){
+                    } else if (isNaN(officeHeld['start_office'])) {
                         datasend['start_office'] = '';
                     } else if (angular.isUndefined(officeHeld['start_office'])) {
                         datasend['start_office'] = '';
@@ -1533,7 +1536,7 @@ app.controller('editContact',
                     }
                     if (officeHeld['end_office'] == null) {
                         datasend['end_office'] = '';
-                    } else if(isNaN(officeHeld['end_office'])){
+                    } else if (isNaN(officeHeld['end_office'])) {
                         datasend['end_office'] = '';
                     } else if (angular.isUndefined(officeHeld['end_office'])) {
                         datasend['end_office'] = '';
@@ -1610,7 +1613,7 @@ app.controller('editContact',
                 };
                 $scope.newOffice = {
                     token: session.getSession("token"),
-                    'contact_id': -1, 
+                    'contact_id': -1,
                     'user_type': session.getSession('userType'),
                     'office_held_name': '',
                     'start_office': '',
@@ -1631,17 +1634,16 @@ app.controller('editContact',
                     }
                     if ($scope.newOffice['start_office'] == null) {
                         $scope.newOffice['start_office'] = '';
-                    }else if(isNaN($scope.newOffice['start_office'])){
+                    } else if (isNaN($scope.newOffice['start_office'])) {
                         $scope.newOffice['start_office'] = '';
-                    }
-                    else if (angular.isUndefined($scope.newOffice['start_office'])) {
+                    } else if (angular.isUndefined($scope.newOffice['start_office'])) {
                         $scope.newOffice['start_office'] = '';
                     } else {
                         $scope.newOffice['start_office'] = $scope.newOffice['start_office'].valueOf() + "";
                     }
                     if ($scope.newOffice['end_office'] == null) {
                         $scope.newOffice['end_office'] = '';
-                    } else if(isNaN($scope.newOffice['end_office'])){
+                    } else if (isNaN($scope.newOffice['end_office'])) {
                         $scope.newOffice['end_office'] = '';
                     } else if (angular.isUndefined($scope.newOffice['end_office'])) {
                         $scope.newOffice['end_office'] = '';
@@ -1707,7 +1709,7 @@ app.controller('editContact',
                     datasend['donation_id'] = donation['donation_id'];
                     if (donation['date_received'] == null) {
                         datasend['date_received'] = '';
-                    } else if(isNaN(donation['date_received'])){
+                    } else if (isNaN(donation['date_received'])) {
                         datasend['date_received'] = '';
                     } else if (angular.isUndefined(donation['date_received'])) {
                         datasend['date_received'] = '';
@@ -1721,7 +1723,7 @@ app.controller('editContact',
                     datasend['receipt_number'] = donation['receipt_number'];
                     if (donation['receipt_date'] == null) {
                         datasend['receipt_date'] = '';
-                    } else if(isNaN(donation['receipt_date'])){
+                    } else if (isNaN(donation['receipt_date'])) {
                         datasend['receipt_date'] = '';
                     } else if (angular.isUndefined(donation['receipt_date'])) {
                         datasend['receipt_date'] = '';
@@ -1731,19 +1733,19 @@ app.controller('editContact',
                     datasend['receipt_mode'] = donation['receipt_mode_name'];
                     datasend['explain_if_other_receipt'] = donation['explain_if_other_receipt'];
                     datasend['donor_instruction'] = donation['donor_instructions'];
-                    if(donation['subtotal1'] == ''){
+                    if (donation['subtotal1'] == '') {
                         datasend['subamount1'] = "0";
-                    }else{
+                    } else {
                         datasend['subamount1'] = donation['subtotal1'];
                     }
-                    if(donation['subtotal2'] == ''){
+                    if (donation['subtotal2'] == '') {
                         datasend['subamount2'] = "0";
-                    }else{
+                    } else {
                         datasend['subamount2'] = donation['subtotal2'];
                     }
-                    if(donation['subtotal3'] == ''){
+                    if (donation['subtotal3'] == '') {
                         datasend['subamount3'] = "0";
-                    }else{
+                    } else {
                         datasend['subamount3'] = donation['subtotal3'];
                     }
                     datasend['allocation1'] = donation['allocation1'];
@@ -1849,38 +1851,38 @@ app.controller('editContact',
                     }
                     if ($scope.newDonation['date_received'] == null) {
                         $scope.newDonation['date_received'] = '';
-                    }else if(isNaN($scope.newDonation['date_received'])){
+                    } else if (isNaN($scope.newDonation['date_received'])) {
                         $scope.newDonation['date_received'] = '';
-                    }else if (angular.isUndefined($scope.newDonation['date_received'])) {
+                    } else if (angular.isUndefined($scope.newDonation['date_received'])) {
                         $scope.newDonation['date_received'] = '';
                     } else {
                         $scope.newDonation['date_received'] = $scope.newDonation['date_received'].valueOf() + "";
                     }
                     if ($scope.newDonation['receipt_date'] == null) {
                         $scope.newDonation['receipt_date'] = '';
-                    } else if(isNaN($scope.newDonation['receipt_date'])){
+                    } else if (isNaN($scope.newDonation['receipt_date'])) {
                         $scope.newDonation['receipt_date'] = '';
                     } else if (angular.isUndefined($scope.newDonation['receipt_date'])) {
                         $scope.newDonation['receipt_date'] = '';
                     } else {
                         $scope.newDonation['receipt_date'] = $scope.newDonation['receipt_date'].valueOf() + "";
                     }
-                    if(angular.isUndefined($scope.newDonation['subamount1'])){
+                    if (angular.isUndefined($scope.newDonation['subamount1'])) {
                         $scope.newDonation['subamount1'] = '0';
-                    }else if($scope.newDonation['subamount1'] == ''){
+                    } else if ($scope.newDonation['subamount1'] == '') {
                         $scope.newDonation['subamount1'] = '0';
                     }
-                    if(angular.isUndefined($scope.newDonation['subamount2'])){
+                    if (angular.isUndefined($scope.newDonation['subamount2'])) {
                         $scope.newDonation['subamount2'] = '0';
-                    }else if($scope.newDonation['subamount2'] == ''){
+                    } else if ($scope.newDonation['subamount2'] == '') {
                         $scope.newDonation['subamount2'] = '0';
                     }
-                    if(angular.isUndefined($scope.newDonation['subamount3'])){
+                    if (angular.isUndefined($scope.newDonation['subamount3'])) {
                         $scope.newDonation['subamount3'] = '0';
-                    }else if($scope.newDonation['subamount3'] == ''){
+                    } else if ($scope.newDonation['subamount3'] == '') {
                         $scope.newDonation['subamount3'] = '0';
                     }
-                    
+
                     dataSubmit.submitData($scope.newDonation, url).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.submitNewDonation.submittedDonation = true;
@@ -1943,7 +1945,7 @@ app.controller('editContact',
                     datasend['subteam'] = team['sub_team'];
                     if (team['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
-                    } else if(isNaN(team['date_obsolete'])){
+                    } else if (isNaN(team['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
                     } else if (angular.isUndefined(team['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
@@ -2251,7 +2253,7 @@ app.controller('editContact',
                         });
                     }
                 };
-                
+
                 //appreciation
                 $scope.addingAppreciation = false;
                 $scope.addNewAppreciation = function () {
@@ -2277,10 +2279,9 @@ app.controller('editContact',
                     datasend['appraisal_by'] = appreciation['appraisal_by'];
                     if (appreciation['appraisal_date'] == null) {
                         datasend['appraisal_date'] = '';
-                    } else if(isNaN(appreciation['appraisal_date'])){
-                        datasend['appraisal_date'] = '';                    
-                    } 
-                    else if (angular.isUndefined(appreciation['appraisal_date'])) {
+                    } else if (isNaN(appreciation['appraisal_date'])) {
+                        datasend['appraisal_date'] = '';
+                    } else if (angular.isUndefined(appreciation['appraisal_date'])) {
                         datasend['appraisal_date'] = '';
                     } else {
                         datasend['appraisal_date'] = appreciation['appraisal_date'].valueOf() + "";
@@ -2289,9 +2290,9 @@ app.controller('editContact',
                     datasend['appreciation_by'] = appreciation['appreciation_by'];
                     if (appreciation['appreciation_date'] == null) {
                         datasend['appreciation_date'] = '';
-                    } else if(isNaN(appreciation['appreciation_date'])){
+                    } else if (isNaN(appreciation['appreciation_date'])) {
                         datasend['appreciation_date'] = '';
-                    }else if (angular.isUndefined(appreciation['appreciation_date'])) {
+                    } else if (angular.isUndefined(appreciation['appreciation_date'])) {
                         datasend['appreciation_date'] = '';
                     } else {
                         datasend['appreciation_date'] = appreciation['appreciation_date'].valueOf() + "";
@@ -2384,18 +2385,18 @@ app.controller('editContact',
                     }
                     if ($scope.newAppreciation['appraisal_date'] == null) {
                         $scope.newAppreciation['appraisal_date'] = '';
-                    } else if(isNaN($scope.newAppreciation['appraisal_date'])){
+                    } else if (isNaN($scope.newAppreciation['appraisal_date'])) {
                         $scope.newAppreciation['appraisal_date'] = '';
-                    }else if (angular.isUndefined($scope.newAppreciation['appraisal_date'])) {
+                    } else if (angular.isUndefined($scope.newAppreciation['appraisal_date'])) {
                         $scope.newAppreciation['appraisal_date'] = '';
                     } else {
                         $scope.newAppreciation['appraisal_date'] = $scope.newAppreciation['appraisal_date'].valueOf() + "";
                     }
                     if ($scope.newAppreciation['appreciation_date'] == null) {
                         $scope.newAppreciation['appreciation_date'] = '';
-                    } else if(isNaN($scope.newAppreciation['appreciation_date'])){
+                    } else if (isNaN($scope.newAppreciation['appreciation_date'])) {
                         $scope.newAppreciation['appreciation_date'] = '';
-                    }else if (angular.isUndefined($scope.newAppreciation['appreciation_date'])) {
+                    } else if (angular.isUndefined($scope.newAppreciation['appreciation_date'])) {
                         $scope.newAppreciation['appreciation_date'] = '';
                     } else {
                         $scope.newAppreciation['appreciation_date'] = $scope.newAppreciation['appreciation_date'].valueOf() + "";
@@ -2457,9 +2458,9 @@ app.controller('editContact',
                     datasend['remarks'] = proxy['remarks'];
                     if (proxy['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
-                    }else if(isNaN(proxy['date_obsolete'])){
+                    } else if (isNaN(proxy['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else if (angular.isUndefined(proxy['date_obsolete'])) {
+                    } else if (angular.isUndefined(proxy['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
                     } else {
                         datasend['date_obsolete'] = proxy['date_obsolete'].valueOf() + "";
@@ -2542,16 +2543,16 @@ app.controller('editContact',
                 };
                 $scope.addProxy = function () {
                     $scope.newProxy['proxy_of'] = $scope.selectedProxyCid;
-                    if($scope.editMode == 'true') { 
+                    if ($scope.editMode == 'true') {
                         $scope.newProxy['principal_of'] = contactToEdit['other_cid'];
                     } else {
                         $scope.newProxy['principal_of'] = contactToEdit['cid'];
                     }
                     if ($scope.newProxy['date_obsolete'] == null) {
                         $scope.newProxy['date_obsolete'] = '';
-                    } else if(isNaN($scope.newProxy['date_obsolete'])){
+                    } else if (isNaN($scope.newProxy['date_obsolete'])) {
                         $scope.newProxy['date_obsolete'] = '';
-                    }else if (angular.isUndefined($scope.newProxy['date_obsolete'])) {
+                    } else if (angular.isUndefined($scope.newProxy['date_obsolete'])) {
                         $scope.newProxy['date_obsolete'] = '';
                     } else {
                         $scope.newProxy['date_obsolete'] = $scope.newProxy['date_obsolete'].valueOf() + "";
@@ -2620,9 +2621,9 @@ app.controller('editContact',
                     datasend['remarks'] = language['remarks'];
                     if (language['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
-                    } else if(isNaN(language['date_obsolete'])){
+                    } else if (isNaN(language['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else if (angular.isUndefined(language['date_obsolete'])) {
+                    } else if (angular.isUndefined(language['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
                     } else {
                         datasend['date_obsolete'] = language['date_obsolete'].valueOf() + "";
@@ -2714,9 +2715,9 @@ app.controller('editContact',
                     }
                     if ($scope.newLanguages['date_obsolete'] == null) {
                         $scope.newLanguages['date_obsolete'] = '';
-                    } else if(isNaN($scope.newLanguages['date_obsolete'])){
+                    } else if (isNaN($scope.newLanguages['date_obsolete'])) {
                         $scope.newLanguages['date_obsolete'] = '';
-                    }else if (angular.isUndefined($scope.newLanguages['date_obsolete'])) {
+                    } else if (angular.isUndefined($scope.newLanguages['date_obsolete'])) {
                         $scope.newLanguages['date_obsolete'] = '';
                     } else {
                         $scope.newLanguages['date_obsolete'] = $scope.newLanguages['date_obsolete'].valueOf() + "";
@@ -2772,7 +2773,7 @@ app.controller('editContact',
                     var datasend = {};
                     datasend['token'] = session.getSession('token');
                     if ($scope.editMode == 'true') {
-                       datasend['contact_id'] = contactToEdit['other_cid'];
+                        datasend['contact_id'] = contactToEdit['other_cid'];
                     } else {
                         datasend['contact_id'] = contactToEdit['cid'];
                     }
@@ -2782,9 +2783,9 @@ app.controller('editContact',
                     datasend['remarks'] = skill['remarks'];
                     if (skill['date_obsolete'] == null) {
                         datasend['date_obsolete'] = '';
-                    } else if(isNaN(skill['date_obsolete'])){
+                    } else if (isNaN(skill['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
-                    }else if (angular.isUndefined(skill['date_obsolete'])) {
+                    } else if (angular.isUndefined(skill['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
                     } else {
                         datasend['date_obsolete'] = skill['date_obsolete'].valueOf() + "";
@@ -2875,9 +2876,9 @@ app.controller('editContact',
                     }
                     if ($scope.newSkills['date_obsolete'] == null) {
                         $scope.newSkills['date_obsolete'] = '';
-                    } else if(isNaN($scope.newSkills['date_obsolete'])){
+                    } else if (isNaN($scope.newSkills['date_obsolete'])) {
                         $scope.newSkills['date_obsolete'] = '';
-                    }else if (angular.isUndefined($scope.newSkills['date_obsolete'])) {
+                    } else if (angular.isUndefined($scope.newSkills['date_obsolete'])) {
                         $scope.newSkills['date_obsolete'] = '';
                     } else {
                         $scope.newSkills['date_obsolete'] = $scope.newSkills['date_obsolete'].valueOf() + "";
