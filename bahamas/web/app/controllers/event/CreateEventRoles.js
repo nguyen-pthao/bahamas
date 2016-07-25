@@ -25,21 +25,22 @@ app.controller('createEventRoles',
                         $scope.eventInfo = response.data;
                         console.log($scope.eventInfo);
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
-                        var timeEnd =  new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
-                        if(timeStart.length == 10){
-                            var meridianS = timeStart.substring(8,10);
-                            var timeS = "0" + timeStart.substring(0,4);
-                        }else if(timeStart.length == 11){
-                            var meridianS = timeStart.substring(9,11);
+                        var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
+                        if (timeStart.length == 10) {
+                            var meridianS = timeStart.substring(8, 10);
+                            var timeS = "0" + timeStart.substring(0, 4);
+                        } else if (timeStart.length == 11) {
+                            var meridianS = timeStart.substring(9, 11);
                             var timeS = timeStart.substring(0, 5);
                         }
-                        if(timeEnd.length == 10){
-                            var meridianE = timeEnd.substring(8,10);
-                            var timeE = "0" + timeEnd.substring(0,4);
-                        }else if(timeEnd.length == 11){
-                            var meridianE = timeEnd.substring(9,11);
+                        if (timeEnd.length == 10) {
+                            var meridianE = timeEnd.substring(8, 10);
+                            var timeE = "0" + timeEnd.substring(0, 4);
+                        } else if (timeEnd.length == 11) {
+                            var meridianE = timeEnd.substring(9, 11);
                             var timeE = timeEnd.substring(0, 5);
                         }
+                        $scope.eventInfo['event_date'] = new Date($scope.eventInfo['event_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                     })
@@ -58,10 +59,10 @@ app.controller('createEventRoles',
                 $scope.submitRoles = function () {
                     $scope.error = false;
 //                    var size = Object.keys($scope.newRoles).length / 2;
-                      var size = $scope.newRoles['roleArray'].length;
+                    var size = $scope.newRoles['roleArray'].length;
                     for (var i = 1; i <= size; i++) {
-                        var role = $scope.newRoles['roleArray'][(i-1)]['role' + i];
-                        var description = $scope.newRoles['roleArray'][(i-1)]['description' + i];
+                        var role = $scope.newRoles['roleArray'][(i - 1)]['role' + i];
+                        var description = $scope.newRoles['roleArray'][(i - 1)]['description' + i];
                         if (role == '' && description != '') {
                             $scope.error = true;
                         } else if (angular.isUndefined(role)) {
@@ -80,7 +81,10 @@ app.controller('createEventRoles',
                         $scope.newRoles.token = session.getSession('token');
                         console.log($scope.newRoles);
                         //submit to backend here.
-                        window.alert('success');
+                        var url = "/event.addroles";
+                        dataSubmit.submitData($scope.newRoles, url).then(function (response) {
+                            console.log(response);
+                        });
                     }
                 }
 

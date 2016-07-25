@@ -149,17 +149,17 @@ app.controller('createEvent',
                         $scope.newEvent['event_lat'] = '';
                         $scope.newEvent['event_lng'] = '';
                     }
-                    if($scope.newEvent['minimum_participation'] == ''){
+                    if ($scope.newEvent['minimum_participation'] == '') {
                         $scope.newEvent['minimum_participation'] = "1";
                     }
-                    if($scope.newEvent['event_time_start'] > $scope.newEvent['event_time_end']){
+                    if ($scope.newEvent['event_time_start'] > $scope.newEvent['event_time_end']) {
                         $scope.errorMessages = ["Start Time cannot be after End Time!"]
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/errorMessage.html',
                             className: 'ngdialog-theme-default',
                             scope: $scope
                         })
-                    }else{
+                    } else {
                         var url = "/event.create";
                         dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -167,10 +167,25 @@ app.controller('createEvent',
                                 localStorageService.set('eventIdCreate', id);
                                 $state.go('admin.createEventRoles');
                             } else {
-                                console.log("FAIL!!!");
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/addEventConflict.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $scope.newEvent.ignore = true;
+                                    console.log($scope.newEvent);
+                                    dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                                        if (response.data.message == 'success') {
+                                            var id = response.data['event_id'];
+                                            localStorageService.set('eventIdCreate', id);
+                                            $state.go('admin.createEventRoles');
+                                        }
+                                    });
+                                });
                             }
-                        })
+                        });
                     }
-                }
+                };
 
             }]);
