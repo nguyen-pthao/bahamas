@@ -460,7 +460,7 @@ app.controller('editContact',
                 };
                 //phone
                 var retrievePhoneInfo = function (contactToEdit) {
-                    if (angular.isUndefined(contactToEdit.phone) && contactToEdit.phone != '') {
+                    if (!angular.isUndefined(contactToEdit.phone) && contactToEdit.phone != '') {
                         $scope.editPhone = contactToEdit.phone;
                         for (var i = 0; i < contactToEdit.phone.length; i++) {
                             $scope.editPhone[i]['date_obsolete'] = new Date(contactToEdit.phone[i]['date_obsolete']);
@@ -1948,7 +1948,7 @@ app.controller('editContact',
                     } else if (angular.isUndefined(team['date_obsolete'])) {
                         datasend['date_obsolete'] = '';
                     } else {
-                        datasend['date_received'] = team['date_obsolete'].valueOf() + "";
+                        datasend['date_obsolete'] = team['date_obsolete'].valueOf() + "";
                     }
                     datasend['remarks'] = team['remarks'];
                     var url = AppAPI.updateTeamJoin;
