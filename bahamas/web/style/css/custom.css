@@ -104,7 +104,7 @@ body {
     text-transform: capitalize;
 }
 
-.table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td {
+.table-bordered > tfoot > tr > th, .table-bordered > tfoot > tr > td {
     text-transform: capitalize;
 }
 
@@ -265,9 +265,9 @@ body {
 
 /*Collapsing sidebar*/
 @media(min-width: 768px) {
-    .sidebar-mini.sidebar-collapse .content-wrapper, 
-    .sidebar-mini.sidebar-collapse .right-side, 
-    .sidebar-mini.sidebar-collapse .main-footer {
+    .sidebar-mini .sidebar-collapse .content-wrapper, 
+    .sidebar-mini .sidebar-collapse .right-side, 
+    .sidebar-mini .sidebar-collapse .main-footer {
         margin-left: 25px !important;
     }
 }
