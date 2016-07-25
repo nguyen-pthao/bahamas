@@ -19,8 +19,8 @@ import java.sql.Statement;
  * @author tan.si.hao
  */
 public class EventRoleAssignmentDAO {
-    
-        public static boolean addRoles(JsonArray jsonArray, int eventId) {
+
+    public static boolean addRoles(JsonArray jsonArray, int eventId) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -33,12 +33,12 @@ public class EventRoleAssignmentDAO {
             stmt = conn.prepareStatement("INSERT INTO EVENT_ROLE_ASSIGNMENT (EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (?, ?, ?)");
 
             //stmt.setInt(1, d.getContact().getContactId());
-            for(int i = 0; i < jsonArray.size(); i++){
+            for (int i = 0; i < jsonArray.size(); i++) {
                 JsonElement jsonElement = jsonArray.get(i);
                 JsonObject jsonObj = jsonElement.getAsJsonObject();
-                String role = jsonObj.get(roleTemp + (i+1)).getAsString();
-                String description = jsonObj.get(descriptionTemp + (i+1)).getAsString();
-                if(!role.isEmpty()){
+                String role = jsonObj.get(roleTemp + (i + 1)).getAsString();
+                String description = jsonObj.get(descriptionTemp + (i + 1)).getAsString();
+                if (!role.isEmpty()) {
                     stmt.setInt(1, eventId);
                     stmt.setString(2, role);
                     stmt.setString(3, description);
@@ -53,5 +53,5 @@ public class EventRoleAssignmentDAO {
         }
         return false;
     }
-    
+
 }

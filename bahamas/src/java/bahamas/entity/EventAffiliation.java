@@ -5,13 +5,86 @@
  */
 package bahamas.entity;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 /**
  *
  * @author huxley.goh
  */
 public class EventAffiliation {
     
-    private Event event;
-    private Team teamName;
+    private int eventID;
+    private ArrayList<String> teamArray = new ArrayList<String>();
+    private Date dateCreated = new java.util.Date();
+    private String createdBy;
+    private String explainIfOthers;
+    private Date dateObsolete;
+    private String remarks;
+
+    public EventAffiliation(int eventID, String explainIfOthers, String remarks) {
+        this.eventID = eventID;
+        this.explainIfOthers = explainIfOthers;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+    }
+
+    public int getEventID() {
+        return eventID;
+    }
+
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
+    }
+
+    public ArrayList<String> getTeamArray() {
+        return teamArray;
+    }
+
+    public void setTeamArray(ArrayList<String> teamArray) {
+        this.teamArray = teamArray;
+    }
+
+    public Date getDateCreated() {
+        return dateCreated;
+    }
+
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getExplainIfOthers() {
+        return explainIfOthers;
+    }
+
+    public void setExplainIfOthers(String explainIfOthers) {
+        this.explainIfOthers = explainIfOthers;
+    }
+
+    public Date getDateObsolete() {
+        return dateObsolete;
+    }
+
+    public void setDateObsolete(Date dateObsolete) {
+        this.dateObsolete = dateObsolete;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+    
+    
     
 }

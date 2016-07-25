@@ -1,16 +1,19 @@
+package bahamas.services;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
+import bahamas.dao.EventAffiliationDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.EventAffiliation;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -23,6 +26,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +38,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "AddEventRoles", urlPatterns = {"/event.addroles"})
-public class AddEventRoles extends HttpServlet {
+@WebServlet(urlPatterns = {"/event.addaffiliation"})
+public class AddTeamAffiliation extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -48,7 +53,6 @@ public class AddEventRoles extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -77,13 +81,16 @@ public class AddEventRoles extends HttpServlet {
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
-                JsonArray eventRolesJsonArray = jobject.get("roleArray").getAsJsonArray();
+                String explainIfOthers = jobject.get("explain_if_others").getAsString();
+                String remarks = jobject.get("remarks").getAsString();
+                JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
                 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                 } else {
+                    
                     //Verified token
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
@@ -92,35 +99,30 @@ public class AddEventRoles extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {    
-                        //Only Admin and tm are able to add roles to event an event
-                            
+                    } else {   
                         EventDAO eventDAO = new EventDAO();
                         Event event = eventDAO.retrieveContactById(Integer.parseInt(eventId));
-
+                        HashMap<String,String> hmError = new HashMap<String,String>();
+                        ArrayList<String> teamName = new ArrayList<String>();
                         if(event != null){
-                            //insert roles here
-                            String roleTemp = "role";
-                            String descriptionTemp = "description";
-                            boolean formError = false;
-                            for(int i = 0; i < eventRolesJsonArray.size(); i++){
-                                JsonElement jsonElement = eventRolesJsonArray.get(i);
+                            //insert Team Affiliation here 
+                            for(int i = 0; i < eventTeamsJsonArray.size(); i++){
+                                JsonElement jsonElement = eventTeamsJsonArray.get(i);
                                 JsonObject jsonObj = jsonElement.getAsJsonObject();
-                                String role = jsonObj.get(roleTemp + (i+1)).getAsString();
-                                String description = jsonObj.get(descriptionTemp + (i+1)).getAsString();
-                                
-                                if(role.isEmpty() && !description.isEmpty()){
-                                    formError = true;
+                                String teamTemp = jsonObj.get(Integer.toString(i)).getAsString();
+                                if(hmError.containsKey(teamTemp)){
+                                    json.addProperty("message", "There should not be two or more of the same team in an event");
+                                    out.println(gson.toJson(json));
+                                    return;
+                                }else{
+                                    hmError.put(teamTemp, teamTemp);
+                                    teamName.add(teamTemp);
                                 }
                             }
-                            if(formError){
-                                json.addProperty("message", "There is an error in the form.");
-                                out.println(gson.toJson(json));
-                                return;
-                            }
-                            
-                            if(EventRoleAssignmentDAO.addRoles(eventRolesJsonArray, Integer.parseInt(eventId))){
-                                AuditLogDAO.insertAuditLog(username, "ADD EVENT ROLES", "Add event roles under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
+                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,remarks);
+                           
+                            if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation,username)){
+                                AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;
@@ -131,10 +133,11 @@ public class AddEventRoles extends HttpServlet {
                             json.addProperty("message", "Fail retrieve event");
                             out.println(gson.toJson(json));
                         }
-                                
-                    }   
-                      
+                    }
+                    
                 }
+                
+                
             }
         }
     }
