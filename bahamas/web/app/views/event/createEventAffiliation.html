@@ -74,10 +74,13 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col-md-9" ng-show="others['others']">
+                                        <div class="col-md-9">
                                             <label>Explain if Others</label>
                                             <textarea class="custom-remarks" ng-model="others['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="addTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>  
+                                            <span ng-show="addTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>
+                                            <label>Remarks</label>
+                                            <textarea class="custom-remarks" ng-model="toSubmit.remarks" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="addTeamAffiliationForm.remarks.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>  
                                         </div>
                                     </div>
                                 </div>
