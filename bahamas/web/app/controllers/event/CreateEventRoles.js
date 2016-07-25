@@ -23,7 +23,6 @@ app.controller('createEventRoles',
                     }
                     dataSubmit.submitData(toRetrieve, urlToRetrieve).then(function (response) {
                         $scope.eventInfo = response.data;
-                        console.log($scope.eventInfo);
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
                         var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
                         if (timeStart.length == 10) {
@@ -83,7 +82,15 @@ app.controller('createEventRoles',
                         //submit to backend here.
                         var url = "/event.addroles";
                         dataSubmit.submitData($scope.newRoles, url).then(function (response) {
-                            console.log(response);
+                            if(response.data.message == 'success'){
+                                $state.go('admin.createEventAffiliation');
+                            }else{
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/addRolesError.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
                         });
                     }
                 }
