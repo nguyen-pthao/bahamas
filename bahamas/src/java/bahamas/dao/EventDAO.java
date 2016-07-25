@@ -153,14 +153,14 @@ public class EventDAO {
             }
             if(!conflctingEventName.isEmpty()){
                 if(conflctingEventName.size() == 1){
-                    errorMsg = "System has detected an Event conflict (";
+                    errorMsg = "Location is already taken up by event ";
                 }else{
-                    errorMsg = "System has detected Events conflict (";
+                    errorMsg = "Location is already taken up by events ";
                 }
                 for(int i = 0; i < conflctingEventName.size() -1; i++){
                     errorMsg += conflctingEventName.get(i) + ", ";
                 }
-                return errorMsg += conflctingEventName.get(conflctingEventName.size() -1) + "). Do you want to proceed?";
+                return errorMsg += conflctingEventName.get(conflctingEventName.size() -1) + ". Do you want to proceed?";
                 
             }
             
