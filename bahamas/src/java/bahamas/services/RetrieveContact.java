@@ -26,8 +26,11 @@ import is203.JWTException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -103,7 +106,7 @@ public class RetrieveContact extends HttpServlet {
                     out.println(gson.toJson(json));
                     return;
                 }
-                
+
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
@@ -137,37 +140,37 @@ public class RetrieveContact extends HttpServlet {
                     }
 
                     /*                       
-                    if (contact.isIsAdmin()) { //Admin
-                        JsonArray contactArray = retrieveAll(contactList, true);
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                        JsonArray contactArray = retrieveAll(contactList, true);
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                    } else {
-                        int cid = Integer.parseInt(cidString);
-                        //check permission, 
-                        if (RoleCheckDAO.checkRole(cid, teamName, permission)) {
+                     if (contact.isIsAdmin()) { //Admin
+                     JsonArray contactArray = retrieveAll(contactList, true);
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
+                     JsonArray contactArray = retrieveAll(contactList, true);
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     } else {
+                     int cid = Integer.parseInt(cidString);
+                     //check permission, 
+                     if (RoleCheckDAO.checkRole(cid, teamName, permission)) {
 
-                            if (permission.equals("eventleader")) { //Event leader
-                                // To be confirm
-                                JsonArray contactArray = retrieveAll(contactList, true);
-                                json.add("contact", contactArray);
-                                out.println(gson.toJson(json));
-                                return;
-                            } else if (permission.equals("associate")) { //Associate
-                                // To be confirm
-                                JsonArray contactArray = retrieveAll(contactList, false);
-                                json.add("contact", contactArray);
-                                out.println(gson.toJson(json));
-                                return;
-                            }
-                        }
+                     if (permission.equals("eventleader")) { //Event leader
+                     // To be confirm
+                     JsonArray contactArray = retrieveAll(contactList, true);
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     } else if (permission.equals("associate")) { //Associate
+                     // To be confirm
+                     JsonArray contactArray = retrieveAll(contactList, false);
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     }
+                     }
 
-                    }
+                     }
                      */
                     //}
                 } else {
@@ -252,30 +255,57 @@ public class RetrieveContact extends HttpServlet {
             }
 
             if (!emailList.isEmpty()) {
-
-                for (int i = 0; i < emailList.size() - 1; i++) {
-                    Email email = emailList.get(i);
-                    if(email.getDateObsolete() != null){
-                        emailStr += email.getEmail() + " | ";
+                
+                try {
+                    Date todayDate = new Date(); 
+                    Date todayDateWithoutTime = sdf.parse(sdf.format(todayDate));
+                    ArrayList<String> emailDisplayList = new ArrayList<String>();
+                    for (int i = 0; i < emailList.size(); i++) {
+                        Email email = emailList.get(i);
+                        Date ObsDateWithoutTime = null;
+                        if(email.getDateObsolete() != null){
+                            ObsDateWithoutTime = sdf.parse(sdf.format(email.getDateObsolete()));
+                        }
+                        if (email.getDateObsolete() != null && !ObsDateWithoutTime.equals(todayDateWithoutTime) && !ObsDateWithoutTime.before(todayDateWithoutTime)) {
+                            emailDisplayList.add(email.getEmail());
+                        } else if(email.getDateObsolete() == null){
+                            emailDisplayList.add(email.getEmail());
+                        }
                     }
+                    for(int i = 0; i < emailDisplayList.size()-1; i++){
+                        emailStr += emailDisplayList.get(i) + " | ";
+                    }
+                    emailStr += emailDisplayList.get(emailDisplayList.size()-1);
+                    
+                } catch (ParseException ex) {
+                    Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                Email email = emailList.get(emailList.size() - 1);
-                if(email.getDateObsolete() != null){
-                    emailStr += email.getEmail();
-                }
-
             }
+            
             if (!phoneList.isEmpty()) {
-
-                for (int i = 0; i < phoneList.size() - 1; i++) {
-                    Phone phone = phoneList.get(i);
-                    if(phone.getDateObsolete() != null){
-                        phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber() + " | ";
+                try {
+                    Date todayDate = new Date(); 
+                    Date todayDateWithoutTime = sdf.parse(sdf.format(todayDate));
+                    ArrayList<String> phoneDisplayList = new ArrayList<String>();
+                    for (int i = 0; i < phoneList.size(); i++) {
+                        Phone phone = phoneList.get(i);
+                        Date ObsDateWithoutTime = null;
+                        if(phone.getDateObsolete() != null){
+                            ObsDateWithoutTime = sdf.parse(sdf.format(phone.getDateObsolete()));
+                        }
+                        if (phone.getDateObsolete() != null && !ObsDateWithoutTime.equals(todayDateWithoutTime) && !ObsDateWithoutTime.before(todayDateWithoutTime)) {
+                            phoneDisplayList.add("+" + phone.getCountryCode() + "-" + phone.getPhoneNumber());
+                        } else if (phone.getDateObsolete() == null){
+                            phoneDisplayList.add("+" + phone.getCountryCode() + "-" + phone.getPhoneNumber());
+                        }
                     }
-                }
-                Phone phone = phoneList.get(phoneList.size() - 1);
-                if(phone.getDateObsolete() != null){
-                    phoneStr += "+" + phone.getCountryCode() + "-" + phone.getPhoneNumber();
+                    for(int i = 0; i < phoneDisplayList.size()-1; i++){
+                        phoneStr += phoneDisplayList.get(i) + " | ";
+                    }
+                    phoneStr += phoneDisplayList.get(phoneDisplayList.size()-1);
+                    
+                } catch (ParseException ex) {
+                    Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
 

@@ -68,7 +68,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'createEventRoles'
             })
             .state('admin.createEventAffiliation', {
-                url: '/createEventRoles',
+                url: '/createEventAffiliation',
                 templateUrl: 'app/views/event/createEventAffiliation.html',
                 controller: 'createEventAffiliation'
             })

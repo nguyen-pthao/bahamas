@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.util.Authenticator;
@@ -98,7 +99,32 @@ public class AddEventRoles extends HttpServlet {
                         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                         if(event != null){
                             //insert roles here
+                            String roleTemp = "role";
+                            String descriptionTemp = "description";
+                            boolean formError = false;
+                            for(int i = 0; i < eventRolesJsonArray.size(); i++){
+                                JsonElement jsonElement = eventRolesJsonArray.get(i);
+                                JsonObject jsonObj = jsonElement.getAsJsonObject();
+                                String role = jsonObj.get(roleTemp + (i+1)).getAsString();
+                                String description = jsonObj.get(descriptionTemp + (i+1)).getAsString();
+                                System.out.print(jsonElement);
+                                
+                                if(role.isEmpty() && !description.isEmpty()){
+                                    formError = true;
+                                }
+                            }
+                            if(formError){
+                                json.addProperty("message", "There is an error in the form.");
+                                out.println(gson.toJson(json));
+                                return;
+                            }
                             
+                            if(EventRoleAssignmentDAO.addRoles(eventRolesJsonArray, Integer.parseInt(eventId))){
+                                json.addProperty("message", "success");
+                                out.println(gson.toJson(json));
+                                return;
+                            }
+                            json.addProperty("message", "Fail retrieve event");
                             out.println(gson.toJson(json));
                         }else{
                             json.addProperty("message", "Fail retrieve event");

@@ -5,12 +5,97 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
     <body>
-        <div>TODO write content</div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper inner-content-wrapper" id="add-new-event-roles">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click=""> Events Management </a><i class="fa fa-chevron-right small"></i><a href=""> Add Team Affiliation </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <!-- Box to show event details -->
+                <div class="box" ng-init='eventDetails()'>
+                    <div class="box-header with-border">
+                        <h3 class="box-title uppercase"> Event Details </h3>
+                    </div>
+                    <!-- form start -->
+                    <div class="box-body">   
+                        <div class="row col-sm-12">
+                            <div class="col-sm-6">
+                                <h4 class="bold">Event Title</h4>
+                                <div class="custom-height-1">{{eventInfo.event_title}}</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h4 class="bold">Event Date</h4>
+                                <div class="custom-height-1">{{eventInfo.event_date | date:'dd-MMM-yyyy'}}</div>
+                            </div>
+                        </div>
+                        <div class="row col-sm-12">
+                            <div class="col-sm-6">
+                                <h4 class="bold">Start Time</h4>
+                                <div class="custom-height-1">{{eventInfo.event_time_start}}</div>
+                            </div>
+                            <div class="col-sm-6">
+                                <h4 class="bold">End Time</h4>
+                                <div class="custom-height-1">{{eventInfo.event_time_end}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Box to submit roles-->
+                <div class="box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Add Team Affiliation </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Add Team Affiliation Form">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <!-- form start -->
+                    <div class="box-body">
+                        <div class="box green-box">    
+                            <form role="form" name='addTeamAffiliationForm'>
+                                <!-- COMPULSORY INFORMATION SECTION -->
+                                <div class='box-body'>
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-3" ng-init="loadTeamAffiliationList()">
+                                            <div class="box">
+                                                <label>Select Team Affiliation</label>
+                                                <div ng-repeat="team in teamAffiliationList track by $index">
+                                                    <input type="checkbox" ng-model="selectedTeams[$index]"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" ng-model="others['others']"/><span style="margin-left: 10px;">Others</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-9" ng-show="others['others']">
+                                            <label>Explain if Others</label>
+                                            <textarea class="custom-remarks" ng-model="others['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="addTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span>  
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <center>
+                                        <button type="submit" ng-click="submit()"
+                                                class="btn btn-primary">
+                                            Done
+                                        </button>
+                                    </center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
     </body>
 </html>
+

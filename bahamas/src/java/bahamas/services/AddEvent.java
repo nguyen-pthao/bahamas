@@ -139,14 +139,15 @@ public class AddEvent extends HttpServlet {
                             //check if exist
                             Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);
                             String errorMsg = EventDAO.eventExist(event);
-                            if(EventDAO.eventExist(event) == null){
+                            
+                            if(errorMsg != null && !ignore){
                                 json.addProperty("message", errorMsg);
                                 out.println(gson.toJson(json));
+                                return;
                             }
                             
                             int eventID = EventDAO.addEvent(event,username);
                             if(eventID > 0){
-                                //return id
                                 AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);
                                 json.addProperty("message", "success");
                                 json.addProperty("event_id", Integer.toString(eventID));
@@ -156,7 +157,6 @@ public class AddEvent extends HttpServlet {
                                 out.println(gson.toJson(json));
                             }
                                 
-                            
                         }else{
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));

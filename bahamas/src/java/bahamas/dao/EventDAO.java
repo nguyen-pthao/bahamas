@@ -130,9 +130,11 @@ public class EventDAO {
         Date endDate = event.getEventEnd();
         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String errorMsg = null;
+        ArrayList<String> conflctingEventName = new ArrayList<String>();
+        
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END FROM EVENT WHEHE EVENT_LOCATION_NAME = (?)");
+            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_TITLE FROM EVENT WHERE EVENT_LOCATION_NAME = (?)");
             stmt.setString(1, event.getEventLocationName());
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -140,13 +142,25 @@ public class EventDAO {
                 String strEndDateTime = rs.getString(2);
                 Date startDateTimeDB = datetime.parse(strStartDateTime);
                 Date endDateTimeDB = datetime.parse(strEndDateTime);
+                String eventTitle = rs.getString(3);
                 if (startDate.equals(startDateTimeDB) || startDate.equals(endDateTimeDB) || (startDate.after(startDateTimeDB) && startDate.before(endDateTimeDB))) {
-                    return "System has detected an Event("+ event.getEventTitle() +") conflict. Do you want to proceed?";
+                    conflctingEventName.add(eventTitle);
                 } else if (endDate.equals(startDateTimeDB) || endDate.equals(endDateTimeDB) || (endDate.after(startDateTimeDB) && endDate.before(endDateTimeDB))) {
-                    return "System has detected an Event("+ event.getEventTitle() +") conflict. Do you want to proceed?";
+                    conflctingEventName.add(eventTitle);
                 } else if (startDate.before(startDateTimeDB) && endDate.after(endDateTimeDB)) {
-                    return "System has detected an Event("+ event.getEventTitle() +") conflict. Do you want to proceed?";
+                    conflctingEventName.add(eventTitle);
                 }
+            }
+            if(!conflctingEventName.isEmpty()){
+                if(conflctingEventName.size() == 1){
+                    errorMsg = "Location is already taken up by event ";
+                }else{
+                    errorMsg = "Location is already taken up by events ";
+                }
+                for(int i = 0; i < conflctingEventName.size() -1; i++){
+                    errorMsg += conflctingEventName.get(i) + ", ";
+                }
+                return errorMsg += conflctingEventName.get(conflctingEventName.size() -1) + ". Do you want to proceed?";
                 
             }
             
