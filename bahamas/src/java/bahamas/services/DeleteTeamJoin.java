@@ -115,7 +115,7 @@ public class DeleteTeamJoin extends HttpServlet {
                             
                             //In the event the contact has no more team left and not an admin
                             //then fall back to a novice account
-                            if(!c.isIsAdmin() && TeamJoinDAO.retrieveAllTeamJoinCID(contactId).isEmpty()){                      
+                            if(!c.isIsAdmin() && TeamJoinDAO.validTeamJoin(contactId).isEmpty()){                      
                                 ContactDAO.changeNovicePermission(c, true);
                             }
                             
