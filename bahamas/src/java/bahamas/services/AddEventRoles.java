@@ -99,6 +99,7 @@ public class AddEventRoles extends HttpServlet {
                         if(event != null){
                             //insert roles here
                             
+                            
                             out.println(gson.toJson(json));
                         }else{
                             json.addProperty("message", "Fail retrieve event");
