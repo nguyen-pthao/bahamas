@@ -112,6 +112,13 @@ public class DeleteTeamJoin extends HttpServlet {
                             //change contact to a non novice account
                             //cDAO.changePermission(c, false);
                             AuditLogDAO.insertAuditLog(username, "DELETE TEAM JOIN", "Delete team join under contact: Contact ID: " + contactId);
+                            
+                            //In the event the contact has no more team left and not an admin
+                            //then fall back to a novice account
+                            if(!c.isIsAdmin() && TeamJoinDAO.retrieveAllTeamJoinCID(contactId).isEmpty()){                      
+                                ContactDAO.changeNovicePermission(c, true);
+                            }
+                            
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         } else {
