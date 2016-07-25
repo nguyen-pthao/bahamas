@@ -1427,10 +1427,16 @@ app.controller('editContact',
                     'message': ''
                 };
                 $scope.$watch("newMembership['start_membership']", function () {
+                    $scope.newEnd = '';
                     if ($scope.newMembership['start_membership'] != '' && $scope.newMembership['start_membership'] != null) {
-                        var newYear = $scope.newMembership['start_membership'].getFullYear() + 1;
-                        $scope.newMembership['end_membership'] = $scope.newMembership['start_membership'].setFullYear(newYear);
-                    };
+                        $scope.newEnd = angular.copy($scope.newMembership['start_membership']);
+                        if (angular.isDate($scope.newEnd)) {
+                            var newYear = $scope.newEnd.getFullYear() + 1;
+                            $scope.newMembership['end_membership'] = $scope.newEnd.setFullYear(newYear);
+                            $scope.newMembership['end_membership'] = $scope.newEnd.setDate($scope.newEnd.getDate() - 1)
+                        }
+                    }
+                    ;
                 });
                 $scope.addMembership = function () {
                     var url = AppAPI.addMembership;
