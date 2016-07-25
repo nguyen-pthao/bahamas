@@ -20,7 +20,7 @@ import java.util.ArrayList;
  * @author tan.si.hao
  */
 public class EventAffiliationDAO {
-    public static boolean addTeamAffiliation(EventAffiliation eventAffiliation, String username) {
+    public static boolean addTeamAffiliation(EventAffiliation eventAffiliation) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -35,11 +35,15 @@ public class EventAffiliationDAO {
             for (int i = 0; i < teamNameArray.size(); i++) {
                 stmt.setInt(1, eventAffiliation.getEventID());
                 stmt.setString(2, teamNameArray.get(i));
-                stmt.setString(3, username);
+                stmt.setString(3, eventAffiliation.getCreatedBy());
                 stmt.setTimestamp(4, new java.sql.Timestamp(eventAffiliation.getDateCreated().getTime()));
                 stmt.setString(5, eventAffiliation.getExplainIfOthers());
-                stmt.setTimestamp(6, new java.sql.Timestamp(eventAffiliation.getDateObsolete().getTime()));
-                stmt.setString(7, username);
+                if(eventAffiliation.getDateObsolete() != null){
+                    stmt.setTimestamp(6, new java.sql.Timestamp(eventAffiliation.getDateObsolete().getTime())); 
+                }else{
+                    stmt.setTimestamp(6, null); 
+                }
+                stmt.setString(7, eventAffiliation.getRemarks());
                 stmt.executeUpdate();
             }
             return true;

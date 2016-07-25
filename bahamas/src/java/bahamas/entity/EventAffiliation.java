@@ -22,11 +22,13 @@ public class EventAffiliation {
     private Date dateObsolete;
     private String remarks;
 
-    public EventAffiliation(int eventID, String explainIfOthers, String remarks) {
+    public EventAffiliation(int eventID, String explainIfOthers, String remarks, ArrayList<String> teamArray, String createdBy) {
         this.eventID = eventID;
         this.explainIfOthers = explainIfOthers;
         this.dateObsolete = dateObsolete;
         this.remarks = remarks;
+        this.teamArray = teamArray;
+        this.createdBy = createdBy;
     }
 
     public int getEventID() {

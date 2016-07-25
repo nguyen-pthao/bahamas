@@ -107,9 +107,9 @@ public class AddTeamAffiliation extends HttpServlet {
                         if(event != null){
                             //insert Team Affiliation here 
                             for(int i = 0; i < eventTeamsJsonArray.size(); i++){
-                                JsonElement jsonElement = eventTeamsJsonArray.get(i);
-                                JsonObject jsonObj = jsonElement.getAsJsonObject();
-                                String teamTemp = jsonObj.get(Integer.toString(i)).getAsString();
+                                String teamTemp = eventTeamsJsonArray.get(i).getAsString();
+                                //JsonObject jsonObj = jsonElement.getAsJsonObject();
+                                //String teamTemp = jsonElement.getAsString();
                                 if(hmError.containsKey(teamTemp)){
                                     json.addProperty("message", "There should not be two or more of the same team in an event");
                                     out.println(gson.toJson(json));
@@ -119,9 +119,9 @@ public class AddTeamAffiliation extends HttpServlet {
                                     teamName.add(teamTemp);
                                 }
                             }
-                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,remarks);
+                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,remarks,teamName,username);
                            
-                            if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation,username)){
+                            if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation)){
                                 AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
