@@ -78,7 +78,6 @@ app.controller('createEventRoles',
                         })
                     } else {
                         $scope.newRoles.token = session.getSession('token');
-                        console.log($scope.newRoles);
                         //submit to backend here.
                         var url = "/event.addroles";
                         dataSubmit.submitData($scope.newRoles, url).then(function (response) {

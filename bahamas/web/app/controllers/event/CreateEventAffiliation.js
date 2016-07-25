@@ -59,7 +59,11 @@ app.controller('createEventAffiliation',
 
                 $scope.selectedTeams = {
                 };
-
+                
+                $scope.selectedTeamsCopy = {
+                    
+                };
+                
                 $scope.others = {
                     'others': false,
                     'explain_if_others': ''
@@ -70,6 +74,16 @@ app.controller('createEventAffiliation',
                     'event_id': eventId,
                     'teams': [
                     ],
+                    'explain_if_others': '',
+                    'remarks': ''
+                };
+
+                $scope.toSubmitCopy = {
+                    'token': session.getSession('token'),
+                    'event_id': eventId,
+                    'teams': [
+                    ],
+                    'explain_if_others': '',
                     'remarks': ''
                 };
 
@@ -88,6 +102,9 @@ app.controller('createEventAffiliation',
                                 template: './style/ngTemplate/addEventSuccess.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
+                            }).then(function(response){
+                                localStorageService.remove('eventIdCreate');
+                                $state.go(user);
                             })
                         } else {
                             ngDialog.openConfirm({
@@ -95,10 +112,18 @@ app.controller('createEventAffiliation',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             }).then(function (response) {
-                                $state.reload();
+                                $scope.toSubmit = angular.copy($scope.toSubmitCopy);
+                                $scope.selectedTeams = angular.copy($scope.selectedTeamsCopy);
+                                var currentState = user + '.createEventAffiliation';
+                                $state.reload(currentState);
                             })
                         }
                     })
+                };
+                
+                $scope.toEvents = function(){
+                    localStorageService.remove('eventIdCreate');
+                    $state.go(user);
                 };
 
             }]);
