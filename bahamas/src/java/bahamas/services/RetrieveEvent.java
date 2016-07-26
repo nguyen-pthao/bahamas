@@ -95,7 +95,7 @@ public class RetrieveEvent extends HttpServlet {
                         //Only Admin and tm are able to create an event
                             
                             EventDAO eventDAO = new EventDAO();
-                            Event event = eventDAO.retrieveContactById(Integer.parseInt(eventId));
+                            Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
                             SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             if(event != null){
                                 

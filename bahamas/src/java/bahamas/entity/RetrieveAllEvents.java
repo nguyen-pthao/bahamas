@@ -1,4 +1,4 @@
-package bahamas.services;
+package bahamas.entity;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -6,14 +6,8 @@ package bahamas.services;
  * and open the template in the editor.
  */
 
-import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
-import bahamas.dao.EventRoleAssignmentDAO;
-import bahamas.dao.EventAffiliationDAO;
-import bahamas.entity.Contact;
-import bahamas.entity.Event;
-import bahamas.entity.EventAffiliation;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -27,7 +21,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(urlPatterns = {"/event.addaffiliation"})
-public class AddTeamAffiliation extends HttpServlet {
+@WebServlet(urlPatterns = {"/event.retrieveall"})
+public class RetrieveAllEvents extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -80,17 +73,12 @@ public class AddTeamAffiliation extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String eventId = Validator.containsBlankField(jobject.get("event_id"));
-                String explainIfOthers = jobject.get("explain_if_others").getAsString();
-                String remarks = jobject.get("remarks").getAsString();
-                JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
                 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                 } else {
-                    
                     //Verified token
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
@@ -99,44 +87,36 @@ public class AddTeamAffiliation extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {   
-                        EventDAO eventDAO = new EventDAO();
-                        Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-                        HashMap<String,String> hmError = new HashMap<String,String>();
-                        ArrayList<String> teamName = new ArrayList<String>();
-                        if(event != null){
-                            //insert Team Affiliation here 
-                            for(int i = 0; i < eventTeamsJsonArray.size(); i++){
-                                String teamTemp = eventTeamsJsonArray.get(i).getAsString();
-                                //JsonObject jsonObj = jsonElement.getAsJsonObject();
-                                //String teamTemp = jsonElement.getAsString();
-                                if(hmError.containsKey(teamTemp)){
-                                    json.addProperty("message", "There should not be two or more of the same team in an event");
-                                    out.println(gson.toJson(json));
-                                    return;
-                                }else{
-                                    hmError.put(teamTemp, teamTemp);
-                                    teamName.add(teamTemp);
-                                }
-                            }
-                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,remarks,teamName,username);
-                           
-                            if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation)){
-                                AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
+                    } else {    
+                        //Only Admin and tm are able to create an event
+                            
+                            EventDAO eventDAO = new EventDAO();
+                            ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
+                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            JsonArray eventArray = new JsonArray();
+                            JsonObject jsonContactObj;
+                            if(eventList != null){
                                 json.addProperty("message", "success");
+                                for(int i = 0; i < eventList.size(); i++){
+                                    Event event = eventList.get(i);
+                                    jsonContactObj = new JsonObject();
+                                    jsonContactObj.addProperty("event_id", event.getEventId());
+                                    jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                    jsonContactObj.addProperty("event_date", datetime.format(event.getEventDate()));
+                                    jsonContactObj.addProperty("event_time_start", datetime.format(event.getEventStart()));
+                                    jsonContactObj.addProperty("event_time_end", datetime.format(event.getEventEnd()));
+                                    jsonContactObj.addProperty("event_class", event.getEventClassName());
+                                    eventArray.add(jsonContactObj);
+                                }
+                                
+                                json.add("event", eventArray);
                                 out.println(gson.toJson(json));
-                                return;
+                            }else{
+                                json.addProperty("message", "Fail retrieve all events");
+                                out.println(gson.toJson(json));
                             }
-                            json.addProperty("message", "Fail retrieve event");
-                            out.println(gson.toJson(json));
-                        }else{
-                            json.addProperty("message", "Fail retrieve event");
-                            out.println(gson.toJson(json));
-                        }
                     }
-                    
                 }
-                
                 
             }
         }

@@ -13,7 +13,7 @@ import java.util.*;
  */
 public class Event {
     
-    private long eventId;
+    private int eventId;
     private Date dateCreated = new java.util.Date();
     private Date eventDate;
     private Date eventStart;
@@ -27,6 +27,8 @@ public class Event {
     private String eventLocationName;
     private String eventLat;
     private String eventLng;
+    private String createdBy;
+    
     private ArrayList<Contact> participants;
     private ArrayList<Role> roleList;
     private ArrayList<EventAffiliation> teamAffliated;
@@ -64,6 +66,24 @@ public class Event {
         this.eventLng = eventLng;
     }
 
+    public Event(int eventId, Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy) {
+        this.eventId = eventId;
+        this.eventDate = eventDate;
+        this.eventStart = eventStart;
+        this.eventEnd = eventEnd;
+        this.eventTitle = eventTitle;
+        this.explainIfOthers = explainIfOthers;
+        this.eventDescription = eventDescription;
+        this.minimumParticipation = minimumParticipation;
+        this.sendReminder = sendReminder;
+        this.eventClassName = eventClassName;
+        this.eventLocationName = eventLocationName;
+        this.eventLat = eventLat;
+        this.eventLng = eventLng;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+    }
+
     public Date getEventDate() {
         return eventDate;
     }
@@ -72,11 +92,11 @@ public class Event {
         this.eventDate = eventDate;
     }
 
-    public long getEventId() {
+    public int getEventId() {
         return eventId;
     }
 
-    public void setEventId(long eventId) {
+    public void setEventId(int eventId) {
         this.eventId = eventId;
     }
 
