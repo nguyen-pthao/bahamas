@@ -142,6 +142,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
             })
+            .state('teammanager.createEvent', {
+                url: '/createEvent',
+                templateUrl: 'app/views/event/createEvent.html',
+                controller: 'createEvent'
+            })
+            .state('teammanager.createEventRoles', {
+                url: '/createEventRoles',
+                templateUrl: 'app/views/event/createEventRoles.html',
+                controller: 'createEventRoles'
+            })
+            .state('teammanager.createEventAffiliation', {
+                url: '/createEventAffiliation',
+                templateUrl: 'app/views/event/createEventAffiliation.html',
+                controller: 'createEventAffiliation'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -166,6 +181,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/editContact',
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
+            })
+            .state('eventleader.createEvent', {
+                url: '/createEvent',
+                templateUrl: 'app/views/event/createEvent.html',
+                controller: 'createEvent'
+            })
+            .state('eventleader.createEventRoles', {
+                url: '/createEventRoles',
+                templateUrl: 'app/views/event/createEventRoles.html',
+                controller: 'createEventRoles'
+            })
+            .state('eventleader.createEventAffiliation', {
+                url: '/createEventAffiliation',
+                templateUrl: 'app/views/event/createEventAffiliation.html',
+                controller: 'createEventAffiliation'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
