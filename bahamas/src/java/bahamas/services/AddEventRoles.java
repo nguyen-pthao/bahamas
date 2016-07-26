@@ -96,7 +96,7 @@ public class AddEventRoles extends HttpServlet {
                         //Only Admin and tm are able to add roles to event an event
                             
                         EventDAO eventDAO = new EventDAO();
-                        Event event = eventDAO.retrieveContactById(Integer.parseInt(eventId));
+                        Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
 
                         if(event != null){
                             //insert roles here

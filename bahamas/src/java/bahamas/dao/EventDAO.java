@@ -5,7 +5,9 @@
  */
 package bahamas.dao;
 
+import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.Phone;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -72,7 +74,7 @@ public class EventDAO {
         return autoIncKeyFromApi;
     }
     
-    public Event retrieveContactById(int eventID) {
+    public Event retrieveEventById(int eventID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -105,7 +107,7 @@ public class EventDAO {
                 String eventLocationName = rs.getString(12);
                 String eventLng = rs.getString(13);
                 String eventLat = rs.getString(14);
-                Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng);
+                Event event = new Event(eventID, eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy);
                 return event;
                         
             }
@@ -174,6 +176,55 @@ public class EventDAO {
         }
         return errorMsg;
     }
+    
+    public ArrayList<Event> retrieveAllEvents() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Event> eventList = null;
+        try {
+            eventList = new ArrayList<Event>();
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
+                    + "EXPLAIN_IF_OTHER, EVENT_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
+                    + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
+                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID FROM EVENT");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                String createdBy = rs.getString(1);
+                String dateStr1 = rs.getString(2);
+                Date dateCreated = datetime.parse(dateStr1);
+                String eventTitle = rs.getString(3);
+                String explainIfOthers = rs.getString(4);
+                String dateStr2 = rs.getString(5);
+                Date eventDate = datetime.parse(dateStr2);
+                String dateStr3 = rs.getString(6);
+                Date eventTimeStart = datetime.parse(dateStr3);
+                String dateStr4 = rs.getString(7);
+                Date eventTimeEnd = datetime.parse(dateStr4);
+                boolean sendReminder = rs.getBoolean(8);
+                String eventDescription = rs.getString(9);
+                int minimumParticipation = rs.getInt(10);
+                String eventClassName = rs.getString(11);
+                String eventLocationName = rs.getString(12);
+                String eventLng = rs.getString(13);
+                String eventLat = rs.getString(14);
+                int eventID = rs.getInt(15);
+                Event event = new Event(eventID, eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy);
+                eventList.add(event);      
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve event from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return eventList;
+    }
+    
     
             
 }

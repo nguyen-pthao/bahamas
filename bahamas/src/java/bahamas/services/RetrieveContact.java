@@ -139,40 +139,6 @@ public class RetrieveContact extends HttpServlet {
                         return;
                     }
 
-                    /*                       
-                     if (contact.isIsAdmin()) { //Admin
-                     JsonArray contactArray = retrieveAll(contactList, true);
-                     json.add("contact", contactArray);
-                     out.println(gson.toJson(json));
-                     return;
-                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                     JsonArray contactArray = retrieveAll(contactList, true);
-                     json.add("contact", contactArray);
-                     out.println(gson.toJson(json));
-                     return;
-                     } else {
-                     int cid = Integer.parseInt(cidString);
-                     //check permission, 
-                     if (RoleCheckDAO.checkRole(cid, teamName, permission)) {
-
-                     if (permission.equals("eventleader")) { //Event leader
-                     // To be confirm
-                     JsonArray contactArray = retrieveAll(contactList, true);
-                     json.add("contact", contactArray);
-                     out.println(gson.toJson(json));
-                     return;
-                     } else if (permission.equals("associate")) { //Associate
-                     // To be confirm
-                     JsonArray contactArray = retrieveAll(contactList, false);
-                     json.add("contact", contactArray);
-                     out.println(gson.toJson(json));
-                     return;
-                     }
-                     }
-
-                     }
-                     */
-                    //}
                 } else {
 
                     json.addProperty("message", "fail");
