@@ -20,7 +20,7 @@ and open the template in the editor.
             <section class="content">
                 <!-- Default box -->
                 <!-- view contact starts -->
-                <div class="box" ng-init="retrieveAllEvents()">
+                <div class="box">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> View all events </h3>
                         <div class="box-tools pull-right">
@@ -29,7 +29,7 @@ and open the template in the editor.
                         </div>
                     </div>
                     <!-- /.box-header -->
-                    <div class="box-body">                        
+                    <div class="box-body" ng-init="retrieveEvents()">                        
                         <div class="col-md-12" style="padding: 0px">
                             <label class="col-md-1" style="padding: 0px">
                                 Show Entries:
@@ -62,11 +62,11 @@ and open the template in the editor.
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Date Of Event</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Start Time</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>End Time</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Event Class</a></th>
+                                        <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
+                                        <th><a href="" ng-click="order('event_date')" style='color: #005384'>Date Of Event</a></th>
+                                        <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
+                                        <th><a href="" ng-click="order('event_time_end')" style='color: #005384'>End Time</a></th>
+                                        <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -82,11 +82,11 @@ and open the template in the editor.
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Date Of Event</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Start Time</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>End Time</a></th>
-                                        <th><a href="" ng-click="order()" style='color: #005384'>Event Class</a></th>
+                                        <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
+                                        <th><a href="" ng-click="order('event_date')" style='color: #005384'>Date Of Event</a></th>
+                                        <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
+                                        <th><a href="" ng-click="order('event_time_end')" style='color: #005384'>End Time</a></th>
+                                        <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
