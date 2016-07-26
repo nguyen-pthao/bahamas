@@ -1,4 +1,4 @@
-package bahamas.entity;
+package bahamas.services;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -8,6 +8,8 @@ package bahamas.entity;
 
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
+import bahamas.entity.Contact;
+import bahamas.entity.Event;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -92,7 +94,8 @@ public class RetrieveAllEvents extends HttpServlet {
                             
                             EventDAO eventDAO = new EventDAO();
                             ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
-                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+                            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                             JsonArray eventArray = new JsonArray();
                             JsonObject jsonContactObj;
                             if(eventList != null){
@@ -102,9 +105,9 @@ public class RetrieveAllEvents extends HttpServlet {
                                     jsonContactObj = new JsonObject();
                                     jsonContactObj.addProperty("event_id", event.getEventId());
                                     jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                    jsonContactObj.addProperty("event_date", datetime.format(event.getEventDate()));
-                                    jsonContactObj.addProperty("event_time_start", datetime.format(event.getEventStart()));
-                                    jsonContactObj.addProperty("event_time_end", datetime.format(event.getEventEnd()));
+                                    jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
+                                    jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
+                                    jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
                                     jsonContactObj.addProperty("event_class", event.getEventClassName());
                                     eventArray.add(jsonContactObj);
                                 }
