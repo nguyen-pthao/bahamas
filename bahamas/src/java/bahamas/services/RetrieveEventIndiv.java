@@ -6,16 +6,15 @@ package bahamas.services;
  * and open the template in the editor.
  */
 
-import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
-import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -23,7 +22,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,8 +33,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(urlPatterns = {"/event.retrieve"})
-public class RetrieveEvent extends HttpServlet {
+@WebServlet(urlPatterns = {"/event.retrieveindiv"})
+public class RetrieveEventIndiv extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -97,9 +96,10 @@ public class RetrieveEvent extends HttpServlet {
                             EventDAO eventDAO = new EventDAO();
                             Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
                             SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            
                             if(event != null){
-                                
                                 json.addProperty("message", "success");
+                                
                                 json.addProperty("event_id", eventId);
                                 json.addProperty("event_title", event.getEventTitle());
                                 json.addProperty("event_date", datetime.format(event.getEventDate()));
@@ -119,9 +119,6 @@ public class RetrieveEvent extends HttpServlet {
                                 json.addProperty("message", "Fail retrieve event");
                                 out.println(gson.toJson(json));
                             }
-                                
-                            
-                      
                     }
                 }
                 
