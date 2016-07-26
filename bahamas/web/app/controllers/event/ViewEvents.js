@@ -9,83 +9,81 @@ var app = angular.module('bahamas');
 app.controller('viewEvents',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit) {
-
                 var user = session.getSession('userType');
-
                 $scope.backHome = function () {
                     $state.go(user);
                 };
 
-                $scope.retrieveAllEvents = function () {
+                $scope.retrieveEvents = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token')
                     };
                     var url = '/event.retrieveall';
                     dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
-                        console.log(response);
                         $scope.allEventInfo = response.data.event;
+
+                        $scope.totalItems = $scope.allEventInfo.length;
+
+                        $scope.currentPage = 1;
+                        $scope.itemsPerPage = $scope.allEventInfo.length;
+                        $scope.allFilteredEvents = $scope.allEventInfo;
+                        $scope.isAll = false;
+                        $scope.itemsPerPageChanged = function () {
+                            if ($scope.itemsPerPage == 'toAll') {
+                                $scope.itemsPerPage = $scope.allFilteredEvents.length;
+                                $scope.isAll = true;
+                            } else {
+                                $scope.isAll = false;
+                            }
+                            $scope.allFilteredEvents = filterFilter($scope.allEventInfo, $scope.searchEvents);
+                            var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
+                            $scope.totalPages = Math.ceil(total);
+                            if ($scope.totalPages === 0) {
+                                $scope.totalPages = 1;
+                            }
+                            $scope.$watch('currentPage + itemsPerPage', function () {
+                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
+                                var end = begin + parseInt($scope.itemsPerPage);
+                                $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
+                            });
+                        };
+
+                        var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
+                        $scope.totalPages = Math.ceil(total);
+                        if ($scope.totalPages === 0) {
+                            $scope.totalPages = 1;
+                        }
+                        $scope.$watch('currentPage + itemsPerPage', function () {
+                            var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
+                            var end = begin + parseInt($scope.itemsPerPage);
+
+                            $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
+                        });
+
+                        $scope.$watch('searchEvents', function (term) {
+                            $scope.allFilteredEvents = filterFilter($scope.allEventInfo, term);
+                            $scope.totalItems = $scope.allFilteredEvents.length;
+                            var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
+                            $scope.totalPages = Math.ceil(total);
+                            if ($scope.totalPages === 0) {
+                                $scope.totalPages = 1;
+                            }
+                            $scope.$watch('currentPage + itemsPerPage', function () {
+                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
+                                var end = begin + parseInt($scope.itemsPerPage);
+                                $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
+                            });
+                        });
                     })
                 }
 
-                $scope.totalItems = $scope.allEventInfo.length;
-
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = $scope.allEventInfo.length;
-                $scope.allFilteredEvents = $scope.allEventInfo;
-                $scope.isAll = false;
-                $scope.itemsPerPageChanged = function () {
-                    if ($scope.itemsPerPage == 'toAll') {
-                        $scope.itemsPerPage = $scope.allFilteredEvents.length;
-                        $scope.isAll = true;
-                    } else {
-                        $scope.isAll = false;
-                    }
-                    $scope.allFilteredEvents = filterFilter($scope.allEventInfo, $scope.searchEvents);
-                    var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-                    $scope.totalPages = Math.ceil(total);
-                    if ($scope.totalPages === 0) {
-                        $scope.totalPages = 1;
-                    }
-                    $scope.$watch('currentPage + itemsPerPage', function () {
-                        var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                        var end = begin + parseInt($scope.itemsPerPage);
-                        $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-                    });
+                $scope.foo = function ($event, event) {
+//                    var toURL = $scope.userType + ".viewIndivContact";
+//                    var contactCid = contact.cid;
+//                    session.setSession('contactToDisplayCid', contactCid);
+//                    $state.go(toURL);
+                      console.log(event);
                 };
-
-                var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-                $scope.totalPages = Math.ceil(total);
-                if ($scope.totalPages === 0) {
-                    $scope.totalPages = 1;
-                }
-                $scope.$watch('currentPage + itemsPerPage', function () {
-                    var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                    var end = begin + parseInt($scope.itemsPerPage);
-
-                    $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-                });
-
-                $scope.$watch('searchEvents', function (term) {
-                    $scope.allFilteredEvents = filterFilter($scope.allEventInfo, term);
-                    $scope.totalItems = $scope.allFilteredEvents.length;
-                    var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-                    $scope.totalPages = Math.ceil(total);
-                    if ($scope.totalPages === 0) {
-                        $scope.totalPages = 1;
-                    }
-                    $scope.$watch('currentPage + itemsPerPage', function () {
-                        var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                        var end = begin + parseInt($scope.itemsPerPage);
-                        $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-                    });
-                });
-
-//                        $scope.foo = function ($event, contact) {
-//                            var toURL = $scope.userType + ".viewIndivContact";
-//                            var contactCid = contact.cid;
-//                            session.setSession('contactToDisplayCid', contactCid);
-//                            $state.go(toURL);
-//                        };
 
                 $scope.predicate = '';
                 $scope.reverse = true;
