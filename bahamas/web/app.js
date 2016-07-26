@@ -77,6 +77,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewEvents.html',
                 controller: 'viewEvents'
             })
+            .state('admin.viewUpcomingEvents', {
+                url: '/viewUpcomingEvents',
+                templateUrl: 'app/views/event/viewUpcomingEvents.html',
+                controller: 'viewUpcomingEvents'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -161,6 +166,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/createEventAffiliation',
                 templateUrl: 'app/views/event/createEventAffiliation.html',
                 controller: 'createEventAffiliation'
+            })
+            .state('teammanager.viewEvents', {
+                url: '/viewEvents',
+                templateUrl: 'app/views/event/viewEvents.html',
+                controller: 'viewEvents'
+            })
+            .state('teammanager.viewUpcomingEvents', {
+                url: '/viewUpcomingEvents',
+                templateUrl: 'app/views/event/viewUpcomingEvents.html',
+                controller: 'viewUpcomingEvents'
             })
             .state('eventleader', {
                 url: '/eventleader',

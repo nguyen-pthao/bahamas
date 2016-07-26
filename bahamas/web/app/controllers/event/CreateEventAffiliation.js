@@ -104,7 +104,8 @@ app.controller('createEventAffiliation',
                                 scope: $scope
                             }).then(function(response){
                                 localStorageService.remove('eventIdCreate');
-                                $state.go(user);
+                                var afterSuccess = user + '.viewUpcomingEvents'
+                                $state.go(afterSuccess);
                             })
                         } else {
                             ngDialog.openConfirm({
@@ -123,7 +124,8 @@ app.controller('createEventAffiliation',
                 
                 $scope.toEvents = function(){
                     localStorageService.remove('eventIdCreate');
-                    $state.go(user);
+                    var toEventsUrl = user + '.viewUpcomingEvents';
+                    $state.go(toEventsUrl);
                 };
 
             }]);
