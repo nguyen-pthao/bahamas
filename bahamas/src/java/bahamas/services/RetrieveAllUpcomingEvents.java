@@ -21,9 +21,12 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -97,24 +100,32 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                             ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
                             SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
                             SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
-                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             JsonArray eventArray = new JsonArray();
                             JsonObject jsonContactObj;
                             if(eventList != null){
                                 json.addProperty("message", "success");
                                 for(int i = 0; i < eventList.size(); i++){
                                     Event event = eventList.get(i);
-                                    
                                     Date currentDateTime = new Date();
-                                    if(event.getEventEnd().after(currentDateTime)){
-                                        jsonContactObj = new JsonObject();
-                                        jsonContactObj.addProperty("event_id", event.getEventId());
-                                        jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                        jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
-                                        jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
-                                        jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
-                                        jsonContactObj.addProperty("event_class", event.getEventClassName());
-                                        eventArray.add(jsonContactObj);
+                                    try {
+                                        Date currentDate = date.parse(date.format(currentDateTime));
+                                        Date currentTime = time.parse(time.format(currentDateTime));
+                                        Date eventDate = date.parse(date.format(event.getEventDate()));
+                                        Date eventEndTime = time.parse(time.format(event.getEventEnd()));
+                                        if( (eventDate.after(currentDate) || eventDate.equals(currentDate))){
+                                            if(eventEndTime.after(currentTime)){
+                                                jsonContactObj = new JsonObject();
+                                                jsonContactObj.addProperty("event_id", event.getEventId());
+                                                jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                                jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
+                                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
+                                                jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
+                                                jsonContactObj.addProperty("event_class", event.getEventClassName());
+                                                eventArray.add(jsonContactObj);
+                                            }
+                                        }
+                                    } catch (ParseException ex) {
+                                        Logger.getLogger(RetrieveAllUpcomingEvents.class.getName()).log(Level.SEVERE, null, ex);
                                     }
                                 }
                                 
