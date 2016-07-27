@@ -127,29 +127,45 @@ public class EventDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        boolean exist = false;
-        Date startDate = event.getEventStart();
-        Date endDate = event.getEventEnd();
         SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+        boolean exist = false;
+        Date eventDate = null;
+        Date startTime = null;
+        Date endTime = null;
+        try {
+            eventDate = date.parse(date.format(event.getEventDate()));
+            startTime = time.parse(time.format(event.getEventStart()));
+            endTime = time.parse(time.format(event.getEventEnd()));
+        } catch (ParseException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String errorMsg = null;
         ArrayList<String> conflctingEventName = new ArrayList<String>();
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_TITLE FROM EVENT WHERE EVENT_LOCATION_NAME = (?)");
+            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_DATE, EVENT_TITLE FROM EVENT WHERE EVENT_LOCATION_NAME = (?)");
             stmt.setString(1, event.getEventLocationName());
             rs = stmt.executeQuery();
             while (rs.next()) {
-                String strStartDateTime = rs.getString(1);
-                String strEndDateTime = rs.getString(2);
-                Date startDateTimeDB = datetime.parse(strStartDateTime);
-                Date endDateTimeDB = datetime.parse(strEndDateTime);
-                String eventTitle = rs.getString(3);
-                if (startDate.equals(startDateTimeDB) || startDate.equals(endDateTimeDB) || (startDate.after(startDateTimeDB) && startDate.before(endDateTimeDB))) {
+                String strStartTime = rs.getString(1);
+                String strEndTime = rs.getString(2);
+                String strEventDate = rs.getString(3);
+                Date startTimeDB0 = datetime.parse(strStartTime);
+                Date endTimeDB0 = datetime.parse(strEndTime);
+                Date eventDateDB0 = datetime.parse(strEventDate);
+                Date startTimeDB = time.parse(time.format(startTimeDB0));
+                Date endTimeDB = time.parse(time.format(endTimeDB0));
+                Date eventDateDB = date.parse(date.format(eventDateDB0));
+                
+                String eventTitle = rs.getString(4);
+                if ((startTime.equals(startTimeDB) || startTime.equals(endTimeDB) || (startTime.after(startTimeDB) && startTime.before(endTimeDB))) && eventDate.equals(eventDateDB)) {
                     conflctingEventName.add(eventTitle);
-                } else if (endDate.equals(startDateTimeDB) || endDate.equals(endDateTimeDB) || (endDate.after(startDateTimeDB) && endDate.before(endDateTimeDB))) {
+                } else if ((endTime.equals(startTimeDB) || endTime.equals(endTimeDB) || (endTime.after(startTimeDB) && endTime.before(endTimeDB))) && eventDate.equals(eventDateDB)) {
                     conflctingEventName.add(eventTitle);
-                } else if (startDate.before(startDateTimeDB) && endDate.after(endDateTimeDB)) {
+                } else if (startTime.before(startTimeDB) && endTime.after(endTimeDB) && eventDate.equals(eventDateDB)) {
                     conflctingEventName.add(eventTitle);
                 }
             }
