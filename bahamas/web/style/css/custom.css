@@ -118,6 +118,21 @@ body {
     background-color: #dadde6;
 }
 
+/*my profile link color*/
+li.user-header>p>a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+li.user-header>p>a:hover,
+li.user-header>p>a:active,
+li.user-header>p>a:focus {
+    color: #ffbca1;
+}
+
+#changepassword {
+    padding-right: 45px;
+    padding-left: 45px;
+}
 /*Custom background css for 404 and unauthorised pages*/
 .notfound {
     background-color: #1e2945;

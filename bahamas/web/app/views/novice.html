@@ -121,16 +121,18 @@ and open the template in the editor.
                                         <li class="user-header">
                                             <img src="style/img/avatar.png" class="img-circle" alt="User Image">
                                             <p>
-                                                {{name}}
+                                                <span ng-bind="username"></span>
+                                                <br>
+                                                <a class="profileStyle" href="" ng-click="toProfile()">My profile</a>
                                             </p>
                                         </li>                                  
                                         <!-- Menu Footer-->
                                         <li class="user-footer">
                                             <div class="pull-left">
-                                                <button class="btn btn-default btn-flat" style="background-color:#008ae6; color:white" ng-click="toProfile()">Profile</button>
+                                                <button class="btn btn-default btn-flat" data-toggle="modal" data-target="#changePassword" data-keyboard="false" data-backdrop="static">Change password</button>
                                             </div>
                                             <div class="pull-right">
-                                                <button class="btn btn-default btn-flat" style="background-color:#008ae6; color:white" ng-click="logout()">Sign out</button>
+                                                <button class="btn btn-default btn-flat" ng-click="logout()">Sign out</button>
                                             </div>
                                         </li>
                                     </ul>
@@ -203,14 +205,14 @@ and open the template in the editor.
                         <section class="content-header">
                             <h3>
                                 <ol class="breadcrumb">
-                                    <li><i class="fa fa-home"></i> Homepage </li>
+                                    <li><i class="fa fa-home"></i><a href=""> Homepage </a></li>
                                 </ol>                    
                             </h3>
                         </section>
                         <!-- Main content -->
                         <section class="content">
                             <!-- Default box -->
-                            <div class="box" ng-init="retrieveAllContacts()">
+                            <div class="box">
                                 <div class="box-header with-border" data-widget="collapse">
                                     <h3 class="box-title">To be completed</h3>
                                     <div class="box-tools pull-right">
@@ -308,16 +310,66 @@ and open the template in the editor.
                 <!-- Add the sidebar's background. This div must be placed
                      immediately after the control sidebar -->
                 <div class="control-sidebar-bg"></div>
+                <!-- =============================================== -->
+                
+                <!-- Change password modal -->
+                <div class="modal fade" id="changePassword" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="bold">Change Password
+                                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                                    </button>
+                                </h4>
+                            </div>
+                            <div class="modal-body" id="changepassword">
+                                <form name="form.changepassword">
+                                    <div class="form-group">
+                                        <label>Username</label>
+                                        <input type='text' class="form-control" ng-model='username' readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Current Password</label><span class="required">*</span>
+                                        <input type="password" ng-model='user["current_password"]' class="form-control" name="oldPassword" empty>
+                                        <span ng-show='form.changepassword.oldPassword.$error.empty && form.changepassword.oldPassword.$dirty' class='error'>Current password is required.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>New Password</label><span class="required">*</span>
+                                        <input type="password" ng-model='user.password' ng-maxlength="20" compare='{{user["confirm_password"]}}' class="form-control" name="newPassword" empty>
+                                        <span ng-show='form.changepassword.newPassword.$error.empty && form.changepassword.newPassword.$dirty' class='error'>New password is required.</span>
+                                        <span ng-show='((user.password.length < 8 && password.length > 0) || form.changepassword.newPassword.$error.maxlength) && form.changepassword.newPassword.$dirty' class='error'>Password has to be 8 to 20 characters long.</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Confirm Password</label><span class="required">*</span>
+                                        <input type="password" ng-model='user["confirm_password"]' compare="{{user.password}}" class="form-control" name="confirmPassword">
+                                        <span ng-show="form.changepassword.confirmPassword.$error.compare" class='error'>Confirmed password is not the same.</span>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <center>
+                                    <button type="submit" class="btn btn-link uppercase bold" ng-disabled='form.changepassword.oldPassword.$invalid || form.changepassword.newPassword.$invalid || form.changepassword.confirmPassword.$invalid || (user.password.length < 8 && user.password.length > 0)' ng-click="changePassword()">Change my password</button>
+                                    <br>
+                                    <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
+                                </center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- =============================================== -->
             </div>
             <!-- ./wrapper -->
         </div>
         <script>
             // apply dropdownHover to all elements with the data-hover="dropdown" attribute
-            (function ($) { 
-                $(document).ready(function () {
-                    $('[data-hover="dropdown"]').dropdownHover();
-                });
-            })(jQuery);
+            $('document').ready(function () {
+                $('[data-hover="dropdown"]').dropdownHover();
+            });
+            
+            $('window').on('popstate', function () {
+                $('#changePassword').modal('hide');
+            });
         </script>
     </body>
 </html>

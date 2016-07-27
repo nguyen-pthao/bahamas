@@ -207,6 +207,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/profile.html',
                 controller: 'profileCtrl'
             })
+            .state('eventleader.addContact', {
+                url: '/addContact',
+                templateUrl: 'app/views/contact/createContact.html',
+                controller: 'createContact'
+            })
             .state('eventleader.editContact', {
                 url: '/editContact',
                 templateUrl: 'app/views/contact/editContact.html',

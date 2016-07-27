@@ -6,9 +6,51 @@
 
 var app = angular.module('bahamas');
 
+app.directive('compare', function () {
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            if (!ngModel) {
+                return;
+            }
+            scope.$watch(attrs.ngModel, function () {
+                validate();
+            });
+            attrs.$observe('compare', function (val) {
+                validate();
+            });
+            var validate = function () {
+                var val1 = ngModel.$viewValue;
+                var val2 = attrs.compare;
+                ngModel.$setValidity('compare', !val1 || !val2 || val1 === val2);
+            };
+        }
+    };
+});
+
+app.directive('empty', function () {
+    return {
+        restrict: 'A',
+        require: '?ngModel',
+        link: function (scope, elem, attrs, ngModel) {
+            if (!ngModel) {
+                return;
+            }
+            scope.$watch(attrs.ngModel, function () {
+                validate();
+            });
+            var validate = function () {
+                var val1 = ngModel.$viewValue;
+                ngModel.$setValidity('empty', val1 != null && val1.length != 0);
+            };
+        }
+    };
+});
+
 app.controller('pageController',
-        ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', '$http', '$timeout', 'Idle',
-            function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, $http, $timeout, Idle) {
+        ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', 'Idle', 'dataSubmit', '$timeout',
+            function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout) {
                 var user = session.getSession('userType');
 
                 $scope.$on('IdleStart', function () {
@@ -17,8 +59,8 @@ app.controller('pageController',
                         className: 'ngdialog-theme-default',
                         closeByDocument: false,
                         closeByEscape: false
-                    })
-                })
+                    });
+                });
 
                 $scope.$on('IdleTimeout', function () {
                     ngDialog.closeAll();
@@ -35,13 +77,57 @@ app.controller('pageController',
                     Idle.watch();
                     $scope.name = '';
                     $scope.userType = '';
-//            $scope.dateCreated = '';
                     if (session.getSession('username') != null) {
                         var contact = angular.fromJson(session.getSession('contact'));
                         $scope.username = session.getSession('username');
-//                var dateToParse = contact['date_created'].substring(0, 10);
                         $scope.userType = session.getSession('userType');
                         $scope.name = angular.fromJson(session.getSession('contact')).name;
+                        
+                        $scope.user = {
+                            'token' : session.getSession('token'),
+                            'contact_id': angular.fromJson(session.getSession('contact')).cid,
+                            'current_password': '',
+                            'password': '',
+                            'confirm_password': ''
+                        };
+                        
+                        $scope.resultUser = {
+                            status: false,
+                            message: ''
+                        };
+                        
+                        $scope.changePassword = function () {
+                            var url = AppAPI.updateUser;
+                            dataSubmit.submitData($scope.user, url).then(function (response) {
+                                $scope.resultUser.status = true;
+                                if (response.data.message == 'success') {
+                                    $scope.resultUser.message = "Change password successfully.";
+                                    $timeout(function(){
+                                        $('#changePassword').modal('hide');
+                                    }, 1000);
+                                } else {
+                                    if (Array.isArray(response.data.message)) {
+                                        $scope.errorMessages = response.data.message;
+                                        ngDialog.openConfirm({
+                                            template: './style/ngTemplate/errorMessage.html',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope
+                                        });
+                                    } else {
+                                        $scope.errorMessages = [];
+                                        $scope.errorMessages.push(response.data.message);
+                                        ngDialog.openConfirm({
+                                            template: './style/ngTemplate/errorMessage.html',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope
+                                        });
+                                    }
+                                }
+                            }, function () {
+                                window.alert("Fail to send request!");
+                            });
+                        };
+                        
                     }
                 };
 

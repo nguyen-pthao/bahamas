@@ -286,7 +286,7 @@ app.controller('createContact',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -308,7 +308,7 @@ app.controller('createContact',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -330,7 +330,7 @@ app.controller('createContact',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -404,7 +404,7 @@ app.controller('createContact',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
                     }, function () {
                         window.alert("Fail to send request!");
@@ -426,7 +426,7 @@ app.controller('createContact',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
                     }, function () {
                         window.alert("Fail to send request!");
