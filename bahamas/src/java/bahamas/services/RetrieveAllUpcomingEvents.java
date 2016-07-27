@@ -112,22 +112,11 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                         Date currentTime = time.parse(time.format(currentDateTime));
                                         Date eventDate = date.parse(date.format(event.getEventDate()));
                                         Date eventEndTime = time.parse(time.format(event.getEventEnd()));
-                                        if( (eventDate.after(currentDate) || eventDate.equals(currentDate))){
-                                            if(eventEndTime.after(currentTime)){
-                                                //view for novcie
-                                                if(contact.isIsNovice()){
-                                                    if(event.getEventClassName().equals("Training")){
-                                                        jsonContactObj = new JsonObject();
-                                                        jsonContactObj.addProperty("event_id", event.getEventId());
-                                                        jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                                        jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
-                                                        jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
-                                                        jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
-                                                        jsonContactObj.addProperty("event_class", event.getEventClassName());
-                                                        eventArray.add(jsonContactObj);
-                                                    }
-                                                }else{
-                                                    //view for all other users
+                                        if(eventDate.after(currentDate) || (eventDate.equals(currentDate)&& eventEndTime.after(currentTime))){
+                                            
+                                            //view for novcie
+                                            if(contact.isIsNovice()){
+                                                if(event.getEventClassName().equals("Training")){
                                                     jsonContactObj = new JsonObject();
                                                     jsonContactObj.addProperty("event_id", event.getEventId());
                                                     jsonContactObj.addProperty("event_title", event.getEventTitle());
@@ -137,8 +126,19 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                     jsonContactObj.addProperty("event_class", event.getEventClassName());
                                                     eventArray.add(jsonContactObj);
                                                 }
-                                                        
+                                            }else{
+                                                //view for all other users
+                                                jsonContactObj = new JsonObject();
+                                                jsonContactObj.addProperty("event_id", event.getEventId());
+                                                jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                                jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
+                                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
+                                                jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
+                                                jsonContactObj.addProperty("event_class", event.getEventClassName());
+                                                eventArray.add(jsonContactObj);
                                             }
+
+
                                         }
                                     } catch (ParseException ex) {
                                         Logger.getLogger(RetrieveAllUpcomingEvents.class.getName()).log(Level.SEVERE, null, ex);
