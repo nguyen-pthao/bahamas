@@ -109,6 +109,7 @@ public class AddProxy extends HttpServlet {
                         Contact user = cDAO.retrieveContactByUsername(username);
                         String userType = Validator.containsBlankField(jobject.get("user_type"));
 
+                        /*
                         if (!user.isIsAdmin() && (!userType.equals("teammanager")
                                 && !RoleCheckDAO.checkRole(user.getContactId(), userType))
                                 && (!userType.equals("eventleader")
@@ -117,7 +118,9 @@ public class AddProxy extends HttpServlet {
                             out.println(gson.toJson(json));
                             return;
                         }
-
+                        */
+                        
+                        
                         if (proxyId == principalId) {
                             Validator.getErrorList().add("Principal and proxy should not be the same contact");
                         }
