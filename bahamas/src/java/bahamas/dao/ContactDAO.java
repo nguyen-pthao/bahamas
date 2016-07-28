@@ -363,9 +363,9 @@ public class ContactDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("UPDATE CONTACT SET CONTACT_TYPE=?,"
                     + "NAME=?,ALT_NAME=?,EXPLAIN_IF_OTHER=?,PROFESSION=?,"
-                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,PROFILE_PIC=?,REMARKS=? "
-                    + "WHERE CONTACT_ID=?");
-
+                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,PROFILE_PIC=?,REMARKS=?,"
+                    + "NOTIFICATION=? WHERE CONTACT_ID=?");
+                  
             stmt.setString(1, c.getContactType());        
             stmt.setString(2, c.getName());
             stmt.setString(3, c.getAltName());
@@ -381,8 +381,9 @@ public class ContactDAO {
                 stmt.setDate(10, null);
             }
             stmt.setString(11, c.getProfilePic());
-            stmt.setString(12, c.getRemarks());         
-            stmt.setInt(13, c.getContactId());
+            stmt.setString(12, c.getRemarks());     
+            stmt.setBoolean(13, c.isNotification());
+            stmt.setInt(14, c.getContactId());
 
             return stmt.executeUpdate() == 1;
 

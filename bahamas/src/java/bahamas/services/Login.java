@@ -89,7 +89,7 @@ public class Login extends HttpServlet {
                 String password = jobject.get("password").getAsString();
                 ArrayList<TeamJoin> teamJoinList;
 
-                if (username == null || password == null) {                  
+                if (username == null || password == null) {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
@@ -103,8 +103,8 @@ public class Login extends HttpServlet {
 
                         teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(username);
                         contact.setTeamJoinList(teamJoinList);
-                      
-                        if (PasswordHash.verify(password, contact.getPassword(), contact.getSalt()) 
+
+                        if (PasswordHash.verify(password, contact.getPassword(), contact.getSalt())
                                 && !contact.isDeactivated()) {
 
                             AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
@@ -116,9 +116,7 @@ public class Login extends HttpServlet {
                             JsonArray jsonTeamObjList = new JsonArray();
                             //JsonObject jsonTeamObj = new JsonObject();
 
-                            if (contact.isIsNovice()) {
-                                json.addProperty("user_type", "novice");
-                            } else if (contact.isIsAdmin()) {
+                            if (contact.isIsAdmin()) {
                                 json.addProperty("user_type", "admin");
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                                 json.addProperty("user_type", "teammanager");
@@ -126,10 +124,16 @@ public class Login extends HttpServlet {
                                 json.addProperty("user_type", "eventleader");
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
                                 json.addProperty("user_type", "associate");
+                            } else {
+                                json.addProperty("user_type", "novice");
+                                
+                                //convert the user to a novice, all the teams is either deleted or obsolete
+                                ContactDAO.changeNovicePermission(contact, true);
                             }
+                            
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             //jsonContactObj.addProperty("contact_type", contact.getContactType());
-                            
+
                             //jsonContactObj.addProperty("date_created", datetime.format(contact.getDateCreated()));
                             //jsonContactObj.addProperty("created_by", contact.getCreatedBy());
                             jsonContactObj.addProperty("name", contact.getName());
@@ -144,7 +148,7 @@ public class Login extends HttpServlet {
                             //jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
                             //jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
-                              
+
                             if (teamJoinList != null && !teamJoinList.isEmpty()) {
                                 Iterator iter = teamJoinList.iterator();
                                 while (iter.hasNext()) {
@@ -174,7 +178,7 @@ public class Login extends HttpServlet {
                     }
 
                 }
-                json.addProperty("message", "fail");              
+                json.addProperty("message", "fail");
                 out.print(gson.toJson(json));
             }
 
