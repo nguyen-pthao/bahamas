@@ -7,14 +7,21 @@
 var app = angular.module('bahamas');
 
 app.controller('createEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
 
                 $scope.regex = '\\d+';
+
+                $scope.loadEventStatusList = function () {
+                    loadEventStatus.retrieveEventStatus().then(function (response) {
+                        $scope.eventStatusList = response.data.eventStatusList;
+                        console.log($scope.eventStatusList);
+                    })
+                }
 
                 $scope.loadEventLocationList = function () {
                     loadEventLocation.retrieveEventLocation().then(function (response) {
@@ -65,9 +72,15 @@ app.controller('createEvent',
                     startingDay: 1
                 };
 
-                $scope.open = function () {
+                $scope.openStart = function () {
                     $timeout(function () {
-                        $scope.opened = true;
+                        $scope.openedStart = true;
+                    })
+                }
+
+                $scope.openEnd = function () {
+                    $timeout(function () {
+                        $scope.openedEnd = true;
                     })
                 }
 
@@ -92,10 +105,15 @@ app.controller('createEvent',
                 $scope.altInputFormats = ['M!/d!/yyyy'];
                 //----- end of datepicker settings-----
 
+                $scope.$watch("newEvent['event_start_date']", function () {
+                    $scope.newEvent['event_end_date'] = $scope.newEvent['event_start_date'];
+                })
+
                 $scope.newEvent = {
                     'token': session.getSession('token'),
                     'event_title': '',
-                    'event_date': new Date(),
+                    'event_start_date': new Date(),
+                    'event_end_date': new Date(),
                     'event_time_start': '',
                     'event_time_end': '',
                     'send_reminder': false,
@@ -103,6 +121,7 @@ app.controller('createEvent',
                     'minimum_participation': '',
                     'event_class': '',
                     'event_location': '',
+                    'event_status': '',
                     'event_lat': '',
                     'event_lng': '',
                     'explain_if_others': '',
@@ -130,10 +149,15 @@ app.controller('createEvent',
                 //--end of settings for google maps--
 
                 $scope.createEvent = function () {
-                    if ($scope.newEvent['event_date'] == null) {
-                        $scope.newEvent['event_date'] = ''
-                    } else if ($scope.newEvent['event_date'] != null || $scope.newEvent['event_date'] != '') {
-                        $scope.newEvent['event_date'] = $scope.newEvent['event_date'].valueOf() + "";
+                    if ($scope.newEvent['event_start_date'] == null) {
+                        $scope.newEvent['event_start_date'] = ''
+                    } else if ($scope.newEvent['event_start_date'] != null || $scope.newEvent['event_start_date'] != '') {
+                        $scope.newEvent['event_start_date'] = $scope.newEvent['event_start_date'].valueOf() + "";
+                    }
+                    if ($scope.newEvent['event_end_date'] == null) {
+                        $scope.newEvent['event_end_date'] = ''
+                    } else if ($scope.newEvent['event_end_date'] != null || $scope.newEvent['event_end_date'] != '') {
+                        $scope.newEvent['event_end_date'] = $scope.newEvent['event_end_date'].valueOf() + "";
                     }
                     if ($scope.newEvent['event_time_start'] == null) {
                         $scope.newEvent['event_time_start'] = ''
@@ -152,40 +176,39 @@ app.controller('createEvent',
                     if ($scope.newEvent['minimum_participation'] == '') {
                         $scope.newEvent['minimum_participation'] = "1";
                     }
-                    if ($scope.newEvent['event_time_start'] > $scope.newEvent['event_time_end']) {
-                        $scope.errorMessages = ["Start Time cannot be after End Time!"]
-                        ngDialog.openConfirm({
-                            template: './style/ngTemplate/errorMessage.html',
-                            className: 'ngdialog-theme-default',
-                            scope: $scope
-                        })
-                    } else {
-                        var url = "/event.create";
-                        dataSubmit.submitData($scope.newEvent, url).then(function (response) {
-                            if (response.data.message == 'success') {
-                                var id = response.data['event_id'];
-                                localStorageService.set('eventIdCreate', id);
-                                $state.go('admin.createEventRoles');
-                            } else {
-                                $scope.errorMessages = response.data.message;
-                                ngDialog.openConfirm({
-                                    template: './style/ngTemplate/addEventConflict.html',
-                                    className: 'ngdialog-theme-default',
-                                    scope: $scope
-                                }).then(function (response) {
-                                    $scope.newEvent.ignore = true;
-                                    console.log($scope.newEvent);
-                                    dataSubmit.submitData($scope.newEvent, url).then(function (response) {
-                                        if (response.data.message == 'success') {
-                                            var id = response.data['event_id'];
-                                            localStorageService.set('eventIdCreate', id);
-                                            $state.go('admin.createEventRoles');
-                                        }
-                                    });
+
+                    var url = "/event.create";
+                    dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                        if (response.data.message == 'success') {
+                            var id = response.data['event_id'];
+                            localStorageService.set('eventIdCreate', id);
+                            $state.go('admin.createEventRoles');
+                        } else if(response.data.message == 'dateError'){
+                            $scope.errorMessages = response.data.errorMsg;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        } else {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/addEventConflict.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            }).then(function (response) {
+                                $scope.newEvent.ignore = true;
+                                console.log($scope.newEvent);
+                                dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                                    if (response.data.message == 'success') {
+                                        var id = response.data['event_id'];
+                                        localStorageService.set('eventIdCreate', id);
+                                        $state.go('admin.createEventRoles');
+                                    }
                                 });
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
+
                 };
 
             }]);
