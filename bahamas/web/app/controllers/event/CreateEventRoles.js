@@ -94,15 +94,15 @@ app.controller('createEventRoles',
                     }
                 }
 
-                $scope.numberOfRoles = [1, 2, 3];
+                $scope.numberOfRoles = [1, 2];
                 $scope.addNumberOfRoles = function () {
-                    var roleIntoNewRoles = "role" + ($scope.numberOfRoles.length + 1);
-                    var descriptionIntoNewRoles = "description" + ($scope.numberOfRoles.length + 1);
+                    var roleIntoNewRoles = "role" + ($scope.numberOfRoles.length + 2);
+                    var descriptionIntoNewRoles = "description" + ($scope.numberOfRoles.length + 2);
                     var newRole = {};
                     newRole[roleIntoNewRoles] = '';
                     newRole[descriptionIntoNewRoles] = '';
                     $scope.newRoles.roleArray.push(newRole);
-                    $scope.numberOfRoles.push($scope.numberOfRoles.length + 1);
+                    $scope.numberOfRoles.push($scope.numberOfRoles.length + 2);
                 }
 //
 //                $scope.map = {center: {latitude: 1.302918, longitude: 103.864964}, zoom: 15, options: {scrollwheel: false}, control:{}};

@@ -59,11 +59,10 @@ app.controller('createEventAffiliation',
 
                 $scope.selectedTeams = {
                 };
-                
+
                 $scope.selectedTeamsCopy = {
-                    
                 };
-                
+
                 $scope.others = {
                     'others': false,
                     'explain_if_others': ''
@@ -88,41 +87,55 @@ app.controller('createEventAffiliation',
                 };
 
                 $scope.submit = function () {
+                    var hasSelected = false;
                     angular.forEach($scope.selectedTeams, function (value, key) {
-                        $scope.toSubmit['teams'].push($scope.teamAffiliationList[key].teamAffiliation);
+                        if (value == true) {
+                            hasSelected = true;
+                            $scope.toSubmit['teams'].push($scope.teamAffiliationList[key].teamAffiliation);
+                        }
                     });
                     if ($scope.others['others'] == true) {
+                        hasSelected = true;
                         $scope.toSubmit['teams'].push('Others');
                         $scope.toSubmit['explain_if_others'] = $scope.others['explain_if_others'];
                     }
-                    var url = "/event.addaffiliation";
-                    dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
-                        if (response.data.message == 'success') {
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/addEventSuccess.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            }).then(function(response){
-                                localStorageService.remove('eventIdCreate');
-                                var afterSuccess = user + '.viewUpcomingEvents'
-                                $state.go(afterSuccess);
-                            })
-                        } else {
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/addEventAffiliationFailure.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            }).then(function (response) {
-                                $scope.toSubmit = angular.copy($scope.toSubmitCopy);
-                                $scope.selectedTeams = angular.copy($scope.selectedTeamsCopy);
-                                var currentState = user + '.createEventAffiliation';
-                                $state.reload(currentState);
-                            })
-                        }
-                    })
+                    if (hasSelected == false) {
+                        $scope.errorMessages = ["Please select at least one Team."];
+                        ngDialog.openConfirm({
+                            template: './style/ngTemplate/errorMessage.html',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        })
+                    } else {
+                        var url = "/event.addaffiliation";
+                        dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
+                            if (response.data.message == 'success') {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/addEventSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    localStorageService.remove('eventIdCreate');
+                                    var afterSuccess = user + '.viewUpcomingEvents'
+                                    $state.go(afterSuccess);
+                                })
+                            } else {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/addEventAffiliationFailure.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $scope.toSubmit = angular.copy($scope.toSubmitCopy);
+                                    $scope.selectedTeams = angular.copy($scope.selectedTeamsCopy);
+                                    var currentState = user + '.createEventAffiliation';
+                                    $state.reload(currentState);
+                                })
+                            }
+                        })
+                    }
                 };
-                
-                $scope.toEvents = function(){
+
+                $scope.toEvents = function () {
                     localStorageService.remove('eventIdCreate');
                     var toEventsUrl = user + '.viewUpcomingEvents';
                     $state.go(toEventsUrl);

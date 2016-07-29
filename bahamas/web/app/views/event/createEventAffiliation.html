@@ -65,7 +65,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-3" ng-init="loadTeamAffiliationList()">
                                             <div class="box">
-                                                <label>Select Team Affiliation</label>
+                                                <label>Select Team Affiliation</label><span class="required">*</span>
                                                 <div ng-repeat="team in teamAffiliationList track by $index">
                                                     <input type="checkbox" ng-model="selectedTeams[$index]"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
                                                 </div>

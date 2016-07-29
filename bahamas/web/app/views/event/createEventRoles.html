@@ -62,17 +62,31 @@ and open the template in the editor.
                             <form role="form" name='addRolesForm'>
                                 <!-- COMPULSORY INFORMATION SECTION -->
                                 <div class='box-body'>
-                                    <div class='box' ng-repeat="role in numberOfRoles track by $index">
+                                    <div class='box'>
                                         <div class="form-group">
-                                            <label>Role {{$index + 1}}</label>
-                                            <input type="text" ng-model="newRoles['roleArray'][$index]['role' + ($index + 1)]" ng-maxlength="50" name="role{{$index + 1}}" class="form-control" placeholder='Not Specified'>
-                                            <span ng-show="addRolesForm['role' + ($index + 1)].$error.maxlength" class='error'>Input for 'Role {{$index + 1}}' is too long.</span>
+                                            <label>Role 1</label><span class="required">*</span>
+                                            <input type="text" ng-required='true' ng-model="newRoles['roleArray'][0]['role1']" ng-maxlength="50" name="role1" class="form-control" placeholder='Not Specified'>
+                                            <span ng-show="addRolesForm.role1.$error.maxlength" class='error'>Input for 'Role 1' is too long.</span>
+                                            <span ng-show="addRolesForm.role1.$error.required && addRolesForm.role1.$touched" class='error'>Input for 'Role 1' is required.</span>
                                         </div>
                                         <div>
-                                            <label>Role {{$index + 1}} Description</label>
-                                            <textarea class="custom-remarks" ng-model="newRoles['roleArray'][$index]['description' + ($index + 1)]" ng-maxlength="200" name="description{{$index + 1}}" contenteditable="true" spellcheck="true"></textarea>
-                                            <span ng-show="addRolesForm['description' + ($index + 1)].$error.maxlength" class='error'>Input for 'Role {{$index + 1}} Description' is too long.</span>
-                                            <span ng-show="(newRoles['roleArray'][$index]['description' + ($index + 1)] != '' && newRoles['roleArray'][$index]['role' + ($index + 1)] == '')" class='error'>Input for 'Role {{$index + 1}}' cannot be empty.</span>
+                                            <label>Role 1 Description</label>
+                                            <textarea class="custom-remarks" ng-model="newRoles['roleArray'][0]['description1']" ng-maxlength="200" name="description1" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="addRolesForm.description1.$error.maxlength" class='error'>Input for 'Role 1 Description' is too long.</span>
+                                            <span ng-show="(newRoles['roleArray'][0]['description1'] != '' && newRoles['roleArray'][0]['role1'] == '')" class='error'>Input for 'Role 1' cannot be empty.</span>
+                                        </div>   
+                                    </div>
+                                    <div class='box' ng-repeat="role in numberOfRoles track by $index">
+                                        <div class="form-group">
+                                            <label>Role {{$index + 2}}</label>
+                                            <input type="text" ng-model="newRoles['roleArray'][($index+ 1)]['role' + ($index + 2)]" ng-maxlength="50" name="role{{$index + 2}}" class="form-control" placeholder='Not Specified'>
+                                            <span ng-show="addRolesForm['role' + ($index + 2)].$error.maxlength" class='error'>Input for 'Role {{$index + 2}}' is too long.</span>
+                                        </div>
+                                        <div>
+                                            <label>Role {{$index + 2}} Description</label>
+                                            <textarea class="custom-remarks" ng-model="newRoles['roleArray'][($index + 1)]['description' + ($index + 2)]" ng-maxlength="200" name="description{{$index + 2}}" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="addRolesForm['description' + ($index + 2)].$error.maxlength" class='error'>Input for 'Role {{$index + 2}} Description' is too long.</span>
+                                            <span ng-show="(newRoles['roleArray'][($index + 1)]['description' + ($index + 2)] != '' && newRoles['roleArray'][($index + 1)]['role' + ($index + 2)] == '')" class='error'>Input for 'Role {{$index + 2}}' cannot be empty.</span>
                                         </div>
                                     </div>
                                 </div>
@@ -80,6 +94,7 @@ and open the template in the editor.
                                     <center>
                                         <button type="submit" ng-click="addNumberOfRoles()" class="btn btn-warning" style="margin-right: 15px;">Add New Role</button>
                                         <button type="submit" ng-click="submitRoles()"
+                                                ng-disabled="addRolesForm.role1.$error.required"
                                                 class="btn btn-primary">
                                             Save and proceed
                                         </button>
