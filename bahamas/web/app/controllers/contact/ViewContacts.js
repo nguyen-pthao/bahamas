@@ -49,12 +49,6 @@ app.controller('viewContacts',
                     var allContactObjKey = [];
                     $scope.myPromise = loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
-//                        console.log($scope.allContactInfo);
-                        var firstContactObject = $scope.allContactInfo[0];
-                        for (contactHeader in firstContactObject) {
-                            allContactObjKey.push(contactHeader);
-                        }
-                        $scope.allContactObjectKeys = allContactObjKey;
                         $scope.isAuthorised = true;
                         $scope.canDelete = false;
                         $scope.takeNoColumns = 5;
@@ -65,13 +59,10 @@ app.controller('viewContacts',
                         if ($scope.userType === 'associate') {
                             $scope.isAuthorised = false;
                             $scope.takeNoColumns = 4;
-                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 4);
                         } else if ($scope.userType === 'eventleader') {
                             $scope.isAuthorised = true;
-                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
                             $scope.showFive = true;
                         } else {
-                            $scope.allContactObjectKeySliced = $scope.allContactObjectKeys.slice(0, 5);
                             $scope.showFive = true;
                         }
                         $scope.totalItems = $scope.allContactInfo.length;

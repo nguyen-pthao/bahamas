@@ -62,7 +62,11 @@ and open the template in the editor.
                             <table id="example1" class="table table-bordered table-striped" ng-show="showFive" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th ng-repeat="contactHead in allContactObjectKeySliced"><a href="" ng-click="order(contactHead)" style='color: #005384'>{{contactHead}}</a></th>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
                                         <th ng-if="isAuthorised"></th>
                                     </tr>
                                 </thead>
@@ -78,7 +82,11 @@ and open the template in the editor.
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th ng-repeat="contactHead in allContactObjectKeySliced">{{contactHead}}</th>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
                                         <th ng-if="isAuthorised"></th>
                                     </tr>
                                 </tfoot>
@@ -86,7 +94,10 @@ and open the template in the editor.
                             <table id="example1" class="table table-bordered table-striped" ng-hide="showFive" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th ng-repeat="contactHead in allContactObjectKeySliced"><a href="" ng-click="order(contactHead)" style='color: #005384'>{{contactHead}}</a></th>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
                                         <th ng-if="isAuthorised"></th>
                                     </tr>
                                 </thead>
@@ -101,7 +112,10 @@ and open the template in the editor.
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th ng-repeat="contactHead in allContactObjectKeySliced">{{contactHead}}</th>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
                                         <th ng-if="isAuthorised"></th>
                                     </tr>
                                 </tfoot>
