@@ -66,7 +66,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.permissionViewNricDob = true;
         } else if ($scope.permission === 'associate') {
             $scope.isAssociate = true;
-            $scope.permissionViewNricDob = true;
+            $scope.permissionViewNricDob = false;
         }
 
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {

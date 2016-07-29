@@ -287,13 +287,25 @@ li.user-header>p>a:focus {
     }
 }
 
+/*sidebar settings for mobile devices*/
 @media (max-width: 767px) {
     .sidebar-open .content-wrapper, .sidebar-open .right-side, .sidebar-open .main-footer {
         transform: translate(120px, 0);
     }
-}
-
-@media (max-width: 767px) {
+    div.wrapper.sidebar-open > aside.main-sidebar {
+        position: fixed;
+        overflow-y: scroll;
+        top: 0;
+        bottom: 0;
+    }
+    
+    aside.control-sidebar.control-sidebar-dark-control-sidebar-open {
+        position: fixed;
+        overflow-y: scroll;
+        top: 0;
+        bottom: 0;
+    }
+    
     .main-sidebar, .left-side, .control-sidebar {
         padding-top: 50px;
     }
