@@ -28,6 +28,11 @@ app.controller('viewEvents',
                         $scope.itemsPerPage = $scope.allEventInfo.length;
                         $scope.allFilteredEvents = $scope.allEventInfo;
                         $scope.isAll = false;
+                        var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
+                        $scope.totalPages = Math.ceil(total);
+                        if ($scope.totalPages === 0) {
+                            $scope.totalPages = 1;
+                        }
                         $scope.itemsPerPageChanged = function () {
                             if ($scope.itemsPerPage == 'toAll') {
                                 $scope.itemsPerPage = $scope.allFilteredEvents.length;
@@ -48,11 +53,6 @@ app.controller('viewEvents',
                             });
                         };
 
-                        var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-                        $scope.totalPages = Math.ceil(total);
-                        if ($scope.totalPages === 0) {
-                            $scope.totalPages = 1;
-                        }
                         $scope.$watch('currentPage + itemsPerPage', function () {
                             var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                             var end = begin + parseInt($scope.itemsPerPage);
