@@ -27,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -142,13 +143,13 @@ public class UpdateTeamJoin extends HttpServlet {
                         if (TeamJoinDAO.updateTeamJoin(tj)) {
                             //change contact to a non novice account
                             if (permission != null) {
-                                cDAO.changeNovicePermission(c, false);
+                                ContactDAO.changeNovicePermission(c, false);
                                 AuditLogDAO.insertAuditLog(username, "UPDATE TEAM JOIN", "Update team join under contact: Contact ID: " + contactId);
-
+                            
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;
-                            }
+                            }                           
 
                         } else {
                             json.addProperty("message", "failure to update into system");

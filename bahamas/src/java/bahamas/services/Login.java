@@ -118,12 +118,16 @@ public class Login extends HttpServlet {
 
                             if (contact.isIsAdmin()) {
                                 json.addProperty("user_type", "admin");
+                                ContactDAO.changeNovicePermission(contact, false);
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                                 json.addProperty("user_type", "teammanager");
+                                ContactDAO.changeNovicePermission(contact, false);
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
                                 json.addProperty("user_type", "eventleader");
+                                ContactDAO.changeNovicePermission(contact, false);
                             } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
                                 json.addProperty("user_type", "associate");
+                                ContactDAO.changeNovicePermission(contact, false);
                             } else {
                                 json.addProperty("user_type", "novice");
                                 

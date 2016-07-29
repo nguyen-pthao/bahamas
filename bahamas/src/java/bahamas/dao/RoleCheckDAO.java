@@ -96,8 +96,9 @@ public class RoleCheckDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN WHERE (DATE_OBSOLETE = '0000-00-00' "
-                    + "OR DATE_OBSOLETE = '' OR DATE_OBSOLETE IS NULL OR DATE_OBSOLETE >= DATE(NOW())) AND CONTACT_ID = (?) AND PERMISSION = (?)");
+            stmt = conn.prepareStatement("SELECT COUNT(*) AS COUNT FROM TEAM_JOIN "
+                    + "WHERE (DATE_OBSOLETE IS NULL OR DATE_OBSOLETE > CURDATE()) "
+                    + "AND CONTACT_ID = (?) AND PERMISSION = (?)");
             stmt.setString(1, Integer.toString(cid));
             stmt.setString(2, permission);
             rs = stmt.executeQuery();
