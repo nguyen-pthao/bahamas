@@ -82,6 +82,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewUpcomingEvents.html',
                 controller: 'viewUpcomingEvents'
             })
+            .state('admin.viewIndivEvent', {
+                url: '/viewIndivEvent/{eventId: int}',
+                templateUrl: 'app/views/event/viewIndivEvent.html',
+                controller: 'viewIndivEvent'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -101,6 +106,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/editContact',
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
+            })
+            .state('novice.viewIndivEvent', {
+                url: '/viewIndivEvent/{eventId: int}',
+                templateUrl: 'app/views/event/viewIndivEvent.html',
+                controller: 'viewIndivEvent'
             })
             .state('associate', {
                 url: '/associate',
@@ -131,6 +141,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewUpcomingEvents',
                 templateUrl: 'app/views/event/viewUpcomingEvents.html',
                 controller: 'viewUpcomingEvents'
+            })
+            .state('associate.viewIndivEvent', {
+                url: '/viewIndivEvent/{eventId: int}',
+                templateUrl: 'app/views/event/viewIndivEvent.html',
+                controller: 'viewIndivEvent'
             })
             .state('teammanager', {
                 url: '/teammanager',
@@ -187,6 +202,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewUpcomingEvents.html',
                 controller: 'viewUpcomingEvents'
             })
+            .state('teammanager.viewIndivEvent', {
+                url: '/viewIndivEvent/{eventId: int}',
+                templateUrl: 'app/views/event/viewIndivEvent.html',
+                controller: 'viewIndivEvent'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -236,6 +256,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewUpcomingEvents',
                 templateUrl: 'app/views/event/viewUpcomingEvents.html',
                 controller: 'viewUpcomingEvents'
+            })
+            .state('eventleader.viewIndivEvent', {
+                url: '/viewIndivEvent/{eventId: int}',
+                templateUrl: 'app/views/event/viewIndivEvent.html',
+                controller: 'viewIndivEvent'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
