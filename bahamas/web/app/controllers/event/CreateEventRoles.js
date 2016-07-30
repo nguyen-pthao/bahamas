@@ -39,7 +39,7 @@ app.controller('createEventRoles',
                             var meridianE = timeEnd.substring(9, 11);
                             var timeE = timeEnd.substring(0, 5);
                         }
-                        $scope.eventInfo['event_date'] = new Date($scope.eventInfo['event_date']);
+                        $scope.eventInfo['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                     })

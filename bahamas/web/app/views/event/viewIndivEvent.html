@@ -17,14 +17,14 @@ and open the template in the editor.
                 </h3>
             </section>
             <!-- Main content -->
-            <section class="content">
+            <section class="content" ng-init="retrieveEvent()">
                 <div>
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
                         <ui-gmap-marker idkey='marker.id' coords='marker.coords'></ui-gmap-marker>
                     </ui-gmap-google-map>
                 </div>
                 <!--Box to show event details--> 
-                <div class="box" style="margin-top:20px;" ng-init="retrieveEvent()">
+                <div class="box" style="margin-top:20px;">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Event Details </h3>
                         <div class="box-tools pull-right">
@@ -69,7 +69,7 @@ and open the template in the editor.
                                 </div>
                                 <div class="col-sm-6">
                                     <h4 class="bold">Event Class</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_class_name}}</div>
+                                    <div class="custom-height-1">{{eventInfo.event_class}}</div>
                                 </div>
                                 <div class="col-sm-6">
                                     <h4 class="bold">Status</h4>
