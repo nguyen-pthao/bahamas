@@ -109,8 +109,8 @@ and open the template in the editor.
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="role in roles">
-                                            <td>{{role.role}}</td>
-                                            <td>{{role.description}}</td>
+                                            <td>{{role['event_role']}}</td>
+                                            <td>{{role['event_desc']}}</td>
                                             <td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editEvent($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                         </tr>
                                     </tbody>
