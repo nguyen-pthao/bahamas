@@ -76,7 +76,8 @@ public class AddEvent extends HttpServlet {
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventTitle = Validator.containsBlankField(jobject.get("event_title"));
-                Date eventDate = Validator.isDateValid(jobject.get("event_date"), "event_date");
+                Date eventStartDate = Validator.isDateValid(jobject.get("event_start_date"), "event_start_date");
+                Date eventEndDate = Validator.isDateValid(jobject.get("event_end_date"), "event_end_date");
                 Date eventTimeStart = Validator.isDateValid(jobject.get("event_time_start"), "event_time_start");
                 Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"),"event_time_end");
                 boolean sendReminder = jobject.get("send_reminder").getAsBoolean();
@@ -91,13 +92,16 @@ public class AddEvent extends HttpServlet {
                 boolean ignore = jobject.get("ignore").getAsBoolean();
                 
                 
-                if(eventClass == null || eventDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null){
+                if(eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null){
                     json.addProperty("message", "Missing fields");
                     if(eventClass == null){
                         json.addProperty("event_class", "Missing Event Class");
                     }
-                    if(eventDate == null){
-                        json.addProperty("event_date", "Missing Event Date");
+                    if(eventStartDate == null){
+                        json.addProperty("event_start_date", "Missing Event Start Date");
+                    }
+                    if(eventEndDate == null){
+                        json.addProperty("event_end_date", "Missing Event End Date");
                     }
                     if(eventLocation == null){
                         json.addProperty("event_location", "Missing Event Location");
@@ -116,7 +120,8 @@ public class AddEvent extends HttpServlet {
                 }
                 
                 if(eventTimeEnd.before(eventTimeStart) || eventTimeEnd.equals(eventTimeStart)){
-                    json.addProperty("message", "End time must be after start time");
+                    json.addProperty("message", "dateError");
+                    json.addProperty("errorMsg", "End time must be after start time");
                     out.println(gson.toJson(json));
                     return;
                 }
@@ -137,7 +142,7 @@ public class AddEvent extends HttpServlet {
                         if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader") ){
                             
                             //check if exist
-                            Event event = new Event(eventDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);
+                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);                         
                             String errorMsg = EventDAO.eventExist(event);
                             
                             if(errorMsg != null && !ignore){

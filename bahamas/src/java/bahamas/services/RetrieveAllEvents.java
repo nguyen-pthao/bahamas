@@ -105,9 +105,10 @@ public class RetrieveAllEvents extends HttpServlet {
                                     jsonContactObj = new JsonObject();
                                     jsonContactObj.addProperty("event_id", event.getEventId());
                                     jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                    jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
-                                    jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
-                                    jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
+                                    jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                    jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                    jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                    jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
                                     jsonContactObj.addProperty("event_class", event.getEventClassName());
                                     eventArray.add(jsonContactObj);
                                 }

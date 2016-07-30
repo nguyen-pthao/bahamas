@@ -126,34 +126,38 @@ public class UpdateList extends HttpServlet {
                 status = true;
                 break;
             case "4":
-                UpdateListDAO.updateLSAClassList(jsonlist);
+                UpdateListDAO.updateEventStatusList(jsonlist);
                 status = true;
                 break;
             case "5":
-                UpdateListDAO.updateLanguageList(jsonlist);
+                UpdateListDAO.updateLSAClassList(jsonlist);
                 status = true;
                 break;
             case "6":
-                UpdateListDAO.updateMembershipClassList(jsonlist);
+                UpdateListDAO.updateLanguageList(jsonlist);
                 status = true;
                 break;
             case "7":
-                UpdateListDAO.updateModeOfSendingReceiptList(jsonlist);
+                UpdateListDAO.updateMembershipClassList(jsonlist);
                 status = true;
                 break;
             case "8":
-                UpdateListDAO.updateOfficeList(jsonlist);
+                UpdateListDAO.updateModeOfSendingReceiptList(jsonlist);
                 status = true;
                 break;
             case "9":
-                UpdateListDAO.updatePaymentModeList(jsonlist);
+                UpdateListDAO.updateOfficeList(jsonlist);
                 status = true;
                 break;
             case "10":
-                UpdateListDAO.updatePermissionLevelList(jsonlist);
+                UpdateListDAO.updatePaymentModeList(jsonlist);
                 status = true;
                 break;
             case "11":
+                UpdateListDAO.updatePermissionLevelList(jsonlist);
+                status = true;
+                break;
+            case "12":
                 UpdateListDAO.updateTeamAffiliationList(jsonlist);
                 status = true;
                 break;

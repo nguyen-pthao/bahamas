@@ -110,9 +110,9 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                     try {
                                         Date currentDate = date.parse(date.format(currentDateTime));
                                         Date currentTime = time.parse(time.format(currentDateTime));
-                                        Date eventDate = date.parse(date.format(event.getEventDate()));
-                                        Date eventEndTime = time.parse(time.format(event.getEventEnd()));
-                                        if(eventDate.after(currentDate) || (eventDate.equals(currentDate)&& eventEndTime.after(currentTime))){
+                                        Date eventEndDate = date.parse(date.format(event.getEventEndDate()));
+                                        Date eventEndTime = time.parse(time.format(event.getEventEndTime()));
+                                        if(eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate)&& eventEndTime.after(currentTime))){
                                             
                                             //view for novcie
                                             if(contact.isIsNovice()){
@@ -120,9 +120,10 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                     jsonContactObj = new JsonObject();
                                                     jsonContactObj.addProperty("event_id", event.getEventId());
                                                     jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                                    jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
-                                                    jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
-                                                    jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
+                                                    jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                                    jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                                    jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                                    jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
                                                     jsonContactObj.addProperty("event_class", event.getEventClassName());
                                                     eventArray.add(jsonContactObj);
                                                 }
@@ -131,9 +132,10 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 jsonContactObj = new JsonObject();
                                                 jsonContactObj.addProperty("event_id", event.getEventId());
                                                 jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                                jsonContactObj.addProperty("event_date", date.format(event.getEventDate()));
-                                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStart()));
-                                                jsonContactObj.addProperty("event_time_end", time.format(event.getEventEnd()));
+                                                jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                                jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                                jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
                                                 jsonContactObj.addProperty("event_class", event.getEventClassName());
                                                 eventArray.add(jsonContactObj);
                                             }

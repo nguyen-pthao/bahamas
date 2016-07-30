@@ -15,9 +15,10 @@ public class Event {
     
     private int eventId;
     private Date dateCreated = new java.util.Date();
-    private Date eventDate;
-    private Date eventStart;
-    private Date eventEnd;
+    private Date eventStartDate;
+    private Date eventEndDate;
+    private Date eventStartTime;
+    private Date eventEndTime;
     private String eventTitle;
     private String explainIfOthers;
     private String eventDescription;
@@ -35,10 +36,11 @@ public class Event {
     private boolean workerRelated;
     private ArrayList<Notice> noticeList;
 
-    public Event(Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated) {
-        this.eventDate = eventDate;
-        this.eventStart = eventStart;
-        this.eventEnd = eventEnd;
+    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated) {
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
         this.explainIfOthers = explainIfOthers;
         this.eventDescription = eventDescription;
@@ -51,10 +53,11 @@ public class Event {
         this.dateCreated = dateCreated;
     }
     
-    public Event(Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng) {
-        this.eventDate = eventDate;
-        this.eventStart = eventStart;
-        this.eventEnd = eventEnd;
+    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng) {
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
         this.explainIfOthers = explainIfOthers;
         this.eventDescription = eventDescription;
@@ -66,11 +69,12 @@ public class Event {
         this.eventLng = eventLng;
     }
 
-    public Event(int eventId, Date eventDate, Date eventStart, Date eventEnd, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy) {
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy) {
         this.eventId = eventId;
-        this.eventDate = eventDate;
-        this.eventStart = eventStart;
-        this.eventEnd = eventEnd;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
         this.explainIfOthers = explainIfOthers;
         this.eventDescription = eventDescription;
@@ -82,14 +86,6 @@ public class Event {
         this.eventLng = eventLng;
         this.dateCreated = dateCreated;
         this.createdBy = createdBy;
-    }
-
-    public Date getEventDate() {
-        return eventDate;
-    }
-
-    public void setEventDate(Date eventDate) {
-        this.eventDate = eventDate;
     }
 
     public int getEventId() {
@@ -108,20 +104,36 @@ public class Event {
         this.dateCreated = dateCreated;
     }
 
-    public Date getEventStart() {
-        return eventStart;
+    public Date getEventStartDate() {
+        return eventStartDate;
     }
 
-    public void setEventStart(Date eventStart) {
-        this.eventStart = eventStart;
+    public void setEventStartDate(Date eventStartDate) {
+        this.eventStartDate = eventStartDate;
     }
 
-    public Date getEventEnd() {
-        return eventEnd;
+    public Date getEventEndDate() {
+        return eventEndDate;
     }
 
-    public void setEventEnd(Date eventEnd) {
-        this.eventEnd = eventEnd;
+    public void setEventEndDate(Date eventEndDate) {
+        this.eventEndDate = eventEndDate;
+    }
+
+    public Date getEventStartTime() {
+        return eventStartTime;
+    }
+
+    public void setEventStartTime(Date eventStartTime) {
+        this.eventStartTime = eventStartTime;
+    }
+
+    public Date getEventEndTime() {
+        return eventEndTime;
+    }
+
+    public void setEventEndTime(Date eventEndTime) {
+        this.eventEndTime = eventEndTime;
     }
 
     public String getEventTitle() {
