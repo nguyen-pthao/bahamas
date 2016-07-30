@@ -13,6 +13,11 @@ app.controller('viewIndivEvent',
                 $scope.backHome = function () {
                     $state.go(user);
                 };
+                
+                $scope.toEvents = function (){
+                    var url = user + '.viewUpcomingEvents';
+                    $state.go(url);
+                };
 
                 $scope.map = {center: {latitude: 1.302918, longitude: 103.864964}, zoom: 15, options: {scrollwheel: false}, control:{}};
 
