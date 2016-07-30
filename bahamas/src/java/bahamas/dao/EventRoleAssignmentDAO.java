@@ -75,15 +75,15 @@ public class EventRoleAssignmentDAO {
             while (rs.next()) {
                 int roleId = rs.getInt(1);
                 int eventId = rs.getInt(2);
-                String roleName = rs.getString(2);
-                String roleDesc = rs.getString(2);
+                String roleName = rs.getString(3);
+                String roleDesc = rs.getString(4);
                 
                 EventRoleAssignment eventRoleAssignment = new EventRoleAssignment(roleId,eventId,roleName,roleDesc);
                 eventRoleAssignmentList.add(eventRoleAssignment);
                         
             }
         } catch (SQLException ex) {
-            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve event from database data", ex);
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT_ROLE_ASSIGNMENT from database data", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);

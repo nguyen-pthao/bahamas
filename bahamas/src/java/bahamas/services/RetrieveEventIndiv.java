@@ -52,6 +52,7 @@ public class RetrieveEventIndiv extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            JsonArray eventRoleJsonArray = new JsonArray();
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -75,7 +76,6 @@ public class RetrieveEventIndiv extends HttpServlet {
             } else {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
-                JsonArray eventRoleJsonArray = new JsonArray();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("eventId"));
@@ -123,9 +123,9 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
                                 if(!eventRoleAssignmentList.isEmpty() && eventRoleAssignmentList.size() != 0){
                                     for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                        JsonObject roleJson = jelement.getAsJsonObject();
+                                        JsonObject roleJson = new JsonObject();
                                         roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
-                                        roleJson.addProperty("event_status", eventRoleAssignment.getRoleDescription());
+                                        roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
                                         eventRoleJsonArray.add(roleJson);
                                     }
                                 }
