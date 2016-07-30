@@ -20,7 +20,7 @@ app.controller('viewIndivEvent',
                     var url = user + '.viewUpcomingEvents';
                     $state.go(url);
                 };
-
+                $scope.showGmap = true;
                 $scope.retrieveEvent = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
@@ -45,13 +45,18 @@ app.controller('viewIndivEvent',
                             var meridianE = timeEnd.substring(9, 11);
                             var timeE = timeEnd.substring(0, 5);
                         }
+                        if ($scope.eventInfo['event_lat'] == '' || $scope.eventInfo['event_lng'] == '') {
+                            $scope.showGmap = false;
+                        } else {
+                            $scope.map = {center: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, zoom: 15, options: {scrollwheel: false}, control: {}};
+
+                            $scope.marker = {coords: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, id: 1};
+                        }
                         $scope.eventInfo['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
                         $scope.eventInfo['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
-                        $scope.map = {center: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, zoom: 15, options: {scrollwheel: false}, control: {}};
 
-                        $scope.marker = {coords: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, id: 1};
                     })
                 }
 

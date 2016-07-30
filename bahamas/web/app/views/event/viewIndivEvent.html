@@ -18,7 +18,7 @@ and open the template in the editor.
             </section>
             <!-- Main content -->
             <section class="content" ng-init="retrieveEvent()">
-                <div>
+                <div ng-if='showGmap'>
                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
                         <ui-gmap-marker idkey='marker.id' coords='marker.coords'></ui-gmap-marker>
                     </ui-gmap-google-map>
