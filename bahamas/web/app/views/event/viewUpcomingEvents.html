@@ -63,30 +63,33 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order('event_date')" style='color: #005384'>Date Of Event</a></th>
+                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Date Of Event</a></th>
                                         <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
-                                        <th><a href="" ng-click="order('event_time_end')" style='color: #005384'>End Time</a></th>
+                                        <th><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
                                         <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
+                                        <th><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
                                         <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
-                                        <td>{{event['event_date']}}</td>
+                                        <td>{{event['event_start_date']}}</td>
                                         <td>{{event['event_time_start']}}</td>
-                                        <td>{{event['event_time_end']}}</td>
+                                        <td>{{event['event_location']}}</td>
                                         <td>{{event['event_class']}}</td>
+                                        <td>{{event['event_status']}}</td>
                                         <!--<td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>-->
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order('event_date')" style='color: #005384'>Date Of Event</a></th>
+                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Date Of Event</a></th>
                                         <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
-                                        <th><a href="" ng-click="order('event_time_end')" style='color: #005384'>End Time</a></th>
+                                        <th><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
                                         <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
+                                        <th><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
