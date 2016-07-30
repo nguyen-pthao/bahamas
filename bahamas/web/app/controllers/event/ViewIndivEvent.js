@@ -49,9 +49,9 @@ app.controller('viewIndivEvent',
                         $scope.eventInfo['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
-                        $scope.map = {center: {latitude: $scope.eventInfo['event_latitude'], longitude: $scope.eventInfo['event_longitude']}, zoom: 15, options: {scrollwheel: false}, control: {}};
+                        $scope.map = {center: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, zoom: 15, options: {scrollwheel: false}, control: {}};
 
-                        $scope.marker = {coords: {latitude: $scope.eventInfo['event_latitude'], longitude: $scope.eventInfo['event_longitude']}, id: 1};
+                        $scope.marker = {coords: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, id: 1};
                     })
                 }
 
