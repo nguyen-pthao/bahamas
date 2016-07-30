@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb" style="margin-bottom: 0px;">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click=""> Events Management </a><i class="fa fa-chevron-right small"></i><a href=""> View Event </a><i class="fa fa-chevron-right small"></i><a href=""> {{eventInfo.event_title}} </a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="toEvents()"> Events Management </a><i class="fa fa-chevron-right small"></i><a href=""> View Event </a><i class="fa fa-chevron-right small"></i><a href=""> {{eventInfo.event_title}} </a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -110,13 +110,41 @@ and open the template in the editor.
                                         <tr ng-repeat="role in roles">
                                             <td>{{role.role}}</td>
                                             <td>{{role.description}}</td>
-                                            <td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                            <td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editEvent($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Team Affiliation </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Affiliation">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">
+                            <div class="row col-sm-12">
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Teams Affiliated</h4>
+                                    <div class="custom-height-1"></div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Explain If 'Other'</h4>
+                                    <div class="custom-height-1"></div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 class="bold">Remarks</h4>
+                                <div class="custom-height-1"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </section>
             <!-- /.content -->
         </div>
