@@ -21,7 +21,6 @@ app.controller('viewUpcomingEvents',
                     var url = '/event.retrieveupcoming';
                     dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
-
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;
@@ -78,11 +77,9 @@ app.controller('viewUpcomingEvents',
                 }
 
                 $scope.foo = function ($event, event) {
-//                    var toURL = $scope.userType + ".viewIndivContact";
-//                    var contactCid = contact.cid;
-//                    session.setSession('contactToDisplayCid', contactCid);
-//                    $state.go(toURL);
-                      console.log(event);
+                      var url = user + '.viewIndivEvent';
+                      var eventid = event['event_id'];
+                      $state.go(url, {eventId: eventid});
                 };
 
                 $scope.predicate = '';

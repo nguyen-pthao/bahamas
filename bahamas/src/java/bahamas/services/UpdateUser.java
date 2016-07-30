@@ -22,8 +22,11 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import is203.JWTException;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Files;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -38,6 +41,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/user.update"})
 public class UpdateUser extends HttpServlet {
+
+    private static final String SAVE_DIR = "images";
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -176,6 +181,15 @@ public class UpdateUser extends HttpServlet {
                         if (jobject.get("email") != null && password != null) {
                             String email = Validator.containsBlankField(jobject.get("email"));
                             String[] temp = {c.getName(), c.getUsername(), password};
+
+                            if (c.getUsername() != null && !c.getUsername().isEmpty()) {
+                                String appPath = request.getServletContext().getRealPath("");
+                                String savePath = appPath + File.separator + SAVE_DIR;
+
+                                Files.copy(new File(savePath + File.separator + "default" + ".jpg").toPath(),
+                                        new File(savePath + File.separator + c.getUsername() + ".jpg").toPath(), REPLACE_EXISTING);
+                            }
+
                             new Thread(() -> {
                                 // Send EmailGenerator in a separate thread
                                 EmailGenerator.sendEmail(email, temp);

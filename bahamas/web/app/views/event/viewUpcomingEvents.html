@@ -63,7 +63,7 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Date Of Event</a></th>
+                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Event Start Date</a></th>
                                         <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
                                         <th><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
                                         <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
@@ -79,13 +79,33 @@ and open the template in the editor.
                                         <td>{{event['event_location']}}</td>
                                         <td>{{event['event_class']}}</td>
                                         <td>{{event['event_status']}}</td>
-                                        <!--<td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>-->
+                                        <td>
+                                            <center>
+                                                <span>
+                                                    <a href="" uib-tooltip-placement="top" uib-tooltip="View" ng-click="foo($event, event)">
+                                                        <i class="fa fa-eye fa-lg" aria-hidden="true" style='color: #0d1957'></i>
+                                                    </a>
+                                                </span>
+                                                &nbsp;
+                                                <span>
+                                                    <a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="">
+                                                        <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i>
+                                                    </a>
+                                                </span>
+                                                &nbsp;
+                                                <span>
+                                                    <a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="">
+                                                        <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i>
+                                                    </a>
+                                                </span>
+                                            </center>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
                                         <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Date Of Event</a></th>
+                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Event Start Date</a></th>
                                         <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
                                         <th><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
                                         <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
