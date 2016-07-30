@@ -45,7 +45,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve TYPE_OF_CONTACT_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into TYPE_OF_CONTACT_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -75,7 +75,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT_CLASS_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into EVENT_CLASS_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -105,7 +105,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT_LOCATION_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into EVENT_LOCATION_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -113,6 +113,37 @@ public class UpdateListDAO {
         
         return false;
     }
+    
+//EVENT_STATUS_LIST event_status_list
+    public static boolean updateEventStatusList(JsonArray list){
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("TRUNCATE EVENT_STATUS_LIST");
+            stmt.executeUpdate();
+            stmt = conn.prepareStatement("INSERT INTO EVENT_STATUS_LIST (EVENT_STATUS, POSITION_NUMBER) VALUES (?, ?)");
+           
+            for(int i =0; i < list.size(); i++){
+                JsonElement nameElement = list.get(i);
+                String name = nameElement.getAsString();
+                stmt.setString(1, name);
+                stmt.setInt(2, i+1);
+                stmt.executeUpdate();
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into EVENT_STATUS_LIST from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, null);
+        }
+        
+        return false;
+    }
+    
 //LSA_CLASS_LIST
     public static boolean updateLSAClassList(JsonArray list){
         
@@ -134,7 +165,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LSA_CLASS_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into LSA_CLASS_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -164,7 +195,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LANGUAGE_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into LANGUAGE_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -194,7 +225,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MEMBERSHIP_CLASS_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into MEMBERSHIP_CLASS_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -224,7 +255,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve MODE_OF_SENDING_RECEIPT_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into MODE_OF_SENDING_RECEIPT_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -254,7 +285,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into OFFICE_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -284,7 +315,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PAYMENT_MODE_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into PAYMENT_MODE_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -314,7 +345,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PERMISSION_LEVEL_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into PERMISSION_LEVEL_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);
@@ -344,7 +375,7 @@ public class UpdateListDAO {
             }
             
         } catch (SQLException ex) {
-            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve TEAM_AFFILIATION_LIST from database", ex);
+            Logger.getLogger(UpdateListDAO.class.getName()).log(Level.SEVERE, "Unable to write into TEAM_AFFILIATION_LIST from database", ex);
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, null);

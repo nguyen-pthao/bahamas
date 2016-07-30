@@ -6,10 +6,8 @@ package bahamas.services;
  * and open the template in the editor.
  */
 
-import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
-import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.util.Authenticator;
@@ -101,10 +99,11 @@ public class RetrieveEvent extends HttpServlet {
                                 
                                 json.addProperty("message", "success");
                                 json.addProperty("event_id", eventId);
-                                json.addProperty("event_title", event.getEventTitle());
-                                json.addProperty("event_date", datetime.format(event.getEventDate()));
-                                json.addProperty("event_time_start", datetime.format(event.getEventStart()));
-                                json.addProperty("event_time_end", datetime.format(event.getEventEnd()));
+                                json.addProperty("event_title", event.getEventTitle());                           
+                                json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
+                                json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
+                                json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
+                                json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
                                 json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
                                 json.addProperty("event_description", event.getEventDescription());
                                 json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
