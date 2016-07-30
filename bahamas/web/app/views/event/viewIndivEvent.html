@@ -81,7 +81,8 @@ and open the template in the editor.
                                 </div>
                                 <div class="col-sm-6">
                                     <h4 class="bold">Send Reminder?</h4>
-                                    <div class="custom-height-1">{{eventInfo.send_reminder}}</div>
+                                    <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">Yes</div>
+                                    <div ng-hide="eventInfo['send_reminder'] == 'true'" class="custom-height-1">No</div>
                                 </div>
                             </div>
                         </div>

@@ -20,7 +20,6 @@ app.controller('viewIndivEvent',
                     var url = user + '.viewUpcomingEvents';
                     $state.go(url);
                 };
-                $scope.showGmap = true;
                 $scope.retrieveEvent = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
@@ -45,6 +44,7 @@ app.controller('viewIndivEvent',
                             var meridianE = timeEnd.substring(9, 11);
                             var timeE = timeEnd.substring(0, 5);
                         }
+                        $scope.showGmap = true;
                         if ($scope.eventInfo['event_lat'] == '' || $scope.eventInfo['event_lng'] == '') {
                             $scope.showGmap = false;
                         } else {
@@ -56,17 +56,17 @@ app.controller('viewIndivEvent',
                         $scope.eventInfo['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
-                        
+
                     })
-                    
+
                     $scope.$watch('showGmap', function () {
-                    if ($scope.showGmap == true) {
-                        $timeout(function () {
-                            $scope.map.control.refresh({latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']});
-                            $scope.map.zoom = 15;
-                        }, 0);
-                    }
-                })
+                        if ($scope.showGmap == true) {
+                            $timeout(function () {
+                                $scope.map.control.refresh({latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']});
+                                $scope.map.zoom = 15;
+                            }, 0);
+                        }
+                    })
                 }
 
             }]);
