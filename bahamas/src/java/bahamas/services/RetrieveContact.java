@@ -238,10 +238,13 @@ public class RetrieveContact extends HttpServlet {
                             emailDisplayList.add(email.getEmail());
                         }
                     }
-                    for(int i = 0; i < emailDisplayList.size()-1; i++){
-                        emailStr += emailDisplayList.get(i) + " | ";
+                    if(!emailDisplayList.isEmpty()){
+                        for(int i = 0; i < emailDisplayList.size()-1; i++){
+                            emailStr += emailDisplayList.get(i) + " | ";
+                        }
+                        emailStr += emailDisplayList.get(emailDisplayList.size()-1);
                     }
-                    emailStr += emailDisplayList.get(emailDisplayList.size()-1);
+                   
                     
                 } catch (ParseException ex) {
                     Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
@@ -265,10 +268,12 @@ public class RetrieveContact extends HttpServlet {
                             phoneDisplayList.add("+" + phone.getCountryCode() + "-" + phone.getPhoneNumber());
                         }
                     }
-                    for(int i = 0; i < phoneDisplayList.size()-1; i++){
-                        phoneStr += phoneDisplayList.get(i) + " | ";
+                    if(!phoneDisplayList.isEmpty()){
+                        for(int i = 0; i < phoneDisplayList.size()-1; i++){
+                            phoneStr += phoneDisplayList.get(i) + " | ";
+                        }
+                        phoneStr += phoneDisplayList.get(phoneDisplayList.size()-1);
                     }
-                    phoneStr += phoneDisplayList.get(phoneDisplayList.size()-1);
                     
                 } catch (ParseException ex) {
                     Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);

@@ -134,13 +134,13 @@ public class EventDAO {
         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat time = new SimpleDateFormat("HH:mm");
         boolean exist = false;
-        //Date eventStartDate = null;
-        //Date eventEndDate = null;
+        Date eventStartDate = null;
+        Date eventEndDate = null;
         Date startTime = null;
         Date endTime = null;
         try {
-            //eventStartDate = date.parse(date.format(event.getEventStartDate()));
-            //eventEndDate = date.parse(date.format(event.getEventEndDate()));
+            eventStartDate = date.parse(date.format(event.getEventStartDate()));
+            eventEndDate = date.parse(date.format(event.getEventEndDate()));
             startTime = time.parse(time.format(event.getEventStartTime()));
             endTime = time.parse(time.format(event.getEventEndTime()));
         } catch (ParseException ex) {
@@ -152,14 +152,14 @@ public class EventDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE "
-                    + "FROM EVENT WHERE EVENT_LOCATION_NAME = (?) AND (EVENT_START_DATE <= (?) AND EVENT_END_DATE >= (?)) OR (EVENT_START_DATE <= (?) AND EVENT_END_DATE >= (?)) OR (EVENT_START_DATE >= (?) AND EVENT_END_DATE <= (?))");
+                    + "FROM EVENT WHERE EVENT_LOCATION_NAME = (?) AND (DATE(EVENT_START_DATE) <= (?) AND DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) <= (?) AND DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) >= (?) AND DATE(EVENT_END_DATE) <= (?))");
             stmt.setString(1, event.getEventLocationName());
-            stmt.setTimestamp(2, new java.sql.Timestamp(event.getEventStartDate().getTime()));
-            stmt.setTimestamp(3, new java.sql.Timestamp(event.getEventStartDate().getTime()));
-            stmt.setTimestamp(4, new java.sql.Timestamp(event.getEventEndDate().getTime()));
-            stmt.setTimestamp(5, new java.sql.Timestamp(event.getEventEndDate().getTime()));
-            stmt.setTimestamp(6, new java.sql.Timestamp(event.getEventStartDate().getTime()));
-            stmt.setTimestamp(7, new java.sql.Timestamp(event.getEventEndDate().getTime()));
+            stmt.setTimestamp(2, new java.sql.Timestamp(eventStartDate.getTime()));
+            stmt.setTimestamp(3, new java.sql.Timestamp(eventStartDate.getTime()));
+            stmt.setTimestamp(4, new java.sql.Timestamp(eventEndDate.getTime()));
+            stmt.setTimestamp(5, new java.sql.Timestamp(eventEndDate.getTime()));
+            stmt.setTimestamp(6, new java.sql.Timestamp(eventStartDate.getTime()));
+            stmt.setTimestamp(7, new java.sql.Timestamp(eventEndDate.getTime()));
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String strStartTime = rs.getString(1);
