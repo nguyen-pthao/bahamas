@@ -24,7 +24,7 @@ and open the template in the editor.
                     </ui-gmap-google-map>
                 </div>
                 <!--Box to show event details--> 
-                <div class="box" style="margin-top:20px;" ng-init="eventDetails()">
+                <div class="box" style="margin-top:20px;" ng-init="retrieveEvent()">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Event Details </h3>
                         <div class="box-tools pull-right">
@@ -87,12 +87,12 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <div class="box" ng-init="eventRoles()">
+                <div class="box collapsed-box" ng-init="eventRoles()">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Event Roles </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Event Roles">
-                                <i class="fa fa-chevron-up"></i></button>
+                                <i class="fa fa-chevron-down"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
@@ -118,12 +118,12 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <div class="box">
+                <div class="box collapsed-box">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Team Affiliation </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Affiliation">
-                                <i class="fa fa-chevron-up"></i></button>
+                                <i class="fa fa-chevron-down"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
