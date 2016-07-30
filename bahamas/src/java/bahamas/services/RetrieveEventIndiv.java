@@ -73,7 +73,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String eventId = Validator.containsBlankField(jobject.get("event_id"));
+                String eventId = Validator.containsBlankField(jobject.get("eventId"));
                 String username = Authenticator.verifyToken(token);
                 
                 if (username == null) {
@@ -93,27 +93,27 @@ public class RetrieveEventIndiv extends HttpServlet {
                             
                             EventDAO eventDAO = new EventDAO();
                             Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            
+                            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                            SimpleDateFormat time = new SimpleDateFormat("HH:mm");
                             if(event != null){
                                 json.addProperty("message", "success");
                                 
                                 json.addProperty("event_id", eventId);
                                 json.addProperty("event_title", event.getEventTitle());
-                                json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
-                                json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
-                                json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
-                                json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
+                                json.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                json.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                json.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                json.addProperty("event_time_end", time.format(event.getEventEndTime()));
                                 json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
                                 json.addProperty("event_description", event.getEventDescription());
                                 json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
                                 json.addProperty("event_class", event.getEventClassName());
                                 json.addProperty("event_location", event.getEventLocationName());
-                                json.addProperty("explain_if_others", event.getExplainIfOthers());
+                                json.addProperty("explain_if_other", event.getExplainIfOthers());
                                 json.addProperty("event_status", event.getEventStatus());
                                 json.addProperty("event_lat", event.getEventLat());
                                 json.addProperty("event_lng", event.getEventLng());
-                                json.addProperty("date_created", datetime.format(event.getDateCreated()));
+                                json.addProperty("date_created", date.format(event.getDateCreated()));
                                 out.println(gson.toJson(json));
                             }else{
                                 json.addProperty("message", "Fail retrieve event");
