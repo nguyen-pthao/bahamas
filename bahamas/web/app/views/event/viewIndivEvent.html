@@ -102,13 +102,15 @@ and open the template in the editor.
                                 <table class="table table-bordered table-striped" style="max-width: 100%">
                                     <thead>
                                         <tr>
+                                            <th style="color: #005384">S/N</th>
                                             <th style='color: #005384'>Role</th>
                                             <th style='color: #005384'>Description</th>
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="role in roles">
+                                        <tr ng-repeat="role in roles track by $index">
+                                            <td>{{$index + 1}}</td>
                                             <td>{{role['event_role']}}</td>
                                             <td>{{role['event_desc']}}</td>
                                             <td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editEvent($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
