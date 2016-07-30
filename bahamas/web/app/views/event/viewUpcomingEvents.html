@@ -62,45 +62,45 @@ and open the template in the editor.
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Event Start Date</a></th>
-                                        <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
-                                        <th><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
-                                        <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
-                                        <th><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
-                                        <th></th>
+                                        <th width="35%"><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
+                                        <th width="10%"><a href="" ng-click="order('event_start_date')" style='color: #005384'>Start Date</a></th>
+                                        <th width="10%"><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
+                                        <th width="10%"><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
+                                        <th width="15%"><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
+                                        <th width="10%"><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
+                                        <th width="10%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
                                         <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
-                                        <td>{{event['event_start_date']}}</td>
-                                        <td>{{event['event_time_start']}}</td>
-                                        <td>{{event['event_location']}}</td>
-                                        <td>{{event['event_class']}}</td>
-                                        <td>{{event['event_status']}}</td>
-                                        <td>
-                                            <center>
-                                                <span>
-                                                    <a href="" uib-tooltip-placement="top" uib-tooltip="View" ng-click="foo($event, event)">
-                                                        <i class="fa fa-eye fa-lg" aria-hidden="true" style='color: #0d1957'></i>
-                                                    </a>
-                                                </span>
-                                                &nbsp;
-                                                <span>
-                                                    <a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="">
-                                                        <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i>
-                                                    </a>
-                                                </span>
-                                                &nbsp;
-                                                <span>
-                                                    <a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="">
-                                                        <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i>
-                                                    </a>
-                                                </span>
-                                            </center>
-                                        </td>
-                                    </tr>
+                                        <td><center>{{event['event_start_date']}}</center></td>
+                                <td><center>{{event['event_time_start']}}</center></td>
+                                <td><center>{{event['event_location']}}</center></td>
+                                <td><center>{{event['event_class']}}</center></td>
+                                <td><center>{{event['event_status']}}</center></td>
+                                <td>
+                                <center>
+                                    <span>
+                                        <a href="" uib-tooltip-placement="top" uib-tooltip="View" ng-click="foo($event, event)">
+                                            <i class="fa fa-eye fa-lg" aria-hidden="true" style='color: #0d1957'></i>
+                                        </a>
+                                    </span>
+                                    &nbsp;
+                                    <span>
+                                        <a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="">
+                                            <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i>
+                                        </a>
+                                    </span>
+                                    &nbsp;
+                                    <span>
+                                        <a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="">
+                                            <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i>
+                                        </a>
+                                    </span>
+                                </center>
+                                </td>
+                                </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>

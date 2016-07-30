@@ -60,10 +60,6 @@ and open the template in the editor.
                                     <div class="custom-height-1">{{eventInfo.event_time_end}}</div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <h4 class="bold">Description</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_description}}</div>
-                                </div>
-                                <div class="col-sm-6">
                                     <h4 class="bold">Min. Participation</h4>
                                     <div class="custom-height-1">{{eventInfo.minimum_participation}}</div>
                                 </div>
@@ -76,13 +72,19 @@ and open the template in the editor.
                                     <div class="custom-height-1">{{eventInfo.event_status}}</div>
                                 </div>
                                 <div class="col-sm-6">
+                                    <h4 class="bold">Send Reminder?</h4>
+                                    <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">Yes</div>
+                                    <div ng-hide="eventInfo['send_reminder'] == 'true'" class="custom-height-1">No</div>
+                                </div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-6">
                                     <h4 class="bold">Explain If Other</h4>
                                     <div class="custom-height-1">{{eventInfo.explain_if_other}}</div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <h4 class="bold">Send Reminder?</h4>
-                                    <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">Yes</div>
-                                    <div ng-hide="eventInfo['send_reminder'] == 'true'" class="custom-height-1">No</div>
+                                    <h4 class="bold">Description</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_description}}</div>
                                 </div>
                             </div>
                         </div>
