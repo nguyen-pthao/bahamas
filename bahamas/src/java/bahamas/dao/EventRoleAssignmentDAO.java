@@ -5,6 +5,7 @@
  */
 package bahamas.dao;
 
+import bahamas.entity.EventRoleAssignment;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -13,6 +14,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -52,6 +58,37 @@ public class EventRoleAssignmentDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+    
+        public static ArrayList<EventRoleAssignment> retrieveEventRoleById(int eventID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<EventRoleAssignment> eventRoleAssignmentList = new ArrayList<EventRoleAssignment>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT ROLE_ID, EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION FROM EVENT_ROLE_ASSIGNMENT WHERE EVENT_ID = (?)");
+            stmt.setInt(1, eventID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int roleId = rs.getInt(1);
+                int eventId = rs.getInt(2);
+                String roleName = rs.getString(2);
+                String roleDesc = rs.getString(2);
+                
+                EventRoleAssignment eventRoleAssignment = new EventRoleAssignment(roleId,eventId,roleName,roleDesc);
+                eventRoleAssignmentList.add(eventRoleAssignment);
+                        
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve event from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return eventRoleAssignmentList;
     }
 
 }

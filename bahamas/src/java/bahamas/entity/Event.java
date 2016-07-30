@@ -32,7 +32,7 @@ public class Event {
     private String eventStatus;
    
     private ArrayList<Contact> participants;
-    private ArrayList<Role> roleList;
+    private ArrayList<EventRoleAssignment> roleList;
     private ArrayList<EventAffiliation> teamAffliated;
     private boolean workerRelated;
     private ArrayList<Notice> noticeList;
