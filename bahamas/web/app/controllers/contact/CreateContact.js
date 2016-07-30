@@ -33,26 +33,12 @@ app.controller('createContact',
                 $scope.loadContactTypeList = function () {
                     loadContactType.retrieveContactType().then(function (response) {
                         $scope.contactTypeList = response.data.contact;
-                        var other;
-                        for (var obj in $scope.contactTypeList) {
-                            if ($scope.contactTypeList[obj].contactType == 'Others') {
-                                other = $scope.contactTypeList.splice(obj, 1);
-                            }
-                        }
-                        $scope.contactTypeList.push(other[0]);
                     });
                 };
 
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
-                        var other;
-                        for (var obj in $scope.teamAffiliationList) {
-                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
-                                other = $scope.teamAffiliationList.splice(obj, 1);
-                            }
-                        }
-                        //$scope.teamAffiliationList.push(other[0]);
                     });
                 };
 
@@ -65,26 +51,12 @@ app.controller('createContact',
                 $scope.loadLanguageList = function () {
                     loadLanguage.retrieveLanguage().then(function (response) {
                         $scope.languageList = response.data.languageList;
-                        var other;
-                        for (var obj in $scope.languageList) {
-                            if ($scope.languageList[obj].language == 'Others') {
-                                other = $scope.languageList.splice(obj, 1);
-                            }
-                        }
-                        $scope.languageList.push(other[0]);
                     });
                 };
 
                 $scope.loadLSAList = function () {
                     loadLSAClass.retrieveLSAClass().then(function (response) {
                         $scope.LSAList = response.data.lsaClassList;
-                        var other;
-                        for (var obj in $scope.LSAList) {
-                            if ($scope.LSAList[obj].lsaClass == 'Others') {
-                                other = $scope.LSAList.splice(obj, 1);
-                            }
-                        }
-                        $scope.LSAList.push(other[0]);
                     });
                 };
 
@@ -474,7 +446,6 @@ app.controller('createContact',
                     } else if ($scope.dob === null) {
                         $scope.contactInfo['date_of_birth'] = "";
                     } else {
-                        //$scope.contactInfo['date_of_birth'] = new Date($scope.dob).toLocaleDateString();
                         $scope.contactInfo['date_of_birth'] = $scope.dob.valueOf() + "";
                     }
                 });
