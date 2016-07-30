@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewIndivEvent',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout) {
                 var user = session.getSession('userType');
                 var eventId = $stateParams.eventId;
                 console.log(eventId);
@@ -56,8 +56,17 @@ app.controller('viewIndivEvent',
                         $scope.eventInfo['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
-
+                        
                     })
+                    
+                    $scope.$watch('showGmap', function () {
+                    if ($scope.showGmap == true) {
+                        $timeout(function () {
+                            $scope.map.control.refresh({latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']});
+                            $scope.map.zoom = 15;
+                        }, 0);
+                    }
+                })
                 }
 
             }]);
