@@ -15,9 +15,11 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -48,6 +50,7 @@ public class AddEvent extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
+            JsonArray jsonErrorMsgArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
             //Retrieve the json string as a reader 
@@ -96,33 +99,42 @@ public class AddEvent extends HttpServlet {
                 if(eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null){
                     json.addProperty("message", "Missing fields");
                     if(eventClass == null){
-                        json.addProperty("event_class", "Missing Event Class");
+                        //json.addProperty("event_class", "Missing Event Class");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));        
                     }
                     if(eventStartDate == null){
-                        json.addProperty("event_start_date", "Missing Event Start Date");
+                        //json.addProperty("event_start_date", "Missing Event Start Date");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Start Date"));
                     }
                     if(eventEndDate == null){
-                        json.addProperty("event_end_date", "Missing Event End Date");
+                        //json.addProperty("event_end_date", "Missing Event End Date");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event End Date"));
                     }
                     if(eventLocation == null){
-                        json.addProperty("event_location", "Missing Event Location");
+                        //json.addProperty("event_location", "Missing Event Location");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Location"));
                     }
                     if(eventTimeEnd == null){
-                        json.addProperty("event_time_end", "Missing Event Time End");
+                        //json.addProperty("event_time_end", "Missing Event Time End");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time End"));
                     }
                     if(eventTimeStart == null){
-                        json.addProperty("event_time_start", "Missing Event Time Start");
+                        //json.addProperty("event_time_start", "Missing Event Time Start");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time Start"));
                     }
                     if(eventTitle == null){
-                        json.addProperty("event_title", "Missing Event Title");
+                        //json.addProperty("event_title", "Missing Event Title");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Title"));
                     }
+                    json.add("errorMsg", jsonErrorMsgArray);
                     out.println(gson.toJson(json));
                     return;
                 }
                 
                 if(eventTimeEnd.before(eventTimeStart) || eventTimeEnd.equals(eventTimeStart)){
                     json.addProperty("message", "dateError");
-                    json.addProperty("errorMsg", "End time must be after start time");
+                    jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));  
+                    json.add("errorMsg", jsonErrorMsgArray);
                     out.println(gson.toJson(json));
                     return;
                 }

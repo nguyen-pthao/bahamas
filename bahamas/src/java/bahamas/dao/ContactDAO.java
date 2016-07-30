@@ -200,7 +200,7 @@ public class ContactDAO {
     }
 
     public Contact retrieveContactById(int id) {
-        contactList = new ArrayList();
+        contactList = new ArrayList<Contact>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

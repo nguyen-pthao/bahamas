@@ -31,7 +31,7 @@ and open the template in the editor.
                     </div>
                     <!-- form start -->
                     <div class="box-body">
-                        <form name="editUserForm">
+                        <form name="editUserForm" ng-controller="EditUser">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || (editMode == 'false')">
                                 <div class="box-header with-border" data-widget='collapse'>
                                     <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
@@ -163,7 +163,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /user information -->
-                        <form name="form.editPersonalForm">
+                        <form name="form.editPersonalForm" ng-controller="EditPersonalInfo">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-info-circle"></i> &nbsp; Personal information</h4>
@@ -285,7 +285,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /contact information -->
-                        <form name="form.editPhoneForm">
+                        <form name="form.editPhoneForm" ng-controller="EditPhone">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editPhone === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-phone-square"></i> &nbsp; Phone</h4>
@@ -419,7 +419,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /phone information -->
-                        <form name="form.editEmailForm">
+                        <form name="form.editEmailForm" ng-controller="EditEmail">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editEmail === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-envelope"></i> &nbsp; Email</h4>
@@ -546,7 +546,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /email information -->
-                        <form name="form.editAddressForm">
+                        <form name="form.editAddressForm" ng-controller="EditAddress">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAddress === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-map-marker"></i> &nbsp; Address</h4>
@@ -696,7 +696,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /address information -->
-                        <form name="form.editMembershipForm">
+                        <form name="form.editMembershipForm" ng-controller="EditMembership">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editMembership === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-navicon"></i> &nbsp; Membership</h4>
@@ -989,7 +989,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /membership information -->
-                        <form name="form.editOfficeForm">
+                        <form name="form.editOfficeForm" ng-controller="EditOfficeHeld">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editOfficeHeld === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-building"></i> &nbsp; Office-held</h4>
@@ -1140,7 +1140,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /office-held information -->
-                        <form name="form.editDonationForm">
+                        <form name="form.editDonationForm" ng-controller="EditDonation">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editDonation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-money"></i> &nbsp; Donation</h4>
@@ -1486,7 +1486,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /donation information -->
-                        <form name="form.editTeamForm">
+                        <form name="form.editTeamForm" ng-controller="EditTeamJoin">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTeam === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-group"></i> &nbsp; Team</h4>
@@ -1852,7 +1852,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /training information -->
-                        <form name="form.editAppreciationForm">
+                        <form name="form.editAppreciationForm" ng-controller="EditAppreciation">
                             <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAppreciation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
@@ -2048,7 +2048,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /appreciation information -->
-                        <form name="form.editProxyForm">
+                        <form name="form.editProxyForm" ng-controller="EditProxy">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editProxy === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
@@ -2188,7 +2188,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /proxy information -->
-                        <form name="form.editLanguageForm">
+                        <form name="form.editLanguageForm" ng-controller="EditLanguages">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editLanguages === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
@@ -2338,7 +2338,7 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /languages information -->
-                        <form name="form.editSkillForm">
+                        <form name="form.editSkillForm" ng-controller="EditSkills">
                             <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editSkillsAssets === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
