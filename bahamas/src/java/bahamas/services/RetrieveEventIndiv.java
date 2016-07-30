@@ -14,6 +14,7 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -71,6 +72,7 @@ public class RetrieveEventIndiv extends HttpServlet {
             } else {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
+                JsonArray eventRoleJsonArray = new JsonArray();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("eventId"));
@@ -93,17 +95,18 @@ public class RetrieveEventIndiv extends HttpServlet {
                             
                             EventDAO eventDAO = new EventDAO();
                             Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
+                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                             SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                            SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+                            
                             if(event != null){
                                 json.addProperty("message", "success");
                                 
                                 json.addProperty("event_id", eventId);
                                 json.addProperty("event_title", event.getEventTitle());
-                                json.addProperty("event_start_date", date.format(event.getEventStartDate()));
-                                json.addProperty("event_end_date", date.format(event.getEventEndDate()));
-                                json.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                json.addProperty("event_time_end", time.format(event.getEventEndTime()));
+                                json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
+                                json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
+                                json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
+                                json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
                                 json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
                                 json.addProperty("event_description", event.getEventDescription());
                                 json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
