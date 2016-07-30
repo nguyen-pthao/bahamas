@@ -78,7 +78,7 @@ INSERT INTO `CONTACT` VALUES (1,'TWC2','admin1','GwvbMoaGY9yVMnOiMfujehEdmE7jLDX
 --
 
 /*!40000 ALTER TABLE `EVENT_CLASS_LIST` DISABLE KEYS */;
-INSERT INTO `EVENT_CLASS_LIST` VALUES ('Cancelled',0),('Closed',0),('Open',0),('Others',0),('Training',0);
+INSERT INTO `EVENT_CLASS_LIST` VALUES ('Basic Training',0),('Advanced Training',0),('Internal',0),('Open to public',0),('Template',0),('Other',0);
 /*!40000 ALTER TABLE `EVENT_CLASS_LIST` ENABLE KEYS */;
 
 --
@@ -86,7 +86,7 @@ INSERT INTO `EVENT_CLASS_LIST` VALUES ('Cancelled',0),('Closed',0),('Open',0),('
 --
 
 /*!40000 ALTER TABLE `EVENT_LOCATION_LIST` DISABLE KEYS */;
-INSERT INTO `EVENT_LOCATION_LIST` VALUES ('Alankar',0),('Isthana',0),('Online',0),('Others',0),('TWC2 DaySpace',0),('TWC2 office',0);
+INSERT INTO `EVENT_LOCATION_LIST` VALUES ('Alankar',0),('Isthana',0),('Online',0),('Other',0),('TWC2 DaySpace',0),('TWC2 office',0);
 /*!40000 ALTER TABLE `EVENT_LOCATION_LIST` ENABLE KEYS */;
 
 --
@@ -123,7 +123,7 @@ INSERT INTO `EVENT_STATUS_LIST` VALUES ('Cancelled',0),('Filled',0),('Open',0),(
 --
 
 /*!40000 ALTER TABLE `LANGUAGE_LIST` DISABLE KEYS */;
-INSERT INTO `LANGUAGE_LIST` VALUES ('Bengali',0),('Burmese',0),('Cambodian',0),('Chinese',0),('English',0),('Filipino',0),('Hindi',0),('Indonesian',0),('Malay',0),('Others',0),('Punjabi',0),('Sinhala',0),('Tamil',0),('Telugu',0),('Vietnamese',0);
+INSERT INTO `LANGUAGE_LIST` VALUES ('Bengali',0),('Burmese',0),('Cambodian',0),('Chinese',0),('English',0),('Filipino',0),('Hindi',0),('Indonesian',0),('Malay',0),('Other',0),('Punjabi',0),('Sinhala',0),('Tamil',0),('Telugu',0),('Vietnamese',0);
 /*!40000 ALTER TABLE `LANGUAGE_LIST` ENABLE KEYS */;
 
 --
@@ -131,7 +131,7 @@ INSERT INTO `LANGUAGE_LIST` VALUES ('Bengali',0),('Burmese',0),('Cambodian',0),(
 --
 
 /*!40000 ALTER TABLE `LSA_CLASS_LIST` DISABLE KEYS */;
-INSERT INTO `LSA_CLASS_LIST` VALUES ('Academia',0),('Accounting',0),('Counselling',0),('Dental',0),('Event organising',0),('Has event space',0),('Has shelter space',0),('Has vehicle',0),('Infotech',0),('Legal',0),('Media & Comms',0),('Medical',0),('Others',0),('Pharma',0),('Photo, video & design',0),('Physio',0),('Pro-bono lawyer',0);
+INSERT INTO `LSA_CLASS_LIST` VALUES ('Academia',0),('Accounting',0),('Counselling',0),('Dental',0),('Event organising',0),('Has event space',0),('Has shelter space',0),('Has vehicle',0),('Infotech',0),('Legal',0),('Media & Comms',0),('Medical',0),('Other',0),('Pharma',0),('Photo, video & design',0),('Physio',0),('Pro-bono lawyer',0);
 /*!40000 ALTER TABLE `LSA_CLASS_LIST` ENABLE KEYS */;
 
 --
@@ -146,7 +146,7 @@ INSERT INTO `LSA_CLASS_LIST` VALUES ('Academia',0),('Accounting',0),('Counsellin
 --
 
 /*!40000 ALTER TABLE `MEMBERSHIP_CLASS_LIST` DISABLE KEYS */;
-INSERT INTO `MEMBERSHIP_CLASS_LIST` VALUES ('Associate',0),('Discounted',0),('Honorary',0),('Ordinary',0),('Others',0);
+INSERT INTO `MEMBERSHIP_CLASS_LIST` VALUES ('Associate',0),('Discounted',0),('Honorary',0),('Ordinary',0),('Other',0);
 /*!40000 ALTER TABLE `MEMBERSHIP_CLASS_LIST` ENABLE KEYS */;
 
 --
@@ -154,7 +154,7 @@ INSERT INTO `MEMBERSHIP_CLASS_LIST` VALUES ('Associate',0),('Discounted',0),('Ho
 --
 
 /*!40000 ALTER TABLE `MODE_OF_SENDING_RECEIPT_LIST` DISABLE KEYS */;
-INSERT INTO `MODE_OF_SENDING_RECEIPT_LIST` VALUES ('Email',0),('No address',0),('Others',0),('Post',0);
+INSERT INTO `MODE_OF_SENDING_RECEIPT_LIST` VALUES ('Email',0),('No address',0),('Other',0),('Post',0);
 /*!40000 ALTER TABLE `MODE_OF_SENDING_RECEIPT_LIST` ENABLE KEYS */;
 
 --
@@ -184,7 +184,7 @@ INSERT INTO `OFFICE_LIST` VALUES ('President',0),('Secretary',0),('Staff',0),('T
 --
 
 /*!40000 ALTER TABLE `PAYMENT_MODE_LIST` DISABLE KEYS */;
-INSERT INTO `PAYMENT_MODE_LIST` VALUES ('Bank direct',0),('Cash',0),('Cheque',0),('Giving Sg',0),('Others',0),('Paypal',0);
+INSERT INTO `PAYMENT_MODE_LIST` VALUES ('Bank direct',0),('Cash',0),('Cheque',0),('Giving Sg',0),('Other',0),('Paypal',0);
 /*!40000 ALTER TABLE `PAYMENT_MODE_LIST` ENABLE KEYS */;
 
 --
@@ -221,7 +221,7 @@ INSERT INTO `PERMISSION_LEVEL_LIST` VALUES ('Associate','Joins event',0),('Event
 --
 
 /*!40000 ALTER TABLE `TEAM_AFFILIATION_LIST` DISABLE KEYS */;
-INSERT INTO `TEAM_AFFILIATION_LIST` VALUES ('Casework','This is Casework team',0),('Communications','This is Communications team',0),('Discover Sg','This is Discover Sg team',0),('FareGo','This is FareGo team',0),('Fundraising','This is Fundraising team',0),('Intern','This is Intern team',0),('Lifeline','This is Lifeline team',0),('Others','This is Other team',0),('Outreach','This is Outreach team',0),('Public Engagement','This is Public Engagement team',0),('R2R','This is R2R team',0),('Research','This is Research team',0),('Roof','This is Roof team',0),('TCRP','This is TCRP team',0);
+INSERT INTO `TEAM_AFFILIATION_LIST` VALUES ('Casework','This is Casework team',0),('Communications','This is Communications team',0),('Discover Sg','This is Discover Sg team',0),('FareGo','This is FareGo team',0),('Fundraising','This is Fundraising team',0),('Intern','This is Intern team',0),('Lifeline','This is Lifeline team',0),('Other','This is Other team',0),('Outreach','This is Outreach team',0),('Public Engagement','This is Public Engagement team',0),('R2R','This is R2R team',0),('Research','This is Research team',0),('Roof','This is Roof team',0),('TCRP','This is TCRP team',0);
 /*!40000 ALTER TABLE `TEAM_AFFILIATION_LIST` ENABLE KEYS */;
 
 --
@@ -243,7 +243,7 @@ INSERT INTO `TEAM_AFFILIATION_LIST` VALUES ('Casework','This is Casework team',0
 --
 
 /*!40000 ALTER TABLE `TYPE_OF_CONTACT_LIST` DISABLE KEYS */;
-INSERT INTO `TYPE_OF_CONTACT_LIST` VALUES ('Corporate',0),('Diplomatic',0),('Educational',0),('Employer',0),('Event services',0),('Financial',0),('Financial services',0),('Foundation',0),('Government-linked',0),('Individual',0),('Job agent',0),('Legal',0),('Maintenance & repair',0),('Media abroad',0),('Media local',0),('Medical',0),('Nonprofit abroad',0),('Nonprofit local',0),('Office services',0),('Others',0),('Product supplier',0),('Religious',0),('TWC2',0);
+INSERT INTO `TYPE_OF_CONTACT_LIST` VALUES ('Corporate',0),('Diplomatic',0),('Educational',0),('Employer',0),('Event services',0),('Financial',0),('Financial services',0),('Foundation',0),('Government-linked',0),('Individual',0),('Job agent',0),('Legal',0),('Maintenance & repair',0),('Media abroad',0),('Media local',0),('Medical',0),('Nonprofit abroad',0),('Nonprofit local',0),('Office services',0),('Other',0),('Product supplier',0),('Religious',0),('TWC2',0);
 /*!40000 ALTER TABLE `TYPE_OF_CONTACT_LIST` ENABLE KEYS */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
