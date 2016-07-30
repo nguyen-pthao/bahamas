@@ -104,18 +104,5 @@ app.controller('createEventRoles',
                     $scope.newRoles.roleArray.push(newRole);
                     $scope.numberOfRoles.push($scope.numberOfRoles.length + 2);
                 }
-//
-//                $scope.map = {center: {latitude: 1.302918, longitude: 103.864964}, zoom: 15, options: {scrollwheel: false}, control:{}};
-//
-//                $scope.marker = {coords: {latitude: 1.302918, longitude: 103.864964}, id: 1};
-//
-//                $scope.searchbox = {template:'./style/ngTemplate/searchbox.tpl.html', events:{places_changed: function (searchBox) {
-//                    console.log(searchBox.getPlaces()[0].geometry.location.lat());
-//                    console.log(searchBox.getPlaces()[0].geometry.location.lng());
-//                    $scope.marker.coords = {
-//                        latitude: searchBox.getPlaces()[0].geometry.location.lat(),
-//                        longitude: searchBox.getPlaces()[0].geometry.location.lng()
-//                    };
-//                    $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
-//                }}};
+
             }]);
