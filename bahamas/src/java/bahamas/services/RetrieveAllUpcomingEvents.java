@@ -116,7 +116,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             
                                             //view for novcie
                                             if(contact.isIsNovice()){
-                                                if(event.getEventClassName().equals("Training")){
+                                                if(event.getEventClassName().trim().toLowerCase().equals("basic training")){
                                                     jsonContactObj = new JsonObject();
                                                     jsonContactObj.addProperty("event_id", event.getEventId());
                                                     jsonContactObj.addProperty("event_title", event.getEventTitle());
