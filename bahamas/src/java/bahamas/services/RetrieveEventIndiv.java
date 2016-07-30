@@ -8,8 +8,10 @@ package bahamas.services;
 
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.EventRoleAssignment;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -22,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -117,6 +120,16 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 json.addProperty("event_lat", event.getEventLat());
                                 json.addProperty("event_lng", event.getEventLng());
                                 json.addProperty("date_created", date.format(event.getDateCreated()));
+                                ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
+                                if(!eventRoleAssignmentList.isEmpty() && eventRoleAssignmentList.size() != 0){
+                                    for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
+                                        JsonObject roleJson = jelement.getAsJsonObject();
+                                        roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
+                                        roleJson.addProperty("event_status", eventRoleAssignment.getRoleDescription());
+                                        eventRoleJsonArray.add(roleJson);
+                                    }
+                                }
+                                json.add("event_role", eventRoleJsonArray);
                                 out.println(gson.toJson(json));
                             }else{
                                 json.addProperty("message", "Fail retrieve event");
