@@ -19,33 +19,18 @@ app.controller('createEvent',
                 $scope.loadEventStatusList = function () {
                     loadEventStatus.retrieveEventStatus().then(function (response) {
                         $scope.eventStatusList = response.data.eventStatusList;
-                        console.log($scope.eventStatusList);
                     })
                 }
 
                 $scope.loadEventLocationList = function () {
                     loadEventLocation.retrieveEventLocation().then(function (response) {
                         $scope.eventLocationList = response.data.eventLocationList;
-                        var other;
-                        for (var obj in $scope.eventLocationList) {
-                            if ($scope.eventLocationList[obj].eventLocation == 'Others') {
-                                other = $scope.eventLocationList.splice(obj, 1);
-                            }
-                        }
-                        $scope.eventLocationList.push(other[0]);
                     })
                 }
 
                 $scope.loadEventClassList = function () {
                     loadEventClass.retrieveEventClass().then(function (response) {
                         $scope.eventClassList = response.data.eventClassList;
-                        var other;
-                        for (var obj in $scope.eventClassList) {
-                            if ($scope.eventClassList[obj].eventClass == 'Others') {
-                                other = $scope.eventClassList.splice(obj, 1);
-                            }
-                        }
-                        $scope.eventClassList.push(other[0]);
                     })
                 }
 
