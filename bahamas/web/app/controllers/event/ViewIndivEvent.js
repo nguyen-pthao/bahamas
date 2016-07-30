@@ -14,4 +14,8 @@ app.controller('viewIndivEvent',
                     $state.go(user);
                 };
 
+                $scope.map = {center: {latitude: 1.302918, longitude: 103.864964}, zoom: 15, options: {scrollwheel: false}, control:{}};
+
+                $scope.marker = {coords: {latitude: 1.302918, longitude: 103.864964}, id: 1};
+
             }]);
