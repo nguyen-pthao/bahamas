@@ -80,6 +80,7 @@ public class AddEvent extends HttpServlet {
                 Date eventEndDate = Validator.isDateValid(jobject.get("event_end_date"), "event_end_date");
                 Date eventTimeStart = Validator.isDateValid(jobject.get("event_time_start"), "event_time_start");
                 Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"),"event_time_end");
+                String eventStatus = Validator.containsBlankField(jobject.get("event_status"));
                 boolean sendReminder = jobject.get("send_reminder").getAsBoolean();
                 String eventDescription = Validator.containsBlankField(jobject.get("event_description"));
                 String minimumParticipation = jobject.get("minimum_participation").getAsString();
@@ -142,7 +143,7 @@ public class AddEvent extends HttpServlet {
                         if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader") ){
                             
                             //check if exist
-                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng);                         
+                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus);                         
                             String errorMsg = EventDAO.eventExist(event);
                             
                             if(errorMsg != null && !ignore){

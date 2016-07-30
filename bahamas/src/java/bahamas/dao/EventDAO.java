@@ -38,8 +38,8 @@ public class EventDAO {
             stmt = conn.prepareStatement("INSERT INTO EVENT (CREATED_BY, DATE_CREATED, "
                     + "EVENT_TITLE, EXPLAIN_IF_OTHER, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, "
                     + "EVENT_TIME_END, SEND_REMINDER, EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, "
-                    + "EVENT_CLASS_NAME, EVENT_LOCATION_NAME, EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    + "EVENT_CLASS_NAME, EVENT_LOCATION_NAME, EVENT_STATUS, EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE) "
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             //stmt.setInt(1, d.getContact().getContactId());
             stmt.setString(1, createdBy);
@@ -55,8 +55,9 @@ public class EventDAO {
             stmt.setInt(11, event.getMinimumParticipation());
             stmt.setString(12, event.getEventClassName());
             stmt.setString(13, event.getEventLocationName());
-            stmt.setString(14, event.getEventLng());
-            stmt.setString(15, event.getEventLat());
+            stmt.setString(14, event.getEventStatus());
+            stmt.setString(15, event.getEventLng());
+            stmt.setString(16, event.getEventLat());
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
@@ -83,7 +84,7 @@ public class EventDAO {
             stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
                     + "EXPLAIN_IF_OTHER, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                     + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
-                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE FROM EVENT WHERE EVENT_ID = (?)");
+                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_STATUS FROM EVENT WHERE EVENT_ID = (?)");
             stmt.setInt(1, eventID);
 
             rs = stmt.executeQuery();
@@ -108,7 +109,8 @@ public class EventDAO {
                 String eventLocationName = rs.getString(13);
                 String eventLng = rs.getString(14);
                 String eventLat = rs.getString(15);
-                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy);
+                String eventStatus = rs.getString(16);
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
                 return event;
                         
             }
@@ -218,7 +220,7 @@ public class EventDAO {
             stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
                     + "EXPLAIN_IF_OTHER, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                     + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
-                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID FROM EVENT");
+                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID, EVENT_STATUS FROM EVENT");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -245,7 +247,8 @@ public class EventDAO {
                 String eventLng = rs.getString(14);
                 String eventLat = rs.getString(15);
                 int eventID = rs.getInt(16);
-                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy);
+                String eventStatus = rs.getString(17);
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
                 eventList.add(event);      
             }
         } catch (ParseException ex) {

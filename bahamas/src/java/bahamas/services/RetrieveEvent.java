@@ -110,6 +110,7 @@ public class RetrieveEvent extends HttpServlet {
                                 json.addProperty("event_class", event.getEventClassName());
                                 json.addProperty("event_location", event.getEventLocationName());
                                 json.addProperty("explain_if_others", event.getExplainIfOthers());
+                                json.addProperty("event_status", event.getEventStatus());
                                 json.addProperty("event_lat", event.getEventLat());
                                 json.addProperty("event_lng", event.getEventLng());
                                 json.addProperty("date_created", datetime.format(event.getDateCreated()));
