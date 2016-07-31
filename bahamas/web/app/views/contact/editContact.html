@@ -1510,6 +1510,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Team <span ng-bind="team['team_name']"></span></b>
+                                                <b ng-if="team.permission == 'Pending'"><span> - Pending</span></b>
                                                 <b ng-if="team.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
@@ -1599,7 +1600,8 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Team <span ng-bind="team['team_name']"></span></b>
-                                                <b ng-if="team['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="team.permission == 'Pending'"><span> - Pending</span></b>
+                                                <b ng-if="team.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">

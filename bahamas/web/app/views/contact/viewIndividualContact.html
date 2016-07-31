@@ -147,7 +147,7 @@ and open the template in the editor.
                                             <b><span ng-bind="phoneObj.country_code"></span></b>
                                             <b><span>-</span></b>
                                             <b><span ng-bind="phoneObj.phone_number"></span></b>
-                                            <b ng-if="phoneObj.date_obsolete != ''"><span>(Obsolete)</span></b>
+                                            <b ng-if="phoneObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Phone Details">
@@ -203,7 +203,7 @@ and open the template in the editor.
                                     <div class="box-header coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b><span ng-bind="emailObj.email"></span></b>
-                                            <b ng-if="emailObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            <b ng-if="emailObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Email Details">
@@ -266,7 +266,7 @@ and open the template in the editor.
                                     <div class="box-header coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b><span>{{addressObj.address | limitTo: 15}}</span>... <span ng-bind="addressObj.country"></span></b>
-                                            <b ng-if="addressObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            <b ng-if="addressObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Address Details">
@@ -440,7 +440,7 @@ and open the template in the editor.
                                     <div class="box-header coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b><span ng-bind="officeHeldObj.office_held"></span></b>
-                                            <b> from </b><b><span ng-bind="officeHeldObj.start"></span></b><b> to </b><b><span ng-bind="officeHeldObj.end"></span></b>
+                                            <b> from </b><b><span ng-bind="officeHeldObj.start_office"></span></b><b> to </b><b><span ng-bind="officeHeldObj.end_office"></span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Office Details">
@@ -635,7 +635,7 @@ and open the template in the editor.
                                     <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b>Team <span ng-bind="teamObj.team_name"></span></b>
-                                            <b ng-if="teamObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            <b ng-if="teamObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">
@@ -845,7 +845,7 @@ and open the template in the editor.
                                     <div class="box-header coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b><span ng-bind="proxyObj.proxy_name"></span></b>
-                                            <b ng-if="proxyObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            <b ng-if="proxyObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
@@ -911,7 +911,7 @@ and open the template in the editor.
                                     <div class="box-header coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b><span ng-bind="languageObj.language_name"></span></b>
-                                            <b ng-if="languageObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            <b ng-if="languageObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
@@ -938,6 +938,12 @@ and open the template in the editor.
                                             <div class="col-sm-6">
                                                 <h4 class="bold">Speak/Write</h4>
                                                 <div class="custom-height-1">{{languageObj.proficiency}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{languageObj.date_obsolete}}</div>
                                             </div>
                                         </div>
                                         <div class="row col-md-12">
@@ -973,7 +979,7 @@ and open the template in the editor.
                                     <div class="box-header coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
                                             <b><span ng-bind="skillsObj.skill_name"></span></b>
-                                            <b ng-if="skillsObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                            <b ng-if="skillsObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">

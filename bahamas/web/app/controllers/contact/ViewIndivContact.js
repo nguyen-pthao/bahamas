@@ -70,6 +70,9 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.permissionViewNricDob = false;
         }
 
+        var today = new Date();
+        today.setDate(today.getDate() - 1);
+        
         $scope.myPromise = retrieveContactByCid.retrieveContact(contactToRetrieve).then(function (response) {
             $scope.contactInfo = response.data.contact[0];
             //user info
@@ -101,6 +104,16 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasPhone = true;
             if (angular.isUndefined($scope.phoneInfo)) {
                 $scope.hasPhone = false;
+            } else {
+                if($scope.phoneInfo != '') {
+                    for(var i in $scope.phoneInfo) {
+                        $scope.phoneInfo[i].isObsolete = false;
+                        var dateObs = new Date($scope.phoneInfo[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.phoneInfo[i].isObsolete = true;
+                        }
+                    }
+                }
             }
 
             //email info
@@ -108,6 +121,16 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasEmail = true;
             if (angular.isUndefined($scope.email)) {
                 $scope.hasEmail = false;
+            } else {
+                if($scope.email != '') {
+                    for(var i in $scope.email) {
+                        $scope.email[i].isObsolete = false;
+                        var dateObs = new Date($scope.email[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.email[i].isObsolete = true;
+                        }
+                    }
+                }
             }
 
             //address info
@@ -115,13 +138,24 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasAddress = true;
             if (angular.isUndefined($scope.address)) {
                 $scope.hasAddress = false;
+            } else {
+                if($scope.address != '') {
+                    for(var i in $scope.address) {
+                        $scope.address[i].isObsolete = false;
+                        var dateObs = new Date($scope.address[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.address[i].isObsolete = true;
+                        }
+                    }
+                }
             }
+            
             //membership info
             $scope.membership = $scope.contactInfo['membership'];
             $scope.hasMembership = true;
             if (angular.isUndefined($scope.membership)) {
                 $scope.hasMembership = false;
-            }else{
+            } else {
                 for (var i = 0; i < $scope.membership.length; i++) {
                     $scope.membership[i]['subscription_amount'] = (Math.floor($scope.membership[i]['subscription_amount'] * 100) / 100).toFixed(2);
                 }
@@ -152,6 +186,16 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasTeam = true;
             if (angular.isUndefined($scope.team)) {
                 $scope.hasTeam = false;
+            } else {
+                if($scope.team != '') {
+                    for(var i in $scope.team) {
+                        $scope.team[i].isObsolete = false;
+                        var dateObs = new Date($scope.team[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.team[i].isObsolete = true;
+                        }
+                    }
+                }
             }
             //training info
             $scope.training = $scope.contactInfo['training'];
@@ -171,18 +215,50 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             $scope.hasProxy = true;
             if (angular.isUndefined($scope.proxy)) {
                 $scope.hasProxy = false;
+            } else {
+                if($scope.proxy != '') {
+                    for(var i in $scope.proxy) {
+                        $scope.proxy[i].isObsolete = false;
+                        var dateObs = new Date($scope.proxy[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.proxy[i].isObsolete = true;
+                        }
+                    }
+                }
             }
+            
             //languages info
             $scope.languages = $scope.contactInfo['language_assignment'];
             $scope.hasLanguages = true;
             if (angular.isUndefined($scope.languages)) {
                 $scope.hasLanguages = false;
+            } else {
+                if($scope.languages != '') {
+                    for(var i in $scope.languages) {
+                        $scope.languages[i].isObsolete = false;
+                        var dateObs = new Date($scope.languages[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.languages[i].isObsolete = true;
+                        }
+                    }
+                }
             }
+            
             //skills and assets info
             $scope.skills = $scope.contactInfo['skill_assignment'];
             $scope.hasSkills = true;
             if (angular.isUndefined($scope.skills)) {
                 $scope.hasSkills = false;
+            } else {
+                if($scope.skills != '') {
+                    for(var i in $scope.skills) {
+                        $scope.skills[i].isObsolete = false;
+                        var dateObs = new Date($scope.skills[i].date_obsolete);
+                        if(dateObs < today) {
+                            $scope.skills[i].isObsolete = true;
+                        }
+                    }
+                }
             }
         });
 
