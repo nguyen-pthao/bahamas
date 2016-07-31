@@ -96,7 +96,7 @@ app.controller('createEventAffiliation',
                     });
                     if ($scope.others['others'] == true) {
                         hasSelected = true;
-                        $scope.toSubmit['teams'].push('Others');
+                        $scope.toSubmit['teams'].push('Other');
                         $scope.toSubmit['explain_if_others'] = $scope.others['explain_if_others'];
                     }
                     if (hasSelected == false) {
