@@ -25,10 +25,23 @@ public class EventAffiliation {
     public EventAffiliation(int eventID, String explainIfOthers, String remarks, ArrayList<String> teamArray, String createdBy) {
         this.eventID = eventID;
         this.explainIfOthers = explainIfOthers;
-        this.dateObsolete = dateObsolete;
         this.remarks = remarks;
         this.teamArray = teamArray;
         this.createdBy = createdBy;
+    }
+    
+    public EventAffiliation(int eventID, String explainIfOthers, String remarks, ArrayList<String> teamArray, String createdBy, Date dateCreated, Date dateObsolete) {
+        this.eventID = eventID;
+        this.explainIfOthers = explainIfOthers;
+        this.remarks = remarks;
+        this.teamArray = teamArray;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+        this.dateObsolete = dateObsolete;
+    }
+
+    public EventAffiliation() {
+        
     }
 
     public int getEventID() {

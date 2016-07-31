@@ -54,7 +54,7 @@ and open the template in the editor.
                                             <label>Start Time</label><span class="required">*</span>
                                             <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
                                             <span ng-show="eventForm.eventStartTime.$error.required && eventForm.eventStartTime.$touched" class="error">Start Time is required.<br></span>
-<!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventStartTime.$touched" class="error">Start Time cannot be after End Time.</span>-->
+                                            <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventStartTime.$touched" class="error">Start Time cannot be after End Time.</span>-->
                                         </div>
                                         <div class="col-md-3">
                                             <label>End Date</label><span class="required">*</span>
@@ -71,7 +71,7 @@ and open the template in the editor.
                                             <label>End Time</label><span class="required">*</span>
                                             <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
                                             <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.<br></span>
-<!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventEndTime.$touched" class="error">End Time cannot be before Start Time.</span>-->
+                                            <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventEndTime.$touched" class="error">End Time cannot be before Start Time.</span>-->
                                         </div>
                                     </div>
                                     <div>
@@ -120,9 +120,7 @@ and open the template in the editor.
                                     </div>
                                     <div>
                                         <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i>
-                                        <div>
-                                            <input type="checkbox" ng-model="showGoogleMaps"/>
-                                        </div>
+                                        &nbsp;<input type="checkbox" ng-model="showGoogleMaps"/>
                                     </div>
                                 </div>
                                 <div ng-show='showGoogleMaps'>
@@ -134,20 +132,19 @@ and open the template in the editor.
                                 <div class="box-footer">
                                     <div class="col-md-12">
                                         <div class="col-md-6">
-                                            <button type="submit" ng-click="createEvent()" 
+                                            <button class="pull-right btn btn-primary" type="submit" ng-click="createEvent()" 
                                                     ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid
                                                                         || eventForm.eventStartDate.$error.required || eventForm.eventEndDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
                                                                         || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required || eventForm.eventStatus.$error.required
                                                                         || eventForm.explainIfOthers.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
-                                                    class="btn btn-primary">
+                                                    >
                                                 Save and proceed
                                             </button>
                                         </div>
-                                        <div class="col-md-6" style="padding: 0px">
-                                            <label>Send Reminder</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
-                                            <div>
-                                                <input type="checkbox" ng-model="newEvent['send_reminder']"/>
-                                            </div>
+                                        <div class="col-md-6" style="margin-top: 5px">
+                                            <label>Send Reminder</label>
+                                            &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
+                                            &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
                                         </div>
                                     </div>
                                 </div>
