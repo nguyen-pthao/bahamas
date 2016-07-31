@@ -126,7 +126,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 json.addProperty("date_created", date.format(event.getDateCreated()));
                                 ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
                                 EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
-                                if(!eventRoleAssignmentList.isEmpty() && eventRoleAssignmentList.size() != 0){
+                                if(eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0){
                                     for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                         JsonObject roleJson = new JsonObject();
                                         roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
