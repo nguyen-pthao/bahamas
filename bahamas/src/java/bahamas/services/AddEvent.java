@@ -157,9 +157,9 @@ public class AddEvent extends HttpServlet {
                             if(errorMsg != null && !ignore){
                                 json = new JsonObject();
                                 jsonErrorMsgArray = new JsonArray();
-                                jsonErrorMsgArray.add(new JsonPrimitive(errorMsg)); 
+                                //jsonErrorMsgArray.add(new JsonPrimitive(errorMsg)); 
                                 json.addProperty("message", "conflict");
-                                json.add("errorMsg", jsonErrorMsgArray);
+                                json.addProperty("errorMsg", errorMsg);
                                 out.println(gson.toJson(json));
                                 return;
                             }
