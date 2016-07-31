@@ -139,16 +139,18 @@ and open the template in the editor.
                             <div class="row col-sm-12">
                                 <div class="col-sm-6">
                                     <h4 class="bold">Teams Affiliated</h4>
-                                    <div class="custom-height-1"></div>
+                                    <ul>
+                                        <li ng-repeat="teams in teamA">{{teams}}</li>
+                                    </ul>
                                 </div>
                                 <div class="col-sm-6">
                                     <h4 class="bold">Explain If 'Other'</h4>
-                                    <div class="custom-height-1"></div>
+                                    <div class="custom-height-1">{{affiliation['explain_if_other']}}</div>
                                 </div>
                             </div>
                             <div class="col-sm-12">
                                 <h4 class="bold">Remarks</h4>
-                                <div class="custom-height-1"></div>
+                                <div class="custom-height-1">{{affiliation['remarks']}}</div>
                             </div>
                         </div>
                     </div>

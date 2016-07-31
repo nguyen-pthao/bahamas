@@ -20,6 +20,9 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
             $scope.showEdit = false;
         }
         
+        var today = new Date();
+        today.setDate(today.getDate() - 1);
+        
         $scope.myPromise = retrieveOwnContactInfo.retrieveContact(toRetrieve).then(function (response){
             $scope.contactInfo = response.data.contact;
             //user info
@@ -45,12 +48,39 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
             
             //phone info
             $scope.phoneInfo = $scope.contactInfo['phone'];
+            if($scope.phoneInfo != '') {
+                for (var i in $scope.phoneInfo) {
+                    $scope.phoneInfo[i].isObsolete = false;
+                    var dateObs = new Date($scope.phoneInfo[i].date_obsolete);
+                    if (dateObs < today) {
+                        $scope.phoneInfo[i].isObsolete = true;
+                    }
+                }
+            }
             
             //email info
             $scope.email = $scope.contactInfo['email'];
+            if ($scope.email != '') {
+                for (var i in $scope.email) {
+                    $scope.email[i].isObsolete = false;
+                    var dateObs = new Date($scope.email[i].date_obsolete);
+                    if (dateObs < today) {
+                        $scope.email[i].isObsolete = true;
+                    }
+                }
+            }
             
             //address info
             $scope.address = $scope.contactInfo['address'];
+            if($scope.address != '') {
+                for (var i in $scope.address) {
+                    $scope.address[i].isObsolete = false;
+                    var dateObs = new Date($scope.address[i].date_obsolete);
+                    if (dateObs < today) {
+                        $scope.address[i].isObsolete = true;
+                    }
+                }
+            }
             
             //membership info
             $scope.membership = $scope.contactInfo['membership'];
@@ -76,16 +106,42 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
             
             //team info
             $scope.team = $scope.contactInfo['team_join'];
-            
+            if($scope.team != '') {
+                for (var i in $scope.team) {
+                    $scope.team[i].isObsolete = false;
+                    var dateObs = new Date($scope.team[i].date_obsolete);
+                    if (dateObs < today) {
+                        $scope.team[i].isObsolete = true;
+                    }
+                }
+            }
             //training info
             //$scope.training = $scope.contactInfo['training'];
             
             //languages info
             $scope.languages = $scope.contactInfo['language_assignment'];
+            if($scope.languages != '') {
+                for (var i in $scope.languages) {
+                    $scope.languages[i].isObsolete = false;
+                    var dateObs = new Date($scope.languages[i].date_obsolete);
+                    if (dateObs < today) {
+                        $scope.languages[i].isObsolete = true;
+                    }
+                }
+            }
             
             //skills and assets info
             $scope.skills = $scope.contactInfo['skill_assignment'];
-        })
+            if ($scope.skills != '') {
+                for (var i in $scope.skills) {
+                    $scope.skills[i].isObsolete = false;
+                    var dateObs = new Date($scope.skills[i].date_obsolete);
+                    if (dateObs < today) {
+                        $scope.skills[i].isObsolete = true;
+                    }
+                }
+            }
+        });
         
         var toAllContacts = $scope.userType + '.viewContacts';
         $scope.backHome = function () {

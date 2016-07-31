@@ -57,6 +57,8 @@ app.controller('viewIndivEvent',
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                         $scope.roles = $scope.eventInfo['event_role'];
+                        $scope.affiliation = $scope.eventInfo['event_team_affiliation'];
+                        $scope.teamA = $scope.eventInfo['event_team_affiliation']['teams_affiliated'];
                     })
 
                     $scope.$watch('showGmap', function () {
