@@ -55,7 +55,7 @@ public class RetrieveEventIndiv extends HttpServlet {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonArray eventRoleJsonArray = new JsonArray();
-            JsonArray eventAffiliationJsonArray = null;
+            JsonArray eventAffiliationJsonArray = new JsonArray();
             JsonObject teamJson = new JsonObject();
 
             //Retrieve the json string as a reader 
