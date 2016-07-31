@@ -7,10 +7,12 @@ package bahamas.services;
  */
 
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.EventAffiliation;
 import bahamas.entity.EventRoleAssignment;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -53,6 +55,7 @@ public class RetrieveEventIndiv extends HttpServlet {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonArray eventRoleJsonArray = new JsonArray();
+             JsonObject teamJson = new JsonObject();
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -121,6 +124,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 json.addProperty("event_lng", event.getEventLng());
                                 json.addProperty("date_created", date.format(event.getDateCreated()));
                                 ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
+                                EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
                                 if(!eventRoleAssignmentList.isEmpty() && eventRoleAssignmentList.size() != 0){
                                     for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                         JsonObject roleJson = new JsonObject();
@@ -129,7 +133,23 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         eventRoleJsonArray.add(roleJson);
                                     }
                                 }
+                                if(eventAffiliation != null){
+                                    eventAffiliation.getTeamArray();
+                                    String teams = "";
+                                    
+                                    if(eventAffiliation.getTeamArray() != null && !eventAffiliation.getTeamArray().isEmpty()){  
+                                        for (int i = 0; i < eventAffiliation.getTeamArray().size() -1; i++) {
+                                            teams += eventAffiliation.getTeamArray().get(i) + ", ";
+                                        }
+                                        teams += eventAffiliation.getTeamArray().get(eventAffiliation.getTeamArray().size() -1);
+                                    }
+                                    
+                                    teamJson.addProperty("teams_affiliated", teams);
+                                    teamJson.addProperty("explain_if_other", eventAffiliation.getExplainIfOthers());
+                                    teamJson.addProperty("remarks", eventAffiliation.getRemarks());
+                                }
                                 json.add("event_role", eventRoleJsonArray);
+                                json.add("event_team_affiliation", teamJson);
                                 out.println(gson.toJson(json));
                             }else{
                                 json.addProperty("message", "Fail retrieve event");
