@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper inner-content-wrapper" id="view-all-contacts"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:1500}">
+        <div class="content-wrapper inner-content-wrapper" id="view-all-contacts"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -36,11 +36,11 @@ and open the template in the editor.
                             </label>
                             <div class="col-md-1" style="padding: 0px">
                                 <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
-                                    <option>1</option>
-                                    <option>3</option>
-                                    <option>5</option>
-                                    <option>7</option>
-                                    <option>9</option>
+                                    <option>20</option>
+                                    <option>40</option>
+                                    <option>60</option>
+                                    <option>80</option>
+                                    <option>100</option>
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
