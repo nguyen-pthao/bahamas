@@ -70,7 +70,7 @@ and open the template in the editor.
                                                     <input type="checkbox" ng-model="selectedTeams[$index]"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
                                                 </div>
                                                 <div>
-                                                    <input type="checkbox" ng-model="others['others']"/><span style="margin-left: 10px;">Others</span>
+                                                    <input type="checkbox" ng-model="others['others']"/><span style="margin-left: 10px;">Other</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -78,8 +78,8 @@ and open the template in the editor.
                                             <div>
                                                 <label>Explain if Others</label>
                                                 <textarea class="custom-remarks" ng-model="others['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
-                                                <span ng-show="addTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Others' is too long.</span><br>
-                                                <span ng-show="others['others'] == false && others['explain_if_others'] != ''" class='error'>You did not select 'Others'!</span>
+                                                <span ng-show="addTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span><br>
+                                                <span ng-show="others['others'] == false && others['explain_if_others'] != ''" class='error'>You did not select 'Other'!</span>
                                             </div>
                                             <div>
                                                 <label>Remarks</label>

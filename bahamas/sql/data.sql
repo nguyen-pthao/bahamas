@@ -221,7 +221,7 @@ INSERT INTO `PERMISSION_LEVEL_LIST` VALUES ('Associate','Joins event',0),('Event
 --
 
 /*!40000 ALTER TABLE `TEAM_AFFILIATION_LIST` DISABLE KEYS */;
-INSERT INTO `TEAM_AFFILIATION_LIST` VALUES ('Casework','This is Casework team',0),('Communications','This is Communications team',0),('Discover Sg','This is Discover Sg team',0),('FareGo','This is FareGo team',0),('Fundraising','This is Fundraising team',0),('Intern','This is Intern team',0),('Lifeline','This is Lifeline team',0),('Other','This is Other team',0),('Outreach','This is Outreach team',0),('Public Engagement','This is Public Engagement team',0),('R2R','This is R2R team',0),('Research','This is Research team',0),('Roof','This is Roof team',0),('TCRP','This is TCRP team',0);
+INSERT INTO `TEAM_AFFILIATION_LIST` VALUES ('Casework','This is Casework team',0),('Communications','This is Communications team',0),('Discover Sg','This is Discover Sg team',0),('FareGo','This is FareGo team',0),('Fundraising','This is Fundraising team',0),('Intern','This is Intern team',0),('Lifeline','This is Lifeline team',0),('Outreach','This is Outreach team',0),('Public Engagement','This is Public Engagement team',0),('R2R','This is R2R team',0),('Research','This is Research team',0),('Roof','This is Roof team',0),('TCRP','This is TCRP team',0);
 /*!40000 ALTER TABLE `TEAM_AFFILIATION_LIST` ENABLE KEYS */;
 
 --
