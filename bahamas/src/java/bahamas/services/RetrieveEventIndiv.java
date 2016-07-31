@@ -22,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -134,11 +135,10 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         eventRoleJsonArray.add(roleJson);
                                     }
                                 }
-                                JsonParser parser = new JsonParser();
                                 if(eventAffiliation != null){
                                     for(String team : eventAffiliation.getTeamArray()){
-                                        JsonElement jsonElement = parser.parse(team);
-                                        eventAffiliationJsonArray.add(jsonElement);
+                                        //JsonElement jsonElement = parser.parse(team);
+                                        eventAffiliationJsonArray.add(new JsonPrimitive(team));
                                     }                                
                                     teamJson.add("teams_affiliated", eventAffiliationJsonArray);
                                     teamJson.addProperty("explain_if_other", eventAffiliation.getExplainIfOthers());
