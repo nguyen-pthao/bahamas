@@ -168,14 +168,15 @@ app.controller('createEvent',
                             var id = response.data['event_id'];
                             localStorageService.set('eventIdCreate', id);
                             $state.go('admin.createEventRoles');
-                        } else if(response.data.message == 'dateError'){
+                        } else if(response.data.message == 'error'){
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             })
-                        } else {
+                        } else if(response.data.message == 'conflict'){
+                            $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/addEventConflict.html',
                                 className: 'ngdialog-theme-default',
@@ -191,6 +192,8 @@ app.controller('createEvent',
                                     }
                                 });
                             });
+                        }else{
+                            window.alert("Unable to establish connection");
                         }
                     });
 

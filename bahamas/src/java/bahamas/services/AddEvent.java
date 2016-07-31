@@ -96,35 +96,31 @@ public class AddEvent extends HttpServlet {
                 boolean ignore = jobject.get("ignore").getAsBoolean();
                 
                 
-                if(eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null){
-                    json.addProperty("message", "Missing fields");
-                    if(eventClass == null){
-                        //json.addProperty("event_class", "Missing Event Class");
-                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));        
+                if(eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null || eventStatus == null){
+                    json.addProperty("message", "error");
+                    if(eventTitle == null){
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Title"));
                     }
                     if(eventStartDate == null){
-                        //json.addProperty("event_start_date", "Missing Event Start Date");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Start Date"));
                     }
                     if(eventEndDate == null){
-                        //json.addProperty("event_end_date", "Missing Event End Date");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event End Date"));
                     }
-                    if(eventLocation == null){
-                        //json.addProperty("event_location", "Missing Event Location");
-                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Location"));
-                    }
-                    if(eventTimeEnd == null){
-                        //json.addProperty("event_time_end", "Missing Event Time End");
-                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time End"));
-                    }
                     if(eventTimeStart == null){
-                        //json.addProperty("event_time_start", "Missing Event Time Start");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time Start"));
                     }
-                    if(eventTitle == null){
-                        //json.addProperty("event_title", "Missing Event Title");
-                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Title"));
+                    if(eventTimeEnd == null){
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time End"));
+                    }
+                    if(eventClass == null){
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));        
+                    }
+                    if(eventLocation == null){
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Location"));
+                    }
+                    if(eventStatus == null){
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing event status"));
                     }
                     json.add("errorMsg", jsonErrorMsgArray);
                     out.println(gson.toJson(json));
@@ -132,8 +128,8 @@ public class AddEvent extends HttpServlet {
                 }
                 
                 if(eventTimeEnd.before(eventTimeStart) || eventTimeEnd.equals(eventTimeStart)){
-                    json.addProperty("message", "dateError");
-                    jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));  
+                    json.addProperty("message", "error");
+                    jsonErrorMsgArray.add(new JsonPrimitive("Start time cannot be after end time"));  
                     json.add("errorMsg", jsonErrorMsgArray);
                     out.println(gson.toJson(json));
                     return;
@@ -159,7 +155,11 @@ public class AddEvent extends HttpServlet {
                             String errorMsg = EventDAO.eventExist(event);
                             
                             if(errorMsg != null && !ignore){
-                                json.addProperty("message", errorMsg);
+                                json = new JsonObject();
+                                jsonErrorMsgArray = new JsonArray();
+                                jsonErrorMsgArray.add(new JsonPrimitive(errorMsg)); 
+                                json.addProperty("message", "conflict");
+                                json.add("errorMsg", jsonErrorMsgArray);
                                 out.println(gson.toJson(json));
                                 return;
                             }

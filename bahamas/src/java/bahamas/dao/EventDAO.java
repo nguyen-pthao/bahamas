@@ -175,7 +175,7 @@ public class EventDAO {
                 //Date eventStartDB = date.parse(date.format(eventStartDateDB0));
                 //Date eventEndDB = date.parse(date.format(eventEndDateDB0));
                 
-                String eventTitle = rs.getString(4);
+                String eventTitle = rs.getString(5);
                 //if ((startTime.equals(startTimeDB) || startTime.equals(endTimeDB) || (startTime.after(startTimeDB) && startTime.before(endTimeDB))) && eventDate.equals(eventDateDB)) {
                 if (startTime.equals(startTimeDB) || startTime.equals(endTimeDB) || (startTime.after(startTimeDB) && startTime.before(endTimeDB))) {
                     conflctingEventName.add(eventTitle);
