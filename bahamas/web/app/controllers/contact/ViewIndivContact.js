@@ -52,14 +52,15 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         $scope.isEL = false;
         $scope.isAssociate = false;
         $scope.editable = false;
-        $scope.permissionViewNricDob = true;
+        $scope.permissionViewNricDob = false;
         if ($scope.permission === 'admin') {
             $scope.isAdmin = true;
             $scope.editable = true;
-            $scope.permissionViewNricDob = false;
+            $scope.permissionViewNricDob = true;
         } else if ($scope.permission === 'teammanager') {
             $scope.isTM = true;
             $scope.editable = true;
+            $scope.permissionViewNricDob = true;
         } else if ($scope.permission === 'eventleader') {
             $scope.isEL = true;
             $scope.editable = true;

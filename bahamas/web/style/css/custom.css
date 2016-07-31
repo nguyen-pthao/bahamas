@@ -279,6 +279,11 @@ li.user-header>p>a:focus {
 }
 
 /*Collapsing sidebar*/
+aside.control-sidebar.control-sidebar-dark-control-sidebar-open,
+div.wrapper > aside.main-sidebar {
+    position: fixed;
+}
+    
 @media(min-width: 768px) {
     .sidebar-mini .sidebar-collapse .content-wrapper, 
     .sidebar-mini .sidebar-collapse .right-side, 
@@ -292,15 +297,14 @@ li.user-header>p>a:focus {
     .sidebar-open .content-wrapper, .sidebar-open .right-side, .sidebar-open .main-footer {
         transform: translate(120px, 0);
     }
+    
     div.wrapper.sidebar-open > aside.main-sidebar {
-        position: fixed;
         overflow-y: scroll;
         top: 0;
         bottom: 0;
     }
     
     aside.control-sidebar.control-sidebar-dark-control-sidebar-open {
-        position: fixed;
         overflow-y: scroll;
         top: 0;
         bottom: 0;
@@ -379,6 +383,10 @@ li.user-header>p>a:focus {
 }
 .green-box {
     border-top-color: #004d00;
+}
+
+.coral-box-header {
+    background-color: #ffcfc1;
 }
 
 /*hidden box for edit and view contact*/

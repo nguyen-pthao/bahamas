@@ -6,9 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit',
-    function ($scope, session, ngDialog, $timeout, dataSubmit) {
+app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'loadContactType',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, loadContactType) {
 
+        $scope.loadContactTypeList = function () {
+            loadContactType.retrieveContactType().then(function (response) {
+                $scope.contactTypeList = response.data.contact;
+            });
+        };
         //contact
         $scope.resultContact = {
             status: false,
@@ -64,35 +69,7 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
                 window.alert("Fail to send request!");
             });
         };
-//                $scope.deleteTheContact = function () {
-//                    //to add ngDialog for confirmation
-//                    ngDialog.openConfirm({
-//                        template: './style/ngTemplate/deletePrompt.html',
-//                        className: 'ngdialog-theme-default',
-//                        scope: $scope
-//                    }).then(function (response) {
-//                        var deleteContact = {};
-//                        deleteContact['token'] = session.getSession('token');
-//                        deleteContact['contact_id'] = contactToEdit['other_cid'];
-//                        var url = AppAPI.deleteContact;
-//                        deleteService.deleteDataService(deleteContact, url).then(function (response) {
-//                            if (response.data.message == 'success') {
-//                                ngDialog.openConfirm({
-//                                    template: './style/ngTemplate/deleteSuccess.html',
-//                                    className: 'ngdialog-theme-default',
-//                                    scope: $scope
-//                                }).then(function () {
-//                                    $state.go(toContacts);
-//                                });
-//                            } else {
-//                                console.log("del contact fail");
-//                            }
-//                        }, function () {
-//                            window.alert("Fail to send request!");
-//                        });
-//                    });
-//                };
-
+        
         $scope.open = function () {
             $timeout(function () {
                 $scope.opened = true;

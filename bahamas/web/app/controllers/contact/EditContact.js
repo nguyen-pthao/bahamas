@@ -71,14 +71,12 @@ app.directive('empty', function () {
 //}]);
 
 app.controller('editContact',
-        ['$scope', '$state', 'session', 'ngDialog', '$timeout',
-            'loadCountries', 'loadContactType', 'loadTeamAffiliation', 'loadPermissionLevel', 'loadLanguage', 'loadLSAClass', 'loadMembershipClass', 'loadPaymentMode', 'loadModeOfSendingReceipt', 'loadOfficeList',
-            'retrieveContactByCid', 'loadAllContacts',
-            'dataSubmit', 'deleteService', 'retrieveOwnContactInfo',
-            function ($scope, $state, session, ngDialog, $timeout,
-                    loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, loadMembershipClass, loadPaymentMode, loadModeOfSendingReceipt, loadOfficeList,
-                    retrieveContactByCid, loadAllContacts,
-                    dataSubmit, deleteService, retrieveOwnContactInfo) {
+        ['$scope', '$state', 'session',
+            'loadCountries', 'loadTeamAffiliation', 'loadPaymentMode', 'loadModeOfSendingReceipt',
+            'retrieveContactByCid', 'retrieveOwnContactInfo',
+            function ($scope, $state, session,
+                    loadCountries, loadTeamAffiliation, loadPaymentMode, loadModeOfSendingReceipt,
+                    retrieveContactByCid, retrieveOwnContactInfo) {
 
                 var permission = session.getSession('userType');
 
@@ -115,16 +113,10 @@ app.controller('editContact',
                 if ($scope.authorised && $scope.editMode == 'true') {
                     if (permission === 'admin') {
                         $scope.isAdmin = true;
-                        $scope.isTeamManager = false;
-                        $scope.isEventLeader = false;
                     } else if (permission === 'eventleader') {
-                        $scope.isAdmin = false;
                         $scope.isEventLeader = true;
-                        $scope.isTeamManager = false;
                     } else if (permission == 'teammanager') {
                         $scope.isTeamManager = true;
-                        $scope.isAdmin = false;
-                        $scope.isEventLeader = false;
                     }
 
 //CONTACT TO BE EDITTED
@@ -149,16 +141,10 @@ app.controller('editContact',
                 } else {
                     if (permission === 'admin') {
                         $scope.isAdmin = true;
-                        $scope.isTeamManager = false;
-                        $scope.isEventLeader = false;
                     } else if (permission === 'eventleader') {
-                        $scope.isAdmin = false;
                         $scope.isEventLeader = true;
-                        $scope.isTeamManager = false;
                     } else if (permission == 'teammanager') {
                         $scope.isTeamManager = true;
-                        $scope.isAdmin = false;
-                        $scope.isEventLeader = false;
                     }
                     contactToRetrieve = {
                         'token': session.getSession('token')
@@ -185,17 +171,7 @@ app.controller('editContact',
                     $state.go(toContacts);
                 };
 
-//CALL DROPDOWN LIST SERVICES        
-                $scope.loadContactTypeList = function () {
-                    loadContactType.retrieveContactType().then(function (response) {
-                        $scope.contactTypeList = response.data.contact;
-                    });
-                };
-                $scope.loadMembershipList = function () {
-                    loadMembershipClass.retrieveMembershipClass().then(function (response) {
-                        $scope.membershipList = response.data.membershipClassList;
-                    });
-                };
+//CALL DROPDOWN LIST SERVICES (shared by different tabs)
                 $scope.loadPaymentModeList = function () {
                     loadPaymentMode.retrievePaymentMode().then(function (response) {
                         $scope.paymentModeList = response.data.paymentModeList;
@@ -204,11 +180,6 @@ app.controller('editContact',
                 $scope.loadSendReceiptModeList = function () {
                     loadModeOfSendingReceipt.retrieveModeOfSendingReceipt().then(function (response) {
                         $scope.sendReceiptModList = response.data.mode;
-                    });
-                };
-                $scope.loadOfficeHoldList = function () {
-                    loadOfficeList.retrieveOfficeList().then(function (response) {
-                        $scope.officeList = response.data.officeList;
                     });
                 };
                 $scope.loadTeamAffiliationList = function () {
@@ -225,21 +196,6 @@ app.controller('editContact',
                             $scope.teamAffiliationList0 = angular.copy($scope.teamAffiliationList);
                             $scope.teamAffiliationList0.pop();
                         }
-                    });
-                };
-                $scope.loadPermissionLevelList = function () {
-                    loadPermissionLevel.retrievePermissionLevel().then(function (response) {
-                        $scope.permissionLevelList = response.data.permissionLevelList;
-                    });
-                };
-                $scope.loadLanguageList = function () {
-                    loadLanguage.retrieveLanguage().then(function (response) {
-                        $scope.languageList = response.data.languageList;
-                    });
-                };
-                $scope.loadLSAList = function () {
-                    loadLSAClass.retrieveLSAClass().then(function (response) {
-                        $scope.LSAList = response.data.lsaClassList;
                     });
                 };
                 $scope.loadCountryNames = function () {
@@ -333,6 +289,8 @@ app.controller('editContact',
                 };
                 $scope.editContact = {};
                 $scope.isUser = true;
+                var today = new Date();
+                today.setDate(today.getDate() - 1);
                 //user
                 var retrieveUserInfo = function (contactToEdit) {
                     if ($scope.editMode == 'true') {
@@ -381,9 +339,16 @@ app.controller('editContact',
                 var retrievePhoneInfo = function (contactToEdit) {
                     if (!angular.isUndefined(contactToEdit.phone) && contactToEdit.phone != '') {
                         $scope.editPhone = contactToEdit.phone;
+                        
                         for (var i = 0; i < contactToEdit.phone.length; i++) {
+                            $scope.editPhone[i].isObsolete = false;
                             $scope.editPhone[i]['date_obsolete'] = new Date(contactToEdit.phone[i]['date_obsolete']);
+                            
+                            if($scope.editPhone[i]['date_obsolete'] != 'Invalid Date' && $scope.editPhone[i]['date_obsolete'] < today) {
+                                $scope.editPhone[i].isObsolete = true;
+                            }
                         }
+                        
                     } else {
                         $scope.editPhone = '';
                     }
@@ -393,7 +358,13 @@ app.controller('editContact',
                     if (!angular.isUndefined(contactToEdit.email) && contactToEdit.email != '') {
                         $scope.editEmail = contactToEdit.email;
                         for (var i = 0; i < contactToEdit.email.length; i++) {
+                            $scope.editEmail[i].isObsolete = false;
                             $scope.editEmail[i]['date_obsolete'] = new Date(contactToEdit.email[i]['date_obsolete']);
+                            
+                            if($scope.editEmail[i]['date_obsolete'] != 'Invalid Date' && $scope.editEmail[i]['date_obsolete'] < today) {
+                                $scope.editEmail[i].isObsolete = true;
+                            }
+                            
                             if (contactToEdit.email[i]['verified'] == 'true') {
                                 $scope.editEmail[i]['is_verified'] = 'Yes';
                             } else {
@@ -421,7 +392,12 @@ app.controller('editContact',
                     if (!angular.isUndefined(contactToEdit.address) && contactToEdit.address != '') {
                         $scope.editAddress = contactToEdit.address;
                         for (var i = 0; i < contactToEdit.address.length; i++) {
+                            $scope.editAddress[i].isObsolete = false;
                             $scope.editAddress[i]['date_obsolete'] = new Date(contactToEdit.address[i]['date_obsolete']);
+                            
+                            if($scope.editAddress[i]['date_obsolete'] != 'Invalid Date' && $scope.editAddress[i]['date_obsolete'] < today) {
+                                $scope.editAddress[i].isObsolete = true;
+                            }
                         }
                     } else {
                         $scope.editAddress = '';
@@ -480,7 +456,12 @@ app.controller('editContact',
                     if (!angular.isUndefined(contactToEdit['team_join']) && contactToEdit['team_join'] != '') {
                         $scope.editTeam = contactToEdit['team_join'];
                         for (var i = 0; i < contactToEdit['team_join'].length; i++) {
+                            $scope.editTeam[i].isObsolete = false;
                             $scope.editTeam[i]['date_obsolete'] = new Date(contactToEdit['team_join'][i]['date_obsolete']);
+                            
+                            if($scope.editTeam[i]['date_obsolete'] != 'Invalid Date' && $scope.editTeam[i]['date_obsolete'] < today) {
+                                $scope.editTeam[i].isObsolete = true;
+                            }
                         }
                     } else {
                         $scope.editTeam = '';
@@ -515,7 +496,12 @@ app.controller('editContact',
                     if (!angular.isUndefined(contactToEdit.proxy) && contactToEdit.proxy != '') {
                         $scope.editProxy = contactToEdit.proxy;
                         for (var i = 0; i < contactToEdit.proxy.length; i++) {
+                            $scope.editProxy[i].isObsolete = false;
                             $scope.editProxy[i]['date_obsolete'] = new Date(contactToEdit.proxy[i]['date_obsolete']);
+                            
+                            if($scope.editProxy[i]['date_obsolete'] != 'Invalid Date' && $scope.editProxy[i]['date_obsolete'] < today) {
+                                $scope.editProxy[i].isObsolete = true;
+                            }
                         }
                     } else {
                         $scope.editProxy = '';
@@ -526,7 +512,12 @@ app.controller('editContact',
                     if (!angular.isUndefined(contactToEdit['language_assignment']) && contactToEdit['language_assignment'] != '') {
                         $scope.editLanguages = contactToEdit['language_assignment'];
                         for (var i = 0; i < contactToEdit['language_assignment'].length; i++) {
+                            $scope.editLanguages[i].isObsolete = false;
                             $scope.editLanguages[i]['date_obsolete'] = new Date(contactToEdit['language_assignment'][i]['date_obsolete']);
+                            
+                            if($scope.editLanguages[i]['date_obsolete'] != 'Invalid Date' && $scope.editLanguages[i]['date_obsolete'] < today) {
+                                $scope.editLanguages[i].isObsolete = true;
+                            }
                         }
                     } else {
                         $scope.editLanguages = '';
@@ -537,7 +528,12 @@ app.controller('editContact',
                     if (!angular.isUndefined(contactToEdit['skill_assignment']) && contactToEdit['skill_assignment'] != '') {
                         $scope.editSkillsAssets = contactToEdit['skill_assignment'];
                         for (var i = 0; i < contactToEdit['skill_assignment'].length; i++) {
+                            $scope.editSkillsAssets[i].isObsolete = false;
                             $scope.editSkillsAssets[i]['date_obsolete'] = new Date(contactToEdit['skill_assignment'][i]['date_obsolete']);
+                            
+                            if($scope.editSkillsAssets[i]['date_obsolete'] != 'Invalid Date' && $scope.editSkillsAssets[i]['date_obsolete'] < today) {
+                                $scope.editSkillsAssets[i].isObsolete = true;
+                            }
                         }
                     } else {
                         $scope.editSkillsAssets = '';

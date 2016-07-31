@@ -6,8 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
+app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadOfficeList',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadOfficeList) {
+
+        $scope.loadOfficeHoldList = function () {
+            loadOfficeList.retrieveOfficeList().then(function (response) {
+                $scope.officeList = response.data.officeList;
+            });
+        };
         //office held
         $scope.addingOffice = false;
         $scope.addNewOffice = function () {

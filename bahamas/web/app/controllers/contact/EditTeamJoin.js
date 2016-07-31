@@ -6,9 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
+app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadPermissionLevel', 
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadPermissionLevel) {
 
+        $scope.loadPermissionLevelList = function () {
+            loadPermissionLevel.retrievePermissionLevel().then(function (response) {
+                $scope.permissionLevelList = response.data.permissionLevelList;
+            });
+        };
         //team join
         $scope.addingTeam = false;
         $scope.addNewTeam = function () {

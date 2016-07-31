@@ -80,12 +80,6 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
             //training info
             //$scope.training = $scope.contactInfo['training'];
             
-            //appreciation info
-            $scope.appreciation = $scope.contactInfo['appreciation'];
-            
-            //proxy info
-            $scope.proxy = $scope.contactInfo['proxy'];
-            
             //languages info
             $scope.languages = $scope.contactInfo['language_assignment'];
             
