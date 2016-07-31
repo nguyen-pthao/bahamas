@@ -310,7 +310,7 @@ and open the template in the editor.
                                                 <b><span ng-bind="phone['country_code']"></span></b>
                                                 <b><span>-</span></b>
                                                 <b><span ng-bind="phone['phone_number']"></span></b>
-                                                <b ng-if="phone['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="phone.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Phone Details">
@@ -443,7 +443,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="email.email"></span></b>
-                                                <b ng-if="email['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="email.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Email Details">
@@ -571,7 +571,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span>{{address['address']| limitTo: 15}}</span>... <span ng-bind="address['country']"></span></b>
-                                                <b ng-if="address['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="address.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Address Details">
@@ -1262,7 +1262,7 @@ and open the template in the editor.
                                                     <span ng-hide="donation['donor_instructions'].length <= 1000 && donation['donor_instructions'].length > - 1" class="error">Input field instructions is too long.</span>
                                                 </div>
                                             </div>
-                                            <div class='form-group col-md-12'>
+                                            <div class='form-group col-md-12' ng-hide="editMode == 'false'">
                                                 <div class='col-md-7'>
                                                     <label>Allocation 1</label>
                                                     <textarea class='custom-remarks' ng-model="donation['allocation1']" name='allo1' contenteditable="true" spellcheck="true"></textarea>
@@ -1274,7 +1274,7 @@ and open the template in the editor.
                                                     <span ng-show="!decimalRegex.test(donation['subtotal1']) && donation['subtotal1'].length > 1" class="error">Invalid subtotal amount.</span>
                                                 </div>
                                             </div>
-                                            <div class='form-group col-md-12'>
+                                            <div class='form-group col-md-12' ng-hide="editMode == 'false'">
                                                 <div class='col-md-7'>
                                                     <label>Allocation 2</label>
                                                     <textarea class='custom-remarks' ng-model="donation['allocation2']" name='allo2' contenteditable="true" spellcheck="true"></textarea>
@@ -1286,7 +1286,7 @@ and open the template in the editor.
                                                     <span ng-show="!decimalRegex.test(donation['subtotal2']) && donation['subtotal2'].length > 1" class="error">Invalid subtotal amount.</span>
                                                 </div>
                                             </div>
-                                            <div class='form-group col-md-12'>
+                                            <div class='form-group col-md-12' ng-hide="editMode == 'false'">
                                                 <div class='col-md-7'>
                                                     <label>Allocation 3</label>
                                                     <textarea class='custom-remarks' ng-model="donation['allocation3']" name='allo3' contenteditable="true" spellcheck="true"></textarea>
@@ -1305,7 +1305,7 @@ and open the template in the editor.
                                                     <span ng-hide="donation['associated_occasion'].length <= 500 && donation['associated_occasion'].length > - 1" class="error">Input field occasion is too long.</span>
                                                 </div>
                                             </div>
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-md-12" ng-hide="editMode == 'false'">
                                                 <div class="col-md-12">
                                                     <label>Remarks</label>
                                                     <textarea class='custom-remarks' ng-model="donation['remarks']" name='remarksDon' contenteditable="true" spellcheck="true"></textarea>
@@ -1510,7 +1510,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b>Team <span ng-bind="team['team_name']"></span></b>
-                                                <b ng-if="team['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="team.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">
@@ -1654,17 +1654,6 @@ and open the template in the editor.
                                                     <span ng-hide="team['remarks'].length <= 1000 && team['remarks'].length > - 1" class="error">Input field remarks is too long.</span>
                                                 </div>
                                             </div>
-                                            <!--<div class="form-group col-md-12">
-                                                <div class="col-md-5">
-                                                    <label>Date obsolete</label>
-                                                    <div class="input-group date">
-                                                        <div class="input-group-addon btn">
-                                                            <i class="fa fa-calendar"></i>
-                                                        </div>
-                                                        <input ng-model="team['date_obsolete']"name='dateObsTeam' type='text' class="form-control pull-right" readonly>
-                                                    </div>
-                                                </div>
-                                            </div>-->
                                             <div class='row'>
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(team['remarks'].length <= 1000 && team['remarks'].length > - 1) || !(team['sub_team'].length <= 50 && team['sub_team'].length > - 1) || !(team['explain_if_others'].length <= 200 && team['explain_if_others'].length > - 1)" 
@@ -1853,7 +1842,7 @@ and open the template in the editor.
                         </form>
                         <!-- /training information -->
                         <form name="form.editAppreciationForm" ng-controller="EditAppreciation">
-                            <div class="box collapsed-box blue-box" ng-show="isAdmin || isTeamManager">
+                            <div class="box collapsed-box blue-box" ng-show="(isAdmin || isTeamManager) && editMode == 'true'">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editAppreciation === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
                                     <div class="box-tools pull-right">
@@ -2049,7 +2038,7 @@ and open the template in the editor.
                         </form>
                         <!-- /appreciation information -->
                         <form name="form.editProxyForm" ng-controller="EditProxy">
-                            <div class="box collapsed-box blue-box">
+                            <div class="box collapsed-box blue-box" ng-show="(isAdmin || isTeamManager) && editMode == 'true'">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editProxy === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
                                     <div class="box-tools pull-right">
@@ -2072,7 +2061,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="proxy['proxy_name']"></span></b>
-                                                <b ng-if="proxy['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="proxy.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
@@ -2212,7 +2201,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="language['language_name']"></span></b>
-                                                <b ng-if="language['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="language.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
@@ -2362,7 +2351,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="skill['skill_name']"></span></b>
-                                                <b ng-if="skill['date_obsolete'] != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                                <b ng-if="skill.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
                                                 <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">

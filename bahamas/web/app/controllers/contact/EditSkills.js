@@ -6,9 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
-
+app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadLSAClass',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadLSAClass) {
+        
+        $scope.loadLSAList = function () {
+            loadLSAClass.retrieveLSAClass().then(function (response) {
+                $scope.LSAList = response.data.lsaClassList;
+            });
+        };
         //skills and assets
         $scope.addingSkills = false;
         $scope.addNewSkills = function () {

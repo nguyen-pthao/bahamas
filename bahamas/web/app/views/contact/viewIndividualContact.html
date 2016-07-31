@@ -89,7 +89,7 @@ and open the template in the editor.
                                             <div class="custom-height-1">{{explainIfOther}}</div>
                                         </div>
                                     </div>
-                                    <div class="row col-md-12" ng-hide="permissionViewNricDob">
+                                    <div class="row col-md-12" ng-show="permissionViewNricDob">
                                         <div class="col-sm-6">
                                             <h4 class="bold">NRIC</h4>
                                             <div class="custom-height-1">{{nric}}</div>
@@ -141,7 +141,20 @@ and open the template in the editor.
                                 <div ng-show='phoneInfo === ""'>
                                     <span>No Phone Information Available</span>
                                 </div>
-                                <div ng-repeat='phoneObj in phoneInfo' class="box">
+                                <div class="box collapsed-box" ng-repeat='phoneObj in phoneInfo'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="phoneObj.country_code"></span></b>
+                                            <b><span>-</span></b>
+                                            <b><span ng-bind="phoneObj.phone_number"></span></b>
+                                            <b ng-if="phoneObj.date_obsolete != ''"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Phone Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -186,7 +199,18 @@ and open the template in the editor.
                                 <div ng-show='email === ""'>
                                     <span>No Email Information Available</span>
                                 </div>
-                                <div ng-repeat='emailObj in email' class="box">
+                                <div class="box collapsed-box" ng-repeat='emailObj in email'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="emailObj.email"></span></b>
+                                            <b ng-if="emailObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Email Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12" ng-hide="isAssociate">
                                             <div class="col-sm-6">
@@ -238,7 +262,18 @@ and open the template in the editor.
                                 <div ng-show='address === ""'>
                                     <span>No Address Information Available</span>
                                 </div>
-                                <div ng-repeat='addressObj in address' class="box">
+                                <div class="box collapsed-box" ng-repeat='addressObj in address'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span>{{addressObj.address | limitTo: 15}}</span>... <span ng-bind="addressObj.country"></span></b>
+                                            <b ng-if="addressObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Address Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -293,7 +328,18 @@ and open the template in the editor.
                                 <div ng-show='membership === ""'>
                                     <span>No Membership Information Available</span>
                                 </div>
-                                <div ng-repeat='membershipObj in membership' class="box">
+                                <div class="box collapsed-box" ng-repeat='membershipObj in membership'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="membershipObj.membership_class_name"></span></b>
+                                            <b> from </b><b><span ng-bind="membershipObj.start_date"></span></b><b> to </b><b><span ng-bind="membershipObj.end_date"></span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Membership Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -390,7 +436,18 @@ and open the template in the editor.
                                 <div ng-show='officeHeld === ""'>
                                     <span>No Office Held Information Available</span>
                                 </div>
-                                <div ng-repeat='officeHeldObj in officeHeld' class="box">
+                                <div class="box collapsed-box" ng-repeat='officeHeldObj in officeHeld'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="officeHeldObj.office_held"></span></b>
+                                            <b> from </b><b><span ng-bind="officeHeldObj.start"></span></b><b> to </b><b><span ng-bind="officeHeldObj.end"></span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Office Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -441,7 +498,17 @@ and open the template in the editor.
                                 <div ng-show='donation === ""'>
                                     <span>No Donation Information Available</span>
                                 </div>
-                                <div ng-repeat='donationObj in donation' class = "box">
+                                <div class="box collapsed-box" ng-repeat='donationObj in donation'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b>Donation received on <span ng-bind="donationObj.date_received"></span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Donation Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -564,7 +631,18 @@ and open the template in the editor.
                                 <div ng-show='team === ""'>
                                     <span>No Team Information Available</span>
                                 </div>
-                                <div ng-repeat='teamObj in team' class="box">
+                                <div class="box collapsed-box" ng-repeat='teamObj in team'>
+                                    <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b>Team <span ng-bind="teamObj.team_name"></span></b>
+                                            <b ng-if="teamObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>  
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -686,7 +764,17 @@ and open the template in the editor.
                                 <div ng-show='appreciation === ""'>
                                     <span>No Appreciation Information Available</span>
                                 </div>
-                                <div ng-repeat='appreciationObj in appreciation' class="box">
+                                <div class="box collapsed-box" ng-repeat='appreciationObj in appreciation'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b>Appreciation #<span ng-bind="($index + 1)"></span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -753,7 +841,18 @@ and open the template in the editor.
                                 <div ng-show='proxy === ""'>
                                     <span>No Proxy Information Available</span>
                                 </div>
-                                <div ng-repeat='proxyObj in proxy' class="box">
+                                <div class="box collapsed-box" ng-repeat='proxyObj in proxy'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="proxyObj.proxy_name"></span></b>
+                                            <b ng-if="proxyObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class="row col-md-12">
                                             <div class="col-sm-6">
@@ -808,7 +907,18 @@ and open the template in the editor.
                                 <div ng-show='languages === ""'>
                                     <span>No Languages Information Available</span>
                                 </div>
-                                <div ng-repeat='languageObj in languages' class="box">
+                                <div class="box collapsed-box" ng-repeat='languageObj in languages'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="languageObj.language_name"></span></b>
+                                            <b ng-if="languageObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class='row col-md-12' ng-hide="isAssociate">
                                             <div class='col-sm-6'>
@@ -859,7 +969,18 @@ and open the template in the editor.
                                 <div ng-show='skills === ""'>
                                     <span>No Skills/Assets Information Available</span>
                                 </div>
-                                <div ng-repeat='skillsObj in skills' class="box">
+                                <div class="box collapsed-box" ng-repeat='skillsObj in skills'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="skillsObj.skill_name"></span></b>
+                                            <b ng-if="skillsObj.date_obsolete != 'Invalid Date'"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
                                     <div class="box-body">
                                         <div class='row col-md-12' ng-hide="isAssociate">
                                             <div class='col-sm-6'>

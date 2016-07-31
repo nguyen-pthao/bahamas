@@ -6,9 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
+app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadLanguage',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadLanguage) {
 
+        $scope.loadLanguageList = function () {
+            loadLanguage.retrieveLanguage().then(function (response) {
+                $scope.languageList = response.data.languageList;
+            });
+        };
         //languages
         $scope.addingLanguages = false;
         $scope.addNewLanguages = function () {

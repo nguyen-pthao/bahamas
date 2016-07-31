@@ -6,9 +6,14 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
-
+app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadMembershipClass', 
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadMembershipClass) {
+        
+        $scope.loadMembershipList = function () {
+            loadMembershipClass.retrieveMembershipClass().then(function (response) {
+                $scope.membershipList = response.data.membershipClassList;
+            });
+        };
         //membership
         $scope.addingMembership = false;
         $scope.addNewMembership = function () {
