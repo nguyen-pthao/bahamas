@@ -133,7 +133,7 @@ public class AddEvent extends HttpServlet {
                 
                 if(eventTimeEnd.before(eventTimeStart) || eventTimeEnd.equals(eventTimeStart)){
                     json.addProperty("message", "dateError");
-                    jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));  
+                    jsonErrorMsgArray.add(new JsonPrimitive("Start time cannot be after end time"));  
                     json.add("errorMsg", jsonErrorMsgArray);
                     out.println(gson.toJson(json));
                     return;
@@ -159,7 +159,11 @@ public class AddEvent extends HttpServlet {
                             String errorMsg = EventDAO.eventExist(event);
                             
                             if(errorMsg != null && !ignore){
-                                json.addProperty("message", errorMsg);
+                                json = new JsonObject();
+                                jsonErrorMsgArray = new JsonArray();
+                                jsonErrorMsgArray.add(new JsonPrimitive(errorMsg)); 
+                                json.addProperty("message", "conflict");
+                                json.add("errorMsg", jsonErrorMsgArray);
                                 out.println(gson.toJson(json));
                                 return;
                             }
