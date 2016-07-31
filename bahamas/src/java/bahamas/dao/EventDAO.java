@@ -268,6 +268,30 @@ public class EventDAO {
         return eventList;
     }
     
-    
+    public static boolean deleteEvent(int eventId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM EVENT_AFFILIATION WHERE EVENT_ID = (?)");
+            stmt = conn.prepareStatement("DELETE FROM EVENT_ROLE_ASSIGNMENT WHERE EVENT_ID = (?)");
+            stmt = conn.prepareStatement("DELETE FROM EVENT WHERE EVENT_ID = (?)");
+            
+            stmt.setInt(1, eventId);
+            result = stmt.executeUpdate();
+            return result == 1;
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
             
 }
