@@ -83,10 +83,9 @@ public class DeleteEvent extends HttpServlet {
 
                 } else {
                     //Verified token
-                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
 
-                    Contact contact = cDAO.retrieveContactById(contactId);
+                    Contact contact = cDAO.retrieveContactByUsername(username);
 
                     if (contact == null) {
                         json.addProperty("message", "fail");
