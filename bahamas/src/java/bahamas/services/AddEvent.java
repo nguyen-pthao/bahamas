@@ -99,35 +99,27 @@ public class AddEvent extends HttpServlet {
                 if(eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null || eventStatus == null){
                     json.addProperty("message", "error");
                     if(eventTitle == null){
-                        //json.addProperty("event_title", "Missing Event Title");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Title"));
                     }
                     if(eventStartDate == null){
-                        //json.addProperty("event_start_date", "Missing Event Start Date");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Start Date"));
                     }
                     if(eventEndDate == null){
-                        //json.addProperty("event_end_date", "Missing Event End Date");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event End Date"));
                     }
                     if(eventTimeStart == null){
-                        //json.addProperty("event_time_start", "Missing Event Time Start");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time Start"));
                     }
                     if(eventTimeEnd == null){
-                        //json.addProperty("event_time_end", "Missing Event Time End");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time End"));
                     }
                     if(eventClass == null){
-                        //json.addProperty("event_class", "Missing Event Class");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));        
                     }
                     if(eventLocation == null){
-                        //json.addProperty("event_location", "Missing Event Location");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Location"));
                     }
                     if(eventStatus == null){
-                        //json.addProperty("event_location", "Missing event status");
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing event status"));
                     }
                     json.add("errorMsg", jsonErrorMsgArray);
