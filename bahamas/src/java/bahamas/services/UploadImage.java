@@ -83,7 +83,7 @@ public class UploadImage extends HttpServlet {
                         return;
                     }
                     
-                    json.addProperty("message", "Image successfully upload!");
+                    json.addProperty("message", "Image successfully uploaded!");
                     out.println(gson.toJson(json));
                     return;
                 }
