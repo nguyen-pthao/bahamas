@@ -19,7 +19,7 @@ app.controller('viewEvents',
                         'token': session.getSession('token')
                     };
                     var url = '/event.retrieveall';
-                    dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
+                    $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
 
                         $scope.totalItems = $scope.allEventInfo.length;
