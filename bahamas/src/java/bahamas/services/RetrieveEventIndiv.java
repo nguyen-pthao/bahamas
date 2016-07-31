@@ -55,7 +55,7 @@ public class RetrieveEventIndiv extends HttpServlet {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             JsonArray eventRoleJsonArray = new JsonArray();
-            JsonArray eventTeamJsonArray = new JsonArray();
+             JsonObject teamJson = new JsonObject();
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -135,7 +135,6 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 }
                                 if(eventAffiliation != null){
                                     eventAffiliation.getTeamArray();
-                                    JsonObject teamJson = new JsonObject();
                                     String teams = "";
                                     
                                     if(eventAffiliation.getTeamArray() != null && !eventAffiliation.getTeamArray().isEmpty()){  
@@ -145,13 +144,12 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         teams += eventAffiliation.getTeamArray().get(eventAffiliation.getTeamArray().size() -1);
                                     }
                                     
-                                    teamJson.addProperty("Teams_affiliated", teams);
-                                    teamJson.addProperty("Explain_if_other", eventAffiliation.getExplainIfOthers());
+                                    teamJson.addProperty("teams_affiliated", teams);
+                                    teamJson.addProperty("explain_if_other", eventAffiliation.getExplainIfOthers());
                                     teamJson.addProperty("remarks", eventAffiliation.getRemarks());
-                                    eventTeamJsonArray.add(teamJson);
                                 }
                                 json.add("event_role", eventRoleJsonArray);
-                                json.add("event_team_affiliation", eventTeamJsonArray);
+                                json.add("event_team_affiliation", teamJson);
                                 out.println(gson.toJson(json));
                             }else{
                                 json.addProperty("message", "Fail retrieve event");
