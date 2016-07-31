@@ -386,7 +386,8 @@ div.wrapper > aside.main-sidebar {
 }
 
 .coral-box-header {
-    background-color: #ffcfc1;
+    background-color: #3c8dbc;
+    color: white;
 }
 
 /*hidden box for edit and view contact*/
