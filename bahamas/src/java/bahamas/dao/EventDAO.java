@@ -151,8 +151,12 @@ public class EventDAO {
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE "
-                    + "FROM EVENT WHERE EVENT_LOCATION_NAME = (?) AND (DATE(EVENT_START_DATE) <= (?) AND DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) <= (?) AND DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) >= (?) AND DATE(EVENT_END_DATE) <= (?))");
+            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE FROM EVENT "
+                    + "WHERE EVENT_LOCATION_NAME = (?) AND (DATE(EVENT_START_DATE) <= (?) "
+                    + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) <= (?)) "
+                    + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) >= (?)) "
+                    + "AND DATE(EVENT_END_DATE) <= (?))");
+            //SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE FROM EVENT WHERE EVENT_LOCATION_NAME = ('Alankar') AND (DATE(EVENT_START_DATE) <= ('2016-07-31 00:00:00') AND (DATE(EVENT_END_DATE) >= ('2016-07-31 00:00:00')) OR (DATE(EVENT_START_DATE) <= ('2016-07-31 00:00:00')) AND (DATE(EVENT_END_DATE) >= ('2016-07-31 00:00:00')) OR (DATE(EVENT_START_DATE) >= ('2016-07-31 00:00:00')) AND DATE(EVENT_END_DATE) <= ('2016-07-31 00:00:00'))
             stmt.setString(1, event.getEventLocationName());
             stmt.setTimestamp(2, new java.sql.Timestamp(eventStartDate.getTime()));
             stmt.setTimestamp(3, new java.sql.Timestamp(eventStartDate.getTime()));
@@ -177,10 +181,10 @@ public class EventDAO {
                 
                 String eventTitle = rs.getString(5);
                 //if ((startTime.equals(startTimeDB) || startTime.equals(endTimeDB) || (startTime.after(startTimeDB) && startTime.before(endTimeDB))) && eventDate.equals(eventDateDB)) {
-                if (startTime.equals(startTimeDB) || startTime.equals(endTimeDB) || (startTime.after(startTimeDB) && startTime.before(endTimeDB))) {
+                if (startTime.equals(startTimeDB) || (startTime.after(startTimeDB) && startTime.before(endTimeDB))) {
                     conflctingEventName.add(eventTitle);
-                //} else if ((endTime.equals(startTimeDB) || endTime.equals(endTimeDB) || (endTime.after(startTimeDB) && endTime.before(endTimeDB))) && eventDate.equals(eventDateDB)) {
-                } else if (endTime.equals(startTimeDB) || endTime.equals(endTimeDB) || (endTime.after(startTimeDB) && endTime.before(endTimeDB))) {
+                //} else if (endTime.equals(startTimeDB) || endTime.equals(endTimeDB) || (endTime.after(startTimeDB) && endTime.before(endTimeDB))) {
+                } else if (endTime.equals(endTimeDB) || (endTime.after(startTimeDB) && endTime.before(endTimeDB))) {
                     conflctingEventName.add(eventTitle);
                 //} else if (startTime.before(startTimeDB) && endTime.after(endTimeDB) && eventDate.equals(eventDateDB)) {
                 } else if (startTime.before(startTimeDB) && endTime.after(endTimeDB)) {
