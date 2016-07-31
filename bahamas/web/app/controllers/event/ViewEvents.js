@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewEvents',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
