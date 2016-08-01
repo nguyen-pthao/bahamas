@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewUpcomingEvents',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -81,7 +81,14 @@ app.controller('viewUpcomingEvents',
                       var eventid = event['event_id'];
                       $state.go(url, {eventId: eventid});
                 };
-
+                
+                $scope.edit = function($event, event){
+                    var url = user + '.editEvent';
+                    var eventid = event['event_id'];
+                    localStorageService.set('eventId', eventid);
+                    $state.go(url);
+                };
+                
                 $scope.predicate = '';
                 $scope.reverse = true;
 

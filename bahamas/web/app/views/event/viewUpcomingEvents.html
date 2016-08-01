@@ -87,13 +87,13 @@ and open the template in the editor.
                                         </a>
                                     </span>
                                     &nbsp;
-                                    <span>
-                                        <a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="">
+                                    <span ng-if='event["canEdit"]'>
+                                        <a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="edit($event, event)">
                                             <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i>
                                         </a>
                                     </span>
                                     &nbsp;
-                                    <span>
+                                    <span ng-if='event["canDelete"]'>
                                         <a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="">
                                             <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i>
                                         </a>

@@ -116,8 +116,8 @@ and open the template in the editor.
                                             <td>{{role['event_role']}}</td>
                                             <td>{{role['event_desc']}}</td>
                                             <td><center>
-                                                <span><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
-                                                    &nbsp;<span><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click=""><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
+                                                <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
+                                                    &nbsp;<span ng-if='eventInfo["canDelete"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click=""><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
                                     </center></td>
                                         </tr>
                                     </tbody>
