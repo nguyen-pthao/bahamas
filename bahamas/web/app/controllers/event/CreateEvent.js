@@ -167,7 +167,8 @@ app.controller('createEvent',
                         if (response.data.message == 'success') {
                             var id = response.data['event_id'];
                             localStorageService.set('eventIdCreate', id);
-                            $state.go('admin.createEventRoles');
+                            var toURL = user + '.createEventRoles';
+                            $state.go(toURL);
                         } else if(response.data.message == 'error'){
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
@@ -188,7 +189,8 @@ app.controller('createEvent',
                                     if (response.data.message == 'success') {
                                         var id = response.data['event_id'];
                                         localStorageService.set('eventIdCreate', id);
-                                        $state.go('admin.createEventRoles');
+                                        var toURL = user + '.createEventRoles';
+                                        $state.go(toURL);
                                     }
                                 });
                             });

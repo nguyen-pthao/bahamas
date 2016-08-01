@@ -87,6 +87,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
+            .state('admin.editEvent', {
+                url: '/editEvent',
+                templateUrl: 'app/views/event/editEvent.html',
+                controller: 'editEvent'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -207,6 +212,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
+            .state('teammanager.editEvent', {
+                url: '/editEvent',
+                templateUrl: 'app/views/event/editEvent.html',
+                controller: 'editEvent'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -261,6 +271,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewIndivEvent/{eventId: int}',
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
+            })
+            .state('eventleader.editEvent', {
+                url: '/editEvent',
+                templateUrl: 'app/views/event/editEvent.html',
+                controller: 'editEvent'
             })
             .state('unauthorised', {
                 url: '/unauthorised',

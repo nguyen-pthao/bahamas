@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewEvents',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -81,6 +81,13 @@ app.controller('viewEvents',
                       var url = user + '.viewIndivEvent';
                       var eventid = event['event_id'];
                       $state.go(url, {eventId: eventid});
+                };
+                
+                $scope.edit = function($event, event){
+                    var url = user + '.editEvent';
+                    var eventid = event['event_id'];
+                    localStorageService.set('eventId', eventid);
+                    $state.go(url);
                 };
                 
                 $scope.deleteEvent = function ($event, event) {

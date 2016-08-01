@@ -82,7 +82,8 @@ app.controller('createEventRoles',
                         var url = "/event.addroles";
                         dataSubmit.submitData($scope.newRoles, url).then(function (response) {
                             if(response.data.message == 'success'){
-                                $state.go('admin.createEventAffiliation');
+                                var toURL = user + '.createEventAffiliation';
+                                $state.go(toURL);
                             }else{
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/addRolesError.html',

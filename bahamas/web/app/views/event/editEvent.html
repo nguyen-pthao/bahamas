@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper inner-content-wrapper" id="view-indiv-event">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb" style="margin-bottom: 0px;">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click="toEvents()"> Events Management </a><i class="fa fa-chevron-right small"></i><a href=""> Edit Event </a><i class="fa fa-chevron-right small"></i><a href=""> {{eventInfo.event_title}} </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content" ng-init="retrieveEvent()">
+                <div ng-if='showGmap'>
+                    <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
+                        <ui-gmap-marker idkey='marker.id' coords='marker.coords'></ui-gmap-marker>
+                        <ui-gmap-search-box template="searchbox.template" events='searchbox.events' options="searchbox.options"></ui-gmap-search-box>
+                    </ui-gmap-google-map>
+                </div>
+                <!--Box to show event details--> 
+                <div class="box" style="margin-top:20px;">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Event Details </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Edit Event Details">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">    
+                            <div class="row col-sm-12">
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Event Title</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_title}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Location</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_location}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Start Date</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_start_date| date:'dd-MMM-yyyy'}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">End Date</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_end_date| date:'dd-MMM-yyyy'}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Start Time</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_time_start}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">End Time</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_time_end}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Min. Participation</h4>
+                                    <div class="custom-height-1">{{eventInfo.minimum_participation}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Event Class</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_class}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Status</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_status}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Send Reminder?</h4>
+                                    <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">Yes</div>
+                                    <div ng-hide="eventInfo['send_reminder'] == 'true'" class="custom-height-1">No</div>
+                                </div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Explain If Other</h4>
+                                    <div class="custom-height-1">{{eventInfo.explain_if_other}}</div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Description</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_description}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box collapsed-box" ng-init="eventRoles()">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Event Roles </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Event Roles">
+                                <i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">    
+                            <div class="table-horizontal-scroll">
+                                <table class="table table-bordered table-striped" style="max-width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" style="color: #005384">S/N</th>
+                                            <th width="30%" style='color: #005384'>Role</th>
+                                            <th width="50%" style='color: #005384'>Description</th>
+                                            <th width="15%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="role in roles track by $index">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{role['event_role']}}</td>
+                                            <td>{{role['event_desc']}}</td>
+                                            <td><center>
+                                                <span><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
+                                                    &nbsp;<span><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click=""><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
+                                    </center></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box collapsed-box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Team Affiliation </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Affiliation">
+                                <i class="fa fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">
+                            <div class="row col-sm-12">
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Teams Affiliated</h4>
+                                    <ul>
+                                        <li ng-repeat="teams in teamA">{{teams}}</li>
+                                    </ul>
+                                </div>
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Explain If 'Other'</h4>
+                                    <div class="custom-height-1">{{affiliation['explain_if_other']}}</div>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <h4 class="bold">Remarks</h4>
+                                <div class="custom-height-1">{{affiliation['remarks']}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>
