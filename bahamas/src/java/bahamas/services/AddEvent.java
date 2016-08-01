@@ -23,12 +23,16 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -126,11 +130,24 @@ public class AddEvent extends HttpServlet {
                     out.println(gson.toJson(json));
                     return;
                 }
-                
-                if(eventTimeEnd.before(eventTimeStart) || eventTimeEnd.equals(eventTimeStart)){
-                    json.addProperty("message", "error");
-                    jsonErrorMsgArray.add(new JsonPrimitive("Start time cannot be after end time"));  
-                    json.add("errorMsg", jsonErrorMsgArray);
+                try {
+                    SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat time = new SimpleDateFormat("HH:mm");
+                    Date startdate = date.parse(date.format(eventStartDate));
+                    Date enddate = date.parse(date.format(eventEndDate));
+                    Date startTime = time.parse(time.format(eventTimeStart));
+                    Date endTime = time.parse(time.format(eventTimeEnd));
+
+                    if(endTime.before(startTime) && startdate.equals(enddate)){
+                        json.addProperty("message", "error");
+                        jsonErrorMsgArray.add(new JsonPrimitive("Start time cannot be after end time"));  
+                        json.add("errorMsg", jsonErrorMsgArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+                } catch (ParseException ex) {
+                    Logger.getLogger(AddEvent.class.getName()).log(Level.SEVERE, null, ex);
+                    json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
                 }

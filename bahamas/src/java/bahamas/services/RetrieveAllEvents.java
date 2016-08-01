@@ -5,11 +5,15 @@ package bahamas.services;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.EventAffiliation;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -23,6 +27,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,7 +81,7 @@ public class RetrieveAllEvents extends HttpServlet {
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String username = Authenticator.verifyToken(token);
-                
+
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -89,41 +94,90 @@ public class RetrieveAllEvents extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {    
-                        //Only Admin and tm are able to create an event
-                            
-                            EventDAO eventDAO = new EventDAO();
-                            ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
-                            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
-                            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
-                            JsonArray eventArray = new JsonArray();
-                            JsonObject jsonContactObj;
-                            if(eventList != null){
-                                json.addProperty("message", "success");
-                                for(int i = 0; i < eventList.size(); i++){
-                                    Event event = eventList.get(i);
-                                    jsonContactObj = new JsonObject();
-                                    jsonContactObj.addProperty("event_id", event.getEventId());
-                                    jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                    jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
-                                    jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
-                                    jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                    //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
-                                    jsonContactObj.addProperty("event_class", event.getEventClassName());
-                                    jsonContactObj.addProperty("event_location", event.getEventLocationName());
-                                    jsonContactObj.addProperty("event_status", event.getEventStatus());
-                                    eventArray.add(jsonContactObj);
+                    } else {
+                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
+                        //Get all teams this user has
+                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
+                        for (TeamJoin teamJoin : teamJoinList) {
+                            hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                        }
+
+                        EventDAO eventDAO = new EventDAO();
+                        ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
+                        SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+                        SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+                        JsonArray eventArray = new JsonArray();
+                        JsonObject jsonContactObj;
+                        if (eventList != null) {
+                            json.addProperty("message", "success");
+                            for (int i = 0; i < eventList.size(); i++) {
+                                Event event = eventList.get(i);
+                                jsonContactObj = new JsonObject();
+                                jsonContactObj.addProperty("event_id", event.getEventId());
+                                jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
+                                jsonContactObj.addProperty("event_class", event.getEventClassName());
+                                jsonContactObj.addProperty("event_location", event.getEventLocationName());
+                                jsonContactObj.addProperty("event_status", event.getEventStatus());
+                                if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                                    jsonContactObj.addProperty("canEdit", true);
+                                    jsonContactObj.addProperty("canDelete", true);
+                                    jsonContactObj.addProperty("canJoin", true);
+                                } else {
+                                    EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                    if (eventAffiliation != null) {
+                                        ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
+                                        if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
+                                            boolean marked = false;
+                                            for (String eventTeam : teamsInEvent) {
+                                                Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                if (matchTeam && !marked) {
+                                                    String permision = hmTeamPermission.get(eventTeam);
+                                                    if (permision.equals("Event leader")) {
+                                                        jsonContactObj.addProperty("canEdit", true);
+                                                        jsonContactObj.addProperty("canDelete", true);
+                                                        jsonContactObj.addProperty("canJoin", true);
+                                                        marked = true;
+                                                    } else if (permision.equals("Associate")) {
+                                                        jsonContactObj.addProperty("canEdit", false);
+                                                        jsonContactObj.addProperty("canDelete", false);
+                                                        jsonContactObj.addProperty("canJoin", true);
+                                                        marked = true;
+                                                    }
+                                                }
+                                            }
+                                            if (!marked) {
+                                                jsonContactObj.addProperty("canEdit", false);
+                                                jsonContactObj.addProperty("canDelete", false);
+                                                jsonContactObj.addProperty("canJoin", false);
+                                            }
+                                        } else {
+                                            jsonContactObj.addProperty("canEdit", false);
+                                            jsonContactObj.addProperty("canDelete", false);
+                                            jsonContactObj.addProperty("canJoin", false);
+                                        }
+                                    } else {
+                                        jsonContactObj.addProperty("canEdit", false);
+                                        jsonContactObj.addProperty("canDelete", false);
+                                        jsonContactObj.addProperty("canJoin", false);
+                                    }
                                 }
-                                
-                                json.add("event", eventArray);
-                                out.println(gson.toJson(json));
-                            }else{
-                                json.addProperty("message", "Fail retrieve all events");
-                                out.println(gson.toJson(json));
+
+                                eventArray.add(jsonContactObj);
                             }
+
+                            json.add("event", eventArray);
+                            out.println(gson.toJson(json));
+                        } else {
+                            json.addProperty("message", "Fail retrieve all events");
+                            out.println(gson.toJson(json));
+                        }
                     }
                 }
-                
+
             }
         }
     }

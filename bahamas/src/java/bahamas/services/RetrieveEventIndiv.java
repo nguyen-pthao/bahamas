@@ -5,15 +5,17 @@ package bahamas.services;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
 import bahamas.entity.EventRoleAssignment;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -28,6 +30,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -85,7 +88,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("eventId"));
                 String username = Authenticator.verifyToken(token);
-                
+
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -98,62 +101,111 @@ public class RetrieveEventIndiv extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {    
-                        //Only Admin and tm are able to create an event
-                            
-                            EventDAO eventDAO = new EventDAO();
-                            Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-                            SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
-                            
-                            if(event != null){
-                                json.addProperty("message", "success");
-                                
-                                json.addProperty("event_id", eventId);
-                                json.addProperty("event_title", event.getEventTitle());
-                                json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
-                                json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
-                                json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
-                                json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
-                                json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
-                                json.addProperty("event_description", event.getEventDescription());
-                                json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
-                                json.addProperty("event_class", event.getEventClassName());
-                                json.addProperty("event_location", event.getEventLocationName());
-                                json.addProperty("explain_if_other", event.getExplainIfOthers());
-                                json.addProperty("event_status", event.getEventStatus());
-                                json.addProperty("event_lat", event.getEventLat());
-                                json.addProperty("event_lng", event.getEventLng());
-                                json.addProperty("date_created", date.format(event.getDateCreated()));
-                                ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
-                                EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
-                                if(eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0){
-                                    for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                        JsonObject roleJson = new JsonObject();
-                                        roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
-                                        roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
-                                        eventRoleJsonArray.add(roleJson);
-                                    }
+                    } else {
+                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
+                        //Get all teams this user has
+                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
+                        for (TeamJoin teamJoin : teamJoinList) {
+                            hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                        }
+
+                        EventDAO eventDAO = new EventDAO();
+                        Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
+                        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+
+                        if (event != null) {
+                            json.addProperty("message", "success");
+
+                            json.addProperty("event_id", eventId);
+                            json.addProperty("event_title", event.getEventTitle());
+                            json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
+                            json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
+                            json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
+                            json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
+                            json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
+                            json.addProperty("event_description", event.getEventDescription());
+                            json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
+                            json.addProperty("event_class", event.getEventClassName());
+                            json.addProperty("event_location", event.getEventLocationName());
+                            json.addProperty("explain_if_other", event.getExplainIfOthers());
+                            json.addProperty("event_status", event.getEventStatus());
+                            json.addProperty("event_lat", event.getEventLat());
+                            json.addProperty("event_lng", event.getEventLng());
+                            json.addProperty("date_created", date.format(event.getDateCreated()));
+                            ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
+                            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
+                            if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
+                                for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
+                                    JsonObject roleJson = new JsonObject();
+                                    roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
+                                    roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
+                                    eventRoleJsonArray.add(roleJson);
                                 }
-                                if(eventAffiliation != null){
-                                    for(String team : eventAffiliation.getTeamArray()){
-                                        //JsonElement jsonElement = parser.parse(team);
-                                        eventAffiliationJsonArray.add(new JsonPrimitive(team));
-                                    }                                
-                                    teamJson.add("teams_affiliated", eventAffiliationJsonArray);
-                                    teamJson.addProperty("explain_if_other", eventAffiliation.getExplainIfOthers());
-                                    teamJson.addProperty("remarks", eventAffiliation.getRemarks());
-                                }
-                                json.add("event_role", eventRoleJsonArray);
-                                json.add("event_team_affiliation", teamJson);
-                                out.println(gson.toJson(json));
-                            }else{
-                                json.addProperty("message", "Fail retrieve event");
-                                out.println(gson.toJson(json));
                             }
+                            if (eventAffiliation != null) {
+                                for (String team : eventAffiliation.getTeamArray()) {
+                                    //JsonElement jsonElement = parser.parse(team);
+                                    eventAffiliationJsonArray.add(new JsonPrimitive(team));
+                                }
+                                teamJson.add("teams_affiliated", eventAffiliationJsonArray);
+                                teamJson.addProperty("explain_if_other", eventAffiliation.getExplainIfOthers());
+                                teamJson.addProperty("remarks", eventAffiliation.getRemarks());
+                            }
+                            json.add("event_role", eventRoleJsonArray);
+                            json.add("event_team_affiliation", teamJson);
+                            
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                                json.addProperty("canEdit", true);
+                                json.addProperty("canDelete", true);
+                                json.addProperty("canJoin", true);
+                            } else {
+                                if (eventAffiliation != null) {
+                                    ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
+                                    if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
+                                        boolean marked = false;
+                                        for (String eventTeam : teamsInEvent) {
+                                            Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                            if (matchTeam && !marked) {
+                                                String permision = hmTeamPermission.get(eventTeam);
+                                                if (permision.equals("Event leader")) {
+                                                    json.addProperty("canEdit", true);
+                                                    json.addProperty("canDelete", true);
+                                                    json.addProperty("canJoin", true);
+                                                    marked = true;
+                                                } else if (permision.equals("Associate")) {
+                                                    json.addProperty("canEdit", false);
+                                                    json.addProperty("canDelete", false);
+                                                    json.addProperty("canJoin", true);
+                                                    marked = true;
+                                                }
+                                            }
+                                        }
+                                        if (!marked) {
+                                            json.addProperty("canEdit", false);
+                                            json.addProperty("canDelete", false);
+                                            json.addProperty("canJoin", false);
+                                        }
+                                    } else {
+                                        json.addProperty("canEdit", false);
+                                        json.addProperty("canDelete", false);
+                                        json.addProperty("canJoin", false);
+                                    }
+                                } else {
+                                    json.addProperty("canEdit", false);
+                                    json.addProperty("canDelete", false);
+                                    json.addProperty("canJoin", false);
+                                }
+                            }
+                            
+                            out.println(gson.toJson(json));
+                        } else {
+                            json.addProperty("message", "Fail retrieve event");
+                            out.println(gson.toJson(json));
+                        }
                     }
                 }
-                
+
             }
         }
     }
