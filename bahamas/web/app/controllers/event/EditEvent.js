@@ -88,14 +88,36 @@ app.controller('editEvent',
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
-                        console.log($scope.teamAffiliationList);
 //                        var other;
 //                        for (var obj in $scope.teamAffiliationList) {
 //                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
 //                                other = $scope.teamAffiliationList.splice(obj, 1);
 //                            }
 //                        }
-                    });
+                        $scope.selectedTeams = [];
+                        $scope.teamAffiliationList.forEach(function(teamObj){
+                            $scope.selectedTeams.push({
+                                'teamAffiliation': teamObj.teamAffiliation,
+                                'selected': false
+                            })
+                        });
+                        var otherTeamExplain = $scope.eventInfo['event_team_affiliation']['explain_if_other'];
+                        $scope.otherTeam = {
+                            'selected': false,
+                            'explain_if_other_team': otherTeamExplain,
+                            'remarks': $scope.eventInfo['event_team_affiliation']['remarks']
+                        };
+                        $scope.eventInfo['event_team_affiliation']['teams_affiliated'].forEach(function(name){
+                            if(name == 'Other'){
+                                $scope.otherTeam['selected'] = true;
+                            }
+                            $scope.selectedTeams.forEach(function(team){
+                                if(name == team.teamAffiliation){
+                                    team.selected = true;
+                                }
+                            });
+                        });
+                    });   
                 };
 
                 $scope.regex = '\\d+';
@@ -223,4 +245,25 @@ app.controller('editEvent',
                     }
 
                 }
+                
+                $scope.submitEditTeams = function(){
+                    $scope.toEditTeams = {
+                        'token': session.getSession('token'),
+                        'event_id': eventId,
+                        'teams': [],
+                        'explain_if_other': '',
+                        'remarks': ''
+                    };
+                    $scope.selectedTeam.forEach(function(tObj){
+                        if(tObj.selected == true){
+                            $scope.toEditTeams.teams.push(tObj.teamAffiliation);
+                        }
+                    });
+                    if($scope.otherTeam.selected == true){
+                        $scope.toEditTeams.teams.push('Other');
+                        $scope.toEditTeams['explain_if_other'] = $scope.otherTeam['explain_if_other_team'];
+                    }
+                    $scope.toEditTeams.remarks = $scope.otherTeam['remarks'];
+                    console.log($scope.toEditTeams);
+                };
             }]);
