@@ -13,50 +13,64 @@ import java.util.Date;
  */
 public class EventParticipant {
     
-    private Contact participant;
-    private Contact awarder;
+    private int contactID;
+    private Integer awarderID;
     private int roleID;
-    private Event event;
-    private Date dateCreated=new java.util.Date();
-    private int role;
+    private int eventID;
+    private String createdBy;
+    private Date dateCreated = new java.util.Date();
     private boolean pullout;
     private Date datepullout;
     private String reason;
     private double hoursServed;
     private String service_comment;
     private String remarks;
-    private String createdBy;
 
-    public EventParticipant(Contact participant, Contact awarder, int roleID, Event event, Date dateCreated, int role, boolean pullout, Date datepullout, String reason, double hoursServed, String service_comment, String remarks, String createdBy) {
-        this.participant = participant;
-        this.awarder = awarder;
+    public EventParticipant(int contactID, Integer awarderID, int roleID, int eventID, String createdBy, boolean pullout, Date datepullout, String reason, double hoursServed, String service_comment, String remarks) {
+        this.contactID = contactID;
+        this.awarderID = awarderID;
         this.roleID = roleID;
-        this.event = event;
-        this.dateCreated = dateCreated;
-        this.role = role;
+        this.eventID = eventID;
+        this.createdBy = createdBy;
         this.pullout = pullout;
         this.datepullout = datepullout;
         this.reason = reason;
         this.hoursServed = hoursServed;
         this.service_comment = service_comment;
         this.remarks = remarks;
+    }
+
+    public EventParticipant(int contactID, Integer awarderID, int roleID, int eventID, String createdBy, Date dateCreated, boolean pullout, Date datepullout, String reason, double hoursServed, String service_comment, String remarks) {
+        this.contactID = contactID;
+        this.awarderID = awarderID;
+        this.roleID = roleID;
+        this.eventID = eventID;
         this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+        this.pullout = pullout;
+        this.datepullout = datepullout;
+        this.reason = reason;
+        this.hoursServed = hoursServed;
+        this.service_comment = service_comment;
+        this.remarks = remarks;
+    }
+    
+    
+
+    public int getContactID() {
+        return contactID;
     }
 
-    public Contact getParticipant() {
-        return participant;
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
     }
 
-    public void setParticipant(Contact participant) {
-        this.participant = participant;
+    public Integer getAwarderID() {
+        return awarderID;
     }
 
-    public Contact getAwarder() {
-        return awarder;
-    }
-
-    public void setAwarder(Contact awarder) {
-        this.awarder = awarder;
+    public void setAwarderID(Integer awarderID) {
+        this.awarderID = awarderID;
     }
 
     public int getRoleID() {
@@ -67,12 +81,20 @@ public class EventParticipant {
         this.roleID = roleID;
     }
 
-    public Event getEvent() {
-        return event;
+    public int getEventID() {
+        return eventID;
     }
 
-    public void setEvent(Event event) {
-        this.event = event;
+    public void setEventID(int eventID) {
+        this.eventID = eventID;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Date getDateCreated() {
@@ -81,14 +103,6 @@ public class EventParticipant {
 
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
-    }
-
-    public int getRole() {
-        return role;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
     }
 
     public boolean isPullout() {
@@ -138,14 +152,4 @@ public class EventParticipant {
     public void setRemarks(String remarks) {
         this.remarks = remarks;
     }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    
 }
