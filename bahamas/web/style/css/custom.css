@@ -413,3 +413,9 @@ div.wrapper > aside.main-sidebar {
 .angular-google-map-container{
     height: 200px;
 }
+
+#profile-pic {
+    border: 5px solid #ddd;
+    max-width: 50%;
+    max-height: 50%;
+}

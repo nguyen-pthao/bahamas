@@ -41,8 +41,20 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box">
-                                    <div class="form-group">
-                                        <div class="col-md-8">
+                                    <div class="col-md-6" ng-show="isUser && editMode == 'true'">
+                                        <label>Profile Picture</label>
+                                        <div class="col-md-12 no-padding-left">
+                                            <img class="img-responsive thumbnail" id="profile-pic" ng-src="{{editUser.profile}}" alt="profile_picture">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" ng-show="editMode == 'false'">
+                                        <label>Profile Picture</label>
+                                        <div class="col-md-12 no-padding-left">
+                                            <a href="" data-toggle="modal" data-target="#profilephoto"><img class="img-responsive thumbnail" id="profile-pic" ng-src="{{editUser.profile}}" alt="profile_picture"></a>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-class="{'col-md-6' : isUser}">
+                                        <div class="col-md-12 no-padding-left">
                                             <!-- The contact is not a user -->
                                             <div class="form-group" ng-show="!isUser && isAdmin">
                                                 <label>Username</label><span class="required">*</span>
@@ -50,15 +62,7 @@ and open the template in the editor.
                                                     <div class="no-padding-left col-md-6">
                                                         <input type='text' class="form-control" ng-model='editUser.username' name="usernameNU" empty>
                                                         <span ng-show="editUserForm.usernameNU.$error.empty && editUserForm.usernameNU.$dirty" class='error'>Username is required.</span>
-                                                        <!--                                                        <span ng-show="(editUser.username == '') && editUserForm.usernameNU.$dirty" style="color: red">Username is required.</span>-->
-                                                        <span ng-show="existedUsername && ignore" class="error">This username is already existed.</span>
                                                     </div>
-                                                    <!--    <div class="no-padding-left col-md-1 no-padding-top">
-                                                                <i ng-show="checkingUsername && !checkedUsername && editUserForm.usernameNU.$touched" class="fa fa-spinner fa-spin fa-pulse fa-fw fa-2x"></i>
-                                                                <i ng-show="checkedUsername && (!existedUsername) && editUserForm.usernameNU.$touched" class="fa fa-check fa-2x"></i>
-                                                                <i ng-show="checkedUsername && existedUsername && editUserForm.usernameNU.$touched" class="fa fa-close fa-2x"></i>
-                                                            </div>
-                                                    -->
                                                 </div>
                                             </div>
                                             <div class="form-group" ng-show="!isUser && isAdmin">
@@ -70,16 +74,15 @@ and open the template in the editor.
                                                         <span ng-show="(editUserForm.passwordNU.$error.maxlength || editUserForm.passwordNU.$error.minlength) && editUserForm.passwordNU.$touched" class="error">Password has to be 8 to 20 characters long.</span>
                                                     </div>
                                                     <div class="no-padding-left col-md-4 no-padding-top">
-                                                        <button type="button" ng-disabled="editUserForm.usernameNU.$invalid || existedUsername" class="btn btn-primary" ng-click="generatePassword()">Generate Random Password</button>
+                                                        <button type="button" ng-disabled="editUserForm.usernameNU.$invalid" class="btn btn-primary" ng-click="generatePassword()">Generate Random Password</button>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group" ng-show="!isUser && isAdmin">
                                                 <label>User email</label><span class="required">*</span>
-                                                <!--<input type="text" ng-model='editUser.email' class="form-control" name="useremailNU">-->
                                                 <div class="no-padding-left col-md-12">
-                                                    <div class="no-padding-left col-md-6">
-                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" ng-show="!(editVerifiedEmail == '')" empty>
+                                                    <div class="no-padding-left col-md-6" ng-show="!(editVerifiedEmail == '')">
+                                                        <select class="form-control" name="useremailNU" ng-model="editUser.email" empty>
                                                             <option ng-repeat="userEmail in emailList">{{userEmail.email}}</option>
                                                         </select>
                                                         <span ng-show='editUserForm.useremailNU.$error.empty && editUserForm.useremailNU.$dirty' class='error'>Email is required</span>
@@ -89,7 +92,7 @@ and open the template in the editor.
                                             </div>
                                         </div>
                                         <!-- The contact is a user -->
-                                        <div class="col-md-5">
+                                        <div class="col-md-12 no-padding-left">
                                             <div class="form-group" ng-show="isUser || (isAdmin && isUser)">
                                                 <label>Username</label>
                                                 <input type='text' class="form-control" ng-model='editUser.username' name="usernameU" readonly>
@@ -162,6 +165,24 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
+                        <div class="modal fade" id="profilephoto" tabindex="-1" role="dialog" aria-labelledby="profilePicture" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" ng-click="cancel()" aria-label="Close">
+                                            <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                                        </button>
+                                        <h4 class="modal-title" id="profilePicture">Change Profile Picture</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                        <img class="img-responsive thumbnail" ng-src="{{profile}}" alt="profile_picture">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <!-- /user information -->
                         <form name="form.editPersonalForm" ng-controller="EditPersonalInfo">
                             <div class="box collapsed-box blue-box">
@@ -2479,6 +2500,9 @@ and open the template in the editor.
                 if (window.event.keyCode = 13) {
                     return false;
                 }
+            });
+            $('window').on('popstate', function () {
+                $('#profilephoto').modal('hide');
             });
         </script>
     </body>

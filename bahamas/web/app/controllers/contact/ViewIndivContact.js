@@ -81,6 +81,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             if ($scope.username != "") {
                 if ($scope.permission === 'admin') {
                     $scope.isUser = true;
+                    $scope.profile = $scope.commonUrl + "/images/" + $scope.username + ".jpg";
                 }
             }
 

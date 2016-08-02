@@ -285,7 +285,8 @@ app.controller('editContact',
 
 //DECLARE OBJECTS FOR EDIT CONTACT
                 $scope.editUser = {
-                    'username': ''
+                    'username': '',
+                    'profile' : ''
                 };
                 $scope.editContact = {};
                 $scope.isUser = true;
@@ -300,6 +301,7 @@ app.controller('editContact',
                                 $scope.editUser.deactivated = contactToEdit.deactivated;
                                 $scope.editUser['is_admin'] = contactToEdit['is_admin'];
                                 $scope.editUser['contact_id'] = contactToEdit['other_cid'];
+                                $scope.editUser.profile = $scope.commonUrl + "/images/" + $scope.username + ".jpg";
                             } else {
                                 $scope.isUser = false;
                                 $scope.editUser['username'] = '';
@@ -313,6 +315,7 @@ app.controller('editContact',
                         $scope.editUser['newPassword'] = '';
                         $scope.editUser['confirmPassword'] = '';
                         $scope.editUser['contact_id'] = contactToEdit['cid'];
+                        $scope.editUser.profile = $scope.commonUrl + "/images/" + $scope.username + ".jpg";
                     }
                 };
                 //contact
@@ -589,4 +592,3 @@ app.controller('editContact',
                 $scope.altInputFormats = ['M!/d!/yyyy'];
 
             }]);
-

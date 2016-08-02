@@ -6,8 +6,24 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
+app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', '$uibModal',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, $uibModal) {
+        
+//EDIT PROFILE PICTURE
+//        $scope.openModal = function () {
+//            var modalInstance = $uibModal.open({
+//                animation: true,
+//                templateUrl: './style/ngTemplate/profilePicture.html',
+//                controller: 'ProfilePicCtrl',
+//                resolve: {
+//                    link: function() {
+//                        return $scope.commonUrl + "/images/" + $scope.username + ".jpg";
+//                    }
+//                }
+//            });
+//        };
+
+
         //For generating password
         $scope.generatePassword = function () {
             var a = Math.floor((Math.random() * 10) + 10);
@@ -18,18 +34,6 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
         $scope.changePassword = function () {
             $scope.changePass = !$scope.changePass;
         };
-
-        //user
-        $scope.existedUsername = false;
-        $scope.checkingUsername = false;
-        $scope.checkedUsername = false;
-        $scope.ignore = false;
-        //control errors shown
-        $scope.$watch('editUser.username', function () {
-            if ($scope.editUser.username == '') {
-                $scope.ignore = false;
-            }
-        });
 
         $scope.resultUser = {
             status: false,
@@ -47,16 +51,13 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
                         submitUser(datasend, false);
                     }
                 } else {
-                    $scope.checkingUsername = true;
                     var dataToSend = {};
                     dataToSend['token'] = session.getSession('token');
+                    dataToSend['contact_id'] = $scope.contactToEditCID;
                     dataToSend['username'] = $scope.editUser['username'];
-                    datasend['token'] = session.getSession('token');
-                    datasend['contact_id'] = contactToRetrieve['other_cid'];
-                    datasend['username'] = $scope.editUser['username'];
-                    datasend['password'] = $scope.editUser['password'];
-                    datasend['email'] = $scope.editUser['email'];
-                    submitUser(datasend, true);
+                    dataToSend['password'] = $scope.editUser['password'];
+                    dataToSend['email'] = $scope.editUser['email'];
+                    submitUser(dataToSend, true);
                 }
             } else {
                 datasend['token'] = session.getSession('token');
@@ -102,4 +103,3 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
             });
         };
     }]);
-

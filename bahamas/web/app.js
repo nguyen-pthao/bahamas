@@ -5,7 +5,9 @@
 // */
 'use strict';
 
-var app = angular.module('bahamas', ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps']);
+var app = angular.module('bahamas', 
+['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload']
+        );
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -316,10 +318,15 @@ app.config([
 ]);
 
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
-        //$rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
-
+        
+        if(window.location.hostname == 'localhost') {
+            $rootScope.commonUrl = 'http://localhost:8084/bahamas';
+        } else {
+            $rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
+        }
+        
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
             var permission = targetScope.name.split('.')[0];
 

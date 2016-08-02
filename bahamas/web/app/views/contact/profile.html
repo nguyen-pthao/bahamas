@@ -31,7 +31,7 @@ and open the template in the editor.
                     </div>
                     <!-- form start -->
                     <div class="box-body">
-                        <div class="box collapsed-box blue-box" ng-show="isUser">
+                        <div class="box collapsed-box blue-box">
                             <div class="box-header with-border" data-widget="collapse">
                                 <h4 class="box-title uppercase"><i class="fa fa-user"></i> &nbsp; User information</h4>
                                 <div class="box-tools pull-right">
@@ -40,6 +40,10 @@ and open the template in the editor.
                                 </div>
                             </div>
                             <div class="box-body">
+                                <div class="col-sm-6">
+                                    <h4 class="bold">Profile Picture</h4>
+                                    <img class="img-responsive thumbnail" id="profile-pic" ng-src="{{profile}}">
+                                </div>
                                 <div class="col-sm-6">
                                     <h4 class="bold">Username</h4>
                                     <div class="custom-height-1">{{username}}</div>
