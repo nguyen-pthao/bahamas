@@ -201,7 +201,7 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="box-body">
-                        <div class="box green-box" ng-init='loadTeamAffiliationList()'>
+                        <div class="box green-box">
                             <form role="form" name='editTeamAffiliationForm'>
                                 <div class='box-body'>
                                     <div class="col-sm-12">
@@ -232,7 +232,7 @@ and open the template in the editor.
                                 <div class="box-footer">
                                     <center>
                                         <button type="submit" ng-click="submitEditTeams()"
-                                                ng-disabled="editTeamAffiliationForm.explainIfOthers.$error.maxlength || (otherTeam['selected'] == false && otherTeam['explain_if_other'] != '')
+                                                ng-disabled="editTeamAffiliationForm.explainIfOthers.$error.maxlength || (otherTeam['selected'] == false && otherTeam['explain_if_other_team'] != '')
                                                 || editTeamAffiliationForm.remarks.$error.maxlength"
                                                 class="btn btn-link uppercase bold">
                                             Save Changes
