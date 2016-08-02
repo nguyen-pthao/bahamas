@@ -21,7 +21,6 @@ app.controller('viewEvents',
                     var url = '/event.retrieveall';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
-
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;

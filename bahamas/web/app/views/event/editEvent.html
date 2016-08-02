@@ -7,7 +7,7 @@ and open the template in the editor.
 <html>
     <body>
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper inner-content-wrapper" id="view-indiv-event">
+        <div class="content-wrapper inner-content-wrapper" id="view-indiv-event" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
             <!-- Content Header (Page header) -->
             <section class="content-header">
                 <h3>
@@ -27,73 +27,119 @@ and open the template in the editor.
                 <!--Box to show event details--> 
                 <div class="box" style="margin-top:20px;">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Event Details </h3>
+                        <h3 class="box-title uppercase"> Edit Event Details </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Edit Event Details">
                                 <i class="fa fa-chevron-up"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
-                        <div class="box green-box">    
-                            <div class="row col-sm-12">
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Event Title</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_title}}</div>
+                        <div class="box green-box">
+                            <form role="form" ng-submit='submitEditEventInfo()' name='editEventForm'>
+                                <div class="row col-sm-12">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Event Title<span class="required">*</span></h4>
+                                        <input type="text" ng-model="editEvent['event_title']" ng-maxlength="200" ng-required="true" name="eventTitle" class="form-control">
+                                        <span ng-show="editEventForm.eventTitle.$error.maxlength" class='error'>Input for 'Event Title' is too long.</span>
+                                        <span ng-show="editEventForm.eventTitle.$error.required && editEventForm.eventTitle.$touched" class="error">Event Title is required.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Location<span class="required">*</span></h4>
+                                        <div ng-init="loadEventLocationList()">
+                                            <select ng-required="true" name="eventLocation" class="form-control" ng-model="editEvent['event_location']">
+                                                <option ng-repeat="eventLocation in eventLocationList">{{eventLocation.eventLocation}}</option>
+                                            </select>     
+                                        </div>
+                                        <span ng-show="editEventForm.eventLocation.$error.required && editEventForm.eventLocation.$touched" class="error">Location is required.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Start Date<span class="required">*</span></h4>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon btn" ng-click="openStart()">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="eventStartDate" class="form-control white-background" ng-required="true" ng-click="openStart()" uib-datepicker-popup="{{format}}" ng-model="editEvent['event_start_date']" is-open="openedStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                        </div>
+                                        <span ng-show="editEventForm.eventStartDate.$error.required && editEventForm.eventStartDate.$touched" class="error">Event Start Date is required.</span>
+                                        <span ng-show="(editEvent['event_start_date'] > editEvent['event_end_date']) && editEventForm.eventStartDate.$touched" class="error">Start Date cannot be after End Date.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">End Date<span class="required">*</span></h4>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon btn" ng-click="openEnd()">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="eventEndDate" class="form-control white-background" ng-required="true" ng-click="openEnd()" uib-datepicker-popup="{{format}}" ng-model="editEvent['event_end_date']" is-open="openedEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                        </div>
+                                        <span ng-show="editEventForm.eventEndDate.$error.required && editEventForm.eventEndDate.$touched" class="error">Event End Date is required.<br></span>
+                                        <span ng-show="(editEvent['event_start_date'] > editEvent['event_end_date']) && editEventForm.eventEndDate.$touched" class="error">End Date cannot be before Start Date.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Start Time<span class="required">*</span></h4>
+                                        <div uib-timepicker ng-required="true" ng-model="editEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
+                                        <span ng-show="editEventForm.eventStartTime.$error.required && editEventForm.eventStartTime.$touched" class="error">Start Time is required.<br></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">End Time<span class="required">*</span></h4>
+                                        <div uib-timepicker ng-required="true" ng-model="editEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
+                                        <span ng-show="editEventForm.eventEndTime.$error.required && editEventForm.eventEndTime.$touched" class="error">End Time is required.<br></span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Min. Participation&nbsp;<i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send an alert if min. participation is not met" popover-trigger="mouseenter"></i></h4>
+                                        <input type='text' ng-model="editEvent['minimum_participation']" name="minimumParticipation" class="form-control white-background" ng-pattern="regex"/>
+                                        <span ng-show="editEventForm.minimumParticipation.$invalid" class='error'>Please enter a valid integer.</span>
+                                        <span ng-show="editEvent['minimum_participation'] == '0'" class='error'>Minimum Participation must be at least 1.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Event Class<span class="required">*</span></h4>
+                                        <div ng-init="loadEventClassList()">
+                                            <select ng-required="true" name="eventClass" class="form-control" ng-model="editEvent['event_class']">
+                                                <option ng-repeat="eventClass in eventClassList">{{eventClass.eventClass}}</option>
+                                            </select>     
+                                        </div>
+                                        <span ng-show="editEventForm.eventClass.$error.required && editEventForm.eventClass.$touched" class="error">Event Class is required.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Status<span class="required">*</span></h4>
+                                        <div ng-init="loadEventStatusList()">
+                                            <select ng-required="true" name="eventStatus" class="form-control" ng-model="editEvent['event_status']">
+                                                <option ng-repeat="eventStatus in eventStatusList">{{eventStatus.eventStatus}}</option>
+                                            </select>     
+                                        </div>
+                                        <span ng-show="editEventForm.eventStatus.$error.required && editEventForm.eventStatus.$touched" class="error">Event Status is required.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Send Reminder?&nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i></h4>
+                                        <input type="checkbox" ng-model="editEvent['send_reminder']"/>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Location</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_location}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Start Date</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_start_date| date:'dd-MMM-yyyy'}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">End Date</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_end_date| date:'dd-MMM-yyyy'}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Start Time</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_time_start}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">End Time</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_time_end}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Min. Participation</h4>
-                                    <div class="custom-height-1">{{eventInfo.minimum_participation}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Event Class</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_class}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Status</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_status}}</div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Send Reminder?</h4>
-                                    <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">Yes</div>
-                                    <div ng-hide="eventInfo['send_reminder'] == 'true'" class="custom-height-1">No</div>
-                                </div>
-                            </div>
-                            <div class="row col-sm-12">
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <h4 class="bold">Explain If Other</h4>
-                                    <div class="custom-height-1">{{eventInfo.explain_if_other}}</div>
+                                    <textarea class="custom-remarks" ng-model="editEvent['explain_if_other']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                    <span ng-show="editEventForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span>
                                 </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Description</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_description}}</div>
+                                <div class='col-sm-12'>
+                                    <h4 class="bold">Description&nbsp;<i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Tell them what the event is about!" popover-trigger="mouseenter"></i></h4>
+                                    <textarea class="custom-remarks" ng-model="editEvent['event_description']" ng-maxlength="2000" name="eventDescription" contenteditable="true" spellcheck="true"></textarea>
+                                    <span ng-show="editEventForm.eventDescription.$error.maxlength" class='error'>Input for 'Event Description' is too long.</span>
                                 </div>
-                            </div>
+                                <div class="box-footer">
+                                    <center><button class="btn btn-link uppercase bold" type="submit" ng-click="submitEditEvent()" 
+                                                    ng-disabled="editEventForm.eventTitle.$error.maxlength || editEventForm.eventTitle.$error.required || editEventForm.minimumParticipation.$invalid
+                                                                        || editEventForm.eventStartDate.$error.required || editEventForm.eventEndDate.$error.required || editEventForm.eventStartTime.$error.required || editEventForm.eventEndTime.$error.required
+                                                                        || editEventForm.eventDescription.$error.maxlength || editEventForm.eventClass.$error.required || editEventForm.eventLocation.$error.required || editEventForm.eventStatus.$error.required
+                                                                        || editEventForm.explainIfOthers.$error.maxlength || (showGmap && editEvent['event_lat'] == '' && editEvent['event_lng'] == '') || (editEvent['event_start_date'] > editEvent['event_end_date'])"
+                                                    >
+                                            Save Changes
+                                        </button></center>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-                <div class="box collapsed-box" ng-init="eventRoles()">
+                <div class="box collapsed-box">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Event Roles </h3>
+                        <h3 class="box-title uppercase"> Edit Event Roles </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Event Roles">
                                 <i class="fa fa-chevron-down"></i></button>
@@ -101,58 +147,99 @@ and open the template in the editor.
                     </div>
                     <div class="box-body">
                         <div class="box green-box">    
-                            <div class="table-horizontal-scroll">
-                                <table class="table table-bordered table-striped" style="max-width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%" style="color: #005384">S/N</th>
-                                            <th width="30%" style='color: #005384'>Role</th>
-                                            <th width="50%" style='color: #005384'>Description</th>
-                                            <th width="15%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="role in roles track by $index">
-                                            <td>{{$index + 1}}</td>
-                                            <td>{{role['event_role']}}</td>
-                                            <td>{{role['event_desc']}}</td>
-                                            <td><center>
-                                                <span><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
-                                                    &nbsp;<span><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click=""><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
-                                    </center></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                            <form role="form" name='editRolesForm'>
+                                <!-- COMPULSORY INFORMATION SECTION -->
+                                <div class='box-body'>
+                                    <div class='box'>
+                                        <div class="form-group">
+                                            <label>Role 1</label><span class="required">*</span>
+                                            <input type="text" ng-required='true' ng-model="editEvent['event_role'][0]['event_role']" ng-maxlength="50" name="role1" class="form-control" placeholder='Not Specified'>
+                                            <span ng-show="editRolesForm.role1.$error.maxlength" class='error'>Input for 'Role 1' is too long.</span>
+                                            <span ng-show="editRolesForm.role1.$error.required && editRolesForm.role1.$touched" class='error'>Input for 'Role 1' is required.</span>
+                                        </div>
+                                        <div>
+                                            <label>Role 1 Description</label>
+                                            <textarea class="custom-remarks" ng-model="editEvent['event_role'][0]['event_desc']" ng-maxlength="200" name="description1" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="editRolesForm.description1.$error.maxlength" class='error'>Input for 'Role 1 Description' is too long.</span>
+                                            <span ng-show="(editEvent['event_role'][0]['event_desc'] != '' && editEvent['event_role'][0]['event_desc'] == '')" class='error'>Input for 'Role 1' cannot be empty.</span>
+                                        </div>   
+                                    </div>
+                                    <div class='box' ng-repeat="roleObj in roleArray track by $index">
+                                        <div class="form-group">
+                                            <label>Role {{$index + 2}}</label>
+                                            <input type="text" ng-model="editEvent['event_role'][($index + 1)]['event_role']" ng-maxlength="50" name="role{{$index + 2}}" class="form-control" placeholder='Not Specified'>
+                                            <span ng-show="editRolesForm['role' + ($index + 2)].$error.maxlength" class='error'>Input for 'Role {{$index + 2}}' is too long.</span>
+                                        </div>
+                                        <div>
+                                            <label>Role {{$index + 2}} Description</label>
+                                            <textarea class="custom-remarks" ng-model="editEvent['event_role'][($index + 1)]['event_desc']" ng-maxlength="200" name="description{{$index + 2}}" contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="editRolesForm['description' + ($index + 2)].$error.maxlength" class='error'>Input for 'Role {{$index + 2}} Description' is too long.</span>
+                                            <span ng-show="(editEvent['event_role'][($index + 1)]['event_desc'] != '' && editEvent['event_role'][($index + 1)]['event_role'] == '')" class='error'>Input for 'Role {{$index + 2}}' cannot be empty.</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <center>
+                                        <button type="submit" ng-click="addNumberOfRoles()" class="btn btn-link uppercase bold" style="margin-right: 15px;">Add New Role</button>
+                                        <button type="submit" ng-click="submitEditRoles()"
+                                                ng-disabled="addRolesForm.role1.$error.required"
+                                                class="btn btn-link uppercase bold">
+                                            Save Changes
+                                        </button>
+                                    </center>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="box collapsed-box">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Team Affiliation </h3>
+                        <h3 class="box-title uppercase"> Edit Team Affiliation </h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Affiliation">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Edit Team Affiliation">
                                 <i class="fa fa-chevron-down"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
-                        <div class="box green-box">
-                            <div class="row col-sm-12">
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Teams Affiliated</h4>
-                                    <ul>
-                                        <li ng-repeat="teams in teamA">{{teams}}</li>
-                                    </ul>
+                        <div class="box green-box" ng-init='loadTeamAffiliationList()'>
+                            <form role="form" name='editTeamAffiliationForm'>
+                                <div class='box-body'>
+                                    <div class="col-sm-12">
+                                        <div class="col-sm-6">
+                                            <div class="box">
+                                                <label>Select Team Affiliation</label><span class="required">*</span>
+                                                <div ng-repeat="team in selectedTeams track by $index">
+                                                    <input type="checkbox" ng-model="team['selected']"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
+                                                </div>
+                                                <div>
+                                                    <input type="checkbox" ng-model="otherTeam['selected']"/><span style="margin-left: 10px;">Other</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class='col-sm-12'>
+                                        <h4 class="bold">Explain If 'Other'</h4>
+                                        <textarea class="custom-remarks" ng-model="otherTeam['explain_if_other_team']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                        <span ng-show="editTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span><br>
+                                        <span ng-show="otherTeam['selected'] == false && otherTeam['explain_if_other_team'] != ''" class='error'>You did not select 'Other'!</span>
+                                    </div>
+                                    <div class="col-sm-12">
+                                        <h4 class="bold">Remarks</h4>
+                                        <textarea class="custom-remarks" ng-model="otherTeam['remarks']" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+                                        <span ng-show="editTeamAffiliationForm.remarks.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>
+                                    </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <h4 class="bold">Explain If 'Other'</h4>
-                                    <div class="custom-height-1">{{affiliation['explain_if_other']}}</div>
+                                <div class="box-footer">
+                                    <center>
+                                        <button type="submit" ng-click="submitEditTeams()"
+                                                ng-disabled="editTeamAffiliationForm.explainIfOthers.$error.maxlength || (otherTeam['selected'] == false && otherTeam['explain_if_other'] != '')
+                                                || editTeamAffiliationForm.remarks.$error.maxlength"
+                                                class="btn btn-link uppercase bold">
+                                            Save Changes
+                                        </button>
+                                    </center>
                                 </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <h4 class="bold">Remarks</h4>
-                                <div class="custom-height-1">{{affiliation['remarks']}}</div>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
