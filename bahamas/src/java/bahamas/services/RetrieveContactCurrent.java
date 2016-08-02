@@ -225,7 +225,11 @@ public class RetrieveContactCurrent extends HttpServlet {
         jsonContactObj.addProperty("remarks", remarks);
         jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));
         jsonContactObj.addProperty("created_by", contact.getCreatedBy());
-
+        if (contact.getProfilePic() != null) {
+            jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
+        } else {
+            jsonContactObj.addProperty("profile_pic", "");
+        }
         if (phoneList != null && !phoneList.isEmpty()) {
 
             for (int i = 0; i < phoneList.size(); i++) {

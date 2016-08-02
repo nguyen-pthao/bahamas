@@ -45,8 +45,7 @@ public class Login extends HttpServlet {
     private SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -130,11 +129,11 @@ public class Login extends HttpServlet {
                                 ContactDAO.changeNovicePermission(contact, false);
                             } else {
                                 json.addProperty("user_type", "novice");
-                                
+
                                 //convert the user to a novice, all the teams is either deleted or obsolete
                                 ContactDAO.changeNovicePermission(contact, true);
                             }
-                            
+
                             jsonContactObj.addProperty("cid", contact.getContactId());
                             //jsonContactObj.addProperty("contact_type", contact.getContactType());
 
@@ -152,7 +151,11 @@ public class Login extends HttpServlet {
                             //jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
                             //jsonContactObj.addProperty("remarks", contact.getRemarks());
                             //json.add("contact", jsonContactObj);
-
+                            if (contact.getProfilePic() != null) {
+                                jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
+                            } else {
+                                jsonContactObj.addProperty("profile_pic", "");
+                            }
                             if (teamJoinList != null && !teamJoinList.isEmpty()) {
                                 Iterator iter = teamJoinList.iterator();
                                 while (iter.hasNext()) {

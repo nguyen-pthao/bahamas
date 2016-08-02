@@ -60,8 +60,7 @@ import javax.servlet.http.HttpServletResponse;
 public class RetrieveContactIndiv extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      *
      * @param request servlet request
      * @param response servlet response
@@ -130,10 +129,10 @@ public class RetrieveContactIndiv extends HttpServlet {
                     json.addProperty("message", "success");
 
                     /*
-                    try to add there
-                    if (contact.isIsNovice()) {
-                        json.addProperty("user_type", "novice");
-                    } 
+                     try to add there
+                     if (contact.isIsNovice()) {
+                     json.addProperty("user_type", "novice");
+                     } 
                      */
                     if (contact.isIsAdmin()) {
                         JsonArray contactArray = retrieveContactDetails(viewContact, contact.isIsAdmin(), false, false, Integer.toString(contact.getContactId()));
@@ -158,37 +157,37 @@ public class RetrieveContactIndiv extends HttpServlet {
                     }
 
                     /*                     
-                    if (contact.isIsAdmin()) { //Admin
-                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                    } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
-                        JsonArray contactArray = retrieveByAdminTmEl(viewContact, false);
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
-                        return;
-                    } else {
-                        //int cid = contact.getContactId();
-                        //check permission, 
-                        if (RoleCheckDAO.checkRole(contact.getContactId(), teamName, permission)) {
+                     if (contact.isIsAdmin()) { //Admin
+                     JsonArray contactArray = retrieveByAdminTmEl(viewContact, contact.isIsAdmin());
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), permission) && permission.equals("teammanager")) { //Team manager
+                     JsonArray contactArray = retrieveByAdminTmEl(viewContact, false);
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     } else {
+                     //int cid = contact.getContactId();
+                     //check permission, 
+                     if (RoleCheckDAO.checkRole(contact.getContactId(), teamName, permission)) {
 
-                            if (permission.equals("eventleader")) { //Event leader
-                                // To be confirm
-                                JsonArray contactArray = retrieveByAdminTmEl(contact, false);
-                                json.add("contact", contactArray);
-                                out.println(gson.toJson(json));
-                                return;
-                            } else if (permission.equals("associate")) { //Associate
-                                // To be confirm
-                                //JsonArray contactArray = retrieveByAssociate(contact);
-                                //json.add("contact", contactArray);
-                                //out.println(gson.toJson(json));
-                                return;
-                            }
-                        }
+                     if (permission.equals("eventleader")) { //Event leader
+                     // To be confirm
+                     JsonArray contactArray = retrieveByAdminTmEl(contact, false);
+                     json.add("contact", contactArray);
+                     out.println(gson.toJson(json));
+                     return;
+                     } else if (permission.equals("associate")) { //Associate
+                     // To be confirm
+                     //JsonArray contactArray = retrieveByAssociate(contact);
+                     //json.add("contact", contactArray);
+                     //out.println(gson.toJson(json));
+                     return;
+                     }
+                     }
 
-                    }
+                     }
                     
                      */
                 } else {
@@ -302,6 +301,12 @@ public class RetrieveContactIndiv extends HttpServlet {
                 jsonContactObj.addProperty("nric_fin", "");
             }
         }
+        if (contact.getProfilePic() != null) {
+            jsonContactObj.addProperty("profile_pic", contact.getProfilePic());
+        } else {
+            jsonContactObj.addProperty("profile_pic", "");
+        }
+
         jsonContactObj.addProperty("alt_name", altName);
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
@@ -319,7 +324,6 @@ public class RetrieveContactIndiv extends HttpServlet {
             }
             jsonContactObj.addProperty("date_created", sdft.format(contact.getDateCreated()));
             jsonContactObj.addProperty("created_by", contact.getCreatedBy());
-            
 
         }
         jsonContactObj.addProperty("remarks", remarks);
@@ -396,7 +400,7 @@ public class RetrieveContactIndiv extends HttpServlet {
 
         } else {
             jsonContactObj.addProperty("email", "");
-        }  
+        }
 
         if (isAdmin || isTeamMgt || isEventLead) {
             if (addressList != null && !addressList.isEmpty()) {
