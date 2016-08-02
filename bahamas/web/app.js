@@ -264,6 +264,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/createEventAffiliation.html',
                 controller: 'createEventAffiliation'
             })
+            .state('eventleader.viewEvents', {
+                url: '/viewEvents',
+                templateUrl: 'app/views/event/viewEvents.html',
+                controller: 'viewEvents'
+            })        
             .state('eventleader.viewUpcomingEvents', {
                 url: '/viewUpcomingEvents',
                 templateUrl: 'app/views/event/viewUpcomingEvents.html',
