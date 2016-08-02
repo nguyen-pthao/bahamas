@@ -19,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.UUID;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -75,8 +77,16 @@ public class UploadImage extends HttpServlet {
 
                     //request.getPart("image").write(savePath + File.separator + username + ".jpg");
                     try {
+                        String uniqueId = UUID.randomUUID().toString().replaceAll("-", "");                       
                         Files.copy(request.getPart("image").getInputStream(),
-                                new File(savePath + File.separator + username + ".jpg").toPath(), REPLACE_EXISTING);
+                                new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
+                        
+                        String oldImage = ContactDAO.updateImage(username, File.separator + SAVE_DIR + File.separator + uniqueId + ".jpg");
+                        
+                        if(oldImage != null && !oldImage.isEmpty()){
+                            Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));          
+                        }
+                        
                     } catch (Exception e) {
                         json.addProperty("message", "Image failed to upload!");
                         out.println(gson.toJson(json));

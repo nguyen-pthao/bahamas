@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -185,9 +186,12 @@ public class UpdateUser extends HttpServlet {
                             if (c.getUsername() != null && !c.getUsername().isEmpty()) {
                                 String appPath = request.getServletContext().getRealPath("");
                                 String savePath = appPath + File.separator + SAVE_DIR;
+                                String uniqueId = UUID.randomUUID().toString().replaceAll("-", "");
 
                                 Files.copy(new File(savePath + File.separator + "default" + ".jpg").toPath(),
-                                        new File(savePath + File.separator + c.getUsername() + ".jpg").toPath(), REPLACE_EXISTING);
+                                        new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
+
+                                ContactDAO.updateImage(username, File.separator + SAVE_DIR + File.separator + uniqueId + ".jpg");
                             }
 
                             new Thread(() -> {

@@ -6,6 +6,11 @@
 package bahamas.dao;
 
 import bahamas.entity.Contact;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -143,7 +148,7 @@ public class ContactDAO {
         }
         return null;
     }
-    
+
     public Contact retrieveContactByNric(String nric_fin) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -266,7 +271,7 @@ public class ContactDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO CONTACT (CONTACT_TYPE,ISADMIN,"
                     + "DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION,USERNAME,PASSWORD,SALT)"
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,REMARKS,NOTIFICATION,USERNAME,PASSWORD,SALT)"
                     + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS);
 
             stmt.setString(1, c.getContactType());
@@ -286,12 +291,11 @@ public class ContactDAO {
             } else {
                 stmt.setDate(13, null);
             }
-            stmt.setString(14, c.getProfilePic());
-            stmt.setString(15, c.getRemarks());
-            stmt.setBoolean(16, c.isNotification());
-            stmt.setString(17, c.getUsername());
-            stmt.setString(18, c.getPassword());
-            stmt.setString(19, c.getSalt());
+            stmt.setString(14, c.getRemarks());
+            stmt.setBoolean(15, c.isNotification());
+            stmt.setString(16, c.getUsername());
+            stmt.setString(17, c.getPassword());
+            stmt.setString(18, c.getSalt());
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
@@ -363,10 +367,10 @@ public class ContactDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("UPDATE CONTACT SET CONTACT_TYPE=?,"
                     + "NAME=?,ALT_NAME=?,EXPLAIN_IF_OTHER=?,PROFESSION=?,"
-                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,PROFILE_PIC=?,REMARKS=?,"
+                    + "JOB_TITLE=?,NRIC_FIN=?,GENDER=?,NATIONALITY=?,DATE_OF_BIRTH=?,REMARKS=?,"
                     + "NOTIFICATION=? WHERE CONTACT_ID=?");
-                  
-            stmt.setString(1, c.getContactType());        
+
+            stmt.setString(1, c.getContactType());
             stmt.setString(2, c.getName());
             stmt.setString(3, c.getAltName());
             stmt.setString(4, c.getExplainIfOther());
@@ -380,10 +384,9 @@ public class ContactDAO {
             } else {
                 stmt.setDate(10, null);
             }
-            stmt.setString(11, c.getProfilePic());
-            stmt.setString(12, c.getRemarks());     
-            stmt.setBoolean(13, c.isNotification());
-            stmt.setInt(14, c.getContactId());
+            stmt.setString(11, c.getRemarks());
+            stmt.setBoolean(12, c.isNotification());
+            stmt.setInt(13, c.getContactId());
 
             return stmt.executeUpdate() == 1;
 
@@ -394,7 +397,7 @@ public class ContactDAO {
         }
         return false;
     }
-    
+
     public static boolean updateUser(Contact c) {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -403,12 +406,11 @@ public class ContactDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE CONTACT SET ISADMIN=?,DEACTIVATED=?,"                 
+            stmt = conn.prepareStatement("UPDATE CONTACT SET ISADMIN=?,DEACTIVATED=?,"
                     + "USERNAME=?,PASSWORD=?,SALT=?,NOTIFICATION=? WHERE CONTACT_ID=?");
 
-            
-            stmt.setBoolean(1, c.isIsAdmin());          
-            stmt.setBoolean(2, c.isDeactivated());        
+            stmt.setBoolean(1, c.isIsAdmin());
+            stmt.setBoolean(2, c.isDeactivated());
             stmt.setString(3, c.getUsername());
             stmt.setString(4, c.getPassword());
             stmt.setString(5, c.getSalt());
@@ -423,6 +425,41 @@ public class ContactDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+
+    public static String updateImage(String username, String newImage) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String profilePic = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT PROFILE_PIC FROM CONTACT WHERE USERNAME=?");
+            stmt.setString(1, username);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                profilePic = rs.getString(1);
+            }
+
+            stmt = conn.prepareStatement("UPDATE CONTACT SET PROFILE_PIC=? WHERE USERNAME=?");
+            stmt.setString(1, newImage);
+            stmt.setString(2, username);
+
+            if (stmt.executeUpdate() == 1) {
+                return profilePic;
+            } else {
+                return null;
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return null;
     }
 
 }
