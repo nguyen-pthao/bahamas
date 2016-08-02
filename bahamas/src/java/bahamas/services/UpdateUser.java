@@ -191,7 +191,7 @@ public class UpdateUser extends HttpServlet {
                                 Files.copy(new File(savePath + File.separator + "default" + ".jpg").toPath(),
                                         new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
 
-                                ContactDAO.updateImage(username, File.separator + SAVE_DIR + File.separator + uniqueId + ".jpg");
+                                ContactDAO.updateImage(c.getUsername(), File.separator + SAVE_DIR + File.separator + uniqueId + ".jpg");
                             }
 
                             new Thread(() -> {
