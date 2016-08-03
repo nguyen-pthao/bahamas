@@ -95,6 +95,8 @@ public class EventRoleAssignmentDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
+        String roleTemp = "event_role";
+        String descriptionTemp = "event_desc";
 
         try {
             //get database connection
@@ -103,10 +105,20 @@ public class EventRoleAssignmentDAO {
             stmt = conn.prepareStatement("DELETE FROM EVENT_ROLE_ASSIGNMENT WHERE EVENT_ID = (?)");
             stmt.setInt(1, eventId);
             stmt.executeUpdate();
-            if(addRoles(jsonArray, eventId)){
-                return true;
+            stmt = conn.prepareStatement("INSERT INTO EVENT_ROLE_ASSIGNMENT (EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (?, ?, ?)");
+            for (int i = 0; i < jsonArray.size(); i++) {
+                JsonElement jsonElement = jsonArray.get(i);
+                JsonObject jsonObj = jsonElement.getAsJsonObject();
+                String role = jsonObj.get(roleTemp).getAsString();
+                String description = jsonObj.get(descriptionTemp).getAsString();
+                if (!role.isEmpty()) {
+                    stmt.setInt(1, eventId);
+                    stmt.setString(2, role);
+                    stmt.setString(3, description);
+                    stmt.executeUpdate();
+                }
             }
-
+            return true;
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
