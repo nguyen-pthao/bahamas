@@ -90,5 +90,29 @@ public class EventRoleAssignmentDAO {
         }
         return eventRoleAssignmentList;
     }
+        
+    public static boolean updateRoles(JsonArray jsonArray, int eventId) { 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+           
+            stmt = conn.prepareStatement("DELETE FROM EVENT_ROLE_ASSIGNMENT WHERE EVENT_ID = (?)");
+            stmt.setInt(1, eventId);
+            stmt.executeUpdate();
+            if(addRoles(jsonArray, eventId)){
+                return true;
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
 
 }

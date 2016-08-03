@@ -294,5 +294,50 @@ public class EventDAO {
         }
         return false;
     }
-            
+    
+    public static boolean updateEventDetails(Event event) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE EVENT SET EVENT_TITLE = ?, EXPLAIN_IF_OTHER = ?, "
+                    + "EVENT_START_DATE = ?, EVENT_END_DATE = ?, "
+                    + "EVENT_TIME_START = ?, EVENT_TIME_END = ?, "
+                    + "SEND_REMINDER = ?, EVENT_DESCRIPTION = ?, MINIMUM_PARTICIPATIONS = ?, "
+                    + "EVENT_CLASS_NAME = ?, EVENT_LOCATION_NAME = ?, EVENT_STATUS = ?, "
+                    + "EVENT_LOCATION_LONGITUDE = ?, EVENT_LOCATION_LATITUDE = ? "
+                    + "WHERE EVENT_ID = ?");
+
+            stmt.setString(1, event.getEventTitle());
+            stmt.setString(2, event.getExplainIfOthers());
+            stmt.setTimestamp(3, new java.sql.Timestamp(event.getEventStartDate().getTime()));
+            stmt.setTimestamp(4, new java.sql.Timestamp(event.getEventEndDate().getTime()));
+            stmt.setTimestamp(5, new java.sql.Timestamp(event.getEventStartTime().getTime()));
+            stmt.setTimestamp(6, new java.sql.Timestamp(event.getEventEndTime().getTime()));
+            stmt.setBoolean(7, event.isSendReminder());
+            stmt.setString(8, event.getEventDescription());
+            stmt.setInt(9, event.getMinimumParticipation());
+            stmt.setString(10, event.getEventClassName());
+            stmt.setString(11, event.getEventLocationName());
+            stmt.setString(12, event.getEventStatus());
+            stmt.setString(13, event.getEventLng());
+            stmt.setString(14, event.getEventLat());
+            stmt.setInt(15, event.getEventId());
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
 }
