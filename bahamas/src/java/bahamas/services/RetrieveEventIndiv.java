@@ -155,7 +155,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.add("event_role", eventRoleJsonArray);
                             json.add("event_team_affiliation", teamJson);
                             
-                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
                                 json.addProperty("canEdit", true);
                                 json.addProperty("canDelete", true);
                                 json.addProperty("canJoin", true);
