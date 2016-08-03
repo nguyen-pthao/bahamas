@@ -230,7 +230,25 @@ app.controller('editEvent',
                         'send_reminder': $scope.editEvent['send_reminder']
                     }
                     console.log($scope.toEditEvent);
-                }
+                    var url = "/event.updatedetails";
+                    dataSubmit.submitData($scope.toEditEvent, url).then(function (response) {
+                        console.log(response);
+                        if (response.data.message == "success") {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/editSuccessful.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        } else {
+                            $scope.errorMessages = response.data.errorMsg;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        }
+                    });
+                };
 
                 $scope.submitEditRoles = function () {
                     var hasError = false;
@@ -259,6 +277,24 @@ app.controller('editEvent',
                             'event_role': $scope.editEvent['event_role']
                         }
                         console.log($scope.toEditRoles);
+                        var url = "/event.updateroles";
+                        dataSubmit.submitData($scope.toEditRoles, url).then(function (response) {
+                            console.log(response);
+                            if (response.data.message == "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/editSuccessful.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = response.data.errorMsg;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
+                        });
                     }
 
                 }
@@ -281,14 +317,32 @@ app.controller('editEvent',
                         $scope.toEditTeams['explain_if_other'] = $scope.otherTeam['explain_if_other_team'];
                     }
                     $scope.toEditTeams.remarks = $scope.otherTeam['remarks'];
-                    if($scope.toEditTeams.teams.length == 0){
+                    if ($scope.toEditTeams.teams.length == 0) {
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/addEventAffiliationAtLeastOne.html',
                             className: 'ngdialog-theme-default',
                             scope: $scope
                         })
-                    }else{
+                    } else {
                         console.log($scope.toEditTeams);
+                        var url = "/event.updateteamaffiliation";
+                        dataSubmit.submitData($scope.toEditTeams, url).then(function (response) {
+                            console.log(response);
+                            if (response.data.message == "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/editSuccessful.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            } else {
+                                $scope.errorMessages = response.data.errorMsg;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }
+                        });
                     }
                 };
             }]);
