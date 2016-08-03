@@ -174,7 +174,7 @@ public class UpdateEventDetails extends HttpServlet {
                             Event event = new Event(Integer.parseInt(eventId), eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus);                         
                             String errorMsg = EventDAO.eventExist(event);
                             
-                            if(errorMsg != null && !ignore){
+                            if(errorMsg != null && !ignore && !errorMsg.equals(eventTitle)){
                                 json = new JsonObject();
                                 jsonErrorMsgArray = new JsonArray();
                                 //jsonErrorMsgArray.add(new JsonPrimitive(errorMsg)); 
