@@ -227,7 +227,8 @@ app.controller('editEvent',
                         'event_title': $scope.editEvent['event_title'],
                         'explain_if_other': $scope.editEvent['explain_if_other'],
                         'minimum_participation': $scope.editEvent['minimum_participation'],
-                        'send_reminder': $scope.editEvent['send_reminder']
+                        'send_reminder': $scope.editEvent['send_reminder'],
+                        'ignore': false
                     }
                     console.log($scope.toEditEvent);
                     var url = "/event.updatedetails";
@@ -239,6 +240,24 @@ app.controller('editEvent',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             })
+                        } else if (response.data.message == "conflict") {
+                            $scope.errorMessages = response.data.errorMsg;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/addEventConflict.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            }).then(function (response) {
+                                $scope.toEditEvent.ignore = true;
+                                dataSubmit.submitData($scope.toEditEvent, url).then(function (response) {
+                                    if (response.data.message == 'success') {
+                                        ngDialog.openConfirm({
+                                            template: './style/ngTemplate/editSuccessful.html',
+                                            className: 'ngdialog-theme-default',
+                                            scope: $scope
+                                        })
+                                    }
+                                });
+                            });
                         } else {
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
