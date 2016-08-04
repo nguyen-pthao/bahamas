@@ -45,6 +45,7 @@ app.controller('loginController',
                                 var storeContact = session.setSession('contact', angular.toJson(authorisedUser.contact));
                                 var storeTeams = session.setSession('teams', angular.toJson(authorisedUser.teams));
                                 var getUserType = session.getSession("userType");
+                                session.setSession('contact_pic', response.contact['profile_pic']);
                                 //tokenUpdate.refreshToken(authorisedUser.token);
 
                                 Idle.watch();
