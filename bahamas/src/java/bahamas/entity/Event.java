@@ -71,6 +71,23 @@ public class Event {
         this.eventLng = eventLng;
         this.eventStatus = eventStatus;
     }
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus) {
+        this.eventId = eventId;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
+        this.eventTitle = eventTitle;
+        this.explainIfOthers = explainIfOthers;
+        this.eventDescription = eventDescription;
+        this.minimumParticipation = minimumParticipation;
+        this.sendReminder = sendReminder;
+        this.eventClassName = eventClassName;
+        this.eventLocationName = eventLocationName;
+        this.eventLat = eventLat;
+        this.eventLng = eventLng;
+        this.eventStatus = eventStatus;
+    }
 
     public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus) {
         this.eventId = eventId;

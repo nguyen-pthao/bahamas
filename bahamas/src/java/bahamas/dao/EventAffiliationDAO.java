@@ -5,11 +5,8 @@
  */
 package bahamas.dao;
 
-import bahamas.entity.Contact;
 import bahamas.entity.EventAffiliation;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -113,4 +110,28 @@ public class EventAffiliationDAO {
         return null;
 
     }
+    
+    public static boolean updateTeamAffiliation(EventAffiliation eventAffiliation, int eventId) { 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            
+            stmt = conn.prepareStatement("DELETE FROM EVENT_AFFILIATION WHERE EVENT_ID = (?)");
+            stmt.setInt(1, eventId);
+            stmt.executeUpdate(); 
+            if(addTeamAffiliation(eventAffiliation)){
+                return true;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
 }

@@ -152,7 +152,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             jsonContactObj.addProperty("event_class", event.getEventClassName());
                                             jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                             jsonContactObj.addProperty("event_status", event.getEventStatus());
-                                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
                                                 jsonContactObj.addProperty("canEdit", true);
                                                 jsonContactObj.addProperty("canDelete", true);
                                                 jsonContactObj.addProperty("canJoin", true);
