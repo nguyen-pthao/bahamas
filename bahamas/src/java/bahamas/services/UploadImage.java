@@ -75,25 +75,27 @@ public class UploadImage extends HttpServlet {
                         fileSaveDir.mkdir();
                     }
 
+                    String uniqueId = UUID.randomUUID().toString().replaceAll("-", "");
                     //request.getPart("image").write(savePath + File.separator + username + ".jpg");
                     try {
-                        String uniqueId = UUID.randomUUID().toString().replaceAll("-", "");                       
+
                         Files.copy(request.getPart("image").getInputStream(),
                                 new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
-                        
+
                         String oldImage = ContactDAO.updateImage(username, "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
-                        
-                        if(oldImage != null && !oldImage.isEmpty()){
-                            Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));          
+
+                        if (oldImage != null && !oldImage.isEmpty()) {
+                            Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));
                         }
-                        
+
                     } catch (Exception e) {
                         json.addProperty("message", "Image failed to upload!");
                         out.println(gson.toJson(json));
                         return;
                     }
-                    
+
                     json.addProperty("message", "Image successfully uploaded!");
+                    json.addProperty("image", "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
                     out.println(gson.toJson(json));
                     return;
                 }
