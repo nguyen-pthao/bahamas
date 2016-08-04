@@ -131,7 +131,6 @@ app.controller('pageController',
                                 window.alert("Fail to send request!");
                             });
                         };
-                        
                     }
                 };
 
