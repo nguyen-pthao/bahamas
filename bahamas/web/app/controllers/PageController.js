@@ -82,7 +82,12 @@ app.controller('pageController',
                         $scope.username = session.getSession('username');
                         $scope.userType = session.getSession('userType');
                         $scope.name = angular.fromJson(session.getSession('contact')).name;
-                        
+                        $scope.profile_pic = angular.fromJson(session.getSession('contact')).profile_pic;
+                        console.log($scope.profile_pic);
+                        if($scope.profile_pic == '') {
+                            $scope.profile_pic = 'images/default.jpg';
+                        }
+                                
                         $scope.user = {
                             'token' : session.getSession('token'),
                             'contact_id': angular.fromJson(session.getSession('contact')).cid,

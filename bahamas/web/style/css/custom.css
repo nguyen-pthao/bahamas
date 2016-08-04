@@ -414,8 +414,21 @@ div.wrapper > aside.main-sidebar {
     height: 200px;
 }
 
+/*profile picture*/
 #profile-pic {
     border: 5px solid #ddd;
     max-width: 50%;
     max-height: 50%;
+}
+
+#profile-pic-modal {
+    border: 5px solid #ddd;
+}
+
+.profile-modal-footer {
+    border-top: none;
+}
+
+.profile-modal-container {
+    
 }
