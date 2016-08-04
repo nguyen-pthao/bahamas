@@ -6,8 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', '$http', 'Upload',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, $http, Upload) {
+app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', '$http', 'Upload', '$state',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, $http, Upload, $state) {
 
         //Edit profile picture
         //Upload image uses third-party library and thus require full URL
@@ -28,6 +28,8 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
             }).success(function (response) {
                 console.log(response);
                 $scope.retrieveFunc();
+                var url = session.getSession('userType') + '.editContact';
+                $state.go(url, {}, {reload: true});
             }).error(function (response) {
                 window.alert('Fail to send request!');
             });
