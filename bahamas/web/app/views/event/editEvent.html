@@ -115,6 +115,12 @@ and open the template in the editor.
                                         <input type="checkbox" ng-model="editEvent['send_reminder']"/>
                                     </div>
                                 </div>
+                                <div class="row col-sm-12">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Add Google Maps?&nbsp;<i class="fa fa-question-circle" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i></h4>
+                                        <input type="checkbox" ng-model="showGmap"/>
+                                    </div>
+                                </div>
                                 <div class="col-sm-12">
                                     <h4 class="bold">Explain If Other</h4>
                                     <textarea class="custom-remarks" ng-model="editEvent['explain_if_other']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>

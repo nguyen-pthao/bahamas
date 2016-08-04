@@ -11,7 +11,6 @@ app.controller('viewIndivEvent',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService) {
                 var user = session.getSession('userType');
                 var eventId = $stateParams.eventId;
-                console.log(eventId);
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -28,6 +27,7 @@ app.controller('viewIndivEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
+                        console.log($scope.eventInfo);
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
                         var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
                         if (timeStart.length == 10) {

@@ -20,7 +20,17 @@ app.controller('editEvent',
                 };
 
                 var eventId = localStorageService.get('eventId');
-
+                
+                $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
+                $scope.marker = {coords: {latitude: '', longitude: ''}, id: 1};
+                $scope.searchbox = {template: './style/ngTemplate/searchbox.tpl.html', events: {places_changed: function (searchBox) {
+                            $scope.editEvent['event_lat'] = searchBox.getPlaces()[0].geometry.location.lat();
+                            $scope.editEvent['event_lng'] = searchBox.getPlaces()[0].geometry.location.lng();
+                            $scope.marker = {coords: {latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()}};
+                            $scope.map.zoom = 15;
+                            $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
+                        }}, options: {}};
+                
                 $scope.retrieveEvent = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
@@ -230,10 +240,12 @@ app.controller('editEvent',
                         'send_reminder': $scope.editEvent['send_reminder'],
                         'ignore': false
                     }
-                    console.log($scope.toEditEvent);
+                    if($scope.showGmap == false){
+                        $scope.toEditEvent['event_lat'] = '';
+                        $scope.toEditEvent['event_lng'] = '';
+                    }
                     var url = "/event.updatedetails";
                     dataSubmit.submitData($scope.toEditEvent, url).then(function (response) {
-                        console.log(response);
                         if (response.data.message == "success") {
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/editSuccessful.html',
@@ -295,10 +307,8 @@ app.controller('editEvent',
                             'event_id': eventId,
                             'event_role': $scope.editEvent['event_role']
                         }
-                        console.log($scope.toEditRoles);
                         var url = "/event.updateroles";
                         dataSubmit.submitData($scope.toEditRoles, url).then(function (response) {
-                            console.log(response);
                             if (response.data.message == "success") {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/editSuccessful.html',
@@ -343,10 +353,8 @@ app.controller('editEvent',
                             scope: $scope
                         })
                     } else {
-                        console.log($scope.toEditTeams);
                         var url = "/event.updateteamaffiliation";
                         dataSubmit.submitData($scope.toEditTeams, url).then(function (response) {
-                            console.log(response);
                             if (response.data.message == "success") {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/editSuccessful.html',
