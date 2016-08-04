@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewIndivEvent',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout', 'localStorageService',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService) {
                 var user = session.getSession('userType');
                 var eventId = $stateParams.eventId;
                 console.log(eventId);
@@ -26,7 +26,7 @@ app.controller('viewIndivEvent',
                         'eventId': eventId
                     }
                     var url = '/event.retrieveindiv';
-                    dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
+                    $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
                         var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
@@ -70,5 +70,11 @@ app.controller('viewIndivEvent',
                         }
                     })
                 }
+                
+                $scope.editEvent = function(){
+                    var url = user + '.editEvent';
+                    localStorageService.set('eventId', eventId);
+                    $state.go(url);
+                };
 
             }]);
