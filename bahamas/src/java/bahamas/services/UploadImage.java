@@ -81,7 +81,7 @@ public class UploadImage extends HttpServlet {
                         Files.copy(request.getPart("image").getInputStream(),
                                 new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
                         
-                        String oldImage = ContactDAO.updateImage(username, File.separator + SAVE_DIR + File.separator + uniqueId + ".jpg");
+                        String oldImage = ContactDAO.updateImage(username, "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
                         
                         if(oldImage != null && !oldImage.isEmpty()){
                             Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));          
