@@ -26,7 +26,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
                 headers: {'Content-Type': undefined},
                 data: fd
             }).success(function (response) {
-                console.log(response);
+                session.setSession('contact_pic', response.image);
                 $scope.retrieveFunc();
                 var url = session.getSession('userType') + '.editContact';
                 $state.go(url, {}, {reload: true});
