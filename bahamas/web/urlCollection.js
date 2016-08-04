@@ -54,6 +54,7 @@ var AppAPI = {
     'updateSkill': '/skill.update',
     'updateTeamJoin': '/teamjoin.update',
     'updateUser': '/user.update',
+    'uploadImage': '/image.upload',
 // Username/NRIC Validation API 
     'usernameCheck': '/user.check',
 // Retrieve dropdown list API 

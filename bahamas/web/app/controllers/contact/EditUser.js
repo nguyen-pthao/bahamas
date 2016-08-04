@@ -6,22 +6,42 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', '$uibModal',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, $uibModal) {
+app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', '$http', 'Upload',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, $http, Upload) {
+
+        //Edit profile picture
+        //Upload image uses third-party library and thus require full URL
+
+        $scope.upload = function () {
+            var file = $scope.myFile;
+            var fd = new FormData();
+            fd.append('image', file);
+            fd.append('token', session.getSession('token'));
+            
+            var url = $scope.commonUrl + AppAPI.uploadImage;
+            $http({
+                method: 'POST',
+                url: url,
+                transformRequest: angular.identity,
+                headers: {'Content-Type': undefined},
+                data: fd
+            }).success(function (response) {
+                console.log(response);
+                $scope.retrieveFunc();
+            }).error(function (response) {
+                window.alert('Fail to send request!');
+            });
         
-//EDIT PROFILE PICTURE
-//        $scope.openModal = function () {
-//            var modalInstance = $uibModal.open({
-//                animation: true,
-//                templateUrl: './style/ngTemplate/profilePicture.html',
-//                controller: 'ProfilePicCtrl',
-//                resolve: {
-//                    link: function() {
-//                        return $scope.commonUrl + "/images/" + $scope.username + ".jpg";
-//                    }
+//            Upload.upload({
+//                url: $scope.commonUrl + AppAPI.uploadImage,
+//                data: {
+//                    file: file,
+//                    token: session.getSession('token')
 //                }
+//            }).then(function (response) {
+//                console.log(response);
 //            });
-//        };
+        };
 
 
         //For generating password

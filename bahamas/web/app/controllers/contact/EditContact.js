@@ -70,6 +70,22 @@ app.directive('empty', function () {
 //    };
 //}]);
 
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function () {
+                scope.$apply(function () {
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+
 app.controller('editContact',
         ['$scope', '$state', 'session',
             'loadCountries', 'loadTeamAffiliation', 'loadPaymentMode', 'loadModeOfSendingReceipt',
@@ -286,7 +302,7 @@ app.controller('editContact',
 //DECLARE OBJECTS FOR EDIT CONTACT
                 $scope.editUser = {
                     'username': '',
-                    'profile' : ''
+                    'profile_pic' : ''
                 };
                 $scope.editContact = {};
                 $scope.isUser = true;
@@ -301,7 +317,7 @@ app.controller('editContact',
                                 $scope.editUser.deactivated = contactToEdit.deactivated;
                                 $scope.editUser['is_admin'] = contactToEdit['is_admin'];
                                 $scope.editUser['contact_id'] = contactToEdit['other_cid'];
-                                $scope.editUser.profile = $scope.commonUrl + "/images/" + $scope.username + ".jpg";
+                                $scope.editUser.profile_pic = contactToEdit['profile_pic'];
                             } else {
                                 $scope.isUser = false;
                                 $scope.editUser['username'] = '';
@@ -315,7 +331,10 @@ app.controller('editContact',
                         $scope.editUser['newPassword'] = '';
                         $scope.editUser['confirmPassword'] = '';
                         $scope.editUser['contact_id'] = contactToEdit['cid'];
-                        $scope.editUser.profile = $scope.commonUrl + "/images/" + $scope.username + ".jpg";
+                        $scope.editUser.profile_pic = contactToEdit['profile_pic'];
+                    }
+                    if($scope.editUser.profile_pic == '') {
+                        $scope.editUser.profile_pic = 'images/default.jpg';
                     }
                 };
                 //contact
