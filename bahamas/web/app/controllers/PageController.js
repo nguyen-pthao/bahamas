@@ -83,7 +83,7 @@ app.controller('pageController',
                         $scope.userType = session.getSession('userType');
                         $scope.name = angular.fromJson(session.getSession('contact')).name;
                         $scope.profile_pic = angular.fromJson(session.getSession('contact')).profile_pic;
-                        console.log($scope.profile_pic);
+                        
                         if($scope.profile_pic == '') {
                             $scope.profile_pic = 'images/default.jpg';
                         }
@@ -132,7 +132,6 @@ app.controller('pageController',
                                 window.alert("Fail to send request!");
                             });
                         };
-                        
                     }
                 };
 

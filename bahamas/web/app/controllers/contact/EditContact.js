@@ -332,6 +332,10 @@ app.controller('editContact',
                         $scope.editUser['confirmPassword'] = '';
                         $scope.editUser['contact_id'] = contactToEdit['cid'];
                         $scope.editUser.profile_pic = contactToEdit['profile_pic'];
+                        
+                        var resetContact = angular.fromJson(session.getSession('contact'));
+                        resetContact.profile_pic = contactToEdit['profile_pic'];
+                        session.setSession('contact', angular.toJson(resetContact));
                     }
                     if($scope.editUser.profile_pic == '') {
                         $scope.editUser.profile_pic = 'images/default.jpg';
