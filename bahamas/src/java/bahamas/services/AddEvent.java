@@ -169,7 +169,7 @@ public class AddEvent extends HttpServlet {
                             
                             //check if exist
                             Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus);                         
-                            String errorMsg = EventDAO.eventExist(event);
+                            String errorMsg = EventDAO.eventExist(event,null);
                             
                             if(errorMsg != null && !ignore){
                                 json = new JsonObject();

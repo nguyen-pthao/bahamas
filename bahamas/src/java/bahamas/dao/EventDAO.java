@@ -125,7 +125,7 @@ public class EventDAO {
         return null;
     }
     
-    public static String eventExist(Event event) {
+    public static String eventExist(Event event, String eventId) {
 
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -151,12 +151,20 @@ public class EventDAO {
         
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE FROM EVENT "
-                    + "WHERE EVENT_LOCATION_NAME = (?) AND (DATE(EVENT_START_DATE) <= (?) "
-                    + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) <= (?)) "
-                    + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) >= (?)) "
-                    + "AND DATE(EVENT_END_DATE) <= (?))");
-            //SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE FROM EVENT WHERE EVENT_LOCATION_NAME = ('Alankar') AND (DATE(EVENT_START_DATE) <= ('2016-07-31 00:00:00') AND (DATE(EVENT_END_DATE) >= ('2016-07-31 00:00:00')) OR (DATE(EVENT_START_DATE) <= ('2016-07-31 00:00:00')) AND (DATE(EVENT_END_DATE) >= ('2016-07-31 00:00:00')) OR (DATE(EVENT_START_DATE) >= ('2016-07-31 00:00:00')) AND DATE(EVENT_END_DATE) <= ('2016-07-31 00:00:00'))
+            if(eventId == null){
+                stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE FROM EVENT "
+                        + "WHERE EVENT_LOCATION_NAME = (?) AND (DATE(EVENT_START_DATE) <= (?) "
+                        + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) <= (?)) "
+                        + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) >= (?)) "
+                        + "AND DATE(EVENT_END_DATE) <= (?))");
+            }else{
+                stmt = conn.prepareStatement("SELECT EVENT_TIME_START, EVENT_TIME_END, EVENT_START_DATE, EVENT_END_DATE, EVENT_TITLE FROM EVENT "
+                        + "WHERE EVENT_LOCATION_NAME = (?) AND (DATE(EVENT_START_DATE) <= (?) "
+                        + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) <= (?)) "
+                        + "AND (DATE(EVENT_END_DATE) >= (?)) OR (DATE(EVENT_START_DATE) >= (?)) "
+                        + "AND DATE(EVENT_END_DATE) <= (?)) AND EVENT_ID <> (?)");
+            }
+            
             stmt.setString(1, event.getEventLocationName());
             stmt.setTimestamp(2, new java.sql.Timestamp(eventStartDate.getTime()));
             stmt.setTimestamp(3, new java.sql.Timestamp(eventStartDate.getTime()));
@@ -164,6 +172,10 @@ public class EventDAO {
             stmt.setTimestamp(5, new java.sql.Timestamp(eventEndDate.getTime()));
             stmt.setTimestamp(6, new java.sql.Timestamp(eventStartDate.getTime()));
             stmt.setTimestamp(7, new java.sql.Timestamp(eventEndDate.getTime()));
+            if(eventId != null){
+                stmt.setInt(8, Integer.parseInt(eventId));
+            }
+            
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String strStartTime = rs.getString(1);
