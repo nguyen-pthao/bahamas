@@ -43,6 +43,10 @@ body {
     padding-top: 0px!important;
 }
 
+.padding-bottom {
+    padding-bottom: 15px;
+}
+
 .custom-height-1{
     min-height: 15px;
 }
@@ -429,6 +433,33 @@ div.wrapper > aside.main-sidebar {
     border-top: none;
 }
 
-.profile-modal-container {
+.drop-box {
+    background: #FFF;
+    border: 5px solid #DDD;
+    width: 240px;
+    height: 240px;
+    text-align: center;
+}
     
+.dragover {
+    border: 5px solid rgba(11, 60, 128, 0.75);
+}
+
+.file-upload {
+    padding: 85px 0;
+}
+
+.user-panel > .image > img {
+    height: 45px;
+    width: 45px;
+}
+
+.img-resize {
+    width: 240px;
+    height: 240px;
+}
+
+.img-resize-1 {
+    width: 230px;
+    height: 230px;
 }

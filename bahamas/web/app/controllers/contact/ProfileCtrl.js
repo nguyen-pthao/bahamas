@@ -27,7 +27,7 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
             $scope.contactInfo = response.data.contact;
             //user info
             $scope.username = $scope.contactInfo.username;
-            
+            $scope.profile = $scope.contactInfo.profile_pic;
             //contact info
             $scope.dateCreated = $scope.contactInfo['date_created'];
             $scope.name = $scope.contactInfo['name'];

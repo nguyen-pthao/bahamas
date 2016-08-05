@@ -11,40 +11,40 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
 
         //Edit profile picture
         //Upload image uses third-party library and thus require full URL
-
-        $scope.upload = function () {
-            var file = $scope.myFile;
-            var fd = new FormData();
-            fd.append('image', file);
-            fd.append('token', session.getSession('token'));
+        $scope.fileEmpty = false;
+        $scope.$watch('file', function () {
+            //console.log($scope.file);
+            if (!angular.isUndefined($scope.file)) {
+                $scope.fileEmpty = true;
+            }
             
-            var url = $scope.commonUrl + AppAPI.uploadImage;
-            $http({
-                method: 'POST',
-                url: url,
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined},
-                data: fd
-            }).success(function (response) {
-                session.setSession('contact_pic', response.image);
-                $scope.retrieveFunc();
-                var url = session.getSession('userType') + '.editContact';
-                $state.go(url, {}, {reload: true});
-            }).error(function (response) {
-                window.alert('Fail to send request!');
-            });
+        });
         
-//            Upload.upload({
-//                url: $scope.commonUrl + AppAPI.uploadImage,
-//                data: {
-//                    file: file,
-//                    token: session.getSession('token')
-//                }
-//            }).then(function (response) {
-//                console.log(response);
-//            });
+        var url = $scope.commonUrl + AppAPI.uploadImage;
+        $scope.upload = function(file) {
+            Upload.imageDimensions($scope.file)
+                    .then(function(dimensions){
+                        console.log(dimensions.width, dimensions.height);
+                        Upload.resize($scope.file, 400, 400);
+                    });
+            if(!file.$error) {
+                Upload.upload({
+                    url: url,
+                    data: {
+                        token: session.getSession('token'),
+                        image: file
+                    }
+                }).then(function(response) {
+                    var resetContact = angular.fromJson(session.getSession('contact'));
+                    resetContact.profile_pic = response.data.image;
+                    session.setSession('contact', angular.toJson(resetContact));
+                    $scope.retrieveFunc();
+                    $state.reload();
+                }, function() {
+                    window.alert('Fail to send request!');
+                });
+            }
         };
-
 
         //For generating password
         $scope.generatePassword = function () {

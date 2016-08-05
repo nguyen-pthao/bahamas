@@ -48,6 +48,18 @@ app.directive('empty', function () {
     };
 });
 
+app.directive('onErrorSrc', function() {
+  return {
+    link: function(scope, element, attrs) {
+      element.bind('error', function() {
+        if (attrs.src != attrs.onErrorSrc) {
+          attrs.$set('src', attrs.onErrorSrc);
+        }
+      });
+    }
+  };
+});
+
 app.controller('pageController',
         ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', 'Idle', 'dataSubmit', '$timeout',
             function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout) {
@@ -82,7 +94,7 @@ app.controller('pageController',
                         $scope.username = session.getSession('username');
                         $scope.userType = session.getSession('userType');
                         $scope.name = angular.fromJson(session.getSession('contact')).name;
-                        $scope.profile_pic = session.getSession('contact_pic');
+                        $scope.profile_pic = angular.fromJson(session.getSession('contact')).profile_pic;
                         if($scope.profile_pic == '') {
                             $scope.profile_pic = 'images/default.jpg';
                         }
