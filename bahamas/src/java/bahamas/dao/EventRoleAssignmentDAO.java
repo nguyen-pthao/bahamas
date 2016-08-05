@@ -60,7 +60,7 @@ public class EventRoleAssignmentDAO {
         return false;
     }
     
-        public static ArrayList<EventRoleAssignment> retrieveEventRoleById(int eventID) {
+    public static ArrayList<EventRoleAssignment> retrieveEventRoleById(int eventID) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -118,6 +118,27 @@ public class EventRoleAssignmentDAO {
                     stmt.executeUpdate();
                 }
             }
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
+    public static boolean deleteRoles(int roleId) { 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+           
+            stmt = conn.prepareStatement("DELETE FROM EVENT_ROLE_ASSIGNMENT WHERE ROLE_ID = (?)");
+            stmt.setInt(1, roleId);
+            stmt.executeUpdate();
             return true;
         } catch (SQLException ex) {
             ex.printStackTrace();

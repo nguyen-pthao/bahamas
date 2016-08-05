@@ -138,6 +138,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                     JsonObject roleJson = new JsonObject();
+                                    roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                     roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
                                     roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
                                     eventRoleJsonArray.add(roleJson);

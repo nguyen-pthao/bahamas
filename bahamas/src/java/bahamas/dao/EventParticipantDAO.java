@@ -6,6 +6,7 @@
 package bahamas.dao;
 
 import bahamas.entity.EventParticipant;
+import bahamas.entity.EventRoleAssignment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -125,6 +126,54 @@ public class EventParticipantDAO {
 
         return eventParticipantList;
 
+    }
+    
+    public static boolean deleteParticipantsByRoleId(int eventRoleId) { 
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+           
+            stmt = conn.prepareStatement("DELETE FROM EVENT_PARTICIPANT WHERE ROLE_ID = (?)");
+            stmt.setInt(1, eventRoleId);
+            stmt.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
+    public static boolean roleExist(int roleId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        int count = 0;
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT COUNT(*) FROM EVENT_PARTICIPANT WHERE ROLE_ID = (?)");
+            stmt.setInt(1, roleId);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                count = rs.getInt(1);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT_ROLE_ASSIGNMENT from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        if(count <= 0){
+            return true;
+        }
+        return false;
     }
     
 }
