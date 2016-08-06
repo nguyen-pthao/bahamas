@@ -39,8 +39,8 @@ and open the template in the editor.
                                         <span ng-show="eventForm.eventTitle.$error.maxlength" class='error'>Input for 'Event Title' is too long.</span>
                                         <span ng-show="eventForm.eventTitle.$error.required && eventForm.eventTitle.$touched" class="error">Event Title is required.</span>
                                     </div>
-                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px">
-                                        <div class="col-md-3">
+                                    <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px; margin-bottom:0px;">
+                                        <div class="col-md-3" style="padding:0px;">
                                             <label>Start Date</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon btn" ng-click="openStart()">
@@ -50,7 +50,7 @@ and open the template in the editor.
                                             </div>
                                             <span ng-show="eventForm.eventStartDate.$error.required && eventForm.eventStartDate.$touched" class="error">Event Start Date is required.</span>
                                         </div>
-                                        <div class="col-md-3" style="padding: 0px">
+                                        <div class="col-md-3" style="padding-left:15px;">
                                             <label>Start Time</label><span class="required">*</span>
                                             <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
                                             <span ng-show="eventForm.eventStartTime.$error.required && eventForm.eventStartTime.$touched" class="error">Start Time is required.<br></span>
@@ -73,6 +73,11 @@ and open the template in the editor.
                                             <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.<br></span>
                                             <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventEndTime.$touched" class="error">End Time cannot be before Start Time.</span>-->
                                         </div>
+                                    </div>
+                                    <div class="col-md-12" style="padding:0px; margin-bottom: 10px;">
+                                        <label>Send Reminder</label>
+                                        &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
+                                        &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
                                     </div>
                                     <div>
                                         <label>Event Description</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Tell them what the event is about!" popover-trigger="mouseenter"></i>
@@ -115,9 +120,10 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12" style="padding:0px;">
                                         <div class="col-md-8" style="padding:0px;">
-                                            <label>Address</label>
-                                            <input type="text" class="form-control" ng-model="newEvent['address']" ng-maxlength="1000" name="address">
+                                            <label>Address</label><span class="required">*</span>
+                                            <input type="text" class="form-control" ng-required="true" ng-model="newEvent['address']" ng-maxlength="1000" name="address">
                                             <span ng-show="eventForm.address.$error.maxlength" class='error'>Input for 'Address' is too long.</span>
+                                            <span ng-show="eventForm.address.$error.required && eventForm.address.$touched" class='error'>Input for 'Address' is required.</span>
                                         </div>
                                         <div class="col-md-offset-1 col-md-3" style="padding:0px;">
                                             <label>Zipcode</label>
@@ -137,23 +143,16 @@ and open the template in the editor.
                                     </ui-gmap-google-map>
                                 </div>
                                 <div class="box-footer">
-                                    <div class="col-md-12">
-                                        <div class="col-md-6">
-                                            <button class="pull-right btn btn-primary" type="submit" ng-click="createEvent()" 
-                                                    ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid
-                                                                        || eventForm.eventStartDate.$error.required || eventForm.eventEndDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
-                                                                        || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required || eventForm.eventStatus.$error.required
-                                                                        || eventForm.address.$error.maxlength || eventForm.zipcode.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
-                                                    >
-                                                Save and proceed
-                                            </button>
-                                        </div>
-                                        <div class="col-md-6" style="margin-top: 5px">
-                                            <label>Send Reminder</label>
-                                            &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
-                                            &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
-                                        </div>
-                                    </div>
+                                    <center>
+                                        <button class="btn btn-primary" type="submit" ng-click="createEvent()" 
+                                                ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid || eventForm.address.$error.required
+                                                                || eventForm.eventStartDate.$error.required || eventForm.eventEndDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
+                                                                || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required || eventForm.eventStatus.$error.required
+                                                                || eventForm.address.$error.maxlength || eventForm.zipcode.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
+                                                >
+                                            Save and proceed
+                                        </button>
+                                    </center>
                                 </div>
                             </form>
                         </div>
