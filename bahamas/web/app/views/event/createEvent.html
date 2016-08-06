@@ -97,7 +97,7 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Event Location</label><span class="required">*</span>
                                             <div ng-init="loadEventLocationList()">
-                                                <select ng-required="true" name="eventLocation" class="form-control" ng-model="newEvent['event_location']" ng-change="locationChange()">
+                                                <select ng-required="true" name="eventLocation" class="form-control" ng-model="newEvent['event_location']" ng-change="locationChange(newEvent['event_location'])">
                                                     <option ng-repeat="eventLocation in eventLocationList">{{eventLocation.eventLocation}}</option>
                                                 </select>     
                                             </div>

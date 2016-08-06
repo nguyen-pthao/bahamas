@@ -135,8 +135,13 @@ app.controller('createEvent',
                 //--end of settings for google maps--
                 
                 //location change function to populate address and zipcode
-                $scope.locationChange = function(){
-                    console.log("helloe");
+                $scope.locationChange = function(location){
+                    angular.forEach($scope.eventLocationList, function(value, key){
+                        if(value.eventLocation==location){
+                           $scope.newEvent['address'] = value.address;
+                           $scope.newEvent['zipcode'] = value.zipcode;
+                        }
+                    })
                 };
                 //--end of location change function--
                 
