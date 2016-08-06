@@ -10,6 +10,7 @@ import bahamas.dao.MembershipDAO;
 import bahamas.entity.Membership;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -94,13 +95,17 @@ public class UpdateListDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("TRUNCATE EVENT_LOCATION_LIST");
             stmt.executeUpdate();
-            stmt = conn.prepareStatement("INSERT INTO EVENT_LOCATION_LIST (EVENT_LOCATION_NAME, POSITION_NUMBER) VALUES (?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO EVENT_LOCATION_LIST (EVENT_LOCATION_NAME, ADDRESS, ZIPCODE, POSITION_NUMBER) VALUES (?, ?, ?, ?)");
            
             for(int i =0; i < list.size(); i++){
-                JsonElement nameElement = list.get(i);
-                String name = nameElement.getAsString();
-                stmt.setString(1, name);
-                stmt.setInt(2, i+1);
+                JsonObject eventLocationListJObj = list.get(i).getAsJsonObject();
+                String location = eventLocationListJObj.get("location").getAsString();
+                String address = eventLocationListJObj.get("address").getAsString();
+                String zipcode = eventLocationListJObj.get("zipcode").getAsString();
+                stmt.setString(1, location);
+                stmt.setString(2, address);
+                stmt.setString(3, zipcode);
+                stmt.setInt(4, i+1);
                 stmt.executeUpdate();
             }
             
