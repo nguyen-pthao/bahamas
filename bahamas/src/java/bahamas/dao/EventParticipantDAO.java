@@ -74,7 +74,7 @@ public class EventParticipantDAO {
 
     }
     
-    public static ArrayList<EventParticipant> retrieveEventParticipantbyID(int eventID) {
+    public static ArrayList<EventParticipant> retrieveEventParticipantbyEventID(int eventID) {
         ArrayList<EventParticipant> eventParticipantList = new ArrayList<EventParticipant>();
         Connection conn = null;
         PreparedStatement stmt = null;

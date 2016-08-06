@@ -102,7 +102,7 @@ public class DeleteEvent extends HttpServlet {
                             return;
                         }
                         
-                        ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyID(Integer.parseInt(eventId));
+                        ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));
                         if(eventParticipantList == null || eventParticipantList.isEmpty()){
                             
                             if (EventDAO.deleteEvent(Integer.parseInt(eventId))) {
