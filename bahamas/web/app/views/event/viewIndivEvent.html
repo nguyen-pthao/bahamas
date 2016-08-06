@@ -81,10 +81,16 @@ and open the template in the editor.
                             </div>
                             <div class="row col-sm-12">
                                 <div class="col-sm-6">
-                                    <h4 class="bold">Explain If Other</h4>
-                                    <div class="custom-height-1">{{eventInfo.explain_if_other}}</div>
+                                    <h4 class="bold">Address</h4>
+                                    <div class="custom-height-1">{{eventInfo.address}}</div>
                                 </div>
                                 <div class="col-sm-6">
+                                    <h4 class="bold">Zipcode</h4>
+                                    <div class="custom-height-1">{{eventInfo.zipcode}}</div>
+                                </div>
+                            </div>
+                            <div class="row col-sm-12">
+                                <div class="col-sm-12">
                                     <h4 class="bold">Description</h4>
                                     <div class="custom-height-1">{{eventInfo.event_description}}</div>
                                 </div>
@@ -118,10 +124,10 @@ and open the template in the editor.
                                             <td>{{role['event_role']}}</td>
                                             <td>{{role['event_desc']}}</td>
                                             <td><center>
-                                                <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
-                                                    &nbsp;<span ng-if='eventInfo["canDelete"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteRole($event, role)"><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
+                                        <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click="joinRole($event, role)"><i class="fa fa-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
+                                        &nbsp;<span ng-if='eventInfo["canDelete"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteRole($event, role)"><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
                                     </center></td>
-                                        </tr>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>

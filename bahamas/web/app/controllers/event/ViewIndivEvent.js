@@ -27,7 +27,6 @@ app.controller('viewIndivEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
-                        console.log($scope.eventInfo);
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
                         var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
                         if (timeStart.length == 10) {
@@ -70,46 +69,83 @@ app.controller('viewIndivEvent',
                         }
                     })
                 }
-                
-                $scope.editEvent = function(){
+
+                $scope.editEvent = function () {
                     var url = user + '.editEvent';
                     localStorageService.set('eventId', eventId);
                     $state.go(url);
                 };
-                
-                $scope.deleteRole = function($event, role){
-                    $scope.toDelete = {
-                        'token': session.getSession('token'),
-                        'event_id': eventId,
-                        'event_role_id': role['event_role_id'],
-                        'ignore': false
-                    }
-                    var url = '/event.deleterole';
-                    deleteService.deleteDataService($scope.toDelete, url).then(function(response){
-                        if(response.data.message=='success'){
-                             ngDialog.openConfirm({
-                                template: './style/ngTemplate/deleteSuccess.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            })
-                        }else if(response.data.message=='Has participants'){
-                            $scope.errorMessages = response.data.errorMsg;
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/addEventConflict.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            }).then(function (response) {
-                                $scope.toDelete.ignore = true;
-                                deleteService.deleteDataService($scope.toDelete, url).then(function (response) {
+
+                $scope.joinRole = function ($event, role) {
+                    $scope.roleName = role['event_role'];
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/joinRolePrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function (response) {
+                        $scope.toJoin = {
+                            'token': session.getSession('token'),
+                            'event_id': eventId,
+                            'event_role_id': role['event_role_id']
+                        };
+                        var urlToJoin = '/event.join';
+                        dataSubmit.submitData($scope.toJoin, urlToJoin).then(function (response) {
+                            if (response.data.message == "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/joinRoleSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
                                     var current = user + '.viewIndivEvent';
-                                    if (response.data.message == 'success') {
-                                        $state.go(current, {eventId: eventId}, {reload: true}); 
-                                    }
-                                });
-                            });
-                        }else{
-                            window.alert("Unable to establish connection");
+                                    $state.go(current, {eventId: eventId}, {reload: true});
+                                })
+                            }
+                        })
+                    })
+                };
+
+                $scope.deleteRole = function ($event, role) {
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/deletePrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function (response) {
+                        $scope.toDelete = {
+                            'token': session.getSession('token'),
+                            'event_id': eventId,
+                            'event_role_id': role['event_role_id'],
+                            'ignore': false
                         }
+                        var url = '/event.deleterole';
+                        deleteService.deleteDataService($scope.toDelete, url).then(function (response) {
+                            if (response.data.message == 'success') {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/deleteSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    var current = user + '.viewIndivEvent';
+                                    $state.go(current, {eventId: eventId}, {reload: true});
+                                })
+                            } else if (response.data.message == 'Has participants') {
+                                $scope.errorMessages = response.data.errorMsg;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/addEventConflict.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $scope.toDelete.ignore = true;
+                                    deleteService.deleteDataService($scope.toDelete, url).then(function (response) {
+                                        var current = user + '.viewIndivEvent';
+                                        if (response.data.message == 'success') {
+                                            $state.go(current, {eventId: eventId}, {reload: true});
+                                        }
+                                    });
+                                });
+                            } else {
+                                window.alert("Unable to establish connection");
+                            }
+                        })
                     })
                 }
 
