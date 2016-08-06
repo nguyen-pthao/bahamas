@@ -78,8 +78,8 @@ public class AddEventParticipant extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String eventId = Validator.containsBlankField(jobject.get("eventId"));
-                String roleId = Validator.containsBlankField(jobject.get("roleId"));
+                String eventId = Validator.containsBlankField(jobject.get("event_id"));
+                String roleId = Validator.containsBlankField(jobject.get("event_role_id"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
