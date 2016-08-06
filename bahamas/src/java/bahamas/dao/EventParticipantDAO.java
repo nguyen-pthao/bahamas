@@ -170,7 +170,7 @@ public class EventParticipantDAO {
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        if(count <= 0){
+        if(count > 0){
             return true;
         }
         return false;
