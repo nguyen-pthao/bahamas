@@ -63,11 +63,6 @@ app.controller('createEventAffiliation',
                 $scope.selectedTeamsCopy = {
                 };
 
-                $scope.others = {
-                    'others': false,
-                    'explain_if_others': ''
-                };
-
                 $scope.toSubmit = {
                     'token': session.getSession('token'),
                     'event_id': eventId,
@@ -94,11 +89,6 @@ app.controller('createEventAffiliation',
                             $scope.toSubmit['teams'].push($scope.teamAffiliationList[key].teamAffiliation);
                         }
                     });
-                    if ($scope.others['others'] == true) {
-                        hasSelected = true;
-                        $scope.toSubmit['teams'].push('Other');
-                        $scope.toSubmit['explain_if_others'] = $scope.others['explain_if_others'];
-                    }
                     if (hasSelected == false) {
                         $scope.errorMessages = ["Please select at least one Team."];
                         ngDialog.openConfirm({

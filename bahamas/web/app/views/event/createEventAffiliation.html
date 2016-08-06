@@ -69,17 +69,13 @@ and open the template in the editor.
                                                 <div ng-repeat="team in teamAffiliationList track by $index">
                                                     <input type="checkbox" ng-model="selectedTeams[$index]"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
                                                 </div>
-                                                <div>
-                                                    <input type="checkbox" ng-model="others['others']"/><span style="margin-left: 10px;">Other</span>
-                                                </div>
                                             </div>
                                         </div>
                                         <div class="col-md-9">
                                             <div>
                                                 <label>Explain if Other</label>
-                                                <textarea class="custom-remarks" ng-model="others['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                                <textarea class="custom-remarks" ng-model="toSubmit['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
                                                 <span ng-show="addTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span><br>
-                                                <span ng-show="others['others'] == false && others['explain_if_others'] != ''" class='error'>You did not select 'Other'!</span>
                                             </div>
                                             <div>
                                                 <label>Remarks</label>
@@ -92,7 +88,7 @@ and open the template in the editor.
                                 <div class="box-footer">
                                     <center>
                                         <button type="submit" ng-click="submit()"
-                                                ng-disabled="addTeamAffiliationForm.remarks.$error.maxlength || (others['others'] == false && others['explain_if_others'] != '')
+                                                ng-disabled="addTeamAffiliationForm.remarks.$error.maxlength
                                                             || addTeamAffiliationForm.explainIfOthers.$error.maxlength"
                                                 class="btn btn-primary">
                                             Done
