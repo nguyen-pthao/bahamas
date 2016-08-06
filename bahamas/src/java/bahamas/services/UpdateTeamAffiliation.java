@@ -130,11 +130,8 @@ public class UpdateTeamAffiliation extends HttpServlet {
                             json.addProperty("message", "Fail retrieve event");
                             out.println(gson.toJson(json));
                         }
-                    }
-                    
+                    }   
                 }
-                
-                
             }
         }
     }

@@ -145,7 +145,6 @@ public class UpdateTeamJoin extends HttpServlet {
                             if (permission != null) {
                                 ContactDAO.changeNovicePermission(c, false);
                                 AuditLogDAO.insertAuditLog(username, "UPDATE TEAM JOIN", "Update team join under contact: Contact ID: " + contactId);
-                            
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;

@@ -110,8 +110,9 @@ public class DeleteEventRoles extends HttpServlet {
                                 out.println(gson.toJson(json));
                                 return;
                             }
+                            EventRoleAssignment eventRoleAssignment = EventRoleAssignmentDAO.retrieveEventRoleByRoleId(Integer.parseInt(eventRoleId));
                             if (EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))) {
-                                AuditLogDAO.insertAuditLog(username, "DELETE ROLE", "Delete role under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role: " + EventRoleAssignmentDAO.retrieveEventRoleByRoleId(Integer.parseInt(eventRoleId)));
+                                AuditLogDAO.insertAuditLog(username, "DELETE ROLE", "Delete role under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role: " + eventRoleAssignment.getRoleName());
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                             } else {
