@@ -37,8 +37,12 @@ app.controller('globalSettings',
                         $scope.myPromise = loadEventLocation.retrieveEventLocation().then(function (response) {
                             $rootScope.list = [];
                             angular.forEach(response.data.eventLocationList, function (value, key) {
-                                var value1 = value.eventLocation;
-                                $rootScope.list.push(value1);
+                                var obj = {
+                                    'location': value.eventLocation,
+                                    'address': value.address,
+                                    'zipcode': value.zipcode
+                                }
+                                $rootScope.list.push(obj);
                             })
                         });
                     } else if ($scope.selectedList == 4) {
@@ -140,6 +144,7 @@ app.controller('globalSettings',
                         $scope.listToSend['token'] = session.getSession('token');
                         $scope.listToSend['list'] = $rootScope.list;
                         $scope.listToSend['selectedList'] = $scope.selectedList;
+                        console.log($scope.listToSend);
                         //call api to update list in DB. and upon success prompt update success.
                         $http({
                             method: 'POST',

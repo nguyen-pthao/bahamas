@@ -133,7 +133,13 @@ app.controller('createEvent',
                             $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
                         }}, options: {}};
                 //--end of settings for google maps--
-
+                
+                //location change function to populate address and zipcode
+                $scope.locationChange = function(){
+                    console.log("helloe");
+                };
+                //--end of location change function--
+                
                 $scope.createEvent = function () {
                     if ($scope.newEvent['event_start_date'] == null) {
                         $scope.newEvent['event_start_date'] = ''
