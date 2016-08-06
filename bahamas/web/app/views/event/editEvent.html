@@ -225,28 +225,24 @@ and open the template in the editor.
                                                 <div ng-repeat="team in selectedTeams track by $index">
                                                     <input type="checkbox" ng-model="team['selected']"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
                                                 </div>
-                                                <div>
-                                                    <input type="checkbox" ng-model="otherTeam['selected']"/><span style="margin-left: 10px;">Other</span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class='col-sm-12'>
                                         <h4 class="bold">Explain If 'Other'</h4>
-                                        <textarea class="custom-remarks" ng-model="otherTeam['explain_if_other_team']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea class="custom-remarks" ng-model="affiliation['explain_if_other']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
                                         <span ng-show="editTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span><br>
-                                        <span ng-show="otherTeam['selected'] == false && otherTeam['explain_if_other_team'] != ''" class='error'>You did not select 'Other'!</span>
                                     </div>
                                     <div class="col-sm-12">
                                         <h4 class="bold">Remarks</h4>
-                                        <textarea class="custom-remarks" ng-model="otherTeam['remarks']" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+                                        <textarea class="custom-remarks" ng-model="affiliation['remarks']" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
                                         <span ng-show="editTeamAffiliationForm.remarks.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>
                                     </div>
                                 </div>
                                 <div class="box-footer">
                                     <center>
                                         <button type="submit" ng-click="submitEditTeams()"
-                                                ng-disabled="editTeamAffiliationForm.explainIfOthers.$error.maxlength || (otherTeam['selected'] == false && otherTeam['explain_if_other_team'] != '')
+                                                ng-disabled="editTeamAffiliationForm.explainIfOthers.$error.maxlength
                                                 || editTeamAffiliationForm.remarks.$error.maxlength"
                                                 class="btn btn-link uppercase bold">
                                             Save Changes

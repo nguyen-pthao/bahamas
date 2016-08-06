@@ -20,7 +20,7 @@ app.controller('editEvent',
                 };
 
                 var eventId = localStorageService.get('eventId');
-                
+
                 $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
                 $scope.marker = {coords: {latitude: '', longitude: ''}, id: 1};
                 $scope.searchbox = {template: './style/ngTemplate/searchbox.tpl.html', events: {places_changed: function (searchBox) {
@@ -30,7 +30,7 @@ app.controller('editEvent',
                             $scope.map.zoom = 15;
                             $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
                         }}, options: {}};
-                
+
                 $scope.retrieveEvent = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
@@ -39,6 +39,7 @@ app.controller('editEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
+                        console.log($scope.eventInfo);
                         $scope.editEvent = angular.copy($scope.eventInfo);
                         $scope.editEvent['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
                         $scope.editEvent['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
@@ -77,12 +78,6 @@ app.controller('editEvent',
                         //for the team
                         loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                             $scope.teamAffiliationList = response.data.teamAffiliationList;
-//                        var other;
-//                        for (var obj in $scope.teamAffiliationList) {
-//                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
-//                                other = $scope.teamAffiliationList.splice(obj, 1);
-//                            }
-//                        }
                             $scope.selectedTeams = [];
                             $scope.teamAffiliationList.forEach(function (teamObj) {
                                 $scope.selectedTeams.push({
@@ -90,40 +85,13 @@ app.controller('editEvent',
                                     'selected': false
                                 })
                             });
-                            if (angular.equals({}, $scope.eventInfo['event_team_affiliation'])) {
-
-                            } else {
-                                var otherTeamExplain = $scope.eventInfo['event_team_affiliation']['explain_if_other'];
-                                $scope.otherTeam = {
-                                    'selected': false,
-                                    'explain_if_other_team': otherTeamExplain,
-                                    'remarks': $scope.eventInfo['event_team_affiliation']['remarks']
-                                };
-                            }
-                            if (angular.isUndefined($scope.eventInfo['event_team_affiliation']['explain_if_other'])) {
-                                $scope.otherTeam = {
-                                    'selected': false,
-                                    'explain_if_other_team': '',
-                                    'remarks': ''
-                                }
-                            } else {
-                                var otherTeamExplain = $scope.eventInfo['event_team_affiliation']['explain_if_other'];
-                                $scope.otherTeam = {
-                                    'selected': false,
-                                    'explain_if_other_team': otherTeamExplain,
-                                    'remarks': $scope.eventInfo['event_team_affiliation']['remarks']
-                                };
-                                $scope.eventInfo['event_team_affiliation']['teams_affiliated'].forEach(function (name) {
-                                    if (name == 'Other') {
-                                        $scope.otherTeam['selected'] = true;
+                            $scope.eventInfo['event_team_affiliation']['teams_affiliated'].forEach(function (name) {
+                                $scope.selectedTeams.forEach(function (team) {
+                                    if (name == team.teamAffiliation) {
+                                        team.selected = true;
                                     }
-                                    $scope.selectedTeams.forEach(function (team) {
-                                        if (name == team.teamAffiliation) {
-                                            team.selected = true;
-                                        }
-                                    });
                                 });
-                            }
+                            });
                         });
                     })
 
@@ -241,7 +209,7 @@ app.controller('editEvent',
                         'send_reminder': $scope.editEvent['send_reminder'],
                         'ignore': false
                     }
-                    if($scope.showGmap == false){
+                    if ($scope.showGmap == false) {
                         $scope.toEditEvent['event_lat'] = '';
                         $scope.toEditEvent['event_lng'] = '';
                     }
@@ -342,11 +310,8 @@ app.controller('editEvent',
                             $scope.toEditTeams.teams.push(tObj.teamAffiliation);
                         }
                     });
-                    if ($scope.otherTeam.selected == true) {
-                        $scope.toEditTeams.teams.push('Other');
-                        $scope.toEditTeams['explain_if_other'] = $scope.otherTeam['explain_if_other_team'];
-                    }
-                    $scope.toEditTeams.remarks = $scope.otherTeam['remarks'];
+                    $scope.toEditTeams['explain_if_other'] = $scope.affiliation['explain_if_other'];
+                    $scope.toEditTeams['remarks'] = $scope.affiliation['remarks'];
                     if ($scope.toEditTeams.teams.length == 0) {
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/addEventAffiliationAtLeastOne.html',
