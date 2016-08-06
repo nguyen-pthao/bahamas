@@ -20,7 +20,8 @@ public class Event {
     private Date eventStartTime;
     private Date eventEndTime;
     private String eventTitle;
-    private String explainIfOthers;
+    private String address;
+    private String zipcode;
     private String eventDescription;
     private int minimumParticipation;
     private boolean sendReminder;
@@ -37,13 +38,14 @@ public class Event {
     private boolean workerRelated;
     private ArrayList<Notice> noticeList;
 
-    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String eventStatus) {
+    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String eventStatus) {
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
-        this.explainIfOthers = explainIfOthers;
+        this.address = address;
+        this.zipcode = zipcode;
         this.eventDescription = eventDescription;
         this.minimumParticipation = minimumParticipation;
         this.sendReminder = sendReminder;
@@ -55,13 +57,14 @@ public class Event {
         this.eventStatus = eventStatus;
     }
     
-    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus) {
+    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus) {
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
-        this.explainIfOthers = explainIfOthers;
+        this.address = address;
+        this.zipcode = zipcode;
         this.eventDescription = eventDescription;
         this.minimumParticipation = minimumParticipation;
         this.sendReminder = sendReminder;
@@ -71,14 +74,15 @@ public class Event {
         this.eventLng = eventLng;
         this.eventStatus = eventStatus;
     }
-    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus) {
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus) {
         this.eventId = eventId;
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
-        this.explainIfOthers = explainIfOthers;
+        this.address = address;
+        this.zipcode = zipcode;
         this.eventDescription = eventDescription;
         this.minimumParticipation = minimumParticipation;
         this.sendReminder = sendReminder;
@@ -89,14 +93,15 @@ public class Event {
         this.eventStatus = eventStatus;
     }
 
-    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String explainIfOthers, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus) {
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus) {
         this.eventId = eventId;
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
         this.eventStartTime = eventStartTime;
         this.eventEndTime = eventEndTime;
         this.eventTitle = eventTitle;
-        this.explainIfOthers = explainIfOthers;
+        this.address = address;
+        this.zipcode = zipcode;
         this.eventDescription = eventDescription;
         this.minimumParticipation = minimumParticipation;
         this.sendReminder = sendReminder;
@@ -165,12 +170,20 @@ public class Event {
         this.eventTitle = eventTitle;
     }
 
-    public String getExplainIfOthers() {
-        return explainIfOthers;
+    public String getAddress() {
+        return address;
     }
 
-    public void setExplainIfOthers(String explainIfOthers) {
-        this.explainIfOthers = explainIfOthers;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getZipcode() {
+        return zipcode;
+    }
+
+    public void setZipcode(String zipcode) {
+        this.zipcode = zipcode;
     }
 
     public String getEventDescription() {

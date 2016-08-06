@@ -94,7 +94,8 @@ public class UpdateEventDetails extends HttpServlet {
                 String minimumParticipation = jobject.get("minimum_participation").getAsString();
                 String eventClass = Validator.containsBlankField(jobject.get("event_class"));
                 String eventLocation = jobject.get("event_location").getAsString();
-                String explainIfOthers = jobject.get("explain_if_other").getAsString();
+                String address = jobject.get("address").getAsString();
+                String zipcode = jobject.get("zipcode").getAsString();
                 String eventLat = jobject.get("event_lat").getAsString();
                 String eventLng = jobject.get("event_lng").getAsString();
                 String username = Authenticator.verifyToken(token);
@@ -171,7 +172,7 @@ public class UpdateEventDetails extends HttpServlet {
                         if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader") ){
                             
                             //check if exist
-                            Event event = new Event(Integer.parseInt(eventId), eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus);                         
+                            Event event = new Event(Integer.parseInt(eventId), eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus);                         
                             String errorMsg = EventDAO.eventExist(event,eventId);
                             
                             if(errorMsg != null && !ignore){

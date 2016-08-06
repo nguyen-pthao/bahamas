@@ -128,7 +128,8 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
                             json.addProperty("event_class", event.getEventClassName());
                             json.addProperty("event_location", event.getEventLocationName());
-                            json.addProperty("explain_if_other", event.getExplainIfOthers());
+                            json.addProperty("address", event.getAddress());
+                            json.addProperty("zipcode", event.getZipcode());
                             json.addProperty("event_status", event.getEventStatus());
                             json.addProperty("event_lat", event.getEventLat());
                             json.addProperty("event_lng", event.getEventLng());
