@@ -6,6 +6,7 @@
 package bahamas.dao.list;
 
 import bahamas.dao.ConnectionManager;
+import bahamas.entity.EventLocation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,27 +21,36 @@ import java.util.logging.Logger;
  */
 public class EventLocationListDAO {
     
-    private ArrayList<String> eventLocationList;
+    private ArrayList<EventLocation> eventLocationList;
     
 
     public EventLocationListDAO() {
     }
     
-    public ArrayList<String> retrieveEventLocationList() {
+    public ArrayList<EventLocation> retrieveEventLocationList() {
         
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
-        eventLocationList = new ArrayList<String>();
+        eventLocationList = new ArrayList<EventLocation>();
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT * FROM EVENT_LOCATION_LIST ORDER BY POSITION_NUMBER ASC");
+            stmt = conn.prepareStatement("SELECT EVENT_LOCATION_NAME, ADDRESS, ZIPCODE FROM EVENT_LOCATION_LIST ORDER BY POSITION_NUMBER ASC");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
-                eventLocationList.add(rs.getString(1));
+                String eventLocationName = rs.getString(1);
+                String address = rs.getString(2);
+                String zipcode = rs.getString(3);
+                if(address == null){
+                    address = "";
+                }
+                if(zipcode == null){
+                    zipcode = "";
+                }
+                eventLocationList.add(new EventLocation(eventLocationName,address,zipcode));
             }
 
         } catch (SQLException ex) {

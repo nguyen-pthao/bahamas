@@ -36,7 +36,7 @@ public class EventDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO EVENT (CREATED_BY, DATE_CREATED, "
-                    + "EVENT_TITLE, EXPLAIN_IF_OTHER, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, "
+                    + "EVENT_TITLE, ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, "
                     + "EVENT_TIME_END, SEND_REMINDER, EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, "
                     + "EVENT_CLASS_NAME, EVENT_LOCATION_NAME, EVENT_STATUS, EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE) "
                     + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
@@ -45,19 +45,20 @@ public class EventDAO {
             stmt.setString(1, createdBy);
             stmt.setTimestamp(2, new java.sql.Timestamp(event.getDateCreated().getTime()));
             stmt.setString(3, event.getEventTitle());
-            stmt.setString(4, event.getExplainIfOthers());
-            stmt.setTimestamp(5, new java.sql.Timestamp(event.getEventStartDate().getTime()));
-            stmt.setTimestamp(6, new java.sql.Timestamp(event.getEventEndDate().getTime()));
-            stmt.setTimestamp(7, new java.sql.Timestamp(event.getEventStartTime().getTime()));
-            stmt.setTimestamp(8, new java.sql.Timestamp(event.getEventEndTime().getTime()));
-            stmt.setBoolean(9, event.isSendReminder());
-            stmt.setString(10, event.getEventDescription());
-            stmt.setInt(11, event.getMinimumParticipation());
-            stmt.setString(12, event.getEventClassName());
-            stmt.setString(13, event.getEventLocationName());
-            stmt.setString(14, event.getEventStatus());
-            stmt.setString(15, event.getEventLng());
-            stmt.setString(16, event.getEventLat());
+            stmt.setString(4, event.getAddress());
+            stmt.setString(5, event.getZipcode());
+            stmt.setTimestamp(6, new java.sql.Timestamp(event.getEventStartDate().getTime()));
+            stmt.setTimestamp(7, new java.sql.Timestamp(event.getEventEndDate().getTime()));
+            stmt.setTimestamp(8, new java.sql.Timestamp(event.getEventStartTime().getTime()));
+            stmt.setTimestamp(9, new java.sql.Timestamp(event.getEventEndTime().getTime()));
+            stmt.setBoolean(10, event.isSendReminder());
+            stmt.setString(11, event.getEventDescription());
+            stmt.setInt(12, event.getMinimumParticipation());
+            stmt.setString(13, event.getEventClassName());
+            stmt.setString(14, event.getEventLocationName());
+            stmt.setString(15, event.getEventStatus());
+            stmt.setString(16, event.getEventLng());
+            stmt.setString(17, event.getEventLat());
 
             stmt.executeUpdate();
             rs = stmt.getGeneratedKeys();
@@ -82,7 +83,7 @@ public class EventDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
-                    + "EXPLAIN_IF_OTHER, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
+                    + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                     + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                     + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_STATUS FROM EVENT WHERE EVENT_ID = (?)");
             stmt.setInt(1, eventID);
@@ -93,24 +94,25 @@ public class EventDAO {
                 String dateStr1 = rs.getString(2);
                 Date dateCreated = datetime.parse(dateStr1);
                 String eventTitle = rs.getString(3);
-                String explainIfOthers = rs.getString(4);
-                String dateStr2 = rs.getString(5);
+                String address = rs.getString(4);
+                String zipcode = rs.getString(5);
+                String dateStr2 = rs.getString(6);
                 Date eventStartDate = datetime.parse(dateStr2);
-                String dateStr3 = rs.getString(6);
+                String dateStr3 = rs.getString(7);
                 Date eventEndDate = datetime.parse(dateStr3);
-                String dateStr4 = rs.getString(7);
+                String dateStr4 = rs.getString(8);
                 Date eventTimeStart = datetime.parse(dateStr4);
-                String dateStr5 = rs.getString(8);
+                String dateStr5 = rs.getString(9);
                 Date eventTimeEnd = datetime.parse(dateStr5);
-                boolean sendReminder = rs.getBoolean(9);
-                String eventDescription = rs.getString(10);
-                int minimumParticipation = rs.getInt(11);
-                String eventClassName = rs.getString(12);
-                String eventLocationName = rs.getString(13);
-                String eventLng = rs.getString(14);
-                String eventLat = rs.getString(15);
-                String eventStatus = rs.getString(16);
-                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
+                boolean sendReminder = rs.getBoolean(10);
+                String eventDescription = rs.getString(11);
+                int minimumParticipation = rs.getInt(12);
+                String eventClassName = rs.getString(13);
+                String eventLocationName = rs.getString(14);
+                String eventLng = rs.getString(15);
+                String eventLat = rs.getString(16);
+                String eventStatus = rs.getString(17);
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
                 return event;
                         
             }
@@ -236,7 +238,7 @@ public class EventDAO {
             eventList = new ArrayList<Event>();
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
-                    + "EXPLAIN_IF_OTHER, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
+                    + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                     + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                     + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID, EVENT_STATUS FROM EVENT");
 
@@ -246,27 +248,27 @@ public class EventDAO {
                 String dateStr1 = rs.getString(2);
                 Date dateCreated = datetime.parse(dateStr1);
                 String eventTitle = rs.getString(3);
-                String explainIfOthers = rs.getString(4);
-                
-                String dateStr2 = rs.getString(5);
+                String address = rs.getString(4);
+                String zipcode = rs.getString(5);
+                String dateStr2 = rs.getString(6);
                 Date eventStartDate = datetime.parse(dateStr2);
-                String dateStr3 = rs.getString(6);
+                String dateStr3 = rs.getString(7);
                 Date eventEndDate = datetime.parse(dateStr3);
                 
-                String dateStr4 = rs.getString(7);
+                String dateStr4 = rs.getString(8);
                 Date eventTimeStart = datetime.parse(dateStr4);
-                String dateStr5 = rs.getString(8);
+                String dateStr5 = rs.getString(9);
                 Date eventTimeEnd = datetime.parse(dateStr5);
-                boolean sendReminder = rs.getBoolean(9);
-                String eventDescription = rs.getString(10);
-                int minimumParticipation = rs.getInt(11);
-                String eventClassName = rs.getString(12);
-                String eventLocationName = rs.getString(13);
-                String eventLng = rs.getString(14);
-                String eventLat = rs.getString(15);
-                int eventID = rs.getInt(16);
-                String eventStatus = rs.getString(17);
-                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, explainIfOthers, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
+                boolean sendReminder = rs.getBoolean(10);
+                String eventDescription = rs.getString(11);
+                int minimumParticipation = rs.getInt(12);
+                String eventClassName = rs.getString(13);
+                String eventLocationName = rs.getString(14);
+                String eventLng = rs.getString(15);
+                String eventLat = rs.getString(16);
+                int eventID = rs.getInt(17);
+                String eventStatus = rs.getString(18);
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
                 eventList.add(event);      
             }
         } catch (ParseException ex) {
@@ -317,7 +319,7 @@ public class EventDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE EVENT SET EVENT_TITLE = ?, EXPLAIN_IF_OTHER = ?, "
+            stmt = conn.prepareStatement("UPDATE EVENT SET EVENT_TITLE = ?, ADDRESS = ?, ZIPCODE = ?, "
                     + "EVENT_START_DATE = ?, EVENT_END_DATE = ?, "
                     + "EVENT_TIME_START = ?, EVENT_TIME_END = ?, "
                     + "SEND_REMINDER = ?, EVENT_DESCRIPTION = ?, MINIMUM_PARTICIPATIONS = ?, "
@@ -326,20 +328,21 @@ public class EventDAO {
                     + "WHERE EVENT_ID = ?");
 
             stmt.setString(1, event.getEventTitle());
-            stmt.setString(2, event.getExplainIfOthers());
-            stmt.setTimestamp(3, new java.sql.Timestamp(event.getEventStartDate().getTime()));
-            stmt.setTimestamp(4, new java.sql.Timestamp(event.getEventEndDate().getTime()));
-            stmt.setTimestamp(5, new java.sql.Timestamp(event.getEventStartTime().getTime()));
-            stmt.setTimestamp(6, new java.sql.Timestamp(event.getEventEndTime().getTime()));
-            stmt.setBoolean(7, event.isSendReminder());
-            stmt.setString(8, event.getEventDescription());
-            stmt.setInt(9, event.getMinimumParticipation());
-            stmt.setString(10, event.getEventClassName());
-            stmt.setString(11, event.getEventLocationName());
-            stmt.setString(12, event.getEventStatus());
-            stmt.setString(13, event.getEventLng());
-            stmt.setString(14, event.getEventLat());
-            stmt.setInt(15, event.getEventId());
+            stmt.setString(2, event.getAddress());
+            stmt.setString(3, event.getZipcode());
+            stmt.setTimestamp(4, new java.sql.Timestamp(event.getEventStartDate().getTime()));
+            stmt.setTimestamp(5, new java.sql.Timestamp(event.getEventEndDate().getTime()));
+            stmt.setTimestamp(6, new java.sql.Timestamp(event.getEventStartTime().getTime()));
+            stmt.setTimestamp(7, new java.sql.Timestamp(event.getEventEndTime().getTime()));
+            stmt.setBoolean(8, event.isSendReminder());
+            stmt.setString(9, event.getEventDescription());
+            stmt.setInt(10, event.getMinimumParticipation());
+            stmt.setString(11, event.getEventClassName());
+            stmt.setString(12, event.getEventLocationName());
+            stmt.setString(13, event.getEventStatus());
+            stmt.setString(14, event.getEventLng());
+            stmt.setString(15, event.getEventLat());
+            stmt.setInt(16, event.getEventId());
             result = stmt.executeUpdate();
 
             return result == 1;
