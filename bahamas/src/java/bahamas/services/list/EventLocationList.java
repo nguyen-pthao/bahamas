@@ -4,8 +4,8 @@
  * and open the template in the editor.
  */
 package bahamas.services.list;
-
 import bahamas.dao.list.EventLocationListDAO;
+import bahamas.entity.EventLocation;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -55,7 +55,7 @@ public class EventLocationList extends HttpServlet {
             //Validation
             //Create new contact object
             EventLocationListDAO eventLocationListDAO = new EventLocationListDAO();
-            ArrayList<String> eventLocationList = eventLocationListDAO.retrieveEventLocationList();
+            ArrayList<EventLocation> eventLocationList = eventLocationListDAO.retrieveEventLocationList();
 
             if (!eventLocationList.isEmpty()) {
                 json.addProperty("message", "success");
@@ -63,10 +63,12 @@ public class EventLocationList extends HttpServlet {
                 JsonArray eventLocationArray = new JsonArray();
                 JsonObject jsonLocationClassObj;
 
-                for (String s : eventLocationList) {
+                for (EventLocation eventLocation : eventLocationList) {
 
                     jsonLocationClassObj = new JsonObject();
-                    jsonLocationClassObj.addProperty("eventLocation", s);
+                    jsonLocationClassObj.addProperty("eventLocation", eventLocation.getLocation());
+                    jsonLocationClassObj.addProperty("address", eventLocation.getAddress());
+                    jsonLocationClassObj.addProperty("zipcode", eventLocation.getZipcode());
 
                     eventLocationArray.add(jsonLocationClassObj);
 
