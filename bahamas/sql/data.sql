@@ -30,14 +30,6 @@
 /*!40000 ALTER TABLE `APPRECIATION` ENABLE KEYS */;
 
 --
--- Dumping data for table `AUDITLOG`
---
-
-/*!40000 ALTER TABLE `AUDITLOG` DISABLE KEYS */;
-INSERT INTO `AUDITLOG` VALUES (78,'admin1','2016-07-26 12:41:48','LOGIN - Login into system'),(79,'admin1','2016-07-26 12:42:20','ADD EVENT - Add event under contact: Contact ID: 1 | Event ID: 1'),(80,'admin1','2016-07-26 12:42:36','ADD EVENT ROLES - Add event roles under contact: Contact ID: 1 | Event ID: 1'),(81,'admin1','2016-07-26 15:13:56','LOGIN - Login into system'),(82,'admin1','2016-07-26 16:30:22','LOGIN - Login into system'),(83,'admin1','2016-07-26 16:43:58','LOGIN - Login into system'),(84,'admin1','2016-07-26 16:50:30','LOGIN - Login into system'),(85,'admin1','2016-07-26 17:03:55','ADD EVENT - Add event under contact: Contact ID: 1 | Event ID: 2'),(86,'admin1','2016-07-26 17:04:00','ADD EVENT ROLES - Add event roles under contact: Contact ID: 1 | Event ID: 2'),(87,'admin1','2016-07-26 17:17:33','LOGIN - Login into system'),(88,'admin1','2016-07-26 17:29:31','LOGIN - Login into system'),(89,'admin1','2016-07-26 17:44:35','AUDIT LOG - Access into audit log'),(90,'admin1','2016-07-26 17:44:52','AUDIT LOG - Access into audit log'),(91,'admin1','2016-07-28 23:38:13','LOGIN - Login into system'),(92,'admin1','2016-07-29 12:55:20','LOGIN - Login into system'),(93,'admin1','2016-07-29 12:55:55','CONTACT - Created contact: Contact ID: 9 | Name: Testing'),(94,'admin1','2016-07-29 13:00:05','CONTACT - Created contact: Contact ID: 10 | Name: Pokemon Catcher'),(95,'admin1','2016-07-29 13:00:13','ADD PHONE - Add phone held under contact: Contact ID: 10'),(96,'admin1','2016-07-29 13:17:38','ADD MEMBERSHIP - Add membership under contact: Contact ID: 1'),(97,'admin1','2016-07-29 13:18:02','DELETE MEMBERSHIP - Delete membership under membership: Membership ID: 1'),(98,'admin1','2016-07-29 13:18:37','ADD DONATION - Add donation under contact: Contact ID: 1'),(99,'admin1','2016-07-29 13:22:51','LOGIN - Login into system'),(100,'admin1','2016-07-29 13:52:09','LOGIN - Login into system');
-/*!40000 ALTER TABLE `AUDITLOG` ENABLE KEYS */;
-
---
 -- Dumping data for table `CONTACT`
 --
 
@@ -86,7 +78,7 @@ INSERT INTO `EVENT_CLASS_LIST` VALUES ('Basic Training',0),('Advanced Training',
 --
 
 /*!40000 ALTER TABLE `EVENT_LOCATION_LIST` DISABLE KEYS */;
-INSERT INTO `EVENT_LOCATION_LIST` VALUES ('Alankar',0),('Isthana',0),('Online',0),('Other',0),('TWC2 DaySpace',0),('TWC2 office',0);
+INSERT INTO `EVENT_LOCATION_LIST` VALUES ('Alankar' ,NULL , NULL ,0),('Isthana' ,NULL , NULL ,0),('Online' ,NULL , NULL ,0),('Other' ,NULL , NULL ,0),('TWC2 DaySpace' ,NULL , NULL ,0),('TWC2 office' ,NULL , NULL ,0);
 /*!40000 ALTER TABLE `EVENT_LOCATION_LIST` ENABLE KEYS */;
 
 --
