@@ -98,12 +98,12 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <div class="box collapsed-box" ng-init="eventRoles()">
+                <div class="box" ng-init="eventRoles()">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Event Roles </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Event Roles">
-                                <i class="fa fa-chevron-down"></i></button>
+                                <i class="fa fa-chevron-up"></i></button>
                         </div>
                     </div>
                     <div class="box-body">
@@ -134,12 +134,46 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <div class="box collapsed-box">
+                <div class="box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Event Participants </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Event Participants">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">    
+                            <div class="table-horizontal-scroll">
+                                <table class="table table-bordered table-striped" style="max-width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th width="5%" style="color: #005384">S/N</th>
+                                            <th width="30%" style='color: #005384'>Role</th>
+                                            <th width="50%" style='color: #005384'>Participants</th>
+                                            <th width="15%"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="participant in participants track by $index">
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{participant['role']}}</td>
+                                            <td>{{participant['participant_name']}}</td>
+                                            <td><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Remove" ng-click="removeParticipant($event, participant)"><i class="fa fa-minus fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
+                                    </center></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Team Affiliation </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Team Affiliation">
-                                <i class="fa fa-chevron-down"></i></button>
+                                <i class="fa fa-chevron-up"></i></button>
                         </div>
                     </div>
                     <div class="box-body">

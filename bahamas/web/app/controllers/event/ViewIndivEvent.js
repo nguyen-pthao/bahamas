@@ -27,6 +27,7 @@ app.controller('viewIndivEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
+                        console.log($scope.eventInfo);
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
                         var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
                         if (timeStart.length == 10) {
@@ -56,6 +57,7 @@ app.controller('viewIndivEvent',
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                         $scope.roles = $scope.eventInfo['event_role'];
+                        $scope.participants = $scope.eventInfo['event_participant'];
                         $scope.affiliation = $scope.eventInfo['event_team_affiliation'];
                         $scope.teamA = $scope.eventInfo['event_team_affiliation']['teams_affiliated'];
                     })
@@ -90,6 +92,7 @@ app.controller('viewIndivEvent',
                         };
                         var urlToJoin = '/event.join';
                         dataSubmit.submitData($scope.toJoin, urlToJoin).then(function (response) {
+                            console.log(response);
                             if (response.data.message == "success") {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/joinRoleSuccess.html',
