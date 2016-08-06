@@ -147,5 +147,35 @@ public class EventRoleAssignmentDAO {
         }
         return false;
     }
+    
+    public static EventRoleAssignment retrieveEventRoleByRoleId(int roleID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        EventRoleAssignment eventRoleAssignment = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT ROLE_ID, EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION FROM EVENT_ROLE_ASSIGNMENT WHERE ROLE_ID = (?)");
+            stmt.setInt(1, roleID);
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int roleId = rs.getInt(1);
+                int eventId = rs.getInt(2);
+                String roleName = rs.getString(3);
+                String roleDesc = rs.getString(4);
+                
+                eventRoleAssignment = new EventRoleAssignment(roleId,eventId,roleName,roleDesc);
+ 
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT_ROLE_ASSIGNMENT from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return eventRoleAssignment;
+    }
 
 }

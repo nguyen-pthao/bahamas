@@ -38,7 +38,11 @@ public class EventParticipantDAO {
                     + "`EVENT_ID`, `CREATED_BY`, `DATE_CREATED`, `PULLOUT`, `DATE_PULLOUT`, `REASON`, `HOURS_SERVED`, `SERVICE_COMMENT`, `REMARKS`)"
                     + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
             stmt.setInt(1, eventParticipant.getContactID());
-            stmt.setInt(2, eventParticipant.getAwarderID());
+            if(eventParticipant.getAwarderID() !=  null){
+                stmt.setInt(2, eventParticipant.getAwarderID()); 
+            }else{
+                stmt.setString(2, null); 
+            }
             stmt.setInt(3, eventParticipant.getRoleID());
             stmt.setInt(4, eventParticipant.getEventID());
             stmt.setString(5, eventParticipant.getCreatedBy());

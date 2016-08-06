@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
@@ -110,6 +111,7 @@ public class DeleteEventRoles extends HttpServlet {
                                 return;
                             }
                             if (EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))) {
+                                AuditLogDAO.insertAuditLog(username, "DELETE ROLE", "Delete role under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role: " + EventRoleAssignmentDAO.retrieveEventRoleByRoleId(Integer.parseInt(eventRoleId)));
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                             } else {
