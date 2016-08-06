@@ -113,10 +113,17 @@ and open the template in the editor.
                                             <span ng-show="eventForm.eventStatus.$error.required && eventForm.eventStatus.$touched" class="error">Event Status is required.</span>
                                         </div>
                                     </div>
-                                    <div>
-                                        <label>Explain If Other</label>
-                                        <textarea class="custom-remarks" ng-model="newEvent['explain_if_others']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
-                                        <span ng-show="eventForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span>
+                                    <div class="form-group col-md-12" style="padding:0px;">
+                                        <div class="col-md-8" style="padding:0px;">
+                                            <label>Address</label>
+                                            <input type="text" class="form-control" ng-model="newEvent['address']" ng-maxlength="1000" name="address">
+                                            <span ng-show="eventForm.address.$error.maxlength" class='error'>Input for 'Address' is too long.</span>
+                                        </div>
+                                        <div class="col-md-offset-1 col-md-3" style="padding:0px;">
+                                            <label>Zipcode</label>
+                                            <input type="text" class="form-control" ng-model="newEvent['zipcode']" ng-maxlength="20" name="zipcode">
+                                            <span ng-show="eventForm.zipcode.$error.maxlength" class='error'>Input for 'Zipcode' is too long.</span>
+                                        </div>
                                     </div>
                                     <div>
                                         <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i>
@@ -136,7 +143,7 @@ and open the template in the editor.
                                                     ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid
                                                                         || eventForm.eventStartDate.$error.required || eventForm.eventEndDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
                                                                         || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required || eventForm.eventStatus.$error.required
-                                                                        || eventForm.explainIfOthers.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
+                                                                        || eventForm.address.$error.maxlength || eventForm.zipcode.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
                                                     >
                                                 Save and proceed
                                             </button>

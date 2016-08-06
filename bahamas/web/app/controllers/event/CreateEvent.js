@@ -109,7 +109,8 @@ app.controller('createEvent',
                     'event_status': '',
                     'event_lat': '',
                     'event_lng': '',
-                    'explain_if_others': '',
+                    'address': '',
+                    'zipcode': '',
                     'ignore': false
                 }
 
