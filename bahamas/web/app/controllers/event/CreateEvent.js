@@ -53,7 +53,6 @@ app.controller('createEvent',
                     formatYear: 'yy',
                     formatMonth: 'MMM',
                     formatDay: 'dd',
-                    minDate: new Date(),
                     startingDay: 1
                 };
 
