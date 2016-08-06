@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -102,13 +103,17 @@ public class DeleteEventRoles extends HttpServlet {
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
 
                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
-                            if(EventParticipantDAO.roleExist(Integer.parseInt(eventRoleId)) && !ignore){
-                                json.addProperty("message", "There is/are participant(s) signup for this role. Are you sure you want to delete role?");
+                            if (EventParticipantDAO.roleExist(Integer.parseInt(eventRoleId)) && !ignore) {
+                                json.addProperty("message", "Has participants");
+                                json.addProperty("errorMsg", "There are participants signed up for this role. Are you sure you want to delete role?");
                                 out.println(gson.toJson(json));
                                 return;
                             }
-                            if(EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))){
+                            if (EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))) {
                                 json.addProperty("message", "success");
+                                out.println(gson.toJson(json));
+                            } else {
+                                json.addProperty("message", "fail");
                                 out.println(gson.toJson(json));
                             }
                         } else {
