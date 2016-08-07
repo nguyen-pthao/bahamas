@@ -34,36 +34,43 @@ public class EventParticipantDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO EVENT_PARTICIPANT (`CONTACT_ID`, `AWARDER_ID`, `ROLE_ID`, "
-                    + "`EVENT_ID`, `CREATED_BY`, `DATE_CREATED`, `PULLOUT`, `DATE_PULLOUT`, `REASON`, `HOURS_SERVED`, `SERVICE_COMMENT`, `REMARKS`)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
-            stmt.setInt(1, eventParticipant.getContactID());
-            if(eventParticipant.getAwarderID() !=  null){
-                stmt.setInt(2, eventParticipant.getAwarderID()); 
+            
+            
+            if(EventParticipantDAO.retrieveParticipantbyEventIDRoleID(eventParticipant.getRoleID(),eventParticipant.getContactID()) == null){
+                
+                stmt = conn.prepareStatement("INSERT INTO EVENT_PARTICIPANT (`CONTACT_ID`, `AWARDER_ID`, `ROLE_ID`, "
+                        + "`EVENT_ID`, `CREATED_BY`, `DATE_CREATED`, `PULLOUT`, `DATE_PULLOUT`, `REASON`, `HOURS_SERVED`, `SERVICE_COMMENT`, `REMARKS`)"
+                        + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?)");
+                stmt.setInt(1, eventParticipant.getContactID());
+                if(eventParticipant.getAwarderID() !=  null){
+                    stmt.setInt(2, eventParticipant.getAwarderID()); 
+                }else{
+                    stmt.setString(2, null); 
+                }
+                stmt.setInt(3, eventParticipant.getRoleID());
+                stmt.setInt(4, eventParticipant.getEventID());
+                stmt.setString(5, eventParticipant.getCreatedBy());
+                if (eventParticipant.getDateCreated() != null) {
+                    stmt.setDate(6, new java.sql.Date(eventParticipant.getDateCreated().getTime()));
+                } else {
+                    stmt.setDate(6, null);
+                }   
+                stmt.setBoolean(7, eventParticipant.isPullout()); 
+                if (eventParticipant.getDatepullout() != null) {
+                    stmt.setDate(8, new java.sql.Date(eventParticipant.getDatepullout().getTime()));
+                } else {
+                    stmt.setDate(8, null);
+                }
+                stmt.setString(9, eventParticipant.getReason());
+                stmt.setDouble(10, eventParticipant.getHoursServed());
+                stmt.setString(11, eventParticipant.getService_comment());
+                stmt.setString(12, eventParticipant.getRemarks());
+                result = stmt.executeUpdate();
+                return result == 1;
             }else{
-                stmt.setString(2, null); 
+                return EventParticipantDAO.updateEventRole(eventParticipant);
             }
-            stmt.setInt(3, eventParticipant.getRoleID());
-            stmt.setInt(4, eventParticipant.getEventID());
-            stmt.setString(5, eventParticipant.getCreatedBy());
-            if (eventParticipant.getDateCreated() != null) {
-                stmt.setDate(6, new java.sql.Date(eventParticipant.getDateCreated().getTime()));
-            } else {
-                stmt.setDate(6, null);
-            }   
-            stmt.setBoolean(7, eventParticipant.isPullout()); 
-            if (eventParticipant.getDatepullout() != null) {
-                stmt.setDate(8, new java.sql.Date(eventParticipant.getDatepullout().getTime()));
-            } else {
-                stmt.setDate(8, null);
-            }
-            stmt.setString(9, eventParticipant.getReason());
-            stmt.setDouble(10, eventParticipant.getHoursServed());
-            stmt.setString(11, eventParticipant.getService_comment());
-            stmt.setString(12, eventParticipant.getRemarks());
-            result = stmt.executeUpdate();
-
-            return result == 1;
+            
 
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -190,7 +197,7 @@ public class EventParticipantDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO EVENT_PARTICIPANT CONTACT_ID = ?, AWARDER_ID = ?, ROLE_ID = ?, "
+            stmt = conn.prepareStatement("UPDATE EVENT_PARTICIPANT SET CONTACT_ID = ?, AWARDER_ID = ?, ROLE_ID = ?, "
                     + "EVENT_ID = ?, CREATED_BY = ?, DATE_CREATED = ?, PULLOUT = ?, DATE_PULLOUT = ?, REASON = ?, HOURS_SERVED = ?, SERVICE_COMMENT = ?, REMARKS = ? WHERE ROLE_ID = ? AND CONTACT_ID = ?");
             stmt.setInt(1, eventParticipant.getContactID());
             if(eventParticipant.getAwarderID() !=  null){
