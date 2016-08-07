@@ -174,8 +174,13 @@ public class RetrieveEventIndiv extends HttpServlet {
                                             Contact contactTemp = cDAO.retrieveContactById(participantID);
                                             role.addProperty("role",eventRoleAssignment.getRoleName());
                                             role.addProperty("role_id",eventRoleAssignment.getRoleId());
-                                            role.addProperty("participant_name",(contactTemp.getName() + "(" +contactTemp.getUsername()+ ")"));
+                                            role.addProperty("participant_name",(contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                             role.addProperty("contact_id",contactTemp.getContactId());
+                                            if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername()) || contactTemp.getUsername().equals(username)){
+                                                role.addProperty("canRemove", true);
+                                            }else{
+                                                role.addProperty("canRemove", false);
+                                            }
                                             roleParticipentArray.add(role);
                                         }
                                     }
