@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewIndivEvent',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout', 'localStorageService', 'deleteService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService, deleteService) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout', 'localStorageService', 'deleteService', '$uibModal',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService, deleteService, $uibModal) {
                 var user = session.getSession('userType');
                 var eventId = $stateParams.eventId;
                 $scope.backHome = function () {
@@ -152,4 +152,24 @@ app.controller('viewIndivEvent',
                     })
                 }
 
+                $scope.removeParticipant = function ($event, participant) {
+                    console.log(participant);
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/removeReason.html',
+                        controller: 'ReasonInstanceCtrl',
+                        size: "md"
+                    });
+                };
+
             }]);
+
+app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance) {
+    $scope.ok = function () {
+        console.log($scope.input);
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});

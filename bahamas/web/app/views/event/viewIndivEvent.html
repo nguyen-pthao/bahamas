@@ -159,7 +159,7 @@ and open the template in the editor.
                                             <td>{{$index + 1}}</td>
                                             <td>{{participant['role']}}</td>
                                             <td>{{participant['participant_name']}}</td>
-                                            <td><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Remove" ng-click="removeParticipant($event, participant)"><i class="fa fa-minus fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
+                                            <td><center><span ng-if="participant['canRemove']"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove" ng-click="removeParticipant($event, participant)"><i class="fa fa-minus fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
                                     </center></td>
                                     </tr>
                                     </tbody>
