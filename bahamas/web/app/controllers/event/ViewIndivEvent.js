@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewIndivEvent',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout', 'localStorageService', 'deleteService', '$uibModal',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService, deleteService, $uibModal) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout', 'localStorageService', 'deleteService', '$uibModal', '$rootScope',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService, deleteService, $uibModal, $rootScope) {
                 var user = session.getSession('userType');
                 var eventId = $stateParams.eventId;
                 $scope.backHome = function () {
@@ -27,7 +27,6 @@ app.controller('viewIndivEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
-                        console.log($scope.eventInfo);
                         var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
                         var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
                         if (timeStart.length == 10) {
@@ -92,7 +91,6 @@ app.controller('viewIndivEvent',
                         };
                         var urlToJoin = '/event.join';
                         dataSubmit.submitData($scope.toJoin, urlToJoin).then(function (response) {
-                            console.log(response);
                             if (response.data.message == "success") {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/joinRoleSuccess.html',
@@ -153,7 +151,7 @@ app.controller('viewIndivEvent',
                 }
 
                 $scope.removeParticipant = function ($event, participant) {
-                    console.log(participant);
+                    $rootScope.participant = participant;
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: './style/ngTemplate/removeReason.html',
@@ -162,11 +160,24 @@ app.controller('viewIndivEvent',
                     });
                 };
 
+
             }]);
 
-app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance) {
+app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session) {
     $scope.ok = function () {
-        console.log($scope.input);
+        var part = $rootScope.participant;
+        $scope.toRemovePart = {
+            'token': session.getSession('token'),
+            'role_id': part['role_id'],
+            'reason': $scope.input
+        };
+        var urlToRemove = '/event.leaverole';
+        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function(response){
+            console.log(response);
+            if(response.data.message=='success'){
+                window.alert("success(i will change this once it's working");
+            }
+        })
     };
 
     $scope.cancel = function () {
