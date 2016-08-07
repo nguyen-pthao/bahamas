@@ -163,21 +163,32 @@ app.controller('viewIndivEvent',
 
             }]);
 
-app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session) {
+app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
     $scope.ok = function () {
         var part = $rootScope.participant;
+        if(angular.isUndefined($scope.input)){
+            $scope.input = "";
+        };
         $scope.toRemovePart = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
             'reason': $scope.input
         };
         var urlToRemove = '/event.leaverole';
-        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function(response){
-            console.log(response);
-            if(response.data.message=='success'){
-                window.alert("success(i will change this once it's working");
+        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/removeSuccessful.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.viewIndivEvent';
+                    var eventId = $stateParams.eventId;
+                    $state.go(current, {eventId: eventId}, {reload: true});
+                })
             }
-        })
+        });
     };
 
     $scope.cancel = function () {
