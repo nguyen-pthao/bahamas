@@ -97,15 +97,14 @@ public class UpdateEventRoles extends HttpServlet {
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
 
                         if(event != null){
-                            //insert roles here
-                            String roleTemp = "event_role";
-                            String descriptionTemp = "event_desc";
                             boolean formError = false;
                             for(int i = 0; i < eventRolesJsonArray.size(); i++){
                                 JsonElement jsonElement = eventRolesJsonArray.get(i);
                                 JsonObject jsonObj = jsonElement.getAsJsonObject();
-                                String role = jsonObj.get(roleTemp).getAsString();
-                                String description = jsonObj.get(descriptionTemp).getAsString();
+                                
+                                
+                                String role = jsonObj.get("event_role").getAsString();
+                                String description = jsonObj.get("event_desc").getAsString();
                                 
                                 if(role.isEmpty() && !description.isEmpty()){
                                     formError = true;

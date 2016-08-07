@@ -95,28 +95,36 @@ public class EventRoleAssignmentDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        String roleTemp = "event_role";
-        String descriptionTemp = "event_desc";
+        
 
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
            
-            stmt = conn.prepareStatement("DELETE FROM EVENT_ROLE_ASSIGNMENT WHERE EVENT_ID = (?)");
-            stmt.setInt(1, eventId);
-            stmt.executeUpdate();
-            stmt = conn.prepareStatement("INSERT INTO EVENT_ROLE_ASSIGNMENT (EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (?, ?, ?)");
+            //stmt = conn.prepareStatement("DELETE FROM EVENT_ROLE_ASSIGNMENT WHERE EVENT_ID = (?)");
+            //stmt.setInt(1, eventId);
+            //stmt.executeUpdate();
             for (int i = 0; i < jsonArray.size(); i++) {
                 JsonElement jsonElement = jsonArray.get(i);
                 JsonObject jsonObj = jsonElement.getAsJsonObject();
-                String role = jsonObj.get(roleTemp).getAsString();
-                String description = jsonObj.get(descriptionTemp).getAsString();
-                if (!role.isEmpty()) {
+                String role = jsonObj.get("event_role").getAsString();
+                String description = jsonObj.get("event_desc").getAsString();
+                String roleIdStr = null;
+                if(jsonObj.has("event_role_id")){
+                    roleIdStr = jsonObj.get("event_role_id").getAsString();
+                    stmt = conn.prepareStatement("UPDATE EVENT_ROLE_ASSIGNMENT SET ROLE_NAME = ?, ROLE_DESCRIPTION = ? WHERE ROLE_ID = ? AND EVENT_ID = ?");
+                    stmt.setString(1, role);
+                    stmt.setString(2, description);
+                    stmt.setInt(3, Integer.parseInt(roleIdStr));
+                    stmt.setInt(4, eventId);
+                }else{
+                    stmt = conn.prepareStatement("INSERT INTO EVENT_ROLE_ASSIGNMENT (EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (?, ?, ?)");
                     stmt.setInt(1, eventId);
                     stmt.setString(2, role);
                     stmt.setString(3, description);
-                    stmt.executeUpdate();
                 }
+                stmt.executeUpdate();
+                
             }
             return true;
         } catch (SQLException ex) {
