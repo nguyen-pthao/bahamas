@@ -180,4 +180,114 @@ public class EventParticipantDAO {
         return false;
     }
     
+    public static boolean updateEventRole(EventParticipant eventParticipant) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("INSERT INTO EVENT_PARTICIPANT CONTACT_ID = ?, AWARDER_ID = ?, ROLE_ID = ?, "
+                    + "EVENT_ID = ?, CREATED_BY = ?, DATE_CREATED = ?, PULLOUT = ?, DATE_PULLOUT = ?, REASON = ?, HOURS_SERVED = ?, SERVICE_COMMENT = ?, REMARKS = ? WHERE ROLE_ID = ? AND CONTACT_ID = ?");
+            stmt.setInt(1, eventParticipant.getContactID());
+            if(eventParticipant.getAwarderID() !=  null){
+                stmt.setInt(2, eventParticipant.getAwarderID()); 
+            }else{
+                stmt.setString(2, null); 
+            }
+            stmt.setInt(3, eventParticipant.getRoleID());
+            stmt.setInt(4, eventParticipant.getEventID());
+            stmt.setString(5, eventParticipant.getCreatedBy());
+            if (eventParticipant.getDateCreated() != null) {
+                stmt.setDate(6, new java.sql.Date(eventParticipant.getDateCreated().getTime()));
+            } else {
+                stmt.setDate(6, null);
+            }   
+            stmt.setBoolean(7, eventParticipant.isPullout()); 
+            if (eventParticipant.getDatepullout() != null) {
+                stmt.setDate(8, new java.sql.Date(eventParticipant.getDatepullout().getTime()));
+            } else {
+                stmt.setDate(8, null);
+            }
+            stmt.setString(9, eventParticipant.getReason());
+            stmt.setDouble(10, eventParticipant.getHoursServed());
+            stmt.setString(11, eventParticipant.getService_comment());
+            stmt.setString(12, eventParticipant.getRemarks());
+            stmt.setInt(13, eventParticipant.getRoleID());
+            stmt.setInt(14, eventParticipant.getContactID());
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+    
+    public static EventParticipant retrieveParticipantbyEventIDRoleID(int roleID, int contactID) {
+        
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        EventParticipant eventParticipant = null;
+
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, AWARDER_ID, ROLE_ID, EVENT_ID, CREATED_BY, "
+                    + "DATE_CREATED, PULLOUT, DATE_PULLOUT, REASON, HOURS_SERVED, SERVICE_COMMENT, REMARKS "
+                    + "FROM EVENT_PARTICIPANT WHERE ROLE_ID = (?) AND CONTACT_ID = (?)");
+            stmt.setString(1, Integer.toString(roleID));
+            stmt.setString(2, Integer.toString(contactID));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactIDTemp = rs.getInt(1);
+                Integer awarderID  = null;
+                if(rs.getString(2) != null){
+                    awarderID = rs.getInt(2);
+                }
+                int roleIDTemp = rs.getInt(3);
+                int eventID = rs.getInt(4);
+                String createdBy = rs.getString(5);
+                String dateCreatedStr = rs.getString(6);
+                Date dateCreated = null;
+                if (dateCreatedStr != null && !dateCreatedStr.isEmpty()) {
+                    dateCreated = date.parse(dateCreatedStr);
+                }
+                boolean pullout = rs.getBoolean(7);
+                String datePulloutStr = rs.getString(8);
+                Date datepullout = null;
+                if (datePulloutStr != null && !datePulloutStr.isEmpty()) {
+                    datepullout = date.parse(datePulloutStr);
+                }
+                String reason = rs.getString(9);
+                double hoursServed = rs.getDouble(10);
+                String service_comment = rs.getString(11);
+                String remarks = rs.getString(12);
+                
+                eventParticipant = new EventParticipant(contactIDTemp, awarderID, roleIDTemp, eventID, createdBy, dateCreated, pullout, datepullout, reason, hoursServed, service_comment, remarks);
+                
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return eventParticipant;
+
+    }
+    
+    
 }

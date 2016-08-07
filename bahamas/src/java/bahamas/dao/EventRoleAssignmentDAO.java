@@ -110,20 +110,22 @@ public class EventRoleAssignmentDAO {
                 String role = jsonObj.get("event_role").getAsString();
                 String description = jsonObj.get("event_desc").getAsString();
                 String roleIdStr = null;
-                if(jsonObj.has("event_role_id")){
-                    roleIdStr = jsonObj.get("event_role_id").getAsString();
-                    stmt = conn.prepareStatement("UPDATE EVENT_ROLE_ASSIGNMENT SET ROLE_NAME = ?, ROLE_DESCRIPTION = ? WHERE ROLE_ID = ? AND EVENT_ID = ?");
-                    stmt.setString(1, role);
-                    stmt.setString(2, description);
-                    stmt.setInt(3, Integer.parseInt(roleIdStr));
-                    stmt.setInt(4, eventId);
-                }else{
-                    stmt = conn.prepareStatement("INSERT INTO EVENT_ROLE_ASSIGNMENT (EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (?, ?, ?)");
-                    stmt.setInt(1, eventId);
-                    stmt.setString(2, role);
-                    stmt.setString(3, description);
+                if(!role.isEmpty()){
+                    if(jsonObj.has("event_role_id")){
+                        roleIdStr = jsonObj.get("event_role_id").getAsString();
+                        stmt = conn.prepareStatement("UPDATE EVENT_ROLE_ASSIGNMENT SET ROLE_NAME = ?, ROLE_DESCRIPTION = ? WHERE ROLE_ID = ? AND EVENT_ID = ?");
+                        stmt.setString(1, role);
+                        stmt.setString(2, description);
+                        stmt.setInt(3, Integer.parseInt(roleIdStr));
+                        stmt.setInt(4, eventId);
+                    }else{
+                        stmt = conn.prepareStatement("INSERT INTO EVENT_ROLE_ASSIGNMENT (EVENT_ID, ROLE_NAME, ROLE_DESCRIPTION) VALUES (?, ?, ?)");
+                        stmt.setInt(1, eventId);
+                        stmt.setString(2, role);
+                        stmt.setString(3, description);
+                    }
+                    stmt.executeUpdate();
                 }
-                stmt.executeUpdate();
                 
             }
             return true;
