@@ -166,17 +166,19 @@ public class RetrieveEventIndiv extends HttpServlet {
                             if(EventRoleAssignmentList != null && EventParticipantList != null){
                                 for (EventRoleAssignment eventRoleAssignment : EventRoleAssignmentList) {
                                     int roleId = eventRoleAssignment.getRoleId();
-                                    JsonObject role = new JsonObject();
-                                    JsonArray participantsWithSameRole = new JsonArray();
+                                    //JsonArray participantsWithSameRole = new JsonArray();
                                     for (EventParticipant eventParticipantList : EventParticipantList) {
+                                        JsonObject role = new JsonObject();
                                         if(roleId == eventParticipantList.getRoleID()){
                                             int participantID = eventParticipantList.getContactID();                                           
                                             Contact contactTemp = cDAO.retrieveContactById(participantID);
-                                            participantsWithSameRole.add(new JsonPrimitive(contactTemp.getName() + "(" +contactTemp.getUsername()+ ")"));
+                                            role.addProperty("role",eventRoleAssignment.getRoleName());
+                                            role.addProperty("role_id",eventRoleAssignment.getRoleId());
+                                            role.addProperty("participant_name",(contactTemp.getName() + "(" +contactTemp.getUsername()+ ")"));
+                                            role.addProperty("contact_id",contactTemp.getContactId());
+                                            roleParticipentArray.add(role);
                                         }
                                     }
-                                    role.add(eventRoleAssignment.getRoleName(), participantsWithSameRole);
-                                    roleParticipentArray.add(role);
                                 }
                             }
                             json.add("event_role", eventRoleJsonArray);
