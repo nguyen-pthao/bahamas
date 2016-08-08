@@ -120,10 +120,10 @@ public class RetrievePastEvents extends HttpServlet {
                                 try{
                                     Date currentDate = date.parse(date.format(currentDateTime));
                                     Date currentTime = time.parse(time.format(currentDateTime));
-                                    Date eventstartDate = date.parse(date.format(event.getEventStartDate()));
-                                    Date eventStartTime = time.parse(time.format(event.getEventStartTime()));
+                                    Date eventEndDate = date.parse(date.format(event.getEventEndDate()));
+                                    Date eventEndTime = time.parse(time.format(event.getEventEndTime()));
                                     
-                                    if (eventstartDate.before(currentDate) && eventStartTime.before(currentTime)) {
+                                    if (eventEndDate.before(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.before(currentTime))) {
 
                                         jsonContactObj = new JsonObject();
                                         jsonContactObj.addProperty("event_id", event.getEventId());
@@ -132,6 +132,19 @@ public class RetrievePastEvents extends HttpServlet {
                                         jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                         //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
+                                        EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                        if(eventAffiliation != null){
+                                            String teamTemp = "";
+                                            ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
+                                            for(int m = 0; m < teamnameList.size()-1; m++){
+                                                teamTemp += teamnameList.get(m) + " | ";
+                                            }
+                                            teamTemp += teamnameList.get(teamnameList.size() -1);
+                                            jsonContactObj.addProperty("team", teamTemp);
+                                        }else{
+                                            jsonContactObj.addProperty("team", "");
+                                        }
+                                        
                                         jsonContactObj.addProperty("event_class", event.getEventClassName());
                                         jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                         jsonContactObj.addProperty("event_status", event.getEventStatus());
@@ -140,7 +153,7 @@ public class RetrievePastEvents extends HttpServlet {
                                             jsonContactObj.addProperty("canDelete", true);
                                             jsonContactObj.addProperty("canJoin", true);
                                         } else {
-                                            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                            //EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                             if (eventAffiliation != null) {
                                                 ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
                                                 if (teamsInEvent != null && !teamsInEvent.isEmpty()) {

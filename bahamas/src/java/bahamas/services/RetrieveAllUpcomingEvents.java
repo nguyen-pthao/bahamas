@@ -133,6 +133,18 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
                                                 jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                                 jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                                EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                                if (eventAffiliation != null) {
+                                                    String teamTemp = "";
+                                                    ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
+                                                    for (int m = 0; m < teamnameList.size() - 1; m++) {
+                                                        teamTemp += teamnameList.get(m) + " | ";
+                                                    }
+                                                    teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                                    jsonContactObj.addProperty("team", teamTemp);
+                                                } else {
+                                                    jsonContactObj.addProperty("team", "");
+                                                }
                                                 jsonContactObj.addProperty("event_class", event.getEventClassName());
                                                 jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                                 jsonContactObj.addProperty("event_status", event.getEventStatus());
@@ -149,6 +161,18 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
                                             jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                             jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                            if (eventAffiliation != null) {
+                                                String teamTemp = "";
+                                                ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
+                                                for (int m = 0; m < teamnameList.size() - 1; m++) {
+                                                    teamTemp += teamnameList.get(m) + " | ";
+                                                }
+                                                teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                                jsonContactObj.addProperty("team", teamTemp);
+                                            } else {
+                                                jsonContactObj.addProperty("team", "");
+                                            }
                                             jsonContactObj.addProperty("event_class", event.getEventClassName());
                                             jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                             jsonContactObj.addProperty("event_status", event.getEventStatus());
@@ -157,7 +181,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 jsonContactObj.addProperty("canDelete", true);
                                                 jsonContactObj.addProperty("canJoin", true);
                                             } else {
-                                                EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                                //EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                                 if (eventAffiliation != null) {
                                                     ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
                                                     if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
