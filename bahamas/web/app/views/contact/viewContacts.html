@@ -73,10 +73,10 @@ and open the template in the editor.
                                 <tbody>
                                     <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                         <td width="25%"><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
-                                        <td width="20%"><center>{{contact.phone}}</center></td>
-                                <td width="20%"><center>{{contact.email}}</center></td>
-                                <td width="10%"><center>{{contact['contact_type']}}</center></td>
-                                <td width="15%"><center>{{contact['permission_level']}}</center></td>
+                                        <td width="20%">{{contact.phone}}</td>
+                                <td width="20%">{{contact.email}}</td>
+                                <td width="10%">{{contact['contact_type']}}</td>
+                                <td width="15%">{{contact['permission_level']}}</td>
                                 <td width="10%" ng-if="isAuthorised"><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
                                 </tr>
                                 </tbody>
@@ -104,9 +104,9 @@ and open the template in the editor.
                                 <tbody>
                                     <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                         <td width="30%"><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
-                                        <td width="20%"><center>{{contact.email}}</center></td>
-                            <td width="20%"><center>{{contact['contact_type']}}</center></td>
-                            <td width="20%"><center>{{contact['permission_level']}}</center></td>
+                                        <td width="20%">{{contact.email}}</td>
+                            <td width="20%">{{contact['contact_type']}}</td>
+                            <td width="20%">{{contact['permission_level']}}</td>
                                         <td width="10%" ng-if="isAuthorised"><span><center><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
                                     </tr>
                                 </tbody>

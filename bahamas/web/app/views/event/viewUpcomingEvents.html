@@ -74,11 +74,11 @@ and open the template in the editor.
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
                                         <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
-                                        <td><center>{{event['event_start_date']}}</center></td>
-                                <td><center>{{event['event_time_start']}}</center></td>
-                                <td><center>{{event['event_location']}}</center></td>
-                                <td><center>{{event['event_class']}}</center></td>
-                                <td><center>{{event['event_status']}}</center></td>
+                                        <td>{{event['event_start_date']}}</td>
+                                <td>{{event['event_time_start']}}</td>
+                                <td>{{event['event_location']}}</td>
+                                <td>{{event['event_class']}}</td>
+                                <td>{{event['event_status']}}</td>
                                 <td>
                                 <center>
                                     <span>
