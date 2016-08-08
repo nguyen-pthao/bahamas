@@ -155,7 +155,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                     roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
                                     if (eventParticipant == null) {
                                         roleJson.addProperty("joined", false);
-                                    } else if (eventParticipant != null && eventParticipant.isPullout()) {
+                                    } else if (eventParticipant.isPullout()) {
                                         roleJson.addProperty("joined", false);
                                     } else{
                                         roleJson.addProperty("joined", true);
