@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('viewEvents',
+app.controller('viewPastEvents',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService) {
                 var user = session.getSession('userType');
@@ -90,7 +90,7 @@ app.controller('viewEvents',
                 };
                 
                 $scope.deleteEvent = function ($event, event) {
-                            var toURL = user + ".viewEvents";
+                            var toURL = user + ".viewPastEvents";
                             var eventid = event['event_id'];
                             
                             var toDelete = {
