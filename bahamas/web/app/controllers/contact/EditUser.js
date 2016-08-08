@@ -17,35 +17,65 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
             if (!angular.isUndefined($scope.file)) {
                 $scope.fileEmpty = true;
             }
-            
         });
-        
+
         var url = $scope.commonUrl + AppAPI.uploadImage;
-        $scope.upload = function(file) {
-            Upload.imageDimensions($scope.file)
-                    .then(function(dimensions){
+        $scope.upload = function (file) {
+            Upload.imageDimensions(file)
+                    .then(function (dimensions) {
                         console.log(dimensions.width, dimensions.height);
-                        Upload.resize($scope.file, 400, 400);
                     });
-            if(!file.$error) {
+            console.log(file);
+            var img = new Image();
+            img = document.getElementById('myProfile');//URL.createObjectURL(file);
+            //console.log(img.src);
+            var canvas = document.createElement('canvas');
+
+            canvas.width = 400;
+            canvas.height = 400;
+            //img.addEventListener("load", function () {
+            canvas.getContext('2d').drawImage(img, 0, 0, 400, 400);
+            //}, false);
+            var dataURL = canvas.toDataURL();
+            //console.log(dataURL);
+
+            var byteString;
+            if (dataURL.split(',')[0].indexOf('base64') >= 0) {
+                byteString = atob(dataURL.split(',')[1]);
+            } else {
+                byteString = unescape(dataURL.split(',')[1]);
+            }
+
+            var mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+
+            var ia = new Uint8Array(byteString.length);
+            for (var i = 0; i < byteString.length; i++) {
+                ia[i] = byteString.charCodeAt(i);
+            }
+            var file = new Blob([ia], {type: mimeString});
+            //console.log(file);
+            if (!file.$error) {
+                Upload.imageDimensions(file)
+                    .then(function (dimensions) {
+                        console.log(dimensions.width, dimensions.height);
+                    });
                 Upload.upload({
                     url: url,
                     data: {
                         token: session.getSession('token'),
                         image: file
                     }
-                }).then(function(response) {
+                }).then(function (response) {
                     var resetContact = angular.fromJson(session.getSession('contact'));
                     resetContact.profile_pic = response.data.image;
                     session.setSession('contact', angular.toJson(resetContact));
                     $scope.retrieveFunc();
                     $state.reload();
-                }, function() {
+                }, function () {
                     window.alert('Fail to send request!');
                 });
             }
         };
-
         //For generating password
         $scope.generatePassword = function () {
             var a = Math.floor((Math.random() * 10) + 10);
