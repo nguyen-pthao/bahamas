@@ -25,9 +25,13 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -39,7 +43,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author tan.si.hao
  */
 @WebServlet(urlPatterns = {"/event.retrieveall"})
-public class RetrieveAllEvents extends HttpServlet {
+public class RetrievePastEvents extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -112,61 +116,74 @@ public class RetrieveAllEvents extends HttpServlet {
                             json.addProperty("message", "success");
                             for (int i = 0; i < eventList.size(); i++) {
                                 Event event = eventList.get(i);
-                                jsonContactObj = new JsonObject();
-                                jsonContactObj.addProperty("event_id", event.getEventId());
-                                jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
-                                jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
-                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
-                                jsonContactObj.addProperty("event_class", event.getEventClassName());
-                                jsonContactObj.addProperty("event_location", event.getEventLocationName());
-                                jsonContactObj.addProperty("event_status", event.getEventStatus());
-                                if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
-                                    jsonContactObj.addProperty("canEdit", true);
-                                    jsonContactObj.addProperty("canDelete", true);
-                                    jsonContactObj.addProperty("canJoin", true);
-                                } else {
-                                    EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
-                                    if (eventAffiliation != null) {
-                                        ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
-                                        if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
-                                            boolean marked = false;
-                                            for (String eventTeam : teamsInEvent) {
-                                                Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
-                                                if (matchTeam && !marked) {
-                                                    String permision = hmTeamPermission.get(eventTeam);
-                                                    if (permision.equals("Event leader")) {
-                                                        jsonContactObj.addProperty("canEdit", true);
-                                                        jsonContactObj.addProperty("canDelete", true);
-                                                        jsonContactObj.addProperty("canJoin", true);
-                                                        marked = true;
-                                                    } else if (permision.equals("Associate")) {
+                                Date currentDateTime = new Date();
+                                try{
+                                    Date currentDate = date.parse(date.format(currentDateTime));
+                                    Date currentTime = time.parse(time.format(currentDateTime));
+                                    Date eventstartDate = date.parse(date.format(event.getEventStartDate()));
+                                    Date eventStartTime = time.parse(time.format(event.getEventStartTime()));
+                                    
+                                    if (eventstartDate.before(currentDate) && eventStartTime.before(currentTime)) {
+
+                                        jsonContactObj = new JsonObject();
+                                        jsonContactObj.addProperty("event_id", event.getEventId());
+                                        jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                        jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                        jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                        jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                        //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
+                                        jsonContactObj.addProperty("event_class", event.getEventClassName());
+                                        jsonContactObj.addProperty("event_location", event.getEventLocationName());
+                                        jsonContactObj.addProperty("event_status", event.getEventStatus());
+                                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
+                                            jsonContactObj.addProperty("canEdit", true);
+                                            jsonContactObj.addProperty("canDelete", true);
+                                            jsonContactObj.addProperty("canJoin", true);
+                                        } else {
+                                            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                            if (eventAffiliation != null) {
+                                                ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
+                                                if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
+                                                    boolean marked = false;
+                                                    for (String eventTeam : teamsInEvent) {
+                                                        Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                        if (matchTeam && !marked) {
+                                                            String permision = hmTeamPermission.get(eventTeam);
+                                                            if (permision.equals("Event leader")) {
+                                                                jsonContactObj.addProperty("canEdit", true);
+                                                                jsonContactObj.addProperty("canDelete", true);
+                                                                jsonContactObj.addProperty("canJoin", true);
+                                                                marked = true;
+                                                            } else if (permision.equals("Associate")) {
+                                                                jsonContactObj.addProperty("canEdit", false);
+                                                                jsonContactObj.addProperty("canDelete", false);
+                                                                jsonContactObj.addProperty("canJoin", true);
+                                                                marked = true;
+                                                            }
+                                                        }
+                                                    }
+                                                    if (!marked) {
                                                         jsonContactObj.addProperty("canEdit", false);
                                                         jsonContactObj.addProperty("canDelete", false);
-                                                        jsonContactObj.addProperty("canJoin", true);
-                                                        marked = true;
+                                                        jsonContactObj.addProperty("canJoin", false);
                                                     }
+                                                } else {
+                                                    jsonContactObj.addProperty("canEdit", false);
+                                                    jsonContactObj.addProperty("canDelete", false);
+                                                    jsonContactObj.addProperty("canJoin", false);
                                                 }
-                                            }
-                                            if (!marked) {
+                                            } else {
                                                 jsonContactObj.addProperty("canEdit", false);
                                                 jsonContactObj.addProperty("canDelete", false);
                                                 jsonContactObj.addProperty("canJoin", false);
                                             }
-                                        } else {
-                                            jsonContactObj.addProperty("canEdit", false);
-                                            jsonContactObj.addProperty("canDelete", false);
-                                            jsonContactObj.addProperty("canJoin", false);
                                         }
-                                    } else {
-                                        jsonContactObj.addProperty("canEdit", false);
-                                        jsonContactObj.addProperty("canDelete", false);
-                                        jsonContactObj.addProperty("canJoin", false);
-                                    }
-                                }
 
-                                eventArray.add(jsonContactObj);
+                                        eventArray.add(jsonContactObj);
+                                    }
+                                } catch (ParseException ex) {
+                                    Logger.getLogger(RetrieveAllUpcomingEvents.class.getName()).log(Level.SEVERE, null, ex);
+                                }
                             }
 
                             json.add("event", eventArray);
