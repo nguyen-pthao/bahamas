@@ -30,11 +30,11 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body" ng-init="retrieveEvents()">                        
-                        <div class="col-md-12" style="padding: 0px">
-                            <label class="col-md-1" style="padding: 0px">
-                                Show Entries:
-                            </label>
-                            <div class="col-md-1" style="padding: 0px">
+                        <div class="row col-md-12">
+                            <div class="col-md-2">
+                                <label>
+                                    Show Entries:
+                                </label>
                                 <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
                                     <option>20</option>
                                     <option>30</option>
@@ -44,9 +44,31 @@ and open the template in the editor.
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
-                            <div class="col-md-offset-6 col-md-4" style="padding: 0px">
-                                <input type="text" class="form-control" placeholder="Search Event" ng-model="searchEvents" />
-                                <br />
+                            <div class="col-md-offset-1 col-md-2">
+                            <label>
+                                Date Start:
+                            </label>
+                            <p class="input-group">
+                                <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="dateStart" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            </div>
+                            <div class="col-md-2">
+                            <label>
+                                Date End:
+                            </label>
+                            <p class="input-group">
+                                <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="dateEnd" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"/>
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                </span>
+                            </p>
+                            </div>
+                            <div class="col-md-offset-2 col-md-3">
+                                <label>Search:</label>
+                                <input type="text" class="form-control" placeholder="Search Event" ng-model="searchEvents"/>
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
@@ -72,7 +94,7 @@ and open the template in the editor.
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
+                                    <tr ng-repeat="event in splitEvents | orderBy:predicate:reverse">
                                         <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
                                         <td>{{event['event_start_date']}}</td>
                                 <td>{{event['event_time_start']}}</td>
