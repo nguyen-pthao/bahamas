@@ -162,12 +162,17 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                 roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                                 roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
                                                 for (int m = 0; m < eventParticipantList.size() - 1; m++){
-                                                    participantName += cDAO.retrieveContactById(eventParticipantList.get(m).getContactID()).getName() + " | ";
-                                                    
+                                                    EventParticipant eventParticipant = eventParticipantList.get(m);
+                                                    if(!eventParticipant.isPullout()){
+                                                        participantName += cDAO.retrieveContactById(eventParticipant.getContactID()).getName() + " | "; 
+                                                    }
                                                 }
-                                                participantName += cDAO.retrieveContactById(eventParticipantList.get(eventParticipantList.size() - 1).getContactID()).getName();
-                                                roleJson.addProperty("participant_name", participantName);
-                                                eventRoleJsonArray.add(roleJson);
+                                                EventParticipant eventLastParticipant = eventParticipantList.get(eventParticipantList.size() - 1);
+                                                if(!eventLastParticipant.isPullout()){
+                                                    participantName += cDAO.retrieveContactById(eventParticipantList.get(eventParticipantList.size() - 1).getContactID()).getName();
+                                                    roleJson.addProperty("participant_name", participantName);
+                                                    eventRoleJsonArray.add(roleJson);
+                                                }
                                             }
                                             jsonContactObj.add("roles", eventRoleJsonArray);
                                             
