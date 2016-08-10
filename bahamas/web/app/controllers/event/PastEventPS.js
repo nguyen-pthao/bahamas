@@ -6,9 +6,9 @@
 
 var app = angular.module('bahamas');
 
-app.controller('viewUpcomingEvents',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService) {
+app.controller('pastEventsPS',
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -18,9 +18,10 @@ app.controller('viewUpcomingEvents',
                     $scope.toRetrieve = {
                         'token': session.getSession('token')
                     };
-                    var url = '/event.retrieveupcoming';
+                    var url = '/event.pastparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
+                        console.log($scope.allEventInfo);
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;
@@ -46,11 +47,11 @@ app.controller('viewUpcomingEvents',
                             } else {
                                 $scope.isAll = false;
                             }
+
                             var newArray = [];
-                            
                             angular.forEach($scope.allEventInfo, function (obj) {
                                 var startDate = new Date(obj['event_start_date']);
-                                if (startDate >= $scope.dateStart && startDate <= $scope.superFarDate) {
+                                if (startDate >= $scope.dateStart && startDate <= $scope.dateEnd) {
                                     newArray.push(obj);
                                 }
                             });
@@ -72,11 +73,12 @@ app.controller('viewUpcomingEvents',
                             var newArray = [];
                             angular.forEach($scope.allEventInfo, function (obj) {
                                 var startDate = new Date(obj['event_start_date']);
-                                if (startDate >= $scope.dateStart && startDate <= $scope.superFarDate) {
+                                if (startDate >= $scope.dateStart && startDate <= $scope.dateEnd) {
                                     newArray.push(obj);
                                 }
                             });
                             $scope.allFilteredEventsTime = newArray;
+
                             $scope.allFilteredEvents = filterFilter($scope.allFilteredEventsTime, term);
                             $scope.totalItems = $scope.allFilteredEvents.length;
                             var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
@@ -94,26 +96,19 @@ app.controller('viewUpcomingEvents',
                         $scope.$watch('dateStart + dateEnd', function () {
                             var newArray = [];
                             if (angular.isUndefined($scope.dateStart)) {
-                                var start = null;
-                                $scope.dateStart = start;
+                                $scope.dateStart = null;
                             }
-                            if (angular.isUndefined($scope.dateEnd) || $scope.dateEnd === null) {
-                                $scope.superFarDate = new Date(2050, 0, 1, 00, 00, 00, 0);
-                                angular.forEach($scope.allEventInfo, function (obj) {
-                                    var startDate = new Date(obj['event_start_date']);
-                                    if (startDate >= $scope.dateStart && startDate <= $scope.superFarDate) {
-                                        newArray.push(obj);
-                                    }
-                                });
-                            } else {
-                                $scope.superFarDate = $scope.dateEnd;
-                                angular.forEach($scope.allEventInfo, function (obj) {
-                                    var startDate = new Date(obj['event_start_date']);
-                                    if (startDate >= $scope.dateStart && startDate <= $scope.superFarDate) {
-                                        newArray.push(obj);
-                                    }
-                                });
+                            if (angular.isUndefined($scope.dateEnd)) {
+                                var end = new Date();
+                                end.setHours(23, 59, 59, 999);
+                                $scope.dateEnd = end;
                             }
+                            angular.forEach($scope.allEventInfo, function (obj) {
+                                var startDate = new Date(obj['event_start_date']);
+                                if (startDate >= $scope.dateStart && startDate <= $scope.dateEnd) {
+                                    newArray.push(obj);
+                                }
+                            });
                             $scope.allFilteredEventsTime = newArray;
                             $scope.allFilteredEvents = filterFilter($scope.allFilteredEventsTime, $scope.searchEvents);
                             var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
@@ -128,12 +123,11 @@ app.controller('viewUpcomingEvents',
                             });
                         });
                     })
-                    var start = null;
-//                    start.setHours(00, 00, 00, 000);
+                    var end = new Date();
+                    end.setHours(23, 59, 59, 999);
                     var d = null;
-                    $scope.superFarDate = new Date(2050, 0, 1, 00, 00, 00, 0);
-                    $scope.dateStart = start;
-                    $scope.dateEnd = d;
+                    $scope.dateStart = d;
+                    $scope.dateEnd = end;
 
                     $scope.today = function () {
                         $scope.dt = new Date();
@@ -218,6 +212,42 @@ app.controller('viewUpcomingEvents',
                     var eventid = event['event_id'];
                     localStorageService.set('eventId', eventid);
                     $state.go(url);
+                };
+
+                $scope.deleteEvent = function ($event, event) {
+                    var toURL = user + ".viewPastEvents";
+                    var eventid = event['event_id'];
+
+                    var toDelete = {
+                        'token': session.getSession('token'),
+                        'event_id': eventid
+                    }
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/deletePrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function (response) {
+                        deleteService.deleteDataService(toDelete, '/event.delete').then(function (response) {
+                            if (response.data.message === "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/deleteSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $state.reload(toURL);
+                                })
+                            } else {
+                                $scope.error = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/deleteFailure.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $state.reload(toURL);
+                                });
+                            }
+                        });
+                    });
                 };
 
                 $scope.predicate = '';

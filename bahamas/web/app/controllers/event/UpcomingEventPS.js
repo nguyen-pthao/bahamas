@@ -6,19 +6,19 @@
 
 var app = angular.module('bahamas');
 
-app.controller('viewUpcomingEvents',
+app.controller('upcomingEventPS',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-
+                
                 $scope.retrieveEvents = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token')
                     };
-                    var url = '/event.retrieveupcoming';
+                    var url = '/event.upcomingparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
                         $scope.totalItems = $scope.allEventInfo.length;
@@ -227,4 +227,5 @@ app.controller('viewUpcomingEvents',
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
                     $scope.predicate = predicate;
                 };
+                
             }]);

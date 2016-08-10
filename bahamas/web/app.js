@@ -94,6 +94,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/editEvent.html',
                 controller: 'editEvent'
             })
+            .state('admin.eventParticipationSummary', {
+                url: '/eventParticipationSummary',
+                templateUrl: 'app/views/event/upcomingEventPS.html',
+                controller: 'upcomingEventPS'
+            })
+            .state('admin.pastEventParticipationSummary', {
+                url: '/pastEventParticipationSummary',
+                templateUrl: 'app/views/event/pastEventPS.html',
+                controller: 'pastEventsPS'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -158,6 +168,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewPastEvents',
                 templateUrl: 'app/views/event/viewPastEvents.html',
                 controller: 'viewPastEvents'
+            })
+            .state('associate.eventParticipationSummary', {
+                url: '/eventParticipationSummary',
+                templateUrl: 'app/views/event/upcomingEventPS.html',
+                controller: 'upcomingEventPS'
+            })
+            .state('associate.pastEventParticipationSummary', {
+                url: '/pastEventParticipationSummary',
+                templateUrl: 'app/views/event/pastEventPS.html',
+                controller: 'pastEventsPS'
             })
             .state('teammanager', {
                 url: '/teammanager',
@@ -224,6 +244,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/editEvent.html',
                 controller: 'editEvent'
             })
+            .state('teammanager.eventParticipationSummary', {
+                url: '/eventParticipationSummary',
+                templateUrl: 'app/views/event/upcomingEventPS.html',
+                controller: 'upcomingEventPS'
+            })
+            .state('teammanager.pastEventParticipationSummary', {
+                url: '/pastEventParticipationSummary',
+                templateUrl: 'app/views/event/pastEventPS.html',
+                controller: 'pastEventsPS'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -288,6 +318,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/editEvent',
                 templateUrl: 'app/views/event/editEvent.html',
                 controller: 'editEvent'
+            })
+            .state('eventleader.eventParticipationSummary', {
+                url: '/eventParticipationSummary',
+                templateUrl: 'app/views/event/upcomingEventPS.html',
+                controller: 'upcomingEventPS'
+            })
+            .state('eventleader.pastEventParticipationSummary', {
+                url: '/pastEventParticipationSummary',
+                templateUrl: 'app/views/event/pastEventPS.html',
+                controller: 'pastEventsPS'
             })
             .state('unauthorised', {
                 url: '/unauthorised',

@@ -188,18 +188,9 @@
                                 <ul class="treeview-menu" style="padding: 10px">            
                                     <li><a ui-sref="admin.viewPastEvents"><i class="fa fa-calendar-check-o"></i><span> View Past Events</span></a></li>
                                     <li><a ui-sref="admin.viewUpcomingEvents"><i class="fa fa-calendar-plus-o"></i><span> Upcoming Events</span></a></li>
-                                    <li><a ui-sref="admin.createEvent"><i class="fa fa-plus-square"></i><span> Create New Event</span></a></li>
-                                    <li  style="padding-bottom: 5px">
-                                        <form ng-submit="searchEvent()" class="sidebar-form">
-                                            <div class="input-group">
-                                                <input type="text" ng-model="search.event" name="searchEvent" class="form-control" placeholder="Search for event...">
-                                                <span class="input-group-btn">
-                                                    <button type="submit" class="btn btn-flat"><i class="fa fa-search"></i>
-                                                    </button>
-                                                </span>
-                                            </div>
-                                        </form>
-                                    </li>                    
+                                    <li><a ui-sref="admin.pastEventParticipationSummary"><i class="fa fa-calendar-check-o"></i><span> Past Events (PS)</span></a></li>
+                                    <li><a ui-sref="admin.eventParticipationSummary"><i class="fa fa-calendar-plus-o"></i><span> Upcoming Events (PS)</span></a></li>
+                                    <li><a ui-sref="admin.createEvent"><i class="fa fa-plus-square"></i><span> Create New Event</span></a></li>               
                                 </ul>
                             </li> 
                             <!-- Report information -->
@@ -271,26 +262,26 @@
                                                 <tr>
                                                     <td width="25%"><a href="" ng-click="foo($event, contact)">Breakfast</a></td>
                                                     <td width="20%">13 Aug 2016</td>
-                                            <td width="20%">0730 AM</td>
-                                            <td width="10%">Alankar</td>
-                                            <td width="10%" ><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull Out" ng-click="editContact($event, contact)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
-                                            </tr>
+                                                    <td width="20%">0730 AM</td>
+                                                    <td width="10%">Alankar</td>
+                                                    <td width="10%" ><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull Out" ng-click="editContact($event, contact)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                                </tr>
                                             </tbody>
                                             <tbody>
                                                 <tr>
                                                     <td width="25%"><a href="" ng-click="foo($event, contact)">Dinner</a></td>
                                                     <td width="20%">13 Aug 2016</td>
-                                            <td width="20%">0630 PM</td>
-                                            <td width="10%">Alankar</td>
-                                            <td width="10%"><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull Out" ng-click="editContact($event, contact)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
-                                            </tr>
+                                                    <td width="20%">0630 PM</td>
+                                                    <td width="10%">Alankar</td>
+                                                    <td width="10%"><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull Out" ng-click="editContact($event, contact)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
 
                                 </div>
                                 <!-- /.box-body -->
-                                
+
                                 <!-- /.box-footer-->
                             </div>
                             <!-- /.box -->
@@ -309,18 +300,18 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="20%"><a href="">TCRP</td>
-                                          </tr>
+                                                </tr>
                                             </tbody>
                                             <tbody>
                                                 <tr>
                                                     <td width="20%"><a href="">Research</td>
-                                          </tr>
+                                                </tr>
                                             </tbody>
                                         </table>
                                     </div>
 
                                 </div>
-                               
+
                                 <!-- /.box-footer-->
                             </div>
 
@@ -458,14 +449,14 @@
             <!-- ./wrapper -->
         </div>
         <script>
-            // apply dropdownHover to all elements with the data-hover="dropdown" attribute
-            $('document').ready(function () {
-                $('[data-hover="dropdown"]').dropdownHover();
-            });
+                    // apply dropdownHover to all elements with the data-hover="dropdown" attribute
+                    $('document').ready(function () {
+                        $('[data-hover="dropdown"]').dropdownHover();
+                    });
 
-            $('window').on('popstate', function () {
-                $('#changePassword').modal('hide');
-            });
+                    $('window').on('popstate', function () {
+                        $('#changePassword').modal('hide');
+                    });
         </script>
     </body>
 </html>
