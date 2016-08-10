@@ -158,21 +158,24 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                             
                                             for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                                 String participantName = "";
+                                                ArrayList<String> participantNameList = new ArrayList<String>();
                                                 JsonObject roleJson = new JsonObject();
                                                 roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                                 roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
-                                                for (int m = 0; m < eventParticipantList.size() - 1; m++){
+                                                for (int m = 0; m < eventParticipantList.size(); m++){
                                                     EventParticipant eventParticipant = eventParticipantList.get(m);
-                                                    if(!eventParticipant.isPullout()){
-                                                        participantName += cDAO.retrieveContactById(eventParticipant.getContactID()).getName() + " | "; 
+                                                    if(!eventParticipant.isPullout() && eventParticipant.getRoleID() == eventRoleAssignment.getRoleId()){
+                                                        participantNameList.add(cDAO.retrieveContactById(eventParticipant.getContactID()).getName());
                                                     }
                                                 }
-                                                EventParticipant eventLastParticipant = eventParticipantList.get(eventParticipantList.size() - 1);
-                                                if(!eventLastParticipant.isPullout()){
-                                                    participantName += cDAO.retrieveContactById(eventParticipantList.get(eventParticipantList.size() - 1).getContactID()).getName();
-                                                    roleJson.addProperty("participant_name", participantName);
-                                                    eventRoleJsonArray.add(roleJson);
+                                                if(!participantNameList.isEmpty()){
+                                                    for(int j = 0; j < participantNameList.size()-1; j++){
+                                                        participantName += participantNameList.get(j) + " | ";
+                                                    }
+                                                    participantName += participantNameList.get(participantNameList.size()-1);
                                                 }
+                                                roleJson.addProperty("participant_name", participantName);
+                                                eventRoleJsonArray.add(roleJson);
                                             }
                                             jsonContactObj.add("roles", eventRoleJsonArray);
                                             
