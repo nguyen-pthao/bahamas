@@ -35,6 +35,7 @@ var AppAPI = {
     'deleteProxy': '/proxy.delete',
     'deleteSkill': '/skill.delete',
     'deleteTeamJoin': '/teamjoin.delete',
+    'deleteProfilePic': '/image.delete',
 // Retrieve Info API     
     'retrieveAuditLog': '/retrieve.auditlog',
     'retrieveContact': '/contact.retrieve',

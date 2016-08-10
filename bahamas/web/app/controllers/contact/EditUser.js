@@ -6,8 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', '$http', 'Upload', '$state',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, $http, Upload, $state) {
+app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', '$http', 'Upload', '$state', 'deleteService',
+    function ($scope, session, ngDialog, $timeout, dataSubmit, $http, Upload, $state, deleteService) {
 
         //Edit profile picture
         //Upload image uses third-party library and thus require full URL
@@ -33,9 +33,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
 
             canvas.width = 400;
             canvas.height = 400;
-            //img.addEventListener("load", function () {
             canvas.getContext('2d').drawImage(img, 0, 0, 400, 400);
-            //}, false);
             var dataURL = canvas.toDataURL();
             //console.log(dataURL);
 
@@ -76,6 +74,35 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
                 });
             }
         };
+        
+        $scope.removeProfile = function () {
+            ngDialog.openConfirm({
+                template: './style/ngTemplate/deletePrompt.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            }).then(function (response) {
+                var deleteProfile = {};
+                deleteProfile.token = session.getSession('token');
+                deleteProfile.contact_id = $scope.contactToEditCID;
+                var url = AppAPI.deleteProfilePic;
+                deleteService.deleteDataService(deleteProfile, url).then(function (response) {
+                    if (response.data.message == 'success') {
+                        ngDialog.openConfirm({
+                            template: './style/ngTemplate/deleteSuccess.html',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        }).then(function () {
+                            $scope.retrieveFunc();
+                        });
+                    } else {
+                        window.alert("Fail to delete profile picture");
+                    }
+                }, function () {
+                    window.alert("Fail to send request!");
+                });
+            });
+        };
+        
         //For generating password
         $scope.generatePassword = function () {
             var a = Math.floor((Math.random() * 10) + 10);
@@ -97,7 +124,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
                 if ($scope.isUser) {
                     if ($scope.isAdmin) {
                         datasend['token'] = session.getSession('token');
-                        datasend['contact_id'] = $scope.editUser['contact_id'];
+                        datasend['contact_id'] = $scope.editUser['contact_id']; //$scope.contactToEditCID;
                         datasend['deactivated'] = ($scope.editUser['deactivated'] === 'true');
                         datasend['is_admin'] = ($scope.editUser['is_admin'] === 'true');
                         submitUser(datasend, false);
@@ -113,7 +140,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
                 }
             } else {
                 datasend['token'] = session.getSession('token');
-                datasend['contact_id'] = $scope.editUser['contact_id'];
+                datasend['contact_id'] = $scope.editUser['contact_id']; //$scope.contactToEditCID;
                 datasend['current_password'] = $scope.editUser['current_password'];
                 datasend['password'] = $scope.editUser['password'];
                 datasend['confirm_password'] = $scope.editUser['confirm_password'];

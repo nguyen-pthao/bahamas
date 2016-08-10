@@ -158,6 +158,8 @@ and open the template in the editor.
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
                                     </center>
                                     <center ng-show="isUser && isAdmin && editMode == 'true'">
+                                        <button type="submit" class="btn btn-link uppercase bold" ng-click="removeProfile()">Remove Profile Picture</button>
+                                        &nbsp;
                                         <button type="submit" class="btn btn-link uppercase bold" ng-click="editTheUser()">Save Changes</button>
                                         <br>
                                         <span ng-bind="resultUser.message" ng-show="resultUser.status"></span>
