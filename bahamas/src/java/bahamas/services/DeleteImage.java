@@ -11,7 +11,10 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -54,63 +57,87 @@ public class DeleteImage extends HttpServlet {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-            String token = request.getParameter("token");
+            //Retrieve the json string as a reader 
+            StringBuilder sb = new StringBuilder();
+            try {
+                BufferedReader reader = request.getReader();
+                String line = null;
+                while ((line = reader.readLine()) != null) {
+                    sb.append(line);
+                }
+            } catch (Exception e) {
+                json.addProperty("message", "fail");
+                out.println(gson.toJson(json));
+                return;
+            }
 
-            if (token != null) {
-                String username = Authenticator.verifyToken(token);
-                if (username != null) {
+            String jsonLine = sb.toString();
+            if (jsonLine == null || jsonLine.isEmpty()) {
+                json.addProperty("message", "fail");
+                out.println(gson.toJson(json));
 
-                    // gets absolute path of the web application
-                    String appPath = request.getServletContext().getRealPath("");
-                    // constructs path of the directory to save uploaded file
-                    String savePath = appPath + File.separator + SAVE_DIR;
+            } else {
+                //Parse json object
+                JsonElement jelement = new JsonParser().parse(jsonLine);
+                JsonObject jobject = jelement.getAsJsonObject();
 
-                    // creates the save directory if it does not exists
-                    File fileSaveDir = new File(savePath);
-                    if (!fileSaveDir.exists()) {
-                        fileSaveDir.mkdir();
-                    }
+                String token = Validator.containsBlankField(jobject.get("token"));
 
-                    String contactId = request.getParameter("contact_id");
-                    String uniqueId = UUID.randomUUID().toString().replaceAll("-", "");
-                    //request.getPart("image").write(savePath + File.separator + username + ".jpg");
-                    try {
+                if (token != null) {
+                    String username = Authenticator.verifyToken(token);
+                    if (username != null) {
 
-                        int cid = Integer.parseInt(contactId);
-                        ContactDAO cDAO = new ContactDAO();
-                        Contact c = cDAO.retrieveContactById(cid);
+                        // gets absolute path of the web application
+                        String appPath = request.getServletContext().getRealPath("");
+                        // constructs path of the directory to save uploaded file
+                        String savePath = appPath + File.separator + SAVE_DIR;
 
-                        if (c != null) {
+                        // creates the save directory if it does not exists
+                        File fileSaveDir = new File(savePath);
+                        if (!fileSaveDir.exists()) {
+                            fileSaveDir.mkdir();
+                        }
 
-                            Files.copy(new File(savePath + File.separator + "default" + ".jpg").toPath(),
-                                    new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
+                        int contactId = Validator.isIntValid(jobject.get("contact_id"));
+                        String uniqueId = UUID.randomUUID().toString().replaceAll("-", "");
+                        //request.getPart("image").write(savePath + File.separator + username + ".jpg");
+                        try {
 
-                            String oldImage = ContactDAO.updateImage(c.getUsername(), "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
+                            ContactDAO cDAO = new ContactDAO();
+                            Contact c = cDAO.retrieveContactById(contactId);
 
-                            if (oldImage != null && !oldImage.isEmpty()) {
-                                Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));
+                            if (c != null) {
+
+                                Files.copy(new File(savePath + File.separator + "default" + ".jpg").toPath(),
+                                        new File(savePath + File.separator + uniqueId + ".jpg").toPath(), REPLACE_EXISTING);
+
+                                String oldImage = ContactDAO.updateImage(c.getUsername(), "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
+
+                                if (oldImage != null && !oldImage.isEmpty()) {
+                                    Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));
+                                }
+                            } else {
+                                json.addProperty("message", "Image failed to delete!");
+                                out.println(gson.toJson(json));
+                                return;
                             }
-                        } else {
+
+                        } catch (Exception e) {
                             json.addProperty("message", "Image failed to delete!");
                             out.println(gson.toJson(json));
                             return;
                         }
 
-                    } catch (Exception e) {
-                        json.addProperty("message", "Image failed to delete!");
+                        json.addProperty("message", "Image successfully deleted!");
+                        json.addProperty("image", "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
                         out.println(gson.toJson(json));
                         return;
                     }
-
-                    json.addProperty("message", "Image successfully deleted!");
-                    json.addProperty("image", "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
-                    out.println(gson.toJson(json));
-                    return;
                 }
+                json.addProperty("message", "Image failed to delete!");
+                out.println(gson.toJson(json));
+                return;
             }
-            json.addProperty("message", "Image failed to delete!");
-            out.println(gson.toJson(json));
-            return;
         }
     }
 
