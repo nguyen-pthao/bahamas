@@ -6,7 +6,6 @@
 package bahamas.dao;
 
 import bahamas.entity.EventParticipant;
-import bahamas.entity.EventRoleAssignment;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

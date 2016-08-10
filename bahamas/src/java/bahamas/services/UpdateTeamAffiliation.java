@@ -78,8 +78,15 @@ public class UpdateTeamAffiliation extends HttpServlet {
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
-                String explainIfOthers = jobject.get("explain_if_other").getAsString();
-                String remarks = jobject.get("remarks").getAsString();
+                String explainIfOthers = "";
+                String remarks = "";
+                if(jobject.has("explain_if_other")){
+                    explainIfOthers = jobject.get("explain_if_other").getAsString();
+                }
+                if(jobject.has("remarks")){
+                    remarks = jobject.get("remarks").getAsString();
+                }
+                
                 JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
                 

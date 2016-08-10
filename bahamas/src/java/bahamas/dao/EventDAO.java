@@ -355,4 +355,57 @@ public class EventDAO {
         return false;
     }
     
+    public ArrayList<Event> retrieveAllEventsGroupByEventTitle() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Event> eventList = null;
+        try {
+            eventList = new ArrayList<Event>();
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
+                    + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
+                    + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
+                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID, EVENT_STATUS FROM EVENT ORDER BY EVENT_TITLE, EVENT_START_DATE DESC");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                String createdBy = rs.getString(1);
+                String dateStr1 = rs.getString(2);
+                Date dateCreated = datetime.parse(dateStr1);
+                String eventTitle = rs.getString(3);
+                String address = rs.getString(4);
+                String zipcode = rs.getString(5);
+                String dateStr2 = rs.getString(6);
+                Date eventStartDate = datetime.parse(dateStr2);
+                String dateStr3 = rs.getString(7);
+                Date eventEndDate = datetime.parse(dateStr3);
+                
+                String dateStr4 = rs.getString(8);
+                Date eventTimeStart = datetime.parse(dateStr4);
+                String dateStr5 = rs.getString(9);
+                Date eventTimeEnd = datetime.parse(dateStr5);
+                boolean sendReminder = rs.getBoolean(10);
+                String eventDescription = rs.getString(11);
+                int minimumParticipation = rs.getInt(12);
+                String eventClassName = rs.getString(13);
+                String eventLocationName = rs.getString(14);
+                String eventLng = rs.getString(15);
+                String eventLat = rs.getString(16);
+                int eventID = rs.getInt(17);
+                String eventStatus = rs.getString(18);
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus);
+                eventList.add(event);      
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve event from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return eventList;
+    }
+    
 }

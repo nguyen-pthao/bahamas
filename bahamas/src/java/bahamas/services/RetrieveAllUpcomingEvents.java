@@ -232,7 +232,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                             json.add("event", eventArray);
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "Fail retrieve all events");
+                            json.addProperty("message", "Fail retrieve all upcoming events");
                             out.println(gson.toJson(json));
                         }
                     }
