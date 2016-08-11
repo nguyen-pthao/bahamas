@@ -252,6 +252,7 @@ app.controller('editEvent',
 
                 $scope.submitEditRoles = function () {
                     var hasError = false;
+                    console.log($scope.editEvent['event_role']);
                     $scope.editEvent['event_role'].forEach(function (obj) {
                         if (obj['event_role'] == '') {
                             if (obj['event_desc'] != '') {
@@ -259,9 +260,14 @@ app.controller('editEvent',
                             }
                         } else if (angular.isUndefined(obj['event_role'])) {
                             hasError = true;
-                        } else if (angular.isUndefined(obj['event_desc'])) {
-                            hasError = true;
+                        } else if(angular.isDefined(obj['event_role']) && obj['event_role'] != ''){
+                            if(angular.isUndefined(obj['event_desc'])){
+                                obj['event_desc'] = '';
+                            }
                         }
+//                        else if (angular.isUndefined(obj['event_desc'])) {
+//                            hasError = true;
+//                        }
                     })
 
                     if (hasError == true) {
