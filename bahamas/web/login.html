@@ -6,52 +6,54 @@
 
 <!DOCTYPE html>
 <html ng-app="bahamas">
+    <body>
         <div class="hold-transition login-page">
-        <div class="login-box">
-            <center><img class="twc2-logo" src="style/img/bahamas_logo_major.png" alt="twc2-logo">
-            <!-- /.LOGIN-BOX -->
-            <div class="login-box-body">
-                <p class="login-box-msg">Sign in to start your session</p>
-                <form ng-submit="loginUser()" role="form" name="loginForm">
-                    <div class="form-group has-feedback">
-                        <input type="text" name="username" class="form-control" ng-model="user.username" placeholder="Username" required>
-                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            <div class="login-box">
+                <center><img class="twc2-logo" src="style/img/bahamas_logo_major.png" alt="twc2-logo">
+                    <!-- /.LOGIN-BOX -->
+                    <div class="login-box-body">
+                        <p class="login-box-msg">Sign in to start your session</p>
+                        <form ng-submit="loginUser()" role="form" name="loginForm">
+                            <div class="form-group has-feedback">
+                                <input type="text" name="username" class="form-control" ng-model="user.username" placeholder="Username" required>
+                                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                            </div>
+                            <div class="form-group has-feedback">
+                                <input type="password" name="password" class="form-control" ng-model="user.password" ng-minlength="8" ng-maxlength="20" placeholder="Password" required>
+                                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-8">
+                                    <a href="forgotPassword.html" class="pull-left">Forgot Password?</a>
+                                </div>
+                                <div class="col-xs-4">
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group has-feedback">
-                        <input type="password" name="password" class="form-control" ng-model="user.password" ng-minlength="8" ng-maxlength="20" placeholder="Password" required>
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-xs-8">
-                            <a href="forgotPassword.html" class="pull-left">Forgot Password?</a>
-                        </div>
-                        <div class="col-xs-4">
-                            <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
-                        </div>
-                    </div>
-                </form>
+                </center>
+                <div class='alert alert-danger' role='alert' ng-show="error">
+                    <strong>
+                        <span class='glyphicon glyphicon-exclamation-sign'></span><span class='sr-only'></span>
+                        Invalid Username/Password.
+                    </strong>  
+                </div> 
             </div>
-            </center>
-            <div class='alert alert-danger' role='alert' ng-show="error">
-                <strong>
-                    <span class='glyphicon glyphicon-exclamation-sign'></span><span class='sr-only'></span>
-                    Invalid Username/Password.
-                </strong>  
-            </div> 
-        </div>
-        <!-- /.LOGIN-BOX -->
+            <!-- /.LOGIN-BOX -->
 
-        <!-- iCheck -->
-        <script src="plugins/iCheck/icheck.min.js"></script>
-        <script>
-            $(function () {
-                $('input').iCheck({
-                    checkboxClass: 'icheckbox_square-blue',
-                    radioClass: 'iradio_square-blue',
-                    increaseArea: '20%' // optional
-                });
-            });
-        </script>
+            <!-- iCheck -->
+            <script src="plugins/iCheck/icheck.min.js"></script>
+            <script>
+                    $(function () {
+                        $('input').iCheck({
+                            checkboxClass: 'icheckbox_square-blue',
+                            radioClass: 'iradio_square-blue',
+                            increaseArea: '20%' // optional
+                        });
+                    });
+            </script>
         </div>
+    </body>
 </html>
 

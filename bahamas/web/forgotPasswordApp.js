@@ -10,7 +10,7 @@ var app = angular.module('forgotPassword', ['ngDialog'])
                 $scope.toResetPassword = {
                     username: '',
                     email: ''
-                }
+                };
 
                 $scope.sendInfo = function () {
                     console.log($scope.toResetPassword);
@@ -32,9 +32,9 @@ var app = angular.module('forgotPassword', ['ngDialog'])
                                 template: './style/ngTemplate/passwordResetFailure.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         }
-                    })
-                }
+                    });
+                };
             }]);
 

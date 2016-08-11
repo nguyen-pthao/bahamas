@@ -239,6 +239,117 @@ li.user-header>p>a:focus {
     }
 }
 
+/*Forget password page*/
+.forget-pass-page {
+    background-color: white; 
+    box-shadow: none;
+}
+
+.forget-pass-box {
+    width: 600px;
+    margin: 5% auto;
+}
+
+.forget-pass-box-body {
+    padding-top: 250px;
+    text-align: center;
+}
+
+.forget-pass-logo {
+    padding-top: 150px;
+    max-height: 500px;
+    width: auto;
+}
+
+@media(max-width: 1024px) {
+    .forget-pass-logo {
+        padding-top: 80px;
+        padding-left: 30%;
+        max-height: 400px;
+        width: auto;
+    }
+    .forget-pass-box-body {
+        padding-top: 10px;
+        text-align: center;
+    }
+}
+
+@media(max-width: 768px) {
+    .forget-pass-box {
+        width: 80%;
+        margin: 1% auto;
+    }
+
+    .forget-pass-box-body {
+        padding-top: 0px;
+        text-align: center;
+    }
+
+    .forget-pass-logo {
+        padding-top: 100px;
+        padding-left: 25%;
+        max-height: 500px;
+        width: auto;
+    }
+}
+
+@media(max-width: 440px) {
+    .forget-pass-box {
+        width: 100%;
+        margin: 1% auto;
+    }
+
+    .forget-pass-box-body {
+        padding-top: 0px;
+        text-align: center;
+    }
+
+    .forget-pass-logo {
+        padding-top: 50px;
+        padding-left: 20%;
+        max-height: 350px;
+        width: auto;
+    }
+}
+
+/*Verified email page*/
+
+.text-vertical-center {
+    position: fixed;
+    bottom: 0;
+    padding: 30px;
+}
+
+div.text-vertical-center > a.hyperlink {
+    color: white;
+    font-size: x-large;
+    text-decoration: blink;
+}
+
+div.text-vertical-center > a.hyperlink:hover {
+    color: #c7e6fa;
+    font-size: x-large;
+    text-decoration: blink;
+}
+
+@media(max-width: 440px) {
+    .text-vertical-center {
+        position: fixed;
+        bottom: 0;
+        padding: 15px;
+    }
+    div.text-vertical-center > a.hyperlink {
+        color: white;
+        font-size: medium;
+        text-decoration: blink;
+    }
+    div.text-vertical-center > a.hyperlink:hover {
+        color: #c7e6fa;
+        font-size: medium;
+        text-decoration: blink;
+    }
+}
+
 /*Login logo and login page*/
 .twc2-logo {
     max-width: 100%;
