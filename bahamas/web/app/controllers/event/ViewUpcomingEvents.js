@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewUpcomingEvents',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'deleteService',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, deleteService) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -206,6 +206,42 @@ app.controller('viewUpcomingEvents',
                         return '';
                     }
                 }
+                
+                $scope.deleteEvent = function ($event, event) {
+                    var toURL = user + ".viewUpcomingEvents";
+                    var eventid = event['event_id'];
+
+                    var toDelete = {
+                        'token': session.getSession('token'),
+                        'event_id': eventid
+                    }
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/deletePrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function (response) {
+                        deleteService.deleteDataService(toDelete, '/event.delete').then(function (response) {
+                            if (response.data.message === "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/deleteSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $state.reload(toURL);
+                                })
+                            } else {
+                                $scope.error = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/deleteFailure.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    $state.reload(toURL);
+                                });
+                            }
+                        });
+                    });
+                };
 
                 $scope.foo = function ($event, event) {
                     var url = user + '.viewIndivEvent';
