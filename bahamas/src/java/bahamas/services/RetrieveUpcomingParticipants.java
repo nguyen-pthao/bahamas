@@ -63,6 +63,8 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -103,17 +105,33 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
                         //Get all teams this user has
+                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
                         ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
-                        for (TeamJoin teamJoin : teamJoinList) {
-                            hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                        try {
+                            Date currentDateTime = new Date();
+                            Date currentDate = date.parse(date.format(currentDateTime));
+                            Date obsDate = null;
+                            for (TeamJoin teamJoin : teamJoinList) {
+                                if(teamJoin.getDateObsolete() != null){
+                                    obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
+                                }
+                                
+                                if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
+                                    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                }
+
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
                         }
 
                         EventDAO eventDAO = new EventDAO();
                         ArrayList<Event> eventList = eventDAO.retrieveAllEventsGroupByEventTitle();
-                        SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
-                        SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+
                         JsonArray eventArray = new JsonArray();
                         JsonObject jsonContactObj;
                         if (eventList != null) {
@@ -133,7 +151,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                         EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                         jsonContactObj = new JsonObject();
                                         JsonArray eventRoleJsonArray = new JsonArray();
-                                        
+
                                         jsonContactObj.addProperty("event_id", event.getEventId());
                                         jsonContactObj.addProperty("event_title", event.getEventTitle());
                                         jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
@@ -153,35 +171,105 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                         }
                                         jsonContactObj.addProperty("event_location", event.getEventLocationName());
 
-                                        
-                                        if (eventRoleAssignmentList != null && !eventParticipantList.isEmpty()) {
-                                            
+                                        if (eventRoleAssignmentList != null) {
+                                            boolean canJoinDisable = false;
+
                                             for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                                 String participantName = "";
                                                 ArrayList<String> participantNameList = new ArrayList<String>();
+                                                boolean joined = false;
                                                 JsonObject roleJson = new JsonObject();
                                                 roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                                 roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
-                                                for (int m = 0; m < eventParticipantList.size(); m++){
-                                                    EventParticipant eventParticipant = eventParticipantList.get(m);
-                                                    if(!eventParticipant.isPullout() && eventParticipant.getRoleID() == eventRoleAssignment.getRoleId()){
-                                                        participantNameList.add(cDAO.retrieveContactById(eventParticipant.getContactID()).getName());
+                                                if (!eventParticipantList.isEmpty()) {
+                                                    for (int m = 0; m < eventParticipantList.size(); m++) {
+                                                        EventParticipant eventParticipant = eventParticipantList.get(m);
+                                                        if (!eventParticipant.isPullout() && eventParticipant.getRoleID() == eventRoleAssignment.getRoleId()) {
+                                                            participantNameList.add(cDAO.retrieveContactById(eventParticipant.getContactID()).getName());
+                                                            canJoinDisable = true;
+                                                            joined = true;
+                                                        }
                                                     }
                                                 }
-                                                if(!participantNameList.isEmpty()){
-                                                    for(int j = 0; j < participantNameList.size()-1; j++){
+
+                                                if (!participantNameList.isEmpty()) {
+                                                    for (int j = 0; j < participantNameList.size() - 1; j++) {
                                                         participantName += participantNameList.get(j) + " | ";
                                                     }
-                                                    participantName += participantNameList.get(participantNameList.size()-1);
+                                                    participantName += participantNameList.get(participantNameList.size() - 1);
                                                 }
                                                 roleJson.addProperty("participant_name", participantName);
+                                                if (joined) {
+                                                    roleJson.addProperty("joined", true);
+                                                } else {
+                                                    roleJson.addProperty("joined", false);
+                                                }
                                                 eventRoleJsonArray.add(roleJson);
+                                                jsonContactObj.add("roles", eventRoleJsonArray);
+
                                             }
-                                            jsonContactObj.add("roles", eventRoleJsonArray);
-                                            
-                                        }else{
+                                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
+                                                //check of the user has joined this event
+                                                //EventParticipantDAO.retrieveParticipantbyEventIDRoleID(,eventId);
+                                                jsonContactObj.addProperty("canEdit", true);
+                                                jsonContactObj.addProperty("canDelete", true);
+                                                if (canJoinDisable) {
+                                                    jsonContactObj.addProperty("canJoin", false);
+                                                } else {
+                                                    jsonContactObj.addProperty("canJoin", true);
+                                                }
+
+                                            } else {
+                                                if (eventAffiliation != null) {
+                                                    ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
+                                                    if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
+                                                        boolean marked = false;
+                                                        for (String eventTeam : teamsInEvent) {
+                                                            Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                            if (matchTeam && !marked) {
+                                                                String permision = hmTeamPermission.get(eventTeam);
+                                                                if (permision.equals("Event leader")) {
+                                                                    jsonContactObj.addProperty("canEdit", true);
+                                                                    jsonContactObj.addProperty("canDelete", true);
+                                                                    if (canJoinDisable) {
+                                                                        jsonContactObj.addProperty("canJoin", false);
+                                                                    } else {
+                                                                        jsonContactObj.addProperty("canJoin", true);
+                                                                    }
+                                                                    marked = true;
+                                                                } else if (permision.equals("Associate")) {
+                                                                    jsonContactObj.addProperty("canEdit", false);
+                                                                    jsonContactObj.addProperty("canDelete", false);
+                                                                    if (canJoinDisable) {
+                                                                        jsonContactObj.addProperty("canJoin", false);
+                                                                    } else {
+                                                                        jsonContactObj.addProperty("canJoin", true);
+                                                                    }
+                                                                    marked = true;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (!marked) {
+                                                            jsonContactObj.addProperty("canEdit", false);
+                                                            jsonContactObj.addProperty("canDelete", false);
+                                                            jsonContactObj.addProperty("canJoin", false);
+                                                        }
+                                                    } else {
+                                                        jsonContactObj.addProperty("canEdit", false);
+                                                        jsonContactObj.addProperty("canDelete", false);
+                                                        jsonContactObj.addProperty("canJoin", false);
+                                                    }
+                                                } else {
+                                                    jsonContactObj.addProperty("canEdit", false);
+                                                    jsonContactObj.addProperty("canDelete", false);
+                                                    jsonContactObj.addProperty("canJoin", false);
+                                                }
+                                            }
+
+                                        } else {
                                             jsonContactObj.addProperty("roles", "");
                                         }
+
                                         eventArray.add(jsonContactObj);
 
                                     }

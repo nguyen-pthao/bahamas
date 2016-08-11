@@ -30,9 +30,13 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -91,7 +95,8 @@ public class RetrieveEventIndiv extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("eventId"));
                 String username = Authenticator.verifyToken(token);
-
+                SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -109,14 +114,32 @@ public class RetrieveEventIndiv extends HttpServlet {
 
                         //Get all teams this user has
                         ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
-                        for (TeamJoin teamJoin : teamJoinList) {
-                            hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                        try {
+                            for (TeamJoin teamJoin : teamJoinList) {
+                                //hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                Date currentDateTime = new Date();
+                                Date currentDate = date.parse(date.format(currentDateTime));
+                                Date obsDate = null;
+
+                                if (teamJoin.getDateObsolete() != null) {
+                                    obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
+                                }
+
+                                if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
+                                    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                }
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
                         }
 
                         EventDAO eventDAO = new EventDAO();
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-                        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                        //SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        //SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
                         if (event != null) {
                             json.addProperty("message", "success");
@@ -157,7 +180,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         roleJson.addProperty("joined", false);
                                     } else if (eventParticipant.isPullout()) {
                                         roleJson.addProperty("joined", false);
-                                    } else{
+                                    } else {
                                         roleJson.addProperty("joined", true);
                                         canJoinDisable = true;
                                     }
