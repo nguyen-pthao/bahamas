@@ -601,9 +601,9 @@ and open the template in the editor.
                                     <span>No Team Information Available</span>
                                 </div>
                                 <div class="box collapsed-box" ng-repeat='teamObj in team'>
-                                    <div class="box-header with-border" style="padding-bottom: 5px" data-widget="collapse">
+                                    <div class="box-header  coral-box-header" data-widget="collapse">
                                         <h5 class="box-title">
-                                            <b>Team <span ng-bind="teamObj.team_name"></span></b>
+                                            <b><span ng-bind="teamObj.team_name"></span></b>
                                             <b ng-if="teamObj.permission == 'Pending'"><span> - Pending</span></b>
                                             <b ng-if="teamObj.isObsolete"><span>(Obsolete)</span></b>
                                         </h5>

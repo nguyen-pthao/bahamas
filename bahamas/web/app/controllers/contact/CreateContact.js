@@ -154,7 +154,7 @@ app.controller('createContact',
                         token: session.getSession('token'),
                         'contact_id': $scope.result.contactId,
                         address: '',
-                        country: '',
+                        country: 'Singapore',
                         zipcode: '',
                         'address_remarks': '',
                         'date_obsolete': ''
