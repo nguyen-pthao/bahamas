@@ -21,6 +21,7 @@ app.controller('upcomingEventPS',
                     var url = '/event.upcomingparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
+                        console.log($scope.allEventInfo);
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;

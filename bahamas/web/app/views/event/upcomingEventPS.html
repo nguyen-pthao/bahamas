@@ -104,7 +104,9 @@ and open the template in the editor.
                                                 <tr ng-repeat="role in event['roles']">
                                                     <td>{{role['event_role']}}</td>
                                                     <td>{{role['participant_name']}}</td>
-                                                    <td><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></center></td>
+                                                    <td><center><span ng-if="event['canJoin']"><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click=""><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
+                                                <span ng-if='role["joined"]'><a uib-tooltip-placement="top" uib-tooltip="Joined"><i class="fa fa-check fa-lg" aria-hidden="true" style='color: green'></i></a></span>
+                                                </center></td>
                                     </tr>
                             </table>
                             </td>
