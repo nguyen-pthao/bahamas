@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
@@ -87,6 +88,11 @@ public class UploadImage extends HttpServlet {
                         if (oldImage != null && !oldImage.isEmpty()) {
                             Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));
                         }
+                        
+                        ContactDAO cDAO = new ContactDAO();
+                        Contact c = cDAO.retrieveContactByUsername(username);
+                        
+                        AuditLogDAO.insertAuditLog(username, "ADD PROFILE PICTURE", "Add PROFILE PICTURE under contact: Contact ID: " + c.getContactId());
 
                     } catch (Exception e) {
                         json.addProperty("message", "Image failed to upload!");

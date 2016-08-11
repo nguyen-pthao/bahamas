@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
@@ -84,8 +85,17 @@ public class DeleteImage extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
 
                 if (token != null) {
+                    ContactDAO cDAO = new ContactDAO();
                     String username = Authenticator.verifyToken(token);
                     if (username != null) {
+
+                        Contact contact = cDAO.retrieveContactByUsername(username);
+
+                        if (!contact.isIsAdmin()) {
+                            json.addProperty("message", "Image failed to delete, unauthorized!");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
 
                         // gets absolute path of the web application
                         String appPath = request.getServletContext().getRealPath("");
@@ -103,7 +113,6 @@ public class DeleteImage extends HttpServlet {
                         //request.getPart("image").write(savePath + File.separator + username + ".jpg");
                         try {
 
-                            ContactDAO cDAO = new ContactDAO();
                             Contact c = cDAO.retrieveContactById(contactId);
 
                             if (c != null) {
@@ -116,6 +125,9 @@ public class DeleteImage extends HttpServlet {
                                 if (oldImage != null && !oldImage.isEmpty()) {
                                     Files.deleteIfExists(Paths.get(savePath + File.separator + oldImage.substring(8)));
                                 }
+
+                                AuditLogDAO.insertAuditLog(username, "DELETE RPOFILE PICTURE", "DELETE PROFILE PICTURE under contact: Contact ID: " + c.getContactId());
+
                             } else {
                                 json.addProperty("message", "Image failed to delete!");
                                 out.println(gson.toJson(json));
@@ -131,6 +143,7 @@ public class DeleteImage extends HttpServlet {
                         json.addProperty("message", "Image successfully deleted!");
                         json.addProperty("image", "./" + SAVE_DIR + "/" + uniqueId + ".jpg");
                         out.println(gson.toJson(json));
+
                         return;
                     }
                 }
