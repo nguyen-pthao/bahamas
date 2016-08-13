@@ -37,7 +37,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "AddEventParticipant", urlPatterns = {"/event.revertrole"})
+@WebServlet(name = "RevertEventParticipant", urlPatterns = {"/event.revertrole"})
 public class RevertEventParticipant extends HttpServlet {
 
     /**
