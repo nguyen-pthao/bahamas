@@ -179,6 +179,13 @@ app.controller('viewIndivEvent',
                                     var current = user + '.viewIndivEvent';
                                     $state.go(current, {eventId: eventId}, {reload: true});
                                 })
+                            }else if(response.data.message="error"){
+                                $scope.errorMessages = response.data.errorMsg;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
                             }
                         })
                 };
