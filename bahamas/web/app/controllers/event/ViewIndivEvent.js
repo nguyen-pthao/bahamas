@@ -162,7 +162,25 @@ app.controller('viewIndivEvent',
                 };
                 
                 $scope.revert = function($event, wp){
-                    console.log(wp);
+                    $scope.toRevert = {
+                        'token': session.getSession('token'),
+                        'event_id': eventId,
+                        'role_id': wp['role_id'],
+                        'contact_id': wp['contact_id']
+                    };
+                    var urlToRevert = '/event.revertrole';
+                    dataSubmit.submitData($scope.toRevert, urlToRevert).then(function (response) {
+                            if (response.data.message == "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/revertRoleSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    var current = user + '.viewIndivEvent';
+                                    $state.go(current, {eventId: eventId}, {reload: true});
+                                })
+                            }
+                        })
                 };
 
 
