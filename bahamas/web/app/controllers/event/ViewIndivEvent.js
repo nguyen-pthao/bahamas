@@ -51,8 +51,8 @@ app.controller('viewIndivEvent',
 
                             $scope.marker = {coords: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, id: 1};
                         }
-                        $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
-                        $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
+//                        $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
+//                        $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                         $scope.roles = $scope.eventInfo['event_role'];
                         $scope.participants = $scope.eventInfo['event_participant'];
                         $scope.withdrawn = $scope.eventInfo['withdrawn_participants'];
