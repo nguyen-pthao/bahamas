@@ -162,7 +162,12 @@ app.controller('viewIndivEvent',
                 };
                 
                 $scope.revert = function($event, wp){
-                    $scope.toRevert = {
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/revertPrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function(response){
+                        $scope.toRevert = {
                         'token': session.getSession('token'),
                         'event_id': eventId,
                         'role_id': wp['role_id'],
@@ -188,9 +193,8 @@ app.controller('viewIndivEvent',
                                 })
                             }
                         })
+                    })
                 };
-
-
             }]);
 
 app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
