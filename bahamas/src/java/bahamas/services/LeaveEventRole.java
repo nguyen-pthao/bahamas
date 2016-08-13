@@ -75,6 +75,7 @@ public class LeaveEventRole extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String roleId = Validator.containsBlankField(jobject.get("role_id"));
                 String reason = Validator.containsBlankField(jobject.get("reason"));
+                String withdrawerId = Validator.containsBlankField(jobject.get("withdrawer_id"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -85,13 +86,13 @@ public class LeaveEventRole extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
 
-                    if (contact == null || roleId == null || reason == null) {
+                    if (contact == null || roleId == null || reason == null || withdrawerId == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
                     } else {
                         
-                        EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDRoleID(Integer.parseInt(roleId), contact.getContactId());
+                        EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
 
                         if (eventParticipant != null) {
                             eventParticipant.setReason(reason);

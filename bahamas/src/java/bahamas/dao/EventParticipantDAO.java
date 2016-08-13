@@ -35,7 +35,7 @@ public class EventParticipantDAO {
             conn = ConnectionManager.getConnection();
             
             
-            if(EventParticipantDAO.retrieveParticipantbyEventIDRoleID(eventParticipant.getRoleID(),eventParticipant.getContactID()) == null){
+            if(EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventParticipant.getRoleID(),eventParticipant.getContactID()) == null){
                 
                 stmt = conn.prepareStatement("INSERT INTO EVENT_PARTICIPANT (`CONTACT_ID`, `AWARDER_ID`, `ROLE_ID`, "
                         + "`EVENT_ID`, `CREATED_BY`, `DATE_CREATED`, `PULLOUT`, `DATE_PULLOUT`, `REASON`, `HOURS_SERVED`, `SERVICE_COMMENT`, `REMARKS`)"
@@ -236,7 +236,7 @@ public class EventParticipantDAO {
         return false;
     }
     
-    public static EventParticipant retrieveParticipantbyEventIDRoleID(int roleID, int contactID) {
+    public static EventParticipant retrieveParticipantbyEventIDContactID(int roleID, int contactID) {
         
         Connection conn = null;
         PreparedStatement stmt = null;
