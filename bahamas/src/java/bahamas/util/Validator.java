@@ -640,7 +640,6 @@ public class Validator {
     public static boolean validEventLeaderPosition(int contactId, int eventId) {
         ContactDAO contactDAO = new ContactDAO();
         Contact contact = contactDAO.retrieveContactById(contactId);
-        EventDAO eventDAO = new EventDAO();
         boolean isEventLeader = false;
         EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(eventId);
         if(contact != null && eventAffiliation != null){
@@ -648,8 +647,9 @@ public class Validator {
             Iterator iter = teamNameList.iterator();
             while(iter.hasNext()){
                 String teamName = (String) iter.next();
-                RoleCheckDAO.checkRole(eventId, teamName, "eventleader");
-                isEventLeader = true;
+                if(RoleCheckDAO.checkRole(contactId, teamName, "eventleader")){
+                    isEventLeader = true;
+                }
             }
         }
         return isEventLeader;

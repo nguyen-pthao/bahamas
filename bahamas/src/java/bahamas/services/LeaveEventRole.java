@@ -9,6 +9,7 @@ import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.EventParticipant;
 import bahamas.util.Authenticator;
@@ -91,8 +92,12 @@ public class LeaveEventRole extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        
-                        EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
+                        EventParticipant eventParticipant = null;
+                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")){
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
+                        }else{
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), contact.getContactId());
+                        }
 
                         if (eventParticipant != null) {
                             eventParticipant.setReason(reason);

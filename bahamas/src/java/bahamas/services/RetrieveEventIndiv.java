@@ -101,6 +101,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                 SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
+                boolean canSeeUsername = false;
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -177,7 +178,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
 
                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDRoleID(eventRoleAssignment.getRoleId(), contact.getContactId());
+                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
                                     JsonObject roleJson = new JsonObject();
                                     roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                     roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
@@ -208,17 +209,19 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 for (EventRoleAssignment eventRoleAssignment : EventRoleAssignmentList) {
                                     int roleId = eventRoleAssignment.getRoleId();
                                     //JsonArray participantsWithSameRole = new JsonArray();
-                                    for (EventParticipant eventParticipantList : EventParticipantList) {
+                                    for (EventParticipant eventParticipant : EventParticipantList) {
                                         JsonObject role = new JsonObject();
-                                        if (roleId == eventParticipantList.getRoleID()) {
-                                            if (!eventParticipantList.isPullout()) {
-                                                int participantID = eventParticipantList.getContactID();
+                                        if (roleId == eventParticipant.getRoleID()) {
+                                            if (!eventParticipant.isPullout()) {
+                                                int participantID = eventParticipant.getContactID();
                                                 Contact contactTemp = cDAO.retrieveContactById(participantID);
                                                 role.addProperty("role", eventRoleAssignment.getRoleName());
                                                 role.addProperty("role_id", eventRoleAssignment.getRoleId());
                                                 //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                 role.addProperty("contact_id", contactTemp.getContactId());
-                                                if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername()) || contactTemp.getUsername().equals(username)) {
+                                                boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
+                                                if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
+                                                    boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
                                                     role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                     role.addProperty("canRemove", true);
                                                 } else {
@@ -235,22 +238,22 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.add("event_team_affiliation", teamJson);
                             json.add("event_participant", roleParticipentArray);
                             
-                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
                                 if (EventRoleAssignmentList != null && EventParticipantList != null) {
                                     for (EventRoleAssignment eventRoleAssignment : EventRoleAssignmentList) {
                                         int roleId = eventRoleAssignment.getRoleId();
                                         //JsonArray participantsWithSameRole = new JsonArray();
-                                        for (EventParticipant eventParticipantList : EventParticipantList) {
+                                        for (EventParticipant eventParticipant : EventParticipantList) {
                                             JsonObject role = new JsonObject();
-                                            if (roleId == eventParticipantList.getRoleID()) {
-                                                if (eventParticipantList.isPullout()) {
-                                                    int participantID = eventParticipantList.getContactID();
+                                            if (roleId == eventParticipant.getRoleID()) {
+                                                if (eventParticipant.isPullout()) {
+                                                    int participantID = eventParticipant.getContactID();
                                                     Contact contactTemp = cDAO.retrieveContactById(participantID);
                                                     role.addProperty("role", eventRoleAssignment.getRoleName());
                                                     role.addProperty("role_id", eventRoleAssignment.getRoleId());
                                                     role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                     role.addProperty("contact_id", contactTemp.getContactId());
-                                                    role.addProperty("reason", eventParticipantList.getReason());
+                                                    role.addProperty("reason", eventParticipant.getReason());
                                                     withdrawnParticipentArray.add(role);
                                                 }
                                             }
@@ -263,7 +266,8 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 json.addProperty("withdrawn_participants", "");
                             }
 
-                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
+                            //if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
                                 //check of the user has joined this event
                                 //EventParticipantDAO.retrieveParticipantbyEventIDRoleID(,eventId);
                                 json.addProperty("canEdit", true);
