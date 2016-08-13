@@ -127,31 +127,43 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                         //view for novcie
                                         if (contact.isIsNovice()) {
                                             if (event.getEventClassName().trim().toLowerCase().equals("basic training")) {
-                                                jsonContactObj = new JsonObject();
-                                                jsonContactObj.addProperty("event_id", event.getEventId());
-                                                jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                                jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
-                                                jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
-                                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
+
                                                 EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                                //get the team here
+                                                boolean isPendingTeam = false;
+
+                                                jsonContactObj = new JsonObject();
                                                 if (eventAffiliation != null) {
                                                     String teamTemp = "";
                                                     ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
                                                     for (int m = 0; m < teamnameList.size() - 1; m++) {
                                                         teamTemp += teamnameList.get(m) + " | ";
+                                                        if (hmTeamPermission.containsKey(teamnameList.get(m))) {
+                                                            isPendingTeam = true;
+                                                        }
                                                     }
                                                     teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                                    if (hmTeamPermission.containsKey(teamnameList.get(teamnameList.size() - 1))) {
+                                                        isPendingTeam = true;
+                                                    }
                                                     jsonContactObj.addProperty("team", teamTemp);
                                                 } else {
                                                     jsonContactObj.addProperty("team", "");
                                                 }
+                                                jsonContactObj.addProperty("event_id", event.getEventId());
+                                                jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                                jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                                jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
+                                                jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                                 jsonContactObj.addProperty("event_class", event.getEventClassName());
                                                 jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                                 jsonContactObj.addProperty("event_status", event.getEventStatus());
                                                 jsonContactObj.addProperty("canEdit", false);
                                                 jsonContactObj.addProperty("canDelete", false);
                                                 jsonContactObj.addProperty("canJoin", true);
-                                                eventArray.add(jsonContactObj);
+                                                if(isPendingTeam){
+                                                    eventArray.add(jsonContactObj);
+                                                }
                                             }
                                         } else {
                                             //view for all other users
