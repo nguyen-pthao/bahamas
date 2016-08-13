@@ -46,13 +46,13 @@ and open the template in the editor.
                                         <span ng-show="editEventForm.eventTitle.$error.required && editEventForm.eventTitle.$touched" class="error">Event Title is required.</span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h4 class="bold">Location<span class="required">*</span></h4>
-                                        <div ng-init="loadEventLocationList()">
-                                            <select ng-required="true" name="eventLocation" class="form-control" ng-model="editEvent['event_location']">
-                                                <option ng-repeat="eventLocation in eventLocationList">{{eventLocation.eventLocation}}</option>
+                                        <h4 class="bold">Status<span class="required">*</span></h4>
+                                        <div ng-init="loadEventStatusList()">
+                                            <select ng-required="true" name="eventStatus" class="form-control" ng-model="editEvent['event_status']">
+                                                <option ng-repeat="eventStatus in eventStatusList">{{eventStatus.eventStatus}}</option>
                                             </select>     
                                         </div>
-                                        <span ng-show="editEventForm.eventLocation.$error.required && editEventForm.eventLocation.$touched" class="error">Location is required.</span>
+                                        <span ng-show="editEventForm.eventStatus.$error.required && editEventForm.eventStatus.$touched" class="error">Event Status is required.</span>
                                     </div>
                                     <div class="col-sm-6">
                                         <h4 class="bold">Start Date<span class="required">*</span></h4>
@@ -106,13 +106,13 @@ and open the template in the editor.
                                         <span ng-show="editEventForm.eventClass.$error.required && editEventForm.eventClass.$touched" class="error">Event Class is required.</span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h4 class="bold">Status<span class="required">*</span></h4>
-                                        <div ng-init="loadEventStatusList()">
-                                            <select ng-required="true" name="eventStatus" class="form-control" ng-model="editEvent['event_status']">
-                                                <option ng-repeat="eventStatus in eventStatusList">{{eventStatus.eventStatus}}</option>
+                                        <h4 class="bold">Location<span class="required">*</span></h4>
+                                        <div ng-init="loadEventLocationList()">
+                                            <select ng-required="true" name="eventLocation" class="form-control" ng-model="editEvent['event_location']">
+                                                <option ng-repeat="eventLocation in eventLocationList">{{eventLocation.eventLocation}}</option>
                                             </select>     
                                         </div>
-                                        <span ng-show="editEventForm.eventStatus.$error.required && editEventForm.eventStatus.$touched" class="error">Event Status is required.</span>
+                                        <span ng-show="editEventForm.eventLocation.$error.required && editEventForm.eventLocation.$touched" class="error">Location is required.</span>
                                     </div>
                                     <div class="col-sm-6">
                                         <h4 class="bold">Address<span class="required">*</span></h4>
