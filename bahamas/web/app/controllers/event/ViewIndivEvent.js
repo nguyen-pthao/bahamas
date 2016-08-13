@@ -57,6 +57,7 @@ app.controller('viewIndivEvent',
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                         $scope.roles = $scope.eventInfo['event_role'];
                         $scope.participants = $scope.eventInfo['event_participant'];
+                        $scope.withdrawn = $scope.eventInfo['withdrawn_participants'];
                         $scope.affiliation = $scope.eventInfo['event_team_affiliation'];
                         $scope.teamA = $scope.eventInfo['event_team_affiliation']['teams_affiliated'];
                     })
