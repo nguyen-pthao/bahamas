@@ -9,9 +9,12 @@ import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.EventParticipant;
 import bahamas.entity.EventRoleAssignment;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -24,9 +27,14 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,7 +63,7 @@ public class RevertEventParticipant extends HttpServlet {
             JsonObject json = new JsonObject();
             JsonArray jsonErrorMsgArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            
+            SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -132,6 +140,38 @@ public class RevertEventParticipant extends HttpServlet {
                         if(hasRole){
                             jsonErrorMsgArray.add(new JsonPrimitive("Participant is already participating as " + roleName));
                             json.add("errorMsg", jsonErrorMsgArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                        
+                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
+
+                        //Get all teams this user has
+                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
+                        try {
+                            for (TeamJoin teamJoin : teamJoinList) {
+                                //hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                Date currentDateTime = new Date();
+                                Date currentDate = date.parse(date.format(currentDateTime));
+                                Date obsDate = null;
+
+                                if (teamJoin.getDateObsolete() != null) {
+                                    obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
+                                }
+
+                                if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
+                                    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                }
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                        
+                        if(!contact.isIsAdmin() && !RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") && !Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))){
+                            json.addProperty("message", "No permission to revert role");
                             out.println(gson.toJson(json));
                             return;
                         }

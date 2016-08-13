@@ -280,7 +280,12 @@ public class RetrieveEventIndiv extends HttpServlet {
                                             Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
                                             if (matchTeam && !marked) {
                                                 String permision = hmTeamPermission.get(eventTeam);
-                                                if (permision.equals("Event leader")) {
+                                                if (permision == null){
+                                                    json.addProperty("canEdit", false);
+                                                    json.addProperty("canDelete", false);
+                                                    json.addProperty("canJoin", true);
+                                                    marked = true;
+                                                } else if (permision.equals("Event leader")) {
                                                     json.addProperty("canEdit", true);
                                                     json.addProperty("canDelete", true);
                                                     if (canJoinDisable) {
