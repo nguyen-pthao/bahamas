@@ -7,11 +7,13 @@ package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
+import bahamas.entity.EventAffiliation;
 import bahamas.entity.EventParticipant;
 import bahamas.entity.EventRoleAssignment;
 import bahamas.entity.TeamJoin;
@@ -147,7 +149,7 @@ public class RevertEventParticipant extends HttpServlet {
                         HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
 
                         //Get all teams this user has
-                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
+                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(Integer.parseInt(participantId));
                         try {
                             for (TeamJoin teamJoin : teamJoinList) {
                                 //hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
@@ -176,7 +178,27 @@ public class RevertEventParticipant extends HttpServlet {
                             return;
                         }
                         
-                        EventParticipant eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
+                        EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
+                        ArrayList<String> teamNameList = eventAffiliation.getTeamArray();
+                        Iterator iterTeamNameList = teamNameList.iterator();
+                        boolean teamInEvent = false;
+                        while(iterTeamNameList.hasNext()){
+                            String teamName = (String)iterTeamNameList.next();
+                            if(hmTeamPermission.containsKey(teamName)){
+                                teamInEvent = true;
+                                break;
+                            }
+                        }
+                        
+                        if(!teamInEvent){
+                            
+                            jsonErrorMsgArray.add(new JsonPrimitive("Unable to revert role as user's team is no longer in this event."));
+                            json.add("errorMsg", jsonErrorMsgArray);
+                            out.println(gson.toJson(json));
+                            return;
+                        }
+                        
+                        EventParticipant eventParticipant = new EventParticipant(Integer.parseInt(participantId), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
                         if(EventParticipantDAO.updateEventRole(eventParticipant)){
                             AuditLogDAO.insertAuditLog(username, "Revert role", "Revert role in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
                             json.addProperty("message", "success");
