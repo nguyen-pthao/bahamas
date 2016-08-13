@@ -160,6 +160,10 @@ app.controller('viewIndivEvent',
                         size: "md"
                     });
                 };
+                
+                $scope.revert = function($event, wp){
+                    console.log(wp);
+                };
 
 
             }]);
