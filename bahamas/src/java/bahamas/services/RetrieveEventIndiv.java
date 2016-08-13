@@ -148,8 +148,8 @@ public class RetrieveEventIndiv extends HttpServlet {
 
                             json.addProperty("event_id", eventId);
                             json.addProperty("event_title", event.getEventTitle());
-                            json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
-                            json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
+                            json.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                            json.addProperty("event_end_date", date.format(event.getEventEndDate()));
                             json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
                             json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
                             json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
