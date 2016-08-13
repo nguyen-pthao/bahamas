@@ -93,19 +93,22 @@ public class LeaveEventRole extends HttpServlet {
                         return;
                     } else {
                         EventParticipant eventParticipant = null;
-                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")){
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
-                        }else{
+
+                        if (Integer.parseInt(withdrawerId) == contact.getContactId()) {
                             eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), contact.getContactId());
+                        } else {
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
+                            }
                         }
 
                         if (eventParticipant != null) {
                             eventParticipant.setReason(reason);
                             eventParticipant.setPullout(true);
                             eventParticipant.setDatepullout(new java.util.Date());
-                            if(EventParticipantDAO.updateEventRole(eventParticipant)){
+                            if (EventParticipantDAO.updateEventRole(eventParticipant)) {
                                 json.addProperty("message", "success");
-                            }else{
+                            } else {
                                 json.addProperty("message", "Fail update participant");
                             }
                             out.println(gson.toJson(json));
