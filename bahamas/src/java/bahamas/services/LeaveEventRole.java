@@ -76,7 +76,7 @@ public class LeaveEventRole extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String roleId = Validator.containsBlankField(jobject.get("role_id"));
                 String reason = Validator.containsBlankField(jobject.get("reason"));
-                String withdrawerId = Validator.containsBlankField(jobject.get("withdrawer_id"));
+                String withdrawerId = Validator.containsBlankField(jobject.get("withdraw_contact_id"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {

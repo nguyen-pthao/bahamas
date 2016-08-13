@@ -129,7 +129,7 @@ public class RevertEventParticipant extends HttpServlet {
                         Iterator iter = eventParticipantList.iterator();
                         while(iter.hasNext()){
                             EventParticipant eventParticipant = (EventParticipant)iter.next();
-                            if(!eventParticipant.isPullout()){
+                            if(!eventParticipant.isPullout() && eventParticipant.getRoleID() == Integer.parseInt(roleId) && eventParticipant.getContactID() == Integer.parseInt(participantId)){
                                 int tempRoleId = eventParticipant.getRoleID();
                                 EventRoleAssignment eventRoleAssignment = EventRoleAssignmentDAO.retrieveEventRoleByRoleId(tempRoleId);
                                 roleName = eventRoleAssignment.getRoleName();
