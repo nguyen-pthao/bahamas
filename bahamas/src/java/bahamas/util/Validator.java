@@ -5,6 +5,13 @@
  */
 package bahamas.util;
 
+import bahamas.dao.ContactDAO;
+import bahamas.dao.EventAffiliationDAO;
+import bahamas.dao.EventDAO;
+import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.Contact;
+import bahamas.entity.Event;
+import bahamas.entity.EventAffiliation;
 import com.google.gson.JsonElement;
 import com.mysql.jdbc.StringUtils;
 import java.math.BigDecimal;
@@ -15,6 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -90,16 +98,16 @@ public class Validator {
     }
 
     /*
-    public static boolean validTimestamp(String dateTimestamp) {
+     public static boolean validTimestamp(String dateTimestamp) {
 
-        String[] arr = dateTimestamp.split(" ");
-        if (arr.length == 2) {
-            if (isDateValid(arr[0]) && isTimeValid(arr[1])) {
-                return true;
-            }
-        }
-        return false;
-    }
+     String[] arr = dateTimestamp.split(" ");
+     if (arr.length == 2) {
+     if (isDateValid(arr[0]) && isTimeValid(arr[1])) {
+     return true;
+     }
+     }
+     return false;
+     }
      */
     /**
      * <p>
@@ -143,7 +151,7 @@ public class Validator {
 
     public static double isDoubleValid(JsonElement e) {
         if (e != null && !e.isJsonNull()) {
-            try {              
+            try {
                 return truncateDecimal(e.getAsDouble(), 2).doubleValue();
             } catch (Exception ex) {
                 errorList.add("Please enter a valid value");
@@ -626,6 +634,25 @@ public class Validator {
      */
     public static boolean validEventRoleDescription(String eventRoleDescription) {
         return (eventRoleDescription.length() >= 0 && eventRoleDescription.length() <= 200);
+    }
+    
+
+    public static boolean validEventLeaderPosition(int contactId, int eventId) {
+        ContactDAO contactDAO = new ContactDAO();
+        Contact contact = contactDAO.retrieveContactById(contactId);
+        EventDAO eventDAO = new EventDAO();
+        boolean isEventLeader = false;
+        EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(eventId);
+        if(contact != null && eventAffiliation != null){
+            ArrayList<String> teamNameList = eventAffiliation.getTeamArray();
+            Iterator iter = teamNameList.iterator();
+            while(iter.hasNext()){
+                String teamName = (String) iter.next();
+                RoleCheckDAO.checkRole(eventId, teamName, "eventleader");
+                isEventLeader = true;
+            }
+        }
+        return isEventLeader;
     }
 
 }
