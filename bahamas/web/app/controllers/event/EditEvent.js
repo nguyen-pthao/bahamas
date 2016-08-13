@@ -43,6 +43,8 @@ app.controller('editEvent',
                         $scope.editEvent = angular.copy($scope.eventInfo);
                         $scope.editEvent['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
                         $scope.editEvent['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
+                        $scope.editEvent['event_time_start'] = new Date($scope.eventInfo['event_time_start'].replace(/-/g, "/")); 
+                        $scope.editEvent['event_time_end'] = new Date($scope.eventInfo['event_time_end'].replace(/-/g, "/"));
                         if ($scope.eventInfo['send_reminder'] == 'true') {
                             $scope.editEvent['send_reminder'] = true;
                         } else {
