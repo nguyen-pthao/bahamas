@@ -98,6 +98,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                 String eventId = Validator.containsBlankField(jobject.get("eventId"));
                 String username = Authenticator.verifyToken(token);
                 SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
                 if (username == null) {
@@ -153,6 +154,8 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.addProperty("event_end_date", date2.format(event.getEventEndDate()));
                             json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
                             json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
+                            json.addProperty("view_time_start", time.format(event.getEventStartTime()));
+                            json.addProperty("view_time_end", time.format(event.getEventEndTime()));
                             json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
                             json.addProperty("event_description", event.getEventDescription());
                             json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
