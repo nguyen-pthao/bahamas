@@ -66,7 +66,7 @@ and open the template in the editor.
                                     </span>
                                 </p>
                             </div>
-                            <div class='col-md-2'>
+                            <div class='col-md-2' ng-if="isNotNovice">
                                 <label>Select Team:</label>
                                 <div ng-init="loadTeamList()">
                                     <select name="teamList" class="form-control"  ng-change="retrieveEvents()" ng-model="teamFilter">
@@ -74,7 +74,7 @@ and open the template in the editor.
                                     </select>     
                                 </div>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <label>Search:</label>
                                 <input type="text" class="form-control" placeholder="Search Event" ng-model="searchEvents"/>
                             </div>

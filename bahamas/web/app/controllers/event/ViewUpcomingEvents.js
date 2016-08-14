@@ -10,6 +10,9 @@ app.controller('viewUpcomingEvents',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'deleteService', 'loadTeamAffiliation',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, deleteService, loadTeamAffiliation) {
                 var user = session.getSession('userType');
+                if(user == "novice"){
+                    $scope.isNotNovice = true;
+                }
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -17,10 +20,15 @@ app.controller('viewUpcomingEvents',
                 $scope.loadTeamList = function(){
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
                         $scope.teamList = response.data.teamAffiliationList;
+                        $scope.teamList.unshift({'teamAffiliation': 'All'});
+                        $scope.teamFilter = "All";
                     })
                 };
                 
                 $scope.retrieveEvents = function () {
+                    if($scope.teamFilter == "All"){
+                        $scope.teamFilter = "";
+                    }
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
                         'teamFilter': $scope.teamFilter
