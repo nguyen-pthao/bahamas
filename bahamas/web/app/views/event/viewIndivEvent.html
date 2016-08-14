@@ -128,20 +128,12 @@ and open the template in the editor.
                                                 <table class="table" style="max-width:100%">
                                                     <tbody>
                                                         <tr ng-repeat="part in role['event_participant'] track by $index">
-                                                            <td>{{$index+1}}) {{part['participant_name']}}</td>
-                                                            <td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull out" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
+                                                            <td>{{$index + 1}}) {{part['participant_name']}}</td>
+                                                            <td ng-if="part['canRemove']"><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull out" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></td>
                                                         </tr>
                                                     </tbody>
                                                 </table>
                                             </td>
-                                            <!--                                            <td>
-                                                                                            <ul>
-                                                                                                <li ng-repeat="part in role['event_participant']">
-                                                                                                    {{part['participant_name']}}&nbsp;
-                                                                                                    <span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull out" ng-click="deleteRole($event, role)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </td>-->
                                             <td><center>
                                         <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click="joinRole($event, role)"><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
                                         <span ng-if='role["joined"]'><a uib-tooltip-placement="top" uib-tooltip="Joined"><i class="fa fa-check fa-lg" aria-hidden="true" style='color: green'></i></a></span>
@@ -200,7 +192,7 @@ and open the template in the editor.
                                             <th width="5%" style="color: #005384">S/N</th>
                                             <th width="20%" style='color: #005384'>Role</th>
                                             <th width="20%" style='color: #005384'>Participant</th>
-                                            <th width="40%" style="color: #005384">Reason</th>
+                                            <th width="55%" style="color: #005384">Reason</th>
                                             <!--<th width="15%"></th>-->
                                         </tr>
                                     </thead>
