@@ -87,7 +87,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                 String teamNameFilter = "";
                 String username = Authenticator.verifyToken(token);
                 if(jobject.has("teamFilter")){
-                    teamNameFilter = Validator.containsBlankField(jobject.get("teamFilter"));
+                    teamNameFilter = jobject.get("teamFilter").getAsString();
                 }
                 
                 if (username == null) {
@@ -178,14 +178,16 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                             jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                             EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
-                                            
+                                            HashMap<String, String> eventTeamsHM = new HashMap<String, String>();
                                             if (eventAffiliation != null) {
                                                 String teamTemp = "";
                                                 ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
                                                 for (int m = 0; m < teamnameList.size() - 1; m++) {
                                                     teamTemp += teamnameList.get(m) + " | ";
+                                                    eventTeamsHM.put(teamnameList.get(m), teamnameList.get(m));
                                                 }
                                                 teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                                eventTeamsHM.put(teamnameList.get(teamnameList.size() - 1), teamnameList.get(teamnameList.size() - 1));
                                                 jsonContactObj.addProperty("team", teamTemp);
                                             } else {
                                                 jsonContactObj.addProperty("team", "");
@@ -238,8 +240,9 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             }
                                             if(teamNameFilter.isEmpty()){
                                                 eventArray.add(jsonContactObj);
-                                            }else if(!teamNameFilter.isEmpty() && hmTeamPermission.containsKey(teamNameFilter)){
+                                            }else if(!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)){
                                                 eventArray.add(jsonContactObj);
+                                                hmTeamPermission.clear();
                                             }
                                             
                                         }
