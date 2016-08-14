@@ -7,16 +7,23 @@
 var app = angular.module('bahamas');
 
 app.controller('viewUpcomingEvents',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'deleteService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, deleteService) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'deleteService', 'loadTeamAffiliation',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, deleteService, loadTeamAffiliation) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-
+                
+                $scope.loadTeamList = function(){
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
+                        $scope.teamList = response.data.teamAffiliationList;
+                    })
+                };
+                
                 $scope.retrieveEvents = function () {
                     $scope.toRetrieve = {
-                        'token': session.getSession('token')
+                        'token': session.getSession('token'),
+                        'teamFilter': $scope.teamFilter
                     };
                     var url = '/event.retrieveupcoming';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
