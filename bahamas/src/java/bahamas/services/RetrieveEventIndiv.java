@@ -192,7 +192,6 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         canJoinDisable = true;
                                     }
                                     JsonArray roleParticipentArray = new JsonArray();    
-//new                                   
                                     if (EventRoleAssignmentList != null && EventParticipantList != null) {
                                             
                                             int roleId = eventRoleAssignment.getRoleId();
@@ -207,9 +206,9 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         role.addProperty("role_id", eventRoleAssignment.getRoleId());
                                                         //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                         role.addProperty("contact_id", contactTemp.getContactId());
-                                                        boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
+                                                        //boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
                                                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId)) || contactTemp.getContactId() == contact.getContactId()) {
-                                                            boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
+                                                            //boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
                                                             role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                             role.addProperty("canRemove", true);
                                                         } else {
@@ -217,11 +216,14 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                             role.addProperty("canRemove", false);
                                                         }
                                                         roleParticipentArray.add(role);
-                                                        roleJson.add("event_participant", roleParticipentArray);
+                                                        //roleJson.add("event_participant", roleParticipentArray);
+                                                        
                                                     }
                                                 }
                                             }
                                         }
+                                    
+                                    roleJson.add("event_participant", roleParticipentArray);
                                     
 //new                                    
                                     eventRoleJsonArray.add(roleJson);
