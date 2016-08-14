@@ -10,6 +10,11 @@ app.controller('viewUpcomingEvents',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'deleteService', 'loadTeamAffiliation',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, deleteService, loadTeamAffiliation) {
                 var user = session.getSession('userType');
+                $scope.isNovice = false;
+                if(user=="novice"){
+                    $scope.isNovice = true;
+                }
+                
                 $scope.backHome = function () {
                     $state.go(user);
                 };
