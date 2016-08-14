@@ -125,15 +125,11 @@ and open the template in the editor.
                                             <td>{{role['event_role']}}</td>
                                             <td>{{role['event_desc']}}</td>
                                             <td>
-                                                <table>
-                                                    <tr ng-repeat="participant in role['event_participant']">
-                                                        <ul>
-                                                            <li>
-                                                                {{participant['participant_name']}}
-                                                            </li>
-                                                        </ul>
-                                                    </tr>
-                                                </table>
+                                                <ul>
+                                                    <li ng-repeat="part in role['event_participant']">
+                                                        {{part['participant_name']}}
+                                                    </li>
+                                                </ul>
                                             </td>
                                             <td><center>
                                         <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click="joinRole($event, role)"><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
