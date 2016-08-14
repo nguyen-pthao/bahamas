@@ -39,7 +39,6 @@ app.controller('editEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
-                        console.log($scope.eventInfo);
                         $scope.editEvent = angular.copy($scope.eventInfo);
                         $scope.editEvent['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
                         $scope.editEvent['event_end_date'] = new Date($scope.eventInfo['event_end_date']);
