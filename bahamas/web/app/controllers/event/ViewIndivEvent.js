@@ -19,6 +19,13 @@ app.controller('viewIndivEvent',
                     var url = user + '.viewUpcomingEvents';
                     $state.go(url);
                 };
+                
+                $scope.toContact = function($event, part){
+                    var url = user + '.viewIndivContact';
+                    session.setSession('contactToDisplayCid', part['contact_id']);
+                    $state.go(url);
+                };
+                
                 $scope.retrieveEvent = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
