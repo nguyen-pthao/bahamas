@@ -84,8 +84,12 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
+                String teamNameFilter = "";
                 String username = Authenticator.verifyToken(token);
-
+                if(jobject.has("teamFilter")){
+                    teamNameFilter = Validator.containsBlankField(jobject.get("teamFilter"));
+                }
+                
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -174,6 +178,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                             jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                             EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
+                                            
                                             if (eventAffiliation != null) {
                                                 String teamTemp = "";
                                                 ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
@@ -231,8 +236,12 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                     jsonContactObj.addProperty("canJoin", false);
                                                 }
                                             }
-
-                                            eventArray.add(jsonContactObj);
+                                            if(teamNameFilter.isEmpty()){
+                                                eventArray.add(jsonContactObj);
+                                            }else if(!teamNameFilter.isEmpty() && hmTeamPermission.containsKey(teamNameFilter)){
+                                                eventArray.add(jsonContactObj);
+                                            }
+                                            
                                         }
 
                                     }
