@@ -113,8 +113,9 @@ and open the template in the editor.
                                     <thead>
                                         <tr>
                                             <th width="5%" style="color: #005384">S/N</th>
-                                            <th width="30%" style='color: #005384'>Role</th>
-                                            <th width="50%" style='color: #005384'>Description</th>
+                                            <th width="25%" style='color: #005384'>Role</th>
+                                            <th width="30%" style='color: #005384'>Description</th>
+                                            <th width="25%" style="color: #005384">Participants</th>
                                             <th width="15%"></th>
                                         </tr>
                                     </thead>
@@ -123,44 +124,21 @@ and open the template in the editor.
                                             <td>{{$index + 1}}</td>
                                             <td>{{role['event_role']}}</td>
                                             <td>{{role['event_desc']}}</td>
+                                            <td>
+                                                <table>
+                                                    <tr ng-repeat="participant in role['event_participant']">
+                                                        <ul>
+                                                            <li>
+                                                                {{participant['participant_name']}}
+                                                            </li>
+                                                        </ul>
+                                                    </tr>
+                                                </table>
+                                            </td>
                                             <td><center>
                                         <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click="joinRole($event, role)"><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
                                         <span ng-if='role["joined"]'><a uib-tooltip-placement="top" uib-tooltip="Joined"><i class="fa fa-check fa-lg" aria-hidden="true" style='color: green'></i></a></span>
                                         &nbsp;<span ng-if='eventInfo["canDelete"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteRole($event, role)"><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
-                                    </center></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="box">
-                    <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Event Participants </h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Event Participants">
-                                <i class="fa fa-chevron-up"></i></button>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="box green-box">    
-                            <div class="table-horizontal-scroll">
-                                <table class="table table-bordered table-striped" style="max-width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th width="5%" style="color: #005384">S/N</th>
-                                            <th width="30%" style='color: #005384'>Role</th>
-                                            <th width="50%" style='color: #005384'>Participants</th>
-                                            <th width="15%"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="participant in participants track by $index">
-                                            <td>{{$index + 1}}</td>
-                                            <td>{{participant['role']}}</td>
-                                            <td>{{participant['participant_name']}}</td>
-                                            <td><center><span ng-if="participant['canRemove']"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove" ng-click="removeParticipant($event, participant)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
                                     </center></td>
                                     </tr>
                                     </tbody>

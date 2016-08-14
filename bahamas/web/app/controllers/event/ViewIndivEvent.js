@@ -27,6 +27,7 @@ app.controller('viewIndivEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
+                        console.log($scope.eventInfo);
 //                        var timeStart = new Date($scope.eventInfo['event_time_start'].replace(/-/g, "/")).toLocaleTimeString();
 //                        var timeEnd = new Date($scope.eventInfo['event_time_end'].replace(/-/g, "/")).toLocaleTimeString();
 //                        if (timeStart.length == 10) {
