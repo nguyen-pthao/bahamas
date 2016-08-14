@@ -44,29 +44,37 @@ and open the template in the editor.
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
-                            <div class="col-md-offset-1 col-md-2">
-                            <label>
-                                Date Start:
-                            </label>
-                            <p class="input-group">
-                                <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="dateStart" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
+                            <div class="col-md-2">
+                                <label>
+                                    Date Start:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="dateStart" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
                             </div>
                             <div class="col-md-2">
-                            <label>
-                                Date End:
-                            </label>
-                            <p class="input-group">
-                                <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="dateEnd" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"/>
-                                <span class="input-group-btn">
-                                    <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                </span>
-                            </p>
+                                <label>
+                                    Date End:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="dateEnd" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
                             </div>
-                            <div class="col-md-offset-2 col-md-3">
+                            <div class='col-md-2' ng-hide="isNovice">
+                                <label>Select Team:</label>
+                                <div ng-init="loadTeamList()">
+                                    <select name="teamList" class="form-control"  ng-change="retrieveEvents()" ng-model="teamFilter">
+                                        <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
+                                    </select>     
+                                </div>
+                            </div>
+                            <div class="col-md-4">
                                 <label>Search:</label>
                                 <input type="text" class="form-control" placeholder="Search Event" ng-model="searchEvents"/>
                             </div>
