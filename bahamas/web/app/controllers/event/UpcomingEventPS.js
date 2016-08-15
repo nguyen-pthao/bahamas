@@ -22,6 +22,13 @@ app.controller('upcomingEventPS',
                     })
                 };
                 
+                $scope.toContact = function($event, part){
+                    console.log(part);
+//                    var url = user + '.viewIndivContact';
+//                    session.setSession('contactToDisplayCid', part['contact_id']);
+//                    $state.go(url);
+                };
+                
                 $scope.retrieveEvents = function () {
                     var filter;
                     if($scope.teamFilter == "All"){

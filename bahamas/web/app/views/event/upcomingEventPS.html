@@ -110,8 +110,7 @@ and open the template in the editor.
                                                             <table class="table">
                                                                 <tbody>
                                                                     <tr ng-repeat="part in role['participant_name'] track by $index">
-                                                                        <td>{{$index + 1}}) <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a></td>
-                                                                        <td><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull out" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></td>
+                                                                        <td>{{$index + 1}}) <a href="" ng-click="toContact($event, part)">{{part}}</a></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
