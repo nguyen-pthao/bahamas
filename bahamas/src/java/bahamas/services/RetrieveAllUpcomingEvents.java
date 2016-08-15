@@ -200,7 +200,6 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 jsonContactObj.addProperty("canDelete", true);
                                                 jsonContactObj.addProperty("canJoin", true);
                                             } else {
-                                                //EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                                 if (eventAffiliation != null) {
                                                     ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
                                                     if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
@@ -244,9 +243,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 eventArray.add(jsonContactObj);
                                                 hmTeamPermission.clear();
                                             }
-                                            
                                         }
-
                                     }
                                 } catch (ParseException ex) {
                                     Logger.getLogger(RetrieveAllUpcomingEvents.class.getName()).log(Level.SEVERE, null, ex);

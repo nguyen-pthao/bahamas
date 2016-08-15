@@ -91,7 +91,11 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
+                String teamNameFilter = "";
                 String username = Authenticator.verifyToken(token);
+                if (jobject.has("teamFilter")) {
+                    teamNameFilter = jobject.get("teamFilter").getAsString();
+                }
 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -114,14 +118,12 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                             Date currentDate = date.parse(date.format(currentDateTime));
                             Date obsDate = null;
                             for (TeamJoin teamJoin : teamJoinList) {
-                                if(teamJoin.getDateObsolete() != null){
+                                if (teamJoin.getDateObsolete() != null) {
                                     obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
                                 }
-                                
                                 if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
                                     hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
                                 }
-
                             }
                         } catch (ParseException ex) {
                             Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
@@ -146,7 +148,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                     Date eventEndDate = date.parse(date.format(event.getEventEndDate()));
                                     Date eventEndTime = time.parse(time.format(event.getEventEndTime()));
                                     if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
-                                        
+
                                         ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(event.getEventId());
                                         ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
                                         EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
@@ -156,27 +158,24 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                         jsonContactObj.addProperty("event_id", event.getEventId());
                                         jsonContactObj.addProperty("event_title", event.getEventTitle() + ", " + date.format(event.getEventStartDate()) + ", " + time.format(event.getEventStartTime()) + ", " + event.getEventLocationName());
                                         jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
-                                        //jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                        //jsonContactObj.addProperty("event_location", event.getEventLocationName());
+                                        HashMap<String, String> eventTeamsHM = new HashMap<String, String>();
                                         if (eventAffiliation != null) {
                                             String teamTemp = "";
                                             ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
                                             for (int m = 0; m < teamnameList.size() - 1; m++) {
                                                 teamTemp += teamnameList.get(m) + " | ";
+                                                eventTeamsHM.put(teamnameList.get(m), teamnameList.get(m));
                                             }
                                             teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                            eventTeamsHM.put(teamnameList.get(teamnameList.size() - 1), teamnameList.get(teamnameList.size() - 1));
                                             jsonContactObj.addProperty("team", teamTemp);
                                         } else {
                                             jsonContactObj.addProperty("team", "");
                                         }
-                                        //jsonContactObj.addProperty("event_location", event.getEventLocationName());
 
                                         if (eventRoleAssignmentList != null) {
                                             boolean canJoinDisable = false;
-                                            
-                                            
-//////
                                             if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
 
                                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
@@ -194,23 +193,16 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                         canJoinDisable = true;
                                                     }
                                                     JsonArray roleParticipentArray = new JsonArray();
-                                                    
-
                                                     int roleId = eventRoleAssignment.getRoleId();
-                                                    //JsonArray participantsWithSameRole = new JsonArray();
                                                     for (EventParticipant eventParticipantTemp : eventParticipantList) {
                                                         JsonObject role = new JsonObject();
                                                         if (roleId == eventParticipantTemp.getRoleID()) {
                                                             if (!eventParticipantTemp.isPullout()) {
                                                                 int participantID = eventParticipantTemp.getContactID();
                                                                 Contact contactTemp = cDAO.retrieveContactById(participantID);
-                                                                //role.addProperty("role", eventRoleAssignment.getRoleName());
                                                                 role.addProperty("role_id", eventRoleAssignment.getRoleId());
-                                                                //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                                 role.addProperty("contact_id", contactTemp.getContactId());
-                                                                //boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
                                                                 if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), event.getEventId()) || contactTemp.getContactId() == contact.getContactId()) {
-                                                                    //boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
                                                                     role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                                     role.addProperty("canRemove", true);
                                                                 } else {
@@ -218,72 +210,21 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                                     role.addProperty("canRemove", false);
                                                                 }
                                                                 roleParticipentArray.add(role);
-                                                    //roleJson.add("event_participant", roleParticipentArray);
-
                                                             }
                                                         }
                                                     }
-                                                    
                                                     roleJson.add("event_participant", roleParticipentArray);
                                                     eventRoleJsonArray.add(roleJson);
                                                 }
                                             }
                                             jsonContactObj.add("roles", eventRoleJsonArray);
-                                            
-                                            
-/////
-                                            
-                                            /*
-                                            for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                                String participantName = "";
-                                                ArrayList<String> participantNameList = new ArrayList<String>();
-                                                boolean joined = false;
-                                                JsonObject roleJson = new JsonObject();
-                                                roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
-                                                roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
-                                                if (!eventParticipantList.isEmpty()) {
-                                                    for (int m = 0; m < eventParticipantList.size(); m++) {
-                                                        EventParticipant eventParticipant = eventParticipantList.get(m);
-                                                        if (!eventParticipant.isPullout() && eventParticipant.getRoleID() == eventRoleAssignment.getRoleId()) {
-                                                            participantNameList.add(cDAO.retrieveContactById(eventParticipant.getContactID()).getName());
-                                                            canJoinDisable = true;
-                                                            joined = true;
-                                                        }
-                                                    }
-                                                }
 
-                                                if (!participantNameList.isEmpty()) {
-                                                    JsonArray participantNameJArray = new JsonArray();
-                                                    for (String participantNameTemp : participantNameList) {
-                                                        //participantName += participantNameList.get(j) + " | ";
-                                                        participantNameJArray.add(new JsonPrimitive(participantNameTemp));
-                                                    }
-                                                    //participantName += participantNameList.get(participantNameList.size() - 1);
-                                                    roleJson.add("participant_name", participantNameJArray);
-                                                }else{
-                                                    roleJson.add("participant_name", new JsonArray());
-                                                }
-                                                if (joined) {
-                                                    roleJson.addProperty("joined", true);
-                                                } else {
-                                                    roleJson.addProperty("joined", false);
-                                                }
-                                                eventRoleJsonArray.add(roleJson);
-                                                jsonContactObj.add("roles", eventRoleJsonArray);
-
-                                            }
-                                            */
                                             if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
-                                                //check of the user has joined this event
-                                                //EventParticipantDAO.retrieveParticipantbyEventIDRoleID(,eventId);
-                                                jsonContactObj.addProperty("canEdit", true);
-                                                jsonContactObj.addProperty("canDelete", true);
                                                 if (canJoinDisable) {
                                                     jsonContactObj.addProperty("canJoin", false);
                                                 } else {
                                                     jsonContactObj.addProperty("canJoin", true);
                                                 }
-
                                             } else {
                                                 if (eventAffiliation != null) {
                                                     ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
@@ -294,8 +235,6 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                             if (matchTeam && !marked) {
                                                                 String permision = hmTeamPermission.get(eventTeam);
                                                                 if (permision.equals("Event leader")) {
-                                                                    jsonContactObj.addProperty("canEdit", true);
-                                                                    jsonContactObj.addProperty("canDelete", true);
                                                                     if (canJoinDisable) {
                                                                         jsonContactObj.addProperty("canJoin", false);
                                                                     } else {
@@ -303,8 +242,6 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                                     }
                                                                     marked = true;
                                                                 } else if (permision.equals("Associate")) {
-                                                                    jsonContactObj.addProperty("canEdit", false);
-                                                                    jsonContactObj.addProperty("canDelete", false);
                                                                     if (canJoinDisable) {
                                                                         jsonContactObj.addProperty("canJoin", false);
                                                                     } else {
@@ -315,34 +252,30 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                             }
                                                         }
                                                         if (!marked) {
-                                                            jsonContactObj.addProperty("canEdit", false);
-                                                            jsonContactObj.addProperty("canDelete", false);
                                                             jsonContactObj.addProperty("canJoin", false);
                                                         }
                                                     } else {
-                                                        jsonContactObj.addProperty("canEdit", false);
-                                                        jsonContactObj.addProperty("canDelete", false);
                                                         jsonContactObj.addProperty("canJoin", false);
                                                     }
                                                 } else {
-                                                    jsonContactObj.addProperty("canEdit", false);
-                                                    jsonContactObj.addProperty("canDelete", false);
                                                     jsonContactObj.addProperty("canJoin", false);
                                                 }
                                             }
-
                                         } else {
                                             jsonContactObj.addProperty("roles", "");
                                         }
 
-                                        eventArray.add(jsonContactObj);
-
+                                        if (teamNameFilter.isEmpty()) {
+                                            eventArray.add(jsonContactObj);
+                                        } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
+                                            eventArray.add(jsonContactObj);
+                                            hmTeamPermission.clear();
+                                        }
                                     }
                                 } catch (ParseException ex) {
                                     Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
-
                             json.add("event", eventArray);
                             out.println(gson.toJson(json));
                         } else {
