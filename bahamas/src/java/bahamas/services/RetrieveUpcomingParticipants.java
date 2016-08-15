@@ -26,6 +26,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -193,12 +194,16 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                 }
 
                                                 if (!participantNameList.isEmpty()) {
-                                                    for (int j = 0; j < participantNameList.size() - 1; j++) {
-                                                        participantName += participantNameList.get(j) + " | ";
+                                                    JsonArray participantNameJArray = new JsonArray();
+                                                    for (String participantNameTemp : participantNameList) {
+                                                        //participantName += participantNameList.get(j) + " | ";
+                                                        participantNameJArray.add(new JsonPrimitive(participantNameTemp));
                                                     }
-                                                    participantName += participantNameList.get(participantNameList.size() - 1);
+                                                    //participantName += participantNameList.get(participantNameList.size() - 1);
+                                                    roleJson.add("participant_name", participantNameJArray);
+                                                }else{
+                                                    roleJson.add("participant_name", new JsonArray());
                                                 }
-                                                roleJson.addProperty("participant_name", participantName);
                                                 if (joined) {
                                                     roleJson.addProperty("joined", true);
                                                 } else {
