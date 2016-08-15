@@ -110,6 +110,28 @@ public class Contact {
         this.notification = notification;
     }
 
+    //for import contacts
+    public Contact(String name, String altName, String contactType,
+            String otherExplanation, String profession, String jobTitle, String nric,
+            String gender, String nationality, Date dob, String remarks, boolean notification,
+            String createdBy) {
+
+        this.contactType = contactType;
+        this.createdBy = createdBy;
+        this.name = name;
+        this.altName = altName;
+        this.explainIfOther = otherExplanation;
+        this.profession = profession;
+        this.jobTitle = jobTitle;
+        this.nric = nric;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.dateOfBirth = dob;
+        this.remarks = remarks;
+        this.notification = notification;
+
+    }
+
     public int getContactId() {
         return contactId;
     }
