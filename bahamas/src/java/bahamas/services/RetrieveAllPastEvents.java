@@ -84,7 +84,11 @@ public class RetrieveAllPastEvents extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
+                String teamNameFilter = "";
                 String username = Authenticator.verifyToken(token);
+                if (jobject.has("teamFilter")) {
+                    teamNameFilter = jobject.get("teamFilter").getAsString();
+                }
 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -117,12 +121,12 @@ public class RetrieveAllPastEvents extends HttpServlet {
                             for (int i = 0; i < eventList.size(); i++) {
                                 Event event = eventList.get(i);
                                 Date currentDateTime = new Date();
-                                try{
+                                try {
                                     Date currentDate = date.parse(date.format(currentDateTime));
                                     Date currentTime = time.parse(time.format(currentDateTime));
                                     Date eventEndDate = date.parse(date.format(event.getEventEndDate()));
                                     Date eventEndTime = time.parse(time.format(event.getEventEndTime()));
-                                    
+
                                     if (eventEndDate.before(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.before(currentTime))) {
 
                                         jsonContactObj = new JsonObject();
@@ -133,18 +137,21 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                         //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
                                         EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
-                                        if(eventAffiliation != null){
+                                        HashMap<String, String> eventTeamsHM = new HashMap<String, String>();
+                                        if (eventAffiliation != null) {
                                             String teamTemp = "";
                                             ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
-                                            for(int m = 0; m < teamnameList.size()-1; m++){
+                                            for (int m = 0; m < teamnameList.size() - 1; m++) {
                                                 teamTemp += teamnameList.get(m) + " | ";
+                                                eventTeamsHM.put(teamnameList.get(m), teamnameList.get(m));
                                             }
-                                            teamTemp += teamnameList.get(teamnameList.size() -1);
+                                            teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                            eventTeamsHM.put(teamnameList.get(teamnameList.size() - 1), teamnameList.get(teamnameList.size() - 1));
                                             jsonContactObj.addProperty("team", teamTemp);
-                                        }else{
+                                        } else {
                                             jsonContactObj.addProperty("team", "");
                                         }
-                                        
+
                                         jsonContactObj.addProperty("event_class", event.getEventClassName());
                                         jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                         jsonContactObj.addProperty("event_status", event.getEventStatus());
@@ -191,8 +198,13 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                                 jsonContactObj.addProperty("canJoin", false);
                                             }
                                         }
-
-                                        eventArray.add(jsonContactObj);
+                                        if (teamNameFilter.isEmpty()) {
+                                            eventArray.add(jsonContactObj);
+                                        } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
+                                            eventArray.add(jsonContactObj);
+                                            hmTeamPermission.clear();
+                                        }
+                                        //eventArray.add(jsonContactObj);
                                     }
                                 } catch (ParseException ex) {
                                     Logger.getLogger(RetrieveAllUpcomingEvents.class.getName()).log(Level.SEVERE, null, ex);
