@@ -181,6 +181,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                                     EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
                                                     JsonObject roleJson = new JsonObject();
+                                                    roleJson.addProperty("event_id", event.getEventId());
                                                     roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                                     roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
                                                     roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
