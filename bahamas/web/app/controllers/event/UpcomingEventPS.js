@@ -7,16 +7,31 @@
 var app = angular.module('bahamas');
 
 app.controller('upcomingEventPS',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'loadTeamAffiliation',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, loadTeamAffiliation) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
                 
+                $scope.loadTeamList = function(){
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
+                        $scope.teamList = response.data.teamAffiliationList;
+                        $scope.teamList.unshift({'teamAffiliation': 'All'});
+                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
+                    })
+                };
+                
                 $scope.retrieveEvents = function () {
+                    var filter;
+                    if($scope.teamFilter == "All"){
+                        filter = "";
+                    }else{
+                        filter = $scope.teamFilter;
+                    }
                     $scope.toRetrieve = {
-                        'token': session.getSession('token')
+                        'token': session.getSession('token'),
+                        'teamFilter': filter
                     };
                     var url = '/event.upcomingparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
