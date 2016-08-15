@@ -7,33 +7,43 @@
 var app = angular.module('bahamas');
 
 app.controller('upcomingEventPS',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'loadTeamAffiliation',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, loadTeamAffiliation) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'localStorageService', 'loadTeamAffiliation', '$rootScope', '$uibModal',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, localStorageService, loadTeamAffiliation, $rootScope, $uibModal) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-                
-                $scope.loadTeamList = function(){
-                    loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
+
+                $scope.loadTeamList = function () {
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
                         $scope.teamList.unshift({'teamAffiliation': 'All'});
                         $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
                 };
-                
-                $scope.toContact = function($event, part){
-                    console.log(part);
-//                    var url = user + '.viewIndivContact';
-//                    session.setSession('contactToDisplayCid', part['contact_id']);
-//                    $state.go(url);
+
+                $scope.toContact = function ($event, part) {
+                    var url = user + '.viewIndivContact';
+                    session.setSession('contactToDisplayCid', part['contact_id']);
+                    $state.go(url);
                 };
-                
+
+                $scope.removeParticipant = function ($event, participant) {
+                    $rootScope.participant = participant;
+                    console.log(participant);
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/removeReason.html',
+                        controller: 'ReasonInstanceCtrl',
+                        size: "md"
+                    });
+                };
+
                 $scope.retrieveEvents = function () {
                     var filter;
-                    if($scope.teamFilter == "All"){
+                    if ($scope.teamFilter == "All") {
                         filter = "";
-                    }else{
+                    } else {
                         filter = $scope.teamFilter;
                     }
                     $scope.toRetrieve = {
@@ -70,7 +80,7 @@ app.controller('upcomingEventPS',
                                 $scope.isAll = false;
                             }
                             var newArray = [];
-                            
+
                             angular.forEach($scope.allEventInfo, function (obj) {
                                 var startDate = new Date(obj['event_start_date']);
                                 if (startDate >= $scope.dateStart && startDate <= $scope.superFarDate) {
@@ -250,5 +260,40 @@ app.controller('upcomingEventPS',
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
                     $scope.predicate = predicate;
                 };
-                
+
             }]);
+
+app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+    $scope.ok = function () {
+        var part = $rootScope.participant;
+        if (angular.isUndefined($scope.input)) {
+            $scope.input = "";
+        }
+        ;
+        $scope.toRemovePart = {
+            'token': session.getSession('token'),
+            'role_id': part['role_id'],
+            'reason': $scope.input,
+            'withdraw_contact_id': part['contact_id']
+        };
+        var urlToRemove = '/event.leaverole';
+        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/removeSuccessful.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.viewIndivEvent';
+                    var eventId = $stateParams.eventId;
+                    $state.go(current, {eventId: eventId}, {reload: true});
+                })
+            }
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
