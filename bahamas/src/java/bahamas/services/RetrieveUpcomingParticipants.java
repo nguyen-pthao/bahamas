@@ -205,7 +205,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                                 int participantID = eventParticipantTemp.getContactID();
                                                                 Contact contactTemp = cDAO.retrieveContactById(participantID);
                                                                 //role.addProperty("role", eventRoleAssignment.getRoleName());
-                                                                //role.addProperty("role_id", eventRoleAssignment.getRoleId());
+                                                                role.addProperty("role_id", eventRoleAssignment.getRoleId());
                                                                 //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                                 role.addProperty("contact_id", contactTemp.getContactId());
                                                                 //boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
