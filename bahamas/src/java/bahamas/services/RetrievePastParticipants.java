@@ -10,6 +10,7 @@ import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
@@ -62,6 +63,8 @@ public class RetrievePastParticipants extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -87,7 +90,11 @@ public class RetrievePastParticipants extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
+                String teamNameFilter = "";
                 String username = Authenticator.verifyToken(token);
+                if (jobject.has("teamFilter")) {
+                    teamNameFilter = jobject.get("teamFilter").getAsString();
+                }
 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -102,17 +109,31 @@ public class RetrievePastParticipants extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     } else {
-                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
                         //Get all teams this user has
+                        HashMap<String, String> hmTeamPermission = new HashMap<String, String>();
                         ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
-                        for (TeamJoin teamJoin : teamJoinList) {
-                            hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                        try {
+                            Date currentDateTime = new Date();
+                            Date currentDate = date.parse(date.format(currentDateTime));
+                            Date obsDate = null;
+                            for (TeamJoin teamJoin : teamJoinList) {
+                                if (teamJoin.getDateObsolete() != null) {
+                                    obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
+                                }
+                                if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
+                                    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                }
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                            return;
                         }
 
                         EventDAO eventDAO = new EventDAO();
                         ArrayList<Event> eventList = eventDAO.retrieveAllEventsGroupByEventTitle();
-                        SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
-                        SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+
                         JsonArray eventArray = new JsonArray();
                         JsonObject jsonContactObj;
                         if (eventList != null) {
@@ -126,73 +147,139 @@ public class RetrievePastParticipants extends HttpServlet {
                                     Date eventEndDate = date.parse(date.format(event.getEventEndDate()));
                                     Date eventEndTime = time.parse(time.format(event.getEventEndTime()));
                                     if (eventEndDate.before(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.before(currentTime))) {
+
                                         ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(event.getEventId());
                                         ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
                                         EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                         jsonContactObj = new JsonObject();
                                         JsonArray eventRoleJsonArray = new JsonArray();
 
-                                        //view for all other users
                                         jsonContactObj.addProperty("event_id", event.getEventId());
-                                        jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                        jsonContactObj.addProperty("event_title", event.getEventTitle() + ", " + date.format(event.getEventStartDate()) + ", " + time.format(event.getEventStartTime()) + ", " + event.getEventLocationName());
                                         jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
-                                        //jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                        jsonContactObj.addProperty("event_location", event.getEventLocationName());
+                                        HashMap<String, String> eventTeamsHM = new HashMap<String, String>();
                                         if (eventAffiliation != null) {
                                             String teamTemp = "";
                                             ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
                                             for (int m = 0; m < teamnameList.size() - 1; m++) {
                                                 teamTemp += teamnameList.get(m) + " | ";
+                                                eventTeamsHM.put(teamnameList.get(m), teamnameList.get(m));
                                             }
                                             teamTemp += teamnameList.get(teamnameList.size() - 1);
+                                            eventTeamsHM.put(teamnameList.get(teamnameList.size() - 1), teamnameList.get(teamnameList.size() - 1));
                                             jsonContactObj.addProperty("team", teamTemp);
                                         } else {
                                             jsonContactObj.addProperty("team", "");
                                         }
-                                        jsonContactObj.addProperty("event_location", event.getEventLocationName());
 
-                                        if (eventRoleAssignmentList != null && !eventParticipantList.isEmpty()) {
-                                            
-                                            for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                                String participantName = "";
-                                                ArrayList<String> participantNameList = new ArrayList<String>();
-                                                JsonObject roleJson = new JsonObject();
-                                                roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
-                                                roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
-                                                for (int m = 0; m < eventParticipantList.size(); m++){
-                                                    EventParticipant eventParticipant = eventParticipantList.get(m);
-                                                    if(!eventParticipant.isPullout() && eventParticipant.getRoleID() == eventRoleAssignment.getRoleId()){
-                                                        participantNameList.add(cDAO.retrieveContactById(eventParticipant.getContactID()).getName()); 
+                                        if (eventRoleAssignmentList != null) {
+                                            //boolean canJoinDisable = false;
+                                            if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
+
+                                                for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
+                                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
+                                                    JsonObject roleJson = new JsonObject();
+                                                    roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
+                                                    roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
+                                                    roleJson.addProperty("event_desc", eventRoleAssignment.getRoleDescription());
+                                                    if (eventParticipant == null) {
+                                                        roleJson.addProperty("joined", false);
+                                                    } else if (eventParticipant.isPullout()) {
+                                                        roleJson.addProperty("joined", false);
+                                                    } else {
+                                                        roleJson.addProperty("joined", true);
+                                                        //canJoinDisable = true;
                                                     }
-                                                    
-                                                }
-                                                if(!participantNameList.isEmpty()){
-                                                    for(int j = 0; j < participantNameList.size()-1; j++){
-                                                        participantName += participantNameList.get(j) + " | ";
+                                                    JsonArray roleParticipentArray = new JsonArray();
+                                                    int roleId = eventRoleAssignment.getRoleId();
+                                                    for (EventParticipant eventParticipantTemp : eventParticipantList) {
+                                                        JsonObject role = new JsonObject();
+                                                        if (roleId == eventParticipantTemp.getRoleID()) {
+                                                            if (!eventParticipantTemp.isPullout()) {
+                                                                int participantID = eventParticipantTemp.getContactID();
+                                                                Contact contactTemp = cDAO.retrieveContactById(participantID);
+                                                                role.addProperty("role_id", eventRoleAssignment.getRoleId());
+                                                                role.addProperty("contact_id", contactTemp.getContactId());
+                                                                if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), event.getEventId())) {
+                                                                    role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
+                                                                    role.addProperty("canAppreciate", true);
+                                                                } else {
+                                                                    role.addProperty("participant_name", (contactTemp.getName()));
+                                                                    role.addProperty("canAppreciate", false);
+                                                                }
+                                                                roleParticipentArray.add(role);
+                                                            }
+                                                        }
                                                     }
-                                                    participantName += participantNameList.get(participantNameList.size()-1);
+                                                    roleJson.add("event_participant", roleParticipentArray);
+                                                    eventRoleJsonArray.add(roleJson);
                                                 }
-                                                roleJson.addProperty("participant_name", participantName);
-                                                eventRoleJsonArray.add(roleJson);
                                             }
                                             jsonContactObj.add("roles", eventRoleJsonArray);
-                                        }else{
+                                            /*
+                                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
+                                                if (canJoinDisable) {
+                                                    jsonContactObj.addProperty("canJoin", false);
+                                                } else {
+                                                    jsonContactObj.addProperty("canJoin", true);
+                                                }
+                                            } else {
+                                                if (eventAffiliation != null) {
+                                                    ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
+                                                    if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
+                                                        boolean marked = false;
+                                                        for (String eventTeam : teamsInEvent) {
+                                                            Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                            if (matchTeam && !marked) {
+                                                                String permision = hmTeamPermission.get(eventTeam);
+                                                                if (permision.equals("Event leader")) {
+                                                                    if (canJoinDisable) {
+                                                                        jsonContactObj.addProperty("canJoin", false);
+                                                                    } else {
+                                                                        jsonContactObj.addProperty("canJoin", true);
+                                                                    }
+                                                                    marked = true;
+                                                                } else if (permision.equals("Associate")) {
+                                                                    if (canJoinDisable) {
+                                                                        jsonContactObj.addProperty("canJoin", false);
+                                                                    } else {
+                                                                        jsonContactObj.addProperty("canJoin", true);
+                                                                    }
+                                                                    marked = true;
+                                                                }
+                                                            }
+                                                        }
+                                                        if (!marked) {
+                                                            jsonContactObj.addProperty("canJoin", false);
+                                                        }
+                                                    } else {
+                                                        jsonContactObj.addProperty("canJoin", false);
+                                                    }
+                                                } else {
+                                                    jsonContactObj.addProperty("canJoin", false);
+                                                }
+                                            }
+                                            */
+                                        } else {
                                             jsonContactObj.addProperty("roles", "");
                                         }
 
-                                        eventArray.add(jsonContactObj);
-
+                                        if (teamNameFilter.isEmpty()) {
+                                            eventArray.add(jsonContactObj);
+                                        } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
+                                            eventArray.add(jsonContactObj);
+                                            hmTeamPermission.clear();
+                                        }
                                     }
                                 } catch (ParseException ex) {
-                                    Logger.getLogger(RetrievePastParticipants.class.getName()).log(Level.SEVERE, null, ex);
+                                    Logger.getLogger(RetrieveUpcomingParticipants.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                             }
-
                             json.add("event", eventArray);
                             out.println(gson.toJson(json));
                         } else {
-                            json.addProperty("message", "Fail retrieve all participant for past events");
+                            json.addProperty("message", "Fail retrieve all participants for upcoming events");
                             out.println(gson.toJson(json));
                         }
                     }
