@@ -7,16 +7,37 @@
 var app = angular.module('bahamas');
 
 app.controller('pastEventsPS',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService', 'loadTeamAffiliation',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService, loadTeamAffiliation) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-
+                
+                $scope.loadTeamList = function () {
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
+                        $scope.teamList = response.data.teamAffiliationList;
+                        $scope.teamList.unshift({'teamAffiliation': 'All'});
+                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
+                    })
+                };
+                
+                $scope.toContact = function ($event, part) {
+                    var url = user + '.viewIndivContact';
+                    session.setSession('contactToDisplayCid', part['contact_id']);
+                    $state.go(url);
+                };
+                
                 $scope.retrieveEvents = function () {
+                    var filter;
+                    if ($scope.teamFilter == "All") {
+                        filter = "";
+                    } else {
+                        filter = $scope.teamFilter;
+                    }
                     $scope.toRetrieve = {
-                        'token': session.getSession('token')
+                        'token': session.getSession('token'),
+                        'teamFilter': filter
                     };
                     var url = '/event.pastparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {

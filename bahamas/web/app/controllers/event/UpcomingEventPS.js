@@ -30,7 +30,6 @@ app.controller('upcomingEventPS',
 
                 $scope.removeParticipant = function ($event, participant) {
                     $rootScope.participant = participant;
-                    console.log(participant);
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: './style/ngTemplate/removeReason.html',
@@ -53,7 +52,6 @@ app.controller('upcomingEventPS',
                     var url = '/event.upcomingparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
-                        console.log($scope.allEventInfo);
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;
@@ -285,9 +283,8 @@ app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInst
                     scope: $scope
                 }).then(function (response) {
                     $uibModalInstance.dismiss('cancel');
-                    var current = session.getSession('userType') + '.viewIndivEvent';
-                    var eventId = $stateParams.eventId;
-                    $state.go(current, {eventId: eventId}, {reload: true});
+                    var current = session.getSession('userType') + '.eventParticipationSummary';
+                    $state.go(current, {}, {reload: true});
                 })
             }
         });

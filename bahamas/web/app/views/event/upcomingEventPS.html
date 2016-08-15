@@ -94,7 +94,7 @@ and open the template in the editor.
                                     <tr>
                                         <th width="20%"><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
                                         <th width="20%"><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
-                                        <th width="60%"><a href="" style='color: #005384'>Roles/Participation</a></th>
+                                        <th width="60%">Roles/Participation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -106,7 +106,7 @@ and open the template in the editor.
                                                 <tbody>
                                                     <tr ng-repeat="role in event['roles']">
                                                         <td width="30%">{{role['event_role']}}</td>
-                                                        <td width="50%" style="padding:0px;">
+                                                        <td width="55%" style="padding:0px;">
                                                             <table class="table">
                                                                 <tbody>
                                                                     <tr ng-repeat="part in role['event_participant'] track by $index">
@@ -129,7 +129,7 @@ and open the template in the editor.
                                 <tr>
                                     <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
                                     <th><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
-                                    <th><a href="" style='color: #005384'>Roles/Participation</a></th>
+                                    <th>Roles/Participation</th>
                                 </tr>
                             </tfoot>
                             </table>
