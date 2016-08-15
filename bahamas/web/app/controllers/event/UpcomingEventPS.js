@@ -27,7 +27,36 @@ app.controller('upcomingEventPS',
                     session.setSession('contactToDisplayCid', part['contact_id']);
                     $state.go(url);
                 };
-
+                
+                $scope.joinRole = function ($event, role) {
+                    console.log(role);
+                    $scope.roleName = role['event_role'];
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/joinRolePrompt.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    }).then(function (response) {
+                        $scope.toJoin = {
+                            'token': session.getSession('token'),
+                            'event_id': role['event_id'],
+                            'event_role_id': role['event_role_id']
+                        };
+                        var urlToJoin = '/event.join';
+                        dataSubmit.submitData($scope.toJoin, urlToJoin).then(function (response) {
+                            if (response.data.message == "success") {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/joinRoleSuccess.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function (response) {
+                                    var current = user + '.eventParticipationSummary';
+                                    $state.go(current, {}, {reload: true});
+                                })
+                            }
+                        })
+                    })
+                };
+                
                 $scope.removeParticipant = function ($event, participant) {
                     $rootScope.participant = participant;
                     var modalInstance = $uibModal.open({
