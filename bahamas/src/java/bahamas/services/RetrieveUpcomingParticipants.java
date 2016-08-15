@@ -157,7 +157,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                         jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
                                         //jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                        jsonContactObj.addProperty("event_location", event.getEventLocationName());
+                                        //jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                         if (eventAffiliation != null) {
                                             String teamTemp = "";
                                             ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
@@ -169,7 +169,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                         } else {
                                             jsonContactObj.addProperty("team", "");
                                         }
-                                        jsonContactObj.addProperty("event_location", event.getEventLocationName());
+                                        //jsonContactObj.addProperty("event_location", event.getEventLocationName());
 
                                         if (eventRoleAssignmentList != null) {
                                             boolean canJoinDisable = false;
