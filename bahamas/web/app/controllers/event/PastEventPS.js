@@ -301,7 +301,7 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
             'role_id': part['role_id'],
             'remarks': $scope.input
         };
-        var urlToAddRemarks = '/event.addremarks';
+        var urlToAddRemarks = '/event.addeventremarks';
         dataSubmit.submitData($scope.toAddRemarks, urlToAddRemarks).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
