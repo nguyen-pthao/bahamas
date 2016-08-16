@@ -208,6 +208,11 @@ public class RetrievePastParticipants extends HttpServlet {
                                                                     role.addProperty("participant_name", (contactTemp.getName()));
                                                                     role.addProperty("canAppreciate", false);
                                                                 }
+                                                                if(contactTemp.getContactId() == contact.getContactId()){
+                                                                    role.addProperty("canRemark", true);
+                                                                }else{
+                                                                    role.addProperty("canRemark", false);
+                                                                }
                                                                 roleParticipentArray.add(role);
                                                             }
                                                         }
