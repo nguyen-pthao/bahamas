@@ -31,7 +31,17 @@ app.controller('pastEventsPS',
                         size: "md"
                     });
                 };
-
+                
+                $scope.addServiceComment = function ($event, part) {
+                    $rootScope.participant = part;
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/addServiceComment.html',
+                        controller: 'ServiceCommentInstanceCtrl',
+                        size: "md"
+                    });
+                };
+                
                 $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
@@ -306,6 +316,39 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
                     template: './style/ngTemplate/addRemarksSuccess.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.pastEventParticipationSummary';
+                    $state.go(current, {}, {reload: true});
+                })
+            }
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+    $scope.ok = function () {
+        var part = $rootScope.participant;
+        if(angular.isUndefined($scope.input)){
+            $scope.input = "";
+        };
+        $scope.toAddServiceComment = {
+            'token': session.getSession('token'),
+            'role_id': part['role_id'],
+            'remarks': $scope.input,
+            'participant_id': part['contact_id']
+        };
+        var urlToAddRemarks = '/event.addeventremarks';
+        dataSubmit.submitData($scope.toAddRemarks, urlToAddRemarks).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/addServiceCommentSuccess.html',
                     className: 'ngdialog-theme-default',
                     scope: $scope
                 }).then(function (response) {

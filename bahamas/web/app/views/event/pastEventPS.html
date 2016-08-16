@@ -111,10 +111,10 @@ and open the template in the editor.
                                                                 <tbody>
                                                                     <tr ng-repeat="part in role['event_participant'] track by $index">
                                                                         <td>{{$index + 1}}) <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a></td>
-                                                                        <td><center><span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Appreciation" ng-click=""><i class="fa fa-thumbs-up fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>&nbsp;
-                                                                <span ng-if="part['canRemark']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Remarks" ng-click="addRemarks($event, part)"><i class="fa fa-comment fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>&nbsp;
-                                                                <span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Service Comment" ng-click=""><i class="fa fa-comments-o fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></center></td>
-                                    </tr>
+                                                                        <td style="padding-right:0px;"><center><span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Appreciation" ng-click=""><i class="fa fa-thumbs-up fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></center></td>
+                                                        <td style="padding-left:0px; padding-right: 0px;"><center><span ng-if="part['canRemark']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Remarks" ng-click="addRemarks($event, part)"><i class="fa fa-comment fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></center></td>
+                                        <td style="padding-left:0px;"><center><span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Service Comment" ng-click="addServiceComment($event, part)"><i class="fa fa-comments-o fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></center></td>
+                                </tr>
                                 </tbody>
                             </table>
                             </td>
