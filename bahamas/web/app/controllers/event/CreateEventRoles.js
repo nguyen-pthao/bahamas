@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createEventRoles',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', '$stateParams', 'ngDialog', 'dataSubmit',
-            function ($scope, session, $state, localStorageService, $http, $timeout, $stateParams, ngDialog, dataSubmit) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', 'ngDialog', 'dataSubmit',
+            function ($scope, session, $state, localStorageService, $http, $timeout, ngDialog, dataSubmit) {
                 var eventId = localStorageService.get('eventIdCreate');
                 var user = session.getSession('userType');
                 $scope.backHome = function () {

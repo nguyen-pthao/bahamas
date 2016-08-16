@@ -268,8 +268,8 @@ app.controller('upcomingEventPS',
 
                 $scope.foo = function ($event, event) {
                     var url = user + '.viewIndivEvent';
-                    var eventid = event['event_id'];
-                    $state.go(url, {eventId: eventid});
+                    session.setSession('eventIdToDisplay', event['event_id']);
+                    $state.go(url);
                 };
 
                 $scope.edit = function ($event, event) {

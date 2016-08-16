@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('viewIndivEvent',
+app.controller('viewPastIndivEvent',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$timeout', 'localStorageService', 'deleteService', '$uibModal', '$rootScope',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $timeout, localStorageService, deleteService, $uibModal, $rootScope) {
                 var user = session.getSession('userType');
