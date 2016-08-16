@@ -214,12 +214,12 @@ public class RetrievePastParticipants extends HttpServlet {
                                                                     role.addProperty("canRemark", false);
                                                                 }
                                                                 //EventParticipant eventParticipantTemp = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contactTemp.getContactId());
-                                                                if(eventParticipant.getRemarks() != null){
+                                                                if(eventParticipant != null && eventParticipant.getRemarks() != null){
                                                                     role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                                 }else{
                                                                     role.addProperty("remarks", "");
                                                                 }
-                                                                if(eventParticipant.getService_comment() != null){
+                                                                if(eventParticipant != null && eventParticipant.getService_comment() != null){
                                                                     role.addProperty("eventParticipantservice_comment", eventParticipantTemp.getService_comment());
                                                                 }else{
                                                                     role.addProperty("service_comment", "");
