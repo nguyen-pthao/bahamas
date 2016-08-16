@@ -56,6 +56,7 @@ public class ImportContact extends HttpServlet {
     private ArrayList<String> contactList;
     private String[] COL;
     private static final Logger LOGGER = Logger.getLogger(ImportContact.class.getName());
+    private static final int numOfFields = 12;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -120,76 +121,84 @@ public class ImportContact extends HttpServlet {
                     return;
                 }
 
-                for (int i = 0; i < contactList.size(); i++) {
+                int lineNum = 0;
+                try {
+                    for (int i = 0; i < contactList.size(); i++) {
 
-                    ArrayList<String> msg = new ArrayList<String>();
+                        ArrayList<String> msg = new ArrayList<>();
 
-                    int lineNum = i + 1;
+                        String name = processField(msg, contactList.get(i), "Name", 50);
 
-                    String name = processField(msg, contactList.get(i), "Name", 50);
-
-                    if (name == null) {
-                        msg.add("Name cannot be empty");
-                    }
-
-                    String altName = processField(msg, contactList.get(++i), "Alt Name", 50);
-                    String contactType = processField(msg, contactList.get(++i), "Contact Type", 50);
-
-                    ContactTypeListDAO listDAO = new ContactTypeListDAO();
-                    if (!listDAO.retrieveAllContactTypeList().contains(contactType)) {
-                        msg.add("Contact Type not referencing to Contact Type List");
-                    }
-
-                    String otherExplanation = processField(msg, contactList.get(++i), "Explain if other", 200);
-                    String profession = processField(msg, contactList.get(++i), "Profession", 200);
-                    String jobTitle = processField(msg, contactList.get(++i), "Job Title", 50);
-                    String nric = processField(msg, contactList.get(++i), "NRIC/FIN", 9);
-
-                    String gender = processField(msg, contactList.get(++i), "Gender", 1);
-                    if (!(gender.equals("M") || gender.equals("F") || gender.equals("O"))) {
-                        msg.add("Invalid Gender Format");
-                    }
-
-                    String nationality = processField(msg, contactList.get(++i), "Nationality", 20);
-                    String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
-
-                    String date = contactList.get(++i);
-                    SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-                    Date dob = null;
-                    if (!date.isEmpty()) {
-                        try {
-                            dob = format.parse(date);
-                        } catch (ParseException e) {
-                            msg.add("Invalid date format");
+                        if (name == null) {
+                            msg.add("Name cannot be empty");
                         }
+
+                        String altName = processField(msg, contactList.get(++i), "Alt Name", 50);
+                        String contactType = processField(msg, contactList.get(++i), "Contact Type", 50);
+
+                        ContactTypeListDAO listDAO = new ContactTypeListDAO();
+                        if (!listDAO.retrieveAllContactTypeList().contains(contactType)) {
+                            msg.add("Contact Type not referencing to Contact Type List");
+                        }
+
+                        String otherExplanation = processField(msg, contactList.get(++i), "Explain if other", 200);
+                        String profession = processField(msg, contactList.get(++i), "Profession", 200);
+                        String jobTitle = processField(msg, contactList.get(++i), "Job Title", 50);
+                        String nric = processField(msg, contactList.get(++i), "NRIC/FIN", 9);
+
+                        String gender = processField(msg, contactList.get(++i), "Gender", 1);
+                        if (!(gender.equals("M") || gender.equals("F") || gender.equals("O"))) {
+                            msg.add("Invalid Gender Format");
+                        }
+
+                        String nationality = processField(msg, contactList.get(++i), "Nationality", 20);
+                        String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+
+                        String date = contactList.get(++i);
+                        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+                        format.setLenient(false);
+                        Date dob = null;
+                        if (!date.isEmpty()) {
+                            try {
+                                dob = format.parse(date);
+                            } catch (ParseException e) {
+                                msg.add("Invalid date format");
+                            }
+                        }
+
+                        boolean notification = true;
+                        String notify = contactList.get(++i);
+
+                        if (notify.equalsIgnoreCase("false")) {
+                            notification = false;
+                        } else if (notify.equalsIgnoreCase("true")) {
+                            notification = true;
+                        } else {
+                            msg.add("Invalid notification boolean format");
+                        }
+
+                        lineNum++;
+
+                        if (!msg.isEmpty()) {
+                            errorMsg.put(lineNum, msg);
+                        } else {
+
+                            //Create new contact object
+                            Contact c = new Contact(name, altName, contactType,
+                                    otherExplanation, profession, jobTitle, nric,
+                                    gender, nationality, dob, remarks, notification, username);
+
+                            ContactDAO.addContact(c);
+                            msg.add("Successfully added");
+                            errorMsg.put(lineNum, msg);
+
+                        }
+
                     }
-
-                    boolean notification = true;
-                    String notify = contactList.get(++i);
-                    if (notify.equals("false")) {
-                        notification = false;
-                    } else if (notify.equals("true")) {
-                        notification = true;
-                    } else {
-                        msg.add("Invalid notification boolean format");
-                    }
-
-                    if (!msg.isEmpty()) {
-                        errorMsg.put(lineNum, msg);
-                    } else {
-
-                        //Create new contact object
-                        Contact c = new Contact(name, altName, contactType,
-                                otherExplanation, profession, jobTitle, nric,
-                                gender, nationality, dob, remarks, notification, username);
-
-                        ContactDAO.addContact(c);
-
-                        msg.add("Successfully added");
-                        errorMsg.put(lineNum, msg);
-
-                    }
-
+                } catch (Exception ex) {
+                    json.addProperty("message", "Import failed due to wrong file or data format");
+                    out.println(gson.toJson(json));
+                    return;
                 }
 
                 JsonArray records = new JsonArray();
@@ -233,7 +242,7 @@ public class ImportContact extends HttpServlet {
         }
 
         if (value.length() > max) {
-            temp.add("Invalid " + fieldName + " max length");
+            temp.add("Invalid " + fieldName + ", max length of " + max);
         }
 
         return value;
@@ -245,7 +254,7 @@ public class ImportContact extends HttpServlet {
         Scanner sc = new Scanner(bis);
         //String columns = sc.nextLine().trim();
         //COL = columns.split(",");
-        sc.useDelimiter(",");
+        sc.useDelimiter(",|\r\n");
         sc.nextLine();
         contactList = new ArrayList<String>();
         while (sc.hasNext()) {
@@ -267,7 +276,7 @@ public class ImportContact extends HttpServlet {
             workbook = new HSSFWorkbook(bis);
         }
 
-        Sheet sheet = workbook.getSheetAt(0);
+        Sheet sheet = workbook.getSheet("contact");
 
         Iterator rowIter = sheet.rowIterator();
 
@@ -275,6 +284,7 @@ public class ImportContact extends HttpServlet {
         contactList = new ArrayList<>();
 
         rowIter.next(); //skip the first blank line
+        /*
         LOGGER.log(Level.INFO, "DEBUG2: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
         LOGGER.log(Level.INFO, "DEBUG3: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
         LOGGER.log(Level.INFO, "DEBUG4: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
@@ -283,43 +293,51 @@ public class ImportContact extends HttpServlet {
         LOGGER.log(Level.INFO, "DEBUG7: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
         LOGGER.log(Level.INFO, "DEBUG8: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
         LOGGER.log(Level.INFO, "DEBUG9: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
-        rowIter.next();
+        //rowIter.next();
         LOGGER.log(Level.INFO, "DEBUG11: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
         LOGGER.log(Level.INFO, "DEBUG12: " + df.formatCellValue(((Row) rowIter.next()).getCell(1)));
-        Row colRow = (Row) rowIter.next();
+         */
+        //Row colRow = (Row) rowIter.next();
 
+        /*
         ArrayList<String> list = new ArrayList<>();
         Iterator colIter = colRow.cellIterator();
-        if (!df.formatCellValue((Cell) colRow.getCell(1)).isEmpty()) {
+        //if (!df.formatCellValue((Cell) colRow.getCell(1)).isEmpty()) {
             while (colIter.hasNext()) {
                 Cell cell = (Cell) colIter.next();
                 LOGGER.log(Level.INFO, "COLUMN: " + df.formatCellValue(cell));
                 String cellVal = df.formatCellValue(cell).toString();
-                cellVal = cellVal.replace(".", "\\uFF0E"); //mongoDB doesn't accept key name containing "."
+                //cellVal = cellVal.replace(".", "\\uFF0E"); //mongoDB doesn't accept key name containing "."
                 list.add(cellVal);
             }
             COL = list.toArray(new String[0]);
-        }
-
+        //}
+         */
         while (rowIter.hasNext()) {
             Row row = (Row) rowIter.next();
             Iterator cellIter = row.cellIterator();
-            if (cellIter.hasNext()) {
-                String content = "";
-                while (cellIter.hasNext()) {
-                    String tempContent = df.formatCellValue((Cell) cellIter.next());
-                    content += tempContent;
-                    content += ",";
-                }
+            int counter = 0;
+            //if (cellIter.hasNext() ) {
+            //String content = "";
+            while (cellIter.hasNext() && counter <= numOfFields) {
+                String tempContent = df.formatCellValue((Cell) cellIter.next());
+                //content += tempContent;
+                //content += ",";
+                contactList.add(tempContent);
+                counter++;
+            }
+            /*
                 if (!content.equals("")) {
                     content = content.substring(0, content.length() - 1);
                     LOGGER.log(Level.INFO, "ROW CONTENT: " + content);
                     contactList.add(content);
                 }
-            } else {
-                LOGGER.log(Level.INFO, "DEBUG: cellIter does NOT have Next Element");
-                break;
-            }
+             */
+
+            //} else {
+            //LOGGER.log(Level.INFO, "DEBUG: cellIter does NOT have Next Element");
+            //break;
+            //}
         }
     }
 
