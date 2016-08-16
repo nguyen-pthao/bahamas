@@ -7,13 +7,13 @@
 var app = angular.module('bahamas');
 
 app.controller('pastEventsPS',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService', 'loadTeamAffiliation',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService, loadTeamAffiliation) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService', 'loadTeamAffiliation', '$rootScope', '$uibModal',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService, loadTeamAffiliation, $rootScope, $uibModal) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-                
+
                 $scope.loadTeamList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
@@ -21,13 +21,23 @@ app.controller('pastEventsPS',
                         $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
                 };
-                
+
+                $scope.addRemarks = function ($event, part) {
+                    $rootScope.participant = part;
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/addRemarks.html',
+                        controller: 'RemarkInstanceCtrl',
+                        size: "md"
+                    });
+                };
+
                 $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
                     $state.go(url);
                 };
-                
+
                 $scope.retrieveEvents = function () {
                     var filter;
                     if ($scope.teamFilter == "All") {
@@ -279,3 +289,35 @@ app.controller('pastEventsPS',
                     $scope.predicate = predicate;
                 };
             }]);
+
+app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+    $scope.ok = function () {
+        var part = $rootScope.participant;
+        if(angular.isUndefined($scope.input)){
+            $scope.input = "";
+        };
+        $scope.toAddRemarks = {
+            'token': session.getSession('token'),
+            'role_id': part['role_id'],
+            'remarks': $scope.input
+        };
+        var urlToAddRemarks = '/event.addremarks';
+        dataSubmit.submitData($scope.toAddRemarks, urlToAddRemarks).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/addRemarksSuccess.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.pastEventParticipationSummary';
+                    $state.go(current, {}, {reload: true});
+                })
+            }
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});

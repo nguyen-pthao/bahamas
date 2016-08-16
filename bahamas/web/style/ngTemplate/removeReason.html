@@ -1,10 +1,11 @@
 <div class="modal-header">
-            <h3 class="modal-title">Enter reason:</h3>
+            <h3 class="modal-title">Enter Reason:</h3>
         </div>
 <div class="modal-body">
     <div ng-form name="reasonForm">
-        <input type="text" name="reasonInput" class="form-control" ng-required="true" ng-Model="input">
+        <input type="text" name="reasonInput" class="form-control" ng-maxlength="1000" ng-required="true" ng-Model="input">
         <span class="error" ng-show="reasonForm.reasonInput.$error.required && reasonForm.reasonInput.$touched">Please enter your reason!</span>
+        <span ng-show="reasonForm.reasonInput.$error.maxlength" class='error'>Input for 'Reason' is too long.</span>
     </div>
 </div>
 <div class="modal-footer">

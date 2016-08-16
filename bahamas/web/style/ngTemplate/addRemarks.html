@@ -1,0 +1,15 @@
+<div class="modal-header">
+            <h3 class="modal-title">Enter Remarks:</h3>
+        </div>
+<div class="modal-body">
+    <div ng-form name="remarkForm">
+        <input type="text" name="remarkInput" class="form-control" ng-maxlength="1000" ng-required="true" ng-Model="input">
+        <span class="error" ng-show="remarkForm.remarkInput.$error.required && remarkForm.remarkInput.$touched">Please enter your remarks!</span>
+        <span ng-show="remarkForm.remarkInput.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="remarkForm.remarkInput.$error.required || remarkForm.remarkInput.$error.maxlength">Done</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
+
