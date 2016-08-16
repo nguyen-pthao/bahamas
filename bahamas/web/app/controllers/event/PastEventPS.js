@@ -326,7 +326,7 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
         dataSubmit.submitData($scope.toAddRemarks, urlToAddRemarks).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
-                    template: './style/ngTemplate/addRemarksSuccess.html',
+                    template: './style/ngTemplate/addSuccess.html',
                     className: 'ngdialog-theme-default',
                     scope: $scope
                 }).then(function (response) {
@@ -360,7 +360,7 @@ app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibM
         dataSubmit.submitData($scope.toAddServiceComment, urlToAddServiceComment).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
-                    template: './style/ngTemplate/addServiceCommentSuccess.html',
+                    template: './style/ngTemplate/addSuccess.html',
                     className: 'ngdialog-theme-default',
                     scope: $scope
                 }).then(function (response) {
@@ -442,6 +442,39 @@ app.controller('AppreciationInstanceCtrl', function ($scope, $rootScope, $uibMod
     $scope.altInputFormats = ['M!/d!/yyyy'];
     $scope.ok = function () {
         var part = $rootScope.participant;
+        if ($scope.newAppreciation['appraisal_date'] == null) {
+            $scope.newAppreciation['appraisal_date'] = '';
+        } else if (isNaN($scope.newAppreciation['appraisal_date'])) {
+            $scope.newAppreciation['appraisal_date'] = '';
+        } else if (angular.isUndefined($scope.newAppreciation['appraisal_date'])) {
+            $scope.newAppreciation['appraisal_date'] = '';
+        } else {
+            $scope.newAppreciation['appraisal_date'] = $scope.newAppreciation['appraisal_date'].valueOf() + "";
+        }
+        if ($scope.newAppreciation['appreciation_date'] == null) {
+            $scope.newAppreciation['appreciation_date'] = '';
+        } else if (isNaN($scope.newAppreciation['appreciation_date'])) {
+            $scope.newAppreciation['appreciation_date'] = '';
+        } else if (angular.isUndefined($scope.newAppreciation['appreciation_date'])) {
+            $scope.newAppreciation['appreciation_date'] = '';
+        } else {
+            $scope.newAppreciation['appreciation_date'] = $scope.newAppreciation['appreciation_date'].valueOf() + "";
+        }
+        $scope.newAppreciation['contact_id'] = part['contact_id'];
+        var urlToAddAppreciation = '/appreciation.add';
+        dataSubmit.submitData($scope.newAppreciation, urlToAddAppreciation).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/addSuccess.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.pastEventParticipationSummary';
+                    $state.go(current, {}, {reload: true});
+                })
+            }
+        });
 
     };
 

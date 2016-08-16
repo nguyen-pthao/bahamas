@@ -161,7 +161,7 @@ app.controller('viewIndivEvent',
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: './style/ngTemplate/removeReason.html',
-                        controller: 'ReasonInstanceCtrl',
+                        controller: 'ReasonIndivInstanceCtrl',
                         size: "md"
                     });
                 };
@@ -202,7 +202,7 @@ app.controller('viewIndivEvent',
 //                };
             }]);
 
-app.controller('ReasonInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
     $scope.ok = function () {
         var part = $rootScope.participant;
         if(angular.isUndefined($scope.input)){
