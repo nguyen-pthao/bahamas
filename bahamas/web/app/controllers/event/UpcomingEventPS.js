@@ -29,7 +29,6 @@ app.controller('upcomingEventPS',
                 };
                 
                 $scope.joinRole = function ($event, role) {
-                    console.log(role);
                     $scope.roleName = role['event_role'];
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/joinRolePrompt.html',

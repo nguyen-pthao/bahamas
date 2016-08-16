@@ -72,7 +72,6 @@ app.controller('pastEventsPS',
                     var url = '/event.pastparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
-                        console.log($scope.allEventInfo);
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;
@@ -311,8 +310,9 @@ app.controller('pastEventsPS',
             }]);
 
 app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    var part = $rootScope.participant;
+    $scope.input = part['remarks'];
     $scope.ok = function () {
-        var part = $rootScope.participant;
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
         }
@@ -344,8 +344,9 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
 });
 
 app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    var part = $rootScope.participant;
+    $scope.input = part['eventParticipantservice_comment'];
     $scope.ok = function () {
-        var part = $rootScope.participant;
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
         }
