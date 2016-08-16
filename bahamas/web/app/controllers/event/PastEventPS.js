@@ -31,7 +31,7 @@ app.controller('pastEventsPS',
                         size: "md"
                     });
                 };
-                
+
                 $scope.addServiceComment = function ($event, part) {
                     $rootScope.participant = part;
                     var modalInstance = $uibModal.open({
@@ -41,7 +41,17 @@ app.controller('pastEventsPS',
                         size: "md"
                     });
                 };
-                
+
+                $scope.addAppreciation = function ($event, part) {
+                    $rootScope.participant = part;
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/addAppreciation.html',
+                        controller: 'AppreciationInstanceCtrl',
+                        size: "lg"
+                    });
+                };
+
                 $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
@@ -300,12 +310,13 @@ app.controller('pastEventsPS',
                 };
             }]);
 
-app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.ok = function () {
         var part = $rootScope.participant;
-        if(angular.isUndefined($scope.input)){
+        if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        };
+        }
+        ;
         $scope.toAddRemarks = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
@@ -332,20 +343,21 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
     };
 });
 
-app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.ok = function () {
         var part = $rootScope.participant;
-        if(angular.isUndefined($scope.input)){
+        if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        };
+        }
+        ;
         $scope.toAddServiceComment = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
             'remarks': $scope.input,
             'participant_id': part['contact_id']
         };
-        var urlToAddRemarks = '/event.addeventremarks';
-        dataSubmit.submitData($scope.toAddRemarks, urlToAddRemarks).then(function (response) {
+        var urlToAddServiceComment = '/event.addeventremarks';
+        dataSubmit.submitData($scope.toAddServiceComment, urlToAddServiceComment).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
                     template: './style/ngTemplate/addServiceCommentSuccess.html',
@@ -358,6 +370,79 @@ app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibM
                 })
             }
         });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('AppreciationInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $timeout) {
+    $scope.newAppreciation = {
+        'token': session.getSession('token'),
+        'contact_id': -1,
+        'user_type': session.getSession('userType'),
+        'appraisal_comment': '',
+        'appraisal_by': '',
+        'appraisal_date': '',
+        'appreciation_gesture': '',
+        'appreciation_by': 'TWC2',
+        'appreciation_date': '',
+        'remarks': ''
+    };
+    $scope.openNewAppraisal = function () {
+        $timeout(function () {
+            $scope.openedNewAppraisal = true;
+        });
+    };
+
+    $scope.openNewAppreciation = function () {
+        $timeout(function () {
+            $scope.openedNewAppreciation = true;
+        });
+    };
+    $scope.today = function () {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    $scope.inlineOptions = {
+        customClass: getDayClass,
+        showWeeks: true
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        formatMonth: 'MMM',
+        formatDay: 'dd',
+        startingDay: 1
+    };
+
+    function getDayClass(data) {
+        var date = data.date,
+                mode = data.mode;
+        if (mode === 'day') {
+            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+            for (var i = 0; i < $scope.events.length; i++) {
+                var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+                if (dayToCheck === currentDay) {
+                    return $scope.events[i].status;
+                }
+            }
+        }
+        return '';
+    }
+    $scope.format = 'dd MMM yyyy';
+    $scope.altInputFormats = ['M!/d!/yyyy'];
+    $scope.ok = function () {
+        var part = $rootScope.participant;
+
     };
 
     $scope.cancel = function () {

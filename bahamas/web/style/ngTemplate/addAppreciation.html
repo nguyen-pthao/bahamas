@@ -1,0 +1,64 @@
+<div class="modal-header">
+    <h3 class="modal-title">Add Appreciation</h3>
+</div>
+<div class="modal-body">
+    <div ng-form name="newAppreciationForm">
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <label>Appraisal comments</label>
+                <textarea class='custom-remarks' ng-model="newAppreciation['appraisal_comment']" ng-maxlength="500" name='additionalapprComm' contenteditable="true" spellcheck="true"></textarea>
+                <span ng-show="newAppreciationForm.additionalapprComm.$error.maxlength" class="error">Input field appraisal comment is too long.</span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-5">
+                <label>Appraised by</label>
+                <input type='text' ng-model="newAppreciation['appraisal_by']" ng-maxlength="50" name="additionalapprBy" class="form-control"> 
+                <span ng-show="newAppreciationForm.additionalapprBy.$error.maxlength" class="error">Input field appraisal by is too long.</span>
+            </div>
+            <div class="col-md-offset-2 col-md-5">
+                <label>Appraisal date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon btn" ng-click="openNewAppraisal()">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type='text' ng-model="newAppreciation['appraisal_date']" ng-click="openNewAppraisal()" uib-datepicker-popup="{{format}}" is-open="openedNewAppraisal" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="apprDate" class="form-control pull-right white-background" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <label>Appreciation gesture</label>
+                <textarea class='custom-remarks' ng-model="newAppreciation['appreciation_gesture']" ng-maxlength="500" name='additionalappnGest' contenteditable="true" spellcheck="true"></textarea>
+                <span ng-show="newAppreciationForm.additionalappnGest.$error.maxlength" class="error">Input field appreciation gesture is too long.</span>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-5">
+                <label>Appreciation by</label>
+                <input ng-model="newAppreciation['appreciation_by']" ng-maxlength="50" name='additionalappnBy' type='text' class="form-control"> 
+                <span ng-show="newAppreciationForm.additionalappnBy.$error.maxlength" class="error">Input field appreciation by is too long.</span>
+            </div>
+            <div class="col-md-offset-2 col-md-5">
+                <label>Appreciation date</label>
+                <div class="input-group date">
+                    <div class="input-group-addon btn" ng-click="openNewAppreciation()">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type='text' ng-model="newAppreciation['appreciation_date']" ng-click="openNewAppreciation()" uib-datepicker-popup="{{format}}" is-open="openedNewAppreciation" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="appnDate" class="form-control pull-right white-background" readonly>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-md-12">
+            <div class="col-md-12">
+                <label>Remarks</label>
+                <textarea class='custom-remarks' ng-model="newAppreciation['remarks']" ng-maxlength="1000" name='additionalremarksAppn' contenteditable="true" spellcheck="true"></textarea>
+                <span ng-show="newAppreciationForm.additionalremarksAppn.$error.maxlength" class="error">Input field remarks is too long.</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="">Done</button>
+    <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+</div>
