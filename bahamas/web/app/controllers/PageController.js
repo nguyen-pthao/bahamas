@@ -61,8 +61,8 @@ app.directive('onErrorSrc', function() {
 });
 
 app.controller('pageController',
-        ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', 'Idle', 'dataSubmit', '$timeout',
-            function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout) {
+        ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', 'Idle', 'dataSubmit', '$timeout', 'Upload',
+            function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout, Upload) {
                 var user = session.getSession('userType');
 
                 $scope.$on('IdleStart', function () {
@@ -212,4 +212,31 @@ app.controller('pageController',
                 $scope.openControlBar = function () {
                     $scope.openSidebar = !$scope.openSidebar;
                 };
+
+//                var url = $scope.commonUrl + AppAPI.uploadFile;
+//                $scope.importContacts = function (file) {
+//                    console.log(file);
+//                    if (!file.$error) {
+//                        Upload.imageDimensions(file)
+//                                .then(function (dimensions) {
+//                                    console.log(dimensions.width, dimensions.height);
+//                                });
+//                        Upload.upload({
+//                            url: url,
+//                            data: {
+//                                token: session.getSession('token'),
+//                                image: file
+//                            }
+//                        }).then(function (response) {
+//                            var resetContact = angular.fromJson(session.getSession('contact'));
+//                            resetContact.profile_pic = response.data.image;
+//                            session.setSession('contact', angular.toJson(resetContact));
+//                            $scope.retrieveFunc();
+//                            $state.reload();
+//                        }, function () {
+//                            window.alert('Fail to send request!');
+//                        });
+//                    }
+//                };
+                
             }]);

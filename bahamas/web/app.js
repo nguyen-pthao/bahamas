@@ -54,6 +54,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
             })
+            .state('admin.importContacts', {
+                 url: '/importContacts',
+                 templateUrl: 'app/views/contact/importContacts.html',
+                 controller: 'importContacts'
+             })
             .state('admin.globalSettings', {
                 url: '/globalSettings',
                 templateUrl: 'app/views/settings/globalSettings.html',
