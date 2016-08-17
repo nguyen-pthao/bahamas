@@ -82,8 +82,12 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                 String remarks = Validator.containsBlankField(jobject.get("remarks"));
                 //String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String participantId = "";
+                String awardHours = "";
                 if(jobject.has("participant_id")){
                     participantId = Validator.containsBlankField(jobject.get("participant_id"));
+                }
+                if(jobject.has("award_hours")){
+                    awardHours = Validator.containsBlankField(jobject.get("award_hours"));
                 }
                 
                 String username = Authenticator.verifyToken(token);
@@ -117,13 +121,19 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                             return;
                         }
                         EventParticipant eventParticipant = null;
-                        if(!participantId.isEmpty()){
+                        if(!participantId.isEmpty() || !awardHours.isEmpty()){
                             //adding service comment
                             eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(participantId));
-                            eventParticipant.setService_comment(remarks);
+                            if(!participantId.isEmpty()){
+                                eventParticipant.setService_comment(remarks);
+                            }
+                            if(awardHours != null && !awardHours.isEmpty()){
+                                eventParticipant.setHoursServed(Double.parseDouble(awardHours));
+                            }
                         }else{
                             //user adding his/her remark for the event
                             eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), contact.getContactId());
+                            
                             eventParticipant.setRemarks(remarks);
                         }
                         

@@ -222,7 +222,13 @@ public class RetrievePastParticipants extends HttpServlet {
                                                                 if(eventParticipant != null && eventParticipant.getService_comment() != null){
                                                                     role.addProperty("eventParticipantservice_comment", eventParticipantTemp.getService_comment());
                                                                 }else{
-                                                                    role.addProperty("service_comment", "");
+                                                                    role.addProperty("eventParticipantservice_comment", "");
+                                                                }
+                                                                
+                                                                if(eventParticipant != null && eventParticipant.getService_comment() != null){
+                                                                    role.addProperty("award_hours", eventParticipantTemp.getHoursServed());
+                                                                }else{
+                                                                    role.addProperty("award_hours", "");
                                                                 }
                                                                 
                                                                 roleParticipentArray.add(role);
