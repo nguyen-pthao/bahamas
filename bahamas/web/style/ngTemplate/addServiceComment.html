@@ -1,15 +1,23 @@
 <div class="modal-header">
-            <h3 class="modal-title">Enter Service Comment:</h3>
-        </div>
+    <h3 class="modal-title">Enter Service Comment / Award Hours:</h3>
+</div>
 <div class="modal-body">
-    <div ng-form name="serviceCommentForm">
-        <input type="text" name="serviceCommentInput" class="form-control" ng-maxlength="1000" ng-required="true" ng-Model="input">
-        <span class="error" ng-show="serviceCommentForm.serviceCommentInput.$error.required && serviceCommentForm.serviceCommentInput.$touched">Please enter your comment!</span>
-        <span ng-show="serviceCommentForm.serviceCommentInput.$error.maxlength" class='error'>Input for 'Service Comment' is too long.</span>
+    <div ng-form name="serviceCommentForm" class="col-md-12">
+        <div class="col-md-12">
+            <label>Service Comment:</label>
+            <input type="text" name="serviceCommentInput" class="form-control" ng-maxlength="1000" ng-required="true" ng-Model="input">
+            <span class="error" ng-show="serviceCommentForm.serviceCommentInput.$error.required && serviceCommentForm.serviceCommentInput.$touched">Please enter your comment!</span>
+            <span ng-show="serviceCommentForm.serviceCommentInput.$error.maxlength" class='error'>Input for 'Service Comment' is too long.</span>
+        </div>
+        <div class="col-md-4" style="padding-top:10px;">
+            <label>Award Hours:</label>
+            <input type='text' ng-model="awardHours" name="hours" class="form-control" min="0" ng-pattern="regex" placeholder='0'/>
+            <span ng-show="serviceCommentForm.hours.$invalid" class='error'>Please enter a valid integer.</span>
+        </div>
     </div>
 </div>
 <div class="modal-footer">
-    <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="serviceCommentForm.serviceCommentInput.$error.required || serviceCommentForm.serviceCommentInput.$error.maxlength">Done</button>
+    <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="serviceCommentForm.serviceCommentInput.$error.required || serviceCommentForm.serviceCommentInput.$error.maxlength || serviceCommentForm.hours.$invalid">Done</button>
     <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>
 

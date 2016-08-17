@@ -64,152 +64,207 @@ app.controller('viewPastIndivEvent',
                     localStorageService.set('eventId', eventId);
                     $state.go(url);
                 };
-
-                $scope.joinRole = function ($event, role) {
-                    $scope.roleName = role['event_role'];
-                    ngDialog.openConfirm({
-                        template: './style/ngTemplate/joinRolePrompt.html',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    }).then(function (response) {
-                        $scope.toJoin = {
-                            'token': session.getSession('token'),
-                            'event_id': eventId,
-                            'event_role_id': role['event_role_id']
-                        };
-                        var urlToJoin = '/event.join';
-                        dataSubmit.submitData($scope.toJoin, urlToJoin).then(function (response) {
-                            if (response.data.message == "success") {
-                                ngDialog.openConfirm({
-                                    template: './style/ngTemplate/joinRoleSuccess.html',
-                                    className: 'ngdialog-theme-default',
-                                    scope: $scope
-                                }).then(function (response) {
-                                    var current = user + '.viewIndivEvent';
-                                    $state.go(current, {}, {reload: true});
-                                })
-                            }
-                        })
-                    })
-                };
-
-                $scope.deleteRole = function ($event, role) {
-                    ngDialog.openConfirm({
-                        template: './style/ngTemplate/deletePrompt.html',
-                        className: 'ngdialog-theme-default',
-                        scope: $scope
-                    }).then(function (response) {
-                        $scope.toDelete = {
-                            'token': session.getSession('token'),
-                            'event_id': eventId,
-                            'event_role_id': role['event_role_id'],
-                            'ignore': false
-                        }
-                        var url = '/event.deleterole';
-                        deleteService.deleteDataService($scope.toDelete, url).then(function (response) {
-                            if (response.data.message == 'success') {
-                                ngDialog.openConfirm({
-                                    template: './style/ngTemplate/deleteSuccess.html',
-                                    className: 'ngdialog-theme-default',
-                                    scope: $scope
-                                }).then(function (response) {
-                                    var current = user + '.viewIndivEvent';
-                                    $state.go(current, {}, {reload: true});
-                                })
-                            } else if (response.data.message == 'Has participants') {
-                                $scope.errorMessages = response.data.errorMsg;
-                                ngDialog.openConfirm({
-                                    template: './style/ngTemplate/addEventConflict.html',
-                                    className: 'ngdialog-theme-default',
-                                    scope: $scope
-                                }).then(function (response) {
-                                    $scope.toDelete.ignore = true;
-                                    deleteService.deleteDataService($scope.toDelete, url).then(function (response) {
-                                        var current = user + '.viewIndivEvent';
-                                        if (response.data.message == 'success') {
-                                            $state.go(current, {}, {reload: true});
-                                        }
-                                    });
-                                });
-                            } else {
-                                window.alert("Unable to establish connection");
-                            }
-                        })
-                    })
-                }
-
-                $scope.removeParticipant = function ($event, participant) {
-                    $rootScope.participant = participant;
+                
+                $scope.addRemarks = function ($event, part) {
+                    $rootScope.participant = part;
                     var modalInstance = $uibModal.open({
                         animation: true,
-                        templateUrl: './style/ngTemplate/removeReason.html',
-                        controller: 'ReasonIndivInstanceCtrl',
+                        templateUrl: './style/ngTemplate/addRemarks.html',
+                        controller: 'RemarkIndivInstanceCtrl',
                         size: "md"
                     });
                 };
                 
-//                $scope.revert = function($event, wp){
-//                    ngDialog.openConfirm({
-//                        template: './style/ngTemplate/revertPrompt.html',
-//                        className: 'ngdialog-theme-default',
-//                        scope: $scope
-//                    }).then(function(response){
-//                        $scope.toRevert = {
-//                        'token': session.getSession('token'),
-//                        'event_id': eventId,
-//                        'role_id': wp['role_id'],
-//                        'contact_id': wp['contact_id']
-//                    };
-//                    var urlToRevert = '/event.revertrole';
-//                    dataSubmit.submitData($scope.toRevert, urlToRevert).then(function (response) {
-//                            if (response.data.message == "success") {
-//                                ngDialog.openConfirm({
-//                                    template: './style/ngTemplate/revertRoleSuccess.html',
-//                                    className: 'ngdialog-theme-default',
-//                                    scope: $scope
-//                                }).then(function (response) {
-//                                    var current = user + '.viewIndivEvent';
-//                                    $state.go(current, {eventId: eventId}, {reload: true});
-//                                })
-//                            }else if(response.data.message="error"){
-//                                $scope.errorMessages = response.data.errorMsg;
-//                                ngDialog.openConfirm({
-//                                    template: './style/ngTemplate/errorMessage.html',
-//                                    className: 'ngdialog-theme-default',
-//                                    scope: $scope
-//                                })
-//                            }
-//                        })
-//                    })
-//                };
+                $scope.addServiceComment = function ($event, part) {
+                    $rootScope.participant = part;
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/addServiceComment.html',
+                        controller: 'ServiceCommentIndivInstanceCtrl',
+                        size: "md"
+                    });
+                };
+                
+                $scope.addAppreciation = function ($event, part) {
+                    $rootScope.participant = part;
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/addAppreciation.html',
+                        controller: 'AppreciationIndivInstanceCtrl',
+                        size: "lg"
+                    });
+                };
+                
             }]);
 
-app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+app.controller('RemarkIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    var part = $rootScope.participant;
+    $scope.input = part['remarks'];
     $scope.ok = function () {
-        var part = $rootScope.participant;
-        if(angular.isUndefined($scope.input)){
+        if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        };
-        $scope.toRemovePart = {
+        }
+        ;
+        $scope.toAddRemarks = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
-            'reason': $scope.input,
-            'withdraw_contact_id': part['contact_id']
+            'remarks': $scope.input
         };
-        var urlToRemove = '/event.leaverole';
-        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function (response) {
+        var urlToAddRemarks = '/event.addeventremarks';
+        dataSubmit.submitData($scope.toAddRemarks, urlToAddRemarks).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
-                    template: './style/ngTemplate/removeSuccessful.html',
+                    template: './style/ngTemplate/addSuccess.html',
                     className: 'ngdialog-theme-default',
                     scope: $scope
                 }).then(function (response) {
                     $uibModalInstance.dismiss('cancel');
-                    var current = session.getSession('userType') + '.viewIndivEvent';
+                    var current = session.getSession('userType') + '.viewPastIndivEvent';
                     $state.go(current, {}, {reload: true});
                 })
             }
         });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('ServiceCommentIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    var part = $rootScope.participant;
+    $scope.input = part['eventParticipantservice_comment'];
+    $scope.ok = function () {
+        if (angular.isUndefined($scope.input)) {
+            $scope.input = "";
+        }
+        ;
+        $scope.toAddServiceComment = {
+            'token': session.getSession('token'),
+            'role_id': part['role_id'],
+            'remarks': $scope.input,
+            'participant_id': part['contact_id']
+        };
+        var urlToAddServiceComment = '/event.addeventremarks';
+        dataSubmit.submitData($scope.toAddServiceComment, urlToAddServiceComment).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/addSuccess.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.viewPastIndivEvent';
+                    $state.go(current, {}, {reload: true});
+                })
+            }
+        });
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('AppreciationIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $timeout) {
+    $scope.newAppreciation = {
+        'token': session.getSession('token'),
+        'contact_id': -1,
+        'user_type': session.getSession('userType'),
+        'appraisal_comment': '',
+        'appraisal_by': '',
+        'appraisal_date': '',
+        'appreciation_gesture': '',
+        'appreciation_by': 'TWC2',
+        'appreciation_date': '',
+        'remarks': ''
+    };
+    $scope.openNewAppraisal = function () {
+        $timeout(function () {
+            $scope.openedNewAppraisal = true;
+        });
+    };
+
+    $scope.openNewAppreciation = function () {
+        $timeout(function () {
+            $scope.openedNewAppreciation = true;
+        });
+    };
+    $scope.today = function () {
+        $scope.dt = new Date();
+    };
+    $scope.today();
+
+    $scope.clear = function () {
+        $scope.dt = null;
+    };
+
+    $scope.inlineOptions = {
+        customClass: getDayClass,
+        showWeeks: true
+    };
+
+    $scope.dateOptions = {
+        formatYear: 'yy',
+        formatMonth: 'MMM',
+        formatDay: 'dd',
+        startingDay: 1
+    };
+
+    function getDayClass(data) {
+        var date = data.date,
+                mode = data.mode;
+        if (mode === 'day') {
+            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+            for (var i = 0; i < $scope.events.length; i++) {
+                var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+                if (dayToCheck === currentDay) {
+                    return $scope.events[i].status;
+                }
+            }
+        }
+        return '';
+    }
+    $scope.format = 'dd MMM yyyy';
+    $scope.altInputFormats = ['M!/d!/yyyy'];
+    $scope.ok = function () {
+        var part = $rootScope.participant;
+        if ($scope.newAppreciation['appraisal_date'] == null) {
+            $scope.newAppreciation['appraisal_date'] = '';
+        } else if (isNaN($scope.newAppreciation['appraisal_date'])) {
+            $scope.newAppreciation['appraisal_date'] = '';
+        } else if (angular.isUndefined($scope.newAppreciation['appraisal_date'])) {
+            $scope.newAppreciation['appraisal_date'] = '';
+        } else {
+            $scope.newAppreciation['appraisal_date'] = $scope.newAppreciation['appraisal_date'].valueOf() + "";
+        }
+        if ($scope.newAppreciation['appreciation_date'] == null) {
+            $scope.newAppreciation['appreciation_date'] = '';
+        } else if (isNaN($scope.newAppreciation['appreciation_date'])) {
+            $scope.newAppreciation['appreciation_date'] = '';
+        } else if (angular.isUndefined($scope.newAppreciation['appreciation_date'])) {
+            $scope.newAppreciation['appreciation_date'] = '';
+        } else {
+            $scope.newAppreciation['appreciation_date'] = $scope.newAppreciation['appreciation_date'].valueOf() + "";
+        }
+        $scope.newAppreciation['contact_id'] = part['contact_id'];
+        var urlToAddAppreciation = '/appreciation.add';
+        dataSubmit.submitData($scope.newAppreciation, urlToAddAppreciation).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/addSuccess.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.viewPastIndivEvent';
+                    $state.go(current, {}, {reload: true});
+                })
+            }
+        });
+
     };
 
     $scope.cancel = function () {

@@ -115,8 +115,7 @@ and open the template in the editor.
                                             <th width="5%" style="color: #005384">S/N</th>
                                             <th width="25%" style='color: #005384'>Role</th>
                                             <th width="30%" style='color: #005384'>Description</th>
-                                            <th width="25%" style="color: #005384">Participants</th>
-                                            <th width="15%"></th>
+                                            <th width="40%" style="color: #005384">Participants</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -129,18 +128,17 @@ and open the template in the editor.
                                                     <tbody>
                                                         <tr ng-repeat="part in role['event_participant'] track by $index">
                                                             <td>{{$index + 1}}) <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a></td>
-                                                            <td ng-if="part['canRemove']"><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull out" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                            <td>
+                                                    <center><span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Appreciation" ng-click="addAppreciation($event, part)"><i class="fa fa-thumbs-up fa-lg" aria-hidden="true" style='color: #0d1957'></i></a>&nbsp;</span>
+                                                        <span ng-if="part['canRemark']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Remarks" ng-click="addRemarks($event, part)"><i class="fa fa-comment fa-lg" aria-hidden="true" style='color: #0d1957'></i></a>&nbsp;</span>
+                                                        <span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Service Comment" ng-click="addServiceComment($event, part)"><i class="fa fa-comments-o fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span></center>
                                             </td>
-                                            <td><center>
-                                        <span ng-if='eventInfo["canJoin"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Join Role" ng-click="joinRole($event, role)"><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
-                                        <span ng-if='role["joined"]'><a uib-tooltip-placement="top" uib-tooltip="Joined"><i class="fa fa-check fa-lg" aria-hidden="true" style='color: green'></i></a></span>
-                                        &nbsp;<span ng-if='eventInfo["canDelete"]'><a href="" uib-tooltip-placement="top" uib-tooltip="Delete Role" ng-click="deleteRole($event, role)"><i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span>
-                                    </center></td>
-                                    </tr>
+                                        </tr>
                                     </tbody>
+                                </table>
+                                </td>
+                                </tr>
+                                </tbody>
                                 </table>
                             </div>
                         </div>
