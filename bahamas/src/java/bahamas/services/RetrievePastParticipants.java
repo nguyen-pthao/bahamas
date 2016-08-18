@@ -214,18 +214,18 @@ public class RetrievePastParticipants extends HttpServlet {
                                                                     role.addProperty("canRemark", false);
                                                                 }
                                                                 //EventParticipant eventParticipantTemp = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contactTemp.getContactId());
-                                                                if(eventParticipant != null && eventParticipant.getRemarks() != null){
+                                                                if(eventParticipantTemp != null && eventParticipantTemp.getRemarks() != null){
                                                                     role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                                 }else{
                                                                     role.addProperty("remarks", "");
                                                                 }
-                                                                if(eventParticipant != null && eventParticipant.getService_comment() != null){
+                                                                if(eventParticipantTemp != null && eventParticipantTemp.getService_comment() != null){
                                                                     role.addProperty("eventParticipantservice_comment", eventParticipantTemp.getService_comment());
                                                                 }else{
                                                                     role.addProperty("eventParticipantservice_comment", "");
                                                                 }
                                                                 
-                                                                if(eventParticipant != null && eventParticipant.getService_comment() != null){
+                                                                if(eventParticipantTemp != null && eventParticipantTemp.getService_comment() != null){
                                                                     role.addProperty("award_hours", eventParticipantTemp.getHoursServed());
                                                                 }else{
                                                                     role.addProperty("award_hours", "");
