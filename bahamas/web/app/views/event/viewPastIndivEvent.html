@@ -173,9 +173,9 @@ and open the template in the editor.
                         </div>
                     </div>
                 </div>
-                <div class="box" ng-if='eventInfo["canView"]'>
+                <div class="box" ng-if='eventInfo["canViewRSC"]'>
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Withdrawn Participants </h3>
+                        <h3 class="box-title uppercase"> Remarks/Service Comments </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Withdrawn Participants">
                                 <i class="fa fa-chevron-up"></i></button>
@@ -187,21 +187,26 @@ and open the template in the editor.
                                 <table class="table table-bordered table-striped" style="max-width: 100%">
                                     <thead>
                                         <tr>
-                                            <th width="5%" style="color: #005384">S/N</th>
-                                            <th width="20%" style='color: #005384'>Role</th>
                                             <th width="20%" style='color: #005384'>Participant</th>
-                                            <th width="55%" style="color: #005384">Reason</th>
-                                            <!--<th width="15%"></th>-->
+                                            <th width="30%" style="color: #005384">Remarks</th>
+                                            <th width="30%" style="color: #005384">Service Comments</th>
+                                            <th width="15%" style="color: #005384">Hours Awarded</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="wp in withdrawn track by $index">
-                                            <td>{{$index + 1}}</td>
-                                            <td>{{wp['role']}}</td>
-                                            <td>{{wp['participant_name']}}</td>
-                                            <td>{{wp['reason']}}</td>
-                                            <!--<td><center><span><a href="" ng-click="revert($event,wp)">Revert</a></span>-->
-                                            </center></td>
+                                        <tr ng-repeat="role in roles track by $index">
+                                            <td style="padding:0px;">
+                                                <table class="table" style="max-width:100%">
+                                                    <tbody>
+                                                        <tr ng-repeat="part in role['event_participant'] track by $index">
+                                                            <td>{{$index + 1}}) <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a></td>
+                                                            <td>{{part['remarks']}}</td>
+                                                            <td>{{part['eventParticipantservice_comment']}}</td>
+                                                            <td>{{part['award_hours']}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
