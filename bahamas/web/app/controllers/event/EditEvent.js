@@ -348,6 +348,7 @@ app.controller('editEvent',
 
                 $scope.viewEvent = function () {
                     var url = user + '.viewIndivEvent';
-                    $state.go(url, {eventId: eventId});
+                    session.setSession('eventIdToDisplay', eventId);
+                    $state.go(url);
                 };
             }]);

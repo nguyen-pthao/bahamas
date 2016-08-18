@@ -72,7 +72,6 @@ app.controller('pastEventsPS',
                     var url = '/event.pastparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
-                        console.log($scope.allEventInfo);
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;
@@ -253,9 +252,9 @@ app.controller('pastEventsPS',
                 }
 
                 $scope.foo = function ($event, event) {
-                    var url = user + '.viewIndivEvent';
-                    var eventid = event['event_id'];
-                    $state.go(url, {eventId: eventid});
+                    var url = user + '.viewPastIndivEvent';
+                    session.setSession('eventIdToDisplay', event['event_id']);
+                    $state.go(url);
                 };
 
                 $scope.edit = function ($event, event) {
@@ -311,8 +310,9 @@ app.controller('pastEventsPS',
             }]);
 
 app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    var part = $rootScope.participant;
+    $scope.input = part['remarks'];
     $scope.ok = function () {
-        var part = $rootScope.participant;
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
         }
@@ -344,8 +344,10 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
 });
 
 app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    var part = $rootScope.participant;
+    $scope.input = part['eventParticipantservice_comment'];
+    $scope.awardHours = part['award_hours'];
     $scope.ok = function () {
-        var part = $rootScope.participant;
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
         }
@@ -354,7 +356,8 @@ app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibM
             'token': session.getSession('token'),
             'role_id': part['role_id'],
             'remarks': $scope.input,
-            'participant_id': part['contact_id']
+            'participant_id': part['contact_id'],
+            'award_hours': $scope.awardHours
         };
         var urlToAddServiceComment = '/event.addeventremarks';
         dataSubmit.submitData($scope.toAddServiceComment, urlToAddServiceComment).then(function (response) {

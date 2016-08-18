@@ -29,7 +29,6 @@ app.controller('upcomingEventPS',
                 };
                 
                 $scope.joinRole = function ($event, role) {
-                    console.log(role);
                     $scope.roleName = role['event_role'];
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/joinRolePrompt.html',
@@ -269,8 +268,8 @@ app.controller('upcomingEventPS',
 
                 $scope.foo = function ($event, event) {
                     var url = user + '.viewIndivEvent';
-                    var eventid = event['event_id'];
-                    $state.go(url, {eventId: eventid});
+                    session.setSession('eventIdToDisplay', event['event_id']);
+                    $state.go(url);
                 };
 
                 $scope.edit = function ($event, event) {

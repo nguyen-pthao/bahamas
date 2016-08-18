@@ -54,6 +54,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/contact/editContact.html',
                 controller: 'editContact'
             })
+            .state('admin.importContacts', {
+                 url: '/importContacts',
+                 templateUrl: 'app/views/contact/importContacts.html',
+                 controller: 'importContacts'
+             })
             .state('admin.globalSettings', {
                 url: '/globalSettings',
                 templateUrl: 'app/views/settings/globalSettings.html',
@@ -85,7 +90,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'viewUpcomingEvents'
             })
             .state('admin.viewIndivEvent', {
-                url: '/viewIndivEvent/{eventId: int}',
+                url: '/viewIndivEvent',
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
@@ -103,6 +108,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/pastEventParticipationSummary',
                 templateUrl: 'app/views/event/pastEventPS.html',
                 controller: 'pastEventsPS'
+            })
+            .state('admin.viewPastIndivEvent', {
+                url: '/viewPastIndivEvent',
+                templateUrl: 'app/views/event/viewPastIndivEvent.html',
+                controller: 'viewPastIndivEvent'
             })
             .state('novice', {
                 url: '/novice',
@@ -125,7 +135,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'editContact'
             })
             .state('novice.viewIndivEvent', {
-                url: '/viewIndivEvent/{eventId: int}',
+                url: '/viewIndivEvent',
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
@@ -160,7 +170,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'viewUpcomingEvents'
             })
             .state('associate.viewIndivEvent', {
-                url: '/viewIndivEvent/{eventId: int}',
+                url: '/viewIndivEvent',
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
@@ -178,6 +188,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/pastEventParticipationSummary',
                 templateUrl: 'app/views/event/pastEventPS.html',
                 controller: 'pastEventsPS'
+            })
+            .state('associate.viewPastIndivEvent', {
+                url: '/viewPastIndivEvent',
+                templateUrl: 'app/views/event/viewPastIndivEvent.html',
+                controller: 'viewPastIndivEvent'
             })
             .state('teammanager', {
                 url: '/teammanager',
@@ -235,7 +250,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'viewUpcomingEvents'
             })
             .state('teammanager.viewIndivEvent', {
-                url: '/viewIndivEvent/{eventId: int}',
+                url: '/viewIndivEvent',
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
@@ -253,6 +268,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/pastEventParticipationSummary',
                 templateUrl: 'app/views/event/pastEventPS.html',
                 controller: 'pastEventsPS'
+            })
+            .state('teammanager.viewPastIndivEvent', {
+                url: '/viewPastIndivEvent',
+                templateUrl: 'app/views/event/viewPastIndivEvent.html',
+                controller: 'viewPastIndivEvent'
             })
             .state('eventleader', {
                 url: '/eventleader',
@@ -310,7 +330,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'viewUpcomingEvents'
             })
             .state('eventleader.viewIndivEvent', {
-                url: '/viewIndivEvent/{eventId: int}',
+                url: '/viewIndivEvent',
                 templateUrl: 'app/views/event/viewIndivEvent.html',
                 controller: 'viewIndivEvent'
             })
@@ -328,6 +348,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/pastEventParticipationSummary',
                 templateUrl: 'app/views/event/pastEventPS.html',
                 controller: 'pastEventsPS'
+            })
+            .state('eventleader.viewPastIndivEvent', {
+                url: '/viewPastIndivEvent',
+                templateUrl: 'app/views/event/viewPastIndivEvent.html',
+                controller: 'viewPastIndivEvent'
             })
             .state('unauthorised', {
                 url: '/unauthorised',

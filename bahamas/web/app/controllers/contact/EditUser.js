@@ -6,8 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', '$http', 'Upload', '$state', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, $http, Upload, $state, deleteService) {
+app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Upload', '$state', 'deleteService',
+    function ($scope, session, ngDialog, dataSubmit, Upload, $state, deleteService) {
 
         //Edit profile picture
         //Upload image uses third-party library and thus require full URL
@@ -86,7 +86,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSu
                 deleteProfile.contact_id = $scope.contactToEditCID;
                 var url = AppAPI.deleteProfilePic;
                 deleteService.deleteDataService(deleteProfile, url).then(function (response) {
-                    if (response.data.message == 'success') {
+                    if (response.data.message == 'Image successfully deleted!') {
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/deleteSuccess.html',
                             className: 'ngdialog-theme-default',

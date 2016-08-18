@@ -7,10 +7,10 @@
 var app = angular.module('bahamas');
 
 app.controller('viewIndivEvent',
-        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$stateParams', '$timeout', 'localStorageService', 'deleteService', '$uibModal', '$rootScope',
-            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $stateParams, $timeout, localStorageService, deleteService, $uibModal, $rootScope) {
+        ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', '$timeout', 'localStorageService', 'deleteService', '$uibModal', '$rootScope',
+            function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, $timeout, localStorageService, deleteService, $uibModal, $rootScope) {
                 var user = session.getSession('userType');
-                var eventId = $stateParams.eventId;
+                var eventId = session.getSession('eventIdToDisplay');
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -34,22 +34,6 @@ app.controller('viewIndivEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
-//                        var timeStart = new Date($scope.eventInfo['event_time_start'].replace(/-/g, "/")).toLocaleTimeString();
-//                        var timeEnd = new Date($scope.eventInfo['event_time_end'].replace(/-/g, "/")).toLocaleTimeString();
-//                        if (timeStart.length == 10) {
-//                            var meridianS = timeStart.substring(8, 10);
-//                            var timeS = "0" + timeStart.substring(0, 4);
-//                        } else if (timeStart.length == 11) {
-//                            var meridianS = timeStart.substring(9, 11);
-//                            var timeS = timeStart.substring(0, 5);
-//                        }
-//                        if (timeEnd.length == 10) {
-//                            var meridianE = timeEnd.substring(8, 10);
-//                            var timeE = "0" + timeEnd.substring(0, 4);
-//                        } else if (timeEnd.length == 11) {
-//                            var meridianE = timeEnd.substring(9, 11);
-//                            var timeE = timeEnd.substring(0, 5);
-//                        }
                         $scope.showGmap = true;
                         if ($scope.eventInfo['event_lat'] == '' || $scope.eventInfo['event_lng'] == '') {
                             $scope.showGmap = false;
@@ -58,8 +42,6 @@ app.controller('viewIndivEvent',
 
                             $scope.marker = {coords: {latitude: $scope.eventInfo['event_lat'], longitude: $scope.eventInfo['event_lng']}, id: 1};
                         }
-//                        $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
-//                        $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                         $scope.roles = $scope.eventInfo['event_role'];
                         $scope.participants = $scope.eventInfo['event_participant'];
                         $scope.withdrawn = $scope.eventInfo['withdrawn_participants'];
@@ -104,7 +86,7 @@ app.controller('viewIndivEvent',
                                     scope: $scope
                                 }).then(function (response) {
                                     var current = user + '.viewIndivEvent';
-                                    $state.go(current, {eventId: eventId}, {reload: true});
+                                    $state.go(current, {}, {reload: true});
                                 })
                             }
                         })
@@ -132,7 +114,7 @@ app.controller('viewIndivEvent',
                                     scope: $scope
                                 }).then(function (response) {
                                     var current = user + '.viewIndivEvent';
-                                    $state.go(current, {eventId: eventId}, {reload: true});
+                                    $state.go(current, {}, {reload: true});
                                 })
                             } else if (response.data.message == 'Has participants') {
                                 $scope.errorMessages = response.data.errorMsg;
@@ -145,7 +127,7 @@ app.controller('viewIndivEvent',
                                     deleteService.deleteDataService($scope.toDelete, url).then(function (response) {
                                         var current = user + '.viewIndivEvent';
                                         if (response.data.message == 'success') {
-                                            $state.go(current, {eventId: eventId}, {reload: true});
+                                            $state.go(current, {}, {reload: true});
                                         }
                                     });
                                 });
@@ -202,7 +184,7 @@ app.controller('viewIndivEvent',
 //                };
             }]);
 
-app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $stateParams) {
+app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.ok = function () {
         var part = $rootScope.participant;
         if(angular.isUndefined($scope.input)){
@@ -224,8 +206,7 @@ app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModa
                 }).then(function (response) {
                     $uibModalInstance.dismiss('cancel');
                     var current = session.getSession('userType') + '.viewIndivEvent';
-                    var eventId = $stateParams.eventId;
-                    $state.go(current, {eventId: eventId}, {reload: true});
+                    $state.go(current, {}, {reload: true});
                 })
             }
         });
