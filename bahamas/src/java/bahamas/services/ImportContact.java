@@ -162,7 +162,7 @@ public class ImportContact extends HttpServlet {
                             try {
                                 dob = format.parse(date);
                             } catch (ParseException e) {
-                                msg.add("Invalid date format");
+                                msg.add("Invalid date of birth format");
                             }
                         }
 
