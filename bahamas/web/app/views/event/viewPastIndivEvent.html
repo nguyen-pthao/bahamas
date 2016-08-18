@@ -184,19 +184,27 @@ and open the template in the editor.
                     <div class="box-body">
                         <div class="box green-box">    
                             <div class="table-horizontal-scroll">
-                                <table class="table table-bordered table-striped" style="max-width: 100%">
-                                    <thead>
+                                <table class="table table-bordered" style="max-width: 100%">
+<!--                                    <thead>
                                         <tr>
                                             <th width="20%" style='color: #005384'>Participant</th>
                                             <th width="30%" style="color: #005384">Remarks</th>
                                             <th width="30%" style="color: #005384">Service Comments</th>
                                             <th width="15%" style="color: #005384">Hours Awarded</th>
                                         </tr>
-                                    </thead>
+                                    </thead>-->
                                     <tbody>
                                         <tr ng-repeat="role in roles track by $index">
                                             <td style="padding:0px;">
                                                 <table class="table" style="max-width:100%">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="20%" style='color: #005384'>Participant</th>
+                                                            <th width="30%" style="color: #005384">Remarks</th>
+                                                            <th width="30%" style="color: #005384">Service Comments</th>
+                                                            <th width="15%" style="color: #005384">Hours Awarded</th>
+                                                        </tr>
+                                                    </thead>
                                                     <tbody>
                                                         <tr ng-repeat="part in role['event_participant'] track by $index">
                                                             <td>{{$index + 1}}) <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a></td>
