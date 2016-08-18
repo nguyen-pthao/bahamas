@@ -345,7 +345,6 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
 
 app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     var part = $rootScope.participant;
-    $scope.regex = '\\d+';
     $scope.input = part['eventParticipantservice_comment'];
     $scope.awardHours = part['award_hours'];
     $scope.ok = function () {

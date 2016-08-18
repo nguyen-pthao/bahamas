@@ -134,6 +134,7 @@ app.controller('RemarkIndivInstanceCtrl', function ($scope, $rootScope, $uibModa
 app.controller('ServiceCommentIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     var part = $rootScope.participant;
     $scope.input = part['eventParticipantservice_comment'];
+    $scope.awardHours = part['award_hours'];
     $scope.ok = function () {
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
@@ -143,7 +144,8 @@ app.controller('ServiceCommentIndivInstanceCtrl', function ($scope, $rootScope, 
             'token': session.getSession('token'),
             'role_id': part['role_id'],
             'remarks': $scope.input,
-            'participant_id': part['contact_id']
+            'participant_id': part['contact_id'],
+            'award_hours': $scope.awardHours
         };
         var urlToAddServiceComment = '/event.addeventremarks';
         dataSubmit.submitData($scope.toAddServiceComment, urlToAddServiceComment).then(function (response) {
