@@ -208,6 +208,7 @@ app.controller('editEvent',
                         'zipcode': $scope.editEvent['zipcode'],
                         'minimum_participation': $scope.editEvent['minimum_participation'],
                         'send_reminder': $scope.editEvent['send_reminder'],
+                        'remarks': $scope.editEvent['remarks'],
                         'ignore': false
                     }
                     if ($scope.showGmap == false) {

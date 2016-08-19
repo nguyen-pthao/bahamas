@@ -110,6 +110,7 @@ app.controller('createEvent',
                     'event_lng': '',
                     'address': '',
                     'zipcode': '',
+                    'remarks': '',
                     'ignore': false
                 }
 
