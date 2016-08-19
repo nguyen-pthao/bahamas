@@ -123,7 +123,7 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                     teamName.add(teamTemp);
                                 }
                             }
-                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,remarks,teamName,username);
+                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,teamName,username);
                            
                             if(EventAffiliationDAO.updateTeamAffiliation(eventAffiliation,eventAffiliation.getEventID())){
                                 AuditLogDAO.insertAuditLog(username, "UPDATE TEAM AFFILIATION IN EVENT", "Update Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
