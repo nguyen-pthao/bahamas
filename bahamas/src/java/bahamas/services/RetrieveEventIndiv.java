@@ -212,7 +212,6 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                             //boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
                                                             role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
                                                             role.addProperty("canRemove", true);
-                                                            role.addProperty("canRemark", true);
                                                             role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                             if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))){
                                                                 role.addProperty("canAppreciate", true);
@@ -225,11 +224,15 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         } else {
                                                             role.addProperty("participant_name", (contactTemp.getName()));
                                                             role.addProperty("canRemove", false);
-                                                            role.addProperty("canRemark", false);
                                                             role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                             role.addProperty("canAppreciate", false);
                                                             role.add("eventParticipantservice_comment", new JsonPrimitive(""));
                                                             role.addProperty("award_hours", "");
+                                                        }
+                                                        if(contactTemp.getContactId() == contact.getContactId()){
+                                                            role.addProperty("canRemark", true);
+                                                        }else{
+                                                            role.addProperty("canRemark", false);
                                                         }
                                                         roleParticipentArray.add(role);
                                                         //roleJson.add("event_participant", roleParticipentArray);
