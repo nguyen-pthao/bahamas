@@ -39,7 +39,7 @@ public class EventDAO {
                     + "EVENT_TITLE, ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, "
                     + "EVENT_TIME_END, SEND_REMINDER, EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, "
                     + "EVENT_CLASS_NAME, EVENT_LOCATION_NAME, EVENT_STATUS, EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, REMARKS) "
-                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                    + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
 
             //stmt.setInt(1, d.getContact().getContactId());
             stmt.setString(1, createdBy);
