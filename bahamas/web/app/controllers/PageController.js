@@ -48,16 +48,16 @@ app.directive('empty', function () {
     };
 });
 
-app.directive('onErrorSrc', function() {
-  return {
-    link: function(scope, element, attrs) {
-      element.bind('error', function() {
-        if (attrs.src != attrs.onErrorSrc) {
-          attrs.$set('src', attrs.onErrorSrc);
+app.directive('onErrorSrc', function () {
+    return {
+        link: function (scope, element, attrs) {
+            element.bind('error', function () {
+                if (attrs.src != attrs.onErrorSrc) {
+                    attrs.$set('src', attrs.onErrorSrc);
+                }
+            });
         }
-      });
-    }
-  };
+    };
 });
 
 app.controller('pageController',
@@ -95,30 +95,30 @@ app.controller('pageController',
                         $scope.userType = session.getSession('userType');
                         $scope.name = angular.fromJson(session.getSession('contact')).name;
                         $scope.profile_pic = angular.fromJson(session.getSession('contact')).profile_pic;
-                        if($scope.profile_pic == '') {
+                        if ($scope.profile_pic == '') {
                             $scope.profile_pic = 'images/default.jpg';
                         }
-                                
+
                         $scope.user = {
-                            'token' : session.getSession('token'),
+                            'token': session.getSession('token'),
                             'contact_id': angular.fromJson(session.getSession('contact')).cid,
                             'current_password': '',
                             'password': '',
                             'confirm_password': ''
                         };
-                        
+
                         $scope.resultUser = {
                             status: false,
                             message: ''
                         };
-                        
+
                         $scope.changePassword = function () {
                             var url = AppAPI.updateUser;
                             dataSubmit.submitData($scope.user, url).then(function (response) {
                                 $scope.resultUser.status = true;
                                 if (response.data.message == 'success') {
                                     $scope.resultUser.message = "Change password successfully.";
-                                    $timeout(function(){
+                                    $timeout(function () {
                                         $('#changePassword').modal('hide');
                                     }, 1000);
                                 } else {
@@ -212,31 +212,28 @@ app.controller('pageController',
                 $scope.openControlBar = function () {
                     $scope.openSidebar = !$scope.openSidebar;
                 };
-
-//                var url = $scope.commonUrl + AppAPI.uploadFile;
-//                $scope.importContacts = function (file) {
-//                    console.log(file);
-//                    if (!file.$error) {
-//                        Upload.imageDimensions(file)
-//                                .then(function (dimensions) {
-//                                    console.log(dimensions.width, dimensions.height);
-//                                });
-//                        Upload.upload({
-//                            url: url,
-//                            data: {
-//                                token: session.getSession('token'),
-//                                image: file
-//                            }
-//                        }).then(function (response) {
-//                            var resetContact = angular.fromJson(session.getSession('contact'));
-//                            resetContact.profile_pic = response.data.image;
-//                            session.setSession('contact', angular.toJson(resetContact));
-//                            $scope.retrieveFunc();
-//                            $state.reload();
-//                        }, function () {
-//                            window.alert('Fail to send request!');
-//                        });
-//                    }
-//                };
                 
+                var url = $scope.commonUrl + AppAPI.importContacts;
+                $scope.importContacts = function (file) {
+                    console.log(file);
+                    
+                    if (!file.$error) {
+                        $scope.fileUpload = file;
+                        Upload.upload({
+                            url: url,
+                            data: {
+                                token: session.getSession('token'),
+                                file: file
+                            }
+                        }).then(function (response) {
+                            console.log(response.data);
+                        }, function (response) {
+                            window.alert('Fail to send request!');
+                        }, function (evt) {
+                            file.progress = Math.min(100, parseInt(100.0 *
+                                    evt.loaded / evt.total));
+                        });
+                    }
+                };
+
             }]);

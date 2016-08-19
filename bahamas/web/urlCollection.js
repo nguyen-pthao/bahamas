@@ -69,5 +69,7 @@ var AppAPI = {
     'permissionLevelList': '/permissionlevellist',
     'teamAffiliationList': '/teamaffiliationlist',
     'eventClassList': '/eventclasslist',
-    'eventLocationList': '/eventlocationlist'
+    'eventLocationList': '/eventlocationlist',
+// Import Contact API
+    'importContacts': '/contact.import'
 };

@@ -99,7 +99,7 @@ public class ImportContact extends HttpServlet {
                 json.addProperty("message", "Import failed due empty file");
                 out.println(gson.toJson(json));
                 return;
-
+ 
             } else {
 
                 String fileName = filePart.getSubmittedFileName();

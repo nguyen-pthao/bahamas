@@ -6,6 +6,6 @@
 
 var app = angular.module('bahamas');
 
-app.controller('importContacts', ['$scope', 'session', '$state', function ($scope, session, $state) {
+app.controller('exportContacts', ['$scope', 'session', '$state', function ($scope, session, $state) {
         //to be modified
 }]);
