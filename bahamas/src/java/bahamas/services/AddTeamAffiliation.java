@@ -119,7 +119,7 @@ public class AddTeamAffiliation extends HttpServlet {
                                     teamName.add(teamTemp);
                                 }
                             }
-                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,remarks,teamName,username);
+                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,teamName,username);
                            
                             if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation)){
                                 AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
