@@ -169,6 +169,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.addProperty("event_lat", event.getEventLat());
                             json.addProperty("event_lng", event.getEventLng());
                             json.addProperty("date_created", date.format(event.getDateCreated()));
+                            json.addProperty("remarks", event.getRemarks());
                             ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(event.getEventId());
                             EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
                             ArrayList<EventParticipant> EventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));
@@ -255,7 +256,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 }
                                 teamJson.add("teams_affiliated", eventAffiliationJsonArray);
                                 teamJson.addProperty("explain_if_other", eventAffiliation.getExplainIfOthers());
-                                teamJson.addProperty("remarks", eventAffiliation.getRemarks());
+                                //teamJson.addProperty("remarks", eventAffiliation.getRemarks());
                             }
                             json.add("event_role", eventRoleJsonArray);
                             json.add("event_team_affiliation", teamJson);

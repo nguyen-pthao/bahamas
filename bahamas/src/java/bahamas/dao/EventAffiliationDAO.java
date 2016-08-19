@@ -31,7 +31,7 @@ public class EventAffiliationDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO EVENT_AFFILIATION (EVENT_ID, TEAM_NAME, CREATED_BY, DATE_CREATED, EXPLAIN_IF_OTHER, DATE_OBSOLETE, REMARKS) VALUES (?, ?, ?, ?, ?, ?, ?)");
+            stmt = conn.prepareStatement("INSERT INTO EVENT_AFFILIATION (EVENT_ID, TEAM_NAME, CREATED_BY, DATE_CREATED, EXPLAIN_IF_OTHER, DATE_OBSOLETE) VALUES (?, ?, ?, ?, ?, ?)");
 
             //stmt.setInt(1, d.getContact().getContactId());
             ArrayList<String> teamNameArray = eventAffiliation.getTeamArray();
@@ -46,7 +46,6 @@ public class EventAffiliationDAO {
                 }else{
                     stmt.setTimestamp(6, null); 
                 }
-                stmt.setString(7, eventAffiliation.getRemarks());
                 stmt.executeUpdate();
             }
             return true;
@@ -71,7 +70,7 @@ public class EventAffiliationDAO {
         try {
             conn = ConnectionManager.getConnection();
 
-            stmt = conn.prepareStatement("SELECT EVENT_ID, TEAM_NAME, CREATED_BY, DATE_CREATED, EXPLAIN_IF_OTHER, DATE_OBSOLETE, REMARKS FROM EVENT_AFFILIATION WHERE EVENT_ID = (?)");
+            stmt = conn.prepareStatement("SELECT EVENT_ID, TEAM_NAME, CREATED_BY, DATE_CREATED, EXPLAIN_IF_OTHER, DATE_OBSOLETE FROM EVENT_AFFILIATION WHERE EVENT_ID = (?)");
             stmt.setInt(1, eventId);
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -87,8 +86,7 @@ public class EventAffiliationDAO {
                     if (dateString != null) {
                         dateObsolete = sdf.parse(dateString);
                     }
-                    String remarks = rs.getString(7);
-                    eventAffiliation = new EventAffiliation(Integer.parseInt(eventID), explainIfOthers, remarks, teamAffiliationList, createdBy, dateCreated, dateObsolete);
+                    eventAffiliation = new EventAffiliation(Integer.parseInt(eventID), explainIfOthers, teamAffiliationList, createdBy, dateCreated, dateObsolete);
                 }else{
                     String teamName = rs.getString(2);
                     teamAffiliationList.add(rs.getString(2));

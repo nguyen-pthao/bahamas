@@ -97,6 +97,7 @@ public class AddEvent extends HttpServlet {
                 String zipcode = jobject.get("zipcode").getAsString();
                 String eventLat = jobject.get("event_lat").getAsString();
                 String eventLng = jobject.get("event_lng").getAsString();
+                String remarks = jobject.get("remarks").getAsString();
                 String username = Authenticator.verifyToken(token);
                 boolean ignore = jobject.get("ignore").getAsBoolean();
                 
@@ -169,7 +170,7 @@ public class AddEvent extends HttpServlet {
                         if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader") ){
                             
                             //check if exist
-                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus);                         
+                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus,remarks);                         
                             String errorMsg = EventDAO.eventExist(event,null);
                             
                             if(errorMsg != null && !ignore){
