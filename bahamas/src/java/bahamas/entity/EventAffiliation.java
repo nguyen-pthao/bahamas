@@ -20,20 +20,17 @@ public class EventAffiliation {
     private String createdBy;
     private String explainIfOthers;
     private Date dateObsolete;
-    private String remarks;
 
-    public EventAffiliation(int eventID, String explainIfOthers, String remarks, ArrayList<String> teamArray, String createdBy) {
+    public EventAffiliation(int eventID, String explainIfOthers, ArrayList<String> teamArray, String createdBy) {
         this.eventID = eventID;
         this.explainIfOthers = explainIfOthers;
-        this.remarks = remarks;
         this.teamArray = teamArray;
         this.createdBy = createdBy;
     }
     
-    public EventAffiliation(int eventID, String explainIfOthers, String remarks, ArrayList<String> teamArray, String createdBy, Date dateCreated, Date dateObsolete) {
+    public EventAffiliation(int eventID, String explainIfOthers, ArrayList<String> teamArray, String createdBy, Date dateCreated, Date dateObsolete) {
         this.eventID = eventID;
         this.explainIfOthers = explainIfOthers;
-        this.remarks = remarks;
         this.teamArray = teamArray;
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
@@ -91,15 +88,5 @@ public class EventAffiliation {
     public void setDateObsolete(Date dateObsolete) {
         this.dateObsolete = dateObsolete;
     }
-
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-    
-    
     
 }
