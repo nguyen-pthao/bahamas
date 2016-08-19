@@ -50,13 +50,13 @@ and open the template in the editor.
                                             </div>
                                             <span ng-show="eventForm.eventStartDate.$error.required && eventForm.eventStartDate.$touched" class="error">Event Start Date is required.</span>
                                         </div>
-                                        <div class="col-md-3" style="padding-left:15px;">
+                                        <div class="col-md-3" style="padding:0px;">
                                             <label>Start Time</label><span class="required">*</span>
                                             <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
                                             <span ng-show="eventForm.eventStartTime.$error.required && eventForm.eventStartTime.$touched" class="error">Start Time is required.<br></span>
                                             <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventStartTime.$touched" class="error">Start Time cannot be after End Time.</span>-->
                                         </div>
-                                        <div class="col-md-3">
+                                        <div class="col-md-3" style="padding:0px;">
                                             <label>End Date</label><span class="required">*</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon btn" ng-click="openEnd()">
@@ -135,6 +135,11 @@ and open the template in the editor.
                                         <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i>
                                         &nbsp;<input type="checkbox" ng-model="showGoogleMaps"/>
                                     </div>
+                                    <div class="form-group col-md-12" style="padding:0px;">
+                                        <h4 class="bold">Remarks</h4>
+                                        <textarea class="custom-remarks" ng-model="newEvent['remarks']" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+                                        <span ng-show="eventForm.remarks.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>
+                                    </div>
                                 </div>
                                 <div ng-show='showGoogleMaps'>
                                     <ui-gmap-google-map center='map.center' zoom='map.zoom' options='map.options' control='map.control'>
@@ -146,9 +151,9 @@ and open the template in the editor.
                                     <center>
                                         <button class="btn btn-primary" type="submit" ng-click="createEvent()" 
                                                 ng-disabled="eventForm.eventTitle.$error.maxlength || eventForm.eventTitle.$error.required || eventForm.minimumParticipation.$invalid || eventForm.address.$error.required
-                                                                || eventForm.eventStartDate.$error.required || eventForm.eventEndDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
-                                                                || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required || eventForm.eventStatus.$error.required
-                                                                || eventForm.address.$error.maxlength || eventForm.zipcode.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
+                                                                    || eventForm.eventStartDate.$error.required || eventForm.eventEndDate.$error.required || eventForm.eventStartTime.$error.required || eventForm.eventEndTime.$error.required
+                                                                    || eventForm.eventDescription.$error.maxlength || eventForm.eventClass.$error.required || eventForm.eventLocation.$error.required || eventForm.eventStatus.$error.required
+                                                                    || eventForm.address.$error.maxlength || eventForm.zipcode.$error.maxlength || (showGoogleMaps && newEvent['event_lat'] == '' && newEvent['event_lng'] == '') || (newEvent['event_start_date'] > newEvent['event_end_date'])"
                                                 >
                                             Save and proceed
                                         </button>

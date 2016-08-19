@@ -61,6 +61,12 @@ and open the template in the editor.
                                     <h4 class="bold">End Time</h4>
                                     <div class="custom-height-1">{{eventInfo.view_time_end}}</div>
                                 </div>
+                                <div class="row col-sm-12">
+                                <div class="col-sm-12">
+                                    <h4 class="bold">Description</h4>
+                                    <div class="custom-height-1">{{eventInfo.event_description}}</div>
+                                </div>
+                            </div>
                                 <div class="col-sm-6">
                                     <h4 class="bold">Min. Participation</h4>
                                     <div class="custom-height-1">{{eventInfo.minimum_participation}}</div>
@@ -91,8 +97,8 @@ and open the template in the editor.
                             </div>
                             <div class="row col-sm-12">
                                 <div class="col-sm-12">
-                                    <h4 class="bold">Description</h4>
-                                    <div class="custom-height-1">{{eventInfo.event_description}}</div>
+                                    <h4 class="bold">Remarks</h4>
+                                    <div class="custom-height-1">{{eventInfo.remarks}}</div>
                                 </div>
                             </div>
                         </div>
@@ -167,10 +173,6 @@ and open the template in the editor.
                                     <h4 class="bold">Explain If 'Other'</h4>
                                     <div class="custom-height-1">{{affiliation['explain_if_other']}}</div>
                                 </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <h4 class="bold">Remarks</h4>
-                                <div class="custom-height-1">{{affiliation['remarks']}}</div>
                             </div>
                         </div>
                     </div>

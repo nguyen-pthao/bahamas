@@ -137,6 +137,11 @@ and open the template in the editor.
                                     <textarea class="custom-remarks" ng-model="editEvent['event_description']" ng-maxlength="2000" name="eventDescription" contenteditable="true" spellcheck="true"></textarea>
                                     <span ng-show="editEventForm.eventDescription.$error.maxlength" class='error'>Input for 'Event Description' is too long.</span>
                                 </div>
+                                <div class="col-sm-12">
+                                    <h4 class="bold">Remarks</h4>
+                                    <textarea class="custom-remarks" ng-model="editEvent['remarks']" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+                                    <span ng-show="editEventForm.remarks.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>
+                                </div>
                                 <div class="box-footer">
                                     <center><button class="btn btn-link uppercase bold" type="submit" ng-click="submitEditEvent()" 
                                                     ng-disabled="editEventForm.eventTitle.$error.maxlength || editEventForm.eventTitle.$error.required || editEventForm.minimumParticipation.$invalid
@@ -233,17 +238,12 @@ and open the template in the editor.
                                         <textarea class="custom-remarks" ng-model="affiliation['explain_if_other']" ng-maxlength="200" name="explainIfOthers" contenteditable="true" spellcheck="true"></textarea>
                                         <span ng-show="editTeamAffiliationForm.explainIfOthers.$error.maxlength" class='error'>Input for 'Explain If Other' is too long.</span><br>
                                     </div>
-                                    <div class="col-sm-12">
-                                        <h4 class="bold">Remarks</h4>
-                                        <textarea class="custom-remarks" ng-model="affiliation['remarks']" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
-                                        <span ng-show="editTeamAffiliationForm.remarks.$error.maxlength" class='error'>Input for 'Remarks' is too long.</span>
-                                    </div>
                                 </div>
                                 <div class="box-footer">
                                     <center>
                                         <button type="submit" ng-click="submitEditTeams()"
                                                 ng-disabled="editTeamAffiliationForm.explainIfOthers.$error.maxlength
-                                                || editTeamAffiliationForm.remarks.$error.maxlength"
+                                                                    || editTeamAffiliationForm.remarks.$error.maxlength"
                                                 class="btn btn-link uppercase bold">
                                             Save Changes
                                         </button>
