@@ -93,14 +93,12 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th width="20%"><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th width="20%"><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
-                                        <th width="60%">Roles/Participation</th>
+                                        <th width="80%">Roles/Participation</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
                                         <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
-                                        <td>{{event['team']}}</td>
                                         <td style="padding:0px;">
                                             <table class="table table-bordered" style="max-width: 100%; margin:0px;">
                                                 <tbody>
@@ -127,7 +125,6 @@ and open the template in the editor.
                             <tfoot>
                                 <tr>
                                     <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                    <th><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
                                     <th>Roles/Participation</th>
                                 </tr>
                             </tfoot>

@@ -68,8 +68,7 @@ app.controller('createEventAffiliation',
                     'event_id': eventId,
                     'teams': [
                     ],
-                    'explain_if_others': '',
-                    'remarks': ''
+                    'explain_if_others': ''
                 };
 
                 $scope.toSubmitCopy = {
@@ -77,8 +76,7 @@ app.controller('createEventAffiliation',
                     'event_id': eventId,
                     'teams': [
                     ],
-                    'explain_if_others': '',
-                    'remarks': ''
+                    'explain_if_others': ''
                 };
 
                 $scope.submit = function () {
