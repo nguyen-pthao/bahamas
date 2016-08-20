@@ -82,7 +82,6 @@ public class AddTeamAffiliation extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String explainIfOthers = jobject.get("explain_if_others").getAsString();
-                String remarks = jobject.get("remarks").getAsString();
                 JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
                 
