@@ -7,10 +7,15 @@ package bahamas.services;
 
 import bahamas.dao.AddressDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EmailDAO;
+import bahamas.dao.PhoneDAO;
 import bahamas.dao.list.ContactTypeListDAO;
 import bahamas.entity.Address;
 import bahamas.entity.Contact;
+import bahamas.entity.Email;
+import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
+import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -144,11 +149,11 @@ public class Import extends HttpServlet {
                     if (table.equalsIgnoreCase("contact")) {
                         processContact();
                     } else if (table.equalsIgnoreCase("phone")) {
-
+                        processPhone();
                     } else if (table.equalsIgnoreCase("email")) {
-
+                        processEmail();
                     } else if (table.equalsIgnoreCase("address")) {
-
+                        processAddress();
                     } else {
                         json.addProperty("message", "Import failed due invalid table choice");
                         out.println(gson.toJson(json));
@@ -329,8 +334,7 @@ public class Import extends HttpServlet {
 
                 if (AddressDAO.addAddress(newAddress)) {
                     msg.add("Successfully added");
-                }
-                else{
+                } else {
                     msg.add("Error inserting into database");
                 }
                 logMsg.put(lineNum, msg);
@@ -339,6 +343,143 @@ public class Import extends HttpServlet {
 
         }
     }
+
+    private void processEmail() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, contactList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            try {
+                ContactDAO cDAO = new ContactDAO();
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String email = processField(msg, contactList.get(++i), "Email", 50);
+
+            if (email == null) {
+                msg.add("Email cannot be empty");
+            }
+
+            if(!Validator.validEmail(email)){
+                msg.add("Invalid email format");
+            }
+            
+            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+
+            String date = contactList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateObsolete = null;
+            if (!date.isEmpty()) {
+                try {
+                    dateObsolete = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date obsolete format");
+                }
+            }
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Email newEmail = new Email(c, email, createdBy, remarks, dateObsolete, false);
+
+                if (EmailDAO.addEmail(newEmail, null)) {
+                    msg.add("Successfully added");
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+    
+    private void processPhone() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, contactList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            try {
+                ContactDAO cDAO = new ContactDAO();
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String countrycode = processField(msg, contactList.get(++i), "Country Code", 20);
+
+            if (countrycode == null) {
+                msg.add("Country code cannot be empty");
+            }
+            
+            int countryCode = 0;
+            try{
+                countryCode = Integer.parseInt(countrycode);
+            }catch(NumberFormatException e){
+                msg.add("Invalid Country code");
+            }
+            
+            String phoneNumber = processField(msg, contactList.get(++i), "Phone Number", 20);
+            
+            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+
+            String date = contactList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateObsolete = null;
+            if (!date.isEmpty()) {
+                try {
+                    dateObsolete = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date obsolete format");
+                }
+            }
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Phone newPhone = new Phone(c, countryCode, phoneNumber, createdBy, remarks, dateObsolete);
+
+                if (PhoneDAO.addPhone(newPhone)) {
+                    msg.add("Successfully added");
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+    
+    
+    
+    
 
     private String processField(ArrayList temp, String value, String fieldName, int max) {
         if (value.isEmpty()) {
