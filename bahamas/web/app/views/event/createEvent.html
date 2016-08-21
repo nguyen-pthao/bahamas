@@ -74,10 +74,15 @@ and open the template in the editor.
                                             <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventEndTime.$touched" class="error">End Time cannot be before Start Time.</span>-->
                                         </div>
                                     </div>
-                                    <div class="col-md-12" style="padding:0px; margin-bottom: 10px;">
-                                        <label>Send Reminder</label>
-                                        &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
-                                        &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
+                                    <div class="col-md-12" style="padding-left:0px; padding-top:15px; margin-bottom: 10px;">
+                                        <div class="col-md-3" style="padding:0px;">
+                                            <label>Send Reminder</label>
+                                            &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
+                                            &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
+                                        </div>
+                                        <div class="col-md-3" style="padding:0px;">
+                                            <span><a href="" ng-click="showRepeat()">Repeating Event</a></span>
+                                        </div>
                                     </div>
                                     <div>
                                         <label>Event Description</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Tell them what the event is about!" popover-trigger="mouseenter"></i>

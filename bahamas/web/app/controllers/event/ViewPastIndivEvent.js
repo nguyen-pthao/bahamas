@@ -85,16 +85,6 @@ app.controller('viewPastIndivEvent',
                     });
                 };
                 
-                $scope.addAppreciation = function ($event, part) {
-                    $rootScope.participant = part;
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: './style/ngTemplate/addAppreciation.html',
-                        controller: 'AppreciationIndivInstanceCtrl',
-                        size: "lg"
-                    });
-                };
-                
             }]);
 
 app.controller('RemarkIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
@@ -161,112 +151,6 @@ app.controller('ServiceCommentIndivInstanceCtrl', function ($scope, $rootScope, 
                 })
             }
         });
-    };
-
-    $scope.cancel = function () {
-        $uibModalInstance.dismiss('cancel');
-    };
-});
-
-app.controller('AppreciationIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state, $timeout) {
-    $scope.newAppreciation = {
-        'token': session.getSession('token'),
-        'contact_id': -1,
-        'user_type': session.getSession('userType'),
-        'appraisal_comment': '',
-        'appraisal_by': '',
-        'appraisal_date': '',
-        'appreciation_gesture': '',
-        'appreciation_by': 'TWC2',
-        'appreciation_date': '',
-        'remarks': ''
-    };
-    $scope.openNewAppraisal = function () {
-        $timeout(function () {
-            $scope.openedNewAppraisal = true;
-        });
-    };
-
-    $scope.openNewAppreciation = function () {
-        $timeout(function () {
-            $scope.openedNewAppreciation = true;
-        });
-    };
-    $scope.today = function () {
-        $scope.dt = new Date();
-    };
-    $scope.today();
-
-    $scope.clear = function () {
-        $scope.dt = null;
-    };
-
-    $scope.inlineOptions = {
-        customClass: getDayClass,
-        showWeeks: true
-    };
-
-    $scope.dateOptions = {
-        formatYear: 'yy',
-        formatMonth: 'MMM',
-        formatDay: 'dd',
-        startingDay: 1
-    };
-
-    function getDayClass(data) {
-        var date = data.date,
-                mode = data.mode;
-        if (mode === 'day') {
-            var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-            for (var i = 0; i < $scope.events.length; i++) {
-                var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-                if (dayToCheck === currentDay) {
-                    return $scope.events[i].status;
-                }
-            }
-        }
-        return '';
-    }
-    $scope.format = 'dd MMM yyyy';
-    $scope.altInputFormats = ['M!/d!/yyyy'];
-    $scope.ok = function () {
-        var part = $rootScope.participant;
-        if ($scope.newAppreciation['appraisal_date'] == null) {
-            $scope.newAppreciation['appraisal_date'] = '';
-        } else if (isNaN($scope.newAppreciation['appraisal_date'])) {
-            $scope.newAppreciation['appraisal_date'] = '';
-        } else if (angular.isUndefined($scope.newAppreciation['appraisal_date'])) {
-            $scope.newAppreciation['appraisal_date'] = '';
-        } else {
-            $scope.newAppreciation['appraisal_date'] = $scope.newAppreciation['appraisal_date'].valueOf() + "";
-        }
-        if ($scope.newAppreciation['appreciation_date'] == null) {
-            $scope.newAppreciation['appreciation_date'] = '';
-        } else if (isNaN($scope.newAppreciation['appreciation_date'])) {
-            $scope.newAppreciation['appreciation_date'] = '';
-        } else if (angular.isUndefined($scope.newAppreciation['appreciation_date'])) {
-            $scope.newAppreciation['appreciation_date'] = '';
-        } else {
-            $scope.newAppreciation['appreciation_date'] = $scope.newAppreciation['appreciation_date'].valueOf() + "";
-        }
-        $scope.newAppreciation['contact_id'] = part['contact_id'];
-        var urlToAddAppreciation = '/appreciation.add';
-        dataSubmit.submitData($scope.newAppreciation, urlToAddAppreciation).then(function (response) {
-            if (response.data.message == 'success') {
-                ngDialog.openConfirm({
-                    template: './style/ngTemplate/addSuccess.html',
-                    className: 'ngdialog-theme-default',
-                    scope: $scope
-                }).then(function (response) {
-                    $uibModalInstance.dismiss('cancel');
-                    var current = session.getSession('userType') + '.viewPastIndivEvent';
-                    $state.go(current, {}, {reload: true});
-                })
-            }
-        });
-
     };
 
     $scope.cancel = function () {

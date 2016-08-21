@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal', '$rootScope',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal, $rootScope) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -133,18 +133,30 @@ app.controller('createEvent',
                             $scope.map.control.refresh({latitude: searchBox.getPlaces()[0].geometry.location.lat(), longitude: searchBox.getPlaces()[0].geometry.location.lng()});
                         }}, options: {}};
                 //--end of settings for google maps--
-                
+
                 //location change function to populate address and zipcode
-                $scope.locationChange = function(location){
-                    angular.forEach($scope.eventLocationList, function(value, key){
-                        if(value.eventLocation==location){
-                           $scope.newEvent['address'] = value.address;
-                           $scope.newEvent['zipcode'] = value.zipcode;
+                $scope.locationChange = function (location) {
+                    angular.forEach($scope.eventLocationList, function (value, key) {
+                        if (value.eventLocation == location) {
+                            $scope.newEvent['address'] = value.address;
+                            $scope.newEvent['zipcode'] = value.zipcode;
                         }
                     })
                 };
                 //--end of location change function--
-                
+
+                $scope.showRepeat = function () {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/repeatingEvent.html',
+                        scope: $scope,
+                        controller: 'RepeatingEventInstanceCtrl',
+                        backdrop: 'static',
+                        keyboard: false,
+                        size: "md"
+                    });
+                };
+
                 $scope.createEvent = function () {
                     if ($scope.newEvent['event_start_date'] == null) {
                         $scope.newEvent['event_start_date'] = ''
@@ -181,14 +193,14 @@ app.controller('createEvent',
                             localStorageService.set('eventIdCreate', id);
                             var toURL = user + '.createEventRoles';
                             $state.go(toURL);
-                        } else if(response.data.message == 'error'){
+                        } else if (response.data.message == 'error') {
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             })
-                        } else if(response.data.message == 'conflict'){
+                        } else if (response.data.message == 'conflict') {
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/addEventConflict.html',
@@ -206,7 +218,7 @@ app.controller('createEvent',
                                     }
                                 });
                             });
-                        }else{
+                        } else {
                             window.alert("Unable to establish connection");
                         }
                     });
@@ -214,3 +226,21 @@ app.controller('createEvent',
                 };
 
             }]);
+
+app.controller('RepeatingEventInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    $scope.number = [
+        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+    ];
+    
+    $scope.repeat = {
+        'mode': ''
+    };
+    
+    $scope.ok = function () {
+
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
