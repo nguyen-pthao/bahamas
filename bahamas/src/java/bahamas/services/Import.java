@@ -5,8 +5,10 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AddressDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.list.ContactTypeListDAO;
+import bahamas.entity.Address;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -49,14 +51,14 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "ImportContact", urlPatterns = {"/contact.import"})
-public class ImportContact extends HttpServlet {
+@WebServlet(name = "Import", urlPatterns = {"/import"})
+public class Import extends HttpServlet {
 
-    private LinkedHashMap<Integer, ArrayList<String>> errorMsg = new LinkedHashMap<Integer, ArrayList<String>>();
+    private LinkedHashMap<Integer, ArrayList<String>> logMsg = new LinkedHashMap<Integer, ArrayList<String>>();
     private ArrayList<String> contactList;
-    private String[] COL;
-    private static final Logger LOGGER = Logger.getLogger(ImportContact.class.getName());
-    private static final int numOfFields = 12;
+    private static final Logger LOGGER = Logger.getLogger(Import.class.getName());
+    private static int numOfFields;
+    private static String createdBy;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -77,6 +79,7 @@ public class ImportContact extends HttpServlet {
 
             Part filePart = request.getPart("file");
             String token = request.getParameter("token");
+            String table = request.getParameter("table");
 
             if (token == null || token.isEmpty()) {
                 json.addProperty("message", "Import failed due authorized");
@@ -94,16 +97,32 @@ public class ImportContact extends HttpServlet {
                 return;
             }
 
+            createdBy = username;
+
             if (filePart == null) {
                 LOGGER.log(Level.SEVERE, "UploadFile Line70: File is NULL");
                 json.addProperty("message", "Import failed due empty file");
                 out.println(gson.toJson(json));
                 return;
- 
+
             } else {
 
                 String fileName = filePart.getSubmittedFileName();
                 LOGGER.log(Level.INFO, "UploadFile Line75: Filename : " + fileName);
+
+                if (table.equalsIgnoreCase("contact")) {
+                    numOfFields = 12;
+                } else if (table.equalsIgnoreCase("phone")) {
+                    numOfFields = 5;
+                } else if (table.equalsIgnoreCase("email")) {
+                    numOfFields = 4;
+                } else if (table.equalsIgnoreCase("address")) {
+                    numOfFields = 6;
+                } else {
+                    json.addProperty("message", "Import failed due invalid table choice");
+                    out.println(gson.toJson(json));
+                    return;
+                }
 
                 if (fileName.contains(".csv")) {
                     processCsv(filePart);
@@ -121,80 +140,21 @@ public class ImportContact extends HttpServlet {
                     return;
                 }
 
-                int lineNum = 0;
                 try {
-                    for (int i = 0; i < contactList.size(); i++) {
+                    if (table.equalsIgnoreCase("contact")) {
+                        processContact();
+                    } else if (table.equalsIgnoreCase("phone")) {
 
-                        ArrayList<String> msg = new ArrayList<>();
+                    } else if (table.equalsIgnoreCase("email")) {
 
-                        String name = processField(msg, contactList.get(i), "Name", 50);
+                    } else if (table.equalsIgnoreCase("address")) {
 
-                        if (name == null) {
-                            msg.add("Name cannot be empty");
-                        }
-
-                        String altName = processField(msg, contactList.get(++i), "Alt Name", 50);
-                        String contactType = processField(msg, contactList.get(++i), "Contact Type", 50);
-
-                        ContactTypeListDAO listDAO = new ContactTypeListDAO();
-                        if (!listDAO.retrieveAllContactTypeList().contains(contactType)) {
-                            msg.add("Contact Type not referencing to Contact Type List");
-                        }
-
-                        String otherExplanation = processField(msg, contactList.get(++i), "Explain if other", 200);
-                        String profession = processField(msg, contactList.get(++i), "Profession", 200);
-                        String jobTitle = processField(msg, contactList.get(++i), "Job Title", 50);
-                        String nric = processField(msg, contactList.get(++i), "NRIC/FIN", 9);
-
-                        String gender = processField(msg, contactList.get(++i), "Gender", 1);
-                        if (!(gender.equals("M") || gender.equals("F") || gender.equals("O"))) {
-                            msg.add("Invalid Gender Format");
-                        }
-
-                        String nationality = processField(msg, contactList.get(++i), "Nationality", 20);
-                        String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
-
-                        String date = contactList.get(++i);
-                        SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
-                        format.setLenient(false);
-                        Date dob = null;
-                        if (!date.isEmpty()) {
-                            try {
-                                dob = format.parse(date);
-                            } catch (ParseException e) {
-                                msg.add("Invalid date of birth format");
-                            }
-                        }
-
-                        boolean notification = true;
-                        String notify = contactList.get(++i);
-
-                        if (notify.equalsIgnoreCase("false")) {
-                            notification = false;
-                        } else if (notify.equalsIgnoreCase("true")) {
-                            notification = true;
-                        } else {
-                            msg.add("Invalid notification boolean format");
-                        }
-
-                        lineNum++;
-
-                        if (!msg.isEmpty()) {
-                            errorMsg.put(lineNum, msg);
-                        } else {
-
-                            //Create new contact object
-                            Contact c = new Contact(name, altName, contactType,
-                                    otherExplanation, profession, jobTitle, nric,
-                                    gender, nationality, dob, remarks, notification, username);
-
-                            ContactDAO.addContact(c);
-                            msg.add("Successfully added");
-                            errorMsg.put(lineNum, msg);
-
-                        }
-
+                    } else {
+                        json.addProperty("message", "Import failed due invalid table choice");
+                        out.println(gson.toJson(json));
+                        return;
                     }
+
                 } catch (Exception ex) {
                     json.addProperty("message", "Import failed due to wrong file or data format");
                     out.println(gson.toJson(json));
@@ -203,10 +163,10 @@ public class ImportContact extends HttpServlet {
 
                 JsonArray records = new JsonArray();
 
-                Iterator<Integer> iterLine = errorMsg.keySet().iterator();
+                Iterator<Integer> iterLine = logMsg.keySet().iterator();
                 while (iterLine.hasNext()) {
                     int num = iterLine.next();
-                    ArrayList<String> temp = errorMsg.get(num);
+                    ArrayList<String> temp = logMsg.get(num);
 
                     JsonObject store = new JsonObject();
 
@@ -230,6 +190,150 @@ public class ImportContact extends HttpServlet {
                 json.add("result", records);
                 out.println(gson.toJson(json));
                 return;
+
+            }
+
+        }
+    }
+
+    private void processContact() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+            String name = processField(msg, contactList.get(i), "Name", 50);
+
+            if (name == null) {
+                msg.add("Name cannot be empty");
+            }
+
+            String altName = processField(msg, contactList.get(++i), "Alt Name", 50);
+            String contactType = processField(msg, contactList.get(++i), "Contact Type", 50);
+
+            ContactTypeListDAO listDAO = new ContactTypeListDAO();
+            if (!listDAO.retrieveAllContactTypeList().contains(contactType)) {
+                msg.add("Contact Type not referencing to Contact Type List");
+            }
+
+            String otherExplanation = processField(msg, contactList.get(++i), "Explain if other", 200);
+            String profession = processField(msg, contactList.get(++i), "Profession", 200);
+            String jobTitle = processField(msg, contactList.get(++i), "Job Title", 50);
+            String nric = processField(msg, contactList.get(++i), "NRIC/FIN", 9);
+
+            String gender = processField(msg, contactList.get(++i), "Gender", 1);
+            if (!(gender.equals("M") || gender.equals("F") || gender.equals("O"))) {
+                msg.add("Invalid Gender Format");
+            }
+
+            String nationality = processField(msg, contactList.get(++i), "Nationality", 20);
+            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+
+            String date = contactList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dob = null;
+            if (!date.isEmpty()) {
+                try {
+                    dob = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date of birth format");
+                }
+            }
+
+            boolean notification = true;
+            String notify = contactList.get(++i);
+
+            if (notify.equalsIgnoreCase("false")) {
+                notification = false;
+            } else if (notify.equalsIgnoreCase("true")) {
+                notification = true;
+            } else {
+                msg.add("Invalid notification boolean format");
+            }
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                //Create new contact object
+                Contact c = new Contact(name, altName, contactType,
+                        otherExplanation, profession, jobTitle, nric,
+                        gender, nationality, dob, remarks, notification, createdBy);
+
+                if (ContactDAO.addContact(c) > 0) {
+                    msg.add("Successfully added");
+                } else {
+                    msg.add("Error inserting to database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processAddress() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < contactList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, contactList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            try {
+                ContactDAO cDAO = new ContactDAO();
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String address = processField(msg, contactList.get(++i), "Address", 1000);
+
+            if (address == null) {
+                msg.add("Name cannot be empty");
+            }
+
+            String country = processField(msg, contactList.get(++i), "Country", 50);
+            String zipcode = processField(msg, contactList.get(++i), "Zipcode", 20);
+
+            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+
+            String date = contactList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateObsolete = null;
+            if (!date.isEmpty()) {
+                try {
+                    dateObsolete = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date obsolete format");
+                }
+            }
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Address newAddress = new Address(c, country, zipcode, address,
+                        createdBy, remarks, dateObsolete);
+
+                if (AddressDAO.addAddress(newAddress)) {
+                    msg.add("Successfully added");
+                }
+                else{
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
 
             }
 
@@ -276,7 +380,7 @@ public class ImportContact extends HttpServlet {
             workbook = new HSSFWorkbook(bis);
         }
 
-        Sheet sheet = workbook.getSheet("contact");
+        Sheet sheet = workbook.getSheetAt(0);
 
         Iterator rowIter = sheet.rowIterator();
 
