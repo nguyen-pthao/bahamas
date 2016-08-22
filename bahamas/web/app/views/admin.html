@@ -178,8 +178,8 @@
                                     </li>
                                     <li><a ui-sref="admin.viewContacts"><i class="fa fa-users"></i><span> View All Contacts</span></a></li>
                                     <li><a ui-sref="admin.addContact"><i class="fa fa-user-plus"></i><span> Create New Contact</span></a></li>
-                                    <li><a href="" data-toggle="modal" data-target="#importContacts"><i class="fa fa-upload"></i><span> Import Contacts</span></a></li>
-                                    <li><a ui-sref="admin.exportContacts"><i class="fa fa-download"></i><span> Export contacts</span></a></li>
+<!--                                    <li><a href="" data-toggle="modal" data-target="#importContacts"><i class="fa fa-upload"></i><span> Import Contacts</span></a></li>
+                                    <li><a ui-sref="admin.exportContacts"><i class="fa fa-download"></i><span> Export contacts</span></a></li>-->
                                 </ul>
                             </li>
                             <!-- Event information -->
@@ -189,17 +189,27 @@
                                 </a>
                                 <ul class="treeview-menu" style="padding: 10px">            
                                     <li><a ui-sref="admin.viewPastEvents"><i class="fa fa-calendar-check-o"></i><span> View Past Events</span></a></li>
-                                    <li><a ui-sref="admin.viewUpcomingEvents"><i class="fa fa-calendar-plus-o"></i><span> Upcoming Events</span></a></li>
-                                    <li><a ui-sref="admin.pastEventParticipationSummary"><i class="fa fa-calendar-check-o"></i><span> Past Events (PS)</span></a></li>
-                                    <li><a ui-sref="admin.eventParticipationSummary"><i class="fa fa-calendar-plus-o"></i><span> Upcoming Events (PS)</span></a></li>
-                                    <li><a ui-sref="admin.createEvent"><i class="fa fa-plus-square"></i><span> Create New Event</span></a></li>               
+                                    <li><a ui-sref="admin.viewUpcomingEvents"><i class="fa fa-calendar-plus-o"></i><span> View Upcoming Events</span></a></li>
+                                    <li><a ui-sref="admin.pastEventParticipationSummary"><i class="fa fa-calendar-check-o"></i><span> View Past Participation </span></a></li>
+                                    <li><a ui-sref="admin.eventParticipationSummary"><i class="fa fa-calendar-plus-o"></i><span> View Upcoming Participation </span></a></li>
+                                    <li><a ui-sref="admin.createEvent"><i class="fa fa-plus-square"></i><span> Create Event</span></a></li>               
                                 </ul>
                             </li> 
                             <!-- Report information -->
                             <li class="treeview">
                                 <a href="">
-                                    <i class="fa fa-file-o"></i> <span>Report</span>
+                                    <i class="fa fa-file-text"></i> <span>Report</span>
                                 </a>
+                            </li>
+                            <!-- Import/Export -->
+                            <li class="treeview">
+                                <a href="">
+                                    <i class="fa fa-files-o"></i> <span>Import / Export</span> <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a ui-sref="admin.import"><i class="fa fa-download"></i><span> Import Files </span></a></li>
+                                    <li><a ui-sref="admin.export"><i class="fa fa-upload"></i><span> Export Files </span></a></li>
+                                </ul>
                             </li>
                             <!-- User Management -->
                             <li class="treeview">
