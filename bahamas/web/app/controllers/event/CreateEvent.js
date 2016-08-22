@@ -34,6 +34,35 @@ app.controller('createEvent',
                     })
                 }
 
+                $scope.newEvent = {
+                    'token': session.getSession('token'),
+                    'event_title': '',
+                    'event_start_date': new Date(),
+                    'event_end_date': new Date(),
+                    'event_time_start': '',
+                    'event_time_end': '',
+                    'send_reminder': false,
+                    'event_description': '',
+                    'minimum_participation': '',
+                    'event_class': "Internal",
+                    'event_location': '',
+                    'event_status': "Open",
+                    'event_lat': '',
+                    'event_lng': '',
+                    'address': '',
+                    'zipcode': '',
+                    'remarks': '',
+                    'ignore': false,
+                    'repeat': {
+                        'mode': '',
+                        'repeat_every': '1',
+                        'end_occurence': '',
+                        'end_on': '',
+                        'repeat_on': [],
+                        'repeat_by': 'day of the month'
+                    }
+                }
+
                 //-----for the datepicker-----
                 $scope.today = function () {
                     $scope.dt = new Date();
@@ -62,9 +91,23 @@ app.controller('createEvent',
                     })
                 }
 
+
                 $scope.openEnd = function () {
                     $timeout(function () {
                         $scope.openedEnd = true;
+                    })
+                }
+
+                $scope.dateOptionsRepeat = {
+                    formatYeat: 'yy',
+                    formatMonth: 'MMM',
+                    formatDay: 'dd',
+                    startingDay: 1,
+                    minDate: $scope.newEvent['event_start_date']
+                };
+                $scope.openRepeat = function () {
+                    $timeout(function () {
+                        $scope.openedRepeat = true;
                     })
                 }
 
@@ -93,26 +136,16 @@ app.controller('createEvent',
                     $scope.newEvent['event_end_date'] = $scope.newEvent['event_start_date'];
                 })
 
-                $scope.newEvent = {
-                    'token': session.getSession('token'),
-                    'event_title': '',
-                    'event_start_date': new Date(),
-                    'event_end_date': new Date(),
-                    'event_time_start': '',
-                    'event_time_end': '',
-                    'send_reminder': false,
-                    'event_description': '',
-                    'minimum_participation': '',
-                    'event_class': "Internal",
-                    'event_location': '',
-                    'event_status': "Open",
-                    'event_lat': '',
-                    'event_lng': '',
-                    'address': '',
-                    'zipcode': '',
-                    'remarks': '',
-                    'ignore': false
-                }
+                $scope.daysChosen = {
+                    'Su': false,
+                    'Mo': false,
+                    'Tu': false,
+                    'We': false,
+                    'Th': false,
+                    'Fr': false,
+                    'Sa': false
+                };
+
 
                 //--for google maps--
                 $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
@@ -156,7 +189,10 @@ app.controller('createEvent',
                         size: "md"
                     });
                 };
-
+                
+                $scope.endDaily = 'isOccurence';
+                $scope.endWeekly = 'isOccurence';
+                $scope.endMonthly = 'isOccurence';
                 $scope.createEvent = function () {
                     if ($scope.newEvent['event_start_date'] == null) {
                         $scope.newEvent['event_start_date'] = ''
@@ -186,6 +222,13 @@ app.controller('createEvent',
                         $scope.newEvent['minimum_participation'] = "1";
                     }
 
+                    angular.forEach($scope.daysChosen, function (value, key) {
+                        if (value === true) {
+                            $scope.newEvent['repeat']['repeat_on'].push(key);
+                        }
+                    })
+
+                    console.log($scope.newEvent);
                     var url = "/event.create";
                     dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                         if (response.data.message == 'success') {
@@ -229,15 +272,11 @@ app.controller('createEvent',
 
 app.controller('RepeatingEventInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.number = [
-        1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
     ];
-    
-    $scope.repeat = {
-        'mode': ''
-    };
-    
-    $scope.ok = function () {
 
+    $scope.ok = function () {
+        $uibModalInstance.dismiss('cancel');
     };
 
     $scope.cancel = function () {

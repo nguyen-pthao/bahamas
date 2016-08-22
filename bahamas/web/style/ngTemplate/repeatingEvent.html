@@ -1,23 +1,23 @@
 <div class="modal-header">
-    <h3 class="modal-title">Repeat</h3>
+    <h3 class="modal-title">Repeating Event</h3>
 </div>
-<div class="modal-body">
+<div>
     <div ng-form name="repeatForm" class="col-md-12">
         <div class="col-md-12" style="padding:0px;">
             <div class="col-md-4">
                 <label>Repeats:</label>
-                <select name="mode" class="form-control" ng-model="repeat['mode']">
+                <select name="mode" class="form-control" ng-model="newEvent['repeat']['mode']">
                     <option>Daily</option>
                     <option>Weekly</option>
                     <option>Monthly</option>
                 </select>
             </div>
         </div>
-        <div ng-show="repeat['mode'] == 'Daily'">
+        <div ng-show="newEvent['repeat']['mode'] == 'Daily'">
             <div class="col-md-12" style="padding:0px;">
                 <div class='col-md-4'>
-                    <label>Repeat Every:</label>
-                    <select name="mode" class="form-control">
+                    <label>Repeat every:</label>
+                    <select name="mode" class="form-control" ng-model="newEvent['repeat']['repeat_every']">
                         <option ng-repeat='num in number'>{{num}}</option>
                     </select>
                 </div>
@@ -31,18 +31,71 @@
             <div class="col-md-12" style="padding:0px;">
                 <div class="col-md-6">
                     <label>Ends:</label><br>
-                    <input type="radio" name="end" ng-model="checked" checked> After <input type="text" class="form-control"/> occurrences<br>
-                    <input type="radio" name="end"> On <input type="text" class="form-control"/>
+                    <input type="radio" name="endDaily" value="isOccurence" ng-model="endDaily">&nbsp; After <input type="text" ng-disabled="endDaily!='isOccurence'" ng-model="newEvent['repeat']['end_occurence']" maxlength="4" size="4"/> occurrences<br>
+                    <input type="radio" name="endDaily" value="isOn" ng-model="endDaily">&nbsp; On <input type="text" ng-disabled="endDaily!='isOn'" ng-click="openRepeat()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeat" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on']" maxlength="20" size="20"/>
                 </div>
             </div>
         </div>
-        <div ng-show="repeat['mode'] == 'Weekly'">
-            Hello Weekly
+        <div ng-show="newEvent['repeat']['mode'] == 'Weekly'">
+            <div class="col-md-12" style="padding:0px;">
+                <div class='col-md-4'>
+                    <label>Repeat every:</label>
+                    <select name="mode" class="form-control" ng-model="newEvent['repeat']['repeat_every']">
+                        <option ng-repeat='num in number'>{{num}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-top:10px;">
+                <label>Repeat on:</label>
+                <input type="checkbox" ng-model="daysChosen['Su']" value="Su"/>Sun&nbsp;
+                <input type="checkbox" ng-model="daysChosen['Mo']" value="Mo"/>Mon&nbsp;
+                <input type="checkbox" ng-model="daysChosen['Tu']" value="Tu"/>Tue&nbsp;
+                <input type="checkbox" ng-model="daysChosen['We']" value="We"/>Wed&nbsp;
+                <input type="checkbox" ng-model="daysChosen['Th']" value="Th"/>Thu&nbsp;
+                <input type="checkbox" ng-model="daysChosen['Fr']" value="Fr"/>Fri&nbsp;
+                <input type="checkbox" ng-model="daysChosen['Sa']" value="Sa"/>Sat
+            </div>
+            <div class="col-md-12" style="padding:0px;">
+                <div class='col-md-4'>
+                    <label>Starts on:</label>
+                    <input type='text' ng-model="newEvent['event_start_date']" uib-datepicker-popup="{{format}}" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding:0px;">
+                <div class="col-md-6">
+                    <label>Ends:</label><br>
+                    <input type="radio" name="endWeek" value="isOccurence" ng-model="endWeekly" checked>&nbsp; After <input type="text" ng-disabled="endWeekly!='isOccurence'" ng-model="newEvent['repeat']['end_occurence']" maxlength="4" size="4"/> occurrences<br>
+                    <input type="radio" name="endWeek" value="isOn" ng-model="endWeekly">&nbsp; On <input type="text" ng-disabled="endWeekly!='isOn'" ng-click="openRepeat()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeat" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on']" maxlength="20" size="20"/>
+                </div>
+            </div>
         </div>
-        <div ng-show="repeat['mode'] == 'Monthly'">
-            <!--            <label>Award Hours:</label>
-                        <input type='text' ng-model="awardHours" name="hours" class="form-control" min="0" ng-pattern="regex" placeholder='0'/>-->
-            Hello Monthly
+        <div ng-show="newEvent['repeat']['mode'] == 'Monthly'">
+            <div class="col-md-12" style="padding:0px;">
+                <div class='col-md-4'>
+                    <label>Repeat every:</label>
+                    <select name="mode" class="form-control" ng-model="newEvent['repeat']['repeat_every']">
+                        <option ng-repeat='num in number'>{{num}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding-top:10px;">
+                <label>Repeat by:</label>
+                <input type="radio" name="rb" value="day of the month" ng-model="newEvent['repeat']['repeat_by']" checked> day of the month
+                <input type="radio" name="rb" value="day of the week" ng-model="newEvent['repeat']['repeat_by']"> day of the week
+            </div>
+            <div class="col-md-12" style="padding:0px;">
+                <div class='col-md-4'>
+                    <label>Starts on:</label>
+                    <input type='text' ng-model="newEvent['event_start_date']" uib-datepicker-popup="{{format}}" class="form-control" readonly/>
+                </div>
+            </div>
+            <div class="col-md-12" style="padding:0px;">
+                <div class="col-md-6">
+                    <label>Ends:</label><br>
+                    <input type="radio" name="endMonth" value="isOccurence" ng-model="endMonthly" checked>&nbsp; After <input type="text" ng-disabled="endMonthly!='isOccurence'" ng-model="newEvent['repeat']['end_occurence']" maxlength="4" size="4"/> occurrences<br>
+                    <input type="radio" name="endMonth" value="isOn" ng-model="endMonthly">&nbsp; On <input type="text" ng-disabled="endMonthly!='isOn'" ng-click="openRepeat()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeat" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on']" maxlength="20" size="20"/>
+                </div>
+            </div>
         </div>
     </div>
 </div>
