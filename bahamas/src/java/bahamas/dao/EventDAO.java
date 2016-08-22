@@ -346,8 +346,8 @@ public class EventDAO {
             stmt.setString(13, event.getEventStatus());
             stmt.setString(14, event.getEventLng());
             stmt.setString(15, event.getEventLat());
-            stmt.setInt(16, event.getEventId());
-            stmt.setString(17, event.getRemarks());
+            stmt.setString(16, event.getRemarks());
+            stmt.setInt(17, event.getEventId());
             result = stmt.executeUpdate();
 
             return result == 1;
