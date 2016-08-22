@@ -235,6 +235,10 @@ app.controller('createEvent',
                     });
                 };
                 
+                $scope.removeRepeat = function(){
+                    $scope.newEvent['repeat']['mode'] = '';
+                };
+                
                 $scope.createEvent = function () {
                     if ($scope.newEvent['event_start_date'] == null) {
                         $scope.newEvent['event_start_date'] = ''
