@@ -267,7 +267,21 @@ app.controller('createEvent',
                     if ($scope.newEvent['minimum_participation'] == '') {
                         $scope.newEvent['minimum_participation'] = "1";
                     }
-
+                    if ($scope.newEvent['repeat']['end_on_daily'] == null) {
+                        $scope.newEvent['repeat']['end_on_daily'] = ''
+                    } else if ($scope.newEvent['repeat']['end_on_daily'] != null || $scope.newEvent['repeat']['end_on_daily'] != '') {
+                        $scope.newEvent['repeat']['end_on_daily'] = $scope.newEvent['repeat']['end_on_daily'].valueOf() + "";
+                    }
+                    if ($scope.newEvent['repeat']['end_on_weekly'] == null) {
+                        $scope.newEvent['repeat']['end_on_weekly'] = ''
+                    } else if ($scope.newEvent['repeat']['end_on_weekly'] != null || $scope.newEvent['repeat']['end_on_weekly'] != '') {
+                        $scope.newEvent['repeat']['end_on_weekly'] = $scope.newEvent['repeat']['end_on_weekly'].valueOf() + "";
+                    }
+                    if ($scope.newEvent['repeat']['end_on_monthly'] == null) {
+                        $scope.newEvent['repeat']['end_on_monthly'] = ''
+                    } else if ($scope.newEvent['repeat']['end_on_monthly'] != null || $scope.newEvent['repeat']['end_on_monthly'] != '') {
+                        $scope.newEvent['repeat']['end_on_monthly'] = $scope.newEvent['repeat']['end_on_monthly'].valueOf() + "";
+                    }
                     angular.forEach($scope.daysChosen, function (value, key) {
                         if (value === true) {
                             $scope.newEvent['repeat']['repeat_on'].push(key);
