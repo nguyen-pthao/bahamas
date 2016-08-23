@@ -6,14 +6,23 @@
 package bahamas.services;
 
 import bahamas.dao.AddressDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
+import bahamas.dao.LanguageDAO;
+import bahamas.dao.MembershipDAO;
 import bahamas.dao.PhoneDAO;
-import bahamas.dao.list.ContactTypeListDAO;
+import bahamas.dao.SkillDAO;
+import bahamas.dao.TeamJoinDAO;
+import bahamas.dao.list.*;
 import bahamas.entity.Address;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
+import bahamas.entity.LanguageAssignment;
+import bahamas.entity.Membership;
 import bahamas.entity.Phone;
+import bahamas.entity.SkillAssignment;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
@@ -60,7 +69,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class Import extends HttpServlet {
 
     private LinkedHashMap<Integer, ArrayList<String>> logMsg = new LinkedHashMap<Integer, ArrayList<String>>();
-    private ArrayList<String> contactList;
+    private ArrayList<String> dataList;
     private static final Logger LOGGER = Logger.getLogger(Import.class.getName());
     private static int numOfFields;
     private static String createdBy;
@@ -123,6 +132,14 @@ public class Import extends HttpServlet {
                     numOfFields = 4;
                 } else if (table.equalsIgnoreCase("address")) {
                     numOfFields = 6;
+                } else if (table.equalsIgnoreCase("team join")) {
+                    numOfFields = 7;
+                } else if (table.equalsIgnoreCase("membership")) {
+                    numOfFields = 14;
+                } else if (table.equalsIgnoreCase("language")) {
+                    numOfFields = 6;
+                } else if (table.equalsIgnoreCase("skill")) {
+                    numOfFields = 5;
                 } else {
                     json.addProperty("message", "Import failed due invalid table choice");
                     out.println(gson.toJson(json));
@@ -139,7 +156,7 @@ public class Import extends HttpServlet {
                     return;
                 }
 
-                if (contactList.isEmpty()) {
+                if (dataList.isEmpty()) {
                     json.addProperty("message", "Import failed due to wrong file or data format");
                     out.println(gson.toJson(json));
                     return;
@@ -154,6 +171,14 @@ public class Import extends HttpServlet {
                         processEmail();
                     } else if (table.equalsIgnoreCase("address")) {
                         processAddress();
+                    } else if (table.equalsIgnoreCase("team join")) {
+                        processTeamJoin();
+                    } else if (table.equalsIgnoreCase("membership")) {
+                        processMembership();
+                    } else if (table.equalsIgnoreCase("language")) {
+                        processLanguage();
+                    } else if (table.equalsIgnoreCase("skill")) {
+                        processSkill();
                     } else {
                         json.addProperty("message", "Import failed due invalid table choice");
                         out.println(gson.toJson(json));
@@ -167,7 +192,7 @@ public class Import extends HttpServlet {
                 }
 
                 JsonArray records = new JsonArray();
-
+                int counter = 0;
                 Iterator<Integer> iterLine = logMsg.keySet().iterator();
                 while (iterLine.hasNext()) {
                     int num = iterLine.next();
@@ -179,6 +204,7 @@ public class Import extends HttpServlet {
 
                     if (temp.isEmpty()) {
                         temp.add("Successfully added");
+                        counter++;
                     }
 
                     JsonArray errorArray = new JsonArray();
@@ -192,6 +218,8 @@ public class Import extends HttpServlet {
 
                 }
 
+                AuditLogDAO.insertAuditLog(username, "IMPORT DATA INTO" + table.toUpperCase(), counter + " number of records added");
+
                 json.add("result", records);
                 out.println(gson.toJson(json));
                 return;
@@ -204,37 +232,37 @@ public class Import extends HttpServlet {
     private void processContact() throws Exception {
 
         int lineNum = 0;
-        for (int i = 0; i < contactList.size(); i++) {
+        for (int i = 0; i < dataList.size(); i++) {
 
             ArrayList<String> msg = new ArrayList<>();
-            String name = processField(msg, contactList.get(i), "Name", 50);
+            String name = processField(msg, dataList.get(i), "Name", 50);
 
             if (name == null) {
                 msg.add("Name cannot be empty");
             }
 
-            String altName = processField(msg, contactList.get(++i), "Alt Name", 50);
-            String contactType = processField(msg, contactList.get(++i), "Contact Type", 50);
+            String altName = processField(msg, dataList.get(++i), "Alt Name", 50);
+            String contactType = processField(msg, dataList.get(++i), "Contact Type", 50);
 
             ContactTypeListDAO listDAO = new ContactTypeListDAO();
             if (!listDAO.retrieveAllContactTypeList().contains(contactType)) {
                 msg.add("Contact Type not referencing to Contact Type List");
             }
 
-            String otherExplanation = processField(msg, contactList.get(++i), "Explain if other", 200);
-            String profession = processField(msg, contactList.get(++i), "Profession", 200);
-            String jobTitle = processField(msg, contactList.get(++i), "Job Title", 50);
-            String nric = processField(msg, contactList.get(++i), "NRIC/FIN", 9);
+            String otherExplanation = processField(msg, dataList.get(++i), "Explain if other", 200);
+            String profession = processField(msg, dataList.get(++i), "Profession", 200);
+            String jobTitle = processField(msg, dataList.get(++i), "Job Title", 50);
+            String nric = processField(msg, dataList.get(++i), "NRIC/FIN", 9);
 
-            String gender = processField(msg, contactList.get(++i), "Gender", 1);
-            if (!(gender.equals("M") || gender.equals("F") || gender.equals("O"))) {
+            String gender = processField(msg, dataList.get(++i), "Gender", 1);
+            if (gender != null && !(gender.equals("M") || gender.equals("F") || gender.equals("O"))) {
                 msg.add("Invalid Gender Format");
             }
 
-            String nationality = processField(msg, contactList.get(++i), "Nationality", 20);
-            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+            String nationality = processField(msg, dataList.get(++i), "Nationality", 20);
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
 
-            String date = contactList.get(++i);
+            String date = dataList.get(++i);
             SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
             format.setLenient(false);
             Date dob = null;
@@ -247,7 +275,7 @@ public class Import extends HttpServlet {
             }
 
             boolean notification = true;
-            String notify = contactList.get(++i);
+            String notify = dataList.get(++i);
 
             if (notify.equalsIgnoreCase("false")) {
                 notification = false;
@@ -269,7 +297,6 @@ public class Import extends HttpServlet {
                         gender, nationality, dob, remarks, notification, createdBy);
 
                 if (ContactDAO.addContact(c) > 0) {
-                    msg.add("Successfully added");
                 } else {
                     msg.add("Error inserting to database");
                 }
@@ -283,11 +310,11 @@ public class Import extends HttpServlet {
     private void processAddress() throws Exception {
 
         int lineNum = 0;
-        for (int i = 0; i < contactList.size(); i++) {
+        for (int i = 0; i < dataList.size(); i++) {
 
             ArrayList<String> msg = new ArrayList<>();
 
-            String contactId = processField(msg, contactList.get(i), "Contact Id", 11);
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
 
             Contact c = null;
             try {
@@ -296,22 +323,22 @@ public class Import extends HttpServlet {
                 if (c == null) {
                     msg.add("Invalid contact id reference");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | NullPointerException e) {
                 msg.add("Invalid contact id reference");
             }
 
-            String address = processField(msg, contactList.get(++i), "Address", 1000);
+            String address = processField(msg, dataList.get(++i), "Address", 1000);
 
             if (address == null) {
                 msg.add("Name cannot be empty");
             }
 
-            String country = processField(msg, contactList.get(++i), "Country", 50);
-            String zipcode = processField(msg, contactList.get(++i), "Zipcode", 20);
+            String country = processField(msg, dataList.get(++i), "Country", 50);
+            String zipcode = processField(msg, dataList.get(++i), "Zipcode", 20);
 
-            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
 
-            String date = contactList.get(++i);
+            String date = dataList.get(++i);
             SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
             format.setLenient(false);
             Date dateObsolete = null;
@@ -333,7 +360,6 @@ public class Import extends HttpServlet {
                         createdBy, remarks, dateObsolete);
 
                 if (AddressDAO.addAddress(newAddress)) {
-                    msg.add("Successfully added");
                 } else {
                     msg.add("Error inserting into database");
                 }
@@ -347,11 +373,11 @@ public class Import extends HttpServlet {
     private void processEmail() throws Exception {
 
         int lineNum = 0;
-        for (int i = 0; i < contactList.size(); i++) {
+        for (int i = 0; i < dataList.size(); i++) {
 
             ArrayList<String> msg = new ArrayList<>();
 
-            String contactId = processField(msg, contactList.get(i), "Contact Id", 11);
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
 
             Contact c = null;
             try {
@@ -360,23 +386,23 @@ public class Import extends HttpServlet {
                 if (c == null) {
                     msg.add("Invalid contact id reference");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | NullPointerException e) {
                 msg.add("Invalid contact id reference");
             }
 
-            String email = processField(msg, contactList.get(++i), "Email", 50);
+            String email = processField(msg, dataList.get(++i), "Email", 50);
 
             if (email == null) {
                 msg.add("Email cannot be empty");
-            }
-
-            if(!Validator.validEmail(email)){
+            } else if (!Validator.validEmail(email)) {
                 msg.add("Invalid email format");
+            } else if (EmailDAO.emailExist(email)) {
+                msg.add("Email already exist");
             }
-            
-            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
 
-            String date = contactList.get(++i);
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            String date = dataList.get(++i);
             SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
             format.setLenient(false);
             Date dateObsolete = null;
@@ -397,7 +423,6 @@ public class Import extends HttpServlet {
                 Email newEmail = new Email(c, email, createdBy, remarks, dateObsolete, false);
 
                 if (EmailDAO.addEmail(newEmail, null)) {
-                    msg.add("Successfully added");
                 } else {
                     msg.add("Error inserting into database");
                 }
@@ -407,15 +432,15 @@ public class Import extends HttpServlet {
 
         }
     }
-    
+
     private void processPhone() throws Exception {
 
         int lineNum = 0;
-        for (int i = 0; i < contactList.size(); i++) {
+        for (int i = 0; i < dataList.size(); i++) {
 
             ArrayList<String> msg = new ArrayList<>();
 
-            String contactId = processField(msg, contactList.get(i), "Contact Id", 11);
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
 
             Contact c = null;
             try {
@@ -424,28 +449,32 @@ public class Import extends HttpServlet {
                 if (c == null) {
                     msg.add("Invalid contact id reference");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | NullPointerException e) {
                 msg.add("Invalid contact id reference");
             }
 
-            String countrycode = processField(msg, contactList.get(++i), "Country Code", 20);
+            String countrycode = processField(msg, dataList.get(++i), "Country Code", 20);
 
             if (countrycode == null) {
                 msg.add("Country code cannot be empty");
             }
-            
+
             int countryCode = 0;
-            try{
+            try {
                 countryCode = Integer.parseInt(countrycode);
-            }catch(NumberFormatException e){
+            } catch (NumberFormatException e) {
                 msg.add("Invalid Country code");
             }
-            
-            String phoneNumber = processField(msg, contactList.get(++i), "Phone Number", 20);
-            
-            String remarks = processField(msg, contactList.get(++i), "Remarks", 1000);
 
-            String date = contactList.get(++i);
+            String phoneNumber = processField(msg, dataList.get(++i), "Phone Number", 20);
+
+            if (c != null && PhoneDAO.phoneExist(c.getContactId(), countryCode, phoneNumber)) {
+                msg.add("Phone number already exists");
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            String date = dataList.get(++i);
             SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
             format.setLenient(false);
             Date dateObsolete = null;
@@ -466,7 +495,7 @@ public class Import extends HttpServlet {
                 Phone newPhone = new Phone(c, countryCode, phoneNumber, createdBy, remarks, dateObsolete);
 
                 if (PhoneDAO.addPhone(newPhone)) {
-                    msg.add("Successfully added");
+
                 } else {
                     msg.add("Error inserting into database");
                 }
@@ -476,11 +505,350 @@ public class Import extends HttpServlet {
 
         }
     }
-    
-    
-    
-    
 
+    private void processTeamJoin() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String teamName = processField(msg, dataList.get(++i), "Team Name", 50);
+            TeamAffiliationListDAO teamListDAO = new TeamAffiliationListDAO();
+
+            if (!teamListDAO.retrieveTeamAffiliationList().contains(teamName)) {
+                msg.add("Team Name not referencing to Team Afflialiation List");
+            } else if (c != null && TeamJoinDAO.teamJoinExist(c.getContactId(), teamName)) {
+                msg.add("Team preference already exists");
+            }
+
+            String explainIfOther = processField(msg, dataList.get(++i), "Explain If Other", 200);
+            String subTeam = processField(msg, dataList.get(++i), "Sub Team", 50);
+
+            String permission = processField(msg, dataList.get(++i), "Permission", 50);
+            PermissionLevelListDAO permissionList = new PermissionLevelListDAO();
+            if (!permissionList.retrievePermissionLevelList().contains(permission)) {
+                msg.add("Permission not referencing to Permission List");
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            String date = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateObsolete = null;
+            if (!date.isEmpty()) {
+                try {
+                    dateObsolete = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date obsolete format");
+                }
+            }
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                TeamJoin tj = new TeamJoin(c, teamName, createdBy, explainIfOther,
+                        subTeam, dateObsolete, remarks, permission);
+
+                if (TeamJoinDAO.addTeamJoin(tj)) {
+                    if (permission != null) {
+                        cDAO.changeNovicePermission(c, false);
+                    }
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processMembership() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String membershipClassName = processField(msg, dataList.get(++i), "Membership Class Name", 50);
+            MembershipClassListDAO membershipClassListDAO = new MembershipClassListDAO();
+
+            if (membershipClassName == null) {
+                msg.add("Membership Class Name cannot be empty");
+            } else if (!membershipClassListDAO.retrieveMembershipClassList().contains(membershipClassName)) {
+                msg.add("Membership Class Name not referencing to Membership Class Name List");
+            }
+
+            String explainIfOtherClass = processField(msg, dataList.get(++i), "Explain If Other Class", 200);
+
+            String startMembershipDate = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date startMembership = null;
+            if (!startMembershipDate.isEmpty()) {
+                try {
+                    startMembership = format.parse(startMembershipDate);
+                } catch (ParseException e) {
+                    msg.add("Invalid membership start date format");
+                }
+            } else {
+                msg.add("Membership start date cannot be empty");
+            }
+
+            String endMembershipDate = dataList.get(++i);
+            //SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            //format.setLenient(false);
+            Date endMembership = null;
+            if (!endMembershipDate.isEmpty()) {
+                try {
+                    endMembership = format.parse(endMembershipDate);
+                } catch (ParseException e) {
+                    msg.add("Invalid membership end date format");
+                }
+            } else {
+                msg.add("Membership end date cannot be empty");
+            }
+
+            double subAmt = 0;
+            String subcriptionAmt = dataList.get(++i);
+            if (!subcriptionAmt.isEmpty()) {
+                try {
+                    subAmt = Validator.truncateDecimal(Double.parseDouble(subcriptionAmt), 2).doubleValue();
+                } catch (Exception e) {
+                    msg.add("Invalid subscription amount format");
+                }
+            } else {
+                msg.add("Subscription amount cannot be empty");
+            }
+
+            String paymentMode = processField(msg, dataList.get(++i), "Payment Mode", 50);
+            PaymentModeListDAO paymentModeListDAO = new PaymentModeListDAO();
+            if (paymentMode != null && !paymentModeListDAO.retrievePaymentModeList().contains(paymentMode)) {
+                msg.add("Payment Mode Name not referencing to Payment Mode Name List");
+            }
+
+            String explainIfOtherPayment = processField(msg, dataList.get(++i), "Explain If Other Payment", 200);
+
+            String extTransactionRef = processField(msg, dataList.get(++i), "Ext Transaction Ref", 50);
+
+            String receiptNumber = processField(msg, dataList.get(++i), "Receipt Number", 50);
+
+            String receiptModeName = processField(msg, dataList.get(++i), "Receipt Mode Name", 50);
+            ModeOfSendingReceiptListDAO receiptModeDAO = new ModeOfSendingReceiptListDAO();
+            if (receiptModeName != null && !receiptModeDAO.retrieveMOSRList().contains(receiptModeName)) {
+                msg.add("Receipt Mode Name not referecning to Receipt Mode Name List");
+            }
+
+            String receiptDateReceived = dataList.get(++i);
+            Date receiptDate = null;
+            if (!receiptDateReceived.isEmpty()) {
+                try {
+                    receiptDate = format.parse(receiptDateReceived);
+                } catch (ParseException e) {
+                    msg.add("Invalid receipt date format");
+                }
+            }
+
+            String explainIfOtherReceipt = processField(msg, dataList.get(++i), "Explain If Other Receipt", 200);
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Membership m = new Membership(c, startMembership, endMembership, receiptDate, subAmt, extTransactionRef,
+                        receiptNumber, remarks, receiptModeName, explainIfOtherReceipt, membershipClassName, explainIfOtherClass, paymentMode, explainIfOtherPayment,
+                        createdBy);
+
+                if (MembershipDAO.addMembership(m)) {
+
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processLanguage() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String language = processField(msg, dataList.get(++i), "Language", 50);
+            LanguageListDAO languageListDAO = new LanguageListDAO();
+            if (!languageListDAO.retrieveLanguageList().contains(language)) {
+                msg.add("Language not referencing to Language List");
+            } else if (c != null && LanguageDAO.languageExist(c.getContactId(), language)) {
+                msg.add("Language already exists");
+            }
+
+            //ArrayList<String> proficiency = new ArrayList<String>();
+            //proficiency.add("speak only");
+            //proficiency.add("speak and write");
+            String speakWrite = processField(msg, dataList.get(++i), "Speak/Write", 50);
+            //if (!proficiency.contains(speakWrite)) {
+            //    msg.add("Speak/Write not referencing proficiency list");
+            //}
+
+            String explainIfOther = processField(msg, dataList.get(++i), "Explain If Other", 200);
+
+            String date = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateObsolete = null;
+            if (!date.isEmpty()) {
+                try {
+                    dateObsolete = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date obsolete format");
+                }
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                LanguageAssignment la = new LanguageAssignment(c, language, explainIfOther,
+                        dateObsolete, speakWrite, remarks, createdBy);
+
+                if (LanguageDAO.addLanguage(la)) {
+
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processSkill() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String skillName = processField(msg, dataList.get(++i), "Skill Name", 50);
+            LSAClassListDAO skillListDAO = new LSAClassListDAO();
+            if (!skillListDAO.retrieveLSAClassList().contains(skillName)) {
+                msg.add("Skill Name not referencing to LSA Class List");
+            } else if (c != null && SkillDAO.skillExist(c.getContactId(), skillName)) {
+                msg.add("Skill Name already exists");
+            }
+
+            String explainIfOther = processField(msg, dataList.get(++i), "Explain If Other", 200);
+
+            String date = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateObsolete = null;
+            if (!date.isEmpty()) {
+                try {
+                    dateObsolete = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid date obsolete format");
+                }
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                SkillAssignment sa = new SkillAssignment(c, skillName, explainIfOther,
+                        dateObsolete, remarks, createdBy);
+
+                if (SkillDAO.addSkill(sa)) {
+
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    //Methods to process fields | csv | excel 
     private String processField(ArrayList temp, String value, String fieldName, int max) {
         if (value.isEmpty()) {
             return null;
@@ -501,10 +869,10 @@ public class Import extends HttpServlet {
         //COL = columns.split(",");
         sc.useDelimiter(",|\r\n");
         sc.nextLine();
-        contactList = new ArrayList<String>();
+        dataList = new ArrayList<String>();
         while (sc.hasNext()) {
             String content = sc.next().trim();
-            contactList.add(content);
+            dataList.add(content);
             LOGGER.log(Level.INFO, content);
         }
     }
@@ -526,7 +894,7 @@ public class Import extends HttpServlet {
         Iterator rowIter = sheet.rowIterator();
 
         DataFormatter df = new DataFormatter();
-        contactList = new ArrayList<>();
+        dataList = new ArrayList<>();
 
         rowIter.next(); //skip the first blank line
         /*
@@ -560,22 +928,24 @@ public class Import extends HttpServlet {
          */
         while (rowIter.hasNext()) {
             Row row = (Row) rowIter.next();
-            Iterator cellIter = row.cellIterator();
+            //Iterator cellIter = row.cellIterator();
             int counter = 0;
             //if (cellIter.hasNext() ) {
             //String content = "";
-            while (cellIter.hasNext() && counter <= numOfFields) {
-                String tempContent = df.formatCellValue((Cell) cellIter.next());
+            while (counter < numOfFields) {
+
+                String tempContent = df.formatCellValue(row.getCell(counter));
                 //content += tempContent;
                 //content += ",";
-                contactList.add(tempContent);
+                dataList.add(tempContent);
+
                 counter++;
             }
             /*
                 if (!content.equals("")) {
                     content = content.substring(0, content.length() - 1);
                     LOGGER.log(Level.INFO, "ROW CONTENT: " + content);
-                    contactList.add(content);
+                    dataList.add(content);
                 }
              */
 

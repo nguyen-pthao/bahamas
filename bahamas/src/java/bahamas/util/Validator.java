@@ -141,7 +141,7 @@ public class Validator {
         return 0;
     }
 
-    private static BigDecimal truncateDecimal(double x, int numberofDecimals) throws Exception {
+    public static BigDecimal truncateDecimal(double x, int numberofDecimals) throws Exception {
         if (x > 0) {
             return new BigDecimal(String.valueOf(x)).setScale(numberofDecimals, BigDecimal.ROUND_FLOOR);
         } else {
