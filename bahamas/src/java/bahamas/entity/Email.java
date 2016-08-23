@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Darryl Mok
  */
 public class Email {
-    
+    private int contactId;
     private Contact contact;
     private Date dateCreated = new java.util.Date();
     private String email;
@@ -46,6 +46,25 @@ public class Email {
         this.dateCreated = dateCreated;
         this.verified = verified;
     }
+    
+    public Email(int contactId, String email, String createdBy, String remarks, Date dateObsolete, Date dateCreated, boolean verified) {
+        this.contactId = contactId;
+        this.email = email;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
+        this.dateCreated = dateCreated;
+        this.verified = verified;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
+    
     
     public Contact getContact() {
         return contact;

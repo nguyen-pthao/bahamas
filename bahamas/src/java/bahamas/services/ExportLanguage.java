@@ -5,8 +5,8 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AddressDAO;
-import bahamas.entity.Address;
+import bahamas.dao.LanguageDAO;
+import bahamas.entity.LanguageAssignment;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(urlPatterns = {"/export.address"})
-public class ExportAddress extends HttpServlet {
+@WebServlet(name = "ExportLanguage", urlPatterns = {"/export.language"})
+public class ExportLanguage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -92,56 +92,56 @@ public class ExportAddress extends HttpServlet {
                     return;
                 }
                 
-                AddressDAO addressDAO = new AddressDAO();
-                ArrayList<Address> aList = addressDAO.retrieveAllAddress();
+                LanguageDAO LanguageDAO = new LanguageDAO();
+                ArrayList<LanguageAssignment> aList = LanguageDAO.retrieveAllLanguage();
 
                 SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
                 SimpleDateFormat sdft = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                JsonArray addressArray = new JsonArray();
+                JsonArray languageArray = new JsonArray();
 
                 //start
                 if (aList != null && !aList.isEmpty()) {
 
                     for (int i = 0; i < aList.size(); i++) {
-                        JsonObject jsonAddressObj = new JsonObject();
-                        Address address = aList.get(i);
+                        JsonObject jsonLanguageObj = new JsonObject();
+                        LanguageAssignment language = aList.get(i);
 
-                        if (address.getContactId() > 0) {
-                            jsonAddressObj.addProperty("cid", address.getContactId());
+                        if (language.getContactId() > 0) {
+                            jsonLanguageObj.addProperty("cid", language.getContactId());
                         } else {
-                            jsonAddressObj.addProperty("cid", "");
-                        }
-                        if (address.getCountry() != null) {
-                            jsonAddressObj.addProperty("country", address.getCountry());
-                        } else {
-                            jsonAddressObj.addProperty("country", "");
+                            jsonLanguageObj.addProperty("cid", "");
                         }
 
-                        jsonAddressObj.addProperty("address", address.getAddress());
+                        jsonLanguageObj.addProperty("language", language.getLanguage());
 
-                        if (address.getZipcode() != null) {
-                            jsonAddressObj.addProperty("zipcode", address.getZipcode());
+                        if (language.getExplainIfOther() != null) {
+                            jsonLanguageObj.addProperty("explain_if_other", language.getExplainIfOther());
                         } else {
-                            jsonAddressObj.addProperty("zipcode", "");
+                            jsonLanguageObj.addProperty("explain_if_other", "");
+                        }
+                        if (language.getProficiency() != null) {
+                            jsonLanguageObj.addProperty("proficiency", language.getProficiency());
+                        } else {
+                            jsonLanguageObj.addProperty("proficiency", "");
                         }
 
-                        if (address.getRemarks() != null) {
-                            jsonAddressObj.addProperty("remarks", address.getRemarks());
+                        if (language.getRemarks() != null) {
+                            jsonLanguageObj.addProperty("remarks", language.getRemarks());
                         } else {
-                            jsonAddressObj.addProperty("remarks", "");
+                            jsonLanguageObj.addProperty("remarks", "");
                         }
-                        if (address.getDateObsolete() != null) {
-                            jsonAddressObj.addProperty("date_obsolete", sdf.format(address.getDateObsolete()));
+                        if (language.getDateObsolete() != null) {
+                            jsonLanguageObj.addProperty("date_obsolete", sdf.format(language.getDateObsolete()));
                         } else {
-                            jsonAddressObj.addProperty("date_obsolete", "");
+                            jsonLanguageObj.addProperty("date_obsolete", "");
                         }
-                        jsonAddressObj.addProperty("created_by", address.getCreatedBy());
-                        jsonAddressObj.addProperty("date_created", sdft.format(address.getDateCreated()));
-                        addressArray.add(jsonAddressObj);
+                        jsonLanguageObj.addProperty("created_by", language.getCreatedBy());
+                        jsonLanguageObj.addProperty("date_created", sdft.format(language.getDateCreated()));
+                        languageArray.add(jsonLanguageObj);
 
                     }
                     json.addProperty("message", "success");
-                    json.add("addresslist", addressArray);
+                    json.add("languagelist", languageArray);
                 } else {
 
                     json.addProperty("message", "list empty");

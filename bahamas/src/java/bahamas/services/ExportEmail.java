@@ -5,8 +5,8 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AddressDAO;
-import bahamas.entity.Address;
+import bahamas.dao.EmailDAO;
+import bahamas.entity.Email;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(urlPatterns = {"/export.address"})
-public class ExportAddress extends HttpServlet {
+@WebServlet(urlPatterns = {"/export.email"})
+public class ExportEmail extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -92,56 +92,45 @@ public class ExportAddress extends HttpServlet {
                     return;
                 }
                 
-                AddressDAO addressDAO = new AddressDAO();
-                ArrayList<Address> aList = addressDAO.retrieveAllAddress();
+                EmailDAO emailDAO = new EmailDAO();
+                ArrayList<Email> aList = emailDAO.retrieveAllEmail();
 
                 SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
                 SimpleDateFormat sdft = new java.text.SimpleDateFormat("dd-MMM-yyyy HH:mm:ss");
-                JsonArray addressArray = new JsonArray();
+                JsonArray emailArray = new JsonArray();
 
                 //start
                 if (aList != null && !aList.isEmpty()) {
 
                     for (int i = 0; i < aList.size(); i++) {
-                        JsonObject jsonAddressObj = new JsonObject();
-                        Address address = aList.get(i);
+                        JsonObject jsonEmailObj = new JsonObject();
+                        Email email = aList.get(i);
 
-                        if (address.getContactId() > 0) {
-                            jsonAddressObj.addProperty("cid", address.getContactId());
+                        if (email.getContactId() > 0) {
+                            jsonEmailObj.addProperty("cid", email.getContactId());
                         } else {
-                            jsonAddressObj.addProperty("cid", "");
-                        }
-                        if (address.getCountry() != null) {
-                            jsonAddressObj.addProperty("country", address.getCountry());
-                        } else {
-                            jsonAddressObj.addProperty("country", "");
+                            jsonEmailObj.addProperty("cid", "");
                         }
 
-                        jsonAddressObj.addProperty("address", address.getAddress());
+                        jsonEmailObj.addProperty("email", email.getEmail());
 
-                        if (address.getZipcode() != null) {
-                            jsonAddressObj.addProperty("zipcode", address.getZipcode());
+                        if (email.getRemarks() != null) {
+                            jsonEmailObj.addProperty("remarks", email.getRemarks());
                         } else {
-                            jsonAddressObj.addProperty("zipcode", "");
+                            jsonEmailObj.addProperty("remarks", "");
                         }
-
-                        if (address.getRemarks() != null) {
-                            jsonAddressObj.addProperty("remarks", address.getRemarks());
+                        if (email.getDateObsolete() != null) {
+                            jsonEmailObj.addProperty("date_obsolete", sdf.format(email.getDateObsolete()));
                         } else {
-                            jsonAddressObj.addProperty("remarks", "");
+                            jsonEmailObj.addProperty("date_obsolete", "");
                         }
-                        if (address.getDateObsolete() != null) {
-                            jsonAddressObj.addProperty("date_obsolete", sdf.format(address.getDateObsolete()));
-                        } else {
-                            jsonAddressObj.addProperty("date_obsolete", "");
-                        }
-                        jsonAddressObj.addProperty("created_by", address.getCreatedBy());
-                        jsonAddressObj.addProperty("date_created", sdft.format(address.getDateCreated()));
-                        addressArray.add(jsonAddressObj);
+                        jsonEmailObj.addProperty("created_by", email.getCreatedBy());
+                        jsonEmailObj.addProperty("date_created", sdft.format(email.getDateCreated()));
+                        emailArray.add(jsonEmailObj);
 
                     }
                     json.addProperty("message", "success");
-                    json.add("addresslist", addressArray);
+                    json.add("emaillist", emailArray);
                 } else {
 
                     json.addProperty("message", "list empty");

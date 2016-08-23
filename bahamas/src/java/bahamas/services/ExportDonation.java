@@ -195,7 +195,7 @@ public class ExportDonation extends HttpServlet {
                     
                 }
                 json.addProperty("message", "success");
-                    json.add("donation", donationArray);
+                    json.add("donationlist", donationArray);
                 } else {
 
                     json.addProperty("message", "list empty");

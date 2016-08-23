@@ -196,4 +196,40 @@ public class LanguageDAO {
         return exist;
     }
 
+    public static ArrayList<LanguageAssignment> retrieveAllLanguage() {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<LanguageAssignment> languageList;
+        languageList = new ArrayList<LanguageAssignment>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, LANGUAGE_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
+                    + "REMARKS, CREATED_BY, DATE_CREATED, PROFICIENCY FROM LANGUAGE_ASSIGNMENT ");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt(1);
+                String languageName = rs.getString(2);
+                String explainIfOther = rs.getString(3);
+                Date dateObsolete = rs.getDate(4);
+                String remarks = rs.getString(5);
+                String createdBy = rs.getString(6);
+                Date dateCreated = rs.getTimestamp(7);
+                String proficiency = rs.getString(8);
+
+                LanguageAssignment languageAssignment = new LanguageAssignment(cid, languageName, explainIfOther, dateObsolete, proficiency, remarks, createdBy);
+                languageList.add(languageAssignment);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve LANGUAGE_ASSIGNNMENT from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return languageList;
+    }
 }

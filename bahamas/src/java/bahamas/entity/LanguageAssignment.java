@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class LanguageAssignment {
     
+    private int contactId;
     private Contact contact;
     private String language;
     private Date dateCreated = new java.util.Date();
@@ -32,6 +33,17 @@ public class LanguageAssignment {
         this.remarks = remarks;
         this.createdBy = createdBy;
     }
+    
+    public LanguageAssignment(int contactId, String language, String explainIfOther, Date dateObsolete, String proficiency, String remarks, String createdBy) {
+        this.contactId = contactId;
+        this.language = language;
+        this.dateCreated = dateCreated;
+        this.explainIfOther = explainIfOther;
+        this.dateObsolete = dateObsolete;
+        this.proficiency = proficiency;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+    }
 
     public LanguageAssignment(String language, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated,String proficiency) {
         this.language = language;
@@ -41,6 +53,14 @@ public class LanguageAssignment {
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
         this.proficiency = proficiency;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
     
     

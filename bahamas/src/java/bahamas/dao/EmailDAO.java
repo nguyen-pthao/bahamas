@@ -297,5 +297,49 @@ public class EmailDAO {
         }
         return exist;
     }
+    
+    public static ArrayList<Email> retrieveAllEmail() {
+        ArrayList<Email> emailList = new ArrayList<Email>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, DATE_CREATED, CREATED_BY, EMAIL, REMARKS, DATE_OBSOLETE, VERIFIED FROM EMAIL");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int contactId = rs.getInt(1);
+                String dateStr = rs.getString(2);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(3);
+                String email = rs.getString(4);
+                String remarks = rs.getString(5);
+                String dateobs = rs.getString(6);
+                Date dateObsolete = null;
+                if (dateobs != null && !dateobs.isEmpty()) {
+                    dateObsolete = date.parse(dateobs);
+                }
+                boolean verified = rs.getBoolean(7);
+                
+                Email e = new Email(contactId ,email, createdBy, remarks, dateObsolete, dateCreated, verified);
+
+                emailList.add(e);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return emailList;
+
+    }
 
 }
