@@ -178,8 +178,8 @@
                                     </li>
                                     <li><a ui-sref="admin.viewContacts"><i class="fa fa-users"></i><span> View All Contacts</span></a></li>
                                     <li><a ui-sref="admin.addContact"><i class="fa fa-user-plus"></i><span> Create New Contact</span></a></li>
-                                    <li><a href="" data-toggle="modal" data-target="#importContacts"><i class="fa fa-upload"></i><span> Import Contacts</span></a></li>
-                                    <li><a ui-sref="admin.exportContacts"><i class="fa fa-download"></i><span> Export contacts</span></a></li>
+<!--                                    <li><a href="" data-toggle="modal" data-target="#importContacts"><i class="fa fa-upload"></i><span> Import Contacts</span></a></li>
+                                    <li><a ui-sref="admin.exportContacts"><i class="fa fa-download"></i><span> Export contacts</span></a></li>-->
                                 </ul>
                             </li>
                             <!-- Event information -->
@@ -198,8 +198,18 @@
                             <!-- Report information -->
                             <li class="treeview">
                                 <a href="">
-                                    <i class="fa fa-file-o"></i> <span>Report</span>
+                                    <i class="fa fa-file-text"></i> <span>Report</span>
                                 </a>
+                            </li>
+                            <!-- Import/Export -->
+                            <li class="treeview">
+                                <a href="">
+                                    <i class="fa fa-files-o"></i> <span>Import / Export</span> <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu">
+                                    <li><a ui-sref="admin.import"><i class="fa fa-download"></i><span> Import Files </span></a></li>
+                                    <li><a ui-sref="admin.export"><i class="fa fa-upload"></i><span> Export Files </span></a></li>
+                                </ul>
                             </li>
                             <!-- User Management -->
                             <li class="treeview">
