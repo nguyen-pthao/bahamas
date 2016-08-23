@@ -79,7 +79,8 @@ public class AddEventRoles extends HttpServlet {
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 JsonArray eventRolesJsonArray = jobject.get("roleArray").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
-                
+                JsonArray eventIdJsonArray = jobject.get("event_id_list").getAsJsonArray();
+                               
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -118,14 +119,17 @@ public class AddEventRoles extends HttpServlet {
                                 out.println(gson.toJson(json));
                                 return;
                             }
-                            
-                            if(EventRoleAssignmentDAO.addRoles(eventRolesJsonArray, Integer.parseInt(eventId))){
-                                AuditLogDAO.insertAuditLog(username, "ADD EVENT ROLES", "Add event roles under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
-                                json.addProperty("message", "success");
-                                out.println(gson.toJson(json));
-                                return;
+                            for(int i = 0; i < eventIdJsonArray.size(); i++){
+                                String eventIdTemp = eventIdJsonArray.get(i).getAsString();
+                                if(EventRoleAssignmentDAO.addRoles(eventRolesJsonArray, Integer.parseInt(eventIdTemp))){
+                                    AuditLogDAO.insertAuditLog(username, "ADD EVENT ROLES", "Add event roles under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventIdTemp);
+                                } else {
+                                    json.addProperty("message", "Fail retrieve event");
+                                    out.println(gson.toJson(json));
+                                    return;
+                                }
                             }
-                            json.addProperty("message", "Fail retrieve event");
+                            json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         }else{
                             json.addProperty("message", "Fail retrieve event");

@@ -84,6 +84,7 @@ public class AddTeamAffiliation extends HttpServlet {
                 String explainIfOthers = jobject.get("explain_if_others").getAsString();
                 JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
+                JsonArray eventIdJsonArray = jobject.get("event_id_list").getAsJsonArray();
                 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -118,25 +119,28 @@ public class AddTeamAffiliation extends HttpServlet {
                                     teamName.add(teamTemp);
                                 }
                             }
-                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,teamName,username);
-                           
-                            if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation)){
-                                AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
-                                json.addProperty("message", "success");
-                                out.println(gson.toJson(json));
-                                return;
+                            
+                            for(int i = 0; i < eventIdJsonArray.size(); i++){
+                                String eventIdTemp = eventIdJsonArray.get(i).getAsString();
+                                EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventIdTemp),explainIfOthers,teamName,username);
+                                
+                                if(EventAffiliationDAO.addTeamAffiliation(eventAffiliation)){
+                                    AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventIdTemp);
+                                }else{
+                                    json.addProperty("message", "Fail retrieve event");
+                                    out.println(gson.toJson(json));
+                                    return;
+                                }
                             }
-                            json.addProperty("message", "Fail retrieve event");
+                            json.addProperty("message", "success");
                             out.println(gson.toJson(json));
+
                         }else{
                             json.addProperty("message", "Fail retrieve event");
                             out.println(gson.toJson(json));
                         }
                     }
-                    
                 }
-                
-                
             }
         }
     }
