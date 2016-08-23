@@ -221,4 +221,59 @@ public class DonationDAO {
         }
         return false;
     }
+    
+    public static ArrayList<Donation> retrieveAllDonation() {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Donation> donationList;
+        donationList = new ArrayList<Donation>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, DONATION_ID, DATE_CREATED, CREATED_BY, DATE_RECEIVED, "
+                    + "DONATION_AMOUNT, PAYMENT_MODE_NAME, EXPLAIN_IF_OTHER_PAYMENT, EXT_TRANSACTION_REF, "
+                    + "RECEIPT_MODE_NAME, RECEIPT_NUMBER, RECEIPT_DATE, EXPLAIN_IF_OTHER_RECEIPT, "
+                    + "DONOR_INSTRUCTIONS, ALLOCATION_1, SUBAMOUNT_1, ALLOCATION_2, SUBAMOUNT_2, "
+                    + "ALLOCATION_3, SUBAMOUNT_3, ASSOCIATED_OCCASION, REMARKS FROM DONATION ");
+
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int contactId = rs.getInt(1);
+                int donationId = rs.getInt(2);
+                Date dateCreated = rs.getTimestamp(3);
+                String createdBy = rs.getString(4);
+                Date dateReceived = rs.getDate(5);
+                double donationAmount = rs.getDouble(6);
+                String paymentMode = rs.getString(7);
+                String explainIfOtherPayment = rs.getString(8);
+                String extTransactionRef = rs.getString(9);
+                String receiptMode = rs.getString(10);
+                String receiptNumber = rs.getString(11);
+                Date receiptDate = rs.getDate(12);
+                String explainIfOtherReceipt = rs.getString(13);
+                String donorInstructions = rs.getString(14);
+                String allocation1 = rs.getString(15);
+                double subAmount1 = rs.getDouble(16);
+                String allocation2 = rs.getString(17);
+                double subAmount2 = rs.getDouble(18);
+                String allocation3 = rs.getString(19);
+                double subAmount3 = rs.getDouble(20);
+                String associatedOccasion = rs.getString(21);
+                String remarks = rs.getString(22);
+
+                Donation donation = new Donation(contactId, donationId, dateCreated, createdBy, dateReceived, donationAmount, paymentMode, explainIfOtherPayment, extTransactionRef, receiptMode, receiptNumber, receiptDate, explainIfOtherReceipt, donorInstructions, allocation1, subAmount1, allocation2, subAmount2, allocation3, subAmount3, associatedOccasion, remarks);
+                donationList.add(donation);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve DONATION from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return donationList;
+    }
 }

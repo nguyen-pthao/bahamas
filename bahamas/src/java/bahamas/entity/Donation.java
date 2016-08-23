@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class Donation {
 
+    private int contactId;
     private int donationId;
     private Contact contact;
     private Date dateCreated = new java.util.Date();
@@ -89,6 +90,38 @@ public class Donation {
         this.subAmount3 = subAmount3;
         this.associatedOccasion = associatedOccasion;
         this.remarks = remarks;
+    }
+    public Donation(int contactId, int donationId, Date dateCreated, String createdBy, Date dateReceived, double donationAmount, String paymentMode, String explainIfOtherPayment, String extTransactionRef, String receiptMode, String receiptNumber, Date receiptDate, String explainIfOtherReceipt, String donorInstructions, String allocation1, double subAmount1, String allocation2, double subAmount2, String allocation3, double subAmount3, String associatedOccasion, String remarks) {
+        this.contactId = contactId;
+        this.donationId = donationId;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.dateReceived = dateReceived;
+        this.donationAmount = donationAmount;
+        this.paymentMode = paymentMode;
+        this.explainIfOtherPayment = explainIfOtherPayment;
+        this.extTransactionRef = extTransactionRef;
+        this.receiptMode = receiptMode;
+        this.receiptNumber = receiptNumber;
+        this.receiptDate = receiptDate;
+        this.explainIfOtherReceipt = explainIfOtherReceipt;
+        this.donorInstructions = donorInstructions;
+        this.allocation1 = allocation1;
+        this.subAmount1 = subAmount1;
+        this.allocation2 = allocation2;
+        this.subAmount2 = subAmount2;
+        this.allocation3 = allocation3;
+        this.subAmount3 = subAmount3;
+        this.associatedOccasion = associatedOccasion;
+        this.remarks = remarks;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 
     public int getDonationId() {

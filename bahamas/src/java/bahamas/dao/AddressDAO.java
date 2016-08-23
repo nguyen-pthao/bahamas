@@ -110,6 +110,53 @@ public class AddressDAO {
         return addressList;
 
     }
+    
+    public static ArrayList<Address> retrieveAllAddress() {
+        ArrayList<Address> addressList = new ArrayList<Address>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, ZIPCODE, ADDRESS, COUNTRY, REMARKS, CREATED_BY, DATE_OBSOLETE, DATE_CREATED FROM ADDRESS");
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt(1);
+                String zipcode = rs.getString(2);
+                String address = rs.getString(3);
+                String country = rs.getString(4);
+                String remarks = rs.getString(5);
+                String createdBy = rs.getString(6);
+                String dateobs = rs.getString(7);
+                Date dateObsolete = null;
+                if (dateobs != null && !dateobs.isEmpty()) {
+                    dateObsolete = date.parse(dateobs);
+                }
+                String dateStr = rs.getString(8);
+                Date dateCreated = datetime.parse(dateStr);
+
+                Address a = new Address(cid, zipcode, address, country, remarks, createdBy, dateObsolete, dateCreated);
+
+                addressList.add(a);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve ADDRESS from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return addressList;
+
+    }
+
 
     public static boolean updateAddress(Address a) {
         Connection conn = null;

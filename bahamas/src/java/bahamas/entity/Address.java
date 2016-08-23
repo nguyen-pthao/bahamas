@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Darryl Mok
  */
 public class Address {
-
+    private int contactId;
     private int addressId;
     private Contact contact;
     private Date dateCreated = new java.util.Date();
@@ -22,6 +22,25 @@ public class Address {
     private String remarks;
     private String createdBy;
     private Date dateObsolete;
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
+
+    public Address(int contactId, String zipcode, String address, String country, String remarks, String createdBy, Date dateObsolete, Date dateCreated) {
+        this.contactId = contactId;
+        this.zipcode = zipcode;
+        this.address = address;
+        this.country = country;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
+        this.dateCreated = dateCreated;
+    }
 
     public Address(Contact contact, String country, String zipcode, String address, String createdBy) {
         this.contact = contact;
