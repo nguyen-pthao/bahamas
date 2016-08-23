@@ -10,6 +10,7 @@ app.controller('createEventAffiliation',
         ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', 'ngDialog', 'dataSubmit', 'loadTeamAffiliation',
             function ($scope, session, $state, localStorageService, $http, $timeout, ngDialog, dataSubmit, loadTeamAffiliation) {
                 var eventId = localStorageService.get('eventIdCreate');
+                var eventIdArray = localStorageService.get('eventIdArray');
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -66,6 +67,7 @@ app.controller('createEventAffiliation',
                 $scope.toSubmit = {
                     'token': session.getSession('token'),
                     'event_id': eventId,
+                    'event_id_list': eventIdArray,
                     'teams': [
                     ],
                     'explain_if_others': ''
@@ -74,6 +76,7 @@ app.controller('createEventAffiliation',
                 $scope.toSubmitCopy = {
                     'token': session.getSession('token'),
                     'event_id': eventId,
+                    'event_id_list': eventIdArray,
                     'teams': [
                     ],
                     'explain_if_others': ''
@@ -104,6 +107,7 @@ app.controller('createEventAffiliation',
                                     scope: $scope
                                 }).then(function (response) {
                                     localStorageService.remove('eventIdCreate');
+                                    localStorageService.remove('eventIdArray');
                                     var afterSuccess = user + '.viewUpcomingEvents'
                                     $state.go(afterSuccess);
                                 })
@@ -125,6 +129,7 @@ app.controller('createEventAffiliation',
 
                 $scope.toEvents = function () {
                     localStorageService.remove('eventIdCreate');
+                    localStorageService.remove('eventIdArray');
                     var toEventsUrl = user + '.viewUpcomingEvents';
                     $state.go(toEventsUrl);
                 };

@@ -10,6 +10,7 @@ app.controller('createEventRoles',
         ['$scope', 'session', '$state', 'localStorageService', '$http', '$timeout', 'ngDialog', 'dataSubmit',
             function ($scope, session, $state, localStorageService, $http, $timeout, ngDialog, dataSubmit) {
                 var eventId = localStorageService.get('eventIdCreate');
+                var eventIdArray = localStorageService.get('eventIdArray');
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -47,6 +48,7 @@ app.controller('createEventRoles',
 
                 $scope.newRoles = {
                     'event_id': eventId,
+                    'event_id_list': eventIdArray,
                     'roleArray': [
                         {'role1': '', 'description1': ''},
                         {'role2': '', 'description2': ''},

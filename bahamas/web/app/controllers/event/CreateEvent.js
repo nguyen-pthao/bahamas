@@ -33,11 +33,11 @@ app.controller('createEvent',
                         $scope.eventClassList = response.data.eventClassList;
                     })
                 }
-                
+
                 $scope.endDaily = 'isOccurence';
                 $scope.endWeekly = 'isOccurence';
                 $scope.endMonthly = 'isOccurence';
-                
+
                 $scope.newEvent = {
                     'token': session.getSession('token'),
                     'event_title': '',
@@ -120,13 +120,13 @@ app.controller('createEvent',
                         $scope.openedRepeatDaily = true;
                     })
                 }
-                
+
                 $scope.openRepeatWeekly = function () {
                     $timeout(function () {
                         $scope.openedRepeatWeekly = true;
                     })
                 }
-                
+
                 $scope.openRepeatMonthly = function () {
                     $timeout(function () {
                         $scope.openedRepeatMonthly = true;
@@ -167,31 +167,31 @@ app.controller('createEvent',
                     'Fr': false,
                     'Sa': false
                 };
-                
-                $scope.endDailyChanged = function(){
-                    if($scope.endDaily=='isOccurence'){
+
+                $scope.endDailyChanged = function () {
+                    if ($scope.endDaily == 'isOccurence') {
                         $scope.newEvent['repeat']['end_on_daily'] = '';
-                    }else{
+                    } else {
                         $scope.newEvent['repeat']['end_occurence_daily'] = '';
                     }
                 };
-                
-                $scope.endWeeklyChanged = function(){
-                    if($scope.endWeekly=='isOccurence'){
+
+                $scope.endWeeklyChanged = function () {
+                    if ($scope.endWeekly == 'isOccurence') {
                         $scope.newEvent['repeat']['end_on_weekly'] = '';
-                    }else{
+                    } else {
                         $scope.newEvent['repeat']['end_occurence_weekly'] = '';
                     }
                 };
-                
-                $scope.endMonthlyChanged = function(){
-                    if($scope.endMonthly=='isOccurence'){
+
+                $scope.endMonthlyChanged = function () {
+                    if ($scope.endMonthly == 'isOccurence') {
                         $scope.newEvent['repeat']['end_on_monthly'] = '';
-                    }else{
+                    } else {
                         $scope.newEvent['repeat']['end_occurence_monthly'] = '';
                     }
                 };
-                
+
                 //--for google maps--
                 $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
                 $scope.$watch('showGoogleMaps', function () {
@@ -234,11 +234,11 @@ app.controller('createEvent',
                         size: "md"
                     });
                 };
-                
-                $scope.removeRepeat = function(){
+
+                $scope.removeRepeat = function () {
                     $scope.newEvent['repeat']['mode'] = '';
                 };
-                
+
                 $scope.createEvent = function () {
                     if ($scope.newEvent['event_start_date'] == null) {
                         $scope.newEvent['event_start_date'] = ''
@@ -288,12 +288,13 @@ app.controller('createEvent',
                         }
                     })
 
-                    console.log($scope.newEvent);
                     var url = "/event.create";
                     dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                         if (response.data.message == 'success') {
                             var id = response.data['event_id'];
+                            var idArray = response.data['event_id_list'];
                             localStorageService.set('eventIdCreate', id);
+                            localStorageService.set('eventIdArray', idArray);
                             var toURL = user + '.createEventRoles';
                             $state.go(toURL);
                         } else if (response.data.message == 'error') {
@@ -311,11 +312,12 @@ app.controller('createEvent',
                                 scope: $scope
                             }).then(function (response) {
                                 $scope.newEvent.ignore = true;
-                                console.log($scope.newEvent);
                                 dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                                     if (response.data.message == 'success') {
                                         var id = response.data['event_id'];
+                                        var idArray = response.data['event_id_list'];
                                         localStorageService.set('eventIdCreate', id);
+                                        localStorageService.set('eventIdArray', idArray);
                                         var toURL = user + '.createEventRoles';
                                         $state.go(toURL);
                                     }
