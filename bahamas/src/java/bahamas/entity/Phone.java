@@ -16,6 +16,7 @@ public class Phone {
     private Contact contact;
     private Date dateCreated = new java.util.Date();
     private int countryCode;
+    private int contactId;
     private String phoneNumber;
     private String remarks;
     private String createdBy;
@@ -39,6 +40,18 @@ public class Phone {
         this.dateObsolete = dateObsolete;
             
     }
+    
+    public Phone(int contactId, int countryCode, String phoneNumber, String createdBy, 
+            String remarks, Date dateObsolete ) {
+        this.contactId = contactId;
+        this.countryCode = countryCode;
+        this.phoneNumber = phoneNumber;
+        this.remarks = remarks;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.dateObsolete = dateObsolete;
+            
+    }
 
     public Phone(int countryCode, String phoneNumber, String remarks, String createdBy, Date dateCreated, Date dateObsolete) {
         this.countryCode = countryCode;
@@ -47,6 +60,14 @@ public class Phone {
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
         this.dateObsolete = dateObsolete;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
     
     

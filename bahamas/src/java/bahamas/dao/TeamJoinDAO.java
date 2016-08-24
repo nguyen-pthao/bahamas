@@ -347,4 +347,60 @@ public class TeamJoinDAO {
 
     }
 
+    
+    public static ArrayList<TeamJoin> retrieveAllTeamJoin() {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        ArrayList<TeamJoin> teamJoinList;
+        teamJoinList = new ArrayList<TeamJoin>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            //how all teams with date obslete filter
+            //stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, T.REMARKS, PERMISSION FROM TEAM_JOIN T, CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND (T.DATE_OBSOLETE = '0000-00-00' OR T.DATE_OBSOLETE = '' OR T.DATE_OBSOLETE IS NULL) AND C.USERNAME = (?)");
+            //show all teams without date obslete filter
+            stmt = conn.prepareStatement("SELECT C.CONTACT_ID, TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, SUBTEAM,DATE_OBSOLETE, T.REMARKS, PERMISSION FROM TEAM_JOIN T, CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID");
+
+            rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int cid = rs.getInt(1);
+                String teamName = rs.getString(2);
+                Date dateCreated = sdf.parse(rs.getString(3));
+                String createdBy = rs.getString(4);
+                String explainIfOthers = rs.getString(5);
+                String subTeam = rs.getString(6);
+                String dateString = rs.getString(7);
+                Date dateObsolete = null;
+                if (dateString != null) {
+                    dateObsolete = sdf.parse(dateString);
+                }
+                String remarks = rs.getString(8);
+                String permission = rs.getString(9);
+                //boolean approval = rs.getBoolean(9);
+
+                TeamJoin teamJoin = new TeamJoin(cid, teamName, dateCreated,
+                        createdBy, explainIfOthers, subTeam, dateObsolete,
+                        remarks, permission);
+
+                teamJoinList.add(teamJoin);
+            }
+            return teamJoinList;
+
+        } catch (ParseException ex) {
+            Logger.getLogger(TeamJoinDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamJoinDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve TEAMJOIN from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        System.out.println(teamJoinList.toString());
+        return teamJoinList;
+
+    }
 }

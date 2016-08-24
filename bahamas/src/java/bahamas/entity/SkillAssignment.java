@@ -14,6 +14,7 @@ import java.util.Date;
 public class SkillAssignment {
 
     private Contact contact;
+    private int contactId;
     private String skillName;
     private Date dateCreated = new java.util.Date();
     private String explainIfOther;
@@ -29,6 +30,16 @@ public class SkillAssignment {
         this.remarks = remarks;
         this.createdBy = createdBy;
     }
+    
+    public SkillAssignment(int contactId, String skillName, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated) {
+        this.contactId = contactId;
+        this.skillName = skillName;
+        this.explainIfOther = explainIfOther;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
+    }
 
     public SkillAssignment(String skillName, String explainIfOther, Date dateObsolete, String remarks, String createdBy, Date dateCreated) {
         this.skillName = skillName;
@@ -37,6 +48,14 @@ public class SkillAssignment {
         this.remarks = remarks;
         this.createdBy = createdBy;
         this.dateCreated = dateCreated;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
     
     

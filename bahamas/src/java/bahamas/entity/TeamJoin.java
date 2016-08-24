@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class TeamJoin {
 
+    private int contactId;
     private Contact contact;
     private String teamName;
     private Date dateCreated = new java.util.Date();
@@ -34,6 +35,18 @@ public class TeamJoin {
         this.remarks = remarks;
         this.permission = permission;
     }
+    
+    public TeamJoin(int contactId, String teamName, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
+        this.contactId = contactId;
+        this.teamName = teamName;
+        this.createdBy = createdBy;
+        this.explainIfOthers = explainIfOthers;
+        this.subTeam = subTeam;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+        this.permission = permission;
+    }
+
 
     public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
         this.contact = contact;
@@ -45,6 +58,26 @@ public class TeamJoin {
         this.remarks = remarks;
         this.permission = permission;
         //this.approval = approval;
+    }
+    
+    public TeamJoin(int contactId, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
+        this.contactId = contactId;
+        this.teamName = teamName;
+        this.createdBy = createdBy;
+        this.explainIfOthers = explainIfOthers;
+        this.subTeam = subTeam;
+        this.dateObsolete = dateObsolete;
+        this.remarks = remarks;
+        this.permission = permission;
+        //this.approval = approval;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
     }
 
     public boolean isApproval() {
