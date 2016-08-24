@@ -193,5 +193,41 @@ public class SkillDAO {
         }
         return exist;
     }
+    
+    public static ArrayList<SkillAssignment> retrieveSkill() {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<SkillAssignment> skillList;
+        skillList = new ArrayList<SkillAssignment>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, SKILL_NAME,EXPLAIN_IF_OTHER, DATE_OBSOLETE, "
+                    + "REMARKS, CREATED_BY, DATE_CREATED FROM SKILL_ASSIGNMENT ");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt(1);
+                String skillName = rs.getString(2);
+                String explainIfOther = rs.getString(3);
+                Date dateObsolete = rs.getDate(4);
+                String remarks = rs.getString(5);
+                String createdBy = rs.getString(6);
+                Date dateCreated = rs.getTimestamp(7);
+
+                SkillAssignment skillAssignment = new SkillAssignment(cid ,skillName, explainIfOther, dateObsolete, remarks, createdBy, dateCreated);
+                skillList.add(skillAssignment);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve SKILL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return skillList;
+    }
 
 }

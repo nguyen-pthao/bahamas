@@ -218,6 +218,50 @@ public class PhoneDAO {
         return exist;
     }
      
-     
+    public static ArrayList<Phone> retrieveAllPhone() {
+        ArrayList<Phone> phoneList = new ArrayList<Phone>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNTRY_CODE, PHONE_NUMBER, REMARKS, CREATED_BY, DATE_CREATED, DATE_OBSOLETE FROM PHONE ");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt(1);
+                int countryCode = rs.getInt(2);
+                String phoneNumber = rs.getString(3);
+                String remarks = rs.getString(4);
+                String createdBy = rs.getString(5);
+                String dateStr = rs.getString(6);
+                Date dateCreated = datetime.parse(dateStr);
+                String dateobs = rs.getString(7);
+                Date dateObsolete = null;
+                if (dateobs != null && !dateobs.isEmpty()) {
+                    dateObsolete = date.parse(dateobs);
+                }
+
+                Phone p = new Phone(cid, countryCode, phoneNumber, createdBy, remarks, dateObsolete);
+
+                phoneList.add(p);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return phoneList;
+
+    }
     
 }
