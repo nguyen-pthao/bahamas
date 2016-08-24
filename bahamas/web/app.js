@@ -119,6 +119,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewPastIndivEvent.html',
                 controller: 'viewPastIndivEvent'
             })
+            .state('admin.cloneEvent', {
+                url: '/cloneEvent',
+                templateUrl: 'app/views/event/cloneEvent.html',
+                controller: 'cloneEvent'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',

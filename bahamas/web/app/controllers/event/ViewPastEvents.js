@@ -229,7 +229,10 @@ app.controller('viewPastEvents',
                 };
                 
                 $scope.cloneEvent = function($event, event){
-                    console.log(event);
+                    var id = event['event_id'];
+                    localStorageService.set('eventIdToClone', id);
+                    var url = user + '.cloneEvent';
+                    $state.go(url);
                 };
 
                 $scope.deleteEvent = function ($event, event) {
