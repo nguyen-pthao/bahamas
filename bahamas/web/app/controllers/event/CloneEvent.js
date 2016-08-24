@@ -82,14 +82,13 @@ app.controller('cloneEvent',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
-                        console.log($scope.eventInfo);
                         $scope.newEvent = {
                             'token': session.getSession('token'),
                             'event_title': $scope.eventInfo['event_title'],
                             'event_start_date': '',
                             'event_end_date': '',
-                            'event_time_start': $scope.eventInfo['event_time_start'],
-                            'event_time_end': $scope.eventInfo['event_time_end'],
+                            'event_time_start': '',
+                            'event_time_end': '',
                             'send_reminder': false,
                             'event_description': $scope.eventInfo['event_description'],
                             'minimum_participation': $scope.eventInfo['minimum_participation'],
@@ -343,7 +342,7 @@ app.controller('cloneEvent',
                             var idArray = response.data['event_id_list'];
                             localStorageService.set('eventIdCreate', id);
                             localStorageService.set('eventIdArray', idArray);
-                            var toURL = user + '.createEventRoles';
+                            var toURL = user + '.cloneEventRoles';
                             $state.go(toURL);
                         } else if (response.data.message == 'error') {
                             $scope.errorMessages = response.data.errorMsg;
@@ -366,7 +365,7 @@ app.controller('cloneEvent',
                                         var idArray = response.data['event_id_list'];
                                         localStorageService.set('eventIdCreate', id);
                                         localStorageService.set('eventIdArray', idArray);
-                                        var toURL = user + '.createEventRoles';
+                                        var toURL = user + '.cloneEventRoles';
                                         $state.go(toURL);
                                     }
                                 });

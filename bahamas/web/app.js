@@ -5,8 +5,8 @@
 // */
 'use strict';
 
-var app = angular.module('bahamas', 
-['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload']
+var app = angular.module('bahamas',
+        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload']
         );
 
 app.config(function ($stateProvider, $urlRouterProvider) {
@@ -55,15 +55,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'editContact'
             })
             .state('admin.export', {
-                 url: '/export',
-                 templateUrl: 'app/views/dataManagement/export.html',
-                 controller: 'export'
-             })
-             .state('admin.import', {
-                 url: '/import',
-                 templateUrl: 'app/views/dataManagement/import.html',
-                 controller: 'import'
-             })
+                url: '/export',
+                templateUrl: 'app/views/dataManagement/export.html',
+                controller: 'export'
+            })
+            .state('admin.import', {
+                url: '/import',
+                templateUrl: 'app/views/dataManagement/import.html',
+                controller: 'import'
+            })
             .state('admin.globalSettings', {
                 url: '/globalSettings',
                 templateUrl: 'app/views/settings/globalSettings.html',
@@ -123,6 +123,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/cloneEvent',
                 templateUrl: 'app/views/event/cloneEvent.html',
                 controller: 'cloneEvent'
+            })
+            .state('admin.cloneEventRoles', {
+                url: '/cloneEventRoles',
+                templateUrl: 'app/views/event/cloneEventRoles.html',
+                controller: 'cloneEventRoles'
+            })
+            .state('admin.cloneEventAffiliation', {
+                url: '/cloneEventAffiliation',
+                templateUrl: 'app/views/event/cloneEventAffiliation.html',
+                controller: 'cloneEventAffiliation'
             })
             .state('novice', {
                 url: '/novice',
@@ -284,6 +294,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/viewPastIndivEvent.html',
                 controller: 'viewPastIndivEvent'
             })
+            .state('teammanager.cloneEvent', {
+                url: '/cloneEvent',
+                templateUrl: 'app/views/event/cloneEvent.html',
+                controller: 'cloneEvent'
+            })
+            .state('teammanager.cloneEventRoles', {
+                url: '/cloneEventRoles',
+                templateUrl: 'app/views/event/cloneEventRoles.html',
+                controller: 'cloneEventRoles'
+            })
+            .state('teammanager.cloneEventAffiliation', {
+                url: '/cloneEventAffiliation',
+                templateUrl: 'app/views/event/cloneEventAffiliation.html',
+                controller: 'cloneEventAffiliation'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -333,7 +358,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewPastEvents',
                 templateUrl: 'app/views/event/viewPastEvents.html',
                 controller: 'viewPastEvents'
-            })        
+            })
             .state('eventleader.viewUpcomingEvents', {
                 url: '/viewUpcomingEvents',
                 templateUrl: 'app/views/event/viewUpcomingEvents.html',
@@ -363,6 +388,21 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewPastIndivEvent',
                 templateUrl: 'app/views/event/viewPastIndivEvent.html',
                 controller: 'viewPastIndivEvent'
+            })
+            .state('eventleader.cloneEvent', {
+                url: '/cloneEvent',
+                templateUrl: 'app/views/event/cloneEvent.html',
+                controller: 'cloneEvent'
+            })
+            .state('eventleader.cloneEventRoles', {
+                url: '/cloneEventRoles',
+                templateUrl: 'app/views/event/cloneEventRoles.html',
+                controller: 'cloneEventRoles'
+            })
+            .state('eventleader.cloneEventAffiliation', {
+                url: '/cloneEventAffiliation',
+                templateUrl: 'app/views/event/cloneEventAffiliation.html',
+                controller: 'cloneEventAffiliation'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
@@ -405,13 +445,13 @@ app.config([
 app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $state) {
         $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         $rootScope.previousState;
-        
-        if(window.location.hostname == 'localhost') {
+
+        if (window.location.hostname == 'localhost') {
             $rootScope.commonUrl = 'http://localhost:8084/bahamas';
         } else {
             $rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
         }
-        
+
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
             var permission = targetScope.name.split('.')[0];
 

@@ -268,7 +268,14 @@ app.controller('viewUpcomingEvents',
                     session.setSession('eventIdToDisplay', event['event_id']);
                     $state.go(url);
                 };
-
+                
+                $scope.cloneEvent = function($event, event){
+                    var id = event['event_id'];
+                    localStorageService.set('eventIdToClone', id);
+                    var url = user + '.cloneEvent';
+                    $state.go(url);
+                };
+                
                 $scope.edit = function ($event, event) {
                     var url = user + '.editEvent';
                     var eventid = event['event_id'];
