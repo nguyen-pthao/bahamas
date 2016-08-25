@@ -207,4 +207,39 @@ public class OfficeHeldDAO {
         return exist;
     }
 
+    public static ArrayList<OfficeHeld> retrieveAllOfficeHeld() {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<OfficeHeld> officeHeldList;
+        officeHeldList = new ArrayList<OfficeHeld>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, START_OFFICE, END_OFFICE, REMARKS, DATE_CREATED, CREATED_BY, OFFICE_HELD_NAME FROM OFFICE_HELD");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int cid = rs.getInt(1);
+                Date startOffice = rs.getDate(2);
+                Date endOffice = rs.getDate(3);
+                String remarks = rs.getString(4);
+                Date dateCreated = rs.getTimestamp(5);
+                String createdBy = rs.getString(6);
+                String officeHeldPosition = rs.getString(7);
+
+                OfficeHeld officeHeld = new OfficeHeld(cid, startOffice, endOffice, remarks, dateCreated, createdBy, officeHeldPosition);
+                officeHeldList.add(officeHeld);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve OFFICE_HELD from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return officeHeldList;
+    }
+
 }

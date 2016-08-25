@@ -13,6 +13,7 @@ import java.util.Date;
  */
 public class OfficeHeld {
     private Contact contact;
+    private int contactId;
     private Date dateCreated = new java.util.Date();
     private Date startOffice;
     private Date endOffice;
@@ -38,7 +39,23 @@ public class OfficeHeld {
         this.officeHeldPosition = officeHeldPosition;
     }
     
-    
+    public OfficeHeld(int contactId, Date startOffice, Date endOffice, String remarks, Date dateCreated, String createdBy, String officeHeldPosition) {
+        this.contactId = contactId;
+        this.startOffice = startOffice;
+        this.endOffice = endOffice;
+        this.dateCreated = dateCreated;
+        this.remarks = remarks;
+        this.createdBy = createdBy;
+        this.officeHeldPosition = officeHeldPosition;
+    }
+
+    public int getContactId() {
+        return contactId;
+    }
+
+    public void setContactId(int contactId) {
+        this.contactId = contactId;
+    }
 
     public Contact getContact() {
         return contact;

@@ -6,20 +6,26 @@
 package bahamas.services;
 
 import bahamas.dao.AddressDAO;
+import bahamas.dao.AppreciationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.DonationDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.LanguageDAO;
 import bahamas.dao.MembershipDAO;
+import bahamas.dao.OfficeHeldDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.dao.list.*;
 import bahamas.entity.Address;
+import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
+import bahamas.entity.Donation;
 import bahamas.entity.Email;
 import bahamas.entity.LanguageAssignment;
 import bahamas.entity.Membership;
+import bahamas.entity.OfficeHeld;
 import bahamas.entity.Phone;
 import bahamas.entity.SkillAssignment;
 import bahamas.entity.TeamJoin;
@@ -140,6 +146,12 @@ public class Import extends HttpServlet {
                     numOfFields = 6;
                 } else if (table.equalsIgnoreCase("skill")) {
                     numOfFields = 5;
+                } else if (table.equalsIgnoreCase("office held")) {
+                    numOfFields = 5;
+                } else if (table.equalsIgnoreCase("appreciation")) {
+                    numOfFields = 8;
+                } else if (table.equalsIgnoreCase("donation")) {
+                    numOfFields = 19;
                 } else {
                     json.addProperty("message", "Import failed due invalid table choice");
                     out.println(gson.toJson(json));
@@ -179,6 +191,12 @@ public class Import extends HttpServlet {
                         processLanguage();
                     } else if (table.equalsIgnoreCase("skill")) {
                         processSkill();
+                    } else if (table.equalsIgnoreCase("office held")) {
+                        processOfficeHeld();
+                    } else if (table.equalsIgnoreCase("appreciation")) {
+                        processAppreciation();
+                    } else if (table.equalsIgnoreCase("donation")) {
+                        processDonation();
                     } else {
                         json.addProperty("message", "Import failed due invalid table choice");
                         out.println(gson.toJson(json));
@@ -213,14 +231,14 @@ public class Import extends HttpServlet {
                         errorArray.add(o);
                     }
 
-                    store.add("output", errorArray);
+                    store.add("message", errorArray);
                     records.add(store);
 
                 }
 
                 AuditLogDAO.insertAuditLog(username, "IMPORT DATA INTO" + table.toUpperCase(), counter + " number of records added");
 
-                json.add("result", records);
+                json.add(table.toLowerCase(), records);
                 out.println(gson.toJson(json));
                 return;
 
@@ -837,6 +855,297 @@ public class Import extends HttpServlet {
                         dateObsolete, remarks, createdBy);
 
                 if (SkillDAO.addSkill(sa)) {
+
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processOfficeHeld() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String startOffice = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date startOfficeDate = null;
+            if (!startOffice.isEmpty()) {
+                try {
+                    startOfficeDate = format.parse(startOffice);
+                } catch (ParseException e) {
+                    msg.add("Invalid start office date format");
+                }
+            } else {
+                msg.add("Start office date cannot be empty");
+            }
+
+            String endOffice = dataList.get(++i);
+            Date endOfficeDate = null;
+            if (!endOffice.isEmpty()) {
+                try {
+                    endOfficeDate = format.parse(endOffice);
+                } catch (ParseException e) {
+                    msg.add("Invalid end office date format");
+                }
+            } else {
+                msg.add("End office date cannot be empty");
+            }
+
+            String officeHeld = processField(msg, dataList.get(++i), "Office Held Name", 50);
+            OfficeListDAO officeListDAO = new OfficeListDAO();
+            if (!officeListDAO.retrieveOfficeList().contains(officeHeld)) {
+                msg.add("Office Held Name not referencing to Office Held Name List");
+            }
+
+            if (startOfficeDate != null && endOfficeDate != null) {
+                if (endOfficeDate.before(startOfficeDate) || !startOfficeDate.before(endOfficeDate)) {
+                    msg.add("Start office date must be before end office date");
+                }
+
+                if (c != null && OfficeHeldDAO.officeHeldExist(c.getContactId(), startOfficeDate, endOfficeDate, officeHeld)) {
+                    msg.add("Office Held already exists");
+                }
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                OfficeHeld o = new OfficeHeld(c, startOfficeDate, endOfficeDate, remarks, createdBy, officeHeld);
+
+                if (OfficeHeldDAO.addOfficeHeld(o)) {
+
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processAppreciation() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String appraisalComment = processField(msg, dataList.get(++i), "Appraisal Comments", 500);
+            String appraisalBy = processField(msg, dataList.get(++i), "Appraisal By", 50);
+
+            String appraisalD = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date appraisalDate = null;
+            if (!appraisalD.isEmpty()) {
+                try {
+                    appraisalDate = format.parse(appraisalD);
+                } catch (ParseException e) {
+                    msg.add("Invalid appraisal date format");
+                }
+            }
+
+            String appreciationGesture = processField(msg, dataList.get(++i), "Appreciation gesture", 500);
+            String appreciationBy = processField(msg, dataList.get(++i), "Appreciation by", 50);
+
+            String appreciationD = dataList.get(++i);
+            Date appreciationDate = null;
+            if (!appreciationD.isEmpty()) {
+                try {
+                    appreciationDate = format.parse(appreciationD);
+                } catch (ParseException e) {
+                    msg.add("Invalid end office date format");
+                }
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Appreciation appreciation = new Appreciation(c, appraisalComment, appraisalBy, appraisalDate, appreciationGesture,
+                        appreciationBy, appreciationDate, remarks, createdBy);
+
+                if (AppreciationDAO.addAppreciation(appreciation)) {
+
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processDonation() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String dateR = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date dateReceived = null;
+            if (!dateR.isEmpty()) {
+                try {
+                    dateReceived = format.parse(dateR);
+                } catch (ParseException e) {
+                    msg.add("Invalid date received format");
+                }
+            } else {
+                msg.add("Date recevied cannot be empty");
+            }
+
+            double donationAmt = 0;
+            String dAmt = dataList.get(++i);
+            if (!dAmt.isEmpty()) {
+                try {
+                    donationAmt = Validator.truncateDecimal(Double.parseDouble(dAmt), 2).doubleValue();
+                } catch (Exception e) {
+                    msg.add("Invalid donation amount format");
+                }
+            } else {
+                msg.add("Donation amount cannot be empty");
+            }
+
+            String paymentMode = processField(msg, dataList.get(++i), "Payment Mode", 50);
+            PaymentModeListDAO paymentModeListDAO = new PaymentModeListDAO();
+            if (paymentMode != null && !paymentModeListDAO.retrievePaymentModeList().contains(paymentMode)) {
+                msg.add("Payment Mode Name not referencing to Payment Mode Name List");
+            }
+
+            String explainIfOtherPayment = processField(msg, dataList.get(++i), "Explain If Other Payment", 200);
+            String extTransactionRef = processField(msg, dataList.get(++i), "Ext Transaction Ref", 50);
+
+            String receiptNumber = processField(msg, dataList.get(++i), "Receipt Number", 50);
+            String receiptDateReceived = dataList.get(++i);
+            Date receiptDate = null;
+            if (!receiptDateReceived.isEmpty()) {
+                try {
+                    receiptDate = format.parse(receiptDateReceived);
+                } catch (ParseException e) {
+                    msg.add("Invalid receipt date format");
+                }
+            }
+
+            String receiptModeName = processField(msg, dataList.get(++i), "Receipt Mode Name", 50);
+            ModeOfSendingReceiptListDAO receiptModeDAO = new ModeOfSendingReceiptListDAO();
+            if (receiptModeName != null && !receiptModeDAO.retrieveMOSRList().contains(receiptModeName)) {
+                msg.add("Receipt Mode Name not referecning to Receipt Mode Name List");
+            }
+            String explainIfOtherReceipt = processField(msg, dataList.get(++i), "Explain If Other Receipt", 200);
+            String donorInstruction = processField(msg, dataList.get(++i), "Donor Instructions", 1000);
+
+            String allocation1 = processField(msg, dataList.get(++i), "Allocation 1", 200);
+            double subAmount1 = 0;
+            String subAmt1 = dataList.get(++i);
+            if (!subAmt1.isEmpty()) {
+                try {
+                    subAmount1 = Validator.truncateDecimal(Double.parseDouble(subAmt1), 2).doubleValue();
+                } catch (Exception e) {
+                    msg.add("Invalid sub amount 1 format");
+                }
+            }
+
+            String allocation2 = processField(msg, dataList.get(++i), "Allocation 2", 200);
+            double subAmount2 = 0;
+            String subAmt2 = dataList.get(++i);
+            if (!subAmt2.isEmpty()) {
+                try {
+                    subAmount2 = Validator.truncateDecimal(Double.parseDouble(subAmt2), 2).doubleValue();
+                } catch (Exception e) {
+                    msg.add("Invalid sub amount 2 format");
+                }
+            }
+
+            String allocation3 = processField(msg, dataList.get(++i), "Allocation 3", 200);
+            double subAmount3 = 0;
+            String subAmt3 = dataList.get(++i);
+            if (!subAmt3.isEmpty()) {
+                try {
+                    subAmount3 = Validator.truncateDecimal(Double.parseDouble(subAmt3), 2).doubleValue();
+                } catch (Exception e) {
+                    msg.add("Invalid sub amount 3 format");
+                }
+            }
+
+            String associatedOccasion = processField(msg, dataList.get(++i), "Associated Occasion", 500);
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Donation d = new Donation(c, createdBy, dateReceived, donationAmt, paymentMode, explainIfOtherPayment,
+                        extTransactionRef, receiptModeName, receiptNumber, receiptDate, explainIfOtherReceipt, donorInstruction, allocation1, subAmount1,
+                        allocation2, subAmount2, allocation3, subAmount3, associatedOccasion, remarks);
+
+                if (DonationDAO.addDonation(d)) {
 
                 } else {
                     msg.add("Error inserting into database");
