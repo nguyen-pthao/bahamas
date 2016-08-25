@@ -17,6 +17,8 @@ and open the template in the editor.
                     </ol>                    
                 </h3>
             </section>
+
+
             <section class="content">
                 <div class="box">
                     <div class="box-header with-border" data-widget="collapse">
@@ -27,10 +29,118 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="box-body">
-<!--                        to be modified-->
+                        <!-- to be modified-->
+                        <div class="col-md-12">
+                            <div class="col-md-3">
+                                <label>Select data table to be uploaded </label>
+                                <select class="form-control" ng-model="selectedImport">
+                                    <option disabled selected value>--Select Data Table--</option>
+                                    <option value="all">All</option>
+                                    <option value="contact">Contact</option>
+                                    <option value="phone">Phone</option>
+                                    <option value="email">Email</option>
+                                    <option value="address">Address</option>
+                                    <option value="team_join">Team Join</option>
+                                    <option value="language_assignment">Language Assignment</option>
+                                    <option value="skill_assignment">Skill Assignment</option>
+                                </select>
+                            </div>
+                            <div class="col-md-offset-2 col-md-7">
+                                <div ngf-drop ngf-select ng-model="fileUpload" 
+                                     ngf-drag-over-class="'dragover'" ngf-multiple='false' 
+                                     ngf-allow-dir='true' accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv' 
+                                     ngf-pattern="'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv'" ngf-max-size="5MB">
+                                    <div>
+                                        <span>Drop file here to upload</span>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary" ngf-select ng-model="fileUpload" ngf-multiple='false' accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv'>Select File</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal fade" id="import" tabindex="-1" role="dialog" aria-labelledby="importBody">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h4 class="bold">Import File
+                                            <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true"><i class="fa fa-close"></i></span>
+                                            </button>
+                                        </h4>
+                                    </div> 
+                                    <div class="modal-body" id="importBody">
+                                        <form name="form.import">
+                                            <center>
+                                                <div ngf-drop ngf-select ng-model="fileUpload" 
+                                                     ngf-drag-over-class="'dragover'" ngf-multiple='false' 
+                                                     ngf-allow-dir='true' accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv' 
+                                                     ngf-pattern="'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv'" ngf-max-size="5MB">
+                                                    <div>
+                                                        <span>Drop file here to upload</span>
+                                                    </div>
+                                                    <div>
+                                                        <button class="btn btn-primary" ngf-select ng-model="fileUpload" ngf-multiple='false' accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv'>Select File</button>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <table class='table table-bordered table-responsive'>
+                                                    <thead class="bg-navy disabled color-palette">
+                                                        <tr>
+                                                            <th>
+                                                                File Name
+                                                            </th>
+                                                            <th>
+                                                                File Size
+                                                            </th>
+                                                            <th colspan='3'>
+                                                                Upload Progress
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                {{fileUpload.name}}
+                                                            </td>
+                                                            <td>
+                                                                <span ng-show="fileUpload != null">
+                                                                    {{(fileUpload.size / 1024).toFixed(2)}} KB
+                                                                </span>
+                                                            </td>
+                                                            <td colspan="3">
+                                                                <div class="progress">
+                                                                    <div class="progress-bar progress-bar-striped bg-red-active color-palette" role="progressbar" ng-style="{ 'width': fileUpload.progress + '%' }">
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <br>
+                                            </center>
+                                            <h4 class="error">*Notice: File content to follow template table strictly</h4>
+                                            <a onclick="window.open('https://rms.twc2.org.sg/template/template.xlsx')"> <i class="fa fa-globe"></i> Download template table for this file</a>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <center>
+                                            <button type="submit" class="btn btn-link uppercase bold" ng-click="import(fileUpload)">Import File</button>
+                                            <br>
+                                        </center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
         </div>
+        <script>
+            $('window').on('popstate', function () {
+                $('#import').modal('hide');
+            });
+        </script>
     </body>
 </html>

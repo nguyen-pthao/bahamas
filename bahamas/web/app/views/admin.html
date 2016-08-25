@@ -452,79 +452,7 @@
                     </div>
                 </div>
                 <!-- =============================================== -->
-                <div class="modal fade" id="importContacts" tabindex="-1" role="dialog" aria-labelledby="importContactsBody">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h4 class="bold">Import Contacts
-                                    <button type="button" class="close pull-right" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true"><i class="fa fa-close"></i></span>
-                                    </button>
-                                </h4>
-                            </div>
-                            <div class="modal-body" id="importContactsBody">
-                                <form name="form.importContacts">
-                                    <center>
-                                        <div ngf-drop ngf-select ng-model="fileUpload" 
-                                             ngf-drag-over-class="'dragover'" ngf-multiple='false' 
-                                             ngf-allow-dir='true' accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv' 
-                                             ngf-pattern="'application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv'" ngf-max-size="5MB">
-                                            <div>
-                                                <span>Drop file here to upload</span>
-                                            </div>
-                                            <div>
-                                                <button class="btn btn-primary" ngf-select ng-model="fileUpload" ngf-multiple='false' accept='application/vnd.ms-excel, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, .csv'>Select File</button>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <table class='table table-bordered table-responsive'>
-                                            <thead class="bg-navy disabled color-palette">
-                                                <tr>
-                                                    <th>
-                                                        Name
-                                                    </th>
-                                                    <th>
-                                                        Size
-                                                    </th>
-                                                    <th colspan='3'>
-                                                        Progress
-                                                    </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        {{fileUpload.name}}
-                                                    </td>
-                                                    <td>
-                                                        <span ng-show="fileUpload != null">
-                                                            {{(fileUpload.size/1024).toFixed(2)}} KB
-                                                        </span>
-                                                    </td>
-                                                    <td colspan="3">
-                                                        <div class="progress">
-                                                            <div class="progress-bar progress-bar-striped bg-red-active color-palette" role="progressbar" ng-style="{ 'width': fileUpload.progress + '%' }">
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                        <br>
-                                    </center>
-                                    <h4 class="error">*Notice: File content to follow template table strictly</h4>
-                                    <a onclick="window.open('https://rms.twc2.org.sg/template/template.xlsx')"> <i class="fa fa-globe"></i> Download template table for import contacts</a>
-                                </form>
-                            </div>
-                            <div class="modal-footer">
-                                <center>
-                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="importContacts(fileUpload)">Import Contacts</button>
-                                    <br>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <!-- ./wrapper -->
         </div>
@@ -536,7 +464,6 @@
 
             $('window').on('popstate', function () {
                 $('#changePassword').modal('hide');
-                $('#importContacts').modal('hide');
             });
         </script>
     </body>
