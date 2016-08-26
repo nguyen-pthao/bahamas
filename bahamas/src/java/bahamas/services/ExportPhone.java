@@ -111,7 +111,7 @@ public class ExportPhone extends HttpServlet {
                         } else {
                             jsonPhoneObj.addProperty("cid", "");
                         }
-
+                        jsonPhoneObj.addProperty("country_code", phone.getCountryCode());
                         jsonPhoneObj.addProperty("phone", phone.getPhoneNumber());
 
                         if (phone.getRemarks() != null) {

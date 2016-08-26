@@ -107,7 +107,8 @@ public class ExportDonation extends HttpServlet {
                 for (int i = 0; i < donationList.size(); i++) {
                     JsonObject jsonDonationObj = new JsonObject();
                     Donation donation = donationList.get(i);
-
+                    
+                   jsonDonationObj.addProperty("cid", donation.getContactId());
                     jsonDonationObj.addProperty("donation_id", donation.getDonationId());
                     if (donation.getDateReceived() != null) {
                         jsonDonationObj.addProperty("date_received", sdf.format(donation.getDateReceived()));
