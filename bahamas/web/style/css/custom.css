@@ -65,6 +65,10 @@ body {
     color: #fff;
 }
 
+.breadcrumb>li {
+    display: block;
+}
+
 .breadcrumb a {
     color: white;
 }
