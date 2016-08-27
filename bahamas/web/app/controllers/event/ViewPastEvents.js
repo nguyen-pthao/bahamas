@@ -17,6 +17,7 @@ app.controller('viewPastEvents',
                 $scope.loadTeamList = function(){
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
                         $scope.teamList = response.data.teamAffiliationList;
+                        $scope.teamList.unshift({'teamAffiliation': 'My Teams'});
                         $scope.teamList.unshift({'teamAffiliation': 'All'});
                         $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
@@ -26,6 +27,8 @@ app.controller('viewPastEvents',
                     var filter;
                     if($scope.teamFilter == "All"){
                         filter = "";
+                    }else if($scope.teamFilter == "My Teams"){
+                        filter = "my_team";
                     }else{
                         filter = $scope.teamFilter;
                     }
