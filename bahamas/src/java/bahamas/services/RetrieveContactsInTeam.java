@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author HUXLEY
+ * @author SI HAO =D
  */
 @WebServlet(name = "RetrieveContactsInTeam", urlPatterns = {"/event.retrievecontactsinteam"})
 public class RetrieveContactsInTeam extends HttpServlet {
