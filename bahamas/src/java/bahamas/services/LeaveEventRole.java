@@ -95,10 +95,10 @@ public class LeaveEventRole extends HttpServlet {
                         EventParticipant eventParticipant = null;
 
                         if (Integer.parseInt(withdrawerId) == contact.getContactId()) {
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), contact.getContactId());
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), contact.getContactId());
                         } else {
                             if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
-                                eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
+                                eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
                             }
                         }
 

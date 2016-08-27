@@ -8,6 +8,7 @@ package bahamas.services;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventParticipantDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.EventParticipant;
 import bahamas.util.Authenticator;
@@ -51,7 +52,6 @@ public class AddEventParticipant extends HttpServlet {
             JsonObject json = new JsonObject();
             JsonArray jsonErrorMsgArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -73,13 +73,17 @@ public class AddEventParticipant extends HttpServlet {
                 out.println(gson.toJson(json));
 
             } else {
-                
+
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String roleId = Validator.containsBlankField(jobject.get("event_role_id"));
+                String targetContactid = null;
+                if (jobject.has("contact_id")) {
+                    targetContactid = Validator.containsBlankField(jobject.get("contact_id"));
+                }
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -89,30 +93,40 @@ public class AddEventParticipant extends HttpServlet {
                     //Verified token
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
-                    
+                    boolean canAddTarget = false;
+                    if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
+                        canAddTarget = true;
+                    }
+
                     if (contact == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    }else{
-                        if(eventId == null || roleId == null){
+                    } else {
+                        if (eventId == null || roleId == null) {
                             json.addProperty("message", "error");
-                            if(eventId == null){
+                            if (eventId == null) {
                                 jsonErrorMsgArray.add(new JsonPrimitive("Missing event ID"));
                             }
-                            if(roleId == null){
+                            if (roleId == null) {
                                 jsonErrorMsgArray.add(new JsonPrimitive("Missing role ID"));
                             }
                             json.add("errorMsg", jsonErrorMsgArray);
                             out.println(gson.toJson(json));
                             return;
                         }
-                        EventParticipant eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
-                        if(EventParticipantDAO.addEventParticipant(eventParticipant)){
+                        EventParticipant eventParticipant = null;
+                        if (targetContactid != null && canAddTarget) {
+                            Contact contact1 = cDAO.retrieveContactById(Integer.parseInt(targetContactid));
+                            eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), contact1.getUsername(), false, null, null, 0, null, null);
+                        } else {
+                            eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
+                        }
+                        if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
                             AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
-                        }else{
+                        } else {
                             json.addProperty("message", "fail to insert DB");
                             out.println(gson.toJson(json));
                         }

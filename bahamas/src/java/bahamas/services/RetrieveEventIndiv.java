@@ -180,7 +180,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
 
                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
+                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
                                     JsonObject roleJson = new JsonObject();
                                     roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                     roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
@@ -216,9 +216,11 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                             role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                             if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))){
                                                                 role.addProperty("canAppreciate", true);
+                                                                role.addProperty("canAddParticipants", true);
                                                                 role.addProperty("eventParticipantservice_comment", eventParticipantTemp.getService_comment());
                                                             }else{
                                                                 role.addProperty("canAppreciate", false);
+                                                                role.addProperty("canAddParticipants", false);
                                                                 role.add("eventParticipantservice_comment", new JsonPrimitive(""));
                                                             }
                                                             role.addProperty("award_hours", Double.toString(eventParticipantTemp.getHoursServed()));

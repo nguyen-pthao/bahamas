@@ -123,7 +123,7 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                         EventParticipant eventParticipant = null;
                         if(!participantId.isEmpty() || !awardHours.isEmpty()){
                             //adding service comment
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(participantId));
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), Integer.parseInt(participantId));
                             if(!participantId.isEmpty()){
                                 eventParticipant.setService_comment(remarks);
                             }
@@ -132,7 +132,7 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                             }
                         }else{
                             //user adding his/her remark for the event
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), contact.getContactId());
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), contact.getContactId());
                             
                             eventParticipant.setRemarks(remarks);
                         }
