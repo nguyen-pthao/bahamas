@@ -54,6 +54,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -72,6 +73,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * @author HUXLEY
  */
 @WebServlet(name = "Import", urlPatterns = {"/import"})
+@MultipartConfig(fileSizeThreshold = 1024 * 1024,
+        maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class Import extends HttpServlet {
 
     private LinkedHashMap<Integer, ArrayList<String>> logMsg = new LinkedHashMap<Integer, ArrayList<String>>();
@@ -351,7 +354,18 @@ public class Import extends HttpServlet {
                 msg.add("Name cannot be empty");
             }
 
+            String[] locales = Locale.getISOCountries();
+            ArrayList<String> countryList = new ArrayList<String>();
+            for (String countryCode : locales) {
+                Locale obj = new Locale("", countryCode);
+                countryList.add(obj.getDisplayCountry());
+            }
+
             String country = processField(msg, dataList.get(++i), "Country", 50);
+            if (country != null && !countryList.isEmpty() && !countryList.contains(country)) {
+                msg.add("Invalid country choice");
+            }
+
             String zipcode = processField(msg, dataList.get(++i), "Zipcode", 20);
 
             String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
