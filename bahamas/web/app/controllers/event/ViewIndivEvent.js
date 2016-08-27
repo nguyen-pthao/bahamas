@@ -19,13 +19,13 @@ app.controller('viewIndivEvent',
                     var url = user + '.viewUpcomingEvents';
                     $state.go(url);
                 };
-                
-                $scope.toContact = function($event, part){
+
+                $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
                     $state.go(url);
                 };
-                
+
                 $scope.retrieveEvent = function () {
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
@@ -138,6 +138,35 @@ app.controller('viewIndivEvent',
                     })
                 }
 
+                $scope.addParticipant = function ($event, role) {
+                    var urlToRetrieveContacts = '/event.insertParticipant';
+                    $scope.toRetrieveContacts = {
+                        'token': session.getSession('token'),
+                        'role_id': role['event_role_id'],
+                        'event_id': eventId
+                    };
+                    dataSubmit.submitData($scope.toRetrieveContacts, urlToRetrieveContacts).then(function (response) {
+//                            if (response.data.message == "success") {
+//                                ngDialog.openConfirm({
+//                                    template: './style/ngTemplate/joinRoleSuccess.html',
+//                                    className: 'ngdialog-theme-default',
+//                                    scope: $scope
+//                                }).then(function (response) {
+//                                    var current = user + '.viewIndivEvent';
+//                                    $state.go(current, {}, {reload: true});
+//                                })
+//                            }
+                        console.log(response);
+                    })
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/searchAddParticipant.html',
+                        controller: 'SearchAddParticipantInstanceCtrl',
+                        scope: $scope,
+                        size: "md"
+                    });
+                };
+
                 $scope.removeParticipant = function ($event, participant) {
                     $rootScope.participant = participant;
                     var modalInstance = $uibModal.open({
@@ -147,49 +176,26 @@ app.controller('viewIndivEvent',
                         size: "md"
                     });
                 };
-                
-//                $scope.revert = function($event, wp){
-//                    ngDialog.openConfirm({
-//                        template: './style/ngTemplate/revertPrompt.html',
-//                        className: 'ngdialog-theme-default',
-//                        scope: $scope
-//                    }).then(function(response){
-//                        $scope.toRevert = {
-//                        'token': session.getSession('token'),
-//                        'event_id': eventId,
-//                        'role_id': wp['role_id'],
-//                        'contact_id': wp['contact_id']
-//                    };
-//                    var urlToRevert = '/event.revertrole';
-//                    dataSubmit.submitData($scope.toRevert, urlToRevert).then(function (response) {
-//                            if (response.data.message == "success") {
-//                                ngDialog.openConfirm({
-//                                    template: './style/ngTemplate/revertRoleSuccess.html',
-//                                    className: 'ngdialog-theme-default',
-//                                    scope: $scope
-//                                }).then(function (response) {
-//                                    var current = user + '.viewIndivEvent';
-//                                    $state.go(current, {eventId: eventId}, {reload: true});
-//                                })
-//                            }else if(response.data.message="error"){
-//                                $scope.errorMessages = response.data.errorMsg;
-//                                ngDialog.openConfirm({
-//                                    template: './style/ngTemplate/errorMessage.html',
-//                                    className: 'ngdialog-theme-default',
-//                                    scope: $scope
-//                                })
-//                            }
-//                        })
-//                    })
-//                };
+
             }]);
 
 app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.ok = function () {
+        
+    };
+
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+    };
+});
+
+app.controller('SearchAddParticipantInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    $scope.ok = function () {
         var part = $rootScope.participant;
-        if(angular.isUndefined($scope.input)){
+        if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        };
+        }
+        ;
         $scope.toRemovePart = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
