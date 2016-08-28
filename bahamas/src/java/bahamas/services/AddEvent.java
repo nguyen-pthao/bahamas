@@ -350,7 +350,8 @@ public class AddEvent extends HttpServlet {
                                 }
                                 try {
                                     for (Date dateTemp : DateIteratorFactory.createDateIterable(ical, eventStartDate, TimeZone.getDefault(), true)) {
-                                        Date dateTempNew = new Date(dateTemp.getTime() + 28800000);
+                                        //Date dateTempNew = new Date(dateTemp.getTime() + 28800000);
+                                        Date dateTempNew = new Date(dateTemp.getTime());
                                         repeatingEventStartDate.add(dateTempNew);
                                         long endDateLong = dateTempNew.getTime() + dayDiff;
                                         Date endDateTemp = new Date(endDateLong);
@@ -377,7 +378,7 @@ public class AddEvent extends HttpServlet {
                             int eventID = EventDAO.addEvent(event, username);
                             newEventIdJsonArray.add(new JsonPrimitive("" + eventID));
                             if (!mode.isEmpty()) {
-                                for (int i = 1; i < repeatingEventStartDate.size(); i++) {
+                                for (int i = 2; i < repeatingEventStartDate.size(); i++) {
                                     Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks);
                                     newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, username)));
                                 }
