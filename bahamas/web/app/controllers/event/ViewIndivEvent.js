@@ -182,7 +182,31 @@ app.controller('viewIndivEvent',
 
 app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.ok = function () {
-
+        var part = $rootScope.participant;
+        if (angular.isUndefined($scope.input)) {
+            $scope.input = "";
+        }
+        ;
+        $scope.toRemovePart = {
+            'token': session.getSession('token'),
+            'role_id': part['role_id'],
+            'reason': $scope.input,
+            'withdraw_contact_id': part['contact_id']
+        };
+        var urlToRemove = '/event.leaverole';
+        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function (response) {
+            if (response.data.message == 'success') {
+                ngDialog.openConfirm({
+                    template: './style/ngTemplate/removeSuccessful.html',
+                    className: 'ngdialog-theme-default',
+                    scope: $scope
+                }).then(function (response) {
+                    $uibModalInstance.dismiss('cancel');
+                    var current = session.getSession('userType') + '.viewIndivEvent';
+                    $state.go(current, {}, {reload: true});
+                })
+            }
+        });
     };
 
     $scope.cancel = function () {
