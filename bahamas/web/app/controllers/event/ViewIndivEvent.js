@@ -242,7 +242,7 @@ app.controller('SearchAddParticipantInstanceCtrl', function ($scope, $rootScope,
             'event_role_id': $scope.eventRoleId,
             'contact_id_list': $scope.selectedId
         };
-        var urlToAdd = '/event.multiplejoin';
+        var urlToAdd = '/event.join';
         dataSubmit.submitData($scope.toAddParticipants, urlToAdd).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
