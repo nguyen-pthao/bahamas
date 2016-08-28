@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
@@ -107,6 +108,7 @@ public class LeaveEventRole extends HttpServlet {
                             eventParticipant.setPullout(true);
                             eventParticipant.setDatepullout(new java.util.Date());
                             if (EventParticipantDAO.updateEventRole(eventParticipant)) {
+                                AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
                                 json.addProperty("message", "success");
                             } else {
                                 json.addProperty("message", "Fail update participant");

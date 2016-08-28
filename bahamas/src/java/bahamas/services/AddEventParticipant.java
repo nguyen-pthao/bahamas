@@ -23,7 +23,9 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -76,13 +78,14 @@ public class AddEventParticipant extends HttpServlet {
 
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
+                String nameOfFailedAddRole = "";
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String roleId = Validator.containsBlankField(jobject.get("event_role_id"));
-                String targetContactid = null;
-                if (jobject.has("contact_id")) {
-                    targetContactid = Validator.containsBlankField(jobject.get("contact_id"));
+                JsonArray targetContactidArray = null;
+                if (jobject.has("contact_id_list")) {
+                    targetContactidArray = jobject.get("contact_id_list").getAsJsonArray();
                 }
                 String username = Authenticator.verifyToken(token);
 
@@ -116,20 +119,43 @@ public class AddEventParticipant extends HttpServlet {
                             return;
                         }
                         EventParticipant eventParticipant = null;
-                        if (targetContactid != null && canAddTarget) {
-                            Contact contact1 = cDAO.retrieveContactById(Integer.parseInt(targetContactid));
-                            eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), contact1.getUsername(), false, null, null, 0, null, null);
+                        if (targetContactidArray != null && canAddTarget) {
+
+                            
+                            for (int i = 0; i < targetContactidArray.size(); i++) {
+                                int targetContactid = targetContactidArray.get(i).getAsInt();
+                                Contact contact1 = cDAO.retrieveContactById(targetContactid);
+                                if(contact1 != null){
+                                    eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), contact1.getUsername(), false, null, null, 0, null, null); 
+                                }
+                                if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
+                                    AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
+                                    //json.addProperty("message", "success");
+                                    //out.println(gson.toJson(json));
+                                } else {
+                                    //json.addProperty("message", "fail to insert Contact ID: " + contact1.getContactId() + " to Event ID: " + eventId + " | Event role ID: " + roleId);
+                                    nameOfFailedAddRole += targetContactid + ", ";
+                                }
+                                if(nameOfFailedAddRole.isEmpty()){
+                                    json.addProperty("message", "success");
+                                } else {
+                                    json.addProperty("message", "Fail to add contact id: " + nameOfFailedAddRole.substring(0, nameOfFailedAddRole.length()-2));
+                                }
+                            }
                         } else {
                             eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
+                            if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
+                                AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
+                                json.addProperty("message", "success");
+                                //out.println(gson.toJson(json));
+                                //return;
+                            } else {
+                                json.addProperty("message", "fail to insert Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
+                                //out.println(gson.toJson(json));
+                                //return;
+                            }
                         }
-                        if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
-                            AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
-                            json.addProperty("message", "success");
-                            out.println(gson.toJson(json));
-                        } else {
-                            json.addProperty("message", "fail to insert DB");
-                            out.println(gson.toJson(json));
-                        }
+                        out.println(gson.toJson(json));
                     }
                 }
             }
