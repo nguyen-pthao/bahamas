@@ -139,31 +139,32 @@ app.controller('viewIndivEvent',
                 }
 
                 $scope.addParticipant = function ($event, role) {
-                    var urlToRetrieveContacts = '/event.insertParticipant';
+                    var urlToRetrieveContacts = '/event.retrievecontactsinteam';
+                    $scope.eventRoleId = role['event_role_id'];
                     $scope.toRetrieveContacts = {
                         'token': session.getSession('token'),
                         'role_id': role['event_role_id'],
                         'event_id': eventId
                     };
                     dataSubmit.submitData($scope.toRetrieveContacts, urlToRetrieveContacts).then(function (response) {
-//                            if (response.data.message == "success") {
-//                                ngDialog.openConfirm({
-//                                    template: './style/ngTemplate/joinRoleSuccess.html',
-//                                    className: 'ngdialog-theme-default',
-//                                    scope: $scope
-//                                }).then(function (response) {
-//                                    var current = user + '.viewIndivEvent';
-//                                    $state.go(current, {}, {reload: true});
-//                                })
-//                            }
-                        console.log(response);
-                    })
-                    var modalInstance = $uibModal.open({
-                        animation: true,
-                        templateUrl: './style/ngTemplate/searchAddParticipant.html',
-                        controller: 'SearchAddParticipantInstanceCtrl',
-                        scope: $scope,
-                        size: "md"
+                        if (response.data.message === "success") {
+                            $scope.contactsAvailable = response.data.contact;
+                            var modalInstance = $uibModal.open({
+                                animation: true,
+                                templateUrl: './style/ngTemplate/searchAddParticipant.html',
+                                controller: 'SearchAddParticipantInstanceCtrl',
+                                scope: $scope,
+                                backdrop: 'static',
+                                keyboard: false,
+                                size: "md"
+                            });
+                        } else {
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/addEventAffiliationFailure.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            });
+                        }
                     });
                 };
 
@@ -181,7 +182,7 @@ app.controller('viewIndivEvent',
 
 app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
     $scope.ok = function () {
-        
+
     };
 
     $scope.cancel = function () {
@@ -190,23 +191,27 @@ app.controller('ReasonIndivInstanceCtrl', function ($scope, $rootScope, $uibModa
 });
 
 app.controller('SearchAddParticipantInstanceCtrl', function ($scope, $rootScope, $uibModalInstance, dataSubmit, session, ngDialog, $state) {
+    $scope.selected = [];
+    $scope.selectedId = [];
+    var eventId = session.getSession('eventIdToDisplay');
+    $scope.onSelect = function ($item, $model, $label) {
+        $scope.selected.push($item);
+        $scope.selectedId.push($item.cid);
+        $scope.input = "";
+    };
+
     $scope.ok = function () {
-        var part = $rootScope.participant;
-        if (angular.isUndefined($scope.input)) {
-            $scope.input = "";
-        }
-        ;
-        $scope.toRemovePart = {
+        $scope.toAddParticipants = {
             'token': session.getSession('token'),
-            'role_id': part['role_id'],
-            'reason': $scope.input,
-            'withdraw_contact_id': part['contact_id']
+            'event_id': eventId,
+            'event_role_id': $scope.eventRoleId,
+            'contact_id_list': $scope.selectedId
         };
-        var urlToRemove = '/event.leaverole';
-        dataSubmit.submitData($scope.toRemovePart, urlToRemove).then(function (response) {
+        var urlToAdd = '/event.multiplejoin';
+        dataSubmit.submitData($scope.toAddParticipants, urlToAdd).then(function (response) {
             if (response.data.message == 'success') {
                 ngDialog.openConfirm({
-                    template: './style/ngTemplate/removeSuccessful.html',
+                    template: './style/ngTemplate/joinRoleSuccess.html',
                     className: 'ngdialog-theme-default',
                     scope: $scope
                 }).then(function (response) {

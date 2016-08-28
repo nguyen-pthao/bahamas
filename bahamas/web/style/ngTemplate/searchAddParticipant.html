@@ -2,8 +2,17 @@
             <h3 class="modal-title">Search Participant:</h3>
         </div>
 <div class="modal-body">
+    <span style='color: blue;'>Note: Only contacts that are in one of these event's affiliated teams can be searched!</span>
     <div ng-form name="searchAddForm">
-        <input type="text" placeholder="Search Contacts..." class="form-control" ng-Model="input" uib-typeahead="contact as contact.name for contact in allContactInfo | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html" typeahead-on-select='onSelect($item, $model, $label)'>
+        <input type="text" placeholder="Search Contacts..." class="form-control" ng-model="input" uib-typeahead="contact as contact.name for contact in contactsAvailable | filter:$viewValue | limitTo:8" typeahead-template-url="style/ngTemplate/contactList-tpl.html" typeahead-on-select='onSelect($item, $model, $label)'>
+    </div>
+    <div>
+        <b>Contacts to add:</b>
+        <ul>
+            <li ng-repeat="contact in selected">
+                {{contact.name}}
+            </li>
+        </ul>
     </div>
 </div>
 <div class="modal-footer">
