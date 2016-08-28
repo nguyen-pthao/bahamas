@@ -195,9 +195,20 @@ app.controller('SearchAddParticipantInstanceCtrl', function ($scope, $rootScope,
     $scope.selectedId = [];
     var eventId = session.getSession('eventIdToDisplay');
     $scope.onSelect = function ($item, $model, $label) {
-        $scope.selected.push($item);
-        $scope.selectedId.push($item.cid);
-        $scope.input = "";
+        var i = 0;
+        var contains = false;
+        angular.forEach($scope.selectedId, function () {
+            var id = $scope.selectedId[0];
+            if ($item.cid == id) {
+                contains = true;
+            }
+            i++;
+        });
+        if (contains == false) {
+            $scope.selected.push($item);
+            $scope.selectedId.push($item.cid);
+            $scope.input = "";
+        }
     };
 
     $scope.ok = function () {
