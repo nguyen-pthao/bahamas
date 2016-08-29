@@ -4398,9 +4398,11 @@ table.text-center th {
 .bg-yellow,
 .callout.callout-warning,
 .alert-warning,
-.label-warning,
 .modal-warning .modal-body {
   background-color: #f39c12 !important;
+}
+.label-warning{
+  background-color: red;
 }
 .bg-aqua,
 .callout.callout-info,
