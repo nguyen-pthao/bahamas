@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
@@ -95,10 +96,10 @@ public class LeaveEventRole extends HttpServlet {
                         EventParticipant eventParticipant = null;
 
                         if (Integer.parseInt(withdrawerId) == contact.getContactId()) {
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), contact.getContactId());
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), contact.getContactId());
                         } else {
                             if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
-                                eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
+                                eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
                             }
                         }
 
@@ -107,6 +108,7 @@ public class LeaveEventRole extends HttpServlet {
                             eventParticipant.setPullout(true);
                             eventParticipant.setDatepullout(new java.util.Date());
                             if (EventParticipantDAO.updateEventRole(eventParticipant)) {
+                                AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
                                 json.addProperty("message", "success");
                             } else {
                                 json.addProperty("message", "Fail update participant");

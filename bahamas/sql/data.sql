@@ -78,7 +78,7 @@ INSERT INTO `EVENT_CLASS_LIST` VALUES ('Basic Training',1),('Advanced Training',
 --
 
 /*!40000 ALTER TABLE `EVENT_LOCATION_LIST` DISABLE KEYS */;
-INSERT INTO `EVENT_LOCATION_LIST` VALUES ('Alankar' ,NULL , NULL ,1),('Isthana' ,NULL , NULL ,2),('Online' ,NULL , NULL ,3),('TWC2 DaySpace' ,NULL , NULL ,4),('TWC2 office' ,NULL , NULL ,5),('Other' ,NULL , NULL ,6);
+INSERT INTO `EVENT_LOCATION_LIST` VALUES ('Alankar' ,'98 Dunlop Street' , '20941' ,1),('Isthana' ,'1C Rowell Road #01-01' , '207958' ,2),('Online' ,NULL , NULL ,3),('TWC2 DaySpace' ,NULL , NULL ,4),('TWC2 office' ,'5001 Beach Road #09-86 Golden Mile Complex' , '199588' ,5),('Other' ,NULL , NULL ,6);
 /*!40000 ALTER TABLE `EVENT_LOCATION_LIST` ENABLE KEYS */;
 
 --

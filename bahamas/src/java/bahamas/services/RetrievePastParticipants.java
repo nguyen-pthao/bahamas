@@ -34,6 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -178,7 +179,7 @@ public class RetrievePastParticipants extends HttpServlet {
                                             if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
 
                                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
-                                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyEventIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
+                                                    EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
                                                     JsonObject roleJson = new JsonObject();
                                                     roleJson.addProperty("event_role_id", eventRoleAssignment.getRoleId());
                                                     roleJson.addProperty("event_role", eventRoleAssignment.getRoleName());
@@ -290,6 +291,17 @@ public class RetrievePastParticipants extends HttpServlet {
 
                                         if (teamNameFilter.isEmpty()) {
                                             eventArray.add(jsonContactObj);
+                                        } else if (!teamNameFilter.isEmpty() && teamNameFilter.equals("my_team")) {
+                                            Iterator iter = eventTeamsHM.keySet().iterator();
+                                            while (iter.hasNext()) {
+                                                String eventTeam = (String) iter.next();
+                                                Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                
+                                                if (matchTeam) {
+                                                    eventArray.add(jsonContactObj);
+                                                    hmTeamPermission.clear();
+                                                }
+                                            }
                                         } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
                                             eventArray.add(jsonContactObj);
                                             hmTeamPermission.clear();

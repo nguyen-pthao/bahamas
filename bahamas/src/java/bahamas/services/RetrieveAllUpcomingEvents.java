@@ -30,6 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -86,10 +87,10 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String teamNameFilter = "";
                 String username = Authenticator.verifyToken(token);
-                if(jobject.has("teamFilter")){
+                if (jobject.has("teamFilter")) {
                     teamNameFilter = jobject.get("teamFilter").getAsString();
                 }
-                
+
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -165,7 +166,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 jsonContactObj.addProperty("canEdit", false);
                                                 jsonContactObj.addProperty("canDelete", false);
                                                 jsonContactObj.addProperty("canJoin", true);
-                                                if(isPendingTeam){
+                                                if (isPendingTeam) {
                                                     eventArray.add(jsonContactObj);
                                                 }
                                             }
@@ -237,9 +238,20 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                     jsonContactObj.addProperty("canJoin", false);
                                                 }
                                             }
-                                            if(teamNameFilter.isEmpty()){
+                                            if (teamNameFilter.isEmpty()) {
                                                 eventArray.add(jsonContactObj);
-                                            }else if(!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)){
+                                            } else if (!teamNameFilter.isEmpty() && teamNameFilter.equals("my_team")) {
+                                                Iterator iter = eventTeamsHM.keySet().iterator();
+                                                while (iter.hasNext()) {
+                                                    String eventTeam = (String) iter.next();
+                                                    Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+
+                                                    if (matchTeam) {
+                                                        eventArray.add(jsonContactObj);
+                                                        hmTeamPermission.clear();
+                                                    }
+                                                }
+                                            } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
                                                 eventArray.add(jsonContactObj);
                                                 hmTeamPermission.clear();
                                             }

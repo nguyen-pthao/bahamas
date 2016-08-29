@@ -122,7 +122,7 @@ public class AddEvent extends HttpServlet {
                 String repeatBy = "";
                 Date startdate = null;
                 long dayDiff = 0;
-                
+
                 JsonArray newEventIdJsonArray = new JsonArray();
 
                 JsonObject repeatEvent = jobject.get("repeat").getAsJsonObject();
@@ -237,7 +237,7 @@ public class AddEvent extends HttpServlet {
                             //check if exist
                             Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks);
                             String errorMsg = EventDAO.eventExist(event, null);
-                            
+
                             //repeating events
                             String ical = "";
                             ArrayList<Date> repeatingEventStartDate = new ArrayList<Date>();
@@ -306,7 +306,7 @@ public class AddEvent extends HttpServlet {
                                                 ical = "RRULE:FREQ=MONTHLY"
                                                         + ";INTERVAL=" + repeatEveryMonthly // every n months
                                                         + ";BYDAY=" + (calendar.get(Calendar.WEEK_OF_MONTH) - 1) + byDay// that occurs on the day of N weeks
-                                                        +";COUNT=" + endOccurenceMonthly + ";"; // stop after 13 occurences
+                                                        + ";COUNT=" + endOccurenceMonthly + ";"; // stop after 13 occurences
                                             }
 
                                         } else {
@@ -349,8 +349,17 @@ public class AddEvent extends HttpServlet {
                                         break;
                                 }
                                 try {
-                                    for (Date dateTemp : DateIteratorFactory.createDateIterable(ical, eventStartDate, TimeZone.getDefault(), true)) {
+                                    Calendar cal = Calendar.getInstance();
+                                    Calendar now = Calendar.getInstance();
+                                    cal.setTime(eventStartDate);
+                                    cal.set(Calendar.HOUR_OF_DAY, now.get(Calendar.HOUR_OF_DAY));
+                                    cal.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
+                                    cal.set(Calendar.SECOND, now.get(Calendar.SECOND));
+                                    Date eventStartDateTemp = cal.getTime();
+                        
+                                    for (Date dateTemp : DateIteratorFactory.createDateIterable(ical, eventStartDateTemp, TimeZone.getDefault(), true)) {
                                         Date dateTempNew = new Date(dateTemp.getTime() + 28800000);
+                                        //Date dateTempNew = new Date(dateTemp.getTime());
                                         repeatingEventStartDate.add(dateTempNew);
                                         long endDateLong = dateTempNew.getTime() + dayDiff;
                                         Date endDateTemp = new Date(endDateLong);
@@ -382,7 +391,6 @@ public class AddEvent extends HttpServlet {
                                     newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, username)));
                                 }
                             }
-
 
                             if (eventID > 0) {
                                 AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);

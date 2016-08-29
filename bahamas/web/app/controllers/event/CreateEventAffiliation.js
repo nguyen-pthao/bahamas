@@ -50,11 +50,11 @@ app.controller('createEventAffiliation',
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
                         var other;
-                        for (var obj in $scope.teamAffiliationList) {
-                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
-                                other = $scope.teamAffiliationList.splice(obj, 1);
-                            }
-                        }
+//                        for (var obj in $scope.teamAffiliationList) {
+//                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
+//                                other = $scope.teamAffiliationList.splice(obj, 1);
+//                            }
+//                        }
                     });
                 };
 
