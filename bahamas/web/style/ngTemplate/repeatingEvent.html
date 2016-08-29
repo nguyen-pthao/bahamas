@@ -105,14 +105,14 @@
 <div class="modal-footer">
     <div ng-if="newEvent['repeat']['mode'] == 'Daily'">
         <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="(endDaily == 'isOccurence' && newEvent['repeat']['end_occurence_daily'] == '') || (endDaily == 'isOn' && newEvent['repeat']['end_on_daily'] == '') || repeatForm.dailyOccurence.$invalid">Done</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
     </div>
     <div ng-if="newEvent['repeat']['mode'] == 'Weekly'">
         <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="(endWeekly == 'isOccurence' && newEvent['repeat']['end_occurence_weekly'] == '') || (endWeekly == 'isOn' && newEvent['repeat']['end_on_weekly'] == '') || repeatForm.weeklyOccurence.$invalid">Done</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
     </div>
     <div ng-if="newEvent['repeat']['mode'] == 'Monthly'">
         <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="(endMonthly == 'isOccurence' && newEvent['repeat']['end_occurence_monthly'] == '') || (endMonthly == 'isOn' && newEvent['repeat']['end_on_monthly'] == '') || repeatForm.monthlyOccurence.$invalid">Done</button>
-        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Close</button>
     </div>
 </div>

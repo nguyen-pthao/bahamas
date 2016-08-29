@@ -55,7 +55,6 @@ app.controller('cloneEventRoles',
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.newEventInfo = response.data;
-                        console.log($scope.newEventInfo);
                         $scope.newRoles = {
                             'event_id': eventId,
                             'event_id_list': eventIdArray,

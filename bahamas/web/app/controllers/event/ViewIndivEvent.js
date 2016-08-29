@@ -146,7 +146,7 @@ app.controller('viewIndivEvent',
                         'role_id': role['event_role_id'],
                         'event_id': eventId
                     };
-                    dataSubmit.submitData($scope.toRetrieveContacts, urlToRetrieveContacts).then(function (response) {
+                    $scope.myPromise = dataSubmit.submitData($scope.toRetrieveContacts, urlToRetrieveContacts).then(function (response) {
                         if (response.data.message === "success") {
                             $scope.contactsAvailable = response.data.contact;
                             var modalInstance = $uibModal.open({
