@@ -193,60 +193,65 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         roleJson.addProperty("joined", true);
                                         canJoinDisable = true;
                                     }
-                                    JsonArray roleParticipentArray = new JsonArray();    
+                                    JsonArray roleParticipentArray = new JsonArray();
                                     if (EventRoleAssignmentList != null && EventParticipantList != null) {
-                                            
-                                            int roleId = eventRoleAssignment.getRoleId();
-                                            //JsonArray participantsWithSameRole = new JsonArray();
-                                            for (EventParticipant eventParticipantTemp : EventParticipantList) {
-                                                JsonObject role = new JsonObject();
-                                                if (roleId == eventParticipantTemp.getRoleID()) {
-                                                    if (!eventParticipantTemp.isPullout()) {
-                                                        int participantID = eventParticipantTemp.getContactID();
-                                                        Contact contactTemp = cDAO.retrieveContactById(participantID);
-                                                        role.addProperty("role", eventRoleAssignment.getRoleName());
-                                                        role.addProperty("role_id", eventRoleAssignment.getRoleId());
-                                                        //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
-                                                        role.addProperty("contact_id", contactTemp.getContactId());
-                                                        //boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
-                                                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId)) || contactTemp.getContactId() == contact.getContactId()) {
-                                                            //boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
-                                                            role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
-                                                            role.addProperty("canRemove", true);
-                                                            role.addProperty("remarks", eventParticipantTemp.getRemarks());
-                                                            if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))){
-                                                                role.addProperty("canAppreciate", true);
-                                                                role.addProperty("canAddParticipants", true);
-                                                                role.addProperty("eventParticipantservice_comment", eventParticipantTemp.getService_comment());
-                                                            }else{
-                                                                role.addProperty("canAppreciate", false);
-                                                                role.addProperty("canAddParticipants", false);
-                                                                role.add("eventParticipantservice_comment", new JsonPrimitive(""));
-                                                            }
-                                                            role.addProperty("award_hours", Double.toString(eventParticipantTemp.getHoursServed()));
+
+                                        int roleId = eventRoleAssignment.getRoleId();
+                                        //JsonArray participantsWithSameRole = new JsonArray();
+                                        for (EventParticipant eventParticipantTemp : EventParticipantList) {
+                                            JsonObject role = new JsonObject();
+                                            if (roleId == eventParticipantTemp.getRoleID()) {
+                                                if (!eventParticipantTemp.isPullout()) {
+                                                    int participantID = eventParticipantTemp.getContactID();
+                                                    Contact contactTemp = cDAO.retrieveContactById(participantID);
+                                                    role.addProperty("role", eventRoleAssignment.getRoleName());
+                                                    role.addProperty("role_id", eventRoleAssignment.getRoleId());
+                                                    //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
+                                                    role.addProperty("contact_id", contactTemp.getContactId());
+                                                    //boolean chk2 = Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId));
+                                                    if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId)) || contactTemp.getContactId() == contact.getContactId()) {
+                                                        //boolean chk1 = RoleCheckDAO.checkRole(contact.getContactId(), "teammanager");
+                                                        String tempUsername = "No username";
+                                                        if (contactTemp.getUsername() != null) {
+                                                            tempUsername = contactTemp.getUsername();
+                                                        }
+                                                        role.addProperty("participant_name", (contactTemp.getName() + "(" + tempUsername + ")"));
+                                                        role.addProperty("canRemove", true);
+                                                        role.addProperty("remarks", eventParticipantTemp.getRemarks());
+                                                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
+                                                            role.addProperty("canAppreciate", true);
+                                                            //role.addProperty("canAddParticipants", true);
+                                                            role.addProperty("eventParticipantservice_comment", eventParticipantTemp.getService_comment());
                                                         } else {
-                                                            role.addProperty("participant_name", (contactTemp.getName()));
-                                                            role.addProperty("canRemove", false);
-                                                            role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                             role.addProperty("canAppreciate", false);
+                                                            //role.addProperty("canAddParticipants", false);
                                                             role.add("eventParticipantservice_comment", new JsonPrimitive(""));
-                                                            role.addProperty("award_hours", "");
                                                         }
-                                                        if(contactTemp.getContactId() == contact.getContactId()){
-                                                            role.addProperty("canRemark", true);
-                                                        }else{
-                                                            role.addProperty("canRemark", false);
-                                                        }
-                                                        roleParticipentArray.add(role);
-                                                        //roleJson.add("event_participant", roleParticipentArray);
-                                                        
+                                                        role.addProperty("award_hours", Double.toString(eventParticipantTemp.getHoursServed()));
+                                                    } else {
+                                                        role.addProperty("participant_name", (contactTemp.getName()));
+                                                        role.addProperty("canRemove", false);
+                                                        role.addProperty("remarks", eventParticipantTemp.getRemarks());
+                                                        role.addProperty("canAppreciate", false);
+                                                        //role.addProperty("canAddParticipants", false);
+                                                        role.add("eventParticipantservice_comment", new JsonPrimitive(""));
+                                                        role.addProperty("award_hours", "");
                                                     }
+                                                    if (contactTemp.getContactId() == contact.getContactId()) {
+                                                        role.addProperty("canRemark", true);
+                                                    } else {
+                                                        role.addProperty("canRemark", false);
+                                                    }
+                                                    roleParticipentArray.add(role);
+                                                        //roleJson.add("event_participant", roleParticipentArray);
+
                                                 }
                                             }
                                         }
-                                    
+                                    }
+
                                     roleJson.add("event_participant", roleParticipentArray);
-                                    
+
 //new                                    
                                     eventRoleJsonArray.add(roleJson);
                                 }
@@ -277,7 +282,11 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                     Contact contactTemp = cDAO.retrieveContactById(participantID);
                                                     role.addProperty("role", eventRoleAssignment.getRoleName());
                                                     role.addProperty("role_id", eventRoleAssignment.getRoleId());
-                                                    role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
+                                                    String tempUsername = "No username";
+                                                    if (contactTemp.getUsername() != null) {
+                                                        tempUsername = contactTemp.getUsername();
+                                                    }
+                                                    role.addProperty("participant_name", (contactTemp.getName() + "(" + tempUsername + ")"));
                                                     role.addProperty("contact_id", contactTemp.getContactId());
                                                     role.addProperty("reason", eventParticipant.getReason());
                                                     withdrawnParticipentArray.add(role);
@@ -304,6 +313,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 } else {
                                     json.addProperty("canJoin", true);
                                 }
+                                json.addProperty("canAddParticipants", true);
 
                             } else {
                                 if (eventAffiliation != null) {
@@ -355,6 +365,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                     json.addProperty("canDelete", false);
                                     json.addProperty("canJoin", false);
                                 }
+                                json.addProperty("canAddParticipants", false);
                             }
                             json.addProperty("canView", canView);
                             json.addProperty("canViewRSC", canViewRSC);

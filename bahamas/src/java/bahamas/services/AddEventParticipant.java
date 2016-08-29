@@ -126,7 +126,7 @@ public class AddEventParticipant extends HttpServlet {
                                 int targetContactid = targetContactidArray.get(i).getAsInt();
                                 Contact contact1 = cDAO.retrieveContactById(targetContactid);
                                 if(contact1 != null){
-                                    eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), contact1.getUsername(), false, null, null, 0, null, null); 
+                                    eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null); 
                                 }
                                 if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                     AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
