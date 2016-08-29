@@ -186,10 +186,10 @@ public class ExportMembership extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("membershiplist", membershipArray);
+                    json.add("list", membershipArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "membership table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

@@ -141,10 +141,10 @@ public class ExportLanguage extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("languagelist", languageArray);
+                    json.add("list", languageArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "language table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

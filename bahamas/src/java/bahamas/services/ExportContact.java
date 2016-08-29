@@ -198,10 +198,10 @@ public class ExportContact extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("contactlist", contactArray);
+                    json.add("list", contactArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "contact table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }
