@@ -130,10 +130,10 @@ public class ExportPhone extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("phonelist", phoneArray);
+                    json.add("list", phoneArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "phone table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

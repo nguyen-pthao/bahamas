@@ -146,10 +146,10 @@ public class ExportTeamjoin extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("teamjoinlist", teamjoinArray);
+                    json.add("list", teamjoinArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "teamjoin table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

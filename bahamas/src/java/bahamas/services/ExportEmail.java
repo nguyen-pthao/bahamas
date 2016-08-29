@@ -130,10 +130,10 @@ public class ExportEmail extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("emaillist", emailArray);
+                    json.add("list", emailArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "email table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

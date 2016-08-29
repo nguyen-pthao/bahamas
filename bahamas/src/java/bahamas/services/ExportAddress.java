@@ -141,10 +141,10 @@ public class ExportAddress extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("addresslist", addressArray);
+                    json.add("list", addressArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "address table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

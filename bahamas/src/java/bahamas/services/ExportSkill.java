@@ -135,10 +135,10 @@ public class ExportSkill extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("skilllist", skillArray);
+                    json.add("list", skillArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "skills and assets table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }

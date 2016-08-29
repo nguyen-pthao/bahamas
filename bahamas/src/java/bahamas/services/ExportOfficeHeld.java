@@ -138,10 +138,10 @@ public class ExportOfficeHeld extends HttpServlet {
 
                     }
                     json.addProperty("message", "success");
-                    json.add("officeHeldlist", officeHeldArray);
+                    json.add("list", officeHeldArray);
                 } else {
 
-                    json.addProperty("message", "list empty");
+                    json.addProperty("message", "officeheld table is empty");
                     out.println(gson.toJson(json));
                     return;
                 }
