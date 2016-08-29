@@ -29,9 +29,8 @@ and open the template in the editor.
                     <div class="box-body">
                         <div class="col-md-12 padding-bottom">
                             <div class="col-md-5 form-group">
-                                <label>File Name</label>
-                                <input type='text' class="form-control" ng-model="fileName" name="filename" empty>
-                                <span ng-show='filename.empty && filename.$dirty' class='error'>File name is required.</span>
+                                <label>File Name (Optional)</label>
+                                <input type='text' class="form-control" ng-model="fileName" name="filename">
                             </div>
                             <div class="col-md-offset-2 col-md-5">
                                 <label>Select data table to be exported</label>
@@ -54,12 +53,18 @@ and open the template in the editor.
                                 </center>
                             </div>
                         </div>
+                        <div class="col-md-12" ng-show="resultData != '' && !error">
+                            <span class="uppercase bold pull-left">{{selectedExport}} TABLE</span>
+                            <span class="pull-right">
+                                    <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file-excel-o"></i> Save as excel</button>
+                            </span>
+                        </div>
                         <div class="col-md-12">
-                            <div class="table-horizontal-scroll" id="export" ng-show="resultData != ''">
-                                <table class="table table-bordered table-striped">
+                            <div class="table-horizontal-scroll" id="export" ng-show="resultData != '' && !error">
+                                <table class="table table-bordered table-striped export-table">
                                     <thead>
                                         <tr>
-                                            <th ng-repeat="theader in tableHeader">{{theader}}</th>
+                                            <th ng-repeat="theader in tableHeader" style="background-color: #ffb299">{{theader}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -69,8 +74,10 @@ and open the template in the editor.
                                     </tbody>
                                 </table>
                             </div>
+                        </div>
+                        <div class="col-md-12" ng-show="resultData != '' && error">
                             <center>
-                                <button class="btn btn-link uppercase bold" ng-click="exportData()"><i class="glyphicon glyphicon-floppy-disk"></i> Save table</button>
+                                <label class="uppercase">{{resultData.message}}</label>
                             </center>
                         </div>
                     </div>

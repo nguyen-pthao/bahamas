@@ -37,9 +37,13 @@ and open the template in the editor.
                                     <option value="phone">Phone</option>
                                     <option value="email">Email</option>
                                     <option value="address">Address</option>
-                                    <option value="team_join">Team Join</option>
-                                    <option value="language_assignment">Language Assignment</option>
-                                    <option value="skill_assignment">Skill Assignment</option>
+                                    <option value="membership">Membership</option>
+                                    <option value="officeheld">Office Held</option>
+                                    <option value="donation">Donation</option>
+                                    <option value="appreciation">Appreciation</option>
+                                    <option value="teamjoin">Team Join</option>
+                                    <option value="language">Language</option>
+                                    <option value="skill">Skill</option>
                                 </select>
                             </div>
                             <div class="col-md-offset-1 col-md-7 no-padding-top">
@@ -90,14 +94,17 @@ and open the template in the editor.
                                     </tr>
                                 </tbody>
                             </table>
-                            <h4 class="error">*Notice: File content to follow template table strictly</h4>
+                            <h4 class="error">**Notice: File content to follow template table strictly**</h4>
                             <a ng-click="downloadFile()"> <i class="fa fa-globe"></i> Download template table for this file</a>
                         </div>
                         <center>
                             <button type="submit" class="btn btn-link uppercase bold" ng-click="import(fileUpload)"><i class="fa fa-inbox"></i> Import File</button>
                         </center>
+                        <div class="col-md-12" ng-show="resultData != '' && error">
+                            
+                        </div>
                         <div class="col-md-12">
-                            <div class="table-horizontal-scroll" ng-show="resultData != ''">
+                            <div class="table-horizontal-scroll" ng-show="resultData != '' && !error">
                                 <table class="table table-bordered table-striped">
                                     <thead>
                                         <tr>

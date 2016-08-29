@@ -12,14 +12,38 @@ app.controller('import', ['$scope', 'session', '$state', 'Upload', function ($sc
             $state.go('admin');
         };
         
-        //to be modified
         $scope.selectedImport = 'contact';
         $scope.downloadFile = function() {
-            window.open('https://rms.twc2.org.sg/template/template.xlsx');
+            console.log($scope.selectedImport);
+            if($scope.selectedImport == 'contact') {
+                window.open('https://rms.twc2.org.sg/template/contact.xlsx');
+            } else if ($scope.selectedImport == 'phone') {
+                window.open('https://rms.twc2.org.sg/template/phone.xlsx');
+            } else if ($scope.selectedImport == 'email') {
+                window.open('https://rms.twc2.org.sg/template/email.xlsx');
+            } else if ($scope.selectedImport == 'address') {
+                window.open('https://rms.twc2.org.sg/template/address.xlsx');
+            } else if ($scope.selectedImport == 'membership') {
+                window.open('https://rms.twc2.org.sg/template/membership.xlsx');
+            } else if ($scope.selectedImport == 'officeheld') {
+                window.open('https://rms.twc2.org.sg/template/officeheld.xlsx');
+            } else if ($scope.selectedImport == 'donation') {
+                window.open('https://rms.twc2.org.sg/template/donation.xlsx');
+            } else if ($scope.selectedImport == 'appreciation') {
+                window.open('https://rms.twc2.org.sg/template/appreciation.xlsx');
+            } else if ($scope.selectedImport == 'teamjoin') {
+                window.open('https://rms.twc2.org.sg/template/teamjoin.xlsx');
+            } else if ($scope.selectedImport == 'language') {
+                window.open('https://rms.twc2.org.sg/template/language.xlsx');
+            } else if ($scope.selectedImport == 'skill') {
+                window.open('https://rms.twc2.org.sg/template/skill.xlsx');
+            }
         };
 
-        var url = $scope.commonUrl + AppAPI.importContacts;
+        var url = $scope.commonUrl + '/import';
         $scope.resultData = '';
+        $scope.error = false;
+        
         $scope.import = function (file) {
             console.log(file);
             if (!file.$error) {
@@ -35,11 +59,9 @@ app.controller('import', ['$scope', 'session', '$state', 'Upload', function ($sc
                     console.log(response.data);
                     var result = response.data;
                     
-                    result = response.data;
-                    $scope.showError = false;
                     if (result.hasOwnProperty('message')) {
                         $scope.resultData = result.message;
-                        $scope.showError = true;
+                        $scope.error = true;
                     } else {
                         $scope.resultData = result[$scope.selectedImport];
                     }

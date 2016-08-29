@@ -630,3 +630,11 @@ div.wrapper > aside.main-sidebar {
 .dropdown-check-list.visible .items {
   display: block;
 }*/
+
+.export-table {
+    border: solid 1px #de0606;
+}
+/*
+.export-table-header {
+    background-color: blueviolet;
+}*/
