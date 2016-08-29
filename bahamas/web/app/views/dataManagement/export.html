@@ -27,7 +27,52 @@ and open the template in the editor.
                         </div>
                     </div>
                     <div class="box-body">
-<!--                        to be modified-->
+                        <div class="col-md-12 padding-bottom">
+                            <div class="col-md-5 form-group">
+                                <label>File Name</label>
+                                <input type='text' class="form-control" ng-model="fileName" name="filename" empty>
+                                <span ng-show='filename.empty && filename.$dirty' class='error'>File name is required.</span>
+                            </div>
+                            <div class="col-md-offset-2 col-md-5">
+                                <label>Select data table to be exported</label>
+                                <select class="form-control" ng-model="selectedExport">
+                                    <option value="contact" selected>Contact</option>
+                                    <option value="phone">Phone</option>
+                                    <option value="email">Email</option>
+                                    <option value="address">Address</option>
+                                    <option value="membership">Membership</option>
+                                    <option value="officeheld">Office Held</option>
+                                    <option value="donation">Donation</option>
+                                    <option value="teamjoin">Team Join</option>
+                                    <option value="language">Languages</option>
+                                    <option value="skill">Skills and Assets</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <center>
+                                    <button class="btn btn-link uppercase bold" ng-click="export()"><i class="glyphicon glyphicon-floppy-disk"></i> Generate export</button>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-horizontal-scroll" id="export" ng-show="resultData != ''">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th ng-repeat="theader in tableHeader">{{theader}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="obj in resultData">
+                                            <td ng-repeat="thead in tableHeader"><span ng-bind="obj[thead]"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <center>
+                                <button class="btn btn-link uppercase bold" ng-click="exportData()"><i class="glyphicon glyphicon-floppy-disk"></i> Save table</button>
+                            </center>
+                        </div>
                     </div>
                 </div>
             </section>

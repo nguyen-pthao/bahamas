@@ -549,8 +549,8 @@ div.wrapper > aside.main-sidebar {
 .drop-box {
     background: #FFF;
     border: 5px solid #DDD;
-    width: 240px;
-    height: 240px;
+    width: 100%;
+    height: 100%;
     text-align: center;
 }
     
