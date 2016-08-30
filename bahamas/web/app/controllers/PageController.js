@@ -240,14 +240,6 @@ app.controller('pageController',
                     dataSubmit.submitData($scope.toReceiveNotifications, urlToReceiveNotif).then(function (response) {
                         if (response.data.message === "success") {
                             $scope.notificationList = response.data.notification;
-                            $scope.notificationList.push({
-                                'message': "<b>Hello</b> this is marcus!",
-                                'notificationId': 7,
-                                'contactId': 1,
-                                'eventId': 35,
-                                'state': ".viewIndivEvent",
-                                'read': false
-                            });
                             $scope.notificationLength = $scope.notificationList.length;
                         }
                     });
