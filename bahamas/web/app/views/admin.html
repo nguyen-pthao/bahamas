@@ -27,44 +27,22 @@
                                 <li class="dropdown notifications-menu">
                                     <a href="" class="dropdown-toggle" data-toggle="dropdown">
                                         <i class="fa fa-bell fa-lg"></i>
-                                        <span class="label label-warning">10</span>
+                                        <span class="label label-warning">{{notificationLength}}</span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li class="header"><b>You have 10 notifications</b></li>
+                                        <li class="header"><b>You have {{notificationLength}} notification(s)</b></li>
                                         <li>
                                             <!--inner menu: contains the actual data--> 
                                             <ul class="menu">
-                                                <li>
+                                                <li ng-repeat="notification in notificationList">
                                                     <div class="box-body">
-                                                        <a href="javascript: void(0)">
-                                                            <b>Temper Magnus</b> joined your event <b>"Basketball Training"</b>. Click to view event.
+                                                        <a href="" ng-click="goToState(notification)">
+                                                            {{notification.message}}
                                                         </a>
                                                     </div>
-                                                </li>
-                                                <li>
-                                                    <div class="box-body">
-                                                        <a href="javascript: void(0)">
-                                                            Temper Magnus joined your event "Basketball Training". Click here to view event.
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="box-body">
-                                                        <a href="javascript: void(0)">
-                                                            Temper Magnus joined your event "Basketball Training". Click here to view event.
-                                                        </a>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <div class="box-body">
-                                                        <a href="javascript: void(0)">
-                                                            Temper Magnus joined your event "Basketball Training". Click here to view event.
-                                                        </a>
-                                                    </div>
-                                                </li>                                                                                      
+                                                </li>                                                                               
                                             </ul>
                                         </li>
-<!--                                        <li class="footer"><a href="javascript: void(0)">View all</a></li>-->
                                     </ul>
                                 </li>
                                 <!-- User Account: style can be found in dropdown.less -->
