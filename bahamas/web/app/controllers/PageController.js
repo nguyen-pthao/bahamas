@@ -215,12 +215,15 @@ app.controller('pageController',
 
                 $scope.goToState = function (notification) {
                     var urlToGo = "" + user + notification.state;
+                    if(notification.state === ".viewIndivEvent"){
+                        session.setSession('eventIdToDisplay', notification.eventId);
+                    }
                     var index = $scope.notificationList.indexOf(notification);
                     $scope.toRemoveNotification = {
                         'token': session.getSession('token'),
                         'notificationId': notification.notificationId
                     }
-                    var urlToRemoveNotification = "/app.notification.read";
+                    var urlToRemoveNotification = "/app.notification.delete";
                     dataSubmit.submitData($scope.toRemoveNotification, urlToRemoveNotification).then(function (response) {
                         if (response.data.message === "success") {
                             $scope.notificationList.splice(index, 1);
@@ -241,7 +244,7 @@ app.controller('pageController',
                                 'message': "<b>Hello</b> this is marcus!",
                                 'notificationId': 7,
                                 'contactId': 1,
-                                'eventId': 1,
+                                'eventId': 35,
                                 'state': ".viewIndivEvent",
                                 'read': false
                             });
