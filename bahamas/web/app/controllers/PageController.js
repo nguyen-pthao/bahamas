@@ -213,4 +213,44 @@ app.controller('pageController',
                     $scope.openSidebar = !$scope.openSidebar;
                 };
 
+                $scope.goToState = function (notification) {
+                    var urlToGo = "" + user + notification.state;
+                    if(notification.state === ".viewIndivEvent"){
+                        session.setSession('eventIdToDisplay', notification.eventId);
+                    }
+                    var index = $scope.notificationList.indexOf(notification);
+                    $scope.toRemoveNotification = {
+                        'token': session.getSession('token'),
+                        'notificationId': notification.notificationId
+                    }
+                    var urlToRemoveNotification = "/app.notification.delete";
+                    dataSubmit.submitData($scope.toRemoveNotification, urlToRemoveNotification).then(function (response) {
+                        if (response.data.message === "success") {
+                            $scope.notificationList.splice(index, 1);
+                            $state.go(urlToGo, {}, {reload: true});
+                        }
+                    });
+                };
+
+                $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+                    $scope.toReceiveNotifications = {
+                        'token': session.getSession('token')
+                    }
+                    var urlToReceiveNotif = "/app.notification";
+                    dataSubmit.submitData($scope.toReceiveNotifications, urlToReceiveNotif).then(function (response) {
+                        if (response.data.message === "success") {
+                            $scope.notificationList = response.data.notification;
+                            $scope.notificationList.push({
+                                'message': "<b>Hello</b> this is marcus!",
+                                'notificationId': 7,
+                                'contactId': 1,
+                                'eventId': 35,
+                                'state': ".viewIndivEvent",
+                                'read': false
+                            });
+                            $scope.notificationLength = $scope.notificationList.length;
+                        }
+                    });
+                });
+
             }]);
