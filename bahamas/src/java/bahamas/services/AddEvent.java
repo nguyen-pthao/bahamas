@@ -235,7 +235,7 @@ public class AddEvent extends HttpServlet {
                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
 
                             //check if exist
-                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks);
+                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId());
                             String errorMsg = EventDAO.eventExist(event, null);
 
                             //repeating events
@@ -387,7 +387,7 @@ public class AddEvent extends HttpServlet {
                             newEventIdJsonArray.add(new JsonPrimitive("" + eventID));
                             if (!mode.isEmpty()) {
                                 for (int i = 1; i < repeatingEventStartDate.size(); i++) {
-                                    Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks);
+                                    Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId());
                                     newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, username)));
                                 }
                             }
