@@ -30,8 +30,8 @@ public class AppNotificationDAO {
         ArrayList<AppNotification> appNotificationList = new ArrayList<AppNotification>();
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT NOTIFICATION_ID, CONTACT_ID, EVENT_ID, STATE,"
-                    + "MESSAGE, READ FROM APP_NOTIFICATION WHERE CONTACT_ID = (?) ORDER BY NOTIFICATION_ID DESC");
+            stmt = conn.prepareStatement("SELECT `NOTIFICATION_ID`, `CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE`, `READ` "
+                    + "FROM APP_NOTIFICATION WHERE CONTACT_ID = (?) ORDER BY NOTIFICATION_ID DESC");
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();
@@ -70,7 +70,7 @@ public class AppNotificationDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO APP_NOTIFICATION ("
-                    + "CONTACT_ID, EVENT_ID, STATE, MESSAGE, READ) VALUES (?,?,?,?,?)");
+                    + "`CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE`, `READ`) VALUES (?,?,?,?,?)");
 
             stmt.setInt(1, appNotification.getContact_id());
             stmt.setInt(2, appNotification.getEvent_id());
@@ -100,7 +100,7 @@ public class AppNotificationDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE APP_NOTOFICATION SET READ=? "
+            stmt = conn.prepareStatement("UPDATE APP_NOTOFICATION SET `READ`=? "
                     + "WHERE NOTIFICATION_ID=?");
 
             stmt.setBoolean(1, readStatus);

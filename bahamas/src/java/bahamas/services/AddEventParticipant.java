@@ -5,11 +5,15 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
+import bahamas.entity.Event;
 import bahamas.entity.EventParticipant;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -119,16 +123,21 @@ public class AddEventParticipant extends HttpServlet {
                             return;
                         }
                         EventParticipant eventParticipant = null;
+                        EventDAO eventDAO = new EventDAO();
+                        Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
+                        
                         if (targetContactidArray != null && canAddTarget) {
-
-                            
                             for (int i = 0; i < targetContactidArray.size(); i++) {
                                 int targetContactid = targetContactidArray.get(i).getAsInt();
                                 Contact contact1 = cDAO.retrieveContactById(targetContactid);
-                                if(contact1 != null){
-                                    eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null); 
+                                if (contact1 != null) {
+                                    eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
                                 }
                                 if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
+                                    if (event.isSendReminder()) {
+                                        AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "<b>" + contact1.getName() + "</b> joined event <b>" + event.getEventTitle() + "</b>. Click to view event.", false);
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                     AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
                                     //json.addProperty("message", "success");
                                     //out.println(gson.toJson(json));
@@ -136,15 +145,19 @@ public class AddEventParticipant extends HttpServlet {
                                     //json.addProperty("message", "fail to insert Contact ID: " + contact1.getContactId() + " to Event ID: " + eventId + " | Event role ID: " + roleId);
                                     nameOfFailedAddRole += targetContactid + ", ";
                                 }
-                                if(nameOfFailedAddRole.isEmpty()){
+                                if (nameOfFailedAddRole.isEmpty()) {
                                     json.addProperty("message", "success");
                                 } else {
-                                    json.addProperty("message", "Fail to add contact id: " + nameOfFailedAddRole.substring(0, nameOfFailedAddRole.length()-2));
+                                    json.addProperty("message", "Fail to add contact id: " + nameOfFailedAddRole.substring(0, nameOfFailedAddRole.length() - 2));
                                 }
                             }
                         } else {
                             eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
                             if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
+                                if (event.isSendReminder()) {
+                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "<b>" + contact.getName() + "</b> joined event <b>" + event.getEventTitle() + "</b>. Click to view event.", false);
+                                    AppNotificationDAO.addAppNotification(appNotification);
+                                }
                                 AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
                                 json.addProperty("message", "success");
                                 //out.println(gson.toJson(json));
