@@ -15,23 +15,20 @@ public class AppNotification {
     int event_id;
     String state;
     String message;
-    boolean read;
 
-    public AppNotification(int notification_id, int contact_id, int event_id, String state, String message, boolean read) {
+    public AppNotification(int notification_id, int contact_id, int event_id, String state, String message) {
         this.notification_id = notification_id;
         this.contact_id = contact_id;
         this.event_id = event_id;
         this.state = state;
         this.message = message;
-        this.read = read;
     }
     
-    public AppNotification(int contact_id, int event_id, String state, String message, boolean read) {
+    public AppNotification(int contact_id, int event_id, String state, String message) {
         this.contact_id = contact_id;
         this.event_id = event_id;
         this.state = state;
         this.message = message;
-        this.read = read;
     }
 
     public int getNotification_id() {
@@ -72,16 +69,7 @@ public class AppNotification {
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    public boolean isRead() {
-        return read;
-    }
-
-    public void setRead(boolean read) {
-        this.read = read;
-    }
-    
+    }    
     
     
 }

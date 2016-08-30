@@ -30,7 +30,7 @@ public class AppNotificationDAO {
         ArrayList<AppNotification> appNotificationList = new ArrayList<AppNotification>();
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT `NOTIFICATION_ID`, `CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE`, `READ` "
+            stmt = conn.prepareStatement("SELECT `NOTIFICATION_ID`, `CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE` "
                     + "FROM APP_NOTIFICATION WHERE CONTACT_ID = (?) ORDER BY NOTIFICATION_ID DESC");
             stmt.setInt(1, cid);
 
@@ -42,9 +42,8 @@ public class AppNotificationDAO {
                 int eventId = rs.getInt(3);
                 String state = rs.getString(4);
                 String message = rs.getString(5);
-                boolean read = rs.getBoolean(6);
 
-                AppNotification appNotification = new AppNotification(notificationId, contactId, eventId, state, message, read);
+                AppNotification appNotification = new AppNotification(notificationId, contactId, eventId, state, message);
                 appNotificationList.add(appNotification);
             }
 
@@ -70,13 +69,12 @@ public class AppNotificationDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO APP_NOTIFICATION ("
-                    + "`CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE`, `READ`) VALUES (?,?,?,?,?)");
+                    + "`CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE`) VALUES (?,?,?,?)");
 
             stmt.setInt(1, appNotification.getContact_id());
             stmt.setInt(2, appNotification.getEvent_id());
             stmt.setString(3, appNotification.getState());
             stmt.setString(4, appNotification.getMessage());
-            stmt.setBoolean(5, appNotification.isRead());
 
             result = stmt.executeUpdate();
 
@@ -90,7 +88,7 @@ public class AppNotificationDAO {
         return false;
     }
     
-    public static boolean updateMembership(int notificationId, boolean readStatus) {
+    public static boolean updateMembership(int notificationId) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;

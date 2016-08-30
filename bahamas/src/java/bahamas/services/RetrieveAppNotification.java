@@ -104,7 +104,6 @@ public class RetrieveAppNotification extends HttpServlet {
                             jAppNotification.addProperty("eventId", appNotification.getEvent_id());
                             jAppNotification.addProperty("state", appNotification.getState());
                             jAppNotification.addProperty("message", appNotification.getMessage());
-                            jAppNotification.addProperty("read", appNotification.isRead());
                             notificationJArray.add(jAppNotification);
                         }
                     }

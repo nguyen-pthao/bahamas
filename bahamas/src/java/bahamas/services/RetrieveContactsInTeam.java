@@ -5,22 +5,18 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AddressDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
-import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
-import bahamas.entity.Address;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.EventAffiliation;
 import bahamas.entity.EventParticipant;
 import bahamas.entity.EventRoleAssignment;
-import bahamas.entity.Phone;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -150,7 +146,7 @@ public class RetrieveContactsInTeam extends HttpServlet {
 
         for (Contact c : contactList) {
 
-            ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(c.getContactId());
+            ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(c.getContactId());
             EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
             ArrayList<String> teamListInEvent = null;
             if (eventAffiliation != null) {

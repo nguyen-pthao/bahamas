@@ -135,7 +135,7 @@ public class AddEventParticipant extends HttpServlet {
                                 }
                                 if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                     if (event.isSendReminder()) {
-                                        AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined event " + event.getEventTitle() + ". Click to view event.", false);
+                                        AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined event " + event.getEventTitle() + ". Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
                                     AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
@@ -155,7 +155,7 @@ public class AddEventParticipant extends HttpServlet {
                             eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
                             if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                 if (event.isSendReminder()) {
-                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "<b>" + contact.getName() + "</b> joined event <b>" + event.getEventTitle() + "</b>. Click to view event.", false);
+                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact.getName() + " joined event " + event.getEventTitle() + ". Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 }
                                 AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);

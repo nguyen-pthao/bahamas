@@ -295,9 +295,8 @@ public class TeamJoinDAO {
         try {
             conn = ConnectionManager.getConnection();
 
-            //how all teams with date obslete filter
-            //stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, T.EXPLAIN_IF_OTHER, SUBTEAM, DATE_OBSOLETE, T.REMARKS, PERMISSION FROM TEAM_JOIN T, CONTACT C WHERE T.CONTACT_ID = C.CONTACT_ID AND (T.DATE_OBSOLETE = '0000-00-00' OR T.DATE_OBSOLETE = '' OR T.DATE_OBSOLETE IS NULL) AND C.USERNAME = (?)");
             //show all teams without date obslete filter
+            /*
             stmt = conn.prepareStatement("SELECT TEAM_NAME, T.DATE_CREATED, T.CREATED_BY, "
                     + "T.EXPLAIN_IF_OTHER, SUBTEAM,DATE_OBSOLETE, T.REMARKS, "
                     + "PERMISSION FROM TEAM_JOIN T, CONTACT C "
@@ -305,6 +304,11 @@ public class TeamJoinDAO {
                     + "AND PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,"
                     + "DATE_OBSOLETE > CURDATE(),TRUE) "
                     + "ORDER BY DATE_CREATED DESC");
+                    */
+            
+            stmt = conn.prepareStatement("SELECT TEAM_NAME, DATE_CREATED, CREATED_BY, EXPLAIN_IF_OTHER, SUBTEAM,DATE_OBSOLETE, REMARKS, PERMISSION FROM TEAM_JOIN WHERE CONTACT_ID = (?) "
+                    + "AND PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE) ORDER BY DATE_CREATED DESC");
+            
             stmt.setInt(1, cid);
 
             rs = stmt.executeQuery();
