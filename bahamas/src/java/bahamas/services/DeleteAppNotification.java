@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "RetrieveAppNotification", urlPatterns = {"/app.notification"})
-public class RetrieveAppNotification extends HttpServlet {
+@WebServlet(name = "DeleteAppNotification", urlPatterns = {"/app.notification.delete"})
+public class DeleteAppNotification extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -76,6 +76,7 @@ public class RetrieveAppNotification extends HttpServlet {
                 JsonArray notificationJArray = new JsonArray();
 
                 String token = jobject.get("token").getAsString();
+                String notificationId = jobject.get("notificationId").getAsString();
                 ArrayList<AppNotification> appNotificationList;
 
                 if (token == null || token.isEmpty()) {
@@ -94,23 +95,14 @@ public class RetrieveAppNotification extends HttpServlet {
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
                 if (contact != null) {
-                    appNotificationList = AppNotificationDAO.retrieveAppNotificationListByCID(contact.getContactId());
-
-                    if (appNotificationList != null) {
-                        for (AppNotification appNotification : appNotificationList) {
-                            JsonObject jAppNotification = new JsonObject();
-                            jAppNotification.addProperty("notificationId", appNotification.getNotification_id());
-                            jAppNotification.addProperty("contactId", appNotification.getContact_id());
-                            jAppNotification.addProperty("eventId", appNotification.getEvent_id());
-                            jAppNotification.addProperty("state", appNotification.getState());
-                            jAppNotification.addProperty("message", appNotification.getMessage());
-                            jAppNotification.addProperty("read", appNotification.isRead());
-                            notificationJArray.add(jAppNotification);
-                        }
+                    //notificationId
+                    if(AppNotificationDAO.updateMembership(Integer.parseInt(notificationId),true)){
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
+                        return;
                     }
                 }
-                json.addProperty("message", "success");
-                json.add("notification", notificationJArray);
+                json.addProperty("message", "failure");
                 out.println(gson.toJson(json));
             }
         }
