@@ -100,11 +100,10 @@ public class AppNotificationDAO {
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("UPDATE APP_NOTOFICATION SET `READ`=? "
-                    + "WHERE NOTIFICATION_ID=?");
+            stmt = conn.prepareStatement("DELETE FROM APP_NOTIFICATION WHERE NOTIFICATION_ID=?");
 
-            stmt.setBoolean(1, readStatus);
-            stmt.setInt(2, notificationId);
+            //stmt.setBoolean(1, readStatus);
+            stmt.setInt(1, notificationId);
             result = stmt.executeUpdate();
             return result == 1;
 
