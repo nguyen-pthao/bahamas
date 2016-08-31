@@ -22,7 +22,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -98,7 +97,7 @@ public class AddEventRoles extends HttpServlet {
                             
                         EventDAO eventDAO = new EventDAO();
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-
+                        
                         if(event != null){
                             //insert roles here
                             String roleTemp = "role";
@@ -128,7 +127,7 @@ public class AddEventRoles extends HttpServlet {
                                     out.println(gson.toJson(json));
                                     return;
                                 }
-                            }
+                            }                          
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                         }else{

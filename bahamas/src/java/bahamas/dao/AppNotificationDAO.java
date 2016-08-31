@@ -58,13 +58,13 @@ public class AppNotificationDAO {
     }
 
     public static boolean addAppNotification(AppNotification appNotification) {
-        
+
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         int result = 0;
-        
+
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
@@ -72,7 +72,11 @@ public class AppNotificationDAO {
                     + "`CONTACT_ID`, `EVENT_ID`, `STATE`, `MESSAGE`) VALUES (?,?,?,?)");
 
             stmt.setInt(1, appNotification.getContact_id());
-            stmt.setInt(2, appNotification.getEvent_id());
+            if(appNotification.getEvent_id() != null){
+                stmt.setInt(2, appNotification.getEvent_id());
+            } else {
+                stmt.setString(2, null);
+            }
             stmt.setString(3, appNotification.getState());
             stmt.setString(4, appNotification.getMessage());
 
@@ -87,14 +91,14 @@ public class AppNotificationDAO {
         }
         return false;
     }
-    
+
     public static boolean updateMembership(int notificationId) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         int result = 0;
-        
+
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
@@ -111,7 +115,6 @@ public class AppNotificationDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
-        
-        
+
     }
 }

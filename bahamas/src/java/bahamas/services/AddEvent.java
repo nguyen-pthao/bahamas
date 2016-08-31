@@ -5,10 +5,12 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.util.Authenticator;
@@ -385,11 +387,12 @@ public class AddEvent extends HttpServlet {
 
                             int eventID = EventDAO.addEvent(event, username);
                             newEventIdJsonArray.add(new JsonPrimitive("" + eventID));
+                            
                             if (!mode.isEmpty()) {
                                 for (int i = 1; i < repeatingEventStartDate.size(); i++) {
                                     Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId());
                                     newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, username)));
-                                }
+                                }   
                             }
 
                             if (eventID > 0) {

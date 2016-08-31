@@ -12,11 +12,11 @@ package bahamas.entity;
 public class AppNotification {
     int notification_id;
     int contact_id;
-    int event_id;
+    Integer event_id;
     String state;
     String message;
 
-    public AppNotification(int notification_id, int contact_id, int event_id, String state, String message) {
+    public AppNotification(int notification_id, int contact_id, Integer event_id, String state, String message) {
         this.notification_id = notification_id;
         this.contact_id = contact_id;
         this.event_id = event_id;
@@ -24,7 +24,7 @@ public class AppNotification {
         this.message = message;
     }
     
-    public AppNotification(int contact_id, int event_id, String state, String message) {
+    public AppNotification(int contact_id, Integer event_id, String state, String message) {
         this.contact_id = contact_id;
         this.event_id = event_id;
         this.state = state;
@@ -47,11 +47,11 @@ public class AppNotification {
         this.contact_id = contact_id;
     }
 
-    public int getEvent_id() {
+    public Integer getEvent_id() {
         return event_id;
     }
 
-    public void setEvent_id(int event_id) {
+    public void setEvent_id(Integer event_id) {
         this.event_id = event_id;
     }
 
