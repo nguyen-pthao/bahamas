@@ -82,7 +82,7 @@ public class RetrieveAppNotification extends HttpServlet {
                     json.addProperty("message", "fail");
                     out.println(gson.toJson(json));
                     return;
-                }
+                } 
 
                 String username = Authenticator.verifyToken(token);
                 if (username == null) {
