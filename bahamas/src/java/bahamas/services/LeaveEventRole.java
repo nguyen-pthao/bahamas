@@ -5,13 +5,16 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.RoleCheckDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
+import bahamas.entity.Event;
 import bahamas.entity.EventParticipant;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -78,6 +81,7 @@ public class LeaveEventRole extends HttpServlet {
                 String roleId = Validator.containsBlankField(jobject.get("role_id"));
                 String reason = Validator.containsBlankField(jobject.get("reason"));
                 String withdrawerId = Validator.containsBlankField(jobject.get("withdraw_contact_id"));
+                String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
@@ -88,7 +92,7 @@ public class LeaveEventRole extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
 
-                    if (contact == null || roleId == null || reason == null || withdrawerId == null) {
+                    if (contact == null || roleId == null || reason == null || withdrawerId == null || eventId == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
@@ -108,6 +112,10 @@ public class LeaveEventRole extends HttpServlet {
                             eventParticipant.setPullout(true);
                             eventParticipant.setDatepullout(new java.util.Date());
                             if (EventParticipantDAO.updateEventRole(eventParticipant)) {
+                                EventDAO eventDAO = new EventDAO();
+                                Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
+                                AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact.getName() + " lefted event " + event.getEventTitle() + ". Click to view event.");
+                                AppNotificationDAO.addAppNotification(appNotification);
                                 AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
                                 json.addProperty("message", "success");
                             } else {
