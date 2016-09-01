@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.entity.Phone;
 import bahamas.util.Authenticator;
@@ -131,6 +132,7 @@ public class ExportPhone extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", phoneArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported phone table");
                 } else {
 
                     json.addProperty("message", "phone table is empty");

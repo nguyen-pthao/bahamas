@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AddressDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.entity.Address;
 import bahamas.entity.Donation;
@@ -195,8 +196,9 @@ public class ExportDonation extends HttpServlet {
                     donationArray.add(jsonDonationObj);
                     
                 }
-                json.addProperty("message", "success");
+                    json.addProperty("message", "success");
                     json.add("list", donationArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported donation table");
                 } else {
 
                     json.addProperty("message", "donation table is empty");

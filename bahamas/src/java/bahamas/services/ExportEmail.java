@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.entity.Email;
 import bahamas.util.Authenticator;
@@ -131,6 +132,7 @@ public class ExportEmail extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", emailArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported email table");
                 } else {
 
                     json.addProperty("message", "email table is empty");

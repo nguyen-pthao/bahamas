@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.LanguageDAO;
 import bahamas.entity.LanguageAssignment;
 import bahamas.util.Authenticator;
@@ -142,6 +143,7 @@ public class ExportLanguage extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", languageArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported language table");
                 } else {
 
                     json.addProperty("message", "language table is empty");

@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.MembershipDAO;
 import bahamas.entity.Membership;
 import bahamas.util.Authenticator;
@@ -187,6 +188,7 @@ public class ExportMembership extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", membershipArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported membership table");
                 } else {
 
                     json.addProperty("message", "membership table is empty");

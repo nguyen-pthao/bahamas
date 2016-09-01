@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
@@ -147,6 +148,7 @@ public class ExportTeamjoin extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", teamjoinArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported team join table");
                 } else {
 
                     json.addProperty("message", "teamjoin table is empty");

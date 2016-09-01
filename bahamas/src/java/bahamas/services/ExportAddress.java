@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.AddressDAO;
+import bahamas.dao.AuditLogDAO;
 import bahamas.entity.Address;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -92,6 +93,7 @@ public class ExportAddress extends HttpServlet {
                     return;
                 }
                 
+                
                 AddressDAO addressDAO = new AddressDAO();
                 ArrayList<Address> aList = addressDAO.retrieveAllAddress();
 
@@ -142,6 +144,7 @@ public class ExportAddress extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", addressArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported address table");
                 } else {
 
                     json.addProperty("message", "address table is empty");

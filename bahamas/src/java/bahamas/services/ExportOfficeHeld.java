@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.OfficeHeldDAO;
 import bahamas.entity.OfficeHeld;
 import bahamas.util.Authenticator;
@@ -139,6 +140,7 @@ public class ExportOfficeHeld extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", officeHeldArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported office held table");
                 } else {
 
                     json.addProperty("message", "officeheld table is empty");

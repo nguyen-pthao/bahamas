@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
@@ -199,6 +200,7 @@ public class ExportContact extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", contactArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported contact table");
                 } else {
 
                     json.addProperty("message", "contact table is empty");

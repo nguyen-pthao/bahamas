@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.entity.SkillAssignment;
 import bahamas.util.Authenticator;
@@ -136,6 +137,7 @@ public class ExportSkill extends HttpServlet {
                     }
                     json.addProperty("message", "success");
                     json.add("list", skillArray);
+                    AuditLogDAO.insertAuditLog(username, "EXPORT", "Exported skills and assets table");
                 } else {
 
                     json.addProperty("message", "skills and assets table is empty");
