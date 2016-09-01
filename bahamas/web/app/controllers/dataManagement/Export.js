@@ -44,7 +44,8 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
 
         $scope.exportData = function () {
             var blob = new Blob([document.getElementById('export').innerHTML], {
-                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,%EF%BB%BF"
+                //type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,%EF%BB%BF"
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=windows-1252;"
             });
             if ($scope.fileName != '') {
                 saveAs(blob, $scope.fileName + ".xls");
