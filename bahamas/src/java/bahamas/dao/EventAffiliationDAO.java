@@ -132,4 +132,50 @@ public class EventAffiliationDAO {
         return false;
     }
     
+    public static ArrayList<EventAffiliation> retrieveAllTeamAffiliation() {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        ArrayList<EventAffiliation> eventAffiliationList = new ArrayList<EventAffiliation>();
+        
+        try {
+            conn = ConnectionManager.getConnection();
+
+            stmt = conn.prepareStatement("SELECT EVENT_ID, TEAM_NAME, CREATED_BY, DATE_CREATED, EXPLAIN_IF_OTHER, DATE_OBSOLETE FROM EVENT_AFFILIATION");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                
+                    String eventID = rs.getString(1);
+                    String team = rs.getString(2);
+                    String createdBy = rs.getString(3);
+                    Date dateCreated = sdf.parse(rs.getString(4));
+                    String explainIfOthers = rs.getString(5);
+                    String dateString = rs.getString(6);
+                    Date dateObsolete = null;
+                    if (dateString != null) {
+                        dateObsolete = sdf.parse(dateString);
+                    }
+                    EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventID), createdBy, explainIfOthers, dateCreated, dateObsolete, team);
+                    
+                   eventAffiliationList.add(eventAffiliation);
+            }
+            return eventAffiliationList;
+
+        } catch (ParseException ex) {
+            Logger.getLogger(TeamJoinDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(TeamJoinDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EVENT_AFFILIATION from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return null;
+
+    }
+    
 }

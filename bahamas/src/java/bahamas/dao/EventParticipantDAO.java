@@ -295,5 +295,62 @@ public class EventParticipantDAO {
 
     }
     
+    public static ArrayList<EventParticipant> retrieveEventParticipants() {
+        ArrayList<EventParticipant> eventParticipantList = new ArrayList<EventParticipant>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID, AWARDER_ID, ROLE_ID, EVENT_ID, CREATED_BY, "
+                    + "DATE_CREATED, PULLOUT, DATE_PULLOUT, REASON, HOURS_SERVED, SERVICE_COMMENT, REMARKS "
+                    + "FROM EVENT_PARTICIPANT");
+  
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactID = rs.getInt(1);
+                Integer awarderID  = null;
+                if(rs.getString(2) != null){
+                    awarderID = rs.getInt(2);
+                }
+                int roleID = rs.getInt(3);
+                int eventID = rs.getInt(4);
+                String createdBy = rs.getString(5);
+                String dateCreatedStr = rs.getString(6);
+                Date dateCreated = null;
+                if (dateCreatedStr != null && !dateCreatedStr.isEmpty()) {
+                    dateCreated = date.parse(dateCreatedStr);
+                }
+                boolean pullout = rs.getBoolean(7);
+                String datePulloutStr = rs.getString(8);
+                Date datepullout = null;
+                if (datePulloutStr != null && !datePulloutStr.isEmpty()) {
+                    datepullout = date.parse(datePulloutStr);
+                }
+                String reason = rs.getString(9);
+                double hoursServed = rs.getDouble(10);
+                String service_comment = rs.getString(11);
+                String remarks = rs.getString(12);
+                
+                EventParticipant eventParticipant = new EventParticipant(contactID, awarderID, roleID, eventID, createdBy, dateCreated, pullout, datepullout, reason, hoursServed, service_comment, remarks);
+                eventParticipantList.add(eventParticipant);
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve participants from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return eventParticipantList;
+
+    }
     
 }

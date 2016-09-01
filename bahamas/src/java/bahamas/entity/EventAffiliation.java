@@ -20,6 +20,31 @@ public class EventAffiliation {
     private String createdBy;
     private String explainIfOthers;
     private Date dateObsolete;
+    private String teamName;
+
+    public EventAffiliation(int eventID, String createdBy, String explainIfOthers, Date dateObsolete, String teamName) {
+        this.eventID = eventID;
+        this.createdBy = createdBy;
+        this.explainIfOthers = explainIfOthers;
+        this.dateObsolete = dateObsolete;
+        this.teamName = teamName;
+    }
+
+    public EventAffiliation(int eventID, String createdBy, String explainIfOthers, Date dateCreated, Date dateObsolete, String teamName) {
+        this.eventID = eventID;
+        this.createdBy = createdBy;
+        this.explainIfOthers = explainIfOthers;
+        this.dateObsolete = dateObsolete;
+        this.teamName = teamName;
+    }
+
+    public String getTeamName() {
+        return teamName;
+    }
+
+    public void setTeamName(String teamName) {
+        this.teamName = teamName;
+    }
 
     public EventAffiliation(int eventID, String explainIfOthers, ArrayList<String> teamArray, String createdBy) {
         this.eventID = eventID;
