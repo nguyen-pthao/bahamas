@@ -447,8 +447,12 @@ app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $stat
 
         if (window.location.hostname == 'localhost') {
             $rootScope.commonUrl = 'http://localhost:8084/bahamas';
-        } else {
-            $rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
+        }else {
+            //actual server
+            //$rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
+            
+            //development server
+            $rootScope.commonUrl = 'http://209.58.164.64/bahamas';
         }
 
         $rootScope.$on('$stateChangeStart', function (event, targetScope, targetParams, fromScope, to, from) {
