@@ -159,7 +159,7 @@ public class AddTeamAffiliation extends HttpServlet {
                             
                             for (int teampContactId : cidNamePairHM.keySet()) {
                                 if (eventIdJsonArray.size() == 1) {
-                                    AppNotification appNotification = new AppNotification(teampContactId, event.getEventId(), ".viewIndivEvent", "\"" + event.getEventTitle() + "\" event has been created. Click to join event.");
+                                    AppNotification appNotification = new AppNotification(teampContactId, event.getEventId(), ".viewIndivEvent", "\"" + event.getEventTitle() + "\" event has been created. Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 } else {
                                     AppNotification appNotification = new AppNotification(teampContactId, null, ".viewUpcomingEvents",  "\"" + event.getEventTitle() + "\" events have been created. Click to view events.");
