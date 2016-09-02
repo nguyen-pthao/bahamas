@@ -117,11 +117,6 @@ public class ExportEvent extends HttpServlet {
                         } else {
                             jsonEventObj.addProperty("title", "");
                         }
-                        if (event.getEventTitle()!= null) {
-                            jsonEventObj.addProperty("title", event.getEventTitle());
-                        } else {
-                            jsonEventObj.addProperty("title", "");
-                        }
                         if (event.getEventLocationName()!= null) {
                             jsonEventObj.addProperty("location", event.getEventLocationName());
                         } else {
