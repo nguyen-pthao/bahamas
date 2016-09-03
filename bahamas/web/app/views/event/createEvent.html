@@ -41,7 +41,7 @@ and open the template in the editor.
                                     </div>
                                     <div class="form-group col-md-12" style="padding: 0px; margin-top: 15px; margin-bottom:0px;">
                                         <div class="col-md-3" style="padding:0px;">
-                                            <label>Start Date</label><span class="required">*</span>
+                                            <label>Start Date</label><span class="required">*</span>&nbsp;<span>{{dayOfStartDate}}</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon btn" ng-click="openStart()">
                                                     <i class="fa fa-calendar"></i>
@@ -57,7 +57,7 @@ and open the template in the editor.
                                             <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventStartTime.$touched" class="error">Start Time cannot be after End Time.</span>-->
                                         </div>
                                         <div class="col-md-3" style="padding:0px;">
-                                            <label>End Date</label><span class="required">*</span>
+                                            <label>End Date</label><span class="required">*</span>&nbsp;<span>{{dayOfEndDate}}</span>
                                             <div class="input-group date">
                                                 <div class="input-group-addon btn" ng-click="openEnd()">
                                                     <i class="fa fa-calendar"></i>
