@@ -158,6 +158,8 @@ public class RetrieveContactsInTeam extends HttpServlet {
 
             boolean teamMatch = false;
             boolean hasJoinedRole = false;
+            boolean containsTeamOther = false;
+
             if (teamListInEvent != null && teamJoinList != null) {
                 Iterator iter1 = teamJoinList.iterator();
                 while (iter1.hasNext()) {
@@ -170,6 +172,12 @@ public class RetrieveContactsInTeam extends HttpServlet {
                             teamMatch = true;
                             break;
                         }
+                    }
+                }
+                
+                for(String tempTeam : teamListInEvent){
+                    if (tempTeam.equalsIgnoreCase("other")) {
+                        containsTeamOther = true;
                     }
                 }
 
@@ -185,7 +193,7 @@ public class RetrieveContactsInTeam extends HttpServlet {
             } else {
                 return contactArray;
             }
-            if (teamMatch && !hasJoinedRole && teamListInEvent != null) {
+            if ((containsTeamOther || teamMatch) && !hasJoinedRole && teamListInEvent != null) {
 
                 String emailStr = "";
                 String name = c.getName();
