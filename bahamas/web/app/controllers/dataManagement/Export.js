@@ -26,8 +26,13 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
                 var result = response.data;
                 $scope.tableHeader = [];
                 
+                //var textEncoder = new CustomTextEncoder('windows-1252', {NONSTANDARD_allowLegacyEncoding: true });
+                //result = textEncoder.encode(result);
+                console.log(result);
+                
                 if (result.message == 'success') {
                     $scope.resultData = result.list;
+                    
                     if($scope.resultData != '') {
                         $scope.tableHeader = Object.keys($scope.resultData[0]);
                     }
@@ -43,9 +48,15 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
         };
 
         $scope.exportData = function () {
-            var blob = new Blob([document.getElementById('export').innerHTML], {
-                //type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,%EF%BB%BF"
-                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=windows-1252;"
+            //var textEncoder = new CustomTextEncoder('windows-1252', {NONSTANDARD_allowLegacyEncoding: true });
+            
+            var table = document.getElementById('export').innerHTML;
+            //console.log(table);
+            table = '\uFEFF' + table;
+            //var contentEncoded = textEncoder.encode(table);
+            var blob = new Blob([table], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;"
+                //type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=windows-1252;"
             });
             if ($scope.fileName != '') {
                 saveAs(blob, $scope.fileName + ".xls");

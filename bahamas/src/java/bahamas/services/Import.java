@@ -1172,7 +1172,7 @@ public class Import extends HttpServlet {
     }
 
     //Methods to process fields | csv | excel 
-    private String processField(ArrayList temp, String value, String fieldName, int max) {
+    private String processField(ArrayList<String> temp, String value, String fieldName, int max) {
         if (value.isEmpty()) {
             return null;
         }

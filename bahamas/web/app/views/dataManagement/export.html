@@ -45,6 +45,9 @@ and open the template in the editor.
                                     <option value="teamjoin">Team Join</option>
                                     <option value="language">Languages</option>
                                     <option value="skill">Skills and Assets</option>
+                                    <option value="event">Event</option>
+                                    <option value="teamaffiliation">Team Affiliation</option>
+                                    <option value="participant">Event Participants</option>
                                 </select>
                             </div>
                             <div class="col-md-12">
@@ -64,12 +67,12 @@ and open the template in the editor.
                                 <table class="table table-bordered table-striped export-table">
                                     <thead>
                                         <tr>
-                                            <th ng-repeat="theader in tableHeader" style="background-color: #ffb299">{{theader}}</th>
+                                            <th ng-repeat="theader in tableHeader" style="background-color: #ffb299; border: 2px solid black">{{theader}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="obj in resultData">
-                                            <td ng-repeat="thead in tableHeader"><span ng-bind="obj[thead]"></span></td>
+                                            <td ng-repeat="thead in tableHeader" style="border: 2px solid black;"><span ng-bind="obj[thead]"></span></td>
                                         </tr>
                                     </tbody>
                                 </table>
