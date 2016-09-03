@@ -11,6 +11,7 @@ import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.dao.EventAffiliationDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
@@ -108,6 +109,8 @@ public class AddTeamAffiliation extends HttpServlet {
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
                         HashMap<String, String> teamHM = new HashMap<String, String>();
                         ArrayList<String> teamName = new ArrayList<String>();
+                        boolean teamIncluded = false;
+
                         if (event != null) {
                             //insert Team Affiliation here 
                             for (int i = 0; i < eventTeamsJsonArray.size(); i++) {
@@ -115,13 +118,34 @@ public class AddTeamAffiliation extends HttpServlet {
                                 //JsonObject jsonObj = jsonElement.getAsJsonObject();
                                 //String teamTemp = jsonElement.getAsString();
                                 if (teamHM.containsKey(teamTemp)) {
-                                    json.addProperty("message", "There should not be two or more of the same team in an event");
+                                    json.addProperty("message", "There should not be two or more of the same team in an event.");
                                     out.println(gson.toJson(json));
                                     return;
                                 } else {
                                     teamHM.put(teamTemp, teamTemp);
                                     teamName.add(teamTemp);
                                 }
+                            }
+
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                    ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(contact.getContactId());
+                                    for (TeamJoin teamJoin : teamJoinList) {
+                                        if (teamHM.containsKey(teamJoin.getTeamName())) {
+                                            teamIncluded = true;
+
+                                        }
+                                    }
+                                }
+                                if (!contact.isIsAdmin() && !teamIncluded) {
+                                    json.addProperty("message", "Your team should also be selected.");
+                                    out.println(gson.toJson(json));
+                                    return;
+                                }
+                            } else {
+                                json.addProperty("message", "fail");
+                                out.println(gson.toJson(json));
+                                return;
                             }
 
                             for (int i = 0; i < eventIdJsonArray.size(); i++) {
@@ -156,17 +180,16 @@ public class AddTeamAffiliation extends HttpServlet {
                                     }
                                 }
                             }
-                            
+
                             for (int teampContactId : cidNamePairHM.keySet()) {
                                 if (eventIdJsonArray.size() == 1) {
                                     AppNotification appNotification = new AppNotification(teampContactId, event.getEventId(), ".viewIndivEvent", "\"" + event.getEventTitle() + "\" event has been created. Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 } else {
-                                    AppNotification appNotification = new AppNotification(teampContactId, null, ".viewUpcomingEvents",  "\"" + event.getEventTitle() + "\" events have been created. Click to view events.");
+                                    AppNotification appNotification = new AppNotification(teampContactId, null, ".viewUpcomingEvents", "\"" + event.getEventTitle() + "\" events have been created. Click to view events.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 }
                             }
-
 
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

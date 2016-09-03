@@ -8,11 +8,13 @@ package bahamas.services;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
+import bahamas.entity.EventParticipant;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -238,6 +240,13 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                     jsonContactObj.addProperty("canJoin", false);
                                                 }
                                             }
+                                            ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(event.getEventId());
+                                            if (eventParticipantList == null) {
+                                                jsonContactObj.addProperty("totalParticipant", 0);
+                                            } else {
+                                                jsonContactObj.addProperty("totalParticipant", eventParticipantList.size());
+                                            }
+                                            jsonContactObj.addProperty("createdBy", event.getCreatedBy());
                                             if (teamNameFilter.isEmpty()) {
                                                 eventArray.add(jsonContactObj);
                                             } else if (!teamNameFilter.isEmpty() && teamNameFilter.equals("my_team")) {
