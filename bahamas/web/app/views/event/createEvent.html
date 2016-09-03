@@ -84,15 +84,15 @@ and open the template in the editor.
                                             <span><a href="" ng-click="showRepeat()">Repeating Event?</a></span>
                                             <div ng-show="newEvent['repeat']['mode']!=''">
                                                 <div ng-show="newEvent['repeat']['mode']=='Daily'">
-                                                    Summary: Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_daily']}}</span> day(s).
+                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_daily']}}</span> day(s). <span ng-show="newEvent['repeat']['end_occurence_daily']!=''"> Ends after {{newEvent['repeat']['end_occurence_daily']}} occurrences.</span><span ng-show="newEvent['repeat']['end_on_daily']!=''"> Ends on {{newEvent['repeat']['end_on_daily']}}.</span>
                                                     <a href="" ng-click="removeRepeat()"><i class="fa fa-times fa-md" uib-tooltip-placement="top" uib-tooltip="Cancel" aria-hidden="true" style='color: red'></i></a>
                                                 </div>
                                                 <div ng-show="newEvent['repeat']['mode']=='Weekly'">
-                                                    Summary: Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_weekly']}}</span> week(s).
+                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_weekly']}}</span> week(s). <span ng-show="count!=0">On {{string}}.</span>
                                                     <a href="" ng-click="removeRepeat()"><i class="fa fa-times fa-md" uib-tooltip-placement="top" uib-tooltip="Cancel" aria-hidden="true" style='color: red'></i></a>
                                                 </div> 
                                                 <div ng-show="newEvent['repeat']['mode']=='Monthly'">
-                                                    Summary: Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_monthly']}}</span> month(s).
+                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_monthly']}}</span> month(s). <span>By {{newEvent['repeat']['repeat_by']}}.</span>
                                                     <a href="" ng-click="removeRepeat()"><i class="fa fa-times fa-md" uib-tooltip-placement="top" uib-tooltip="Cancel" aria-hidden="true" style='color: red'></i></a>
                                                 </div> 
                                             </div>

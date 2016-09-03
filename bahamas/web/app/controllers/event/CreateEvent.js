@@ -73,6 +73,7 @@ app.controller('createEvent',
                     }
                 }
 
+
                 //-----for the datepicker-----
                 $scope.today = function () {
                     $scope.dt = new Date();
@@ -155,52 +156,52 @@ app.controller('createEvent',
                 //----- end of datepicker settings-----
 
                 $scope.$watch("newEvent['event_start_date']", function () {
-                    if(angular.isUndefined($scope.newEvent['event_start_date']) || $scope.newEvent['event_start_date'] === ""){
+                    if (angular.isUndefined($scope.newEvent['event_start_date']) || $scope.newEvent['event_start_date'] === "") {
                         $scope.dayOfStartDate = "";
-                    }else{
+                    } else {
                         var numberDay = $scope.newEvent['event_start_date'].getDay();
-                        if(numberDay === 0){
+                        if (numberDay === 0) {
                             $scope.dayOfStartDate = "Sunday";
-                        }else if(numberDay === 1){
+                        } else if (numberDay === 1) {
                             $scope.dayOfStartDate = "Monday";
-                        }else if(numberDay === 2){
+                        } else if (numberDay === 2) {
                             $scope.dayOfStartDate = "Tuesday";
-                        }else if(numberDay === 3){
+                        } else if (numberDay === 3) {
                             $scope.dayOfStartDate = "Wednesday";
-                        }else if(numberDay === 4){
+                        } else if (numberDay === 4) {
                             $scope.dayOfStartDate = "Thursday";
-                        }else if(numberDay === 5){
+                        } else if (numberDay === 5) {
                             $scope.dayOfStartDate = "Friday";
-                        }else if(numberDay === 6){
+                        } else if (numberDay === 6) {
                             $scope.dayOfStartDate = "Saturday";
                         }
                     }
                     $scope.newEvent['event_end_date'] = $scope.newEvent['event_start_date'];
                 })
-                
+
                 $scope.$watch("newEvent['event_end_date']", function () {
-                    if(angular.isUndefined($scope.newEvent['event_end_date']) || $scope.newEvent['event_end_date'] === ""){
+                    if (angular.isUndefined($scope.newEvent['event_end_date']) || $scope.newEvent['event_end_date'] === "") {
                         $scope.dayOfEndDate = "";
-                    }else{
+                    } else {
                         var numberDay = $scope.newEvent['event_end_date'].getDay();
-                        if(numberDay === 0){
+                        if (numberDay === 0) {
                             $scope.dayOfEndDate = "Sunday";
-                        }else if(numberDay === 1){
+                        } else if (numberDay === 1) {
                             $scope.dayOfEndDate = "Monday";
-                        }else if(numberDay === 2){
+                        } else if (numberDay === 2) {
                             $scope.dayOfEndDate = "Tuesday";
-                        }else if(numberDay === 3){
+                        } else if (numberDay === 3) {
                             $scope.dayOfEndDate = "Wednesday";
-                        }else if(numberDay === 4){
+                        } else if (numberDay === 4) {
                             $scope.dayOfEndDate = "Thursday";
-                        }else if(numberDay === 5){
+                        } else if (numberDay === 5) {
                             $scope.dayOfEndDate = "Friday";
-                        }else if(numberDay === 6){
+                        } else if (numberDay === 6) {
                             $scope.dayOfEndDate = "Saturday";
                         }
                     }
                 })
-                
+
                 $scope.daysChosen = {
                     'Su': false,
                     'Mo': false,
@@ -210,6 +211,36 @@ app.controller('createEvent',
                     'Fr': false,
                     'Sa': false
                 };
+
+                $scope.$watch("daysChosen", function () {
+                    $scope.count = 0;
+                    $scope.string = "";
+                    angular.forEach($scope.daysChosen, function (value, key) {
+                        if (value === true) {
+                            $scope.count = $scope.count + 1;
+                            if (key === "Su") {
+                                var day = "Sun";
+                            } else if (key === "Mo") {
+                                var day = "Mon";
+                            } else if (key === "Tu") {
+                                var day = "Tue";
+                            } else if (key === "We") {
+                                var day = "Wed";
+                            } else if (key === "Th") {
+                                var day = "Thu";
+                            } else if (key === "Fr") {
+                                var day = "Fri";
+                            } else if (key === "Sa") {
+                                var day = "Sat";
+                            }
+                            if ($scope.count === 1) {
+                                $scope.string = $scope.string + day;
+                            } else {
+                                $scope.string = $scope.string + ", " + day;
+                            }
+                        }
+                    })
+                }, true);
 
                 $scope.endDailyChanged = function () {
                     if ($scope.endDaily == 'isOccurence') {
