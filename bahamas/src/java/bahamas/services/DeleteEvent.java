@@ -6,11 +6,14 @@
 package bahamas.services;
 
 import bahamas.dao.AddressDAO;
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
+import bahamas.entity.Event;
 import bahamas.entity.EventParticipant;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -22,7 +25,9 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -51,6 +56,7 @@ public class DeleteEvent extends HttpServlet {
 
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -101,12 +107,20 @@ public class DeleteEvent extends HttpServlet {
                             out.println(gson.toJson(json));
                             return;
                         }
-                        
+
                         ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));
-                        if(eventParticipantList == null || eventParticipantList.isEmpty()){
-                            
+                        if (eventParticipantList == null || eventParticipantList.isEmpty()) {
+                            EventDAO eventDAO = new EventDAO();
+                            Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
                             if (EventDAO.deleteEvent(Integer.parseInt(eventId))) {
                                 AuditLogDAO.insertAuditLog(username, "DELETE EVENT", "Delete event under contact: Contact ID: " + contact.getContactId());
+                                for (EventParticipant eventParticipant : eventParticipantList) {
+                                    if (!eventParticipant.isPullout()) {
+                                        AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), null, ".viewUpcomingEvents", "Event \"" + event.getEventTitle() + "\" on "+ date.format(event.getEventStartDate()) +" has been deleted. Click to view other events.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
+                                }
+                                AppNotificationDAO.deleteNotificationByEventId(Integer.parseInt(eventId));
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                             } else {
@@ -114,9 +128,9 @@ public class DeleteEvent extends HttpServlet {
                                 out.println(gson.toJson(json));
                             }
                         } else {
-                                json.addProperty("message", "Event cannot be deleted due to dependencies.");
-                                out.println(gson.toJson(json));
-                            }
+                            json.addProperty("message", "Event cannot be deleted due to dependencies.");
+                            out.println(gson.toJson(json));
+                        }
                     }
 
                 }

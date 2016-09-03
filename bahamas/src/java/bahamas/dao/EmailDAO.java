@@ -143,6 +143,35 @@ public class EmailDAO {
         }
         return false;
     }
+    
+    public static boolean updateEmailVerificationId(int contactId, String email, String hashID) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE EMAIL SET VERIFICATIONID=?"
+                    + " WHERE CONTACT_ID=? AND EMAIL=?");
+
+            stmt.setString(1, hashID);
+            stmt.setInt(2, contactId);
+            stmt.setString(3, email);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
 
     public static boolean deleteEmail(int id, String email) {
         Connection conn = null;

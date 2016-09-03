@@ -135,8 +135,10 @@ public class AddEventParticipant extends HttpServlet {
                                 }
                                 if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                     
-                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined event " + event.getEventTitle() + ". Click to view event.");
+                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined event \"" + event.getEventTitle() + "\". Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
+                                    AppNotification appNotification2 = new AppNotification(contact1.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have been added to event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotificationDAO.addAppNotification(appNotification2);
                                     AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
                                     //json.addProperty("message", "success");
                                     //out.println(gson.toJson(json));
@@ -153,8 +155,10 @@ public class AddEventParticipant extends HttpServlet {
                         } else {
                             eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
                             if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
-                                AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact.getName() + " joined event " + event.getEventTitle() + ". Click to view event.");
+                                AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact.getName() + " joined event \"" + event.getEventTitle() + "\". Click to view event.");
                                 AppNotificationDAO.addAppNotification(appNotification);
+                                //AppNotification appNotification2 = new AppNotification(contact.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have joined to event \"" + event.getEventTitle() + "\". Click to view event.");
+                                //AppNotificationDAO.addAppNotification(appNotification2);
                                 AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
                                 json.addProperty("message", "success");
                                 //out.println(gson.toJson(json));

@@ -92,7 +92,7 @@ public class AppNotificationDAO {
         return false;
     }
 
-    public static boolean updateMembership(int notificationId) {
+    public static boolean deleteNotificationByNotifId(int notificationId) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -115,6 +115,30 @@ public class AppNotificationDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return false;
+    }
+    
+    public static boolean deleteNotificationByEventId(int eventId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM APP_NOTIFICATION WHERE EVENT_ID=?");
+
+            //stmt.setBoolean(1, readStatus);
+            stmt.setInt(1, eventId);
+            result = stmt.executeUpdate();
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
     }
 }
