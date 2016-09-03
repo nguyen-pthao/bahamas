@@ -14,6 +14,10 @@ app.controller('viewUpcomingEvents',
                 if(user=="novice"){
                     $scope.isNovice = true;
                 }
+                $scope.canClone = true;
+                if(user == "novice" || user == "associate"){
+                    $scope.canClone = false;
+                }
                 
                 $scope.backHome = function () {
                     $state.go(user);

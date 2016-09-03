@@ -10,6 +10,10 @@ app.controller('viewPastEvents',
         ['$scope', 'session', '$state', 'filterFilter', 'ngDialog', 'dataSubmit', 'deleteService', 'localStorageService', 'loadTeamAffiliation',
             function ($scope, session, $state, filterFilter, ngDialog, dataSubmit, deleteService, localStorageService, loadTeamAffiliation) {
                 var user = session.getSession('userType');
+                $scope.canClone = true;
+                if(user == "novice" || user == "associate"){
+                    $scope.canClone = false;
+                }
                 $scope.backHome = function () {
                     $state.go(user);
                 };

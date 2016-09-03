@@ -99,7 +99,7 @@ app.controller('createEventAffiliation',
                         })
                     } else {
                         var url = "/event.addaffiliation";
-                        dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
+                        $scope.myPromise = dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
                             if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/addEventSuccess.html',

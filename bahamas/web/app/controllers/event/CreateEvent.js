@@ -159,21 +159,23 @@ app.controller('createEvent',
                     if (angular.isUndefined($scope.newEvent['event_start_date']) || $scope.newEvent['event_start_date'] === "") {
                         $scope.dayOfStartDate = "";
                     } else {
-                        var numberDay = $scope.newEvent['event_start_date'].getDay();
-                        if (numberDay === 0) {
-                            $scope.dayOfStartDate = "Sunday";
-                        } else if (numberDay === 1) {
-                            $scope.dayOfStartDate = "Monday";
-                        } else if (numberDay === 2) {
-                            $scope.dayOfStartDate = "Tuesday";
-                        } else if (numberDay === 3) {
-                            $scope.dayOfStartDate = "Wednesday";
-                        } else if (numberDay === 4) {
-                            $scope.dayOfStartDate = "Thursday";
-                        } else if (numberDay === 5) {
-                            $scope.dayOfStartDate = "Friday";
-                        } else if (numberDay === 6) {
-                            $scope.dayOfStartDate = "Saturday";
+                        if (angular.isDate($scope.newEvent['event_start_date'])) {
+                            var numberDay = $scope.newEvent['event_start_date'].getDay();
+                            if (numberDay === 0) {
+                                $scope.dayOfStartDate = "Sunday";
+                            } else if (numberDay === 1) {
+                                $scope.dayOfStartDate = "Monday";
+                            } else if (numberDay === 2) {
+                                $scope.dayOfStartDate = "Tuesday";
+                            } else if (numberDay === 3) {
+                                $scope.dayOfStartDate = "Wednesday";
+                            } else if (numberDay === 4) {
+                                $scope.dayOfStartDate = "Thursday";
+                            } else if (numberDay === 5) {
+                                $scope.dayOfStartDate = "Friday";
+                            } else if (numberDay === 6) {
+                                $scope.dayOfStartDate = "Saturday";
+                            }
                         }
                     }
                     $scope.newEvent['event_end_date'] = $scope.newEvent['event_start_date'];
@@ -183,21 +185,23 @@ app.controller('createEvent',
                     if (angular.isUndefined($scope.newEvent['event_end_date']) || $scope.newEvent['event_end_date'] === "") {
                         $scope.dayOfEndDate = "";
                     } else {
-                        var numberDay = $scope.newEvent['event_end_date'].getDay();
-                        if (numberDay === 0) {
-                            $scope.dayOfEndDate = "Sunday";
-                        } else if (numberDay === 1) {
-                            $scope.dayOfEndDate = "Monday";
-                        } else if (numberDay === 2) {
-                            $scope.dayOfEndDate = "Tuesday";
-                        } else if (numberDay === 3) {
-                            $scope.dayOfEndDate = "Wednesday";
-                        } else if (numberDay === 4) {
-                            $scope.dayOfEndDate = "Thursday";
-                        } else if (numberDay === 5) {
-                            $scope.dayOfEndDate = "Friday";
-                        } else if (numberDay === 6) {
-                            $scope.dayOfEndDate = "Saturday";
+                        if (angular.isDate($scope.newEvent['event_end_date'])) {
+                            var numberDay = $scope.newEvent['event_end_date'].getDay();
+                            if (numberDay === 0) {
+                                $scope.dayOfEndDate = "Sunday";
+                            } else if (numberDay === 1) {
+                                $scope.dayOfEndDate = "Monday";
+                            } else if (numberDay === 2) {
+                                $scope.dayOfEndDate = "Tuesday";
+                            } else if (numberDay === 3) {
+                                $scope.dayOfEndDate = "Wednesday";
+                            } else if (numberDay === 4) {
+                                $scope.dayOfEndDate = "Thursday";
+                            } else if (numberDay === 5) {
+                                $scope.dayOfEndDate = "Friday";
+                            } else if (numberDay === 6) {
+                                $scope.dayOfEndDate = "Saturday";
+                            }
                         }
                     }
                 })
@@ -241,11 +245,11 @@ app.controller('createEvent',
                         }
                     })
                 }, true);
-                
-                $rootScope.$watch('cancelled', function(){
+
+                $rootScope.$watch('cancelled', function () {
                     console.log($rootScope.cancelled);
                 })
-                
+
                 $scope.endDailyChanged = function () {
                     if ($scope.endDaily == 'isOccurence') {
                         $scope.newEvent['repeat']['end_on_daily'] = '';
@@ -300,7 +304,7 @@ app.controller('createEvent',
                     })
                 };
                 //--end of location change function--
-                
+
                 $scope.showRepeat = function () {
                     $rootScope.cancelled = false;
                     var modalInstance = $uibModal.open({
@@ -369,7 +373,7 @@ app.controller('createEvent',
                     })
 
                     var url = "/event.create";
-                    dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                    $scope.myPromise = dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                         if (response.data.message == 'success') {
                             var id = response.data['event_id'];
                             var idArray = response.data['event_id_list'];
@@ -412,20 +416,20 @@ app.controller('createEvent',
 
             }]);
 
-app.controller('RepeatingEventInstanceCtrl',['$scope', '$rootScope', '$uibModalInstance', function ($scope, $rootScope, $uibModalInstance) {
-    $scope.number = [
+app.controller('RepeatingEventInstanceCtrl', ['$scope', '$rootScope', '$uibModalInstance', function ($scope, $rootScope, $uibModalInstance) {
+        $scope.number = [
 //        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
-1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
-    ];
-    console.log($scope.number);
+            1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15
+        ];
+        console.log($scope.number);
 //    $scope.ok = function () {
 //        $uibModalInstance.dismiss('cancel');
 //    };
 //    
-    $scope.cancel = function () {
-        console.log('hello');
-        $rootScope.cancelled = true;
-        console.log($rootScope.cancelled);
-        $uibModalInstance.dismiss('cancel');
-    };
-}]);
+        $scope.cancel = function () {
+            console.log('hello');
+            $rootScope.cancelled = true;
+            console.log($rootScope.cancelled);
+            $uibModalInstance.dismiss('cancel');
+        };
+    }]);
