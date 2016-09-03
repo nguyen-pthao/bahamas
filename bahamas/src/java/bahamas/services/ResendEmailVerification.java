@@ -5,18 +5,15 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EventAffiliationDAO;
-import bahamas.dao.EventDAO;
-import bahamas.dao.EventParticipantDAO;
+import bahamas.dao.EmailDAO;
 import bahamas.dao.RoleCheckDAO;
-import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
-import bahamas.entity.Event;
-import bahamas.entity.EventParticipant;
+import bahamas.entity.Email;
 import bahamas.util.Authenticator;
+import bahamas.util.EmailGenerator;
+import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,8 +33,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "LeaveEventRole", urlPatterns = {"/event.leaverole"})
-public class LeaveEventRole extends HttpServlet {
+@WebServlet(name = "ResendEmailVerification", urlPatterns = {"/email.resendverification"})
+public class ResendEmailVerification extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -51,6 +48,7 @@ public class LeaveEventRole extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -74,62 +72,46 @@ public class LeaveEventRole extends HttpServlet {
                 out.println(gson.toJson(json));
 
             } else {
+                //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String roleId = Validator.containsBlankField(jobject.get("role_id"));
-                String reason = Validator.containsBlankField(jobject.get("reason"));
-                String withdrawerId = Validator.containsBlankField(jobject.get("withdraw_contact_id"));
+                String targetContactId = Validator.containsBlankField(jobject.get("other_cid"));
+                String email = Validator.containsBlankField(jobject.get("email"));
                 String username = Authenticator.verifyToken(token);
 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                 } else {
-                    //Verified token
+                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
                     ContactDAO cDAO = new ContactDAO();
-                    Contact contact = cDAO.retrieveContactByUsername(username);
+                    Contact contact = cDAO.retrieveContactById(contactId);
+                    Contact targetContact = cDAO.retrieveContactById(Integer.parseInt(targetContactId));
 
-                    if (contact == null || roleId == null || reason == null || withdrawerId == null) {
+                    if (contact == null || targetContact == null || email == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
-                        return;
                     } else {
-                        EventParticipant eventParticipant = null;
-
-                        if (Integer.parseInt(withdrawerId) == contact.getContactId()) {
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), contact.getContactId());
-                        } else {
-                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
-                                eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), Integer.parseInt(withdrawerId));
-                            }
-                        }
-
-                        if (eventParticipant != null) {
-                            eventParticipant.setReason(reason);
-                            eventParticipant.setPullout(true);
-                            eventParticipant.setDatepullout(new java.util.Date());
-                            if (EventParticipantDAO.updateEventRole(eventParticipant)) {
-                                EventDAO eventDAO = new EventDAO();
-                                Event event = eventDAO.retrieveEventById(eventParticipant.getEventID());
-                                Contact contactTemp = cDAO.retrieveContactById(eventParticipant.getContactID());
-                                
-                                AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left event \"" + event.getEventTitle() + "\". Click to view event.");
-                                AppNotificationDAO.addAppNotification(appNotification);
-                                AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
+                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                            String hashID = PasswordHash.generateRandomString(64);
+                            if (EmailDAO.updateEmailVerificationId(Integer.parseInt(targetContactId), email, hashID)) {
+                                AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | TO Contact ID: " + targetContact.getContactId() + ", " + email);
+                                    new Thread(() -> {
+                                        // Send EmailGenerator in a separate thread
+                                        EmailGenerator.verifyEmail(email, targetContact.getName(), hashID);
+                                    }).start();
                                 json.addProperty("message", "success");
-                            } else {
-                                json.addProperty("message", "Fail update participant");
+                                out.println(gson.toJson(json));
                             }
-                            out.println(gson.toJson(json));
+
                         } else {
-                            json.addProperty("message", "Fail update participant");
+                            json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
                     }
                 }
-
             }
         }
     }

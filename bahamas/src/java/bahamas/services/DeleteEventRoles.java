@@ -5,6 +5,7 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
@@ -13,9 +14,11 @@ import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
+import bahamas.entity.EventParticipant;
 import bahamas.entity.EventRoleAssignment;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
@@ -30,6 +33,9 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -111,8 +117,47 @@ public class DeleteEventRoles extends HttpServlet {
                                 return;
                             }
                             EventRoleAssignment eventRoleAssignment = EventRoleAssignmentDAO.retrieveEventRoleByRoleId(Integer.parseInt(eventRoleId));
+                            ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));
+                            for (EventParticipant eventParticipant : eventParticipantList) {
+                                if (!eventParticipant.isPullout() && eventParticipant.getRoleID() == Integer.parseInt(eventRoleId)) {
+                                    AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), event.getEventId(), ".viewIndivEvent", "You have been removed from event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotificationDAO.addAppNotification(appNotification);
+                                }
+                            }
                             if (EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))) {
                                 AuditLogDAO.insertAuditLog(username, "DELETE ROLE", "Delete role under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role: " + eventRoleAssignment.getRoleName());
+                                
+                                
+                                HashMap<String, String> teamHM = new HashMap<String, String>();
+                                EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
+                                for (String tempTeam : eventAffiliation.getTeamArray()) {
+                                    teamHM.put(tempTeam, tempTeam);
+                                }
+                                HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
+                                ContactDAO contactDAO = new ContactDAO();
+                                ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
+                                if (contactList != null && !contactList.isEmpty()) {
+                                    Iterator iter = contactList.iterator();
+                                    while (iter.hasNext()) {
+                                        Contact tempContact = (Contact) iter.next();
+                                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(tempContact.getContactId());
+                                        if (teamJoinList != null && !teamJoinList.isEmpty()) {
+                                            Iterator iter2 = teamJoinList.iterator();
+                                            while (iter2.hasNext()) {
+                                                TeamJoin teamJoinTemp = (TeamJoin) iter2.next();
+                                                if (teamHM.containsKey(teamJoinTemp.getTeamName())) {
+                                                    cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                for (int tempContactId : cidNamePairHM.keySet()) {
+                                    AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
+                                    AppNotificationDAO.addAppNotification(appNotification);
+                                }
+                                
+                                
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                             } else {

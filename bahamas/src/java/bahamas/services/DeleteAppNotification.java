@@ -96,7 +96,7 @@ public class DeleteAppNotification extends HttpServlet {
 
                 if (contact != null) {
                     //notificationId
-                    if(AppNotificationDAO.updateMembership(Integer.parseInt(notificationId))){
+                    if(AppNotificationDAO.deleteNotificationByNotifId(Integer.parseInt(notificationId))){
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
                         return;

@@ -5,13 +5,17 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.TeamJoinDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -23,8 +27,10 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -80,21 +86,21 @@ public class UpdateTeamAffiliation extends HttpServlet {
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String explainIfOthers = "";
                 String remarks = "";
-                if(jobject.has("explain_if_other")){
+                if (jobject.has("explain_if_other")) {
                     explainIfOthers = jobject.get("explain_if_other").getAsString();
                 }
-                if(jobject.has("remarks")){
+                if (jobject.has("remarks")) {
                     remarks = jobject.get("remarks").getAsString();
                 }
-                
+
                 JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
-                
+
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                 } else {
-                    
+
                     //Verified token
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
@@ -103,41 +109,71 @@ public class UpdateTeamAffiliation extends HttpServlet {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
-                    } else {   
+                    } else {
                         EventDAO eventDAO = new EventDAO();
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-                        HashMap<String,String> hmError = new HashMap<String,String>();
+                        HashMap<String, String> hmError = new HashMap<String, String>();
                         ArrayList<String> teamName = new ArrayList<String>();
-                        if(event != null){
+                        if (event != null) {
                             //insert Team Affiliation here 
-                            for(int i = 0; i < eventTeamsJsonArray.size(); i++){
+                            for (int i = 0; i < eventTeamsJsonArray.size(); i++) {
                                 String teamTemp = eventTeamsJsonArray.get(i).getAsString();
                                 //JsonObject jsonObj = jsonElement.getAsJsonObject();
                                 //String teamTemp = jsonElement.getAsString();
-                                if(hmError.containsKey(teamTemp)){
+                                if (hmError.containsKey(teamTemp)) {
                                     json.addProperty("message", "There should not be two or more of the same team in an event");
                                     out.println(gson.toJson(json));
                                     return;
-                                }else{
+                                } else {
                                     hmError.put(teamTemp, teamTemp);
                                     teamName.add(teamTemp);
                                 }
                             }
-                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId),explainIfOthers,teamName,username);
-                           
-                            if(EventAffiliationDAO.updateTeamAffiliation(eventAffiliation,eventAffiliation.getEventID())){
+                            EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId), explainIfOthers, teamName, username);
+
+                            if (EventAffiliationDAO.updateTeamAffiliation(eventAffiliation, eventAffiliation.getEventID())) {
                                 AuditLogDAO.insertAuditLog(username, "UPDATE TEAM AFFILIATION IN EVENT", "Update Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
+                                SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
+                                AuditLogDAO.insertAuditLog(username, "UPDATE EVENT", "Update event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + event.getEventId());
+                                HashMap<String, String> teamHM = new HashMap<String, String>();
+                                EventAffiliation eventAffiliation2 = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
+                                for (String tempTeam : eventAffiliation2.getTeamArray()) {
+                                    teamHM.put(tempTeam, tempTeam);
+                                }
+                                HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
+                                ContactDAO contactDAO = new ContactDAO();
+                                ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
+                                if (contactList != null && !contactList.isEmpty()) {
+                                    Iterator iter = contactList.iterator();
+                                    while (iter.hasNext()) {
+                                        Contact tempContact = (Contact) iter.next();
+                                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(tempContact.getContactId());
+                                        if (teamJoinList != null && !teamJoinList.isEmpty()) {
+                                            Iterator iter2 = teamJoinList.iterator();
+                                            while (iter2.hasNext()) {
+                                                TeamJoin teamJoinTemp = (TeamJoin) iter2.next();
+                                                if (teamHM.containsKey(teamJoinTemp.getTeamName())) {
+                                                    cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                for (int tempContactId : cidNamePairHM.keySet()) {
+                                    AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
+                                    AppNotificationDAO.addAppNotification(appNotification);
+                                }
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;
                             }
                             json.addProperty("message", "Fail retrieve event");
                             out.println(gson.toJson(json));
-                        }else{
+                        } else {
                             json.addProperty("message", "Fail retrieve event");
                             out.println(gson.toJson(json));
                         }
-                    }   
+                    }
                 }
             }
         }

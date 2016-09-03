@@ -5,12 +5,20 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.RoleCheckDAO;
+import bahamas.dao.TeamJoinDAO;
+import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.EventAffiliation;
+import bahamas.entity.EventParticipant;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -25,7 +33,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -87,7 +98,7 @@ public class UpdateEventDetails extends HttpServlet {
                 Date eventStartDate = Validator.isDateValid(jobject.get("event_start_date"), "event_start_date");
                 Date eventEndDate = Validator.isDateValid(jobject.get("event_end_date"), "event_end_date");
                 Date eventTimeStart = Validator.isDateValid(jobject.get("event_time_start"), "event_time_start");
-                Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"),"event_time_end");
+                Date eventTimeEnd = Validator.isDateValid(jobject.get("event_time_end"), "event_time_end");
                 String eventStatus = Validator.containsBlankField(jobject.get("event_status"));
                 boolean sendReminder = jobject.get("send_reminder").getAsBoolean();
                 String eventDescription = Validator.containsBlankField(jobject.get("event_description"));
@@ -101,34 +112,34 @@ public class UpdateEventDetails extends HttpServlet {
                 String remarks = jobject.get("remarks").getAsString();
                 String username = Authenticator.verifyToken(token);
                 boolean ignore = jobject.get("ignore").getAsBoolean();
-                
-                if(eventId == null || eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null || eventStatus == null){
+
+                if (eventId == null || eventClass == null || eventStartDate == null || eventLocation == null || eventTimeEnd == null || eventTimeStart == null || eventTitle == null || eventEndDate == null || eventStatus == null) {
                     json.addProperty("message", "error");
-                    if(eventId == null){
+                    if (eventId == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event ID"));
                     }
-                    if(eventTitle == null){
+                    if (eventTitle == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Title"));
                     }
-                    if(eventStartDate == null){
+                    if (eventStartDate == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Start Date"));
                     }
-                    if(eventEndDate == null){
+                    if (eventEndDate == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event End Date"));
                     }
-                    if(eventTimeStart == null){
+                    if (eventTimeStart == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time Start"));
                     }
-                    if(eventTimeEnd == null){
+                    if (eventTimeEnd == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Time End"));
                     }
-                    if(eventClass == null){
-                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));        
+                    if (eventClass == null) {
+                        jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Class"));
                     }
-                    if(eventLocation == null){
+                    if (eventLocation == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing Event Location"));
                     }
-                    if(eventStatus == null){
+                    if (eventStatus == null) {
                         jsonErrorMsgArray.add(new JsonPrimitive("Missing event status"));
                     }
                     json.add("errorMsg", jsonErrorMsgArray);
@@ -143,9 +154,9 @@ public class UpdateEventDetails extends HttpServlet {
                     Date startTime = time.parse(time.format(eventTimeStart));
                     Date endTime = time.parse(time.format(eventTimeEnd));
 
-                    if(endTime.before(startTime) && startdate.equals(enddate)){
+                    if (endTime.before(startTime) && startdate.equals(enddate)) {
                         json.addProperty("message", "error");
-                        jsonErrorMsgArray.add(new JsonPrimitive("Start time cannot be after end time"));  
+                        jsonErrorMsgArray.add(new JsonPrimitive("Start time cannot be after end time"));
                         json.add("errorMsg", jsonErrorMsgArray);
                         out.println(gson.toJson(json));
                         return;
@@ -156,7 +167,7 @@ public class UpdateEventDetails extends HttpServlet {
                     out.println(gson.toJson(json));
                     return;
                 }
-                
+
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -168,15 +179,15 @@ public class UpdateEventDetails extends HttpServlet {
                     if (contact == null) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
-                    } else {    
+                    } else {
                         //Only Admin, tm and eventleader are able to create an event
-                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader") ){
-                            
+                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+
                             //check if exist
-                            Event event = new Event(Integer.parseInt(eventId), eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks);                         
-                            String errorMsg = EventDAO.eventExist(event,eventId);
-                            
-                            if(errorMsg != null && !ignore){
+                            Event event = new Event(Integer.parseInt(eventId), eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks);
+                            String errorMsg = EventDAO.eventExist(event, eventId);
+
+                            if (errorMsg != null && !ignore) {
                                 json = new JsonObject();
                                 jsonErrorMsgArray = new JsonArray();
                                 //jsonErrorMsgArray.add(new JsonPrimitive(errorMsg)); 
@@ -185,18 +196,57 @@ public class UpdateEventDetails extends HttpServlet {
                                 out.println(gson.toJson(json));
                                 return;
                             }
-                            
-                            if(EventDAO.updateEventDetails(event)){
+
+                            if (EventDAO.updateEventDetails(event)) {
+                                SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
                                 AuditLogDAO.insertAuditLog(username, "UPDATE EVENT", "Update event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + event.getEventId());
+                                
+                                HashMap<String, String> teamHM = new HashMap<String, String>();
+                                EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
+                                for(String tempTeam : eventAffiliation.getTeamArray()){
+                                    teamHM.put(tempTeam, tempTeam);
+                                }
+                                HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
+                                ContactDAO contactDAO = new ContactDAO();
+                                ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
+                                if (contactList != null && !contactList.isEmpty()) {
+                                    Iterator iter = contactList.iterator();
+                                    while (iter.hasNext()) {
+                                        Contact tempContact = (Contact) iter.next();
+                                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(tempContact.getContactId());
+                                        if (teamJoinList != null && !teamJoinList.isEmpty()) {
+                                            Iterator iter2 = teamJoinList.iterator();
+                                            while (iter2.hasNext()) {
+                                                TeamJoin teamJoinTemp = (TeamJoin) iter2.next();
+                                                if (teamHM.containsKey(teamJoinTemp.getTeamName())) {
+                                                    cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                                for (int tempContactId : cidNamePairHM.keySet()) {                                
+                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                }
+                                /*
+                                ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));
+                                for (EventParticipant eventParticipant : eventParticipantList) {
+                                    if (!eventParticipant.isPullout()) {
+                                        AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" on " + date2.format(event.getEventStartDate()) + " has been updated. Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
+                                }
+                                */
                                 json.addProperty("message", "success");
                                 json.addProperty("event_id", Integer.toString(event.getEventId()));
                                 out.println(gson.toJson(json));
-                            }else{
+                            } else {
                                 json.addProperty("message", "Fail to insert");
                                 out.println(gson.toJson(json));
                             }
-                                
-                        }else{
+
+                        } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                         }
