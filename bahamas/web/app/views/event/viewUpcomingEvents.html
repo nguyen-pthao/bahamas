@@ -70,6 +70,8 @@ and open the template in the editor.
                                 <label>Select Team:</label>
                                 <div ng-init="loadTeamList()">
                                     <select name="teamList" class="form-control"  ng-change="retrieveEvents()" ng-model="teamFilter">
+                                        <option>All</option>
+                                        <option>My Teams</option>
                                         <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
                                     </select>     
                                 </div>
