@@ -43,20 +43,35 @@ app.controller('createEventAffiliation',
                         $scope.eventInfo['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
                         $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
                         $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
+                        $scope.myTeams = $scope.eventInfo['team'];
+                        loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
+                            $scope.teamList = [];
+                            $scope.teamAffiliationList = response.data.teamAffiliationList;
+                            angular.forEach($scope.teamAffiliationList, function (obj) {
+                                var teamName = obj.teamAffiliation;
+                                var hasTeam = false;
+                                angular.forEach($scope.myTeams, function (string) {
+                                    if (teamName == string) {
+                                        hasTeam = true;
+                                    }
+                                })
+                                if (hasTeam == true) {
+                                    var teamObj = {
+                                        'teamName': teamName,
+                                        'selected': true
+                                    };
+                                    $scope.teamList.push(teamObj);
+                                } else {
+                                    var teamObj = {
+                                        'teamName': teamName,
+                                        'selected': false
+                                    };
+                                    $scope.teamList.push(teamObj);
+                                }
+                            })
+                        });
                     })
                 }
-
-                $scope.loadTeamAffiliationList = function () {
-                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
-                        $scope.teamAffiliationList = response.data.teamAffiliationList;
-                        var other;
-//                        for (var obj in $scope.teamAffiliationList) {
-//                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
-//                                other = $scope.teamAffiliationList.splice(obj, 1);
-//                            }
-//                        }
-                    });
-                };
 
                 $scope.selectedTeams = {
                 };
@@ -84,10 +99,10 @@ app.controller('createEventAffiliation',
 
                 $scope.submit = function () {
                     var hasSelected = false;
-                    angular.forEach($scope.selectedTeams, function (value, key) {
-                        if (value == true) {
+                    angular.forEach($scope.teamList, function (obj) {
+                        if (obj.selected == true) {
                             hasSelected = true;
-                            $scope.toSubmit['teams'].push($scope.teamAffiliationList[key].teamAffiliation);
+                            $scope.toSubmit['teams'].push(obj.teamName);
                         }
                     });
                     if (hasSelected == false) {
