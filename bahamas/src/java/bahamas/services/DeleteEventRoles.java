@@ -25,11 +25,9 @@ import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -120,8 +118,11 @@ public class DeleteEventRoles extends HttpServlet {
                             ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));
                             for (EventParticipant eventParticipant : eventParticipantList) {
                                 if (!eventParticipant.isPullout() && eventParticipant.getRoleID() == Integer.parseInt(eventRoleId)) {
-                                    AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), event.getEventId(), ".viewIndivEvent", "You have been removed from event \"" + event.getEventTitle() + "\". Click to view event.");
-                                    AppNotificationDAO.addAppNotification(appNotification);
+                                    ContactDAO contactDAO = new ContactDAO();
+                                    if (contactDAO.retrieveContactById(eventParticipant.getContactID()).getUsername() != null) {
+                                        AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), event.getEventId(), ".viewIndivEvent", "You have been removed from event \"" + event.getEventTitle() + "\". Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 }
                             }
                             if (EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))) {
@@ -153,8 +154,10 @@ public class DeleteEventRoles extends HttpServlet {
                                     }
                                 }
                                 for (int tempContactId : cidNamePairHM.keySet()) {
-                                    AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
-                                    AppNotificationDAO.addAppNotification(appNotification);
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 }
                                 
                                 

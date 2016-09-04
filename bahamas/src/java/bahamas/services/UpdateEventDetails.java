@@ -10,14 +10,12 @@ import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
-import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
-import bahamas.entity.EventParticipant;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -198,7 +196,6 @@ public class UpdateEventDetails extends HttpServlet {
                             }
 
                             if (EventDAO.updateEventDetails(event)) {
-                                SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
                                 AuditLogDAO.insertAuditLog(username, "UPDATE EVENT", "Update event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + event.getEventId());
                                 
                                 HashMap<String, String> teamHM = new HashMap<String, String>();
@@ -225,9 +222,11 @@ public class UpdateEventDetails extends HttpServlet {
                                         }
                                     }
                                 }
-                                for (int tempContactId : cidNamePairHM.keySet()) {                                
+                                for (int tempContactId : cidNamePairHM.keySet()) {
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
                                         AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 }
                                 /*
                                 ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(Integer.parseInt(eventId));

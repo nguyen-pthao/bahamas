@@ -9,7 +9,6 @@ import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
-import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
@@ -29,7 +28,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -150,7 +148,7 @@ public class AddTeamAffiliation extends HttpServlet {
 
                             for (int i = 0; i < eventIdJsonArray.size(); i++) {
                                 String eventIdTemp = eventIdJsonArray.get(i).getAsString();
-                                EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventIdTemp), explainIfOthers, teamName, username);
+                                EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventIdTemp), explainIfOthers, teamName, contact.getName());
 
                                 if (EventAffiliationDAO.addTeamAffiliation(eventAffiliation)) {
                                     AuditLogDAO.insertAuditLog(username, "ADD TEAM AFFILIATION IN EVENT", "Add Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventIdTemp);
@@ -181,13 +179,17 @@ public class AddTeamAffiliation extends HttpServlet {
                                 }
                             }
 
-                            for (int teampContactId : cidNamePairHM.keySet()) {
+                            for (int tempContactId : cidNamePairHM.keySet()) {
                                 if (eventIdJsonArray.size() == 1) {
-                                    AppNotification appNotification = new AppNotification(teampContactId, event.getEventId(), ".viewIndivEvent", "\"" + event.getEventTitle() + "\" event has been created. Click to view event.");
-                                    AppNotificationDAO.addAppNotification(appNotification);
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()){
+                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "\"" + event.getEventTitle() + "\" event has been created. Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 } else {
-                                    AppNotification appNotification = new AppNotification(teampContactId, null, ".viewUpcomingEvents", "\"" + event.getEventTitle() + "\" events have been created. Click to view events.");
-                                    AppNotificationDAO.addAppNotification(appNotification);
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()){
+                                        AppNotification appNotification = new AppNotification(tempContactId, null, ".viewUpcomingEvents", "\"" + event.getEventTitle() + "\" events have been created. Click to view events.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 }
                             }
 

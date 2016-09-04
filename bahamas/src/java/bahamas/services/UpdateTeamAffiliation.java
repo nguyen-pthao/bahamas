@@ -133,7 +133,6 @@ public class UpdateTeamAffiliation extends HttpServlet {
 
                             if (EventAffiliationDAO.updateTeamAffiliation(eventAffiliation, eventAffiliation.getEventID())) {
                                 AuditLogDAO.insertAuditLog(username, "UPDATE TEAM AFFILIATION IN EVENT", "Update Team Affiliation in event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId);
-                                SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
                                 AuditLogDAO.insertAuditLog(username, "UPDATE EVENT", "Update event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + event.getEventId());
                                 HashMap<String, String> teamHM = new HashMap<String, String>();
                                 EventAffiliation eventAffiliation2 = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
@@ -160,8 +159,10 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                     }
                                 }
                                 for (int tempContactId : cidNamePairHM.keySet()) {
-                                    AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
-                                    AppNotificationDAO.addAppNotification(appNotification);
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 }
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));

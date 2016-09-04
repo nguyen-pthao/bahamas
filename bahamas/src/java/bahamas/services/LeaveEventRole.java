@@ -8,7 +8,6 @@ package bahamas.services;
 import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -114,9 +113,11 @@ public class LeaveEventRole extends HttpServlet {
                                 EventDAO eventDAO = new EventDAO();
                                 Event event = eventDAO.retrieveEventById(eventParticipant.getEventID());
                                 Contact contactTemp = cDAO.retrieveContactById(eventParticipant.getContactID());
-                                
-                                AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left event \"" + event.getEventTitle() + "\". Click to view event.");
-                                AppNotificationDAO.addAppNotification(appNotification);
+                                ContactDAO contactDAO = new ContactDAO();
+                                if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                    AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotificationDAO.addAppNotification(appNotification);
+                                }
                                 AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
                                 json.addProperty("message", "success");
                             } else {

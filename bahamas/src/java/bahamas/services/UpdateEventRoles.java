@@ -10,14 +10,12 @@ import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
-import bahamas.dao.EventParticipantDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
-import bahamas.entity.EventParticipant;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -30,7 +28,6 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -155,8 +152,10 @@ public class UpdateEventRoles extends HttpServlet {
                                     }
                                 }
                                 for (int tempContactId : cidNamePairHM.keySet()) {
-                                    AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
-                                    AppNotificationDAO.addAppNotification(appNotification);
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
+                                        AppNotificationDAO.addAppNotification(appNotification);
+                                    }
                                 }
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));

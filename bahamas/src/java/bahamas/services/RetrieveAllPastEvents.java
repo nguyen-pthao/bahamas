@@ -114,7 +114,8 @@ public class RetrieveAllPastEvents extends HttpServlet {
                         }
 
                         EventDAO eventDAO = new EventDAO();
-                        ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
+                        //ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
+                        ArrayList<Event> eventList = eventDAO.retrieveAllEventsASC();
                         SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
                         SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                         JsonArray eventArray = new JsonArray();

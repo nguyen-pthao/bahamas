@@ -134,7 +134,8 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                         }
 
                         EventDAO eventDAO = new EventDAO();
-                        ArrayList<Event> eventList = eventDAO.retrieveAllEventsGroupByEventTitle();
+                        //ArrayList<Event> eventList = eventDAO.retrieveAllEventsGroupByEventTitle();
+                        ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
 
                         JsonArray eventArray = new JsonArray();
                         JsonObject jsonContactObj;
@@ -216,6 +217,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                         }
                                                     }
                                                     roleJson.add("event_participant", roleParticipentArray);
+                                                    roleJson.addProperty("createdBy", event.getCreatedBy());
                                                     eventRoleJsonArray.add(roleJson);
                                                 }
                                             }
