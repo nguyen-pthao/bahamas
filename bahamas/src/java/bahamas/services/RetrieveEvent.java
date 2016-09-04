@@ -8,20 +8,24 @@ package bahamas.services;
 
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
+import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -95,6 +99,7 @@ public class RetrieveEvent extends HttpServlet {
                             EventDAO eventDAO = new EventDAO();
                             Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
                             SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            JsonArray teamListJArray = new JsonArray();
                             if(event != null){
                                 
                                 json.addProperty("message", "success");
@@ -115,6 +120,12 @@ public class RetrieveEvent extends HttpServlet {
                                 json.addProperty("event_lat", event.getEventLat());
                                 json.addProperty("event_lng", event.getEventLng());
                                 json.addProperty("date_created", datetime.format(event.getDateCreated()));
+                                
+                                ArrayList<TeamJoin> myTeamList = TeamJoinDAO.validTeamJoin(contact.getContactId());
+                                for(TeamJoin team : myTeamList){
+                                    teamListJArray.add(new JsonPrimitive(team.getTeamName()));
+                                }
+                                json.add("team", teamListJArray);
                                 out.println(gson.toJson(json));
                             }else{
                                 json.addProperty("message", "Fail retrieve event");
