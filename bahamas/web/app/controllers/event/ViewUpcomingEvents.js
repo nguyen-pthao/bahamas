@@ -26,10 +26,9 @@ app.controller('viewUpcomingEvents',
                 $scope.loadTeamList = function(){
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
                         $scope.teamList = response.data.teamAffiliationList;
-//                        $scope.teamList.unshift({'teamAffiliation': 'My Teams'});
-//                        $scope.teamList.unshift({'teamAffiliation': 'All'});
-//                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
-                        $scope.teamFilter = "All";
+                        $scope.teamList.unshift({'teamAffiliation': 'My Teams'});
+                        $scope.teamList.unshift({'teamAffiliation': 'All'});
+                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
                 };
                 
