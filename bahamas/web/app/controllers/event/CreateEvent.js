@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal', '$rootScope',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal, $rootScope) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -242,9 +242,6 @@ app.controller('createEvent',
                     })
                 }, true);
                 
-                $rootScope.$watch('cancelled', function(){
-                    console.log($rootScope.cancelled);
-                })
                 
                 $scope.endDailyChanged = function () {
                     if ($scope.endDaily == 'isOccurence') {
@@ -302,15 +299,16 @@ app.controller('createEvent',
                 //--end of location change function--
                 
                 $scope.showRepeat = function () {
-                    $rootScope.cancelled = false;
                     var modalInstance = $uibModal.open({
                         animation: true,
                         templateUrl: './style/ngTemplate/repeatingEvent.html',
                         scope: $scope,
                         controller: function () {
                             $scope.number = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
+                            $scope.ok = function(){
+                                modalInstance.dismiss('cancel');
+                            };
                             $scope.cancel = function () {
-                                console.log('hello');
                                 modalInstance.dismiss('cancel');
                                 $scope.removeRepeat();
                             };
@@ -319,7 +317,6 @@ app.controller('createEvent',
                         keyboard: false,
                         size: "md"
                     });
-                    //console.log($scope.number);
                 };
 
                 $scope.removeRepeat = function () {
@@ -418,19 +415,3 @@ app.controller('createEvent',
                 };
 
             }]);
-
-//app.controller('RepeatingEventInstanceCtrl',['$scope', '$rootScope', '$uibModalInstance', function ($scope, $rootScope, $uibModalInstance) {
-//    $scope.number = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
-////        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
-//    console.log($scope.number);
-////    $scope.ok = function () {
-////        $uibModalInstance.dismiss('cancel');
-////    };
-////    
-//    $scope.cancel = function () {
-//        console.log('hello');
-//        $rootScope.cancelled = true;
-//        console.log($rootScope.cancelled);
-//        $uibModalInstance.dismiss('cancel');
-//    };
-//}]);
