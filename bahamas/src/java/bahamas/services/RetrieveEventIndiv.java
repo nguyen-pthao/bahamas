@@ -369,6 +369,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             }
                             json.addProperty("canView", canView);
                             json.addProperty("canViewRSC", canViewRSC);
+                            json.addProperty("createdBy", event.getCreatedBy());
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "Fail retrieve event");

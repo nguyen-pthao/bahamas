@@ -25,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -88,7 +89,8 @@ public class AddTeamAffiliation extends HttpServlet {
                 JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
                 JsonArray eventIdJsonArray = jobject.get("event_id_list").getAsJsonArray();
-
+                JsonArray errorMsg = new JsonArray();
+                
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -136,7 +138,9 @@ public class AddTeamAffiliation extends HttpServlet {
                                     }
                                 }
                                 if (!contact.isIsAdmin() && !teamIncluded) {
-                                    json.addProperty("message", "Your team should also be selected.");
+                                    json.addProperty("message", "error");
+                                    errorMsg.add(new JsonPrimitive("Your team should also be selected."));
+                                    json.add("errorMsg", errorMsg);
                                     out.println(gson.toJson(json));
                                     return;
                                 }
