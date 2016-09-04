@@ -379,7 +379,7 @@ app.controller('cloneEvent',
                     })
 
                     var url = "/event.create";
-                    dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                    $scope.myPromise = dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                         if (response.data.message == 'success') {
                             var id = response.data['event_id'];
                             var idArray = response.data['event_id_list'];

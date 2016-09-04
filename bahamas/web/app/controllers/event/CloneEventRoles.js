@@ -115,7 +115,7 @@ app.controller('cloneEventRoles',
                         $scope.newRoles.token = session.getSession('token');
                         //submit to backend here.
                         var url = "/event.addroles";
-                        dataSubmit.submitData($scope.newRoles, url).then(function (response) {
+                        $scope.myPromise = dataSubmit.submitData($scope.newRoles, url).then(function (response) {
                             if (response.data.message == 'success') {
                                 var toURL = user + '.cloneEventAffiliation';
                                 $state.go(toURL);

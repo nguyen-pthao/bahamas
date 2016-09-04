@@ -126,6 +126,13 @@ app.controller('createEventAffiliation',
                                     var afterSuccess = user + '.viewUpcomingEvents'
                                     $state.go(afterSuccess);
                                 })
+                            } else if (response.data.message == 'error') {
+                                $scope.errorMessages = response.data.errorMsg;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
                             } else {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/addEventAffiliationFailure.html',

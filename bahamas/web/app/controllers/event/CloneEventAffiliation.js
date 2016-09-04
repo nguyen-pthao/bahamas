@@ -89,24 +89,6 @@ app.controller('cloneEventAffiliation',
 
                 }
 
-//                $scope.loadTeamAffiliationList = function () {
-//                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
-//                        $scope.selectedTeams = {
-//                        };
-//                        $scope.teamAffiliationList = response.data.teamAffiliationList;
-//                        var other;
-//                        console.log($scope.teamAffiliationList);
-//                        for (var obj in $scope.teamAffiliationList) {
-//                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others') {
-//                                other = $scope.teamAffiliationList.splice(obj, 1);
-//                            }
-//                            $scope.selectedTeams[obj] = false;
-//
-//                        }
-//
-//                    });
-//                };
-
 
                 $scope.selectedTeamsCopy = {
                 };
@@ -139,7 +121,7 @@ app.controller('cloneEventAffiliation',
                         })
                     } else {
                         var url = "/event.addaffiliation";
-                        dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
+                        $scope.myPromise = dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
                             if (response.data.message == 'success') {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/addEventSuccess.html',
@@ -152,7 +134,14 @@ app.controller('cloneEventAffiliation',
                                     var afterSuccess = user + '.viewUpcomingEvents'
                                     $state.go(afterSuccess);
                                 })
-                            } else {
+                            }else if (response.data.message == 'error') {
+                                $scope.errorMessages = response.data.errorMsg;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                })
+                            }else {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/addEventAffiliationFailure.html',
                                     className: 'ngdialog-theme-default',
