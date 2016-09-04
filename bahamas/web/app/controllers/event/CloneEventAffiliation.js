@@ -90,20 +90,6 @@ app.controller('cloneEventAffiliation',
                 }
 
 
-                $scope.selectedTeamsCopy = {
-                };
-
-
-
-                $scope.toSubmitCopy = {
-                    'token': session.getSession('token'),
-                    'event_id': eventId,
-                    'event_id_list': eventIdArray,
-                    'teams': [
-                    ],
-                    'explain_if_others': ''
-                };
-
                 $scope.submit = function () {
                     var hasSelected = false;
                     angular.forEach($scope.selectedTeams, function (value, key) {
@@ -140,6 +126,8 @@ app.controller('cloneEventAffiliation',
                                     template: './style/ngTemplate/errorMessage.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
+                                }).then(function(response){
+                                    $scope.toSubmit['teams'] = [];
                                 })
                             }else {
                                 ngDialog.openConfirm({
@@ -147,8 +135,7 @@ app.controller('cloneEventAffiliation',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
                                 }).then(function (response) {
-                                    $scope.toSubmit = angular.copy($scope.toSubmitCopy);
-                                    $scope.selectedTeams = angular.copy($scope.selectedTeamsCopy);
+                                    $scope.toSubmit['teams'] = [];
                                     var currentState = user + '.cloneEventAffiliation';
                                     $state.reload(currentState);
                                 })

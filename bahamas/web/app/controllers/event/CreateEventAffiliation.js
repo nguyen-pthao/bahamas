@@ -72,13 +72,7 @@ app.controller('createEventAffiliation',
                         });
                     })
                 }
-
-                $scope.selectedTeams = {
-                };
-
-                $scope.selectedTeamsCopy = {
-                };
-
+                
                 $scope.toSubmit = {
                     'token': session.getSession('token'),
                     'event_id': eventId,
@@ -87,16 +81,7 @@ app.controller('createEventAffiliation',
                     ],
                     'explain_if_others': ''
                 };
-
-                $scope.toSubmitCopy = {
-                    'token': session.getSession('token'),
-                    'event_id': eventId,
-                    'event_id_list': eventIdArray,
-                    'teams': [
-                    ],
-                    'explain_if_others': ''
-                };
-
+                
                 $scope.submit = function () {
                     var hasSelected = false;
                     angular.forEach($scope.teamList, function (obj) {
@@ -113,6 +98,7 @@ app.controller('createEventAffiliation',
                             scope: $scope
                         })
                     } else {
+                        console.log($scope.toSubmit);
                         var url = "/event.addaffiliation";
                         $scope.myPromise = dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
                             if (response.data.message == 'success') {
@@ -132,6 +118,8 @@ app.controller('createEventAffiliation',
                                     template: './style/ngTemplate/errorMessage.html',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
+                                }).then(function(response){
+                                    $scope.toSubmit['teams'] = [];
                                 })
                             } else {
                                 ngDialog.openConfirm({
@@ -139,10 +127,9 @@ app.controller('createEventAffiliation',
                                     className: 'ngdialog-theme-default',
                                     scope: $scope
                                 }).then(function (response) {
-                                    $scope.toSubmit = angular.copy($scope.toSubmitCopy);
-                                    $scope.selectedTeams = angular.copy($scope.selectedTeamsCopy);
+                                    $scope.toSubmit['teams'] = [];
                                     var currentState = user + '.createEventAffiliation';
-                                    $state.reload(currentState);
+                                    $state.go(currentState, {}, {reload: true});
                                 })
                             }
                         })
