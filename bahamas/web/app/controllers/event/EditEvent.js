@@ -97,6 +97,51 @@ app.controller('editEvent',
                     })
 
                 }
+                $scope.$watch("editEvent['event_start_date']", function () {
+                    if (angular.isUndefined($scope.editEvent['event_start_date']) || $scope.editEvent['event_start_date'] === "") {
+                        $scope.dayOfStartDate = "";
+                    } else {
+                        var numberDay = $scope.editEvent['event_start_date'].getDay();
+                        if (numberDay === 0) {
+                            $scope.dayOfStartDate = "Sunday";
+                        } else if (numberDay === 1) {
+                            $scope.dayOfStartDate = "Monday";
+                        } else if (numberDay === 2) {
+                            $scope.dayOfStartDate = "Tuesday";
+                        } else if (numberDay === 3) {
+                            $scope.dayOfStartDate = "Wednesday";
+                        } else if (numberDay === 4) {
+                            $scope.dayOfStartDate = "Thursday";
+                        } else if (numberDay === 5) {
+                            $scope.dayOfStartDate = "Friday";
+                        } else if (numberDay === 6) {
+                            $scope.dayOfStartDate = "Saturday";
+                        }
+                    }
+                })
+
+                $scope.$watch("editEvent['event_end_date']", function () {
+                    if (angular.isUndefined($scope.editEvent['event_end_date']) || $scope.editEvent['event_end_date'] === "") {
+                        $scope.dayOfEndDate = "";
+                    } else {
+                        var numberDay = $scope.editEvent['event_end_date'].getDay();
+                        if (numberDay === 0) {
+                            $scope.dayOfEndDate = "Sunday";
+                        } else if (numberDay === 1) {
+                            $scope.dayOfEndDate = "Monday";
+                        } else if (numberDay === 2) {
+                            $scope.dayOfEndDate = "Tuesday";
+                        } else if (numberDay === 3) {
+                            $scope.dayOfEndDate = "Wednesday";
+                        } else if (numberDay === 4) {
+                            $scope.dayOfEndDate = "Thursday";
+                        } else if (numberDay === 5) {
+                            $scope.dayOfEndDate = "Friday";
+                        } else if (numberDay === 6) {
+                            $scope.dayOfEndDate = "Saturday";
+                        }
+                    }
+                })
 
                 $scope.loadEventStatusList = function () {
                     loadEventStatus.retrieveEventStatus().then(function (response) {

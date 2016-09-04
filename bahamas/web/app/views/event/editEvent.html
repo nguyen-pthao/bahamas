@@ -55,7 +55,7 @@ and open the template in the editor.
                                         <span ng-show="editEventForm.eventStatus.$error.required && editEventForm.eventStatus.$touched" class="error">Event Status is required.</span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h4 class="bold">Start Date<span class="required">*</span></h4>
+                                        <h4 class="bold">Start Date<span class="required">*</span>&nbsp;<span>{{dayOfStartDate}}</span></h4>
                                         <div class="input-group date">
                                             <div class="input-group-addon btn" ng-click="openStart()">
                                                 <i class="fa fa-calendar"></i>
@@ -66,7 +66,7 @@ and open the template in the editor.
                                         <span ng-show="(editEvent['event_start_date'] > editEvent['event_end_date']) && editEventForm.eventStartDate.$touched" class="error">Start Date cannot be after End Date.</span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h4 class="bold">End Date<span class="required">*</span></h4>
+                                        <h4 class="bold">End Date<span class="required">*</span>&nbsp;<span>{{dayOfEndDate}}</span></h4>
                                         <div class="input-group date">
                                             <div class="input-group-addon btn" ng-click="openEnd()">
                                                 <i class="fa fa-calendar"></i>
