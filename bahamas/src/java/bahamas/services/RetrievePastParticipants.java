@@ -238,7 +238,6 @@ public class RetrievePastParticipants extends HttpServlet {
                                                         }
                                                     }
                                                     roleJson.add("event_participant", roleParticipentArray);
-                                                    roleJson.addProperty("createdBy", event.getCreatedBy());
                                                     eventRoleJsonArray.add(roleJson);
                                                 }
                                             }
@@ -290,7 +289,19 @@ public class RetrievePastParticipants extends HttpServlet {
                                         } else {
                                             jsonContactObj.addProperty("roles", "");
                                         }
-
+                                        
+                                        int partNumber = 0;
+                                        for (EventParticipant eventParticipant : eventParticipantList) {
+                                            if (!eventParticipant.isPullout()) {
+                                                partNumber++;
+                                            }
+                                        }
+                                        if (eventParticipantList == null) {
+                                            jsonContactObj.addProperty("totalParticipant", partNumber);
+                                        } else {
+                                            jsonContactObj.addProperty("totalParticipant", partNumber);
+                                        }
+                                        jsonContactObj.addProperty("createdBy", event.getCreatedBy());
                                         if (teamNameFilter.isEmpty()) {
                                             eventArray.add(jsonContactObj);
                                         } else if (!teamNameFilter.isEmpty() && teamNameFilter.equals("my_team")) {

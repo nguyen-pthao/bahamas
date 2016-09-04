@@ -137,7 +137,7 @@ public class AddEventParticipant extends HttpServlet {
                                         AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined event \"" + event.getEventTitle() + "\". Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
-                                    if (contactDAO.retrieveContactById(contact1.getContactId()).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                    if (contactDAO.retrieveContactById(contact1.getContactId()).getUsername() != null &&  event.getContactId() == contact.getContactId()) {
                                         AppNotification appNotification2 = new AppNotification(contact1.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have been added to event \"" + event.getEventTitle() + "\". Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification2);
                                     }

@@ -114,8 +114,11 @@ public class LeaveEventRole extends HttpServlet {
                                 Event event = eventDAO.retrieveEventById(eventParticipant.getEventID());
                                 Contact contactTemp = cDAO.retrieveContactById(eventParticipant.getContactID());
                                 ContactDAO contactDAO = new ContactDAO();
-                                if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
                                     AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotificationDAO.addAppNotification(appNotification);
+                                } else if (contactDAO.retrieveContactById(eventParticipant.getContactID()).getUsername() != null && eventParticipant.getContactID() != contact.getContactId()){
+                                    AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), eventParticipant.getEventID(), ".viewIndivEvent", "You have been removed from event \"" + event.getEventTitle() + "\". Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 }
                                 AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);

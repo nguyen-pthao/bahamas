@@ -203,10 +203,16 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                             }
                                         }
                                         ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(event.getEventId());
+                                        int partNumber = 0;
+                                        for (EventParticipant eventParticipant : eventParticipantList) {
+                                            if (!eventParticipant.isPullout()) {
+                                                partNumber++;
+                                            }
+                                        }
                                         if (eventParticipantList == null) {
-                                            jsonContactObj.addProperty("totalParticipant", 0);
+                                            jsonContactObj.addProperty("totalParticipant", partNumber);
                                         } else {
-                                            jsonContactObj.addProperty("totalParticipant", eventParticipantList.size());
+                                            jsonContactObj.addProperty("totalParticipant", partNumber);
                                         }
                                         jsonContactObj.addProperty("createdBy", event.getCreatedBy());
                                         if (teamNameFilter.isEmpty()) {

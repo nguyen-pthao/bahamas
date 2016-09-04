@@ -217,7 +217,6 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                         }
                                                     }
                                                     roleJson.add("event_participant", roleParticipentArray);
-                                                    roleJson.addProperty("createdBy", event.getCreatedBy());
                                                     eventRoleJsonArray.add(roleJson);
                                                 }
                                             }
@@ -269,6 +268,18 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                             jsonContactObj.addProperty("roles", "");
                                         }
 
+                                        int partNumber = 0;
+                                        for (EventParticipant eventParticipant : eventParticipantList) {
+                                            if (!eventParticipant.isPullout()) {
+                                                partNumber++;
+                                            }
+                                        }
+                                        if (eventParticipantList == null) {
+                                            jsonContactObj.addProperty("totalParticipant", partNumber);
+                                        } else {
+                                            jsonContactObj.addProperty("totalParticipant", partNumber);
+                                        }
+                                        jsonContactObj.addProperty("createdBy", event.getCreatedBy());
                                         if (teamNameFilter.isEmpty()) {
                                             eventArray.add(jsonContactObj);
                                         } else if (!teamNameFilter.isEmpty() && teamNameFilter.equals("my_team")) {
@@ -277,7 +288,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                             while (iter.hasNext()) {
                                                 String eventTeam = (String) iter.next();
                                                 Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
-                                                
+
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
                                                     hmTeamPermission.clear();

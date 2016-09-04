@@ -159,7 +159,7 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                     }
                                 }
                                 for (int tempContactId : cidNamePairHM.keySet()) {
-                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()) {
                                         AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
