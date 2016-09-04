@@ -93,7 +93,8 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th width="20%"><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th width="80%">Roles/Participation</th>
+                                        <th width="75%" style="color:#005384;">Roles/Participation</th>
+                                        <th width="5%" style="color: #005384">Total Participants</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -121,12 +122,14 @@ and open the template in the editor.
                                 </tbody>
                             </table>
                             </td>
+                            <td>{{event['totalParticipant']}}</td>
                             </tr>
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                    <th>Roles/Participation</th>
+                                    <th><a href="" ng-click="order('event_title')" style='color: #005384'>Event Title</a></th>
+                                    <th style="color:#005384;">Roles/Participation</th>
+                                    <th style="color:#005384;">Total Participants</th>
                                 </tr>
                             </tfoot>
                             </table>

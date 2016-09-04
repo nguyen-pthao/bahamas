@@ -92,13 +92,14 @@ and open the template in the editor.
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th width="20%"><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
+                                        <th width="20%"><a href="" ng-click="order('event_title')" style='color: #005384'>Event Title</a></th>
                                         <th width="10%"><a href="" ng-click="order('event_start_date')" style='color: #005384'>Start Date</a></th>
                                         <th width="10%"><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
                                         <th width="10%"><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
                                         <th width="10%"><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
-                                        <th width="15%"><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
+                                        <th width="10%"><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
                                         <th width="10%"><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
+                                        <th width="5%" style="color: #005384">Total Participants</th>
                                         <th width="15%"></th>
                                     </tr>
                                 </thead>
@@ -111,6 +112,7 @@ and open the template in the editor.
                                 <td>{{event['event_class']}}</td>
                                 <td>{{event['team']}}</td>
                                 <td>{{event['event_status']}}</td>
+                                <td style="color: #005384">{{event['totalParticipant']}}</td>
                                 <td>
                                 <center>
                                     <span>
@@ -149,6 +151,7 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
                                         <th><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
                                         <th><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
+                                        <th>Total Participants</th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
