@@ -387,7 +387,11 @@ public class AddEvent extends HttpServlet {
                             newEventIdJsonArray.add(new JsonPrimitive("" + eventID));
                             
                             if (!mode.isEmpty()) {
-                                for (int i = 1; i < 21; i++) {
+                                int max = 20;
+                                if(repeatingEventStartDate.size() <= 20){
+                                    max = repeatingEventStartDate.size();
+                                }
+                                for (int i = 1; i < max; i++) {
                                     Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId());
                                     newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, contact.getName())));
                                 }   
