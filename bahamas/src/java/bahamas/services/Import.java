@@ -17,6 +17,7 @@ import bahamas.dao.OfficeHeldDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.dao.TeamJoinDAO;
+import bahamas.dao.TrainingDAO;
 import bahamas.dao.list.*;
 import bahamas.entity.Address;
 import bahamas.entity.Appreciation;
@@ -29,6 +30,7 @@ import bahamas.entity.OfficeHeld;
 import bahamas.entity.Phone;
 import bahamas.entity.SkillAssignment;
 import bahamas.entity.TeamJoin;
+import bahamas.entity.Training;
 import bahamas.util.Authenticator;
 import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
@@ -155,6 +157,8 @@ public class Import extends HttpServlet {
                     numOfFields = 8;
                 } else if (table.equalsIgnoreCase("donation")) {
                     numOfFields = 19;
+                } else if (table.equalsIgnoreCase("training")) {
+                    numOfFields = 7;
                 } else {
                     json.addProperty("message", "Import failed due invalid table choice");
                     out.println(gson.toJson(json));
@@ -200,6 +204,8 @@ public class Import extends HttpServlet {
                         processAppreciation();
                     } else if (table.equalsIgnoreCase("donation")) {
                         processDonation();
+                    } else if (table.equalsIgnoreCase("training")) {
+                        processTraining();
                     } else {
                         json.addProperty("message", "Import failed due invalid table choice");
                         out.println(gson.toJson(json));
@@ -604,6 +610,76 @@ public class Import extends HttpServlet {
                     if (permission != null) {
                         cDAO.changeNovicePermission(c, false);
                     }
+                } else {
+                    msg.add("Error inserting into database");
+                }
+                logMsg.put(lineNum, msg);
+
+            }
+
+        }
+    }
+
+    private void processTraining() throws Exception {
+
+        int lineNum = 0;
+        for (int i = 0; i < dataList.size(); i++) {
+
+            ArrayList<String> msg = new ArrayList<>();
+
+            String contactId = processField(msg, dataList.get(i), "Contact Id", 11);
+
+            Contact c = null;
+            ContactDAO cDAO = new ContactDAO();
+            try {
+
+                c = cDAO.retrieveContactById(Integer.parseInt(contactId));
+                if (c == null) {
+                    msg.add("Invalid contact id reference");
+                }
+            } catch (NumberFormatException | NullPointerException e) {
+                msg.add("Invalid contact id reference");
+            }
+
+            String teamName = processField(msg, dataList.get(++i), "Team Name", 50);
+            TeamAffiliationListDAO teamListDAO = new TeamAffiliationListDAO();
+
+            if (!teamListDAO.retrieveTeamAffiliationList().contains(teamName)) {
+                msg.add("Team Name not referencing to Team Afflialiation List");
+            } else if (c != null && TeamJoinDAO.teamJoinExist(c.getContactId(), teamName)) {
+                msg.add("Team preference already exists");
+            }
+
+            String explainIfOther = processField(msg, dataList.get(++i), "Explain If Other", 200);
+
+            String trainingCourse = processField(msg, dataList.get(++i), "Training Course", 50);
+            String trainingBy = processField(msg, dataList.get(++i), "Training By", 50);
+
+            String date = dataList.get(++i);
+            SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+            format.setLenient(false);
+            Date trainingDate = null;
+            if (!date.isEmpty()) {
+                try {
+                    trainingDate = format.parse(date);
+                } catch (ParseException e) {
+                    msg.add("Invalid training date format");
+                }
+            }
+
+            String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
+
+            lineNum++;
+
+            if (!msg.isEmpty()) {
+                logMsg.put(lineNum, msg);
+            } else {
+
+                Training newTraining = new Training(c, createdBy, teamName, explainIfOther,
+                        trainingCourse, trainingBy, trainingDate, remarks);
+
+                if (TrainingDAO.addTraining(newTraining)) {
+
                 } else {
                     msg.add("Error inserting into database");
                 }
