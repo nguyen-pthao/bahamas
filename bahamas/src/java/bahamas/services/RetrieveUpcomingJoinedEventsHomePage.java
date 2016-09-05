@@ -110,7 +110,7 @@ public class RetrieveUpcomingJoinedEventsHomePage extends HttpServlet {
 
                         EventDAO eventDAO = new EventDAO();
                         ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
-                        SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+                        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                         SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                         JsonArray eventArray = new JsonArray();
                         JsonObject jsonContactObj;
