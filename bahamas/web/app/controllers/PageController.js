@@ -76,7 +76,9 @@ app.controller('pageController',
                             right: 'today prev,next'
                         },
                         eventClick: function(event){
-                            console.log(event);
+                            var urlToGoEvent = ""+ user + event.state;
+                            session.setSession('eventIdToDisplay', event.eventId);
+                            $state.go(urlToGoEvent);
                         },
                         eventDrop: $scope.alertOnDrop,
                         eventResize: $scope.alertOnResize
@@ -88,16 +90,17 @@ app.controller('pageController',
 //                        events: [
 //                            {
 //                                title: 'event1',
-//                                start: '2010-01-01'
+//                                start: '2016-09-08'
 //                            },
 //                            {
 //                                title: 'event2',
-//                                start: '2010-01-05',
-//                                end: '2010-01-07'
+//                                start: '2016-09-08',
+//                                end: '2016-09-09'
 //                            },
 //                            {
 //                                title: 'event3',
 //                                start: '2016-09-05T06:41:35.536Z',
+//                                end: '2016-09-06T06:41:35.536Z',
 //                                state: '.viewIndivEvent',
 //                                eventId: 13
 //                            }
@@ -189,9 +192,11 @@ app.controller('pageController',
                         $scope.toGetEvents = {
                             'token': session.getSession('token')
                         };
-//                        dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function(response){
-//                            
-//                        });
+                        dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function(response){
+                            if(response.data.message == 'success'){
+                                $scope.eventSources = response.data.events;
+                            }
+                        });
                     }
                 };
 
