@@ -6,7 +6,7 @@
 'use strict';
 
 var app = angular.module('bahamas',
-        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload']);
+        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload', 'ui.calendar']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 

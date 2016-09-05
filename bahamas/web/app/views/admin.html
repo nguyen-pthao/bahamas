@@ -191,44 +191,14 @@
                             <!-- Default box -->
                             <div class="box">
                                 <div class="box-header with-border" data-widget="collapse">
-                                    <h3 class="box-title">Reminders</h3>
+                                    <h3 class="box-title">Your Calendar</h3>
                                     <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Homepage">
+                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Show Calendar">
                                             <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
-                                <!-- hardcoded homepage -->
                                 <div class="box-body">
-                                    <div class="table-horizontal-scroll" >
-                                        <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
-                                            <thead>
-                                                <tr>
-                                                    <th><a href="" ng-click="order('name')" style='color: #005384'>Event Title</a></th>
-                                                    <th><a href="" ng-click="order('phone')" style='color: #005384'>Date</a></th>
-                                                    <th><a href="" ng-click="order('email')" style='color: #005384'>Time</a></th>
-                                                    <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Venue</a></th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td width="25%"><a href="" ng-click="foo($event, contact)">Breakfast</a></td>
-                                                    <td width="20%">13 Aug 2016</td>
-                                                    <td width="20%">0730 AM</td>
-                                                    <td width="10%">Alankar</td>
-                                                    <td width="10%" ><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull Out" ng-click="editContact($event, contact)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
-                                                </tr>
-                                                <tr>
-                                                    <td width="25%"><a href="" ng-click="foo($event, contact)">Dinner</a></td>
-                                                    <td width="20%">13 Aug 2016</td>
-                                                    <td width="20%">0630 PM</td>
-                                                    <td width="10%">Alankar</td>
-                                                    <td width="10%"><span><a href="" uib-tooltip-placement="top" uib-tooltip="Pull Out" ng-click="editContact($event, contact)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-
+                                    <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
                                 </div>
                                 <!-- /.box-body -->
 

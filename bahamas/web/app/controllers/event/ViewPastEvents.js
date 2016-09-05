@@ -21,17 +21,17 @@ app.controller('viewPastEvents',
                 $scope.loadTeamList = function(){
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
                         $scope.teamList = response.data.teamAffiliationList;
-                        $scope.teamList.unshift({'teamAffiliation': 'My Teams'});
-                        $scope.teamList.unshift({'teamAffiliation': 'All'});
+                        $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                        $scope.teamList.unshift({'teamAffiliation': 'ALL'});
                         $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
                 };
                 
                 $scope.retrieveEvents = function () {
                     var filter;
-                    if($scope.teamFilter == "All"){
+                    if($scope.teamFilter == "ALL"){
                         filter = "";
-                    }else if($scope.teamFilter == "My Teams"){
+                    }else if($scope.teamFilter == "MY TEAMS"){
                         filter = "my_team";
                     }else{
                         filter = $scope.teamFilter;

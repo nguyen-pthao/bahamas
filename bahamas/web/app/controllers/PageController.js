@@ -65,6 +65,48 @@ app.controller('pageController',
             function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout, Upload) {
                 var user = session.getSession('userType');
 
+                $scope.uiConfig = {
+                    calendar: {
+                        height: 500,
+                        editable: false,
+                        header: {
+                            left: 'month basicWeek basicDay agendaWeek agendaDay',
+//                            left: 'month',
+                            center: 'title',
+                            right: 'today prev,next'
+                        },
+                        eventClick: function(event){
+                            console.log(event);
+                        },
+                        eventDrop: $scope.alertOnDrop,
+                        eventResize: $scope.alertOnResize
+                    }
+                };
+
+//                $scope.eventSources = [
+//                    {
+//                        events: [
+//                            {
+//                                title: 'event1',
+//                                start: '2010-01-01'
+//                            },
+//                            {
+//                                title: 'event2',
+//                                start: '2010-01-05',
+//                                end: '2010-01-07'
+//                            },
+//                            {
+//                                title: 'event3',
+//                                start: '2016-09-05T06:41:35.536Z',
+//                                state: '.viewIndivEvent',
+//                                eventId: 13
+//                            }
+//                        ],
+////                        color: 'black', // an option!
+////                        textColor: 'yellow' // an option!
+//                    }
+//                ];
+                
                 $scope.$on('IdleStart', function () {
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/refreshToken.html',
@@ -143,6 +185,13 @@ app.controller('pageController',
                                 window.alert("Fail to send request!");
                             });
                         };
+                        var urlToGetEvents = '/event.retrieve.homepage';
+                        $scope.toGetEvents = {
+                            'token': session.getSession('token')
+                        };
+//                        dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function(response){
+//                            
+//                        });
                     }
                 };
 
@@ -215,7 +264,7 @@ app.controller('pageController',
 
                 $scope.goToState = function (notification) {
                     var urlToGo = "" + user + notification.state;
-                    if(notification.state === ".viewIndivEvent"){
+                    if (notification.state === ".viewIndivEvent") {
                         session.setSession('eventIdToDisplay', notification.eventId);
                     }
                     var index = $scope.notificationList.indexOf(notification);
