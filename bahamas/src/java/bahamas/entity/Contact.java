@@ -53,9 +53,9 @@ public class Contact {
     private ArrayList<TeamJoin> teamJoinList = new ArrayList<TeamJoin>();
 
     // certification that a contact have
-    private ArrayList<TrainingCertified> certificationList = new ArrayList<TrainingCertified>();
+    private ArrayList<Training> certificationList = new ArrayList<Training>();
     // awarding certification to contacts
-    private ArrayList<TrainingCertified> certificationAwarderList = new ArrayList<TrainingCertified>();
+    private ArrayList<Training> certificationAwarderList = new ArrayList<Training>();
 
     public Contact() {
     }
@@ -396,19 +396,19 @@ public class Contact {
         this.donationList = donationList;
     }
 
-    public ArrayList<TrainingCertified> getCertificationList() {
+    public ArrayList<Training> getCertificationList() {
         return certificationList;
     }
 
-    public void setCertificationList(ArrayList<TrainingCertified> certificationList) {
+    public void setCertificationList(ArrayList<Training> certificationList) {
         this.certificationList = certificationList;
     }
 
-    public ArrayList<TrainingCertified> getCertificationAwarderList() {
+    public ArrayList<Training> getCertificationAwarderList() {
         return certificationAwarderList;
     }
 
-    public void setCertificationAwarderList(ArrayList<TrainingCertified> certificationAwarderList) {
+    public void setCertificationAwarderList(ArrayList<Training> certificationAwarderList) {
         this.certificationAwarderList = certificationAwarderList;
     }
 
