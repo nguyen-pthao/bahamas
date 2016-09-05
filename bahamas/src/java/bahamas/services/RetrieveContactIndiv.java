@@ -18,6 +18,7 @@ import bahamas.dao.ProxyDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.SkillDAO;
 import bahamas.dao.TeamJoinDAO;
+import bahamas.dao.TrainingDAO;
 import bahamas.entity.Address;
 import bahamas.entity.Appreciation;
 import bahamas.entity.Contact;
@@ -30,6 +31,7 @@ import bahamas.entity.Phone;
 import bahamas.entity.Proxy;
 import bahamas.entity.SkillAssignment;
 import bahamas.entity.TeamJoin;
+import bahamas.entity.Training;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -233,6 +235,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         ArrayList<SkillAssignment> skillAssignmentList = SkillDAO.retrieveSkillByCID(contact.getContactId());
         ArrayList<Appreciation> appreciationList = AppreciationDAO.retrieveAppreciation(contact.getContactId());
         ArrayList<Donation> donationList = DonationDAO.retrieveDonationByCID(contact.getContactId());
+        ArrayList<Training> trainingList = TrainingDAO.retrieveTrainingByCId(contact.getContactId());
         //ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoin(contact.getUsername());
         ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
         String emailStr = "";
@@ -908,6 +911,51 @@ public class RetrieveContactIndiv extends HttpServlet {
             } else {
                 jsonContactObj.addProperty("team_join", "");
             }
+        }
+
+        if (trainingList != null && !trainingList.isEmpty()) {
+
+            for (int i = 0; i < trainingList.size(); i++) {
+                JsonObject jsonTrainingObj = new JsonObject();
+                Training training = trainingList.get(i);
+
+                jsonTrainingObj.addProperty("trainingid", training.getTrainingId());
+                jsonTrainingObj.addProperty("teamname", training.getTeamName());
+
+                if (training.getExplainIfOther() != null) {
+                    jsonTrainingObj.addProperty("explain_if_others", training.getExplainIfOther());
+                } else {
+                    jsonTrainingObj.addProperty("explain_if_others", "");
+                }
+                if (training.getTrainingCourse() != null) {
+                    jsonTrainingObj.addProperty("training_course", training.getTrainingCourse());
+                } else {
+                    jsonTrainingObj.addProperty("training_course", "");
+                }
+                if (training.getTrainingBy() != null) {
+                    jsonTrainingObj.addProperty("training_by", training.getTrainingBy());
+                } else {
+                    jsonTrainingObj.addProperty("training_by", "");
+                }
+                if (training.getTrainingDate() != null) {
+                    jsonTrainingObj.addProperty("training_date", sdf.format(training.getTrainingDate()));
+                } else {
+                    jsonTrainingObj.addProperty("training_date", "");
+                }
+                if (training.getRemarks() != null) {
+                    jsonTrainingObj.addProperty("remarks", training.getRemarks());
+                } else {
+                    jsonTrainingObj.addProperty("remarks", "");
+                }
+                jsonTrainingObj.addProperty("created_by", training.getCreatedBy());
+                jsonTrainingObj.addProperty("date_created", sdft.format(training.getDateCreated()));
+                jsonTrainingObj.addProperty("date_created", sdft.format(training.getDateCreated()));
+                jsonObjTeamJoin.add(jsonTrainingObj);
+                jsonContactObj.add("training", jsonObjTeamJoin);
+            }
+
+        } else {
+            jsonContactObj.addProperty("training", "");
         }
 
         contactArray.add(jsonContactObj);

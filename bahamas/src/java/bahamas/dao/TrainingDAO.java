@@ -176,6 +176,51 @@ public class TrainingDAO {
         }
         return null;
     }
+    
+    public static ArrayList<Training> retrieveTrainingByCId(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Training> trainingList = new ArrayList<Training>();
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID,CREATED_BY,DATE_CREATED,"
+                    + "TEAM_NAME,EXPLAIN_IF_OTHER,TRAINING_COURSE,TRAINING_BY,TRAINING_DATE,REMARKS "
+                    + "FROM TRAINING WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
+            stmt.setInt(1, cid);
+
+            rs = stmt.executeQuery();
+            ContactDAO cDAO = new ContactDAO();
+            while (rs.next()) {
+
+                Contact c = cDAO.retrieveContactById(rs.getInt(1));
+                String createdBy = rs.getString(2);
+                Date dateCreated = rs.getTimestamp(3);
+                String teamName = rs.getString(4);
+                String explainIfOther = rs.getString(5);
+                String trainingCourse = rs.getString(6);
+                String trainingBy = rs.getString(7);
+
+                Date trainingDate = null;
+                if (rs.getDate(8) != null) {
+                    trainingDate = new Date(rs.getDate(8).getTime());
+                }
+
+                String remarks = rs.getString(9);
+
+                Training newTraining = new Training(c, createdBy, dateCreated, teamName, explainIfOther, trainingCourse, trainingBy, trainingDate, remarks);
+                trainingList.add(newTraining);
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve Training from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return trainingList;
+    }
 
     public static ArrayList<Training> retrieveAllTraining() {
 
