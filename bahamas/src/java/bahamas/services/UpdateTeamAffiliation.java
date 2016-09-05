@@ -10,6 +10,7 @@ import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
+import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
@@ -24,6 +25,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -85,17 +87,16 @@ public class UpdateTeamAffiliation extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String eventId = Validator.containsBlankField(jobject.get("event_id"));
                 String explainIfOthers = "";
-                String remarks = "";
+                HashMap<String, String> formTeamHM = new HashMap<String, String>();
+                boolean teamIncluded = false;
+                
                 if (jobject.has("explain_if_other")) {
                     explainIfOthers = jobject.get("explain_if_other").getAsString();
-                }
-                if (jobject.has("remarks")) {
-                    remarks = jobject.get("remarks").getAsString();
                 }
 
                 JsonArray eventTeamsJsonArray = jobject.get("teams").getAsJsonArray();
                 String username = Authenticator.verifyToken(token);
-
+                JsonArray errorMsg = new JsonArray();
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -127,8 +128,33 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                 } else {
                                     hmError.put(teamTemp, teamTemp);
                                     teamName.add(teamTemp);
+                                    formTeamHM.put(teamTemp, teamTemp);
                                 }
                             }
+
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                    ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(contact.getContactId());
+                                    for (TeamJoin teamJoin : teamJoinList) {
+                                        if (formTeamHM.containsKey(teamJoin.getTeamName())) {
+                                            teamIncluded = true;
+
+                                        }
+                                    }
+                                }
+                                if (!contact.isIsAdmin() && !teamIncluded) {
+                                    json.addProperty("message", "error");
+                                    errorMsg.add(new JsonPrimitive("Your team should also be selected."));
+                                    json.add("errorMsg", errorMsg);
+                                    out.println(gson.toJson(json));
+                                    return;
+                                }
+                            } else {
+                                json.addProperty("message", "fail");
+                                out.println(gson.toJson(json));
+                                return;
+                            }
+                            
                             EventAffiliation eventAffiliation = new EventAffiliation(Integer.parseInt(eventId), explainIfOthers, teamName, username);
 
                             if (EventAffiliationDAO.updateTeamAffiliation(eventAffiliation, eventAffiliation.getEventID())) {
