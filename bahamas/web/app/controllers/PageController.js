@@ -68,15 +68,16 @@ app.controller('pageController',
                 $scope.uiConfig = {
                     calendar: {
                         height: 500,
-                        editable: false,
+                        editable: true,
+                        startEditable: true,
                         header: {
 //                            left: 'month basicWeek basicDay agendaWeek agendaDay',
                             left: 'month',
                             center: 'title',
                             right: 'today prev,next'
                         },
-                        eventClick: function(event){
-                            var urlToGoEvent = ""+ user + event.state;
+                        eventClick: function (event) {
+                            var urlToGoEvent = "" + user + event.state;
                             session.setSession('eventIdToDisplay', event.eventId);
                             $state.go(urlToGoEvent);
                         },
@@ -109,7 +110,7 @@ app.controller('pageController',
 ////                        textColor: 'yellow' // an option!
 //                    }
 //                ];
-                
+
                 $scope.$on('IdleStart', function () {
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/refreshToken.html',
@@ -188,15 +189,18 @@ app.controller('pageController',
                                 window.alert("Fail to send request!");
                             });
                         };
-                        var urlToGetEvents = '/event.retrieve.homepage';
-                        $scope.toGetEvents = {
-                            'token': session.getSession('token')
-                        };
-                        dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function(response){
-                            if(response.data.message == 'success'){
-                                $scope.eventSources = response.data.events;
-                            }
-                        });
+//                        var urlToGetEvents = '/event.retrieve.homepage';
+//                        $scope.toGetEvents = {
+//                            'token': session.getSession('token')
+//                        };
+//                        dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
+//                            if (response.data.message == 'success') {
+////                                var events = response.data.event;
+////                                $scope.eventSources = [];
+////                                $scope.eventSources.push(events);
+////                                $scope.eventSources = response.data.events;
+//                            }
+//                        });
                     }
                 };
 
@@ -298,5 +302,21 @@ app.controller('pageController',
                         }
                     });
                 });
+                $scope.eventSources = [];
+                $scope.retrieveCalendar = function () {
+                    var urlToGetEvents = '/event.retrieve.homepage';
+                    $scope.toGetEvents = {
+                        'token': session.getSession('token')
+                    };
+                    dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.eventSources.length = 0;
+                            console.log("hello");
+                            console.log(response);
+                            $scope.eventSources.push(response.data.event);
+                            console.log($scope.eventSources);
+                        }
+                    });
+                };
 
             }]);
