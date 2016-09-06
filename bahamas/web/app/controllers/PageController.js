@@ -70,8 +70,8 @@ app.controller('pageController',
 //                        height: 500,
                         editable: false,
                         header: {
-                            left: 'month basicWeek basicDay agendaWeek agendaDay',
-//                            left: '',
+//                            left: 'month basicWeek basicDay agendaWeek agendaDay',
+                            left: '',
                             center: 'title',
                             right: 'today prev,next'
                         },

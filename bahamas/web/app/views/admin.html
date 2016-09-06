@@ -35,8 +35,8 @@
                                             <!--inner menu: contains the actual data--> 
                                             <ul class="menu">
                                                 <li ng-repeat="notification in notificationList">
-                                                    <div class="box-body">
-                                                        <a href="" ng-click="goToState(notification)">
+                                                    <div class="box-body" style="border: 1px solid #f4f4f4;">
+                                                        <a style="color: purple" href="" ng-click="goToState(notification)">
                                                             {{notification.message}}
                                                         </a>
                                                     </div>
