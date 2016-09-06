@@ -67,12 +67,11 @@ app.controller('pageController',
 
                 $scope.uiConfig = {
                     calendar: {
-                        height: 500,
-                        editable: true,
-                        startEditable: true,
+//                        height: 500,
+                        editable: false,
                         header: {
 //                            left: 'month basicWeek basicDay agendaWeek agendaDay',
-                            left: 'month',
+                            left: '',
                             center: 'title',
                             right: 'today prev,next'
                         },
@@ -90,16 +89,16 @@ app.controller('pageController',
 //                    {
 //                        events: [
 //                            {
-//                                title: 'event1',
+//                                title: 'BasketBall Training',
 //                                start: '2016-09-08'
 //                            },
 //                            {
-//                                title: 'event2',
+//                                title: 'TWC2 Meeting',
 //                                start: '2016-09-08',
 //                                end: '2016-09-09'
 //                            },
 //                            {
-//                                title: 'event3',
+//                                title: 'UAT testing',
 //                                start: '2016-09-05T06:41:35.536Z',
 //                                end: '2016-09-06T06:41:35.536Z',
 //                                state: '.viewIndivEvent',
@@ -108,6 +107,28 @@ app.controller('pageController',
 //                        ],
 ////                        color: 'black', // an option!
 ////                        textColor: 'yellow' // an option!
+//                    },
+//                    {
+//                        events: [
+//                            {
+//                                title: 'Netball Training',
+//                                start: '2016-09-08'
+//                            },
+//                            {
+//                                title: 'UFC 202',
+//                                start: '2016-09-07',
+//                                end: '2016-09-09'
+//                            },
+//                            {
+//                                title: 'IPPT',
+//                                start: '2016-09-05T06:41:35.536Z',
+//                                end: '2016-09-06T06:41:35.536Z',
+//                                state: '.viewIndivEvent',
+//                                eventId: 13
+//                            }
+//                        ],
+//                        color: 'green', // an option!
+//                        textColor: 'white' // an option!
 //                    }
 //                ];
 
@@ -189,18 +210,6 @@ app.controller('pageController',
                                 window.alert("Fail to send request!");
                             });
                         };
-//                        var urlToGetEvents = '/event.retrieve.homepage';
-//                        $scope.toGetEvents = {
-//                            'token': session.getSession('token')
-//                        };
-//                        dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
-//                            if (response.data.message == 'success') {
-////                                var events = response.data.event;
-////                                $scope.eventSources = [];
-////                                $scope.eventSources.push(events);
-////                                $scope.eventSources = response.data.events;
-//                            }
-//                        });
                     }
                 };
 
@@ -311,12 +320,13 @@ app.controller('pageController',
                     dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
                         if (response.data.message == 'success') {
                             $scope.eventSources.length = 0;
-                            console.log("hello");
-                            console.log(response);
-                            $scope.eventSources.push(response.data.event);
-                            console.log($scope.eventSources);
+                            var eventsCreated = response.data.eventsCreated;
+                            var eventsJoined = response.data.eventsJoined;
+                            var createdObj = {'events': eventsCreated};
+                            var joinedObj = {events: eventsJoined, color: 'green', textColor: 'white'};
+                            $scope.eventSources.push(createdObj);
+                            $scope.eventSources.push(joinedObj);
                         }
                     });
                 };
-
             }]);

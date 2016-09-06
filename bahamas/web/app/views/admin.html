@@ -35,8 +35,8 @@
                                             <!--inner menu: contains the actual data--> 
                                             <ul class="menu">
                                                 <li ng-repeat="notification in notificationList">
-                                                    <div class="box-body">
-                                                        <a href="" ng-click="goToState(notification)">
+                                                    <div class="box-body" style="border: 1px solid #f4f4f4;">
+                                                        <a style="color: purple" href="" ng-click="goToState(notification)">
                                                             {{notification.message}}
                                                         </a>
                                                     </div>
@@ -189,7 +189,7 @@
                         <!-- Main content -->
                         <section class="content">
                             <!-- Default box -->
-                            <div class="box">
+                            <div class="box" ng-init="retrieveCalendar()">
                                 <div class="box-header with-border" data-widget="collapse">
                                     <h3 class="box-title">Your Calendar</h3>
                                     <div class="box-tools pull-right">
@@ -197,12 +197,9 @@
                                             <i class="fa fa-chevron-down"></i></button>
                                     </div>
                                 </div>
-                                <div class="box-body" ng-init="retrieveCalendar()">
+                                <div class="box-body">
                                     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
                                 </div>
-                                <!-- /.box-body -->
-
-                                <!-- /.box-footer-->
                             </div>
                             <!-- /.box -->
                             <div class="box">
