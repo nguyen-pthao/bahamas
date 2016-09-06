@@ -170,6 +170,14 @@
                                 <div class="box-body" ng-init="retrieveCalendar()">
                                     <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
                                 </div>
+                                <div class="box-body">
+                                    <div class="col-md-12">
+                                        <div class="legend created" uib-tooltip-placement="top" uib-tooltip="Events Created"></div>
+                                        <div class="legend joined" uib-tooltip-placement="top" uib-tooltip="Events Joined"></div>
+                                        <div class="legend past" uib-tooltip-placement="top" uib-tooltip="Past Events"></div>
+                                    </div>
+                                    <div ui-calendar="uiConfig.calendar" ng-model="eventSources"></div>
+                                </div>
                                 <!-- /.box-body -->
                             </div>
                             <!-- /.box -->
