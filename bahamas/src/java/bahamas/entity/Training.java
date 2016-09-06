@@ -51,7 +51,7 @@ public class Training {
         this.remarks = remarks;
     }
     
-    public Training(int training_id, Contact contact, String createdBy, Date dateCreated, String teamName, String explainIfOther, String trainingCourse, String trainingBy, Date trainingDate, String remarks) {
+    public Training(int trainingId, Contact contact, String createdBy, Date dateCreated, String teamName, String explainIfOther, String trainingCourse, String trainingBy, Date trainingDate, String remarks) {
         this.trainingId = trainingId;
         this.contact = contact;
         this.createdBy = createdBy;
