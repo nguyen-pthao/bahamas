@@ -98,7 +98,6 @@ app.controller('createEventAffiliation',
                             scope: $scope
                         })
                     } else {
-                        console.log($scope.toSubmit);
                         var url = "/event.addaffiliation";
                         $scope.myPromise = dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
                             if (response.data.message == 'success') {

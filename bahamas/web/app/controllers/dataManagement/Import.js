@@ -16,29 +16,29 @@ app.controller('import', ['$scope', 'session', '$state', 'Upload', function ($sc
         $scope.downloadFile = function() {
             console.log($scope.selectedImport);
             if($scope.selectedImport == 'contact') {
-                window.open('https://rms.twc2.org.sg/template/contact.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/contact.xlsx');
             } else if ($scope.selectedImport == 'phone') {
-                window.open('https://rms.twc2.org.sg/template/phone.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/phone.xlsx');
             } else if ($scope.selectedImport == 'email') {
-                window.open('https://rms.twc2.org.sg/template/email.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/email.xlsx');
             } else if ($scope.selectedImport == 'address') {
-                window.open('https://rms.twc2.org.sg/template/address.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/address.xlsx');
             } else if ($scope.selectedImport == 'membership') {
-                window.open('https://rms.twc2.org.sg/template/membership.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/membership.xlsx');
             } else if ($scope.selectedImport == 'officeheld') {
-                window.open('https://rms.twc2.org.sg/template/officeheld.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/officeheld.xlsx');
             } else if ($scope.selectedImport == 'donation') {
-                window.open('https://rms.twc2.org.sg/template/donation.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/donation.xlsx');
             } else if ($scope.selectedImport == 'appreciation') {
-                window.open('https://rms.twc2.org.sg/template/appreciation.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/appreciation.xlsx');
             } else if ($scope.selectedImport == 'teamjoin') {
-                window.open('https://rms.twc2.org.sg/template/teamjoin.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/teamjoin.xlsx');
             } else if ($scope.selectedImport == 'language') {
-                window.open('https://rms.twc2.org.sg/template/language.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/language.xlsx');
             } else if ($scope.selectedImport == 'skill') {
-                window.open('https://rms.twc2.org.sg/template/skill.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/skill.xlsx');
             } else if ($scope.selectedImport == 'training') {
-                window.open('https://rms.twc2.org.sg/template/training.xlsx');
+                window.open('https://rmsdev.twc2.org.sg/template/training.xlsx');
             }
         };
 
