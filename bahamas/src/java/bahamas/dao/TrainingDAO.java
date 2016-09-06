@@ -185,7 +185,7 @@ public class TrainingDAO {
         ArrayList<Training> trainingList = new ArrayList<Training>();
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT CONTACT_ID,CREATED_BY,DATE_CREATED,"
+            stmt = conn.prepareStatement("SELECT TRAINING_ID,CONTACT_ID,CREATED_BY,DATE_CREATED,"
                     + "TEAM_NAME,EXPLAIN_IF_OTHER,TRAINING_COURSE,TRAINING_BY,TRAINING_DATE,REMARKS "
                     + "FROM TRAINING WHERE CONTACT_ID = (?) ORDER BY DATE_CREATED DESC");
             stmt.setInt(1, cid);
@@ -193,23 +193,24 @@ public class TrainingDAO {
             rs = stmt.executeQuery();
             ContactDAO cDAO = new ContactDAO();
             while (rs.next()) {
-
-                Contact c = cDAO.retrieveContactById(rs.getInt(1));
-                String createdBy = rs.getString(2);
-                Date dateCreated = rs.getTimestamp(3);
-                String teamName = rs.getString(4);
-                String explainIfOther = rs.getString(5);
-                String trainingCourse = rs.getString(6);
-                String trainingBy = rs.getString(7);
+                
+                int tid = rs.getInt(1);
+                Contact c = cDAO.retrieveContactById(rs.getInt(2));
+                String createdBy = rs.getString(3);
+                Date dateCreated = rs.getTimestamp(4);
+                String teamName = rs.getString(5);
+                String explainIfOther = rs.getString(6);
+                String trainingCourse = rs.getString(7);
+                String trainingBy = rs.getString(8);
 
                 Date trainingDate = null;
-                if (rs.getDate(8) != null) {
-                    trainingDate = new Date(rs.getDate(8).getTime());
+                if (rs.getDate(9) != null) {
+                    trainingDate = new Date(rs.getDate(9).getTime());
                 }
 
-                String remarks = rs.getString(9);
+                String remarks = rs.getString(10);
 
-                Training newTraining = new Training(c, createdBy, dateCreated, teamName, explainIfOther, trainingCourse, trainingBy, trainingDate, remarks);
+                Training newTraining = new Training(tid, c, createdBy, dateCreated, teamName, explainIfOther, trainingCourse, trainingBy, trainingDate, remarks);
                 trainingList.add(newTraining);
             }
 
