@@ -106,7 +106,7 @@ app.controller('createContact',
                     'date_of_birth': '',
                     'remarks': '',
                     'notification': true
-                };
+                };                
 //DECLARE RESULT OBJECT 
                 $scope.result = {
                     message: false,

@@ -22,11 +22,12 @@ app.controller('EditAppreciation', ['$scope', 'session', 'ngDialog', '$timeout',
         $scope.editTheAppreciation = function ($event, appreciation) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['appreciation_id'] = appreciation['appreciation_id'];
             datasend['appraisal_comment'] = appreciation['appraisal_comments'];
@@ -131,11 +132,11 @@ app.controller('EditAppreciation', ['$scope', 'session', 'ngDialog', '$timeout',
         };
         $scope.addAppreciation = function () {
             var url = AppAPI.addAppreciation;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newAppreciation['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newAppreciation['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newAppreciation['contact_id'] = $scope.contactToEditCID;
+//            }
             if ($scope.newAppreciation['appraisal_date'] == null) {
                 $scope.newAppreciation['appraisal_date'] = '';
             } else if (isNaN($scope.newAppreciation['appraisal_date'])) {

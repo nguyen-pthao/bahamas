@@ -21,11 +21,12 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
         };
         $scope.editTheContact = function () {
             $scope.editContact['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.editContact['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.editContact['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                $scope.editContact['contact_id'] = $scope.contactToEditCID;
+//            }
             $scope.editContact['user_type'] = session.getSession('userType');
             if ($scope.editContact['date_of_birth'] == null) {
                 $scope.editContact['date_of_birth'] = '';

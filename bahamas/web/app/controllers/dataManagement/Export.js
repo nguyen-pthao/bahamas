@@ -13,6 +13,7 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
         };
         
         $scope.fileName = '';
+        $scope.defaultFilename = '';
         $scope.selectedExport = 'contact';
         $scope.resultData = '';
         $scope.error = false;
@@ -32,10 +33,12 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
                 
                 if (result.message == 'success') {
                     $scope.resultData = result.list;
-                    
                     if($scope.resultData != '') {
                         $scope.tableHeader = Object.keys($scope.resultData[0]);
                     }
+                    var currentTime = new Date();
+                    console.log(currentTime);
+                    $scope.defaultFilename += $scope.selectedExport;
                     console.log($scope.resultData);
                     console.log($scope.tableHeader);
                 } else {

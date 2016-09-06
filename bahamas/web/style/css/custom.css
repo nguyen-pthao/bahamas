@@ -638,3 +638,15 @@ div.wrapper > aside.main-sidebar {
 .export-table-header {
     background-color: blueviolet;
 }*/
+
+.resend-email {
+    margin-top: 5px;
+}
+
+.notification {
+    color: purple;
+}
+
+.notification-border {
+    border: 1px solid #F4F4F4;
+}

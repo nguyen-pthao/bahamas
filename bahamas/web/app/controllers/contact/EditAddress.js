@@ -22,11 +22,12 @@ app.controller('EditAddress', ['$scope', 'session', 'ngDialog', '$timeout', 'dat
         $scope.editTheAddress = function ($event, address) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['country'] = address['country'];
             datasend['address'] = address['address'];
@@ -122,11 +123,11 @@ app.controller('EditAddress', ['$scope', 'session', 'ngDialog', '$timeout', 'dat
         };
         $scope.addAddress = function () {
             var url = AppAPI.addAddress;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newAddress['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newAddress['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newAddress['contact_id'] = $scope.contactToEditCID;
+//            }
             dataSubmit.submitData($scope.newAddress, url).then(function (response) {
                 if (response.data.message == 'success') {
                     $scope.submitNewAddress.submittedAddress = true;

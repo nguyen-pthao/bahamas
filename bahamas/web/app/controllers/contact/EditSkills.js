@@ -27,11 +27,12 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
         $scope.editTheSkill = function ($event, skill) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['skill_asset'] = skill['skill_name'];
             datasend['explain_if_other'] = skill['explain_if_other'];
@@ -83,11 +84,11 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
             }).then(function (response) {
                 var deleteSkill = {};
                 deleteSkill['token'] = session.getSession('token');
-                if ($scope.editMode == 'true') {
+                //if ($scope.editMode == 'true') {
                     deleteSkill['contact_id'] = $scope.contactToEditCID;
-                } else {
-                    deleteSkill['contact_id'] = $scope.contactToEditCID;
-                }
+//                } else {
+//                    deleteSkill['contact_id'] = $scope.contactToEditCID;
+//                }
                 deleteSkill['skill_asset'] = skill['skill_name'];
                 var url = AppAPI.deleteSkill;
                 deleteService.deleteDataService(deleteSkill, url).then(function (response) {
@@ -123,11 +124,11 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
         };
         $scope.addSkills = function () {
             var url = AppAPI.addSkill;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newSkills['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newSkills['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newSkills['contact_id'] = $scope.contactToEditCID;
+//            }
             if ($scope.newSkills['date_obsolete'] == null) {
                 $scope.newSkills['date_obsolete'] = '';
             } else if (isNaN($scope.newSkills['date_obsolete'])) {

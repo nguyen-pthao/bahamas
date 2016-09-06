@@ -6,53 +6,49 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
-    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
-
-        //phone
-        $scope.addingPhone = false;
-        $scope.addNewPhone = function () {
-            //$scope.addingPhone = true;
-            $scope.addingPhone = !$scope.addingPhone;
+app.controller('EditTraing', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadPermissionLevel', 
+    function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadPermissionLevel) {
+        $scope.addingTraining = false;
+        $scope.addNewTraining = function () {
+            $scope.addingTraining = !$scope.addingTraining;
         };
-        $scope.resultPhone = {
-            'phone_number': '',
+        $scope.resultTraining = {
+            'training_id': '',
             status: false,
             message: ''
         };
-        $scope.editThePhone = function ($event, phone) {
+        $scope.editTheTraining = function ($event, training) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
             //if ($scope.editMode == 'true') {
-                datasend['contact_id'] = $scope.contactToEditCID;
+            datasend['contact_id'] = $scope.contactToEditCID;
             //}
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
-            datasend['country_code'] = phone['country_code'];
-            datasend['phone_number'] = phone['phone_number'];
-            datasend['phone_remarks'] = phone['remarks'];
-            if (phone['date_obsolete'] == null) {
-                datasend['date_obsolete'] = '';
-            } else if (angular.isUndefined(phone['date_obsolete'])) {
-                datasend['date_obsolete'] = '';
-            } else if (isNaN(phone['date_obsolete'])) {
-                datasend['date_obsolete'] = '';
+            datasend['training_id'] = training['training_id'];  
+            datasend['team_name'] = training['team_name'];
+            datasend['explain_if_other'] = training['explain_if_others'];
+            datasend['training_course'] = training['training_course'];
+            datasend['training_by'] = training['training_by'];
+            datasend['remarks'] = training['remarks'];
+            if (training['training_date'] == null) {
+                datasend['training_date'] = '';
+            } else if (angular.isUndefined(training['training_date'])) {
+                datasend['training_date'] = '';
+            } else if (isNaN(training['training_date'])) {
+                datasend['training_date'] = '';
             } else {
-                datasend['date_obsolete'] = phone['date_obsolete'].valueOf() + "";
+                datasend['training_date'] = training['training_date'].valueOf() + "";
             }
-            var url = AppAPI.updatePhone;
+            var url = AppAPI.updateTraining;
             dataSubmit.submitData(datasend, url).then(function (response) {
-                $scope.resultPhone.status = true;
+                $scope.resultTraining.status = true;
                 if (response.data.message == 'success') {
-                    $scope.resultPhone['phone_number'] = datasend['phone_number'];
-                    $scope.resultPhone.message = $scope.successMsg;
+                    $scope.resultTraining.address = datasend['training_id'];
+                    $scope.resultTraining.message = $scope.successMsg;
                     $scope.retrieveFunc();
-                    $scope.form.editPhoneForm.$setValidity();
-                    $timeout(function () {
-                        $scope.resultPhone.status = false;
-                    }, 1000);
+                    //$scope.form.editTrainingForm.$setValidity();
                 } else {
                     if (Array.isArray(response.data.message)) {
                         $scope.errorMessages = response.data.message;
@@ -71,27 +67,24 @@ app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
                         });
                     }
                 }
+                $timeout(function () {
+                    $scope.resultTraining.status = false;
+                }, 1000);
             }, function () {
                 window.alert("Fail to send request!");
             });
         };
-        $scope.deleteThePhone = function ($event, phone) {
-            //to add ngDialog for confirmation
+        $scope.deleteTheTraining = function ($event, training) {
             ngDialog.openConfirm({
                 template: './style/ngTemplate/deletePrompt.html',
                 className: 'ngdialog-theme-default',
                 scope: $scope
             }).then(function (response) {
-                var deletePhone = {};
-                deletePhone['token'] = session.getSession('token');
-                //if ($scope.editMode == 'true') {
-                    deletePhone['contact_id'] = $scope.contactToEditCID;
-//                } else {
-//                    deletePhone['contact_id'] = $scope.contactToEditCID;
-//                }
-                deletePhone['phone_number'] = phone['phone_number'];
-                var url = AppAPI.deletePhone;
-                deleteService.deleteDataService(deletePhone, url).then(function (response) {
+                var deleteTraining = {};
+                deleteTraining['token'] = session.getSession('token');
+                deleteTraining['training_id'] = training['training_id'];
+                var url = AppAPI.deleteTraining;
+                deleteService.deleteDataService(deleteTraining, url).then(function (response) {
                     if (response.data.message == 'success') {
                         ngDialog.openConfirm({
                             template: './style/ngTemplate/deleteSuccess.html',
@@ -101,46 +94,47 @@ app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
                             $scope.retrieveFunc();
                         });
                     } else {
-                        window.alert("Fail to delete phone");
+                        window.alert("Fail to delete training");
                     }
                 }, function () {
                     window.alert("Fail to send request!");
                 });
             });
         };
-        $scope.newPhone = {
+        $scope.newTraining = {
             token: session.getSession("token"),
             'contact_id': -1,
-            'country_code': 65,
-            'phone_number': '',
-            'phone_remarks': '',
-            'date_obsolete': ''
+            'team_name': '',
+            'explain_if_other': '',
+            'training_course': '',
+            'training_by': '',
+            'training_date': '',
+            'remarks': ''
         };
-        $scope.copyPhone = angular.copy($scope.newPhone);
-        $scope.submitNewPhone = {
-            'submittedPhone': false,
+        $scope.copyTraining = angular.copy($scope.newTraining);
+        $scope.submitNewTraining = {
+            'submittedTraining': false,
             'message': ''
         };
-        $scope.addPhone = function () {
-            var url = AppAPI.addPhone;
+        $scope.addTraining = function () {
+            var url = AppAPI.addTraining;
             //if ($scope.editMode == 'true') {
-                $scope.newPhone['contact_id'] = $scope.contactToEditCID;
-//            } else {
-//                $scope.newPhone['contact_id'] = $scope.contactToEditCID;
-//            }
-            dataSubmit.submitData($scope.newPhone, url).then(function (response) {
+                $scope.newTraining['contact_id'] = $scope.contactToEditCID;
+            //} else {
+            //    $scope.newAddress['contact_id'] = $scope.contactToEditCID;
+            //}
+            dataSubmit.submitData($scope.newTraining, url).then(function (response) {
                 if (response.data.message == 'success') {
-                    $scope.submitNewPhone.submittedPhone = true;
-                    $scope.submitNewPhone.message = $scope.successMsg;
+                    $scope.submitNewTraining.submittedTraining = true;
+                    $scope.submitNewTraining.message = $scope.successMsg;
                     $scope.retrieveFunc();
-                    $scope.newPhone = angular.copy($scope.copyPhone);
-                    $scope.form.editPhoneForm.$setValidity();
-                    $scope.form.editPhoneForm.$setPristine();
+                    $scope.newTraining = angular.copy($scope.copyTraining);
+                    $scope.form.editTrainingForm.$setValidity();
+                    $scope.form.editTrainingForm.$setPristine();
                     $timeout(function () {
-                        $scope.submitNewPhone.submittedPhone = false;
+                        $scope.submitNewTraining.submittedTraining = false;
                     }, 1000);
-                    //can set $scope.addingPhone = false if wanting to hide
-                    $scope.addingPhone = false;
+                    $scope.addingTraining = false;
                 } else {
                     if (Array.isArray(response.data.message)) {
                         $scope.errorMessages = response.data.message;
@@ -163,11 +157,17 @@ app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
                 window.alert("Fail to send request!");
             });
         };
-
-        $scope.openedPhone = [];
-        $scope.openPhone = function (index) {
+        
+        $scope.openedTraining = [];
+        $scope.openTraining = function (index) {
             $timeout(function () {
-                $scope.openedPhone[index] = true;
+                $scope.openedTraining[index] = true;
+            });
+        };
+        
+        $scope.openNewTraining = function () {
+            $timeout(function () {
+                $scope.openedNewTraining = true;
             });
         };
 

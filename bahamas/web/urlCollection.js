@@ -22,6 +22,7 @@ var AppAPI = {
     'addProxy': '/proxy.add',
     'addSkill': '/skill.add',
     'addTeamJoin': '/teamjoin.add',
+    'addTraining': '/training.add',
 // Delete Contact Info API    
     'deleteAddress': '/address.delete',
     'deleteAppreciation': '/appreciation.delete',
@@ -36,6 +37,7 @@ var AppAPI = {
     'deleteSkill': '/skill.delete',
     'deleteTeamJoin': '/teamjoin.delete',
     'deleteProfilePic': '/image.delete',
+    'deleteTraining': '/training.delete',
 // Retrieve Info API     
     'retrieveAuditLog': '/retrieve.auditlog',
     'retrieveContact': '/contact.retrieve',
@@ -47,6 +49,7 @@ var AppAPI = {
     'updateContact': '/contact.update',
     'updateDonation': '/donation.update',
     'updateEmail': '/email.update',
+    'resendEmail': '/email.resendverification',
     'updateLanguage': '/language.update',
     'updateMembership': '/membership.update',
     'updateOfficeHeld': '/officeheld.update',
@@ -56,6 +59,7 @@ var AppAPI = {
     'updateTeamJoin': '/teamjoin.update',
     'updateUser': '/user.update',
     'uploadImage': '/image.upload',
+    'updateTraining': '/training.update',
 // Username/NRIC Validation API 
     'usernameCheck': '/user.check',
 // Retrieve dropdown list API 

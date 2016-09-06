@@ -392,6 +392,7 @@ app.controller('editContact',
                             } else {
                                 $scope.editEmail[i]['is_verified'] = 'No';
                             }
+                            $scope.editEmail[i]['resend'] = false;
                         }
                     } else {
                         $scope.editEmail = '';
@@ -494,6 +495,9 @@ app.controller('editContact',
                     if (contactToEdit.hasOwnProperty('training')) {
                         if (!angular.isUndefined(contactToEdit.training) && contactToEdit.training != '') {
                             $scope.editTraining = contactToEdit.training;
+                            for(var i = 0; i < contactToEdit.training.length; i++) {
+                                $scope.editTraining[i]['training_date'] = new Date(contactToEdit.training[i]['training_date']);
+                            }
                         } else {
                             $scope.editTraining = '';
                         }

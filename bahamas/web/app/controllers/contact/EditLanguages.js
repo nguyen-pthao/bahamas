@@ -27,11 +27,12 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
         $scope.editTheLanguage = function ($event, language) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['language'] = language['language_name'];
             datasend['speak_write'] = language['proficiency'];
@@ -84,11 +85,11 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
             }).then(function (response) {
                 var deleteLanguage = {};
                 deleteLanguage['token'] = session.getSession('token');
-                if ($scope.editMode == 'true') {
+                //if ($scope.editMode == 'true') {
                     deleteLanguage['contact_id'] = $scope.contactToEditCID;
-                } else {
-                    deleteLanguage['contact_id'] = $scope.contactToEditCID;
-                }
+//                } else {
+//                    deleteLanguage['contact_id'] = $scope.contactToEditCID;
+//                }
                 deleteLanguage['language'] = language['language_name'];
                 var url = AppAPI.deleteLanguage;
                 deleteService.deleteDataService(deleteLanguage, url).then(function (response) {
@@ -125,11 +126,11 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
         };
         $scope.addLanguages = function () {
             var url = AppAPI.addLanguage;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newLanguages['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newLanguages['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newLanguages['contact_id'] = $scope.contactToEditCID;
+//            }
             if ($scope.newLanguages['date_obsolete'] == null) {
                 $scope.newLanguages['date_obsolete'] = '';
             } else if (isNaN($scope.newLanguages['date_obsolete'])) {

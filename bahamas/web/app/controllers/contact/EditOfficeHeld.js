@@ -27,11 +27,12 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
         $scope.editTheOffice = function ($event, officeHeld) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['office_held_name'] = officeHeld['office_held'];
             if (officeHeld['start_office'] == null) {
@@ -94,11 +95,11 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
             }).then(function (response) {
                 var deleteOffice = {};
                 deleteOffice['token'] = session.getSession('token');
-                if ($scope.editMode == 'true') {
+                //if ($scope.editMode == 'true') {
                     deleteOffice['contact_id'] = $scope.contactToEditCID;
-                } else {
-                    deleteOffice['contact_id'] = $scope.contactToEditCID;
-                }
+//                } else {
+//                    deleteOffice['contact_id'] = $scope.contactToEditCID;
+//                }
                 deleteOffice['office_held_name'] = officeHeld['office_held'];
                 deleteOffice['start_office'] = officeHeld['start_office'].valueOf() + "";
                 var url = AppAPI.deleteOfficeHeld;
@@ -135,11 +136,11 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
         };
         $scope.addOffice = function () {
             var url = AppAPI.addOfficeHeld;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newOffice['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newOffice['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newOffice['contact_id'] = $scope.contactToEditCID;
+//            }
             if ($scope.newOffice['start_office'] == null) {
                 $scope.newOffice['start_office'] = '';
             } else if (isNaN($scope.newOffice['start_office'])) {

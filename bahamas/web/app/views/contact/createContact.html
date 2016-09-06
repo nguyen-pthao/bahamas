@@ -96,9 +96,10 @@ and open the template in the editor.
                                         </div>
                                         <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                                             <label>Send Notification</label>
-                                            <div>
-                                                <input type="checkbox" ng-model="contactInfo.notification" checked/>
-                                            </div>
+                                            <br>
+                                            <label class="resend-email">
+                                                <input type="checkbox" class="flat-red" ng-model="contactInfo.notification" checked>
+                                            </label>
                                         </div>
                                     </div>                     
                                     <label>Remarks</label>
@@ -320,6 +321,12 @@ and open the template in the editor.
         <script>
             $('window').on('popstate', function () {
                 $('#additionalForm').modal('hide');
+            });
+            $('document').ready(function(){
+                //Flat red color scheme for iCheck
+                $('input[type="checkbox"].flat-red').iCheck({
+                    checkboxClass: 'icheckbox_flat-red'
+                });        
             });
         </script>
     </body>

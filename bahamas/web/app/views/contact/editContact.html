@@ -167,7 +167,6 @@ and open the template in the editor.
                                 </div>
                             </div>
                         </form>
-                        
                         <!-- /user information -->
                         <form name="form.editPersonalForm" ng-controller="EditPersonalInfo">
                             <div class="box collapsed-box blue-box">
@@ -487,11 +486,18 @@ and open the template in the editor.
                                                 </div>
                                             </div>
                                             <div class="form-group col-md-12">
-                                                <div class="col-md-5">
+                                                <div class="col-md-3">
                                                     <label>Verified email</label>
                                                     <input type="text" ng-model="email['is_verified']" class="form-control" readonly>
                                                 </div>
-                                                <div class="col-md-offset-2 col-md-5">
+                                                <div class="col-md-3" ng-show="(isAdmin || isTeamManager) && email['is_verified'] == 'No'">
+                                                    <label>Resend verification email</label>
+                                                    <br>
+                                                    <label class="resend-email">
+                                                        <input type="checkbox" ng-model="email['resend']" ng-click="resend()" class="flat-red" id="resendEmail">
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-offset-1 col-md-5">
                                                     <label>Date obsolete</label>
                                                     <div class="input-group date">
                                                         <div class="input-group-addon btn" ng-click="openEmail($index)">
@@ -1767,8 +1773,8 @@ and open the template in the editor.
                             </div>
                         </form>
                         <!-- /team information -->
-                        <form name="form.editTrainingForm">
-                            <div class="box collapsed-box blue-box" ng-hide="true">
+                        <form name="form.editTrainingForm" ng-controller="EditTraing">
+                            <div class="box collapsed-box blue-box">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTraining === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                     <div class="box-tools pull-right">
@@ -1784,25 +1790,110 @@ and open the template in the editor.
                                     </div>
                                 </div>
                                 <div class="box-body hidden-blue-box" ng-show="!(editTraining == '')">
-                                    <div class="form-group col-md-12">
-                                        <div class="col-md-5">
-                                            <label>Date created</label>
-                                            <div class="input-group date">
-                                                <div class="input-group-addon">
-                                                    <i class="fa fa-calendar"></i>
-                                                </div>
-                                                <input type='text' name="dateCreatedTrain" class="form-control pull-right" readonly>
+                                    <div class="box collapsed-box" ng-repeat="training in editTraining">
+                                        <div class="box-header" style="padding-bottom: 5px" data-widget="collapse">
+                                            <h5 class="box-title">
+                                                <button type="button" class="btn btn-box-tool">
+                                                    <i class="fa fa-pencil fa-lg"></i>
+                                                </button>
+                                                <b>Training #<span ng-bind="($index + 1)"></span></b>
+                                            </h5>
+                                            <div class="box-tools pull-right">
+                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Training Details">
+                                                    <i class="fa fa-chevron-down"></i>
+                                                </button>
                                             </div>
                                         </div>
-                                        <div class="col-md-offset-2 col-md-5">
-                                            <label>Created by</label>
-                                            <input type='text' name="createdByTrain" class="form-control" readonly> 
+                                        <div class="box-body with-border">
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Date created</label>
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input type='text' ng-model="training['date_created']" name="dateCreatedTrain" class="form-control pull-right" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-offset-2 col-md-5">
+                                                    <label>Created by</label>
+                                                    <input type='text' ng-model="training['created_by']" name="createdByTrain" class="form-control" readonly> 
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                                                    <label>Team</label><span class="required">*</span>
+                                                    <select class="form-control" ng-model="training['team_name']">
+                                                        <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                                    </select>
+                                                </div>
+                                            </div> 
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-12">
+                                                    <label>Explain if above is 'Other'</label>
+                                                    <textarea class='custom-remarks' ng-model="training['explain_if_others']" name='otherExpTrain' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="training['explain_if_others'].length <= 200 && training['explain_if_others'].length > - 1" class="error">Input field remarks is too long.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Training course</label>
+                                                    <input type='text' ng-model="training['training_course']" name="trainCrs" class="form-control">
+                                                    <span ng-hide="training['training_course'].length <= 50 && training['training_course'].length > - 1" class="error">Input field training course is too long.</span>
+                                                </div>
+                                                <div class="col-md-offset-2 col-md-5">
+                                                    <label>Training by</label>
+                                                    <input type='text' ng-model="training['training_by']" name="trainBy" class="form-control">
+                                                    <span ng-hide="training['training_by'].length <= 50 && training['training_by'].length > - 1" class="error">Input field training by is too long.</span>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-5">
+                                                    <label>Training date</label>
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon btn" ng-click="openTraining($index)">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input ng-model="training['training_date']" ng-click="openTraining($index)" uib-datepicker-popup="{{format}}" is-open="openedTraining[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" type='text' name="trainDate" class="form-control pull-right white-background" readonly>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-12">
+                                                <div class="col-md-12">
+                                                    <label>Remarks</label>
+                                                    <textarea class='custom-remarks' ng-model="training['remarks']" name='remarksTrain' contenteditable="true" spellcheck="true"></textarea>
+                                                    <span ng-hide="training['remarks'].length <= 1000 && training['remarks'].length > - 1" class="error">Input field remarks is too long.</span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <center>
+                                                    <button type="submit" class="btn btn-link uppercase bold" 
+                                                            ng-disabled="!(training['explain_if_others'].length <= 200 && training['explain_if_others'].length > - 1) || !(training['training_course'].length <= 50 && training['training_course'].length > - 1)
+                                                            || !(training['training_by'].length <= 50 && training['training_by'].length > - 1) || !(training['remarks'].length <= 1000 && training['remarks'].length > - 1)"
+                                                            ng-click="editTheTraining($event, training)">
+                                                        Save Changes
+                                                    </button>
+                                                    &nbsp;
+                                                    <button class="btn btn-link uppercase bold" ng-click="deleteTheTraining($event, training)">Delete training</button>
+                                                    <br>
+                                                    <span ng-bind="resultTraining.message" ng-show="resultTraining.status && (resultTraining['training_id'] == training['training_id'])"></span> 
+                                                </center>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="box-body hidden-blue-box" ng-show="addingTraining">
+                                    <div class="box-header">
+                                        <div class="box-tolls pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewTraining()">
+                                                <i class="fa fa-times fa-lg"></i>
+                                            </button>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                             <label>Team</label><span class="required">*</span>
-                                            <select class="form-control">
+                                            <select class="form-control" ng-model="newTraining['team_name']" name="additionalTrainTeam" empty>
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
                                         </div>
@@ -1810,40 +1901,52 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Explain if above is 'Other'</label>
-                                            <textarea class='custom-remarks' name='otherExpTrain' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newTraining['explain_if_other']" name='additionalOtherExpTrain' contenteditable="true" spellcheck="true" ng-maxlength="200"></textarea>
+                                            <span ng-show="form.editTrainingForm.additionalOtherExpTrain.$error.maxlength" class="error">Input field explanation is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
                                             <label>Training course</label>
-                                            <input type='text' name="trainCrs" class="form-control">
+                                            <input type='text' ng-model="newTraining['training_course']" name="additionalTrainCrs" class="form-control" ng-maxlength="50">
+                                            <span ng-show="form.editTrainingForm.additionalTrainCrs.$error.maxlength" class="error">Input field training course is too long.</span>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
                                             <label>Training by</label>
-                                            <input type='text' name="trainBy" class="form-control"> 
+                                            <input type='text' ng-model="newTraining['training_by']" name="additionalTrainBy" class="form-control" ng-maxlength="50">
+                                            <span ng-show="form.editTrainingForm.additionalTrainBy.$error.maxlength" class="error">Input field training by is too long.</span>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5">
                                             <label>Training date</label>
                                             <div class="input-group date">
-                                                <div class="input-group-addon">
+                                                <div class="input-group-addon btn" ng-click="openNewTraining()">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' name="trainDate" class="form-control pull-right">
+                                                <input ng-model="newTraining['training_date']" ng-click="openNewTraining()" uib-datepicker-popup="{{format}}" is-open="openedNewTraining" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" type='text' name="newTrainDate" class="form-control pull-right white-background" readonly>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
                                             <label>Remarks</label>
-                                            <textarea class='custom-remarks' name='remarksTrain' contenteditable="true" spellcheck="true"></textarea>
+                                            <textarea class='custom-remarks' ng-model="newTraining['remarks']" ng-maxlength="1000" name='additionalRemarksTrain' contenteditable="true" spellcheck="true"></textarea>
+                                            <span ng-show="form.editTrainingForm.additionalRemarksTrain.$error.maxlength" class="error">Input field remarks is too long.</span>
                                         </div>
                                     </div>
+                                    <center>
+                                        <button type="submit" class="btn btn-primary uppercase" 
+                                                ng-disabled="form.editTrainingForm.additionalTrainTeam.$invalid || form.editTrainingForm.additionalOtherExpTrain.$invalid
+                                                            || form.editTrainingForm.additionalTrainCrs.$invalid || form.editTrainingForm.additionalTrainBy.$invalid || form.editTrainingForm.additionalRemarksTrain.$invalid"
+                                                ng-click="addTraining()">Done</button>
+                                        <br>
+                                        <span ng-bind="submitNewTraining.message" ng-show="submitNewTraining.submittedTraining"></span>
+                                    </center>
                                 </div>
                                 <div class='box-footer'>
                                     <center>
-                                        <button type="submit" class="btn btn-primary uppercase">Save Changes</button>
+                                        <button type="submit" class="btn btn-warning uppercase" ng-click="addNewTraining()" ng-hide="addingTraining">Add new training</button>
                                     </center>
                                 </div>
                             </div>
@@ -2526,6 +2629,12 @@ and open the template in the editor.
             });
             $('window').on('popstate', function () {
                 $('#profilephoto').modal('hide');
+            });
+            $('document').ready(function(){
+                //Flat red color scheme for iCheck
+                $('input[type="checkbox"].flat-red').iCheck({
+                    checkboxClass: 'icheckbox_flat-green'
+                });        
             });
         </script>
     </body>

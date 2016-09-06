@@ -27,11 +27,12 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.editTheTeam = function ($event, team) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['team'] = team['team_name'];
             datasend['permission_level'] = team['permission'];
@@ -85,11 +86,11 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
             }).then(function (response) {
                 var deleteTeamjoin = {};
                 deleteTeamjoin['token'] = session.getSession('token');
-                if ($scope.editMode == 'true') {
+                //if ($scope.editMode == 'true') {
                     deleteTeamjoin['contact_id'] = $scope.contactToEditCID;
-                } else {
-                    deleteTeamjoin['contact_id'] = $scope.contactToEditCID;
-                }
+//                } else {
+//                    deleteTeamjoin['contact_id'] = $scope.contactToEditCID;
+//                }
                 deleteTeamjoin['team'] = team['team_name'];
                 var url = AppAPI.deleteTeamJoin;
                 deleteService.deleteDataService(deleteTeamjoin, url).then(function (response) {

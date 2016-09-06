@@ -21,11 +21,12 @@ app.controller('EditDonation', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.editTheDonation = function ($event, donation) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['donation_id'] = donation['donation_id'];
             if (donation['date_received'] == null) {
@@ -164,11 +165,11 @@ app.controller('EditDonation', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         };
         $scope.addDonation = function () {
             var url = AppAPI.addDonation;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newDonation['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newDonation['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newDonation['contact_id'] = $scope.contactToEditCID;
+//            }
             if ($scope.newDonation['date_received'] == null) {
                 $scope.newDonation['date_received'] = '';
             } else if (isNaN($scope.newDonation['date_received'])) {

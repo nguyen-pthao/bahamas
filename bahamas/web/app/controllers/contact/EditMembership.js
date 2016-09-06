@@ -27,11 +27,12 @@ app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', '
         $scope.editTheMembership = function ($event, membership) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 datasend['contact_id'] = $scope.contactToEditCID;
-            } else {
-                datasend['contact_id'] = $scope.contactToEditCID;
-            }
+            //}
+//            } else {
+//                datasend['contact_id'] = $scope.contactToEditCID;
+//            }
             datasend['user_type'] = session.getSession('userType');
             datasend['membership_id'] = membership['membership_id'];
             if (membership['start_date'] == null) {
@@ -169,11 +170,11 @@ app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', '
         });
         $scope.addMembership = function () {
             var url = AppAPI.addMembership;
-            if ($scope.editMode == 'true') {
+            //if ($scope.editMode == 'true') {
                 $scope.newMembership['contact_id'] = $scope.contactToEditCID;
-            } else {
-                $scope.newMembership['contact_id'] = $scope.contactToEditCID;
-            }
+//            } else {
+//                $scope.newMembership['contact_id'] = $scope.contactToEditCID;
+//            }
             if ($scope.newMembership['start_membership'] == null) {
                 $scope.newMembership['start_membership'] = '';
             } else if (isNaN($scope.newMembership['start_membership'])) {
