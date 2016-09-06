@@ -37,6 +37,8 @@ app.controller('import', ['$scope', 'session', '$state', 'Upload', function ($sc
                 window.open('https://rms.twc2.org.sg/template/language.xlsx');
             } else if ($scope.selectedImport == 'skill') {
                 window.open('https://rms.twc2.org.sg/template/skill.xlsx');
+            } else if ($scope.selectedImport == 'training') {
+                window.open('https://rms.twc2.org.sg/template/training.xlsx');
             }
         };
 
