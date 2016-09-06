@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('EditTraing', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadPermissionLevel', 
+app.controller('EditTraining', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadPermissionLevel', 
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadPermissionLevel) {
         $scope.addingTraining = false;
         $scope.addNewTraining = function () {
@@ -123,6 +123,15 @@ app.controller('EditTraing', ['$scope', 'session', 'ngDialog', '$timeout', 'data
             //} else {
             //    $scope.newAddress['contact_id'] = $scope.contactToEditCID;
             //}
+            if ($scope.newTraining['training_date'] == null) {
+                $scope.newTraining['training_date'] = '';
+            } else if (isNaN($scope.newTraining['training_date'])) {
+                $scope.newTraining['training_date'] = '';
+            } else if (angular.isUndefined($scope.newTraining['training_date'])) {
+                $scope.newTraining['training_date'] = '';
+            } else {
+                $scope.newTraining['training_date'] = $scope.newTraining['training_date'].valueOf() + "";
+            }
             dataSubmit.submitData($scope.newTraining, url).then(function (response) {
                 if (response.data.message == 'success') {
                     $scope.submitNewTraining.submittedTraining = true;
