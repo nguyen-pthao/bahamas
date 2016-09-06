@@ -27,6 +27,7 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -34,6 +35,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.TimeZone;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -139,11 +141,12 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                     calEndDate.set(Calendar.HOUR_OF_DAY, 0);
                                     calEndDate.set(Calendar.MINUTE, 0);
                                     calEndDate.set(Calendar.SECOND, 0);
-                                    Date temp = calStartDate.getTime();
-                                    Date temp2 = calEndDate.getTime();
 
                                     //if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
                                     if (!eventParticipant.isPullout()) {
+
+                                        //Version 1
+                                        /*
                                         while (!calStartDate.equals(calEndDate)) {
                                             jsonContactObj = new JsonObject();
                                             jsonContactObj.addProperty("title", tempEvent.getEventTitle());
@@ -168,6 +171,40 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                             jsonContactObj.addProperty("state", ".viewPastIndivEvent");
                                         }
                                         jsonContactObj.addProperty("eventId", tempEvent.getEventId());
+                                        
+                                        
+                                        // version 2
+                                        jsonContactObj = new JsonObject();
+                                        jsonContactObj.addProperty("title", tempEvent.getEventTitle());
+                                        jsonContactObj.addProperty("start", date.format(tempEvent.getEventStartDate()));
+                                        jsonContactObj.addProperty("end", date.format(tempEvent.getEventEndDate()));
+                                        if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
+                                            jsonContactObj.addProperty("state", ".viewIndivEvent");
+                                        } else {
+                                            jsonContactObj.addProperty("state", ".viewPastIndivEvent");
+                                        }
+                                        jsonContactObj.addProperty("eventId", tempEvent.getEventId());
+                                        */
+                                        
+                                        //version 3
+                                        TimeZone tz = TimeZone.getTimeZone("UTC");
+                                        DateFormat dftz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+                                        dftz.setTimeZone(tz);
+                                        String startDateTZ = dftz.format(tempEvent.getEventStartDate());
+                                        String endDateTZ = dftz.format(tempEvent.getEventEndDate());
+                                        jsonContactObj = new JsonObject();
+                                        jsonContactObj.addProperty("title", tempEvent.getEventTitle());
+                                        jsonContactObj.addProperty("start", startDateTZ);
+                                        jsonContactObj.addProperty("end", endDateTZ);
+                                        if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
+                                            jsonContactObj.addProperty("state", ".viewIndivEvent");
+                                        } else {
+                                            jsonContactObj.addProperty("state", ".viewPastIndivEvent");
+                                        }
+                                        jsonContactObj.addProperty("eventId", tempEvent.getEventId());
+                                        
+                                        
+                                        //end of version
                                         eventIdJoinedHM.put(tempEvent.getEventId(), tempEvent.getEventId());
                                         eventsJoinedArray.add(jsonContactObj);
                                     }
@@ -192,8 +229,10 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                         Date eventEndDate = date.parse(date.format(event.getEventEndDate()));
                                         Date eventEndTime = time.parse(time.format(event.getEventEndTime()));
                                         //if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
-
                                         jsonContactObj = new JsonObject();
+                                        
+                                        //version 1
+                                        /*
                                         jsonContactObj.addProperty("title", event.getEventTitle());
                                         jsonContactObj.addProperty("start", date.format(event.getEventStartDate()));
                                         if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
@@ -202,6 +241,39 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                             jsonContactObj.addProperty("state", ".viewPastIndivEvent");
                                         }
                                         jsonContactObj.addProperty("eventId", event.getEventId());
+                                        */
+                                        
+                                        //version 2
+                                        jsonContactObj.addProperty("title", event.getEventTitle());
+                                        jsonContactObj.addProperty("start", date.format(event.getEventStartDate()));
+                                        jsonContactObj.addProperty("end", date.format(event.getEventEndDate()));
+                                        if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
+                                            jsonContactObj.addProperty("state", ".viewIndivEvent");
+                                        } else {
+                                            jsonContactObj.addProperty("state", ".viewPastIndivEvent");
+                                        }
+                                        jsonContactObj.addProperty("eventId", event.getEventId());
+                                        
+                                        
+                                        //version 3
+                                        
+                                        TimeZone tz = TimeZone.getTimeZone("UTC");
+                                        DateFormat dftz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
+                                        dftz.setTimeZone(tz);
+                                        String startDateTZ = dftz.format(event.getEventStartDate());
+                                        String endDateTZ = dftz.format(event.getEventEndDate());
+                                        jsonContactObj.addProperty("title", event.getEventTitle());
+                                        jsonContactObj.addProperty("start", startDateTZ);
+                                        jsonContactObj.addProperty("end", endDateTZ);
+                                        if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
+                                            jsonContactObj.addProperty("state", ".viewIndivEvent");
+                                        } else {
+                                            jsonContactObj.addProperty("state", ".viewPastIndivEvent");
+                                        }
+                                        jsonContactObj.addProperty("eventId", event.getEventId());
+                                        
+                                        
+                                        //end of version
                                         eventsCreatedArray.add(jsonContactObj);
                                         //}
                                     } catch (ParseException ex) {

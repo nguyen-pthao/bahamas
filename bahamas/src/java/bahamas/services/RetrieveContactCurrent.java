@@ -795,8 +795,8 @@ public class RetrieveContactCurrent extends HttpServlet {
                 JsonObject jsonTrainingObj = new JsonObject();
                 Training training = trainingList.get(i);
 
-                jsonTrainingObj.addProperty("trainingid", training.getTrainingId());
-                jsonTrainingObj.addProperty("teamname", training.getTeamName());
+                jsonTrainingObj.addProperty("training_id", training.getTrainingId());
+                jsonTrainingObj.addProperty("team_name", training.getTeamName());
 
                 if (training.getExplainIfOther() != null) {
                     jsonTrainingObj.addProperty("explain_if_others", training.getExplainIfOther());
