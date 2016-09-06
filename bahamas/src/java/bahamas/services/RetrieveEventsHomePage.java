@@ -129,7 +129,9 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                     Date eventStartDate = date.parse(date.format(tempEvent.getEventStartDate()));
                                     Date eventEndDate = date.parse(date.format(tempEvent.getEventEndDate()));
                                     Date eventEndTime = time.parse(time.format(tempEvent.getEventEndTime()));
-
+                                    
+                                    //version 1 and 2
+                                    /*
                                     Calendar calStartDate = Calendar.getInstance();
                                     calStartDate.setTime(tempEvent.getEventStartDate());
                                     calStartDate.set(Calendar.HOUR_OF_DAY, 0);
@@ -141,6 +143,28 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                     calEndDate.set(Calendar.HOUR_OF_DAY, 0);
                                     calEndDate.set(Calendar.MINUTE, 0);
                                     calEndDate.set(Calendar.SECOND, 0);
+                                    */
+                                    //version 3
+                                    Calendar calStartDate = Calendar.getInstance();
+                                    Calendar calStartTime = Calendar.getInstance();
+                                    calStartDate.setTime(tempEvent.getEventStartDate());
+                                    calStartTime.setTime(tempEvent.getEventStartTime());
+                                    calStartDate.set(Calendar.HOUR_OF_DAY, calStartTime.get(Calendar.HOUR));
+                                    calStartDate.set(Calendar.MINUTE, calStartTime.get(Calendar.MINUTE));
+                                    calStartDate.set(Calendar.SECOND, calStartTime.get(Calendar.SECOND));
+
+                                    Calendar calEndDate = Calendar.getInstance();
+                                    Calendar calEndTime = Calendar.getInstance();
+                                    calEndDate.setTime(tempEvent.getEventEndDate());
+                                    calEndTime.setTime(tempEvent.getEventEndTime());
+                                    calEndDate.set(Calendar.HOUR_OF_DAY, calEndTime.get(Calendar.HOUR));
+                                    calEndDate.set(Calendar.MINUTE, calEndTime.get(Calendar.MINUTE));
+                                    calEndDate.set(Calendar.SECOND, calEndTime.get(Calendar.SECOND));
+                                    
+                                    Date temp1 = calStartDate.getTime();
+                                    Date temp2 = calEndDate.getTime();
+                                    String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'").format(calStartDate.getTime());
+                                    String formatted2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'").format(calEndDate.getTime());
 
                                     //if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
                                     if (!eventParticipant.isPullout()) {
@@ -188,14 +212,10 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                         
                                         //version 3
                                         TimeZone tz = TimeZone.getTimeZone("UTC");
-                                        DateFormat dftz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-                                        dftz.setTimeZone(tz);
-                                        String startDateTZ = dftz.format(tempEvent.getEventStartDate());
-                                        String endDateTZ = dftz.format(tempEvent.getEventEndDate());
                                         jsonContactObj = new JsonObject();
                                         jsonContactObj.addProperty("title", tempEvent.getEventTitle());
-                                        jsonContactObj.addProperty("start", startDateTZ);
-                                        jsonContactObj.addProperty("end", endDateTZ);
+                                        jsonContactObj.addProperty("start", formatted);
+                                        jsonContactObj.addProperty("end", formatted2);
                                         if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
                                             jsonContactObj.addProperty("state", ".viewIndivEvent");
                                         } else {
@@ -241,7 +261,7 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                             jsonContactObj.addProperty("state", ".viewPastIndivEvent");
                                         }
                                         jsonContactObj.addProperty("eventId", event.getEventId());
-                                        */
+                                        
                                         
                                         //version 2
                                         jsonContactObj.addProperty("title", event.getEventTitle());
@@ -253,18 +273,34 @@ public class RetrieveEventsHomePage extends HttpServlet {
                                             jsonContactObj.addProperty("state", ".viewPastIndivEvent");
                                         }
                                         jsonContactObj.addProperty("eventId", event.getEventId());
-                                        
+                                        */
                                         
                                         //version 3
                                         
-                                        TimeZone tz = TimeZone.getTimeZone("UTC");
-                                        DateFormat dftz = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'"); // Quoted "Z" to indicate UTC, no timezone offset
-                                        dftz.setTimeZone(tz);
-                                        String startDateTZ = dftz.format(event.getEventStartDate());
-                                        String endDateTZ = dftz.format(event.getEventEndDate());
+                                        //version 3
+                                        Calendar calStartDate = Calendar.getInstance();
+                                        Calendar calStartTime = Calendar.getInstance();
+                                        calStartDate.setTime(event.getEventStartDate());
+                                        calStartTime.setTime(event.getEventStartTime());
+                                        calStartDate.set(Calendar.HOUR_OF_DAY, calStartTime.get(Calendar.HOUR));
+                                        calStartDate.set(Calendar.MINUTE, calStartTime.get(Calendar.MINUTE));
+                                        calStartDate.set(Calendar.SECOND, calStartTime.get(Calendar.SECOND));
+
+                                        Calendar calEndDate = Calendar.getInstance();
+                                        Calendar calEndTime = Calendar.getInstance();
+                                        calEndDate.setTime(event.getEventEndDate());
+                                        calEndTime.setTime(event.getEventEndTime());
+                                        calEndDate.set(Calendar.HOUR_OF_DAY, calEndTime.get(Calendar.HOUR));
+                                        calEndDate.set(Calendar.MINUTE, calEndTime.get(Calendar.MINUTE));
+                                        calEndDate.set(Calendar.SECOND, calEndTime.get(Calendar.SECOND));
+
+                                        Date temp1 = calStartDate.getTime();
+                                        Date temp2 = calEndDate.getTime();
+                                        String formatted = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'").format(calStartDate.getTime());
+                                        String formatted2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm'Z'").format(calEndDate.getTime());
                                         jsonContactObj.addProperty("title", event.getEventTitle());
-                                        jsonContactObj.addProperty("start", startDateTZ);
-                                        jsonContactObj.addProperty("end", endDateTZ);
+                                        jsonContactObj.addProperty("start", formatted);
+                                        jsonContactObj.addProperty("end", formatted2);
                                         if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
                                             jsonContactObj.addProperty("state", ".viewIndivEvent");
                                         } else {
