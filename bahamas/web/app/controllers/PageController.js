@@ -322,10 +322,13 @@ app.controller('pageController',
                             $scope.eventSources.length = 0;
                             var eventsCreated = response.data.eventsCreated;
                             var eventsJoined = response.data.eventsJoined;
-                            var createdObj = {'events': eventsCreated};
+                            var pastEvents = response.data.pastEvents;
+                            var createdObj = {events: eventsCreated};
                             var joinedObj = {events: eventsJoined, color: 'green', textColor: 'white'};
+                            var pastObj = {events: pastEvents, color: 'black', textColor: 'yellow'};
                             $scope.eventSources.push(createdObj);
                             $scope.eventSources.push(joinedObj);
+                            $scope.eventSources.push(pastObj);
                         }
                     });
                 };

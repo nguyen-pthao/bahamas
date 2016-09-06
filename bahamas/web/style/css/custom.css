@@ -650,3 +650,23 @@ div.wrapper > aside.main-sidebar {
 .notification-border {
     border: 1px solid #F4F4F4;
 }
+
+.legend {
+  float: left;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  border: 1px solid rgba(0, 0, 0, .2);
+}
+
+.joined {
+  background: green;
+}
+
+.created{
+  background: #13b4ff;
+}
+
+.past{
+  background: black;
+}
