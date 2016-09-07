@@ -312,7 +312,7 @@ public class RetrievePastParticipants extends HttpServlet {
                                                 
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
-                                                    hmTeamPermission.clear();
+                                                    //hmTeamPermission.clear();
                                                 }
                                             }
                                         } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
