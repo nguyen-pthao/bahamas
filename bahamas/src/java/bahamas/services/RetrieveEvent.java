@@ -99,6 +99,7 @@ public class RetrieveEvent extends HttpServlet {
                             EventDAO eventDAO = new EventDAO();
                             Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
                             SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                            SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                             JsonArray teamListJArray = new JsonArray();
                             if(event != null){
                                 
@@ -107,8 +108,8 @@ public class RetrieveEvent extends HttpServlet {
                                 json.addProperty("event_title", event.getEventTitle());                           
                                 json.addProperty("event_start_date", datetime.format(event.getEventStartDate()));
                                 json.addProperty("event_end_date", datetime.format(event.getEventEndDate()));
-                                json.addProperty("event_time_start", datetime.format(event.getEventStartTime()));
-                                json.addProperty("event_time_end", datetime.format(event.getEventEndTime()));
+                                json.addProperty("event_time_start", time.format(event.getEventStartTime()));
+                                json.addProperty("event_time_end", time.format(event.getEventEndTime()));
                                 json.addProperty("send_reminder", Boolean.toString(event.isSendReminder()));
                                 json.addProperty("event_description", event.getEventDescription());
                                 json.addProperty("minimum_participation", Integer.toString(event.getMinimumParticipation()));
