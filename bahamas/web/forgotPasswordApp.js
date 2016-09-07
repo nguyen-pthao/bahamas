@@ -16,7 +16,7 @@ var app = angular.module('forgotPassword', ['ngDialog'])
                     console.log($scope.toResetPassword);
                     $http({
                         method: 'POST',
-                        url: 'https://rms.twc2.org.sg/bahamas/password.forgot',
+                        url: 'https://rmsdev.twc2.org.sg/bahamas/password.forgot',
                         data: JSON.stringify($scope.toResetPassword)
                     }).then(function (response) {
                         if (response.data.message == 'success') {
@@ -25,7 +25,7 @@ var app = angular.module('forgotPassword', ['ngDialog'])
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             }).then(function (response) {
-                                window.location = "https://rms.twc2.org.sg";
+                                window.location = "https://rmsdev.twc2.org.sg";
                             })
                         } else {
                             ngDialog.openConfirm({
