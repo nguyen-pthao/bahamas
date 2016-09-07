@@ -25,25 +25,6 @@ app.controller('cloneEventAffiliation',
                     }
                     dataSubmit.submitData(toRetrieve, urlToRetrieve).then(function (response) {
                         $scope.eventInfo = response.data;
-                        var timeStart = new Date($scope.eventInfo['event_time_start']).toLocaleTimeString();
-                        var timeEnd = new Date($scope.eventInfo['event_time_end']).toLocaleTimeString();
-                        if (timeStart.length == 10) {
-                            var meridianS = timeStart.substring(8, 10);
-                            var timeS = "0" + timeStart.substring(0, 4);
-                        } else if (timeStart.length == 11) {
-                            var meridianS = timeStart.substring(9, 11);
-                            var timeS = timeStart.substring(0, 5);
-                        }
-                        if (timeEnd.length == 10) {
-                            var meridianE = timeEnd.substring(8, 10);
-                            var timeE = "0" + timeEnd.substring(0, 4);
-                        } else if (timeEnd.length == 11) {
-                            var meridianE = timeEnd.substring(9, 11);
-                            var timeE = timeEnd.substring(0, 5);
-                        }
-                        $scope.eventInfo['event_start_date'] = new Date($scope.eventInfo['event_start_date']);
-                        $scope.eventInfo['event_time_start'] = timeS + " " + meridianS;
-                        $scope.eventInfo['event_time_end'] = timeE + " " + meridianE;
                     })
                 }
 
