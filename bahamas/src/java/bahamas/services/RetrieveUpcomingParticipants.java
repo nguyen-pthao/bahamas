@@ -157,7 +157,9 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                         JsonArray eventRoleJsonArray = new JsonArray();
 
                                         jsonContactObj.addProperty("event_id", event.getEventId());
-                                        jsonContactObj.addProperty("event_title", event.getEventTitle() + ", " + event.getEventLocationName());
+                                        jsonContactObj.addProperty("event_title", event.getEventTitle());
+                                        String eventInfo = date.format(event.getEventStartDate()) + ", " + time.format(event.getEventStartTime()) + ", " + event.getEventLocationName();
+                                        jsonContactObj.addProperty("event_info", eventInfo);
                                         jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                         HashMap<String, String> eventTeamsHM = new HashMap<String, String>();
