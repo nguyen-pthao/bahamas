@@ -485,6 +485,7 @@ app.controller('editContact',
                             if($scope.editTeam[i]['date_obsolete'] != 'Invalid Date' && $scope.editTeam[i]['date_obsolete'] < today) {
                                 $scope.editTeam[i].isObsolete = true;
                             }
+                            $scope.editTeam[i].permissionCheck = contactToEdit['team_join'][i]['permission'];
                         }
                     } else {
                         $scope.editTeam = '';

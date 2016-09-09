@@ -1522,7 +1522,7 @@ and open the template in the editor.
                                                     <i class="fa fa-pencil fa-lg"></i>
                                                 </button>
                                                 <b><span ng-bind="team['team_name']"></span></b>
-                                                <b ng-if="team.permission == 'Pending'"><span> - Pending</span></b>
+                                                <b ng-if="team.permissionCheck == 'Pending'"><span> - Pending</span></b>
                                                 <b ng-if="team.isObsolete"><span>(Obsolete)</span></b>
                                             </h5>
                                             <div class="box-tools pull-right">
@@ -1693,11 +1693,15 @@ and open the template in the editor.
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
                                         </div>
-                                        <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()">
+                                        <div class="col-md-offset-2 col-md-5" ng-init="loadPermissionLevelList()" ng-show="isAdmin || isTeamManager">
                                             <label>Permission</label><span class="required">*</span>
                                             <select class="form-control" ng-model="newTeam['permission_level']" name='additionalpermission' empty>
                                                 <option ng-repeat="permission in permissionLevelList">{{permission.permissionLevel}}</option>
                                             </select>
+                                        </div>
+                                        <div class="col-md-offset-2 col-md-5" ng-show="isEventLeader">
+                                            <label>Permission</label><span class="required">*</span>
+                                            <input ng-model="newTeam['permission_level']" type="text" class="form-control" readonly>
                                         </div>
                                     </div> 
                                     <div class="form-group col-md-12">

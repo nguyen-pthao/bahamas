@@ -122,6 +122,9 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
             'remarks': ''
         };
         //For team preference
+        if($scope.isEventLeader) {
+            $scope.newTeam.permission_level = 'Pending';
+        }
         $scope.teamPref = {
             team1: '',
             team2: '',
