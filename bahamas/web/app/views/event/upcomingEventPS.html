@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click=""> Events </a><i class="fa fa-chevron-right small"></i> <a> Upcoming Events (Participation Summary) </a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click=""> Events </a><i class="fa fa-chevron-right small"></i> <a> Upcoming Participation</a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -22,7 +22,7 @@ and open the template in the editor.
                 <!-- view contact starts -->
                 <div class="box">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Upcoming events (Participation Summary)</h3>
+                        <h3 class="box-title uppercase"> Upcoming Participation</h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Upcoming Events PS">
                                 <i class="fa fa-chevron-up"></i></button>
@@ -89,49 +89,61 @@ and open the template in the editor.
                             <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitEvents.length}}</span> 
                         </p>
                         <div class="table-horizontal-scroll">
-                            <table id="example1" class="table table-bordered" style="max-width: 100%">
+                            <table id="example1" class="table table-bordered" style="max-width: 100%; border-collapse: collapse">
                                 <thead>
                                     <tr>
-                                        <th width="20%"><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th width="75%" style="color:#005384;">Roles/Participation</th>
+                                        <th width="15%"><a href="" ng-click="order('event_title')" style='color: #005384'>Event Title</a></th>
+                                        <th width="15%"><a href="" ng-click="order('event_info')" style='color: #005384'>Event Info</a></th>
+                                        <th width="65%" style="color:#005384;">Roles/Participation</th>
                                         <th width="5%" style="color: #005384">Total Participants</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
                                         <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
+                                        <td>{{event['event_info']}}</td>
                                         <td style="padding:0px;">
                                             <table class="table table-bordered" style="max-width: 100%; margin:0px;">
                                                 <tbody>
                                                     <tr ng-repeat="role in event['roles']">
-                                                        <td width="30%">{{role['event_role']}}</td>
-                                                        <td width="55%" style="padding:0px;">
-                                                            <table class="table">
+                                                        <td width="30%">
+                                                            <span ng-if="event['canJoin']"><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click="joinRole($event, role)"><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
+                                                            &nbsp;
+                                                            {{role['event_role']}}
+                                                        </td>
+                                                        <td width="55%" style="padding: 0;">
+                                                            <table class="table" style="margin: 0px; border: none">
                                                                 <tbody>
                                                                     <tr ng-repeat="part in role['event_participant'] track by $index">
-                                                                        <td><a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a></td>
-                                                                        <td><center><span ng-if="part['canRemove']"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove Participant" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span></center></td>
+                                                                        <td>
+                                                                            <span ng-if="part['canRemove']"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove Participant" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span>
+                                                                            &nbsp;
+                                                                            <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a>
+                                                                        </td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </td>
-                                                        <td width="15%"><center><span ng-if="event['canJoin']"><a href="" uib-tooltip-placement="top" uib-tooltip="Join" ng-click="joinRole($event,role)"><i class="fa fa-user-plus fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
-                                                    <span ng-if='role["joined"]'><a uib-tooltip-placement="top" uib-tooltip="Joined"><i class="fa fa-check fa-lg" aria-hidden="true" style='color: green'></i></a></span>
-                                                </center></td>
+                                                        <td width="15%">
+                                                            <center>
+                                                                <span ng-if='role["joined"]'><a uib-tooltip-placement="top" uib-tooltip="Joined"><i class="fa fa-check fa-lg" aria-hidden="true" style='color: green'></i></a></span>
+                                                            </center>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                        <td>{{event['totalParticipant']}}</td>
                                     </tr>
                                 </tbody>
-                            </table>
-                            </td>
-                            <td>{{event['totalParticipant']}}</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th><a href="" ng-click="order('event_title')" style='color: #005384'>Event Title</a></th>
-                                    <th style="color:#005384;">Roles/Participation</th>
-                                    <th style="color:#005384;">Total Participants</th>
-                                </tr>
-                            </tfoot>
+                                <tfoot>
+                                    <tr>
+                                        <th><a href="" ng-click="order('event_title')" style='color: #005384'>Event Title</a></th>
+                                        <th><a href="" ng-click="order('event_info')" style='color: #005384'>Event Info</a></th>
+                                        <th style="color:#005384;">Roles/Participation</th>
+                                        <th style="color:#005384;">Total Participants</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div>
