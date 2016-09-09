@@ -27,6 +27,7 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -55,6 +56,7 @@ public class AddEventParticipant extends HttpServlet {
             JsonObject json = new JsonObject();
             JsonArray jsonErrorMsgArray = new JsonArray();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -134,11 +136,11 @@ public class AddEventParticipant extends HttpServlet {
                                     
                                     ContactDAO contactDAO = new ContactDAO();
                                     if (contactDAO.retrieveContactById(contact1.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
-                                        AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined event \"" + event.getEventTitle() + "\". Click to view event.");
+                                        AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined " + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\". Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
                                     if (contactDAO.retrieveContactById(contact1.getContactId()).getUsername() != null &&  event.getContactId() == contact.getContactId()) {
-                                        AppNotification appNotification2 = new AppNotification(contact1.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have been added to event \"" + event.getEventTitle() + "\". Click to view event.");
+                                        AppNotification appNotification2 = new AppNotification(contact1.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have been added to " + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\". Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification2);
                                     }
                                     AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
@@ -159,7 +161,7 @@ public class AddEventParticipant extends HttpServlet {
                             if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                 ContactDAO contactDAO = new ContactDAO();
                                 if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
-                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact.getName() + " joined event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact.getName() + " joined " + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\". Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 }
                                 //AppNotification appNotification2 = new AppNotification(contact.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have joined to event \"" + event.getEventTitle() + "\". Click to view event.");

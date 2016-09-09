@@ -25,6 +25,7 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -81,6 +82,7 @@ public class LeaveEventRole extends HttpServlet {
                 String reason = Validator.containsBlankField(jobject.get("reason"));
                 String withdrawerId = Validator.containsBlankField(jobject.get("withdraw_contact_id"));
                 String username = Authenticator.verifyToken(token);
+                SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
 
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -115,10 +117,10 @@ public class LeaveEventRole extends HttpServlet {
                                 Contact contactTemp = cDAO.retrieveContactById(eventParticipant.getContactID());
                                 ContactDAO contactDAO = new ContactDAO();
                                 if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
-                                    AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left " + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\". Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 } else if (contactDAO.retrieveContactById(eventParticipant.getContactID()).getUsername() != null && eventParticipant.getContactID() != contact.getContactId()){
-                                    AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), eventParticipant.getEventID(), ".viewIndivEvent", "You have been removed from event \"" + event.getEventTitle() + "\". Click to view event.");
+                                    AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), eventParticipant.getEventID(), ".viewIndivEvent", "You have been removed from \"" + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\" . Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 }
                                 AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
