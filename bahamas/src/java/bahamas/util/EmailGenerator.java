@@ -85,8 +85,8 @@ public class EmailGenerator {
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
             message.setSubject("TWC2 Bahamas - Login Details");
             message.setText("Dear " + args[0] + ","
-                    + "\n\n Thank you for signing up! You may now log in at"
-                    + " https://rmsdev.twc2.org.sg/bahamas using the information below:"
+                    + "\n\n Thank you for signing up! You may now log in at "
+                    + LOCATION + " using the information below:"
                     + "\n\n Username: " + args[1] + "\n Password: " + args[2]
                     + "\n\n You may also change your password once you've logged in."
                     + "\n\n Regards," + "\n TWC2 Team");
