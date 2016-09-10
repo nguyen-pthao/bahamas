@@ -85,9 +85,9 @@ public class ResendEmailVerification extends HttpServlet {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                 } else {
-                    int contactId = Validator.isIntValid(jobject.get("contact_id"));
+                    
                     ContactDAO cDAO = new ContactDAO();
-                    Contact contact = cDAO.retrieveContactById(contactId);
+                    Contact contact = cDAO.retrieveContactByUsername(username);
                     Contact targetContact = cDAO.retrieveContactById(Integer.parseInt(targetContactId));
 
                     if (contact == null || targetContact == null || email == null) {
