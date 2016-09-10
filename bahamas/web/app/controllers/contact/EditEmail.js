@@ -32,7 +32,7 @@ app.controller('EditEmail', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
             var datasend = {
                 'token': session.getSession('token'),
                 'other_cid': $scope.contactToEditCID,
-                'email': email
+                'email': email.email
             };
             dataSubmit.submitData(datasend, url).then(function() {
                 console.log("Resend verification email request is accepted");
