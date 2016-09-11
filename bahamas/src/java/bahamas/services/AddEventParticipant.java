@@ -124,13 +124,14 @@ public class AddEventParticipant extends HttpServlet {
                         EventParticipant eventParticipant = null;
                         EventDAO eventDAO = new EventDAO();
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
-
+                        int participantNumber = 0;
                         if (targetContactidArray != null && canAddTarget) {
                             for (int i = 0; i < targetContactidArray.size(); i++) {
                                 int targetContactid = targetContactidArray.get(i).getAsInt();
                                 Contact contact1 = cDAO.retrieveContactById(targetContactid);
                                 if (contact1 != null) {
                                     eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), contact.getName(), false, null, null, 0, null, null);
+                                    participantNumber++;
                                 }
                                 if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                     
@@ -158,6 +159,7 @@ public class AddEventParticipant extends HttpServlet {
                             }
                         } else {
                             eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
+                            participantNumber++;
                             if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                 ContactDAO contactDAO = new ContactDAO();
                                 if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
@@ -175,6 +177,11 @@ public class AddEventParticipant extends HttpServlet {
                                 //out.println(gson.toJson(json));
                                 //return;
                             }
+                        }
+                        participantNumber += event.getParticipantNumber();
+                        event.setParticipantNumber(participantNumber);
+                        if(!EventDAO.updateEventDetails(event)){
+                            json.addProperty("message", "Fail to add update event table");
                         }
                         out.println(gson.toJson(json));
                     }

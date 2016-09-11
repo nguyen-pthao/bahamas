@@ -106,6 +106,7 @@ public class DeleteEventRoles extends HttpServlet {
                     } else {
                         EventDAO eventDAO = new EventDAO();
                         Event event = eventDAO.retrieveEventById(Integer.parseInt(eventId));
+                        int participantCount = 0;
 
                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
                             if (EventParticipantDAO.roleExist(Integer.parseInt(eventRoleId)) && !ignore) {
@@ -123,12 +124,12 @@ public class DeleteEventRoles extends HttpServlet {
                                         AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), event.getEventId(), ".viewIndivEvent", "You have been removed from event \"" + event.getEventTitle() + "\". Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
+                                    participantCount++;
                                 }
                             }
                             if (EventParticipantDAO.deleteParticipantsByRoleId(Integer.parseInt(eventRoleId)) && EventRoleAssignmentDAO.deleteRoles(Integer.parseInt(eventRoleId))) {
                                 AuditLogDAO.insertAuditLog(username, "DELETE ROLE", "Delete role under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role: " + eventRoleAssignment.getRoleName());
-                                
-                                
+
                                 HashMap<String, String> teamHM = new HashMap<String, String>();
                                 EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
                                 for (String tempTeam : eventAffiliation.getTeamArray()) {
@@ -154,19 +155,26 @@ public class DeleteEventRoles extends HttpServlet {
                                     }
                                 }
                                 for (int tempContactId : cidNamePairHM.keySet()) {
-                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null &&  event.getContactId() != contact.getContactId()) {
+                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && event.getContactId() != contact.getContactId()) {
                                         AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
                                 }
-                                
-                                
+
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                             } else {
                                 json.addProperty("message", "fail");
                                 out.println(gson.toJson(json));
                             }
+
+                            int participantNumber = event.getParticipantNumber();
+                            event.setParticipantNumber(participantNumber - participantCount);
+                            if (!EventDAO.updateEventDetails(event)) {
+                                json.addProperty("message", "Fail to add update event table");
+                                out.println(gson.toJson(json));
+                            }
+
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));

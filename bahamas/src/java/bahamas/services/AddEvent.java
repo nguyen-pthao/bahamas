@@ -103,6 +103,10 @@ public class AddEvent extends HttpServlet {
                 String eventLat = jobject.get("event_lat").getAsString();
                 String eventLng = jobject.get("event_lng").getAsString();
                 String remarks = jobject.get("remarks").getAsString();
+                String reminderEmail = null;
+                if(jobject.has("reminder_email")){
+                    reminderEmail = jobject.get("reminder_email").getAsString();
+                }
                 String username = Authenticator.verifyToken(token);
                 boolean ignore = jobject.get("ignore").getAsBoolean();
                 String mode = "";
@@ -235,7 +239,7 @@ public class AddEvent extends HttpServlet {
                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
 
                             //check if exist
-                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId());
+                            Event event = new Event(eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId(), reminderEmail, 0);
                             String errorMsg = EventDAO.eventExist(event, null);
 
                             //repeating events
@@ -392,7 +396,7 @@ public class AddEvent extends HttpServlet {
                                     max = repeatingEventStartDate.size();
                                 }
                                 for (int i = 1; i < max; i++) {
-                                    Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId());
+                                    Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId(), reminderEmail, 0);
                                     newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, contact.getName())));
                                 }   
                             }

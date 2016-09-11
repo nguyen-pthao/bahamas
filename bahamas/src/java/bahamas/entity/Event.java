@@ -33,14 +33,16 @@ public class Event {
     private String eventStatus;
     private String remarks;
     private int contactId;
+    private String reminderEmail;
+    private int participantNumber;
    
     private ArrayList<Contact> participants;
     private ArrayList<EventRoleAssignment> roleList;
     private ArrayList<EventAffiliation> teamAffliated;
     private boolean workerRelated;
     private ArrayList<Notice> noticeList;
-
-    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String eventStatus, String remarks, int contactId) {
+    /*
+    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String eventStatus, String remarks, int contactId, String reminderEmail, int participantNumber) {
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
         this.eventStartTime = eventStartTime;
@@ -60,8 +62,8 @@ public class Event {
         this.remarks = remarks;
         this.contactId = contactId;
     }
-    
-    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus, String remarks, int contactId) {
+    */
+    public Event(Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus, String remarks, int contactId, String reminderEmail, int participantNumber) {
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
         this.eventStartTime = eventStartTime;
@@ -79,6 +81,8 @@ public class Event {
         this.eventStatus = eventStatus;
         this.remarks = remarks;
         this.contactId = contactId;
+        this.reminderEmail = reminderEmail;
+        this.participantNumber = participantNumber;
     }
     
     public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus, String remarks) {
@@ -101,7 +105,7 @@ public class Event {
         this.remarks = remarks;
     }
 
-    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus, String remarks, int contactId) {
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus, String remarks, int contactId, String reminderEmail, int participantNumber) {
         this.eventId = eventId;
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
@@ -122,8 +126,26 @@ public class Event {
         this.eventStatus = eventStatus;
         this.remarks = remarks;
         this.contactId = contactId;
+        this.reminderEmail = reminderEmail;
+        this.participantNumber = participantNumber;
     }
 
+    public String getReminderEmail() {
+        return reminderEmail;
+    }
+
+    public void setReminderEmail(String reminderEmail) {
+        this.reminderEmail = reminderEmail;
+    }
+
+    public int getParticipantNumber() {
+        return participantNumber;
+    }
+
+    public void setParticipantNumber(int participantNumber) {
+        this.participantNumber = participantNumber;
+    }
+    
     public int getEventId() {
         return eventId;
     }

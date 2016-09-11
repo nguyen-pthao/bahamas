@@ -119,10 +119,18 @@ public class LeaveEventRole extends HttpServlet {
                                 if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
                                     AppNotification appNotification = new AppNotification(event.getContactId(), eventParticipant.getEventID(), ".viewIndivEvent", contactTemp.getName() + " left " + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\". Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
-                                } else if (contactDAO.retrieveContactById(eventParticipant.getContactID()).getUsername() != null && eventParticipant.getContactID() != contact.getContactId()){
+                                } else if (contactDAO.retrieveContactById(eventParticipant.getContactID()).getUsername() != null && eventParticipant.getContactID() != contact.getContactId()) {
                                     AppNotification appNotification = new AppNotification(eventParticipant.getContactID(), eventParticipant.getEventID(), ".viewIndivEvent", "You have been removed from \"" + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\" . Click to view event.");
                                     AppNotificationDAO.addAppNotification(appNotification);
                                 }
+
+                                int participantNumber = event.getParticipantNumber();
+                                event.setParticipantNumber(participantNumber - 1);
+                                if (!EventDAO.updateEventDetails(event)) {
+                                    json.addProperty("message", "Fail to add update event table");
+                                    out.println(gson.toJson(json));
+                                }
+
                                 AuditLogDAO.insertAuditLog(username, "LEAVE EVENT ROLES", "Leave event roles under contact: Contact ID: " + withdrawerId + " | Event Role ID: " + roleId);
                                 json.addProperty("message", "success");
                             } else {
