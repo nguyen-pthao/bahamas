@@ -80,18 +80,29 @@ and open the template in the editor.
                                             &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
                                             &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
                                         </div>
-                                        <div class="col-md-6" style="padding:0px;">
+                                        <div class="col-md-5" ng-show="newEvent['send_reminder']" ng-init="retrieveContact()">
+                                            <div ng-hide="verifiedEmail.length===0">
+                                                <label>Select Email</label>
+                                                <select class="form-control" ng-model="newEvent['reminder_email']">
+                                                    <option ng-repeat="email in verifiedEmail">{{email}}</option>
+                                                </select>
+                                            </div>
+                                            <div ng-show="verifiedEmail.length===0">
+                                                <span class="error">You do not have any verified email.</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="padding:0px;">
                                             <span><a href="" ng-click="showRepeat()">Repeating Event?</a></span>
-                                            <div ng-show="newEvent['repeat']['mode']!=''">
-                                                <div ng-show="newEvent['repeat']['mode']=='Daily'">
-                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_daily']}}</span> day(s). <span ng-show="newEvent['repeat']['end_occurence_daily']!=''"> Ends after {{newEvent['repeat']['end_occurence_daily']}} occurrences.</span><span ng-show="newEvent['repeat']['end_on_daily']!=''"> Ends on {{newEvent['repeat']['end_on_daily']}}.</span>
+                                            <div ng-show="newEvent['repeat']['mode'] != ''">
+                                                <div ng-show="newEvent['repeat']['mode'] == 'Daily'">
+                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_daily']}}</span> day(s). <span ng-show="newEvent['repeat']['end_occurence_daily'] != ''"> Ends after {{newEvent['repeat']['end_occurence_daily']}} occurrences.</span><span ng-show="newEvent['repeat']['end_on_daily'] != ''"> Ends on {{newEvent['repeat']['end_on_daily']}}.</span>
                                                     <a href="" ng-click="removeRepeat()"><i class="fa fa-times fa-md" uib-tooltip-placement="top" uib-tooltip="Cancel" aria-hidden="true" style='color: red'></i></a>
                                                 </div>
-                                                <div ng-show="newEvent['repeat']['mode']=='Weekly'">
-                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_weekly']}}</span> week(s). <span ng-show="count!=0">On {{string}}.</span>
+                                                <div ng-show="newEvent['repeat']['mode'] == 'Weekly'">
+                                                    Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_weekly']}}</span> week(s). <span ng-show="count != 0">On {{string}}.</span>
                                                     <a href="" ng-click="removeRepeat()"><i class="fa fa-times fa-md" uib-tooltip-placement="top" uib-tooltip="Cancel" aria-hidden="true" style='color: red'></i></a>
                                                 </div> 
-                                                <div ng-show="newEvent['repeat']['mode']=='Monthly'">
+                                                <div ng-show="newEvent['repeat']['mode'] == 'Monthly'">
                                                     Repeat <span>{{newEvent['repeat']['mode']}}</span>, Every <span>{{newEvent['repeat']['repeat_every_monthly']}}</span> month(s). <span>By {{newEvent['repeat']['repeat_by']}}.</span>
                                                     <a href="" ng-click="removeRepeat()"><i class="fa fa-times fa-md" uib-tooltip-placement="top" uib-tooltip="Cancel" aria-hidden="true" style='color: red'></i></a>
                                                 </div> 

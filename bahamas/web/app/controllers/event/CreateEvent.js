@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('createEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal', 'retrieveOwnContactInfo',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal, retrieveOwnContactInfo) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -31,6 +31,21 @@ app.controller('createEvent',
                 $scope.loadEventClassList = function () {
                     loadEventClass.retrieveEventClass().then(function (response) {
                         $scope.eventClassList = response.data.eventClassList;
+                    })
+                }
+                
+                $scope.retrieveContact = function(){
+                    $scope.toRetrieve = {
+                        'token': session.getSession('token')
+                    };
+                    $scope.verifiedEmail = [];
+                    retrieveOwnContactInfo.retrieveContact($scope.toRetrieve).then(function(response){
+                        var emailArray = response.data.contact.email;
+                        angular.forEach(emailArray, function(obj){
+                            if(obj.verified==="true"){
+                                $scope.verifiedEmail.push(obj.email);
+                            }
+                        })
                     })
                 }
 
@@ -56,6 +71,7 @@ app.controller('createEvent',
                     'address': '',
                     'zipcode': '',
                     'remarks': '',
+                    'reminder_email': '',
                     'ignore': false,
                     'repeat': {
                         'mode': '',
@@ -371,6 +387,13 @@ app.controller('createEvent',
                             $scope.newEvent['repeat']['repeat_on'].push(key);
                         }
                     })
+                    if($scope.newEvent['send_reminder']===false){
+                        $scope.newEvent['reminder_email']= "";
+                    }if($scope.newEvent['send_reminder']===true){
+                        if($scope.newEvent['reminder_email']===""){
+                            $scope.newEvent['send_reminder']=false;
+                        }
+                    }
 
                     var url = "/event.create";
                     dataSubmit.submitData($scope.newEvent, url).then(function (response) {
