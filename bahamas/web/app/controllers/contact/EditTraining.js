@@ -45,7 +45,7 @@ app.controller('EditTraining', ['$scope', 'session', 'ngDialog', '$timeout', 'da
             dataSubmit.submitData(datasend, url).then(function (response) {
                 $scope.resultTraining.status = true;
                 if (response.data.message == 'success') {
-                    $scope.resultTraining.address = datasend['training_id'];
+                    $scope.resultTraining.training_id = datasend['training_id'];
                     $scope.resultTraining.message = $scope.successMsg;
                     $scope.retrieveFunc();
                     //$scope.form.editTrainingForm.$setValidity();
