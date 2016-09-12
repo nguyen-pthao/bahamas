@@ -113,7 +113,7 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
                 }
             }
             //training info
-            //$scope.training = $scope.contactInfo['training'];
+            $scope.training = $scope.contactInfo['training'];
             
             //languages info
             $scope.languages = $scope.contactInfo['language_assignment'];
