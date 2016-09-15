@@ -1778,7 +1778,7 @@ and open the template in the editor.
                         </form>
                         <!-- /team information -->
                         <form name="form.editTrainingForm" ng-controller="EditTraining">
-                            <div class="box collapsed-box blue-box">
+                            <div class="box collapsed-box blue-box" ng-show="editMode == 'true'">
                                 <div class="box-header with-border" ng-class="{ 'no-information-grey' :  editTraining === ''}" data-widget="collapse">
                                     <h4 class="box-title uppercase"><i class="fa fa-wrench"></i> &nbsp; Training</h4>
                                     <div class="box-tools pull-right">
