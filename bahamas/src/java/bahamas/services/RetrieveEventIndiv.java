@@ -243,7 +243,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         role.addProperty("canRemark", false);
                                                     }
                                                     roleParticipentArray.add(role);
-                                                        //roleJson.add("event_participant", roleParticipentArray);
+                                                    //roleJson.add("event_participant", roleParticipentArray);
 
                                                 }
                                             }
@@ -370,6 +370,16 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.addProperty("canView", canView);
                             json.addProperty("canViewRSC", canViewRSC);
                             json.addProperty("createdBy", event.getCreatedBy());
+                            if (event.getReminderEmail().isEmpty()) {
+                                json.addProperty("reminder_email", "");
+                            } else {
+                                json.addProperty("reminder_email", event.getReminderEmail());
+                            }
+                            if(event.getContactId() == contact.getContactId()){
+                                json.addProperty("isCreator", true);
+                            } else {
+                                json.addProperty("isCreator", false);
+                            }
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "Fail retrieve event");
