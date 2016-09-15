@@ -85,7 +85,7 @@ public class Event {
         this.participantNumber = participantNumber;
     }
     
-    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus, String remarks) {
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, String eventStatus, String remarks, String reminderEmail) {
         this.eventId = eventId;
         this.eventStartDate = eventStartDate;
         this.eventEndDate = eventEndDate;
@@ -103,6 +103,7 @@ public class Event {
         this.eventLng = eventLng;
         this.eventStatus = eventStatus;
         this.remarks = remarks;
+        this.reminderEmail = reminderEmail;
     }
 
     public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus, String remarks, int contactId, String reminderEmail, int participantNumber) {

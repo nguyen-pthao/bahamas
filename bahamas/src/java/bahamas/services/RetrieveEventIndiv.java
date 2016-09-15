@@ -370,7 +370,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                             json.addProperty("canView", canView);
                             json.addProperty("canViewRSC", canViewRSC);
                             json.addProperty("createdBy", event.getCreatedBy());
-                            if (event.getReminderEmail().isEmpty()) {
+                            if (event.getReminderEmail() == null || event.getReminderEmail().isEmpty()) {
                                 json.addProperty("reminder_email", "");
                             } else {
                                 json.addProperty("reminder_email", event.getReminderEmail());

@@ -104,7 +104,7 @@ public class AddEvent extends HttpServlet {
                 String eventLng = jobject.get("event_lng").getAsString();
                 String remarks = jobject.get("remarks").getAsString();
                 String reminderEmail = null;
-                if(jobject.has("reminder_email")){
+                if(jobject.has("reminder_email") && sendReminder){
                     if(!jobject.get("reminder_email").getAsString().isEmpty()){
                         reminderEmail = jobject.get("reminder_email").getAsString();
                     }
