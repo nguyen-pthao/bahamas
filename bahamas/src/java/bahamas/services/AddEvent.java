@@ -105,7 +105,9 @@ public class AddEvent extends HttpServlet {
                 String remarks = jobject.get("remarks").getAsString();
                 String reminderEmail = null;
                 if(jobject.has("reminder_email")){
-                    reminderEmail = jobject.get("reminder_email").getAsString();
+                    if(!jobject.get("reminder_email").getAsString().isEmpty()){
+                        reminderEmail = jobject.get("reminder_email").getAsString();
+                    }
                 }
                 String username = Authenticator.verifyToken(token);
                 boolean ignore = jobject.get("ignore").getAsBoolean();
