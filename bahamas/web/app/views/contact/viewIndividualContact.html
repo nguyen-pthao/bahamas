@@ -765,284 +765,285 @@ and open the template in the editor.
                                     </div>
                                 </div>
                             </div>
-                            <!-- /training information -->
-                            <div class="box collapsed-box blue-box" ng-show="hasAppreciation">
-                                <div class="box-header with-border" ng-class="{ 'no-information-grey' :  appreciation === ''}" data-widget="collapse">
-                                    <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Information">
-                                            <i class="fa fa-chevron-down"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    <div ng-show='appreciation === ""'>
-                                        <span>No Appreciation Information Available</span>
-                                    </div>
-                                    <div class="box collapsed-box" ng-repeat='appreciationObj in appreciation'>
-                                        <div class="box-header coral-box-header" data-widget="collapse">
-                                            <h5 class="box-title">
-                                                <b>Appreciation #<span ng-bind="($index + 1)"></span></b>
-                                            </h5>
-                                            <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Details">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <div class="box-body">
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Date Created</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.date_created}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Created By</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.created_by}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-12">
-                                                    <h4 class="bold">Appraisal Comments</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.appraisal_comments}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Appraisal Date</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.appraisal_date}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Appraised By</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.appraisal_by}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-12">
-                                                    <h4 class="bold">Appreciation Gesture</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.appreciation_gesture}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Appreciation Date</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.appreciation_date}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Appreciation By</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.appreciation_by}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-12">
-                                                    <h4 class="bold">Remarks</h4>
-                                                    <div class="custom-height-1">{{appreciationObj.remarks}}</div>
-                                                </div>
-                                            </div>
-                                        </div>                                  
-                                    </div>
+                        </div>
+                        <!-- /training information -->
+                        <div class="box collapsed-box blue-box" ng-show="hasAppreciation">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  appreciation === ''}" data-widget="collapse">
+                                <h4 class="box-title uppercase"><i class="fa fa-trophy"></i> &nbsp; Appreciation</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Information">
+                                        <i class="fa fa-chevron-down"></i></button>
                                 </div>
                             </div>
-                            <!-- /appreciation information -->
-                            <div class="box collapsed-box blue-box" ng-show="hasProxy">
-                                <div class="box-header with-border" ng-class="{ 'no-information-grey' :  proxy === ''}" data-widget="collapse">
-                                    <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Information">
-                                            <i class="fa fa-chevron-down"></i></button>
-                                    </div>
+                            <div class="box-body">
+                                <div ng-show='appreciation === ""'>
+                                    <span>No Appreciation Information Available</span>
                                 </div>
-                                <div class="box-body">
-                                    <div ng-show='proxy === ""'>
-                                        <span>No Proxy Information Available</span>
+                                <div class="box collapsed-box" ng-repeat='appreciationObj in appreciation'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b>Appreciation #<span ng-bind="($index + 1)"></span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Appreciation Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
                                     </div>
-                                    <div class="box collapsed-box" ng-repeat='proxyObj in proxy'>
-                                        <div class="box-header coral-box-header" data-widget="collapse">
-                                            <h5 class="box-title">
-                                                <b><span ng-bind="proxyObj.proxy_name"></span></b>
-                                                <b ng-if="proxyObj.isObsolete"><span>(Obsolete)</span></b>
-                                            </h5>
-                                            <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </button>
+                                    <div class="box-body">
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{appreciationObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{appreciationObj.created_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="box-body">
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Date Created</h4>
-                                                    <div class="custom-height-1">{{proxyObj.date_created}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Created By</h4>
-                                                    <div class="custom-height-1">{{proxyObj.created_by}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Proxy Name</h4>
-                                                    <div class="custom-height-1">{{proxyObj.proxy_name}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Principal Name</h4>
-                                                    <div class="custom-height-1">{{proxyObj.principal_name}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Proxy Standing</h4>
-                                                    <div class="custom-height-1">{{proxyObj.proxy_standing}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Date Obsolete</h4>
-                                                    <div class="custom-height-1">{{proxyObj.date_obsolete}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-12">
-                                                    <h4 class="bold">Remarks</h4>
-                                                    <div class="custom-height-1">{{proxyObj.remarks}}</div>
-                                                </div>
-                                            </div>
-                                        </div>                                  
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /proxy information -->
-                            <div class="box collapsed-box blue-box" ng-show="hasLanguages">
-                                <div class="box-header with-border" ng-class="{ 'no-information-grey' :  languages === ''}" data-widget="collapse">
-                                    <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Languages Information">
-                                            <i class="fa fa-chevron-down"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    <div ng-show='languages === ""'>
-                                        <span>No Languages Information Available</span>
-                                    </div>
-                                    <div class="box collapsed-box" ng-repeat='languageObj in languages'>
-                                        <div class="box-header coral-box-header" data-widget="collapse">
-                                            <h5 class="box-title">
-                                                <b><span ng-bind="languageObj.language_name"></span></b>
-                                                <b ng-if="languageObj.isObsolete"><span>(Obsolete)</span></b>
-                                            </h5>
-                                            <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </button>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Appraisal Comments</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appraisal_comments}}</div>
                                             </div>
                                         </div>
-                                        <div class="box-body">
-                                            <div class='row col-md-12' ng-hide="isAssociate">
-                                                <div class='col-sm-6'>
-                                                    <h4 class="bold">Date Created</h4>
-                                                    <div class="custom-height-1">{{languageObj.date_created}}</div>
-                                                </div>
-                                                <div class='col-sm-6'>
-                                                    <h4 class="bold">Created By</h4>
-                                                    <div class="custom-height-1">{{languageObj.created_by}}</div>
-                                                </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appraisal Date</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appraisal_date}}</div>
                                             </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Language</h4>
-                                                    <div class="custom-height-1">{{languageObj.language_name}}</div>
-                                                </div>
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Speak/Write</h4>
-                                                    <div class="custom-height-1">{{languageObj.proficiency}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-6">
-                                                    <h4 class="bold">Date Obsolete</h4>
-                                                    <div class="custom-height-1">{{languageObj.date_obsolete}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-12">
-                                                    <h4 class="bold">Explain If 'Others'</h4>
-                                                    <div class="custom-height-1">{{languageObj.explain_if_other}}</div>
-                                                </div>
-                                            </div>
-                                            <div class="row col-md-12">
-                                                <div class="col-sm-12">
-                                                    <h4 class="bold">Remarks</h4>
-                                                    <div class="custom-height-1">{{languageObj.remarks}}</div>
-                                                </div>
-                                            </div>
-                                        </div>                         
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- /languages information -->
-                            <div class="box collapsed-box blue-box" ng-show="hasSkills">
-                                <div class="box-header with-border" ng-class="{ 'no-information-grey' :  skills === ''}" data-widget="collapse">
-                                    <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
-                                    <div class="box-tools pull-right">
-                                        <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skills/Assets Information">
-                                            <i class="fa fa-chevron-down"></i></button>
-                                    </div>
-                                </div>
-                                <div class="box-body">
-                                    <div ng-show='skills === ""'>
-                                        <span>No Skills/Assets Information Available</span>
-                                    </div>
-                                    <div class="box collapsed-box" ng-repeat='skillsObj in skills'>
-                                        <div class="box-header coral-box-header" data-widget="collapse">
-                                            <h5 class="box-title">
-                                                <b><span ng-bind="skillsObj.skill_name"></span></b>
-                                                <b ng-if="skillsObj.isObsolete"><span>(Obsolete)</span></b>
-                                            </h5>
-                                            <div class="box-tools pull-right">
-                                                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">
-                                                    <i class="fa fa-chevron-down"></i>
-                                                </button>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appraised By</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appraisal_by}}</div>
                                             </div>
                                         </div>
-                                        <div class="box-body">
-                                            <div class='row col-md-12' ng-hide="isAssociate">
-                                                <div class='col-sm-6'>
-                                                    <h4 class="bold">Date Created</h4>
-                                                    <div class="custom-height-1">{{skillsObj.date_created}}</div>
-                                                </div>
-                                                <div class='col-sm-6'>
-                                                    <h4 class="bold">Created By</h4>
-                                                    <div class="custom-height-1">{{skillsObj.created_by}}</div>
-                                                </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Appreciation Gesture</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appreciation_gesture}}</div>
                                             </div>
-                                            <div class='row col-md-12'>
-                                                <div class='col-sm-6'>
-                                                    <h4 class="bold">Skills Or Assets</h4>
-                                                    <div class="custom-height-1">{{skillsObj.skill_name}}</div>
-                                                </div>
-                                                <div class='col-sm-6'>
-                                                    <h4 class="bold">Date Obsolete</h4>
-                                                    <div class="custom-height-1">{{skillsObj.date_obsolete}}</div>
-                                                </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appreciation Date</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appreciation_date}}</div>
                                             </div>
-                                            <div class='row col-md-12'>
-                                                <div class='col-sm-12'>
-                                                    <h4 class="bold">Explain If 'Others'</h4>
-                                                    <div class="custom-height-1">{{skillsObj.explain_if_other}}</div>
-                                                </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Appreciation By</h4>
+                                                <div class="custom-height-1">{{appreciationObj.appreciation_by}}</div>
                                             </div>
-                                            <div class='row col-md-12'>
-                                                <div class='col-sm-12'>
-                                                    <h4 class="bold">Remarks</h4>
-                                                    <div class="custom-height-1">{{skillsObj.remarks}}</div>
-                                                </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{appreciationObj.remarks}}</div>
                                             </div>
-                                        </div>                                  
-                                    </div>
-                                    <!-- /skills & assets information -->
+                                        </div>
+                                    </div>                                  
                                 </div>
-                                <!-- /.box-body -->
-                                <!-- /.box -->
                             </div>
                         </div>
+                        <!-- /appreciation information -->
+                        <div class="box collapsed-box blue-box" ng-show="hasProxy">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  proxy === ''}" data-widget="collapse">
+                                <h4 class="box-title uppercase"><i class="fa fa-user-plus"></i> &nbsp; Proxy</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Information">
+                                        <i class="fa fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div ng-show='proxy === ""'>
+                                    <span>No Proxy Information Available</span>
+                                </div>
+                                <div class="box collapsed-box" ng-repeat='proxyObj in proxy'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="proxyObj.proxy_name"></span></b>
+                                            <b ng-if="proxyObj.isObsolete"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Proxy Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{proxyObj.date_created}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{proxyObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Proxy Name</h4>
+                                                <div class="custom-height-1">{{proxyObj.proxy_name}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Principal Name</h4>
+                                                <div class="custom-height-1">{{proxyObj.principal_name}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Proxy Standing</h4>
+                                                <div class="custom-height-1">{{proxyObj.proxy_standing}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{proxyObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{proxyObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /proxy information -->
+                        <div class="box collapsed-box blue-box" ng-show="hasLanguages">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  languages === ''}" data-widget="collapse">
+                                <h4 class="box-title uppercase"><i class="fa fa-language"></i> &nbsp; Languages</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Languages Information">
+                                        <i class="fa fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div ng-show='languages === ""'>
+                                    <span>No Languages Information Available</span>
+                                </div>
+                                <div class="box collapsed-box" ng-repeat='languageObj in languages'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="languageObj.language_name"></span></b>
+                                            <b ng-if="languageObj.isObsolete"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Language Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class='row col-md-12' ng-hide="isAssociate">
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{languageObj.date_created}}</div>
+                                            </div>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{languageObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Language</h4>
+                                                <div class="custom-height-1">{{languageObj.language_name}}</div>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Speak/Write</h4>
+                                                <div class="custom-height-1">{{languageObj.proficiency}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-6">
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{languageObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Explain If 'Others'</h4>
+                                                <div class="custom-height-1">{{languageObj.explain_if_other}}</div>
+                                            </div>
+                                        </div>
+                                        <div class="row col-md-12">
+                                            <div class="col-sm-12">
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{languageObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                         
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /languages information -->
+                        <div class="box collapsed-box blue-box" ng-show="hasSkills">
+                            <div class="box-header with-border" ng-class="{ 'no-information-grey' :  skills === ''}" data-widget="collapse">
+                                <h4 class="box-title uppercase"><i class="fa fa-suitcase"></i> &nbsp; Skills and Assets</h4>
+                                <div class="box-tools pull-right">
+                                    <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skills/Assets Information">
+                                        <i class="fa fa-chevron-down"></i></button>
+                                </div>
+                            </div>
+                            <div class="box-body">
+                                <div ng-show='skills === ""'>
+                                    <span>No Skills/Assets Information Available</span>
+                                </div>
+                                <div class="box collapsed-box" ng-repeat='skillsObj in skills'>
+                                    <div class="box-header coral-box-header" data-widget="collapse">
+                                        <h5 class="box-title">
+                                            <b><span ng-bind="skillsObj.skill_name"></span></b>
+                                            <b ng-if="skillsObj.isObsolete"><span>(Obsolete)</span></b>
+                                        </h5>
+                                        <div class="box-tools pull-right">
+                                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View Skill/Asset Details">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="box-body">
+                                        <div class='row col-md-12' ng-hide="isAssociate">
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Date Created</h4>
+                                                <div class="custom-height-1">{{skillsObj.date_created}}</div>
+                                            </div>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Created By</h4>
+                                                <div class="custom-height-1">{{skillsObj.created_by}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='row col-md-12'>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Skills Or Assets</h4>
+                                                <div class="custom-height-1">{{skillsObj.skill_name}}</div>
+                                            </div>
+                                            <div class='col-sm-6'>
+                                                <h4 class="bold">Date Obsolete</h4>
+                                                <div class="custom-height-1">{{skillsObj.date_obsolete}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='row col-md-12'>
+                                            <div class='col-sm-12'>
+                                                <h4 class="bold">Explain If 'Others'</h4>
+                                                <div class="custom-height-1">{{skillsObj.explain_if_other}}</div>
+                                            </div>
+                                        </div>
+                                        <div class='row col-md-12'>
+                                            <div class='col-sm-12'>
+                                                <h4 class="bold">Remarks</h4>
+                                                <div class="custom-height-1">{{skillsObj.remarks}}</div>
+                                            </div>
+                                        </div>
+                                    </div>                                  
+                                </div>
+                                <!-- /skills & assets information -->
+                            </div>
+                            <!-- /.box-body -->
+                            <!-- /.box -->
+                        </div>
                     </div>
+                </div>
             </section>
             <!-- /.content -->
         </div>
