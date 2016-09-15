@@ -82,7 +82,7 @@ and open the template in the editor.
                                     <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">Yes</div>
                                     <div ng-hide="eventInfo['send_reminder'] == 'true'" class="custom-height-1">No</div>
                                 </div>
-                                <div class="col-sm-6" ng-if="eventInfo.isCreator">
+                                <div class="col-sm-6" ng-if="eventInfo.isCreator && eventInfo['reminder_email']!=''">
                                     <h4 class="bold">Send Reminder Email To:</h4>
                                     <div ng-show="eventInfo['send_reminder'] == 'true'" class="custom-height-1">{{eventInfo['reminder_email']}}</div>
                                 </div>
