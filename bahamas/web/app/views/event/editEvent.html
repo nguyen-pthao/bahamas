@@ -90,6 +90,17 @@ and open the template in the editor.
                                         <h4 class="bold">Send Reminder?&nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i></h4>
                                         <input type="checkbox" ng-model="editEvent['send_reminder']"/>
                                     </div>
+                                    <div class="col-sm-6" ng-if="editEvent['send_reminder'] && eventInfo.isCreator" ng-init="retrieveContact()">
+                                        <div ng-hide="verifiedEmail.length === 0">
+                                            <h4 class="bold">Select Email</h4>
+                                            <select class="form-control" ng-model="editEvent['reminder_email']">
+                                                <option ng-repeat="email in verifiedEmail">{{email}}</option>
+                                            </select>
+                                        </div>
+                                        <div ng-show="verifiedEmail.length === 0">
+                                            <span class="error">You do not have any verified email.</span>
+                                        </div>
+                                    </div>
                                     <div class="col-sm-6">
                                         <h4 class="bold">Min. Participation&nbsp;<i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send an alert if min. participation is not met" popover-trigger="mouseenter"></i></h4>
                                         <input type='text' ng-model="editEvent['minimum_participation']" name="minimumParticipation" class="form-control white-background" ng-pattern="regex"/>

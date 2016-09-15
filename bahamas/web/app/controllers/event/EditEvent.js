@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('editEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', 'loadTeamAffiliation',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, loadTeamAffiliation) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', 'loadTeamAffiliation', 'retrieveOwnContactInfo',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, loadTeamAffiliation, retrieveOwnContactInfo) {
                 var user = session.getSession('userType');
                 $scope.backHome = function () {
                     $state.go(user);
@@ -18,7 +18,22 @@ app.controller('editEvent',
                     var url = user + '.viewUpcomingEvents';
                     $state.go(url);
                 };
-
+                
+                $scope.retrieveContact = function(){
+                    $scope.toRetrieve = {
+                        'token': session.getSession('token')
+                    };
+                    $scope.verifiedEmail = [];
+                    retrieveOwnContactInfo.retrieveContact($scope.toRetrieve).then(function(response){
+                        var emailArray = response.data.contact.email;
+                        angular.forEach(emailArray, function(obj){
+                            if(obj.verified==="true"){
+                                $scope.verifiedEmail.push(obj.email);
+                            }
+                        })
+                    })
+                }
+                
                 var eventId = localStorageService.get('eventId');
 
                 $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
@@ -235,6 +250,13 @@ app.controller('editEvent',
                     var endDate = $scope.editEvent['event_end_date'].valueOf() + "";
                     var timeStart = new Date($scope.editEvent['event_time_start']).valueOf() + "";
                     var timeEnd = new Date($scope.editEvent['event_time_end']).valueOf() + "";
+                    if($scope.editEvent['send_reminder']===false){
+                        $scope.editEvent['reminder_email']= "";
+                    }if($scope.editEvent['send_reminder']===true){
+                        if($scope.editEvent['reminder_email']===""){
+                            $scope.editEvent['send_reminder']=false;
+                        }
+                    }
                     $scope.toEditEvent = {
                         'token': session.getSession('token'),
                         'event_id': eventId,
@@ -253,6 +275,7 @@ app.controller('editEvent',
                         'zipcode': $scope.editEvent['zipcode'],
                         'minimum_participation': $scope.editEvent['minimum_participation'],
                         'send_reminder': $scope.editEvent['send_reminder'],
+                        'reminder_email': $scope.editEvent['reminder_email'],
                         'remarks': $scope.editEvent['remarks'],
                         'ignore': false
                     }
