@@ -322,7 +322,6 @@ app.controller('editEvent',
 
                 $scope.submitEditRoles = function () {
                     var hasError = false;
-                    console.log($scope.editEvent['event_role']);
                     $scope.editEvent['event_role'].forEach(function (obj) {
                         if (obj['event_role'] == '') {
                             if (obj['event_desc'] != '') {
