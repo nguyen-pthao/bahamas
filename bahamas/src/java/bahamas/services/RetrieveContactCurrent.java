@@ -141,6 +141,7 @@ public class RetrieveContactCurrent extends HttpServlet {
         JsonArray jsonObjAppreciation = new JsonArray();
         JsonArray jsonObjDonation = new JsonArray();
         JsonArray jsonObjTeamJoin = new JsonArray();
+        JsonArray jsonObjTraining = new JsonArray();
 
         ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(contact);
         ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(contact);
@@ -825,9 +826,8 @@ public class RetrieveContactCurrent extends HttpServlet {
                 }
                 jsonTrainingObj.addProperty("created_by", training.getCreatedBy());
                 jsonTrainingObj.addProperty("date_created", sdft.format(training.getDateCreated()));
-                jsonTrainingObj.addProperty("date_created", sdft.format(training.getDateCreated()));
-                jsonObjTeamJoin.add(jsonTrainingObj);
-                jsonContactObj.add("training", jsonObjTeamJoin);
+                jsonObjTraining.add(jsonTrainingObj);
+                jsonContactObj.add("training", jsonObjTraining);
             }
 
         } else {
