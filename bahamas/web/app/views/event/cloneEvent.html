@@ -80,7 +80,18 @@ and open the template in the editor.
                                             &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
                                             &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
                                         </div>
-                                        <div class="col-md-6" style="padding:0px;">
+                                        <div class="col-md-5" ng-show="newEvent['send_reminder']" ng-init="retrieveContact()">
+                                            <div ng-hide="verifiedEmail.length===0">
+                                                <label>Select Email</label>
+                                                <select class="form-control" ng-model="newEvent['reminder_email']">
+                                                    <option ng-repeat="email in verifiedEmail">{{email}}</option>
+                                                </select>
+                                            </div>
+                                            <div ng-show="verifiedEmail.length===0">
+                                                <span class="error">You do not have any verified email.</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-4" style="padding:0px;">
                                             <span><a href="" ng-click="showRepeat()">Repeating Event?</a></span>
                                             <div ng-show="newEvent['repeat']['mode']!=''">
                                                 <div ng-show="newEvent['repeat']['mode']=='Daily'">

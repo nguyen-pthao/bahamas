@@ -7,8 +7,8 @@
 var app = angular.module('bahamas');
 
 app.controller('cloneEvent',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal', '$rootScope',
-            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal, $rootScope) {
+        ['$scope', 'session', '$state', 'localStorageService', '$http', 'loadEventLocation', 'loadEventClass', '$timeout', 'ngDialog', 'dataSubmit', 'loadEventStatus', '$uibModal', '$rootScope', 'retrieveOwnContactInfo',
+            function ($scope, session, $state, localStorageService, $http, loadEventLocation, loadEventClass, $timeout, ngDialog, dataSubmit, loadEventStatus, $uibModal, $rootScope, retrieveOwnContactInfo) {
                 var user = session.getSession('userType');
                 var eventIdToClone = localStorageService.get('eventIdToClone');
                 $scope.backHome = function () {
@@ -34,6 +34,21 @@ app.controller('cloneEvent',
                         $scope.eventClassList = response.data.eventClassList;
                     })
                 }
+                
+                $scope.retrieveContact = function(){
+                    $scope.toRetrieve = {
+                        'token': session.getSession('token')
+                    };
+                    $scope.verifiedEmail = [];
+                    retrieveOwnContactInfo.retrieveContact($scope.toRetrieve).then(function(response){
+                        var emailArray = response.data.contact.email;
+                        angular.forEach(emailArray, function(obj){
+                            if(obj.verified==="true"){
+                                $scope.verifiedEmail.push(obj.email);
+                            }
+                        })
+                    })
+                }
 
                 $scope.endDaily = 'isOccurence';
                 $scope.endWeekly = 'isOccurence';
@@ -57,6 +72,7 @@ app.controller('cloneEvent',
                     'address': '',
                     'zipcode': '',
                     'remarks': '',
+                    'reminder_email': '',
                     'ignore': false,
                     'repeat': {
                         'mode': '',
@@ -377,7 +393,15 @@ app.controller('cloneEvent',
                             $scope.newEvent['repeat']['repeat_on'].push(key);
                         }
                     })
-
+                    
+                    if($scope.newEvent['send_reminder']===false){
+                        $scope.newEvent['reminder_email']= "";
+                    }if($scope.newEvent['send_reminder']===true){
+                        if($scope.newEvent['reminder_email']===""){
+                            $scope.newEvent['send_reminder']=false;
+                        }
+                    }
+                    
                     var url = "/event.create";
                     $scope.myPromise = dataSubmit.submitData($scope.newEvent, url).then(function (response) {
                         if (response.data.message == 'success') {
