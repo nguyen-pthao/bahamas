@@ -30,11 +30,11 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-                        <div class="col-md-12" style="padding: 0px">
-                            <label class="col-md-1" style="padding: 0px">
-                                Show Entries:
-                            </label>
-                            <div class="col-md-1" style="padding: 0px">
+                        <div class="row col-md-12">
+                            <div class="col-md-2">
+                                <label>
+                                    Show Entries:
+                                </label>
                                 <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
                                     <option>20</option>
                                     <option>40</option>
@@ -44,9 +44,17 @@ and open the template in the editor.
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
-                            <div class="col-md-offset-6 col-md-4" style="padding: 0px">
-                                <input type="text" class="form-control" placeholder="Search Contact" ng-model="searchContacts" />
-                                <br />
+                            <div class="col-md-4">
+                                <label>Select Team:</label>
+                                <div ng-init="loadTeamList()">
+                                    <select name="teamList" class="form-control" ng-change="retrieveAllContacts()" ng-model="teamFilter">
+                                        <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
+                                    </select>     
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Search:</label>
+                                <input type="text" class="form-control" placeholder="Search Event" ng-model="searchContacts"/>
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
@@ -74,10 +82,10 @@ and open the template in the editor.
                                     <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                         <td width="25%"><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
                                         <td width="20%">{{contact.phone}}</td>
-                                <td width="20%">{{contact.email}}</td>
-                                <td width="10%">{{contact['contact_type']}}</td>
-                                <td width="15%">{{contact['permission_level']}}</td>
-                                <td width="10%" ng-if="isAuthorised"><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                        <td width="20%">{{contact.email}}</td>
+                                        <td width="10%">{{contact['contact_type']}}</td>
+                                        <td width="15%">{{contact['permission_level']}}</td>
+                                        <td width="10%" ng-if="isAuthorised"><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
@@ -105,8 +113,8 @@ and open the template in the editor.
                                     <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
                                         <td width="30%"><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
                                         <td width="20%">{{contact.email}}</td>
-                            <td width="20%">{{contact['contact_type']}}</td>
-                            <td width="20%">{{contact['permission_level']}}</td>
+                                        <td width="20%">{{contact['contact_type']}}</td>
+                                        <td width="20%">{{contact['permission_level']}}</td>
                                         <td width="10%" ng-if="isAuthorised"><span><center><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
                                     </tr>
                                 </tbody>
