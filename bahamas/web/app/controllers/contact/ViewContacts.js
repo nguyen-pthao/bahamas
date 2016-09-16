@@ -23,8 +23,8 @@ app.controller('viewContacts',
                     $state.reload(currentState);
                 };
 
-                $scope.loadTeamList = function(){
-                    loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
+                $scope.loadTeamList = function () {
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
                         $scope.teamList.unshift({'teamAffiliation': 'EXPIRED MEMBERS'});
                         $scope.teamList.unshift({'teamAffiliation': 'CURRENT MEMBERS'});
@@ -40,17 +40,17 @@ app.controller('viewContacts',
                     $scope.showFive = false;
                     //to determine what to send back to backend.
                     var filter;
-                    if($scope.teamFilter == "ALL"){
+                    if ($scope.teamFilter == "ALL") {
                         filter = "";
-                    }else if($scope.teamFilter == "MY TEAMS"){
+                    } else if ($scope.teamFilter == "MY TEAMS") {
                         filter = "my_team";
-                    }else if($scope.teamFilter == "DONORS"){
+                    } else if ($scope.teamFilter == "DONORS") {
                         filter = "donors";
-                    }else if($scope.teamFilter == "CURRENT MEMBERS"){
+                    } else if ($scope.teamFilter == "CURRENT MEMBERS") {
                         filter = "current_members";
-                    }else if($scope.teamFilter == "EXPIRED MEMBERS"){
+                    } else if ($scope.teamFilter == "EXPIRED MEMBERS") {
                         filter = "expired_members";
-                    }else{
+                    } else {
                         filter = $scope.teamFilter;
                     }
                     if (session.getSession('teams') === 'undefined') {
@@ -78,7 +78,7 @@ app.controller('viewContacts',
                         $scope.canDelete = false;
                         $scope.takeNoColumns = 5;
                         $scope.userType = session.getSession('userType');
-                        if($scope.userType === 'admin'){
+                        if ($scope.userType === 'admin') {
                             $scope.canDelete = true;
                         }
                         if ($scope.userType === 'associate') {
@@ -193,6 +193,15 @@ app.controller('viewContacts',
                                 });
                             });
                         };
+
+                        $scope.generateEmailList = function () {
+                            $scope.emailList = response.data.emailList;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/emailList.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        };
                     });
                 };
 
@@ -203,4 +212,5 @@ app.controller('viewContacts',
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
                     $scope.predicate = predicate;
                 };
+
             }]);

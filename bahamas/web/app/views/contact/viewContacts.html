@@ -45,12 +45,16 @@ and open the template in the editor.
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label>Select Team:</label>
+                                <label>Select Filter:</label>
                                 <div ng-init="loadTeamList()">
                                     <select name="teamList" class="form-control" ng-change="retrieveAllContacts()" ng-model="teamFilter">
                                         <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
                                     </select>     
                                 </div>
+                            </div>
+                            <div class="col-md-2">
+                                <br>
+                                <button type="button" class="btn btn-primary" ng-click="generateEmailList()">Email List</button>
                             </div>
                             <div class="col-md-4">
                                 <label>Search:</label>
