@@ -116,7 +116,8 @@ and open the template in the editor.
                                                                 <tbody>
                                                                     <tr ng-repeat="part in role['event_participant'] track by $index">
                                                                         <td>
-                                                                            <span ng-if="part['canRemove']"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove Participant" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span>
+                                                                            <span ng-show="part['canRemove'] && isAssociate"><a href="" uib-tooltip-placement="top" uib-tooltip="Withdraw" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span>
+                                                                            <span ng-show="part['canRemove'] && !isAssociate"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove Participant" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span>
                                                                             &nbsp;
                                                                             <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a>
                                                                         </td>
