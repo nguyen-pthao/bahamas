@@ -80,6 +80,11 @@ app.controller('upcomingEventPS',
                         'token': session.getSession('token'),
                         'teamFilter': filter
                     };
+                    $scope.isAssociate = false;
+                    if(user === "associate"){
+                        $scope.isAssociate = true;
+                    }
+                    
                     var url = '/event.upcomingparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;

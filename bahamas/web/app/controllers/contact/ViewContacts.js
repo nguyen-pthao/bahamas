@@ -9,8 +9,8 @@
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
-        ['$scope', 'session', '$state', 'loadAllContacts', 'filterFilter', 'ngDialog', 'deleteService',
-            function ($scope, session, $state, loadAllContacts, filterFilter, ngDialog, deleteService) {
+        ['$scope', 'session', '$state', 'loadAllContacts', 'filterFilter', 'ngDialog', 'deleteService', 'loadTeamAffiliation',
+            function ($scope, session, $state, loadAllContacts, filterFilter, ngDialog, deleteService, loadTeamAffiliation) {
 
                 var user = session.getSession('userType');
                 var currentState = user + '.viewContacts';
@@ -23,26 +23,56 @@ app.controller('viewContacts',
                     $state.reload(currentState);
                 };
 
-
+                $scope.loadTeamList = function () {
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
+                        $scope.teamList = response.data.teamAffiliationList;
+                        if (user === 'eventleader' || user === 'associate' || user === 'novice') {
+                            $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                        } else {
+                            $scope.teamList.unshift({'teamAffiliation': 'EXPIRED MEMBERS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'CURRENT MEMBERS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'DONORS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                        }
+                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
+                    })
+                };
 
                 $scope.retrieveAllContacts = function () {
-
                     $scope.checkNovice = session.getSession('userType');
                     $scope.showFive = false;
                     //to determine what to send back to backend.
+                    var filter;
+                    if ($scope.teamFilter == "ALL") {
+                        filter = "";
+                    } else if ($scope.teamFilter == "MY TEAMS") {
+                        filter = "my_team";
+                    } else if ($scope.teamFilter == "DONORS") {
+                        filter = "donors";
+                    } else if ($scope.teamFilter == "CURRENT MEMBERS") {
+                        filter = "current_members";
+                    } else if ($scope.teamFilter == "EXPIRED MEMBERS") {
+                        filter = "expired_members";
+                    } else {
+                        filter = $scope.teamFilter;
+                    }
                     if (session.getSession('teams') === 'undefined') {
                         var contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
                             'teamname': "",
-                            'permission': session.getSession('userType')
+                            'permission': session.getSession('userType'),
+                            'teamFilter': filter
                         };
                     } else {
                         var contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
                             'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
-                            'permission': session.getSession('userType')
+                            'permission': session.getSession('userType'),
+                            'teamFilter': filter
                         };
                     }
                     //for headers
@@ -51,10 +81,15 @@ app.controller('viewContacts',
                         $scope.allContactInfo = response.data.contact;
                         $scope.isAuthorised = true;
                         $scope.canDelete = false;
+                        $scope.canEmailList = false;
                         $scope.takeNoColumns = 5;
                         $scope.userType = session.getSession('userType');
-                        if($scope.userType === 'admin'){
+                        if ($scope.userType === 'admin') {
                             $scope.canDelete = true;
+                            $scope.canEmailList = true;
+                        }
+                        if ($scope.userType === 'teammanager') {
+                            $scope.canEmailList = true;
                         }
                         if ($scope.userType === 'associate') {
                             $scope.isAuthorised = false;
@@ -168,6 +203,15 @@ app.controller('viewContacts',
                                 });
                             });
                         };
+
+                        $scope.generateEmailList = function () {
+                            $scope.emailList = response.data.emailList;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/emailList.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        };
                     });
                 };
 
@@ -178,4 +222,5 @@ app.controller('viewContacts',
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
                     $scope.predicate = predicate;
                 };
+
             }]);

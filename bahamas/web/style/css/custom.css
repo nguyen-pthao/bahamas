@@ -644,11 +644,11 @@ div.wrapper > aside.main-sidebar {
 }
 
 .notification {
-    color: purple;
+    color: purple !important;
 }
 
 .notification-border {
-    border: 1px solid #F4F4F4;
+    border: 1px solid #F4F4F4 !important;
 }
 
 .legend {
