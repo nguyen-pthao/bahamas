@@ -7,6 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.AddressDAO;
 import bahamas.dao.ContactDAO;
+import bahamas.dao.DonationDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
@@ -140,9 +141,11 @@ public class RetrieveContact extends HttpServlet {
                         JsonArray contactArray = retrieveAll(contactList, true, teamNameFilter, userTeamJoinHM);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                        emailHM.clear();
                         JsonArray contactArray = retrieveAll(contactList, true, teamNameFilter, userTeamJoinHM);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
+                        emailHM.clear();
                         JsonArray contactArray = retrieveAll(contactList, false, teamNameFilter, userTeamJoinHM);
                         json.add("contact", contactArray);
                     }
@@ -249,9 +252,9 @@ public class RetrieveContact extends HttpServlet {
                     }
                 }
             } else if (teamNameFilter.equals("donors")) {
-
+                toInclude = DonationDAO.isDonor(c.getContactId());
             } else if (teamNameFilter.equals("current_members")) {
-
+                
             } else if (teamNameFilter.equals("expired_members")) {
                 
             } else if (teamJoinHM.containsKey(teamNameFilter)) {

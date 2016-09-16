@@ -6,6 +6,7 @@ package bahamas.services;
  * and open the template in the editor.
  */
 import bahamas.dao.ContactDAO;
+import bahamas.dao.EmailDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventParticipantDAO;
@@ -13,6 +14,7 @@ import bahamas.dao.EventRoleAssignmentDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
+import bahamas.entity.Email;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
 import bahamas.entity.EventParticipant;
@@ -35,6 +37,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -61,6 +64,9 @@ public class RetrieveEventIndiv extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
+        
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
+        
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
@@ -71,6 +77,8 @@ public class RetrieveEventIndiv extends HttpServlet {
             JsonObject teamJson = new JsonObject();
             boolean canView = false;
             boolean canViewRSC = false;
+            HashMap<String, String> emailHM = new HashMap<String, String>();
+            String email = "";
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -204,6 +212,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                 if (!eventParticipantTemp.isPullout()) {
                                                     int participantID = eventParticipantTemp.getContactID();
                                                     Contact contactTemp = cDAO.retrieveContactById(participantID);
+                                                    ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(contactTemp);
                                                     role.addProperty("role", eventRoleAssignment.getRoleName());
                                                     role.addProperty("role_id", eventRoleAssignment.getRoleId());
                                                     //role.addProperty("participant_name", (contactTemp.getName() + "(" + contactTemp.getUsername() + ")"));
@@ -244,6 +253,38 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                     }
                                                     roleParticipentArray.add(role);
                                                     //roleJson.add("event_participant", roleParticipentArray);
+
+                                                    if (!emailList.isEmpty()) {
+
+                                                        try {
+                                                            Date todayDate = new Date();
+                                                            Date todayDateWithoutTime = sdf.parse(sdf.format(todayDate));
+                                                            ArrayList<String> emailDisplayList = new ArrayList<String>();
+                                                            for (int i = 0; i < emailList.size(); i++) {
+                                                                Email emailObj = emailList.get(i);
+                                                                Date ObsDateWithoutTime = null;
+                                                                if (emailObj.getDateObsolete() != null) {
+                                                                    ObsDateWithoutTime = sdf.parse(sdf.format(emailObj.getDateObsolete()));
+                                                                }
+                                                                if (emailObj.getDateObsolete() != null && !ObsDateWithoutTime.equals(todayDateWithoutTime) && !ObsDateWithoutTime.before(todayDateWithoutTime)) {
+                                                                    emailDisplayList.add(emailObj.getEmail());
+                                                                } else if (emailObj.getDateObsolete() == null) {
+                                                                    emailDisplayList.add(emailObj.getEmail());
+                                                                }
+                                                            }
+                                                            if (!emailDisplayList.isEmpty()) {
+                                                                for (int i = 0; i < emailDisplayList.size() - 1; i++) {
+                                                                    
+                                                                    emailHM.put(contactTemp.getName() + "<" + emailDisplayList.get(i) + ">;", contactTemp.getName() + "<" + emailDisplayList.get(i) + ">;");
+                                                                }
+                                                                
+                                                                emailHM.put(contactTemp.getName() + "<" + emailDisplayList.get(emailDisplayList.size() - 1) + ">;", contactTemp.getName() + "<" + emailDisplayList.get(emailDisplayList.size() - 1) + ">;");
+                                                            }
+
+                                                        } catch (ParseException ex) {
+                                                            Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
+                                                        }
+                                                    }
 
                                                 }
                                             }
@@ -375,11 +416,16 @@ public class RetrieveEventIndiv extends HttpServlet {
                             } else {
                                 json.addProperty("reminder_email", event.getReminderEmail());
                             }
-                            if(event.getContactId() == contact.getContactId()){
+                            if (event.getContactId() == contact.getContactId()) {
                                 json.addProperty("isCreator", true);
                             } else {
                                 json.addProperty("isCreator", false);
                             }
+                            Iterator iter = emailHM.keySet().iterator();
+                            while (iter.hasNext()) {
+                                email += " " + (String) iter.next();
+                            }
+                            json.addProperty("emailList", email);
                             out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "Fail retrieve event");

@@ -276,4 +276,32 @@ public class DonationDAO {
         }
         return donationList;
     }
+    
+    public static boolean isDonor(int cid) {
+
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean isDonor = false;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT DONATION_ID FROM DONATION WHERE CONTACT_ID = (?)");
+
+            stmt.setInt(1, cid);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                isDonor = true;
+                break;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(MembershipDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve DONATION from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return isDonor;
+    }
+    
 }
