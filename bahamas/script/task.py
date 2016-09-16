@@ -6,16 +6,17 @@ import mysql.connector
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def send_email( from_address,to_address ):
+def send_email( from_address,to_address,min,current,event_title,created_by,event_date ):
 	try:
 		fromaddr = from_address
 		toaddr = to_address
 		msg = MIMEMultipart()
 		msg['From'] = fromaddr
 		msg['To'] = toaddr
-		msg['Subject'] = "Python subject email"
+		msg['Subject'] = "Bahamas, Event Alert on minimum participation"
 		
-		body = "Python test body mail"
+		body = "Dear " + created_by + ",\n\n" + "Your event " + event_title + " on " + event_date + " have minimum participation of " + min + ' while current participation is ' + current + '.' 
+		print body
 		msg.attach(MIMEText(body, 'plain'))
 		
 		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -32,8 +33,8 @@ def send_email( from_address,to_address ):
 
 now = datetime.datetime.now()
 
-email_props_file = 'C:/Java/twc/bahamas/build/web/WEB-INF/classes/email.properties'
-db_props_file = 'C:/Java/twc/bahamas/build/web/WEB-INF/classes/connection.properties'
+email_props_file = '/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/email.properties'
+db_props_file = '/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/connection.properties'
 
 config = ConfigParser.RawConfigParser()
 
@@ -52,13 +53,12 @@ try:
 except:
 	print str(now) + ' Error reading properties files'
 	sys.exit(0)
-	
 
 try:
 	#retrieve db data
 	# Open database connection
 	conn = mysql.connector.connect(user=db_user,password=db_password,database=db_name,host=db_host,port=db_port)
-	
+
 	# prepare a cursor object using cursor() method
 	cursor = conn.cursor()
 
@@ -69,19 +69,24 @@ try:
 
 	# execute SQL query using execute() method.
 	cursor.execute(query)
-
-	# Fetch a single row using fetchone() method.
-	for email, min_pax,current_pax,title,creator,event_date in cursor.fetchall():
-		#do something here
-	
-	#send_email(email_username,"huxley.goh.2014@smu.edu.sg")
-
+	try:
+		# Fetch a single row using fetchone() method.
+		for row in cursor.fetchall():
+			#do something here
+			email = str(row[0])
+			min_pax = str(row[1])
+			partition_num = str(row[2])
+			title = str(row[3])
+			created_by = str(row[4])
+			date = str(row[5])
+			#using values to send email to each candidate
+			send_email(email_username,email,min_pax,partition_num,title,created_by,date)
+	except:
+		print str(now) +  " Error fetching rows from database"
+		sys.exit(0)
 except:
 	print str(now) +  " Error accessing database"
 	sys.exit(0)
-	
 finally:
 	cursor.close()
 	conn.close()
-	
-
