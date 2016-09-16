@@ -26,11 +26,16 @@ app.controller('viewContacts',
                 $scope.loadTeamList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
-                        $scope.teamList.unshift({'teamAffiliation': 'EXPIRED MEMBERS'});
-                        $scope.teamList.unshift({'teamAffiliation': 'CURRENT MEMBERS'});
-                        $scope.teamList.unshift({'teamAffiliation': 'DONORS'});
-                        $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
-                        $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                        if (user === 'eventleader' || user === 'associate' || user === 'novice') {
+                            $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                        } else {
+                            $scope.teamList.unshift({'teamAffiliation': 'EXPIRED MEMBERS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'CURRENT MEMBERS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'DONORS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                            $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                        }
                         $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
                 };
@@ -83,7 +88,7 @@ app.controller('viewContacts',
                             $scope.canDelete = true;
                             $scope.canEmailList = true;
                         }
-                        if($scope.userType === 'teammanager'){
+                        if ($scope.userType === 'teammanager') {
                             $scope.canEmailList = true;
                         }
                         if ($scope.userType === 'associate') {
