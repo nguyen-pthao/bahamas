@@ -47,6 +47,14 @@ app.controller('viewIndivEvent',
                         $scope.withdrawn = $scope.eventInfo['withdrawn_participants'];
                         $scope.affiliation = $scope.eventInfo['event_team_affiliation'];
                         $scope.teamA = $scope.eventInfo['event_team_affiliation']['teams_affiliated'];
+                        $scope.generateEmailList = function(){
+                            $scope.emailList = response.data.emailList;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/emailList.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            })
+                        };
                     })
 
                     $scope.$watch('showGmap', function () {
