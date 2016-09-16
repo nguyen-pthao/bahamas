@@ -63,15 +63,15 @@ try:
 	cursor = conn.cursor()
 
 	#Prepare query
-	query = """SELECT EMAIL,MINIMUM_PARTICIPATIONS,PARTICIPANT_NUMBER,EVENT_TITLE,CREATED_BY FROM EVENT WHERE CURDATE() < EVENT_START_DATE AND
-	DATE_ADD(CURDATE(), INTERVAL 3 DAY) <= DATE(EVENT_START_DATE)
+	query = """SELECT EMAIL,MINIMUM_PARTICIPATIONS,PARTICIPANT_NUMBER,EVENT_TITLE,CREATED_BY, DATE(EVENT_START_DATE) as EVENT_DATE 
+	FROM EVENT WHERE CURDATE() < EVENT_START_DATE AND DATE_ADD(CURDATE(), INTERVAL 3 DAY) >= DATE(EVENT_START_DATE)
 	AND PARTICIPANT_NUMBER < MINIMUM_PARTICIPATIONS AND SEND_REMINDER=TRUE AND EVENT_STATUS='Open'"""
 
 	# execute SQL query using execute() method.
 	cursor.execute(query)
 
 	# Fetch a single row using fetchone() method.
-	for email, min_pax,current_pax,title,creator in cursor.fetchall():
+	for email, min_pax,current_pax,title,creator,event_date in cursor.fetchall():
 		#do something here
 	
 	#send_email(email_username,"huxley.goh.2014@smu.edu.sg")
