@@ -62,7 +62,7 @@ public class Validator {
      * @return boolean value, true if email is valid
      */
     public static boolean validEmail(String email) {
-        String emailPattern = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+        String emailPattern = "^([a-zA-Z0-9_\\-\\.]+)@([a-zA-Z0-9_\\-\\.]+)\\.([a-zA-Z]{2,5})$";
         pattern = Pattern.compile(emailPattern);
         matcher = pattern.matcher(email);
         return matcher.matches();

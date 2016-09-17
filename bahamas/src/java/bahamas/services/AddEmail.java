@@ -110,6 +110,9 @@ public class AddEmail extends HttpServlet {
                             if (EmailDAO.emailExist(email)) {
                                 Validator.getErrorList().add("Email already exists");
                             }
+                            else if(!Validator.validEmail(email)){
+                                Validator.getErrorList().add("Invalid email format");
+                            }
                         }
 
                         String emailRemarks = Validator.containsBlankField(jobject.get("email_remarks"));

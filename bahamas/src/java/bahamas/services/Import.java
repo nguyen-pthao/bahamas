@@ -79,7 +79,7 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
         maxFileSize = 1024 * 1024 * 5, maxRequestSize = 1024 * 1024 * 5 * 5)
 public class Import extends HttpServlet {
 
-    private LinkedHashMap<Integer, ArrayList<String>> logMsg = new LinkedHashMap<Integer, ArrayList<String>>();
+    private LinkedHashMap<Integer, ArrayList<String>> logMsg;
     private ArrayList<String> dataList;
     private static final Logger LOGGER = Logger.getLogger(Import.class.getName());
     private static int numOfFields;
@@ -99,6 +99,7 @@ public class Import extends HttpServlet {
         response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
+            logMsg = new LinkedHashMap<Integer, ArrayList<String>>();
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -244,8 +245,8 @@ public class Import extends HttpServlet {
                     records.add(store);
 
                 }
-
-                AuditLogDAO.insertAuditLog(username, "IMPORT DATA INTO" + table.toUpperCase(), counter + " number of records added");
+                                
+                AuditLogDAO.insertAuditLog(username, "IMPORT DATA INTO " + table.toUpperCase(), counter + " number of records added");
 
                 json.add(table.toLowerCase(), records);
                 out.println(gson.toJson(json));
