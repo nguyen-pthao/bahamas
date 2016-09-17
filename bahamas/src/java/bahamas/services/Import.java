@@ -245,7 +245,7 @@ public class Import extends HttpServlet {
                     records.add(store);
 
                 }
-                                
+
                 AuditLogDAO.insertAuditLog(username, "IMPORT DATA INTO " + table.toUpperCase(), counter + " number of records added");
 
                 json.add(table.toLowerCase(), records);
@@ -580,8 +580,10 @@ public class Import extends HttpServlet {
 
             String permission = processField(msg, dataList.get(++i), "Permission", 50);
             PermissionLevelListDAO permissionList = new PermissionLevelListDAO();
-            if (!permissionList.retrievePermissionLevelList().contains(permission)) {
-                msg.add("Permission not referencing to Permission List");
+            if (permission != null) {
+                if (!permissionList.retrievePermissionLevelList().contains(permission)) {
+                    msg.add("Permission not referencing to Permission List");
+                }
             }
 
             String remarks = processField(msg, dataList.get(++i), "Remarks", 1000);
