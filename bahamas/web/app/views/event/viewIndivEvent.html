@@ -33,7 +33,10 @@ and open the template in the editor.
                             </span>   
                             Edit Event
                         </button>
-                        <button type="submit" style="margin-right: 10px;" ng-click="generateEmailList()" class="btn btn-primary" ng-if='eventInfo["canEdit"]'> 
+                        <button type="submit" style="margin-right: 10px;" ng-click="generateEmailList()" class="btn btn-primary" ng-if='eventInfo["canEdit"]'>
+                            <span>
+                                <i class="fa fa-envelope-o fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                            </span> 
                             Email List
                         </button>
                     </div>
