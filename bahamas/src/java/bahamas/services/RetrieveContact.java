@@ -9,12 +9,14 @@ import bahamas.dao.AddressDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.DonationDAO;
 import bahamas.dao.EmailDAO;
+import bahamas.dao.MembershipDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Address;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
+import bahamas.entity.Membership;
 import bahamas.entity.Phone;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
@@ -62,6 +64,7 @@ public class RetrieveContact extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, JWTException {
         response.setContentType("application/JSON;charset=UTF-8");
@@ -150,7 +153,7 @@ public class RetrieveContact extends HttpServlet {
                         json.add("contact", contactArray);
                     }
                     Iterator iter = emailHM.keySet().iterator();
-                    while(iter.hasNext()){
+                    while (iter.hasNext()) {
                         email += " " + (String) iter.next();
                     }
                     json.addProperty("emailList", email);
@@ -161,7 +164,7 @@ public class RetrieveContact extends HttpServlet {
                     out.println(gson.toJson(json));
 
                 }
-                
+
             }
 
         }
@@ -177,8 +180,9 @@ public class RetrieveContact extends HttpServlet {
             ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
             ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
             ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(c.getContactId());
+            ArrayList<Membership> membershipList = MembershipDAO.retrieveMembershipByCID(c.getContactId());
             HashMap<String, String> teamJoinHM = new HashMap<String, String>();
-            
+
             String permissionLevel = "";
             if (c.isIsNovice()) {
                 permissionLevel = "Novice";
@@ -206,6 +210,9 @@ public class RetrieveContact extends HttpServlet {
             String nationality = c.getNationality();
             String remarks = c.getRemarks();
             boolean toInclude = false;
+            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
+            Date currentDateTime = new Date();
+
             if (name == null) {
                 name = "";
             }
@@ -236,7 +243,7 @@ public class RetrieveContact extends HttpServlet {
             if (remarks == null) {
                 remarks = "";
             }
-            
+
             if (teamJoinList != null) {
                 for (TeamJoin teamJoin : teamJoinList) {
                     teamJoinHM.put(teamJoin.getTeamName(), teamJoin.getTeamName());
@@ -245,7 +252,7 @@ public class RetrieveContact extends HttpServlet {
             if (teamNameFilter.isEmpty()) {
                 toInclude = true;
             } else if (teamNameFilter.equals("my_team")) {
-                for(TeamJoin teamJoin : teamJoinList){
+                for (TeamJoin teamJoin : teamJoinList) {
                     if (userTeamJoinHM.containsKey(teamJoin.getTeamName())) {
                         toInclude = true;
                         break;
@@ -254,13 +261,38 @@ public class RetrieveContact extends HttpServlet {
             } else if (teamNameFilter.equals("donors")) {
                 toInclude = DonationDAO.isDonor(c.getContactId());
             } else if (teamNameFilter.equals("current_members")) {
-                
+                if (membershipList != null) {
+                    for (Membership membership : membershipList) {
+                        Date membershipEndDate = membership.getEndMembership();
+                        try {
+                            Date currentDate = date.parse(date.format(currentDateTime));
+                            if (membershipEndDate.after(currentDate) || (membershipEndDate.equals(currentDate))) {
+                                toInclude = true;
+                                break;
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
             } else if (teamNameFilter.equals("expired_members")) {
-                
+                if (membershipList != null) {
+                    for (Membership membership : membershipList) {
+                        Date membershipEndDate = membership.getEndMembership();
+                        try {
+                            Date currentDate = date.parse(date.format(currentDateTime));
+                            if (membershipEndDate.before(currentDate)) {
+                                toInclude = true;
+                                break;
+                            }
+                        } catch (ParseException ex) {
+                            Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                    }
+                }
             } else if (teamJoinHM.containsKey(teamNameFilter)) {
                 toInclude = true;
             }
-
 
             if (!emailList.isEmpty() && toInclude) {
 
