@@ -246,7 +246,7 @@ public class PhoneDAO {
                     dateObsolete = date.parse(dateobs);
                 }
 
-                Phone p = new Phone(cid, countryCode, phoneNumber, createdBy, remarks, dateObsolete);
+                Phone p = new Phone(cid, countryCode, phoneNumber, createdBy, dateCreated, remarks, dateObsolete);
 
                 phoneList.add(p);
             }

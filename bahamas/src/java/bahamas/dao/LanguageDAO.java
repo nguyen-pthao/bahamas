@@ -220,7 +220,7 @@ public class LanguageDAO {
                 Date dateCreated = rs.getTimestamp(7);
                 String proficiency = rs.getString(8);
 
-                LanguageAssignment languageAssignment = new LanguageAssignment(cid, languageName, explainIfOther, dateObsolete, proficiency, remarks, createdBy);
+                LanguageAssignment languageAssignment = new LanguageAssignment(cid, languageName, dateCreated, explainIfOther, dateObsolete, proficiency, remarks, createdBy);
                 languageList.add(languageAssignment);
             }
 

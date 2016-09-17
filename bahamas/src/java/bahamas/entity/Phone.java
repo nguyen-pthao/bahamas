@@ -41,7 +41,7 @@ public class Phone {
             
     }
     
-    public Phone(int contactId, int countryCode, String phoneNumber, String createdBy, 
+    public Phone(int contactId, int countryCode, String phoneNumber, String createdBy, Date dateCreated,
             String remarks, Date dateObsolete ) {
         this.contactId = contactId;
         this.countryCode = countryCode;
