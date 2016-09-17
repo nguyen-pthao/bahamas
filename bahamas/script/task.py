@@ -15,8 +15,8 @@ def send_email( from_address,to_address,min,current,event_title,created_by,event
 		msg['To'] = toaddr
 		msg['Subject'] = "Bahamas, Event Alert on minimum participation"
 		
-		body = "Dear " + created_by + ",\n\n" + "Your event " + event_title + " on " + event_date + " have minimum participation of " + min + ' while current participation is ' + current + '.' 
-		print body
+		body = "Dear " + created_by + ",\n\n" + "Your event " + event_title + " on " + event_date + " have minimum participation of " + min + ' while current participation is ' + current + '.'
+		
 		msg.attach(MIMEText(body, 'plain'))
 		
 		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
@@ -24,9 +24,9 @@ def send_email( from_address,to_address,min,current,event_title,created_by,event
 		server.login(email_username,email_password) 
 		server.sendmail(fromaddr, toaddr, msg.as_string())
 		
-		print str(now) + ' Email sent'
+		print str(now) + ' Email sent ' + toaddr 
 	except:
-		print str(now) + ' Send email failed'
+		print str(now) + ' Send email failed ' + toaddr
 	finally:
 		server.quit()
 		return
