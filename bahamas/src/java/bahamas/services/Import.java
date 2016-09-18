@@ -144,7 +144,7 @@ public class Import extends HttpServlet {
                     numOfFields = 4;
                 } else if (table.equalsIgnoreCase("address")) {
                     numOfFields = 6;
-                } else if (table.equalsIgnoreCase("team join")) {
+                } else if (table.equalsIgnoreCase("teamjoin")) {
                     numOfFields = 7;
                 } else if (table.equalsIgnoreCase("membership")) {
                     numOfFields = 14;
@@ -152,7 +152,7 @@ public class Import extends HttpServlet {
                     numOfFields = 6;
                 } else if (table.equalsIgnoreCase("skill")) {
                     numOfFields = 5;
-                } else if (table.equalsIgnoreCase("office held")) {
+                } else if (table.equalsIgnoreCase("officeheld")) {
                     numOfFields = 5;
                 } else if (table.equalsIgnoreCase("appreciation")) {
                     numOfFields = 8;
@@ -191,7 +191,7 @@ public class Import extends HttpServlet {
                         processEmail();
                     } else if (table.equalsIgnoreCase("address")) {
                         processAddress();
-                    } else if (table.equalsIgnoreCase("team join")) {
+                    } else if (table.equalsIgnoreCase("teamjoin")) {
                         processTeamJoin();
                     } else if (table.equalsIgnoreCase("membership")) {
                         processMembership();
@@ -199,7 +199,7 @@ public class Import extends HttpServlet {
                         processLanguage();
                     } else if (table.equalsIgnoreCase("skill")) {
                         processSkill();
-                    } else if (table.equalsIgnoreCase("office held")) {
+                    } else if (table.equalsIgnoreCase("officeheld")) {
                         processOfficeHeld();
                     } else if (table.equalsIgnoreCase("appreciation")) {
                         processAppreciation();
