@@ -8,7 +8,8 @@ var app = angular.module('bahamas');
 
 app.controller('EditAppreciation', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
-
+        
+        var permission = session.getSession('userType');
         //appreciation
         $scope.addingAppreciation = false;
         $scope.addNewAppreciation = function () {
@@ -28,7 +29,7 @@ app.controller('EditAppreciation', ['$scope', 'session', 'ngDialog', '$timeout',
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['appreciation_id'] = appreciation['appreciation_id'];
             datasend['appraisal_comment'] = appreciation['appraisal_comments'];
             datasend['appraisal_by'] = appreciation['appraisal_by'];
@@ -95,6 +96,7 @@ app.controller('EditAppreciation', ['$scope', 'session', 'ngDialog', '$timeout',
                 var deleteAppreciation = {};
                 deleteAppreciation['token'] = session.getSession('token');
                 deleteAppreciation['appreciation_id'] = appreciation['appreciation_id'];
+                deleteAppreciation['user_type'] = permission;
                 var url = AppAPI.deleteAppreciation;
                 deleteService.deleteDataService(deleteAppreciation, url).then(function (response) {
                     if (response.data.message == 'success') {
@@ -116,7 +118,7 @@ app.controller('EditAppreciation', ['$scope', 'session', 'ngDialog', '$timeout',
         $scope.newAppreciation = {
             'token': session.getSession('token'),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'appraisal_comment': '',
             'appraisal_by': '',
             'appraisal_date': '',

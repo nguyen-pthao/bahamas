@@ -14,6 +14,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                 $scope.permissionLevelList = response.data.permissionLevelList;
             });
         };
+        var permission = session.getSession('userType');
         //team join
         $scope.addingTeam = false;
         $scope.addNewTeam = function () {
@@ -33,7 +34,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['team'] = team['team_name'];
             datasend['permission_level'] = team['permission'];
             datasend['explain_if_other'] = team['explain_if_others'];
@@ -86,6 +87,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
             }).then(function (response) {
                 var deleteTeamjoin = {};
                 deleteTeamjoin['token'] = session.getSession('token');
+                deleteTeamjoin['user_type'] = permission;
                 //if ($scope.editMode == 'true') {
                     deleteTeamjoin['contact_id'] = $scope.contactToEditCID;
 //                } else {
@@ -113,7 +115,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.newTeam = {
             'token': session.getSession('token'),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'team': '',
             'permission_level': '',
             'explain_if_other': '',
@@ -133,7 +135,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         var teamPreference = {
             token: session.getSession('token'),
             'contact_id': $scope.contactToEditCID,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             team: '',
             'permission_level': '',
             'explain_if_other': '',

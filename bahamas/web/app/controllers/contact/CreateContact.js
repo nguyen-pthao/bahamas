@@ -105,7 +105,7 @@ app.controller('createContact',
                     'nationality': '',
                     'date_of_birth': '',
                     'remarks': '',
-                    'notification': true
+                    'notification': false
                 };                
 //DECLARE RESULT OBJECT 
                 $scope.result = {
@@ -138,6 +138,7 @@ app.controller('createContact',
                     phoneInfo: {
                         token: session.getSession("token"),
                         'contact_id': $scope.result.contactId,
+                        'user_type': user,
                         'country_code': 65,
                         'phone_number': '',
                         'phone_remarks': '',
@@ -146,6 +147,7 @@ app.controller('createContact',
                     emailInfo: {
                         token: session.getSession('token'),
                         'contact_id': $scope.result.contactId,
+                        'user_type': user,
                         email: '',
                         'email_remarks': '',
                         'date_obsolete': ''
@@ -153,6 +155,7 @@ app.controller('createContact',
                     addressInfo: {
                         token: session.getSession('token'),
                         'contact_id': $scope.result.contactId,
+                        'user_type': user,
                         address: '',
                         country: 'Singapore',
                         zipcode: '',
@@ -162,6 +165,7 @@ app.controller('createContact',
                     languageInfo: {
                         token: session.getSession('token'),
                         'contact_id': $scope.result.contactId,
+                        'user_type': user,
                         language: '',
                         'explain_if_other': '',
                         'speak_write': '',
@@ -171,6 +175,7 @@ app.controller('createContact',
                     skillassetInfo: {
                         token: session.getSession('token'),
                         'contact_id': $scope.result.contactId,
+                        'user_type': user,
                         'skill_asset': '',
                         'explain_if_other': '',
                         remarks: '',
@@ -180,6 +185,7 @@ app.controller('createContact',
                         token: session.getSession('token'),
                         'contact_id': $scope.result.contactId,
                         'contact_name': $scope.contactInfo.name,
+                        'user_type': user,
                         team1: '',
                         team2: '',
                         team3: ''
@@ -316,6 +322,7 @@ app.controller('createContact',
                     var dataSend = {};
                     dataSend.token = $scope.additionalContactInfo.teamInfo.token;
                     dataSend['contact_id'] = $scope.additionalContactInfo.teamInfo['contact_id'];
+                    dataSend['user_type'] = $scope.additionalContactInfo.teamInfo['user_type'];
                     dataSend['contact_name'] = $scope.additionalContactInfo.teamInfo.contactname;
                     dataSend.team = $scope.additionalContactInfo.teamInfo.team1;
                     dataSend['explain_if_other'] = '';

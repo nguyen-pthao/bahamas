@@ -45,6 +45,7 @@ app.controller('viewContacts',
                     $scope.showFive = false;
                     //to determine what to send back to backend.
                     var filter;
+                    var contactToRetrieve;
                     if ($scope.teamFilter == "ALL") {
                         filter = "";
                     } else if ($scope.teamFilter == "MY TEAMS") {
@@ -59,7 +60,7 @@ app.controller('viewContacts',
                         filter = $scope.teamFilter;
                     }
                     if (session.getSession('teams') === 'undefined') {
-                        var contactToRetrieve = {
+                        contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
                             'teamname': "",
@@ -67,7 +68,7 @@ app.controller('viewContacts',
                             'teamFilter': filter
                         };
                     } else {
-                        var contactToRetrieve = {
+                        contactToRetrieve = {
                             'token': session.getSession('token'),
                             'cid': angular.fromJson(session.getSession('contact')).cid,
                             'teamname': angular.fromJson(session.getSession('teams'))[0].teamname,
@@ -76,7 +77,7 @@ app.controller('viewContacts',
                         };
                     }
                     //for headers
-                    var allContactObjKey = [];
+                    //var allContactObjKey = [];
                     $scope.myPromise = loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
                         $scope.isAuthorised = true;

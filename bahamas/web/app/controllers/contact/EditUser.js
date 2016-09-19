@@ -113,7 +113,8 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
         $scope.changePassword = function () {
             $scope.changePass = !$scope.changePass;
         };
-
+        
+        var permission = session.getSession('userType');
         $scope.resultUser = {
             status: false,
             message: ''
@@ -127,6 +128,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
                         datasend['contact_id'] = $scope.editUser['contact_id']; //$scope.contactToEditCID;
                         datasend['deactivated'] = ($scope.editUser['deactivated'] === 'true');
                         datasend['is_admin'] = ($scope.editUser['is_admin'] === 'true');
+                        datasend['user_type'] = permission;
                         submitUser(datasend, false);
                     }
                 } else {
@@ -136,6 +138,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
                     dataToSend['username'] = $scope.editUser['username'];
                     dataToSend['password'] = $scope.editUser['password'];
                     dataToSend['email'] = $scope.editUser['email'];
+                    dataToSend['user_type'] = permission;
                     submitUser(dataToSend, true);
                 }
             } else {
@@ -144,6 +147,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
                 datasend['current_password'] = $scope.editUser['current_password'];
                 datasend['password'] = $scope.editUser['password'];
                 datasend['confirm_password'] = $scope.editUser['confirm_password'];
+                datasend['user_type']= permission;
                 submitUser(datasend, false);
                 $scope.changePassword();
             }

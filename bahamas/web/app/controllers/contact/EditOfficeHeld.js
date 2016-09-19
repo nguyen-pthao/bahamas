@@ -14,6 +14,7 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
                 $scope.officeList = response.data.officeList;
             });
         };
+        var permission = session.getSession('userType');
         //office held
         $scope.addingOffice = false;
         $scope.addNewOffice = function () {
@@ -33,7 +34,7 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['office_held_name'] = officeHeld['office_held'];
             if (officeHeld['start_office'] == null) {
                 datasend['start_office'] = '';
@@ -100,6 +101,7 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
 //                } else {
 //                    deleteOffice['contact_id'] = $scope.contactToEditCID;
 //                }
+                deleteOffice['user_type'] = permission;
                 deleteOffice['office_held_name'] = officeHeld['office_held'];
                 deleteOffice['start_office'] = officeHeld['start_office'].valueOf() + "";
                 var url = AppAPI.deleteOfficeHeld;
@@ -123,7 +125,7 @@ app.controller('EditOfficeHeld', ['$scope', 'session', 'ngDialog', '$timeout', '
         $scope.newOffice = {
             token: session.getSession("token"),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'office_held_name': '',
             'start_office': '',
             'end_office': '',

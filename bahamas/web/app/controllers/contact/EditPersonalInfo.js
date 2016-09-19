@@ -14,6 +14,7 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
                 $scope.contactTypeList = response.data.contact;
             });
         };
+        var permission = session.getSession('userType');
         //contact
         $scope.resultContact = {
             status: false,
@@ -27,7 +28,7 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
 //            } else {
 //                $scope.editContact['contact_id'] = $scope.contactToEditCID;
 //            }
-            $scope.editContact['user_type'] = session.getSession('userType');
+            $scope.editContact['user_type'] = permission;
             if ($scope.editContact['date_of_birth'] == null) {
                 $scope.editContact['date_of_birth'] = '';
             } else if (angular.isUndefined($scope.editContact['date_of_birth'])) {

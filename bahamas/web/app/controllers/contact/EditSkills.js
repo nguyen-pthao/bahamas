@@ -14,6 +14,7 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
                 $scope.LSAList = response.data.lsaClassList;
             });
         };
+        var permission = session.getSession('userType');
         //skills and assets
         $scope.addingSkills = false;
         $scope.addNewSkills = function () {
@@ -33,7 +34,7 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['skill_asset'] = skill['skill_name'];
             datasend['explain_if_other'] = skill['explain_if_other'];
             datasend['remarks'] = skill['remarks'];
@@ -89,6 +90,7 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
 //                } else {
 //                    deleteSkill['contact_id'] = $scope.contactToEditCID;
 //                }
+                deleteSkill['user_type'] = permission;
                 deleteSkill['skill_asset'] = skill['skill_name'];
                 var url = AppAPI.deleteSkill;
                 deleteService.deleteDataService(deleteSkill, url).then(function (response) {
@@ -111,7 +113,7 @@ app.controller('EditSkills', ['$scope', 'session', 'ngDialog', '$timeout', 'data
         $scope.newSkills = {
             'token': session.getSession('token'),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'skill_asset': '',
             'explain_if_other': '',
             'remarks': '',

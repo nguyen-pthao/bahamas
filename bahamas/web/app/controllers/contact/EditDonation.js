@@ -8,6 +8,8 @@ var app = angular.module('bahamas');
 
 app.controller('EditDonation', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
+        
+        var permission = session.getSession('userType');
         //donation
         $scope.addingDonation = false;
         $scope.addNewDonation = function () {
@@ -27,7 +29,7 @@ app.controller('EditDonation', ['$scope', 'session', 'ngDialog', '$timeout', 'da
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['donation_id'] = donation['donation_id'];
             if (donation['date_received'] == null) {
                 datasend['date_received'] = '';
@@ -117,6 +119,7 @@ app.controller('EditDonation', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                 var deleteDonation = {};
                 deleteDonation['token'] = session.getSession('token');
                 deleteDonation['donation_id'] = donation['donation_id'];
+                deleteDonation['user_type'] = permission;
                 var url = AppAPI.deleteDonation;
                 deleteService.deleteDataService(deleteDonation, url).then(function (response) {
                     if (response.data.message == 'success') {
@@ -138,7 +141,7 @@ app.controller('EditDonation', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.newDonation = {
             token: session.getSession("token"),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'date_received': '',
             'donation_amount': '',
             'payment_mode': '',

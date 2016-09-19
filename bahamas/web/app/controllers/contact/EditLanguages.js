@@ -14,6 +14,8 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
                 $scope.languageList = response.data.languageList;
             });
         };
+        
+        var permission = session.getSession('userType');
         //languages
         $scope.addingLanguages = false;
         $scope.addNewLanguages = function () {
@@ -33,7 +35,7 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['language'] = language['language_name'];
             datasend['speak_write'] = language['proficiency'];
             datasend['explain_if_other'] = language['explain_if_other'];
@@ -90,6 +92,7 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
 //                } else {
 //                    deleteLanguage['contact_id'] = $scope.contactToEditCID;
 //                }
+                deleteLanguage['user_type'] = permission;
                 deleteLanguage['language'] = language['language_name'];
                 var url = AppAPI.deleteLanguage;
                 deleteService.deleteDataService(deleteLanguage, url).then(function (response) {
@@ -112,7 +115,7 @@ app.controller('EditLanguages', ['$scope', 'session', 'ngDialog', '$timeout', 'd
         $scope.newLanguages = {
             'token': session.getSession('token'),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'language': '',
             'speak_write': '',
             'explain_if_other': '',

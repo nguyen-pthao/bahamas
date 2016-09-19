@@ -8,7 +8,8 @@ var app = angular.module('bahamas');
 
 app.controller('EditAddress', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
-
+        
+        var permission = session.getSession('userType');
         //address
         $scope.addingAddress = false;
         $scope.addNewAddress = function () {
@@ -28,7 +29,7 @@ app.controller('EditAddress', ['$scope', 'session', 'ngDialog', '$timeout', 'dat
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['country'] = address['country'];
             datasend['address'] = address['address'];
             datasend['zipcode'] = address['zipcode'];
@@ -83,11 +84,12 @@ app.controller('EditAddress', ['$scope', 'session', 'ngDialog', '$timeout', 'dat
             }).then(function (response) {
                 var deleteAddress = {};
                 deleteAddress['token'] = session.getSession('token');
-                if ($scope.editMode == 'true') {
+                deleteAddress['user_type'] = permission;
+                //if ($scope.editMode == 'true') {
                     deleteAddress['contact_id'] = $scope.contactToEditCID;
-                } else {
-                    deleteAddress['contact_id'] = $scope.contactToEditCID;
-                }
+                //} else {
+                //    deleteAddress['contact_id'] = $scope.contactToEditCID;
+                //}
                 deleteAddress['address'] = address['address'];
                 var url = AppAPI.deleteAddress;
                 deleteService.deleteDataService(deleteAddress, url).then(function (response) {
@@ -110,6 +112,7 @@ app.controller('EditAddress', ['$scope', 'session', 'ngDialog', '$timeout', 'dat
         $scope.newAddress = {
             token: session.getSession('token'),
             'contact_id': -1,
+            'user_type': permission,
             address: '',
             country: 'Singapore',
             zipcode: '',

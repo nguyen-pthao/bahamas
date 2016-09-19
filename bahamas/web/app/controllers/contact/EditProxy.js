@@ -16,7 +16,7 @@ app.controller('EditProxy', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
         $scope.searchContact = function (selected) {
             $scope.selectedProxyCid = selected.cid;
         };
-        
+        var permission = session.getSession('userType');
         //proxy
         $scope.addingProxy = false;
         $scope.addNewProxy = function () {
@@ -30,7 +30,7 @@ app.controller('EditProxy', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
         $scope.editTheProxy = function ($event, proxy) {
             var datasend = {};
             datasend['token'] = session.getSession('token');
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['proxy_of'] = proxy['proxy_id'];
             datasend['principal_of'] = proxy['principal_id'];
             datasend['proxy_standing'] = proxy['proxy_standing'];
@@ -87,6 +87,7 @@ app.controller('EditProxy', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
                 deleteProxy['token'] = session.getSession('token');
                 deleteProxy['proxy_of'] = proxy['proxy_id'];
                 deleteProxy['principal_of'] = proxy['principal_id'];
+                deleteProxy['user_type'] = permission;
                 var url = AppAPI.deleteProxy;
                 deleteService.deleteDataService(deleteProxy, url).then(function (response) {
                     if (response.data.message == 'success') {
@@ -109,6 +110,7 @@ app.controller('EditProxy', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
         $scope.newProxy = {
             'token': session.getSession('token'),
             'proxy_of': -1,
+            'user_type': permission,
             'principal_of': '',
             'proxy_standing': '',
             'remarks': '',

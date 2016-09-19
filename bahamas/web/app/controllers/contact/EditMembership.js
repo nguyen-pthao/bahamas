@@ -14,6 +14,7 @@ app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', '
                 $scope.membershipList = response.data.membershipClassList;
             });
         };
+        var permission = session.getSession('userType');
         //membership
         $scope.addingMembership = false;
         $scope.addNewMembership = function () {
@@ -33,7 +34,7 @@ app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', '
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['membership_id'] = membership['membership_id'];
             if (membership['start_date'] == null) {
                 datasend['start_membership'] = '';
@@ -115,6 +116,7 @@ app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', '
                 var deleteMembership = {};
                 deleteMembership['token'] = session.getSession('token');
                 deleteMembership['membership_id'] = membership['membership_id'];
+                deleteMembership['user_type'] = permission;
                 var url = AppAPI.deleteMembership;
                 deleteService.deleteDataService(deleteMembership, url).then(function (response) {
                     if (response.data.message == 'success') {
@@ -136,7 +138,7 @@ app.controller('EditMembership', ['$scope', 'session', 'ngDialog', '$timeout', '
         $scope.newMembership = {
             token: session.getSession("token"),
             'contact_id': -1,
-            'user_type': session.getSession('userType'),
+            'user_type': permission,
             'start_membership': '',
             'end_membership': '',
             'receipt_date': '',

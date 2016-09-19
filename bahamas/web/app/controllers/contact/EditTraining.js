@@ -8,6 +8,9 @@ var app = angular.module('bahamas');
 
 app.controller('EditTraining', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService', 'loadPermissionLevel', 
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService, loadPermissionLevel) {
+                
+        var permission = session.getSession('userType');
+        //training
         $scope.addingTraining = false;
         $scope.addNewTraining = function () {
             $scope.addingTraining = !$scope.addingTraining;
@@ -26,6 +29,7 @@ app.controller('EditTraining', ['$scope', 'session', 'ngDialog', '$timeout', 'da
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
+            datasend['user_type'] = permission;
             datasend['training_id'] = training['training_id'];  
             datasend['team_name'] = training['team_name'];
             datasend['explain_if_other'] = training['explain_if_others'];
@@ -83,6 +87,7 @@ app.controller('EditTraining', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                 var deleteTraining = {};
                 deleteTraining['token'] = session.getSession('token');
                 deleteTraining['training_id'] = training['training_id'];
+                deleteTraining['user_type'] = permission;
                 var url = AppAPI.deleteTraining;
                 deleteService.deleteDataService(deleteTraining, url).then(function (response) {
                     if (response.data.message == 'success') {
@@ -104,6 +109,7 @@ app.controller('EditTraining', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.newTraining = {
             token: session.getSession("token"),
             'contact_id': -1,
+            'user_type': permission,
             'team_name': '',
             'explain_if_other': '',
             'training_course': '',

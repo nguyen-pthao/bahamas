@@ -9,6 +9,7 @@ var app = angular.module('bahamas');
 app.controller('EditEmail', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
         
+        var permission = session.getSession('userType');
         //email
         $scope.addingEmail = false;
         $scope.addNewEmail = function () {
@@ -50,7 +51,7 @@ app.controller('EditEmail', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['email'] = email['email'];
             datasend['email_remarks'] = email['remarks'];
             if (email['date_obsolete'] == null) {
@@ -117,6 +118,7 @@ app.controller('EditEmail', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
 //                    deleteEmail['contact_id'] = $scope.contactToEditCID;
 //                }
                 deleteEmail['email'] = email['email'];
+                deleteEmail['user_type'] = permission;
                 var url = AppAPI.deleteEmail;
                 deleteService.deleteDataService(deleteEmail, url).then(function (response) {
                     if (response.data.message == 'success') {
@@ -138,6 +140,7 @@ app.controller('EditEmail', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
         $scope.newEmail = {
             token: session.getSession('token'),
             'contact_id': -1,
+            'user_type': permission,
             email: '',
             'email_remarks': '',
             'date_obsolete': ''

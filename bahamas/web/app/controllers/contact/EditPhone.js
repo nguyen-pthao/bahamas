@@ -9,6 +9,7 @@ var app = angular.module('bahamas');
 app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataSubmit', 'deleteService',
     function ($scope, session, ngDialog, $timeout, dataSubmit, deleteService) {
 
+        var permission = session.getSession('userType');
         //phone
         $scope.addingPhone = false;
         $scope.addNewPhone = function () {
@@ -29,7 +30,7 @@ app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
 //            } else {
 //                datasend['contact_id'] = $scope.contactToEditCID;
 //            }
-            datasend['user_type'] = session.getSession('userType');
+            datasend['user_type'] = permission;
             datasend['country_code'] = phone['country_code'];
             datasend['phone_number'] = phone['phone_number'];
             datasend['phone_remarks'] = phone['remarks'];
@@ -84,6 +85,7 @@ app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
             }).then(function (response) {
                 var deletePhone = {};
                 deletePhone['token'] = session.getSession('token');
+                deletePhone['user_type'] = permission;
                 //if ($scope.editMode == 'true') {
                     deletePhone['contact_id'] = $scope.contactToEditCID;
 //                } else {
@@ -111,6 +113,7 @@ app.controller('EditPhone', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
         $scope.newPhone = {
             token: session.getSession("token"),
             'contact_id': -1,
+            'user_type': permission,
             'country_code': 65,
             'phone_number': '',
             'phone_remarks': '',
