@@ -5,18 +5,14 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AddressDAO;
+
 import bahamas.dao.ContactDAO;
-import bahamas.dao.DonationDAO;
 import bahamas.dao.EmailDAO;
-import bahamas.dao.MembershipDAO;
 import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
-import bahamas.entity.Address;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
-import bahamas.entity.Membership;
 import bahamas.entity.Phone;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
@@ -34,7 +30,6 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -98,10 +93,6 @@ public class RetrieveContact extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = Validator.containsBlankField(jobject.get("token"));
-                //String cidString = jobject.get("cid").getAsString();
-                //Optional for admin and novice
-                //String teamName = jobject.get("teamname").getAsString();
-                //String permission = jobject.get("permission").getAsString();
                 String teamNameFilter = "";
                 if (jobject.has("teamFilter")) {
                     teamNameFilter = jobject.get("teamFilter").getAsString();
@@ -124,32 +115,50 @@ public class RetrieveContact extends HttpServlet {
                 Contact contact = contactDAO.retrieveContactByUsername(username);
                 ArrayList<TeamJoin> userTeamJoinList = TeamJoinDAO.validTeamJoin(contact.getContactId());
                 HashMap<String, String> userTeamJoinHM = new HashMap<String, String>();
+                ArrayList<String> teamNameList = new ArrayList<String>();
                 if (userTeamJoinList != null) {
                     for (TeamJoin teamJoin : userTeamJoinList) {
                         userTeamJoinHM.put(teamJoin.getTeamName(), teamJoin.getTeamName());
+                        teamNameList.add(teamJoin.getTeamName());
                     }
                 }
 
                 //ContactDAO contactDAO = new ContactDAO();
-                ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
+                ArrayList<Contact> contactList = null;
+
+                if (teamNameFilter.isEmpty()) {
+                    contactList = contactDAO.retrieveAllContact();
+                } else if (teamNameFilter.equals("my_team")) {
+                    contactList = contactDAO.retrieveAllContactInTeams(teamNameList);
+                } else if (teamNameFilter.equals("donors")) {
+                    contactList = contactDAO.retrieveAllDonor();
+                } else if (teamNameFilter.equals("current_members")) {
+                    contactList = contactDAO.retrieveAllCurrentMember();
+                } else if (teamNameFilter.equals("expired_members")) {
+                    contactList = contactDAO.retrieveAllExpiredMember();
+                } else {
+                    ArrayList<String> tempList = new ArrayList<String>();
+                    tempList.add(teamNameFilter);
+                    contactList = contactDAO.retrieveAllContactInTeams(tempList);
+                }
 
                 if (!contactList.isEmpty() && !contact.isIsNovice()) {
 
                     json.addProperty("message", "success");
 
                     if (contact.isIsAdmin()) {
-                        JsonArray contactArray = retrieveAll(contactList, true, teamNameFilter, userTeamJoinHM);
+                        JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
-                        JsonArray contactArray = retrieveAll(contactList, true, teamNameFilter, userTeamJoinHM);
+                        JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
                         emailHM.clear();
-                        JsonArray contactArray = retrieveAll(contactList, true, teamNameFilter, userTeamJoinHM);
+                        JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
                         emailHM.clear();
-                        JsonArray contactArray = retrieveAll(contactList, false, teamNameFilter, userTeamJoinHM);
+                        JsonArray contactArray = retrieveAll(contactList, false);
                         json.add("contact", contactArray);
                     }
                     Iterator iter = emailHM.keySet().iterator();
@@ -160,7 +169,9 @@ public class RetrieveContact extends HttpServlet {
                     out.println(gson.toJson(json));
                     emailHM.clear();
                 } else {
-                    json.addProperty("message", "fail");
+                    //json.addProperty("message", "fail");
+                    json.addProperty("contact", "");
+                    json.addProperty("emailList", "");
                     out.println(gson.toJson(json));
 
                 }
@@ -170,18 +181,15 @@ public class RetrieveContact extends HttpServlet {
         }
     }
 
-    private static JsonArray retrieveAll(ArrayList<Contact> contactList, boolean unlock, String teamNameFilter, HashMap<String, String> userTeamJoinHM) {
+    private static JsonArray retrieveAll(ArrayList<Contact> contactList, boolean unlock) {
 
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
-
+        final long startTime = System.currentTimeMillis();
         for (Contact c : contactList) {
 
             ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
             ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
-            ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(c.getContactId());
-            ArrayList<Membership> membershipList = MembershipDAO.retrieveMembershipByCID(c.getContactId());
-            HashMap<String, String> teamJoinHM = new HashMap<String, String>();
 
             String permissionLevel = "";
             if (c.isIsNovice()) {
@@ -198,7 +206,6 @@ public class RetrieveContact extends HttpServlet {
 
             String emailStr = "";
             String phoneStr = "";
-            String addressStr = "";
             String name = c.getName();
             String altName = c.getAltName();
             String contactType = c.getContactType();
@@ -209,9 +216,6 @@ public class RetrieveContact extends HttpServlet {
             String gender = c.getGender();
             String nationality = c.getNationality();
             String remarks = c.getRemarks();
-            boolean toInclude = false;
-            SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
-            Date currentDateTime = new Date();
 
             if (name == null) {
                 name = "";
@@ -244,57 +248,7 @@ public class RetrieveContact extends HttpServlet {
                 remarks = "";
             }
 
-            if (teamJoinList != null) {
-                for (TeamJoin teamJoin : teamJoinList) {
-                    teamJoinHM.put(teamJoin.getTeamName(), teamJoin.getTeamName());
-                }
-            }
-            if (teamNameFilter.isEmpty()) {
-                toInclude = true;
-            } else if (teamNameFilter.equals("my_team")) {
-                for (TeamJoin teamJoin : teamJoinList) {
-                    if (userTeamJoinHM.containsKey(teamJoin.getTeamName())) {
-                        toInclude = true;
-                        break;
-                    }
-                }
-            } else if (teamNameFilter.equals("donors")) {
-                toInclude = DonationDAO.isDonor(c.getContactId());
-            } else if (teamNameFilter.equals("current_members")) {
-                if (membershipList != null) {
-                    for (Membership membership : membershipList) {
-                        Date membershipEndDate = membership.getEndMembership();
-                        try {
-                            Date currentDate = date.parse(date.format(currentDateTime));
-                            if (membershipEndDate.after(currentDate) || (membershipEndDate.equals(currentDate))) {
-                                toInclude = true;
-                                break;
-                            }
-                        } catch (ParseException ex) {
-                            Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            } else if (teamNameFilter.equals("expired_members")) {
-                if (membershipList != null) {
-                    for (Membership membership : membershipList) {
-                        Date membershipEndDate = membership.getEndMembership();
-                        try {
-                            Date currentDate = date.parse(date.format(currentDateTime));
-                            if (membershipEndDate.before(currentDate)) {
-                                toInclude = true;
-                                break;
-                            }
-                        } catch (ParseException ex) {
-                            Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
-                        }
-                    }
-                }
-            } else if (teamJoinHM.containsKey(teamNameFilter)) {
-                toInclude = true;
-            }
-
-            if (!emailList.isEmpty() && toInclude) {
+            if (!emailList.isEmpty()) {
 
                 try {
                     Date todayDate = new Date();
@@ -364,10 +318,11 @@ public class RetrieveContact extends HttpServlet {
             jsonContactObj.addProperty("contact_type", contactType);
             jsonContactObj.addProperty("permission_level", permissionLevel);
             jsonContactObj.addProperty("cid", c.getContactId());
-            if (toInclude) {
-                contactArray.add(jsonContactObj);
-            }
+            contactArray.add(jsonContactObj);
+
         }
+        final long endTime = System.currentTimeMillis();
+        System.out.println("Total execution time: " + (endTime - startTime));
         return contactArray;
     }
 

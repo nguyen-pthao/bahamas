@@ -461,5 +461,311 @@ public class ContactDAO {
         }
         return null;
     }
+    
+    public ArrayList<Contact> retrieveAllDonor() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        contactList = new ArrayList<Contact>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,"
+                    + "ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,"
+                    + "C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,"
+                    + "DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, NOTIFICATION FROM CONTACT C, DONATION D "
+                    + "WHERE C.CONTACT_ID = D.CONTACT_ID");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                String salt = rs.getString(5);
+                boolean isAdmin = rs.getBoolean(6);
+                boolean isNovice = rs.getBoolean(7);
+                boolean deactivated = rs.getBoolean(8);
+                String dateStr = rs.getString(9);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(10);
+                String name = rs.getString(11);
+                String altName = rs.getString(12);
+                String explainIfOther = rs.getString(13);
+                String profession = rs.getString(14);
+                String jobTitle = rs.getString(15);
+                String nric = rs.getString(16);
+                String gender = rs.getString(17);
+                String nationality = rs.getString(18);
+                Date dateOfBirth = rs.getDate(19);
+                String profilePic = rs.getString(20);
+                String remarks = rs.getString(21);
+                boolean notification = rs.getBoolean(22);
+
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                contactList.add(contact);
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return contactList;
+    }
+    
+    public ArrayList<Contact> retrieveAllCurrentMember() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        contactList = new ArrayList<Contact>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT DISTINCT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                    + "DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,"
+                    + "PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, NOTIFICATION "
+                    + "FROM CONTACT C, MEMBERSHIP M "
+                    + "WHERE C.CONTACT_ID = M.CONTACT_ID AND END_MEMBERSHIP >= CURDATE()");
+
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                String salt = rs.getString(5);
+                boolean isAdmin = rs.getBoolean(6);
+                boolean isNovice = rs.getBoolean(7);
+                boolean deactivated = rs.getBoolean(8);
+                String dateStr = rs.getString(9);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(10);
+                String name = rs.getString(11);
+                String altName = rs.getString(12);
+                String explainIfOther = rs.getString(13);
+                String profession = rs.getString(14);
+                String jobTitle = rs.getString(15);
+                String nric = rs.getString(16);
+                String gender = rs.getString(17);
+                String nationality = rs.getString(18);
+                Date dateOfBirth = rs.getDate(19);
+                String profilePic = rs.getString(20);
+                String remarks = rs.getString(21);
+                boolean notification = rs.getBoolean(22);
+
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                contactList.add(contact);
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return contactList;
+    }
+    
+    public ArrayList<Contact> retrieveAllExpiredMember() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        contactList = new ArrayList<Contact>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            /*
+            stmt = conn.prepareStatement("SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,"
+                    + "SALT,ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,"
+                    + "ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,"
+                    + "NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, NOTIFICATION "
+                    + "FROM CONTACT C, MEMBERSHIP M "
+                    + "WHERE C.CONTACT_ID = M.CONTACT_ID AND END_MEMBERSHIP < CURDATE() "
+                    + "GROUP BY C.CONTACT_ID");
+            */
+            
+            stmt = conn.prepareStatement("SELECT CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS, NOTIFICATION FROM CONTACT WHERE CONTACT_ID IN (SELECT CONTACT_ID FROM MEMBERSHIP WHERE CONTACT_ID NOT IN (SELECT DISTINCT CONTACT_ID FROM MEMBERSHIP M WHERE END_MEMBERSHIP >= CURDATE()))");
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                String salt = rs.getString(5);
+                boolean isAdmin = rs.getBoolean(6);
+                boolean isNovice = rs.getBoolean(7);
+                boolean deactivated = rs.getBoolean(8);
+                String dateStr = rs.getString(9);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(10);
+                String name = rs.getString(11);
+                String altName = rs.getString(12);
+                String explainIfOther = rs.getString(13);
+                String profession = rs.getString(14);
+                String jobTitle = rs.getString(15);
+                String nric = rs.getString(16);
+                String gender = rs.getString(17);
+                String nationality = rs.getString(18);
+                Date dateOfBirth = rs.getDate(19);
+                String profilePic = rs.getString(20);
+                String remarks = rs.getString(21);
+                boolean notification = rs.getBoolean(22);
+
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                contactList.add(contact);
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return contactList;
+    }
+
+    public ArrayList<Contact> retrieveAllContactInTeams(ArrayList<String> teamNameList) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String teamQuery = "";
+        contactList = new ArrayList<Contact>();
+        if(teamNameList != null && !teamNameList.isEmpty()){
+            
+                for(int i=0; i < teamNameList.size()-1; i++){
+                    teamQuery += "\"" + teamNameList.get(i) + "\", ";
+                }
+                teamQuery += "\"" + teamNameList.get(teamNameList.size()-1) + "\"";
+            
+        }
+        try {
+            conn = ConnectionManager.getConnection();
+            
+            stmt = conn.prepareStatement("SELECT DISTINCT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                    + "DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,"
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, "
+                    + "NOTIFICATION FROM CONTACT C, TEAM_JOIN T "
+                    + "WHERE C.CONTACT_ID = T.CONTACT_ID AND TEAM_NAME IN (" + teamQuery + ") AND "
+                    + "PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE)");
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                String salt = rs.getString(5);
+                boolean isAdmin = rs.getBoolean(6);
+                boolean isNovice = rs.getBoolean(7);
+                boolean deactivated = rs.getBoolean(8);
+                String dateStr = rs.getString(9);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(10);
+                String name = rs.getString(11);
+                String altName = rs.getString(12);
+                String explainIfOther = rs.getString(13);
+                String profession = rs.getString(14);
+                String jobTitle = rs.getString(15);
+                String nric = rs.getString(16);
+                String gender = rs.getString(17);
+                String nationality = rs.getString(18);
+                Date dateOfBirth = rs.getDate(19);
+                String profilePic = rs.getString(20);
+                String remarks = rs.getString(21);
+                boolean notification = rs.getBoolean(22);
+
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                contactList.add(contact);
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return contactList;
+    }
+    /*
+    public ArrayList<Contact> retrieveAllContactInATeam(String teamName) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        
+        try {
+            conn = ConnectionManager.getConnection();
+            
+            stmt = conn.prepareStatement("SELECT DISTINCT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                    + "DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,"
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, "
+                    + "NOTIFICATION FROM CONTACT C, TEAM_JOIN T "
+                    + "WHERE C.CONTACT_ID = T.CONTACT_ID AND TEAM_NAME = \"" + teamName + "\" AND "
+                    + "PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE)");
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                String salt = rs.getString(5);
+                boolean isAdmin = rs.getBoolean(6);
+                boolean isNovice = rs.getBoolean(7);
+                boolean deactivated = rs.getBoolean(8);
+                String dateStr = rs.getString(9);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(10);
+                String name = rs.getString(11);
+                String altName = rs.getString(12);
+                String explainIfOther = rs.getString(13);
+                String profession = rs.getString(14);
+                String jobTitle = rs.getString(15);
+                String nric = rs.getString(16);
+                String gender = rs.getString(17);
+                String nationality = rs.getString(18);
+                Date dateOfBirth = rs.getDate(19);
+                String profilePic = rs.getString(20);
+                String remarks = rs.getString(21);
+                boolean notification = rs.getBoolean(22);
+
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
+                contactList.add(contact);
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return contactList;
+    }
+    */
+    
 }
