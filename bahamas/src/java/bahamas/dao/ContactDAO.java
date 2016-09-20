@@ -471,7 +471,7 @@ public class ContactDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,"
+            stmt = conn.prepareStatement("SELECT DISTINCT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,"
                     + "ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,"
                     + "C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,"
                     + "DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, NOTIFICATION FROM CONTACT C, DONATION D "
