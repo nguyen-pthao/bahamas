@@ -43,13 +43,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author HUXLEY
+ * @author TANSIHAO
  */
 @WebServlet(name = "RetrieveContact", urlPatterns = {"/contact.retrieve"})
 public class RetrieveContact extends HttpServlet {
 
     private static final SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
-    private static final HashMap<String, String> emailHM = new HashMap<String, String>();
+    //private static final HashMap<String, String> emailHM = new HashMap<String, String>();
+    private static String sendEmailList = "";
+    private static HashMap<Integer, Contact> contactidContactHM = new HashMap<Integer, Contact>();
     /*
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -66,8 +68,8 @@ public class RetrieveContact extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-            String email = "";
-
+            //String email = "";
+            
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
             try {
@@ -116,18 +118,26 @@ public class RetrieveContact extends HttpServlet {
                 ArrayList<TeamJoin> userTeamJoinList = TeamJoinDAO.validTeamJoin(contact.getContactId());
                 HashMap<String, String> userTeamJoinHM = new HashMap<String, String>();
                 ArrayList<String> teamNameList = new ArrayList<String>();
+                
                 if (userTeamJoinList != null) {
                     for (TeamJoin teamJoin : userTeamJoinList) {
                         userTeamJoinHM.put(teamJoin.getTeamName(), teamJoin.getTeamName());
                         teamNameList.add(teamJoin.getTeamName());
                     }
                 }
+                
 
                 //ContactDAO contactDAO = new ContactDAO();
-                ArrayList<Contact> contactList = null;
+                ArrayList<Contact> contactList = contactList = contactDAO.retrieveAllContactWithEmailPhone();
+                for(Contact contactTemp:contactList){
+                    contactidContactHM.put(contactTemp.getContactId(), contactTemp);
+                }
 
                 if (teamNameFilter.isEmpty()) {
-                    contactList = contactDAO.retrieveAllContact();
+                    //contactList = contactDAO.retrieveAllContact();
+                    //for(Contact contactTemp:contactList){
+                    //    contactidContactHM.put(contactTemp.getContactId(), contactTemp);
+                    //}
                 } else if (teamNameFilter.equals("my_team")) {
                     contactList = contactDAO.retrieveAllContactInTeams(teamNameList);
                 } else if (teamNameFilter.equals("donors")) {
@@ -153,27 +163,29 @@ public class RetrieveContact extends HttpServlet {
                         JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
-                        emailHM.clear();
+                        //emailHM.clear();
                         JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
                     } else if (RoleCheckDAO.checkRole(contact.getContactId(), "associate")) {
-                        emailHM.clear();
+                        //emailHM.clear();
                         JsonArray contactArray = retrieveAll(contactList, false);
                         json.add("contact", contactArray);
                     }
-                    Iterator iter = emailHM.keySet().iterator();
-                    while (iter.hasNext()) {
-                        email += " " + (String) iter.next();
-                    }
-                    json.addProperty("emailList", email);
+                    //Iterator iter = emailHM.keySet().iterator();
+                    //while (iter.hasNext()) {
+                    //    email += " " + (String) iter.next();
+                    //}
+                    //json.addProperty("emailList", email);
+                    json.addProperty("emailList", sendEmailList);
                     out.println(gson.toJson(json));
-                    emailHM.clear();
+                    sendEmailList = "";
+                    //emailHM.clear();
                 } else {
                     //json.addProperty("message", "fail");
                     json.addProperty("contact", "");
                     json.addProperty("emailList", "");
                     out.println(gson.toJson(json));
-
+                    sendEmailList = "";
                 }
 
             }
@@ -188,8 +200,8 @@ public class RetrieveContact extends HttpServlet {
         final long startTime = System.currentTimeMillis();
         for (Contact c : contactList) {
 
-            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
-            ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
+            //ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
+            //ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
 
             String permissionLevel = "";
             if (c.isIsNovice()) {
@@ -247,7 +259,8 @@ public class RetrieveContact extends HttpServlet {
             if (remarks == null) {
                 remarks = "";
             }
-
+            
+            /*
             if (!emailList.isEmpty()) {
 
                 try {
@@ -308,16 +321,31 @@ public class RetrieveContact extends HttpServlet {
                     Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
+            */
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", name);
+            Contact tempContact = contactidContactHM.get(c.getContactId());
             if (unlock) {
-                jsonContactObj.addProperty("phone", phoneStr);
+                //jsonContactObj.addProperty("phone", phoneStr);
+                if(tempContact.getPhoneStrList() != null){
+                    jsonContactObj.addProperty("phone", tempContact.getPhoneStrList());
+                }else{
+                    jsonContactObj.addProperty("phone", "");
+                }
             }
-            jsonContactObj.addProperty("email", emailStr);
+            //jsonContactObj.addProperty("email", emailStr);
+            if(tempContact.getEmailStrList() != null){
+                    jsonContactObj.addProperty("email", tempContact.getEmailStrList());
+            }else{
+                jsonContactObj.addProperty("email", "");
+            }
             jsonContactObj.addProperty("contact_type", contactType);
             jsonContactObj.addProperty("permission_level", permissionLevel);
             jsonContactObj.addProperty("cid", c.getContactId());
+            if(tempContact.getSendEmailFormat() != null){
+                sendEmailList += tempContact.getSendEmailFormat() + "; ";
+            }
             contactArray.add(jsonContactObj);
 
         }

@@ -768,4 +768,63 @@ public class ContactDAO {
     }
     */
     
+    //return everything
+    //SELECT * FROM (SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, C.NOTIFICATION, E.EMAIL FROM CONTACT C LEFT OUTER JOIN EMAIL E ON C.CONTACT_ID = E.CONTACT_ID) AS T1 LEFT OUTER JOIN (SELECT C.CONTACT_ID, COUNTRY_CODE, PHONE_NUMBER FROM CONTACT C LEFT OUTER JOIN PHONE P ON C.CONTACT_ID = P.CONTACT_ID) AS T2 ON T1.CONTACT_ID = T2.CONTACT_ID ORDER BY T1.CONTACT_ID
+    public ArrayList<Contact> retrieveAllContactWithEmailPhone() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        contactList = new ArrayList<Contact>();
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, C.NOTIFICATION, EMAIL_LIST, PHONE_LIST, EMAIL_LIST2 FROM CONTACT C LEFT OUTER JOIN (SELECT C.CONTACT_ID, GROUP_CONCAT(CONCAT(EMAIL)SEPARATOR ' | ') AS EMAIL_LIST, GROUP_CONCAT(CONCAT(NAME,'<',EMAIL,'>') SEPARATOR '; ') AS EMAIL_LIST2 FROM CONTACT C, EMAIL E WHERE C.CONTACT_ID = E.CONTACT_ID AND IF(E.DATE_OBSOLETE IS NOT NULL,E.DATE_OBSOLETE >= CURDATE(),TRUE) GROUP BY CONTACT_ID) AS T1 ON C.CONTACT_ID = T1.CONTACT_ID LEFT OUTER JOIN (SELECT C.CONTACT_ID, GROUP_CONCAT(CONCAT('+' ,COUNTRY_CODE,'-',PHONE_NUMBER)SEPARATOR ' | ') AS PHONE_LIST FROM CONTACT C, PHONE P WHERE C.CONTACT_ID = P.CONTACT_ID AND IF(P.DATE_OBSOLETE IS NOT NULL,P.DATE_OBSOLETE >= CURDATE(),TRUE) GROUP BY CONTACT_ID) AS T2 ON C.CONTACT_ID = T2.CONTACT_ID");
+            
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int contactId = Integer.parseInt(rs.getString(1));
+                String contactType = rs.getString(2);
+                String username = rs.getString(3);
+                String password = rs.getString(4);
+                String salt = rs.getString(5);
+                boolean isAdmin = rs.getBoolean(6);
+                boolean isNovice = rs.getBoolean(7);
+                boolean deactivated = rs.getBoolean(8);
+                String dateStr = rs.getString(9);
+                Date dateCreated = datetime.parse(dateStr);
+                String createdBy = rs.getString(10);
+                String name = rs.getString(11);
+                String altName = rs.getString(12);
+                String explainIfOther = rs.getString(13);
+                String profession = rs.getString(14);
+                String jobTitle = rs.getString(15);
+                String nric = rs.getString(16);
+                String gender = rs.getString(17);
+                String nationality = rs.getString(18);
+                Date dateOfBirth = rs.getDate(19);
+                String profilePic = rs.getString(20);
+                String remarks = rs.getString(21);
+                boolean notification = rs.getBoolean(22);
+                String emailList = rs.getString(23);
+                String phoneList = rs.getString(24);
+                String emailList2 = rs.getString(25);
+
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification,emailList,phoneList,emailList2);
+                contactList.add(contact);
+
+            }
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        } catch (SQLException ex) {
+            Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve contact from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return contactList;
+    }
+    
 }
