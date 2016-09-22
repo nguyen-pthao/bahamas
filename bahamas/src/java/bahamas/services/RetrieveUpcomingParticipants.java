@@ -122,7 +122,9 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                     obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
                                 }
                                 if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
-                                    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                    if(teamJoin.getPermission() != null){
+                                        hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                                    }
                                 }
                             }
                         } catch (ParseException ex) {
