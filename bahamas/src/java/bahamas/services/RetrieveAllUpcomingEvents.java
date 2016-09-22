@@ -110,7 +110,9 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                         //Get all teams this user has
                         ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
                         for (TeamJoin teamJoin : teamJoinList) {
-                            if(teamJoin.getPermission() != null){
+                            if(contact.isIsNovice()){
+                                hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                            } else if(teamJoin.getPermission() != null){
                                 hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
                             }
                         }
