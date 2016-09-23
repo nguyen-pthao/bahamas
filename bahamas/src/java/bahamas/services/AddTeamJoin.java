@@ -10,6 +10,7 @@ import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
+import bahamas.dao.list.PermissionLevelListDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.TeamJoin;
@@ -115,8 +116,21 @@ public class AddTeamJoin extends HttpServlet {
                         String subTeam = Validator.containsBlankField(jobject.get("subteam"));
 
                         String permission = null;
-                        if (user.isIsAdmin() || (userType.equals("teammanager") && RoleCheckDAO.checkRole(user.getContactId(), userType))) {
+                        if (user.isIsAdmin() || (userType.equals("teammanager") && RoleCheckDAO.checkRole(user.getContactId(), userType))
+                                || (userType.equals("eventleader") && RoleCheckDAO.checkRole(user.getContactId(), userType))) {
                             permission = Validator.containsBlankField(jobject.get("permission_level"));
+
+                            PermissionLevelListDAO permissionList = new PermissionLevelListDAO();
+                            if (permission != null) {
+                                if (!permissionList.retrievePermissionLevelList().contains(permission)) {
+                                    Validator.getErrorList().add("Permission not referencing to Permission List");
+                                }
+                                
+                                if(userType.equals("eventleader") && permission.equals("Team manager")){
+                                    Validator.getErrorList().add("Event leader permission cannot assign a team manager permission");
+                                }
+                            }
+
                         }
 
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));

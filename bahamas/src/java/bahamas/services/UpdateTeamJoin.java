@@ -10,6 +10,7 @@ import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
+import bahamas.dao.list.PermissionLevelListDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
 import bahamas.entity.TeamJoin;
@@ -122,6 +123,18 @@ public class UpdateTeamJoin extends HttpServlet {
                         String explainIfOther = Validator.containsBlankField(jobject.get("explain_if_other"));
                         String subTeam = Validator.containsBlankField(jobject.get("subteam"));
                         String permission = Validator.containsBlankField(jobject.get("permission_level"));
+
+                        PermissionLevelListDAO permissionList = new PermissionLevelListDAO();
+                        if (permission != null) {
+                            if (!permissionList.retrievePermissionLevelList().contains(permission)) {
+                                Validator.getErrorList().add("Permission not referencing to Permission List");
+                            }
+
+                            if (userType.equals("eventleader") && permission.equals("Team manager")) {
+                                Validator.getErrorList().add("Event leader permission cannot assign a team manager permission");
+                            }
+                        }
+
                         String remarks = Validator.containsBlankField(jobject.get("remarks"));
                         Date dateObsolete = Validator.isDateValid(jobject.get("date_obsolete"), "date obsolete");
 
@@ -148,7 +161,7 @@ public class UpdateTeamJoin extends HttpServlet {
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;
-                            }                           
+                            }
 
                         } else {
                             json.addProperty("message", "failure to update into system");
