@@ -221,16 +221,19 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                                     jsonContactObj.addProperty("canDelete", true);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
+                                                                    break;
                                                                 } else if (permision != null && permision.equals("Associate")) {
                                                                     jsonContactObj.addProperty("canEdit", false);
                                                                     jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
+                                                                    break;
                                                                 } else if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")){
                                                                     jsonContactObj.addProperty("canEdit", false);
                                                                     jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
+                                                                    break;
                                                                 }
                                                             }
                                                         }
@@ -278,6 +281,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
 
                                                     if (matchTeam) {
                                                         eventArray.add(jsonContactObj);
+                                                        break;
                                                         //hmTeamPermission.clear();
                                                     }
                                                 }

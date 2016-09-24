@@ -245,6 +245,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                                         jsonContactObj.addProperty("canJoin", true);
                                                                     }
                                                                     marked = true;
+                                                                    break;
                                                                 } else if (permision != null && permision.equals("Associate")) {
                                                                     if (canJoinDisable) {
                                                                         jsonContactObj.addProperty("canJoin", false);
@@ -252,11 +253,13 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                                         jsonContactObj.addProperty("canJoin", true);
                                                                     }
                                                                     marked = true;
+                                                                    break;
                                                                 } else if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")){
                                                                     jsonContactObj.addProperty("canEdit", false);
                                                                     jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
+                                                                    break;
                                                                 }
                                                             }
                                                         }
@@ -302,6 +305,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
 
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
+                                                    break;
                                                     //hmTeamPermission.clear();
                                                 }
                                             }

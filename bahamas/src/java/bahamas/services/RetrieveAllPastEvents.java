@@ -180,11 +180,13 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                                                 jsonContactObj.addProperty("canDelete", true);
                                                                 jsonContactObj.addProperty("canJoin", true);
                                                                 marked = true;
+                                                                break;
                                                             } else if (permision.equals("Associate")) {
                                                                 jsonContactObj.addProperty("canEdit", false);
                                                                 jsonContactObj.addProperty("canDelete", false);
                                                                 jsonContactObj.addProperty("canJoin", true);
                                                                 marked = true;
+                                                                break;
                                                             }
                                                         }
                                                     }
@@ -233,6 +235,7 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
                                                     //hmTeamPermission.clear();
+                                                    break;
                                                 }
                                             }
                                         } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {

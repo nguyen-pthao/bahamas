@@ -276,6 +276,7 @@ public class RetrievePastParticipants extends HttpServlet {
                                                 }
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
+                                                    break;
                                                     //hmTeamPermission.clear();
                                                 }
                                             }
