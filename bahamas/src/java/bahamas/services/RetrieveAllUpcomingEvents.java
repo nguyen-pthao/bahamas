@@ -112,7 +112,8 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                         for (TeamJoin teamJoin : teamJoinList) {
                             if(contact.isIsNovice()){
                                 hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
-                            } else if(teamJoin.getPermission() != null){
+                            //} else if(teamJoin.getPermission() != null){
+                            } else {
                                 hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
                             }
                         }
@@ -215,12 +216,17 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                             Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
                                                             if (matchTeam && !marked) {
                                                                 String permision = hmTeamPermission.get(eventTeam);
-                                                                if (permision.equals("Event leader")) {
+                                                                if (permision != null && permision.equals("Event leader")) {
                                                                     jsonContactObj.addProperty("canEdit", true);
                                                                     jsonContactObj.addProperty("canDelete", true);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
-                                                                } else if (permision.equals("Associate")) {
+                                                                } else if (permision != null && permision.equals("Associate")) {
+                                                                    jsonContactObj.addProperty("canEdit", false);
+                                                                    jsonContactObj.addProperty("canDelete", false);
+                                                                    jsonContactObj.addProperty("canJoin", true);
+                                                                    marked = true;
+                                                                } else if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")){
                                                                     jsonContactObj.addProperty("canEdit", false);
                                                                     jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
@@ -263,7 +269,12 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 Iterator iter = eventTeamsHM.keySet().iterator();
                                                 while (iter.hasNext()) {
                                                     String eventTeam = (String) iter.next();
-                                                    Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                    Boolean matchTeam = false;
+                                                    if(hmTeamPermission.containsKey(eventTeam)){
+                                                        if(hmTeamPermission.get(eventTeam) != null){
+                                                            matchTeam = true;
+                                                        }
+                                                    }
 
                                                     if (matchTeam) {
                                                         eventArray.add(jsonContactObj);

@@ -122,9 +122,7 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                     obsDate = date.parse(date.format(teamJoin.getDateObsolete()));
                                 }
                                 if (obsDate == null || obsDate.equals(currentDate) || obsDate.after(currentDate)) {
-                                    if(teamJoin.getPermission() != null){
-                                        hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
-                                    }
+                                    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
                                 }
                             }
                         } catch (ParseException ex) {
@@ -240,19 +238,24 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                                             Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
                                                             if (matchTeam && !marked) {
                                                                 String permision = hmTeamPermission.get(eventTeam);
-                                                                if (permision.equals("Event leader")) {
+                                                                if (permision != null && permision.equals("Event leader")) {
                                                                     if (canJoinDisable) {
                                                                         jsonContactObj.addProperty("canJoin", false);
                                                                     } else {
                                                                         jsonContactObj.addProperty("canJoin", true);
                                                                     }
                                                                     marked = true;
-                                                                } else if (permision.equals("Associate")) {
+                                                                } else if (permision != null && permision.equals("Associate")) {
                                                                     if (canJoinDisable) {
                                                                         jsonContactObj.addProperty("canJoin", false);
                                                                     } else {
                                                                         jsonContactObj.addProperty("canJoin", true);
                                                                     }
+                                                                    marked = true;
+                                                                } else if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")){
+                                                                    jsonContactObj.addProperty("canEdit", false);
+                                                                    jsonContactObj.addProperty("canDelete", false);
+                                                                    jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
                                                                 }
                                                             }
@@ -290,7 +293,12 @@ public class RetrieveUpcomingParticipants extends HttpServlet {
                                             Iterator iter = eventTeamsHM.keySet().iterator();
                                             while (iter.hasNext()) {
                                                 String eventTeam = (String) iter.next();
-                                                Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                Boolean matchTeam = false;
+                                                if(hmTeamPermission.containsKey(eventTeam)){
+                                                    if(hmTeamPermission.get(eventTeam) != null){
+                                                        matchTeam = true;
+                                                    }
+                                                }
 
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);

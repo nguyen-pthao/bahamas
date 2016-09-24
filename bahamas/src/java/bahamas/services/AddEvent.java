@@ -20,6 +20,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
+import com.google.ical.compat.javautil.DateIterable;
 import com.google.ical.compat.javautil.DateIteratorFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -362,6 +363,8 @@ public class AddEvent extends HttpServlet {
                                     cal.set(Calendar.MINUTE, now.get(Calendar.MINUTE));
                                     cal.set(Calendar.SECOND, now.get(Calendar.SECOND));
                                     Date eventStartDateTemp = cal.getTime();
+                                    
+                                    DateIteratorFactory.createDateIterable(ical, eventStartDateTemp, TimeZone.getDefault(), true);
                         
                                     for (Date dateTemp : DateIteratorFactory.createDateIterable(ical, eventStartDateTemp, TimeZone.getDefault(), true)) {
                                         Date dateTempNew = new Date(dateTemp.getTime() + 28800000);
@@ -390,8 +393,11 @@ public class AddEvent extends HttpServlet {
                             }
 
                             int eventID = EventDAO.addEvent(event, contact.getName());
+                            ArrayList<Integer> newEventList = new ArrayList<Integer>();
+                            if(eventID > 0){
+                                newEventList.add(eventID);
+                            }
                             newEventIdJsonArray.add(new JsonPrimitive("" + eventID));
-                            
                             if (!mode.isEmpty()) {
                                 int max = 20;
                                 if(repeatingEventStartDate.size() <= 20){
@@ -399,12 +405,16 @@ public class AddEvent extends HttpServlet {
                                 }
                                 for (int i = 1; i < max; i++) {
                                     Event eventTemp = new Event(repeatingEventStartDate.get(i), repeatingEventEndDate.get(i), eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, Integer.parseInt(minimumParticipation), sendReminder, eventClass, eventLocation, eventLat, eventLng, eventStatus, remarks, contact.getContactId(), reminderEmail, 0);
-                                    newEventIdJsonArray.add(new JsonPrimitive("" + EventDAO.addEvent(eventTemp, contact.getName())));
+                                    int tempid = EventDAO.addEvent(eventTemp, contact.getName());
+                                    newEventList.add(tempid);
+                                    newEventIdJsonArray.add(new JsonPrimitive("" + tempid));
                                 }   
                             }
 
-                            if (eventID > 0) {
-                                AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventID);
+                            if (!newEventList.isEmpty()) {
+                                for(int tempEventId : newEventList){
+                                    AuditLogDAO.insertAuditLog(username, "ADD EVENT", "Add event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + tempEventId);
+                                }
                                 json.addProperty("message", "success");
                                 json.addProperty("event_id", Integer.toString(eventID));
                                 json.add("event_id_list", newEventIdJsonArray);

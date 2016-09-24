@@ -181,7 +181,7 @@ public class RetrievePastParticipants extends HttpServlet {
 
                                         if (eventRoleAssignmentList != null) {
                                             //boolean canJoinDisable = false;
-                                            if (eventRoleAssignmentList != null && eventRoleAssignmentList.size() != 0) {
+                                            if (eventRoleAssignmentList.size() != 0) {
 
                                                 for (EventRoleAssignment eventRoleAssignment : eventRoleAssignmentList) {
                                                     EventParticipant eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(eventRoleAssignment.getRoleId(), contact.getContactId());
@@ -246,50 +246,6 @@ public class RetrievePastParticipants extends HttpServlet {
                                                 }
                                             }
                                             jsonContactObj.add("roles", eventRoleJsonArray);
-                                            /*
-                                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
-                                                if (canJoinDisable) {
-                                                    jsonContactObj.addProperty("canJoin", false);
-                                                } else {
-                                                    jsonContactObj.addProperty("canJoin", true);
-                                                }
-                                            } else {
-                                                if (eventAffiliation != null) {
-                                                    ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
-                                                    if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
-                                                        boolean marked = false;
-                                                        for (String eventTeam : teamsInEvent) {
-                                                            Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
-                                                            if (matchTeam && !marked) {
-                                                                String permision = hmTeamPermission.get(eventTeam);
-                                                                if (permision.equals("Event leader")) {
-                                                                    if (canJoinDisable) {
-                                                                        jsonContactObj.addProperty("canJoin", false);
-                                                                    } else {
-                                                                        jsonContactObj.addProperty("canJoin", true);
-                                                                    }
-                                                                    marked = true;
-                                                                } else if (permision.equals("Associate")) {
-                                                                    if (canJoinDisable) {
-                                                                        jsonContactObj.addProperty("canJoin", false);
-                                                                    } else {
-                                                                        jsonContactObj.addProperty("canJoin", true);
-                                                                    }
-                                                                    marked = true;
-                                                                }
-                                                            }
-                                                        }
-                                                        if (!marked) {
-                                                            jsonContactObj.addProperty("canJoin", false);
-                                                        }
-                                                    } else {
-                                                        jsonContactObj.addProperty("canJoin", false);
-                                                    }
-                                                } else {
-                                                    jsonContactObj.addProperty("canJoin", false);
-                                                }
-                                            }
-                                            */
                                         } else {
                                             jsonContactObj.addProperty("roles", "");
                                         }
@@ -312,8 +268,12 @@ public class RetrievePastParticipants extends HttpServlet {
                                             Iterator iter = eventTeamsHM.keySet().iterator();
                                             while (iter.hasNext()) {
                                                 String eventTeam = (String) iter.next();
-                                                Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
-                                                
+                                                Boolean matchTeam = false;
+                                                if(hmTeamPermission.containsKey(eventTeam)){
+                                                    if(hmTeamPermission.get(eventTeam) != null){
+                                                        matchTeam = true;
+                                                    }
+                                                }
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
                                                     //hmTeamPermission.clear();

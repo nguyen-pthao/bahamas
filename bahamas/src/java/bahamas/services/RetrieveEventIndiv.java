@@ -365,12 +365,12 @@ public class RetrieveEventIndiv extends HttpServlet {
                                             Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
                                             if (matchTeam && !marked) {
                                                 String permision = hmTeamPermission.get(eventTeam);
-                                                if (permision == null) {
+                                                if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")) {
                                                     json.addProperty("canEdit", false);
                                                     json.addProperty("canDelete", false);
                                                     json.addProperty("canJoin", true);
                                                     marked = true;
-                                                } else if (permision.equals("Event leader")) {
+                                                } else if (permision != null && permision.equals("Event leader")) {
                                                     json.addProperty("canEdit", true);
                                                     json.addProperty("canDelete", true);
                                                     if (canJoinDisable) {
@@ -379,7 +379,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         json.addProperty("canJoin", true);
                                                     }
                                                     marked = true;
-                                                } else if (permision.equals("Associate")) {
+                                                } else if (permision != null && permision.equals("Associate")) {
                                                     json.addProperty("canEdit", false);
                                                     json.addProperty("canDelete", false);
                                                     if (canJoinDisable) {

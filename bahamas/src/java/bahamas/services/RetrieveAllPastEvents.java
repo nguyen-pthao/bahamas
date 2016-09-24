@@ -223,7 +223,12 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                             Iterator iter = eventTeamsHM.keySet().iterator();
                                             while (iter.hasNext()) {
                                                 String eventTeam = (String) iter.next();
-                                                Boolean matchTeam = hmTeamPermission.containsKey(eventTeam);
+                                                Boolean matchTeam = false;
+                                                if(hmTeamPermission.containsKey(eventTeam)){
+                                                    if(hmTeamPermission.get(eventTeam) != null){
+                                                        matchTeam = true;
+                                                    }
+                                                }
 
                                                 if (matchTeam) {
                                                     eventArray.add(jsonContactObj);
