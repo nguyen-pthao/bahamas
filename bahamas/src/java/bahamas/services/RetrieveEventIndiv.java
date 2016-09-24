@@ -224,7 +224,11 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         if (contactTemp.getUsername() != null) {
                                                             tempUsername = contactTemp.getUsername();
                                                         }
-                                                        role.addProperty("participant_name", (contactTemp.getName() + "(" + tempUsername + ")"));
+                                                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || contactTemp.getContactId() == contact.getContactId()) {
+                                                            role.addProperty("participant_name", (contactTemp.getName() + "(" + tempUsername + ")"));
+                                                        } else {
+                                                            role.addProperty("participant_name", (contactTemp.getName()));
+                                                        }
                                                         role.addProperty("canRemove", true);
                                                         role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {

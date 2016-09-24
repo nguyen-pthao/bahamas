@@ -35,6 +35,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -114,14 +115,40 @@ public class RetrieveContactsInTeam extends HttpServlet {
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
                 //ContactDAO contactDAO = new ContactDAO();
-                ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
+                ArrayList<Contact> contactList = null;
 
-                if (!contactList.isEmpty() && !contact.isIsNovice()) {
+                //if (!contactList.isEmpty() && !contact.isIsNovice()) {
+                if (!contact.isIsNovice()) {
 
                     json.addProperty("message", "success");
 
                     if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
-                        JsonArray contactArray = retrieveAll(contactList, eventId);
+                        boolean containsTeamOther = false;
+
+                        EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
+                        ArrayList<String> teamListInEvent = null;
+                        if (eventAffiliation != null) {
+                            teamListInEvent = eventAffiliation.getTeamArray();
+                        }
+
+                        for (String tempTeam : teamListInEvent) {
+                            if (tempTeam.equalsIgnoreCase("other")) {
+                                containsTeamOther = true;
+                                break;
+                            }
+                        }
+                        HashMap<Integer, Contact> contactidContactHM = new HashMap<Integer, Contact>();
+                        ArrayList<Contact> contactListWithEmailPhone = contactDAO.retrieveAllContactWithEmailPhone();
+                        for(Contact contactTemp:contactListWithEmailPhone){
+                            contactidContactHM.put(contactTemp.getContactId(), contactTemp);
+                        }
+                        if (containsTeamOther) {
+                            contactList = contactDAO.retrieveAllContact();
+                        } else {
+                            contactList = contactDAO.retrieveAllContactInTeams(teamListInEvent);
+                        }
+
+                        JsonArray contactArray = retrieveAll(contactList, eventId, teamListInEvent, contactidContactHM);
                         json.add("contact", contactArray);
                         out.println(gson.toJson(json));
                         return;
@@ -139,48 +166,19 @@ public class RetrieveContactsInTeam extends HttpServlet {
         }
     }
 
-    private static JsonArray retrieveAll(ArrayList<Contact> contactList, String eventId) {
+    private static JsonArray retrieveAll(ArrayList<Contact> contactList, String eventId, ArrayList<String> teamListInEvent, HashMap<Integer, Contact> contactidContactHM) {
 
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
+        ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(Integer.parseInt(eventId));
+
 
         for (Contact c : contactList) {
 
-            ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(c.getContactId());
-            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(Integer.parseInt(eventId));
-            ArrayList<String> teamListInEvent = null;
-            if (eventAffiliation != null) {
-                teamListInEvent = eventAffiliation.getTeamArray();
-            }
-            ArrayList<EventRoleAssignment> eventRoleAssignmentList = EventRoleAssignmentDAO.retrieveEventRoleById(Integer.parseInt(eventId));
 
-            ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
-
-            boolean teamMatch = false;
             boolean hasJoinedRole = false;
-            boolean containsTeamOther = false;
-
-            if (teamListInEvent != null && teamJoinList != null) {
-                Iterator iter1 = teamJoinList.iterator();
-                while (iter1.hasNext()) {
-                    TeamJoin teamJoin = (TeamJoin) iter1.next();
-                    String teamName = teamJoin.getTeamName();
-                    Iterator iter2 = teamListInEvent.iterator();
-                    while (iter2.hasNext()) {
-                        String teamInEvent = (String) iter2.next();
-                        if (teamName.equals(teamInEvent)) {
-                            teamMatch = true;
-                            break;
-                        }
-                    }
-                }
-                
-                for(String tempTeam : teamListInEvent){
-                    if (tempTeam.equalsIgnoreCase("other")) {
-                        containsTeamOther = true;
-                    }
-                }
-
+ 
+            if (eventRoleAssignmentList != null) {
                 Iterator iter3 = eventRoleAssignmentList.iterator();
                 while (iter3.hasNext()) {
                     EventRoleAssignment eventRoleAssignment = (EventRoleAssignment) iter3.next();
@@ -190,82 +188,24 @@ public class RetrieveContactsInTeam extends HttpServlet {
                         break;
                     }
                 }
-            } else {
-                return contactArray;
             }
-            if ((containsTeamOther || teamMatch) && !hasJoinedRole && teamListInEvent != null) {
+            //} else {
+            //    return contactArray;
+            //}
+            //if ((containsTeamOther || teamMatch) && !hasJoinedRole && teamListInEvent != null) {
+            if (!hasJoinedRole && teamListInEvent != null) {
 
                 String emailStr = "";
                 String name = c.getName();
-                String altName = c.getAltName();
-                String contactType = c.getContactType();
-                String explainIfOther = c.getExplainIfOther();
-                String profession = c.getProfession();
-                String jobTitle = c.getJobTitle();
-                String nric = c.getNric();
-                String gender = c.getGender();
-                String nationality = c.getNationality();
-                String remarks = c.getRemarks();
-
+                
                 if (name == null) {
                     name = "";
                 }
-                if (altName == null) {
-                    altName = "";
-                }
-                if (contactType == null) {
-                    contactType = "";
-                }
-                if (explainIfOther == null) {
-                    explainIfOther = "";
-                }
-                if (profession == null) {
-                    profession = "";
-                }
-                if (jobTitle == null) {
-                    jobTitle = "";
-                }
-                if (nric == null) {
-                    nric = "";
-                }
-                if (gender == null) {
-                    gender = "";
-                }
-                if (nationality == null) {
-                    nationality = "";
-                }
-                if (remarks == null) {
-                    remarks = "";
-                }
-
-                if (!emailList.isEmpty()) {
-
-                    try {
-                        Date todayDate = new Date();
-                        Date todayDateWithoutTime = sdf.parse(sdf.format(todayDate));
-                        ArrayList<String> emailDisplayList = new ArrayList<String>();
-                        for (int i = 0; i < emailList.size(); i++) {
-                            Email email = emailList.get(i);
-                            Date ObsDateWithoutTime = null;
-                            if (email.getDateObsolete() != null) {
-                                ObsDateWithoutTime = sdf.parse(sdf.format(email.getDateObsolete()));
-                            }
-                            if (email.getDateObsolete() != null && !ObsDateWithoutTime.equals(todayDateWithoutTime) && !ObsDateWithoutTime.before(todayDateWithoutTime)) {
-                                emailDisplayList.add(email.getEmail());
-                            } else if (email.getDateObsolete() == null) {
-                                emailDisplayList.add(email.getEmail());
-                            }
-                        }
-                        if (!emailDisplayList.isEmpty()) {
-                            for (int i = 0; i < emailDisplayList.size() - 1; i++) {
-                                emailStr += emailDisplayList.get(i) + " | ";
-                            }
-                            emailStr += emailDisplayList.get(emailDisplayList.size() - 1);
-                        }
-
-                    } catch (ParseException ex) {
-                        Logger.getLogger(RetrieveContactsInTeam.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+ 
+                
+                Contact tempC = contactidContactHM.get(c.getContactId());
+                if (tempC.getEmailStrList() != null) {
+                    emailStr = tempC.getEmailStrList();
                 }
 
                 jsonContactObj = new JsonObject();

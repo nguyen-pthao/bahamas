@@ -165,6 +165,7 @@ public class AddTeamAffiliation extends HttpServlet {
 
                             HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
                             ContactDAO contactDAO = new ContactDAO();
+                            /*
                             ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
                             if (contactList != null && !contactList.isEmpty()) {
                                 Iterator iter = contactList.iterator();
@@ -181,6 +182,11 @@ public class AddTeamAffiliation extends HttpServlet {
                                         }
                                     }
                                 }
+                            }
+                            */
+                            ArrayList<Contact> contactList = contactDAO.retrieveAllContactInTeams(teamName);
+                            for(Contact tempContact : contactList){
+                                cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
                             }
 
                             for (int tempContactId : cidNamePairHM.keySet()) {
