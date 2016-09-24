@@ -282,7 +282,7 @@ public class RetrievePastParticipants extends HttpServlet {
                                             }
                                         } else if (!teamNameFilter.isEmpty() && eventTeamsHM.containsKey(teamNameFilter)) {
                                             eventArray.add(jsonContactObj);
-                                            hmTeamPermission.clear();
+                                            //hmTeamPermission.clear();
                                         }
                                     }
                                 } catch (ParseException ex) {
