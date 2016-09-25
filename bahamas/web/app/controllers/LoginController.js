@@ -3,8 +3,34 @@
 var app = angular.module('bahamas');
 
 app.controller('loginController',
-        ['$rootScope', '$scope', '$http', 'session', '$state', '$timeout', 'ngDialog', 'localStorageService', 'Idle',
-            function ($rootScope, $scope, $http, session, $state, $timeout, ngDialog, localStorageService, Idle) {
+        ['$rootScope', '$scope', '$http', 'session', '$state', 'ngDialog', 'Idle',
+            function ($rootScope, $scope, $http, session, $state, ngDialog, Idle) {
+
+//DETECT USER'S BROWSER               
+                // Opera 8.0+
+                //var isOpera = (!!window.opr && !!opr.addons) || !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+                // Firefox 1.0+
+                //var isFirefox = typeof InstallTrigger !== 'undefined';
+                // At least Safari 3+: "[object HTMLElementConstructor]"
+                //var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+                // Internet Explorer 6-11
+                //var isIE = /*@cc_on!@*/false || !!document.documentMode;
+                // Edge 20+
+                //var isEdge = !isIE && !!window.StyleMedia;
+                // Chrome 1+
+                //var isChrome = !!window.chrome && !!window.chrome.webstore;
+                // Blink engine detection
+                //var isBlink = (isChrome || isOpera) && !!window.CSS;
+                
+                if (!(!!window.chrome && !!window.chrome.webstore)) {                
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/changeBrowser.html',
+                        className: 'ngdialog-theme-default',
+                        scope: $scope
+                    });
+                }
+                
+                
                 $scope.error = false;
 //DEFINE AUTHORISED USER OBJECT
                 var authorisedUser = {
@@ -19,6 +45,7 @@ app.controller('loginController',
                     'username': '',
                     'password': ''
                 };
+                
 //LOGIN SERVICE
                 $scope.loginUser = function () {
                     var url = $rootScope.commonUrl + "/login";

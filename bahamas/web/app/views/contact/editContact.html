@@ -269,6 +269,12 @@ and open the template in the editor.
                                                 <input type="text" uib-datepicker-popup="{{format}}" ng-click="open()" ng-model="editContact['date_of_birth']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" class="form-control pull-right white-background" readonly>
                                             </div>
                                         </div>
+                                        <div class="col-md-offset-1 col-md-2">
+                                            <label>Send Notification</label>
+                                            <div class="resend-email">
+                                                <input type="checkbox" class="flat-red" ng-model="editContact.notification">
+                                            </div>
+                                        </div>
                                     </div>                      
                                     <div class="form-group col-md-12">
                                         <div class="col-md-12">
@@ -492,7 +498,6 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-3" ng-show="(isAdmin || isTeamManager) && email['is_verified'] == 'No'">
                                                     <label>Resend verification email</label>
-                                                    <br>
                                                     <label class="resend-email">
                                                         <input type="checkbox" ng-model="email['resend']" ng-click="resend()" class="flat-red" id="resendEmail">
                                                     </label>
@@ -517,6 +522,14 @@ and open the template in the editor.
                                                 </center>
                                             </div>
                                         </div>
+                                        <script>
+                                        $('document').ready(function(){
+                                            //Flat red color scheme for iCheck
+                                            $('input[type="checkbox"].flat-red').iCheck({
+                                                checkboxClass: 'icheckbox_flat-blue'
+                                            });        
+                                        });
+                                        </script>                        
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingEmail">
@@ -1679,7 +1692,7 @@ and open the template in the editor.
                                         </div>
                                     </div>
                                 </div>
-                                <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'true'">
+                                <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'true' && !addingPreference">
                                     <div class="box-header">
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewTeam()">
@@ -1735,7 +1748,7 @@ and open the template in the editor.
                                         </center>
                                     </div>
                                 </div>
-                                <div class="box-body hidden-box" ng-show="addingTeam && editMode == 'false'">
+                                <div class="box-body hidden-box" ng-show="addingTeam && (addingPreference || editMode == 'false')">
                                     <div class="box-header">
                                         <div class="box-tools pull-right">
                                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Close" ng-click="addNewTeam()">
@@ -1771,6 +1784,7 @@ and open the template in the editor.
                                 <div class='box-footer'>
                                     <center>
                                         <button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'true' && !addingTeam" ng-click="addNewTeam()">Add new team</button>
+                                        &nbsp;<button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'true' && !addingTeam" ng-click="addNewPreference()">Select team preference</button>
                                         <button type="submit" class="btn btn-warning uppercase" ng-show="editMode == 'false' && !addingTeam" ng-click="addNewTeam()">Select new team</button>
                                     </center>
                                 </div>
@@ -2634,12 +2648,12 @@ and open the template in the editor.
             $('window').on('popstate', function () {
                 $('#profilephoto').modal('hide');
             });
-            $('document').ready(function(){
-                //Flat red color scheme for iCheck
-                $('input[type="checkbox"].flat-red').iCheck({
-                    checkboxClass: 'icheckbox_flat-green'
-                });        
-            });
+//            $('document').ready(function(){
+//                //Flat red color scheme for iCheck
+//                $('input[type="checkbox"].flat-red').iCheck({
+//                    checkboxClass: 'icheckbox_flat-green'
+//                });        
+//            });
         </script>
     </body>
 </html>
