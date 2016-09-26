@@ -104,7 +104,7 @@ app.controller('viewContacts',
                         $scope.totalItems = $scope.allContactInfo.length;
 
                         $scope.currentPage = 1;
-                        $scope.itemsPerPage = $scope.allContactInfo.length;
+                        $scope.itemsPerPage = 100;
                         $scope.allFilteredContacts = $scope.allContactInfo;
                         $scope.isAll = false;
                         $scope.itemsPerPageChanged = function () {
