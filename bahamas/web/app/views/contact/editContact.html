@@ -379,7 +379,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="phone['country_code'] == null || !(phone['remarks'].length <= 1000 && phone['remarks'].length > - 1)" ng-click="editThePhone($event, phone)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteThePhone($event, phone)">Delete phone</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteThePhone($event, phone)">Delete phone</button>
                                                     <br>
                                                     <span ng-bind="resultPhone.message" ng-show="resultPhone.status && (resultPhone['phone_number'] == phone['phone_number'])"></span>
                                                 </center>
@@ -516,7 +516,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(email['remarks'].length <= 1000 && email['remarks'].length > - 1)" ng-click="editTheEmail($event, email)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheEmail($event, email)">Delete email</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheEmail($event, email)">Delete email</button>
                                                     <br>
                                                     <span ng-bind="resultEmail.message" ng-show="resultEmail.status && (resultEmail['email'] == email['email'])"></span>
                                                 </center>
@@ -662,7 +662,7 @@ and open the template in the editor.
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled=" !(address['remarks'].length <= 1000 && address['remarks'].length > - 1)
                                                                 || !(address.zipcode.length <= 20 && address.zipcode.length > - 1)" ng-click="editTheAddress($event, address)">Save changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAddress($event, address)">Delete address</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheAddress($event, address)">Delete address</button>
                                                     <br>
                                                     <span ng-bind="resultAddress.message" ng-show="resultAddress.status && (resultAddress['address'] == address['address'])"></span>
                                                 </center>
@@ -879,7 +879,7 @@ and open the template in the editor.
                                                                         || (!decimalRegex.test(membership['subscription_amount']) && membership['subscription_amount'].length > 1)"
                                                             ng-click="editTheMembership($event, membership)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheMembership($event, membership)">Delete membership</button>
                                                     <br>
                                                     <span ng-bind="resultMembership.message" ng-show="resultMembership.status && (resultMembership['membership_id'] == membership['membership_id'])"></span>
                                                 </center>
@@ -1099,7 +1099,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="officeHeld['start_office'] == null || officeHeld['end_office'] == null || !(officeHeld['remarks'].length <= 1000 && officeHeld['remarks'].length > - 1)" ng-click="editTheOffice($event, officeHeld)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheOffice($event, officeHeld)">Delete office</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheOffice($event, officeHeld)">Delete office</button>
                                                     <br>
                                                     <span ng-bind="resultOffice.message" ng-show="resultOffice.status && (resultOffice['office_held'] == officeHeld['office_held'])"></span>
                                                 </center>
@@ -1349,7 +1349,7 @@ and open the template in the editor.
                                                                 || (!decimalRegex.test(donation['subtotal1']) && donation['subtotal1'].length > 1) || (!decimalRegex.test(donation['donation_amount']) && donation['donation_amount'].length > 1)"
                                                             ng-click="editTheDonation($event, donation)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheDonation($event, donation)">Delete donation</button> 
                                                     <br>
                                                     <span ng-bind="resultDonation.message" ng-show="resultDonation.status && (resultDonation['donation_id'] == donation['donation_id'])"></span>
                                                 </center>
@@ -1609,7 +1609,7 @@ and open the template in the editor.
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="team['permission'] == '' || !(team['remarks'].length <= 1000 && team['remarks'].length > - 1) || !(team['sub_team'].length <= 50 && team['sub_team'].length > - 1) || !(team['explain_if_others'].length <= 200 && team['explain_if_others'].length > - 1)" 
                                                             ng-click="editTheTeam($event, team)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheTeam($event, team)">Delete team</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheTeam($event, team)">Delete team</button>
                                                     <br>
                                                     <span ng-bind="resultTeam.message" ng-show="resultTeam.status && (resultTeam['team_name'] == team['team_name'])"></span>
                                                 </center>
@@ -1892,7 +1892,7 @@ and open the template in the editor.
                                                         Save Changes
                                                     </button>
                                                     &nbsp;
-                                                    <button class="btn btn-link uppercase bold" ng-click="deleteTheTraining($event, training)">Delete training</button>
+                                                    <button class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheTraining($event, training)">Delete training</button>
                                                     <br>
                                                     <span ng-bind="resultTraining.message" ng-show="resultTraining.status && (resultTraining['training_id'] == training['training_id'])"></span> 
                                                 </center>
@@ -2079,7 +2079,7 @@ and open the template in the editor.
                                                                         || !(appreciation['remarks'].length <= 1000 && appreciation['remarks'].length > - 1)" 
                                                             ng-click="editTheAppreciation($event, appreciation)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheAppreciation($event, appreciation)">Delete appreciation</button>
                                                     <br>
                                                     <span ng-bind="resultAppreciation.message" ng-show="resultAppreciation.status && (resultAppreciation['appreciation_id'] == appreciation['appreciation_id'])"></span>
                                                 </center>
@@ -2250,7 +2250,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(proxy['proxy_standing'].length <= 500 && proxy['proxy_standing'].length > - 1) || !(proxy['remarks'].length <= 1000 && proxy['remarks'].length > - 1)" ng-click="editTheProxy($event, proxy)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheProxy($event, proxy)">Delete proxy</button>
                                                     <br>
                                                     <span ng-bind="resultProxy.message" ng-show="resultProxy.status && (resultProxy['proxy_id'] == proxy['proxy_id'])"></span>
                                                 </center>
@@ -2397,7 +2397,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(language['explain_if_other'].length <= 200 && language['explain_if_other'].length > - 1) || !(language['remarks'].length <= 1000 && language['remarks'].length > - 1)" ng-click="editTheLanguage($event, language)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheLanguage($event, language)">Delete language</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheLanguage($event, language)">Delete language</button>
                                                     <br>
                                                     <span ng-bind="resultLanguage.message" ng-show="resultLanguage.status && (resultLanguage['language_name'] == language['language_name'])"></span>
                                                 </center>
@@ -2540,7 +2540,7 @@ and open the template in the editor.
                                                 <center>
                                                     <button type="submit" class="btn btn-link uppercase bold" ng-disabled="!(skill['explain_if_other'].length <= 200 && skill['explain_if_other'].length > - 1) || !(skill['remarks'].length <= 1000 && skill['remarks'].length > - 1)" ng-click="editTheSkill($event, skill)">Save Changes</button>
                                                     &nbsp;
-                                                    <button type="submit" class="btn btn-link uppercase bold" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
+                                                    <button type="submit" class="btn btn-link uppercase bold" ng-show="isAdmin && editMode == 'true'" ng-click="deleteTheSkill($event, skill)">Delete skill</button>
                                                     <br>
                                                     <span ng-bind="resultSkill.message" ng-show="resultSkill.status && resultSkill['skill_name'] == skill['skill_name']"></span>
                                                 </center>
