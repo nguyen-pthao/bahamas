@@ -31,8 +31,8 @@
             <div class="col-md-12" style="padding:0px;">
                 <div class="col-md-6">
                     <label>Ends:</label><br>
-                    <input type="radio" ng-model="$parent.endDaily" value="isOccurence" ng-change="endDailyChanged()">&nbsp; After <input type="number" name="dailyOccurence" ng-pattern="regex" ng-disabled="endDaily != 'isOccurence'" max="20" ng-model="newEvent['repeat']['end_occurence_daily']" style="width: 4em"/> occurrences<br>
-                    <input type="radio" ng-model="$parent.endDaily" value="isOn" ng-change="endDailyChanged()">&nbsp; On <input type="text" ng-disabled="endDaily != 'isOn'" ng-click="openRepeatDaily()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatDaily" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_daily']" maxlength="20" size="20"/>
+                    <input icheck-blue type="radio" ng-model="$parent.endDaily" value="isOccurence" ng-change="endDailyChanged()">&nbsp; After <input type="number" name="dailyOccurence" ng-pattern="regex" ng-disabled="endDaily != 'isOccurence'" max="20" ng-model="newEvent['repeat']['end_occurence_daily']" style="width: 4em"/> occurrences<br>
+                    <input icheck-blue type="radio" ng-model="$parent.endDaily" value="isOn" ng-change="endDailyChanged()">&nbsp; On <input type="text" ng-disabled="endDaily != 'isOn'" ng-click="openRepeatDaily()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatDaily" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_daily']" maxlength="20" size="20"/>
                     <span ng-show="repeatForm.dailyOccurence.$invalid && !repeatForm.dailyOccurence.$error.max" class='error'>Please enter a valid integer.</span>
                     <span ng-show="repeatForm.dailyOccurence.$error.max" class='error'>Maximum of 20 occurrences allowed.</span>
                 </div>
@@ -66,9 +66,9 @@
             <div class="col-md-12">
                 <div class="col-md-6" style="padding-left: 0;">
                     <label>Ends:</label><br>
-                    <input icheck-grey type="radio" name="endWeek" value="isOccurence" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; After <input type="number" name="weeklyOccurence" ng-pattern="regex" max="20" ng-disabled="endWeekly != 'isOccurence'" ng-model="newEvent['repeat']['end_occurence_weekly']" style="width: 4em"/> occurrences
-                    <br><br>
-                    <input icheck-grey type="radio" name="endWeek" value="isOn" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; On <input type="text" ng-disabled="endWeekly != 'isOn'" ng-click="openRepeatWeekly()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatWeekly" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_weekly']" maxlength="20" size="20"/>
+                    <input icheck-blue type="radio" name="endWeek" value="isOccurence" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; After <input type="number" name="weeklyOccurence" ng-pattern="regex" max="20" ng-disabled="endWeekly != 'isOccurence'" ng-model="newEvent['repeat']['end_occurence_weekly']" style="width: 4em"/> occurrences
+                    <br>
+                    <input icheck-blue type="radio" name="endWeek" value="isOn" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; On <input type="text" ng-disabled="endWeekly != 'isOn'" ng-click="openRepeatWeekly()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatWeekly" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_weekly']" maxlength="20" size="20"/>
                     <span ng-show="repeatForm.weeklyOccurence.$invalid && !repeatForm.weeklyOccurence.$error.max" class='error'>Please enter a valid integer.</span>
                     <span ng-show="repeatForm.weeklyOccurence.$error.max" class='error'>Maximum of 20 occurrences allowed.</span>
                 </div>
@@ -85,8 +85,8 @@
             </div>
             <div class="col-md-12" style="padding-top:10px;">
                 <label>Repeat by:</label>
-                <input type="radio" name="rb" value="day of the month" ng-model="newEvent['repeat']['repeat_by']" checked> day of the month
-                <input type="radio" name="rb" value="day of the week" ng-model="newEvent['repeat']['repeat_by']"> day of the week
+                <input icheck-blue type="radio" name="rb" value="day of the month" ng-model="newEvent['repeat']['repeat_by']" checked> day of the month
+                <input icheck-blue type="radio" name="rb" value="day of the week" ng-model="newEvent['repeat']['repeat_by']"> day of the week
             </div>
             <div class="col-md-12" style="padding:0px;">
                 <div class='col-md-4'>
@@ -97,8 +97,8 @@
             <div class="col-md-12" style="padding:0px;">
                 <div class="col-md-6">
                     <label>Ends:</label><br>
-                    <input type="radio" name="endMonth" value="isOccurence" ng-model="$parent.endMonthly" ng-change="endMonthlyChanged()">&nbsp; After <input type="number" name="monthlyOccurence" ng-pattern="regex" ng-disabled="endMonthly != 'isOccurence'" max="20" ng-model="newEvent['repeat']['end_occurence_monthly']" style="width: 4em"/> occurrences<br>
-                    <input type="radio" name="endMonth" value="isOn" ng-model="$parent.endMonthly" ng-change="endMonthlyChanged()">&nbsp; On <input type="text" ng-disabled="endMonthly != 'isOn'" ng-click="openRepeatMonthly()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatMonthly" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_monthly']" maxlength="20" size="20"/>
+                    <input icheck-blue type="radio" name="endMonth" value="isOccurence" ng-model="$parent.endMonthly" ng-change="endMonthlyChanged()">&nbsp; After <input type="number" name="monthlyOccurence" ng-pattern="regex" ng-disabled="endMonthly != 'isOccurence'" max="20" ng-model="newEvent['repeat']['end_occurence_monthly']" style="width: 4em"/> occurrences<br>
+                    <input icheck-blue type="radio" name="endMonth" value="isOn" ng-model="$parent.endMonthly" ng-change="endMonthlyChanged()">&nbsp; On <input type="text" ng-disabled="endMonthly != 'isOn'" ng-click="openRepeatMonthly()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatMonthly" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_monthly']" maxlength="20" size="20"/>
                     <span ng-show="repeatForm.monthlyOccurence.$invalid && !repeatForm.monthlyOccurence.$error.max" class='error'>Please enter a valid integer.</span>
                     <span ng-show="repeatForm.monthlyOccurence.$error.max" class='error'>Maximum of 20 occurrences allowed.</span>
                 </div>
@@ -107,6 +107,9 @@
     </div>
 </div>
 <div class="modal-footer">
+    <div ng-if="newEvent['repeat']['mode'] == ''">
+        <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+    </div>
     <div ng-if="newEvent['repeat']['mode'] == 'Daily'">
         <button class="btn btn-primary" type="button" ng-click="ok()" ng-disabled="(endDaily == 'isOccurence' && newEvent['repeat']['end_occurence_daily'] == '') || (endDaily == 'isOn' && newEvent['repeat']['end_on_daily'] == '') || repeatForm.dailyOccurence.$invalid">Done</button>
         <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
