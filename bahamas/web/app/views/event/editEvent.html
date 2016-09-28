@@ -88,7 +88,10 @@ and open the template in the editor.
                                     </div>
                                     <div class="col-sm-6">
                                         <h4 class="bold">Send Reminder?&nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i></h4>
-                                        <input type="checkbox" ng-model="editEvent['send_reminder']"/>
+                                        <input icheck-blue type="checkbox" ng-model="editEvent['send_reminder']"/>
+                                        <div ng-show="verifiedEmail.length === 0">
+                                            <span class="error">You do not have any verified email.</span>
+                                        </div>
                                     </div>
                                     <div class="col-sm-6" ng-if="editEvent['send_reminder'] && eventInfo.isCreator" ng-init="retrieveContact()">
                                         <div ng-hide="verifiedEmail.length === 0">
@@ -97,9 +100,9 @@ and open the template in the editor.
                                                 <option ng-repeat="email in verifiedEmail">{{email}}</option>
                                             </select>
                                         </div>
-                                        <div ng-show="verifiedEmail.length === 0">
+<!--                                        <div ng-show="verifiedEmail.length === 0">
                                             <span class="error">You do not have any verified email.</span>
-                                        </div>
+                                        </div>-->
                                     </div>
                                     <div class="col-sm-6">
                                         <h4 class="bold">Min. Participation&nbsp;<i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Send an alert if min. participation is not met" popover-trigger="mouseenter"></i></h4>
@@ -140,7 +143,7 @@ and open the template in the editor.
                                 <div class="row col-sm-12">
                                     <div class="col-sm-6">
                                         <h4 class="bold">Add Google Maps?&nbsp;<i class="fa fa-question-circle" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i></h4>
-                                        <input type="checkbox" ng-model="showGmap"/>
+                                        <input icheck-blue type="checkbox" ng-model="showGmap"/>
                                     </div>
                                 </div>
                                 <div class='col-sm-12'>
