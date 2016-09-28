@@ -15,12 +15,12 @@ app.controller('EditEmail', ['$scope', 'session', 'ngDialog', '$timeout', 'dataS
         $scope.addNewEmail = function () {
             $scope.addingEmail = !$scope.addingEmail;
         };
-        
-        $scope.resend = function() {
-            $('input[type="checkbox"].flat-red').iCheck({
-                checkboxClass: 'icheckbox_flat-blue'
-            }); 
-        };
+//        
+//        $scope.resend = function() {
+//            $('input[type="checkbox"].flat-red').iCheck({
+//                checkboxClass: 'icheckbox_flat-blue'
+//            }); 
+//        };
         
         $scope.resultEmail = {
             email: '',

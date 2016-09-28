@@ -60,6 +60,172 @@ app.directive('onErrorSrc', function () {
     };
 });
 
+
+app.directive('icheckBlue', function($timeout, $parse) {
+    return {
+        require: 'ngModel',
+        link: function($scope, element, $attrs, ngModel) {
+            return $timeout(function() {
+                var value;
+                value = $attrs['value'];
+
+                $scope.$watch($attrs['ngModel'], function(newValue){
+                    $(element).iCheck('update');
+                });
+
+                return $(element).iCheck({
+                    checkboxClass: 'icheckbox_square-blue',
+                    radioClass: 'iradio_square-blue'
+
+                }).on('ifChanged', function(event) {
+                    if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                        $scope.$apply(function() {
+                            return ngModel.$setViewValue(event.target.checked);
+                        });
+                    }
+                    if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                        return $scope.$apply(function() {
+                            return ngModel.$setViewValue(value);
+                        });
+                    }
+                });
+            });
+        }
+    };
+});
+
+app.directive('icheckGreen', function($timeout, $parse) {
+    return {
+        require: 'ngModel',
+        link: function($scope, element, $attrs, ngModel) {
+            return $timeout(function() {
+                var value;
+                value = $attrs['value'];
+
+                $scope.$watch($attrs['ngModel'], function(newValue){
+                    $(element).iCheck('update');
+                });
+
+                return $(element).iCheck({
+                    checkboxClass: 'icheckbox_square-green',
+                    radioClass: 'iradio_square-green'
+
+                }).on('ifChanged', function(event) {
+                    if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                        $scope.$apply(function() {
+                            return ngModel.$setViewValue(event.target.checked);
+                        });
+                    }
+                    if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                        return $scope.$apply(function() {
+                            return ngModel.$setViewValue(value);
+                        });
+                    }
+                });
+            });
+        }
+    };
+});
+
+app.directive('icheckRed', function($timeout, $parse) {
+    return {
+        require: 'ngModel',
+        link: function($scope, element, $attrs, ngModel) {
+            return $timeout(function() {
+                var value;
+                value = $attrs['value'];
+
+                $scope.$watch($attrs['ngModel'], function(newValue){
+                    $(element).iCheck('update');
+                });
+
+                return $(element).iCheck({
+                    checkboxClass: 'icheckbox_square-red',
+                    radioClass: 'iradio_square-red'
+
+                }).on('ifChanged', function(event) {
+                    if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                        $scope.$apply(function() {
+                            return ngModel.$setViewValue(event.target.checked);
+                        });
+                    }
+                    if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                        return $scope.$apply(function() {
+                            return ngModel.$setViewValue(value);
+                        });
+                    }
+                });
+            });
+        }
+    };
+});
+
+app.directive('icheckPurple', function($timeout, $parse) {
+    return {
+        require: 'ngModel',
+        link: function($scope, element, $attrs, ngModel) {
+            return $timeout(function() {
+                var value;
+                value = $attrs['value'];
+
+                $scope.$watch($attrs['ngModel'], function(newValue){
+                    $(element).iCheck('update');
+                });
+
+                return $(element).iCheck({
+                    checkboxClass: 'icheckbox_square-purple',
+                    radioClass: 'iradio_square-purple'
+
+                }).on('ifChanged', function(event) {
+                    if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                        $scope.$apply(function() {
+                            return ngModel.$setViewValue(event.target.checked);
+                        });
+                    }
+                    if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                        return $scope.$apply(function() {
+                            return ngModel.$setViewValue(value);
+                        });
+                    }
+                });
+            });
+        }
+    };
+});
+
+app.directive('icheckGrey', function($timeout, $parse) {
+    return {
+        require: 'ngModel',
+        link: function($scope, element, $attrs, ngModel) {
+            return $timeout(function() {
+                var value;
+                value = $attrs['value'];
+
+                $scope.$watch($attrs['ngModel'], function(newValue){
+                    $(element).iCheck('update');
+                });
+
+                return $(element).iCheck({
+                    checkboxClass: 'icheckbox_square-grey',
+                    radioClass: 'iradio_square-grey'
+
+                }).on('ifChanged', function(event) {
+                    if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
+                        $scope.$apply(function() {
+                            return ngModel.$setViewValue(event.target.checked);
+                        });
+                    }
+                    if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
+                        return $scope.$apply(function() {
+                            return ngModel.$setViewValue(value);
+                        });
+                    }
+                });
+            });
+        }
+    };
+});
+
 app.controller('pageController',
         ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', 'Idle', 'dataSubmit', '$timeout', 'Upload',
             function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout, Upload) {

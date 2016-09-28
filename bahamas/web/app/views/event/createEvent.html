@@ -78,7 +78,7 @@ and open the template in the editor.
                                         <div class="col-md-3" style="padding:0px;">
                                             <label>Send Reminder</label>
                                             &nbsp;<i class="fa fa-question-circle" uib-popover="Send a reminder when event is approaching" popover-trigger="mouseenter"></i>
-                                            &nbsp;<input type="checkbox" ng-model="newEvent['send_reminder']"/>
+                                            &nbsp;<input icheck-green type="checkbox" ng-model="newEvent['send_reminder']"/>
                                         </div>
                                         <div class="col-md-5" ng-show="newEvent['send_reminder']" ng-init="retrieveContact()">
                                             <div ng-hide="verifiedEmail.length===0">
@@ -163,7 +163,7 @@ and open the template in the editor.
                                     </div>
                                     <div>
                                         <label>Add Google Maps</label><i class="fa fa-question-circle" style="margin-left:3px;" uib-popover="Search location below to add a marker" popover-trigger="mouseenter"></i>
-                                        &nbsp;<input type="checkbox" ng-model="showGoogleMaps"/>
+                                        &nbsp;<input icheck-green type="checkbox" ng-model="showGoogleMaps"/>
                                     </div>
                                     <div class="form-group col-md-12" style="padding:0px;">
                                         <h4 class="bold">Remarks</h4>

@@ -48,26 +48,27 @@
                 </div>
             </div>
             <div class="col-md-12" style="padding-top:10px;">
-                <label>Repeat on:</label>
-                <input type="checkbox" ng-model="daysChosen['Su']" value="Su"/>Sun&nbsp;
-                <input type="checkbox" ng-model="daysChosen['Mo']" value="Mo"/>Mon&nbsp;
-                <input type="checkbox" ng-model="daysChosen['Tu']" value="Tu"/>Tue&nbsp;
-                <input type="checkbox" ng-model="daysChosen['We']" value="We"/>Wed&nbsp;
-                <input type="checkbox" ng-model="daysChosen['Th']" value="Th"/>Thu&nbsp;
-                <input type="checkbox" ng-model="daysChosen['Fr']" value="Fr"/>Fri&nbsp;
-                <input type="checkbox" ng-model="daysChosen['Sa']" value="Sa"/>Sat
+                <label>Repeat on: </label> &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['Su']" value="Su"/> Sun &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['Mo']" value="Mo"/> Mon &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['Tu']" value="Tu"/> Tue &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['We']" value="We"/> Wed &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['Th']" value="Th"/> Thu &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['Fr']" value="Fr"/> Fri &nbsp;
+                <input icheck-blue type="checkbox" ng-model="daysChosen['Sa']" value="Sa"/> Sat
             </div>
-            <div class="col-md-12" style="padding:0px;">
-                <div class='col-md-4'>
+            <div class="col-md-12" style="padding-bottom: 10px">
+                <div class='col-md-4' style="padding-left: 0;">
                     <label>Starts on:</label>
                     <input type='text' ng-model="newEvent['event_start_date']" uib-datepicker-popup="{{format}}" class="form-control" readonly/>
                 </div>
             </div>
-            <div class="col-md-12" style="padding:0px;">
-                <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="col-md-6" style="padding-left: 0;">
                     <label>Ends:</label><br>
-                    <input type="radio" name="endWeek" value="isOccurence" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; After <input type="number" name="weeklyOccurence" ng-pattern="regex" max="20" ng-disabled="endWeekly != 'isOccurence'" ng-model="newEvent['repeat']['end_occurence_weekly']" style="width: 4em"/> occurrences<br>
-                    <input type="radio" name="endWeek" value="isOn" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; On <input type="text" ng-disabled="endWeekly != 'isOn'" ng-click="openRepeatWeekly()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatWeekly" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_weekly']" maxlength="20" size="20"/>
+                    <input icheck-grey type="radio" name="endWeek" value="isOccurence" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; After <input type="number" name="weeklyOccurence" ng-pattern="regex" max="20" ng-disabled="endWeekly != 'isOccurence'" ng-model="newEvent['repeat']['end_occurence_weekly']" style="width: 4em"/> occurrences
+                    <br><br>
+                    <input icheck-grey type="radio" name="endWeek" value="isOn" ng-model="$parent.endWeekly" ng-change="endWeeklyChanged()">&nbsp; On <input type="text" ng-disabled="endWeekly != 'isOn'" ng-click="openRepeatWeekly()" uib-datepicker-popup="{{format}}" is-open="$parent.openedRepeatWeekly" datepicker-options="dateOptionsRepeat" close-text="Close" alt-input-formats="altInputFormats" readonly ng-model="newEvent['repeat']['end_on_weekly']" maxlength="20" size="20"/>
                     <span ng-show="repeatForm.weeklyOccurence.$invalid && !repeatForm.weeklyOccurence.$error.max" class='error'>Please enter a valid integer.</span>
                     <span ng-show="repeatForm.weeklyOccurence.$error.max" class='error'>Maximum of 20 occurrences allowed.</span>
                 </div>

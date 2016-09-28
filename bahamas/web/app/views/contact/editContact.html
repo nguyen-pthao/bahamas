@@ -272,7 +272,7 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-2">
                                             <label>Send Notification</label>
                                             <div class="resend-email">
-                                                <input type="checkbox" class="flat-red" ng-model="editContact.notification">
+                                                <input icheck-blue type="checkbox" class="flat-red" ng-model="editContact.notification">
                                             </div>
                                         </div>
                                     </div>                      
@@ -498,9 +498,9 @@ and open the template in the editor.
                                                 </div>
                                                 <div class="col-md-3" ng-show="(isAdmin || isTeamManager) && email['is_verified'] == 'No'">
                                                     <label>Resend verification email</label>
-                                                    <label class="resend-email">
-                                                        <input type="checkbox" ng-model="email['resend']" ng-click="resend()" class="flat-red" id="resendEmail">
-                                                    </label>
+                                                    <div class="resend-email">
+                                                        <input icheck-blue type="checkbox" ng-model="email['resend']" class="flat-red">
+                                                    </div>
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-5">
                                                     <label>Date obsolete</label>
@@ -521,15 +521,7 @@ and open the template in the editor.
                                                     <span ng-bind="resultEmail.message" ng-show="resultEmail.status && (resultEmail['email'] == email['email'])"></span>
                                                 </center>
                                             </div>
-                                        </div>
-                                        <script>
-                                        $('document').ready(function(){
-                                            //Flat red color scheme for iCheck
-                                            $('input[type="checkbox"].flat-red').iCheck({
-                                                checkboxClass: 'icheckbox_flat-blue'
-                                            });        
-                                        });
-                                        </script>                        
+                                        </div>               
                                     </div>
                                 </div>
                                 <div class="box-body hidden-box" ng-show="addingEmail">
