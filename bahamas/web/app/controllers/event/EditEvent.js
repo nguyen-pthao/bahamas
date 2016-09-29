@@ -284,7 +284,7 @@ app.controller('editEvent',
                         $scope.toEditEvent['event_lng'] = '';
                     }
                     var url = "/event.updatedetails";
-                    dataSubmit.submitData($scope.toEditEvent, url).then(function (response) {
+                    $scope.myPromise = dataSubmit.submitData($scope.toEditEvent, url).then(function (response) {
                         if (response.data.message == "success") {
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/editSuccessful.html',
@@ -352,7 +352,7 @@ app.controller('editEvent',
                             'event_role': $scope.editEvent['event_role']
                         }
                         var url = "/event.updateroles";
-                        dataSubmit.submitData($scope.toEditRoles, url).then(function (response) {
+                        $scope.myPromise = dataSubmit.submitData($scope.toEditRoles, url).then(function (response) {
                             if (response.data.message == "success") {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/editSuccessful.html',
@@ -395,7 +395,7 @@ app.controller('editEvent',
                         })
                     } else {
                         var url = "/event.updateteamaffiliation";
-                        dataSubmit.submitData($scope.toEditTeams, url).then(function (response) {
+                        $scope.myPromise = dataSubmit.submitData($scope.toEditTeams, url).then(function (response) {
                             if (response.data.message == "success") {
                                 ngDialog.openConfirm({
                                     template: './style/ngTemplate/editSuccessful.html',
