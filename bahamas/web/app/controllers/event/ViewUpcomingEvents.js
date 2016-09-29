@@ -51,7 +51,7 @@ app.controller('viewUpcomingEvents',
                         $scope.totalItems = $scope.allEventInfo.length;
 
                         $scope.currentPage = 1;
-                        $scope.itemsPerPage = $scope.allEventInfo.length;
+                        $scope.itemsPerPage = 50;
                         $scope.allFilteredEvents = $scope.allEventInfo;
                         $scope.isAll = false;
                         var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
