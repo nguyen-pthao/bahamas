@@ -57,6 +57,7 @@ app.controller('cloneEventRoles',
                             $scope.newRoles['roleArray'][numberRoles][nameOfDesc] = obj['event_desc'];
                             numberRoles = numberRoles + 1;
                         })
+                        $scope.numberOfRoles.pop();
                     })
                 }
 
