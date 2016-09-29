@@ -19,20 +19,20 @@ app.controller('createEvent',
                 $scope.loadEventStatusList = function () {
                     loadEventStatus.retrieveEventStatus().then(function (response) {
                         $scope.eventStatusList = response.data.eventStatusList;
-                    })
-                }
+                    });
+                };
 
                 $scope.loadEventLocationList = function () {
                     loadEventLocation.retrieveEventLocation().then(function (response) {
                         $scope.eventLocationList = response.data.eventLocationList;
-                    })
-                }
+                    });
+                };
 
                 $scope.loadEventClassList = function () {
                     loadEventClass.retrieveEventClass().then(function (response) {
                         $scope.eventClassList = response.data.eventClassList;
-                    })
-                }
+                    });
+                };
                 
                 $scope.retrieveContact = function(){
                     $scope.toRetrieve = {
@@ -45,9 +45,9 @@ app.controller('createEvent',
                             if(obj.verified==="true"){
                                 $scope.verifiedEmail.push(obj.email);
                             }
-                        })
-                    })
-                }
+                        });
+                    });
+                };
 
                 $scope.endDaily = 'isOccurence';
                 $scope.endWeekly = 'isOccurence';
@@ -87,8 +87,7 @@ app.controller('createEvent',
                         'repeat_on': [],
                         'repeat_by': 'day of the month'
                     }
-                }
-
+                };
 
                 //-----for the datepicker-----
                 $scope.today = function () {
@@ -115,15 +114,15 @@ app.controller('createEvent',
                 $scope.openStart = function () {
                     $timeout(function () {
                         $scope.openedStart = true;
-                    })
-                }
+                    });
+                };
 
 
                 $scope.openEnd = function () {
                     $timeout(function () {
                         $scope.openedEnd = true;
-                    })
-                }
+                    });
+                };
 
                 $scope.dateOptionsRepeat = {
                     formatYeat: 'yy',
@@ -135,20 +134,20 @@ app.controller('createEvent',
                 $scope.openRepeatDaily = function () {
                     $timeout(function () {
                         $scope.openedRepeatDaily = true;
-                    })
-                }
+                    });
+                };
 
                 $scope.openRepeatWeekly = function () {
                     $timeout(function () {
                         $scope.openedRepeatWeekly = true;
-                    })
-                }
+                    });
+                };
 
                 $scope.openRepeatMonthly = function () {
                     $timeout(function () {
                         $scope.openedRepeatMonthly = true;
-                    })
-                }
+                    });
+                };
 
                 function getDayClass(data) {
                     var date = data.date,
@@ -193,7 +192,7 @@ app.controller('createEvent',
                         }
                     }
                     $scope.newEvent['event_end_date'] = $scope.newEvent['event_start_date'];
-                })
+                });
 
                 $scope.$watch("newEvent['event_end_date']", function () {
                     if (angular.isUndefined($scope.newEvent['event_end_date']) || $scope.newEvent['event_end_date'] === "") {
@@ -216,7 +215,7 @@ app.controller('createEvent',
                             $scope.dayOfEndDate = "Saturday";
                         }
                     }
-                })
+                });
 
                 $scope.daysChosen = {
                     'Su': false,
@@ -255,7 +254,7 @@ app.controller('createEvent',
                                 $scope.string = $scope.string + ", " + day;
                             }
                         }
-                    })
+                    });
                 }, true);
                 
                 
@@ -292,7 +291,7 @@ app.controller('createEvent',
                             $scope.map.zoom = 10;
                         }, 0);
                     }
-                })
+                });
                 $scope.marker = {coords: {latitude: '', longitude: ''}, id: 1};
                 $scope.searchbox = {template: './style/ngTemplate/searchbox.tpl.html', events: {places_changed: function (searchBox) {
                             $scope.newEvent['event_lat'] = searchBox.getPlaces()[0].geometry.location.lat();
@@ -310,7 +309,7 @@ app.controller('createEvent',
                             $scope.newEvent['address'] = value.address;
                             $scope.newEvent['zipcode'] = value.zipcode;
                         }
-                    })
+                    });
                 };
                 //--end of location change function--
                 
@@ -340,63 +339,66 @@ app.controller('createEvent',
                 };
 
                 $scope.createEvent = function () {
-                    if ($scope.newEvent['event_start_date'] == null) {
-                        $scope.newEvent['event_start_date'] = ''
-                    } else if ($scope.newEvent['event_start_date'] != null || $scope.newEvent['event_start_date'] != '') {
-                        $scope.newEvent['event_start_date'] = $scope.newEvent['event_start_date'].valueOf() + "";
+                    
+                    var dataSend = angular.copy($scope.newEvent);
+                    
+                    if (dataSend['event_start_date'] == null) {
+                        dataSend['event_start_date'] = '';
+                    } else if (dataSend['event_start_date'] != null || dataSend['event_start_date'] != '') {
+                        dataSend['event_start_date'] = dataSend['event_start_date'].valueOf() + "";
                     }
-                    if ($scope.newEvent['event_end_date'] == null) {
-                        $scope.newEvent['event_end_date'] = ''
-                    } else if ($scope.newEvent['event_end_date'] != null || $scope.newEvent['event_end_date'] != '') {
-                        $scope.newEvent['event_end_date'] = $scope.newEvent['event_end_date'].valueOf() + "";
+                    if (dataSend['event_end_date'] == null) {
+                        dataSend['event_end_date'] = '';
+                    } else if (dataSend['event_end_date'] != null || dataSend['event_end_date'] != '') {
+                        dataSend['event_end_date'] = dataSend['event_end_date'].valueOf() + "";
                     }
-                    if ($scope.newEvent['event_time_start'] == null) {
-                        $scope.newEvent['event_time_start'] = ''
-                    } else if ($scope.newEvent['event_time_start'] != null || $scope.newEvent['event_time_start'] != '') {
-                        $scope.newEvent['event_time_start'] = $scope.newEvent['event_time_start'].valueOf() + "";
+                    if (dataSend['event_time_start'] == null) {
+                        dataSend['event_time_start'] = '';
+                    } else if (dataSend['event_time_start'] != null || dataSend['event_time_start'] != '') {
+                        dataSend['event_time_start'] = dataSend['event_time_start'].valueOf() + "";
                     }
-                    if ($scope.newEvent['event_time_end'] == null) {
-                        $scope.newEvent['event_time_end'] = ''
-                    } else if ($scope.newEvent['event_time_end'] != null || $scope.newEvent['event_time_end'] != '') {
-                        $scope.newEvent['event_time_end'] = $scope.newEvent['event_time_end'].valueOf() + "";
+                    if (dataSend['event_time_end'] == null) {
+                        dataSend['event_time_end'] = '';
+                    } else if (dataSend['event_time_end'] != null || dataSend['event_time_end'] != '') {
+                        dataSend['event_time_end'] = dataSend['event_time_end'].valueOf() + "";
                     }
                     if ($scope.showGoogleMaps == false) {
-                        $scope.newEvent['event_lat'] = '';
-                        $scope.newEvent['event_lng'] = '';
+                        dataSend['event_lat'] = '';
+                        dataSend['event_lng'] = '';
                     }
-                    if ($scope.newEvent['minimum_participation'] == '') {
-                        $scope.newEvent['minimum_participation'] = "1";
+                    if (dataSend['minimum_participation'] == '') {
+                        dataSend['minimum_participation'] = "1";
                     }
-                    if ($scope.newEvent['repeat']['end_on_daily'] == null) {
-                        $scope.newEvent['repeat']['end_on_daily'] = ''
-                    } else if ($scope.newEvent['repeat']['end_on_daily'] != null || $scope.newEvent['repeat']['end_on_daily'] != '') {
-                        $scope.newEvent['repeat']['end_on_daily'] = $scope.newEvent['repeat']['end_on_daily'].valueOf() + "";
+                    if (dataSend['repeat']['end_on_daily'] == null) {
+                        dataSend['repeat']['end_on_daily'] = '';
+                    } else if (dataSend['repeat']['end_on_daily'] != null || dataSend['repeat']['end_on_daily'] != '') {
+                        dataSend['repeat']['end_on_daily'] = dataSend['repeat']['end_on_daily'].valueOf() + "";
                     }
-                    if ($scope.newEvent['repeat']['end_on_weekly'] == null) {
-                        $scope.newEvent['repeat']['end_on_weekly'] = ''
-                    } else if ($scope.newEvent['repeat']['end_on_weekly'] != null || $scope.newEvent['repeat']['end_on_weekly'] != '') {
-                        $scope.newEvent['repeat']['end_on_weekly'] = $scope.newEvent['repeat']['end_on_weekly'].valueOf() + "";
+                    if (dataSend['repeat']['end_on_weekly'] == null) {
+                        dataSend['repeat']['end_on_weekly'] = '';
+                    } else if (dataSend['repeat']['end_on_weekly'] != null || dataSend['repeat']['end_on_weekly'] != '') {
+                        dataSend['repeat']['end_on_weekly'] = dataSend['repeat']['end_on_weekly'].valueOf() + "";
                     }
-                    if ($scope.newEvent['repeat']['end_on_monthly'] == null) {
-                        $scope.newEvent['repeat']['end_on_monthly'] = ''
-                    } else if ($scope.newEvent['repeat']['end_on_monthly'] != null || $scope.newEvent['repeat']['end_on_monthly'] != '') {
-                        $scope.newEvent['repeat']['end_on_monthly'] = $scope.newEvent['repeat']['end_on_monthly'].valueOf() + "";
+                    if (dataSend['repeat']['end_on_monthly'] == null) {
+                        dataSend['repeat']['end_on_monthly'] = '';
+                    } else if (dataSend['repeat']['end_on_monthly'] != null || dataSend['repeat']['end_on_monthly'] != '') {
+                        dataSend['repeat']['end_on_monthly'] = dataSend['repeat']['end_on_monthly'].valueOf() + "";
                     }
                     angular.forEach($scope.daysChosen, function (value, key) {
                         if (value === true) {
-                            $scope.newEvent['repeat']['repeat_on'].push(key);
+                            dataSend['repeat']['repeat_on'].push(key);
                         }
-                    })
-                    if($scope.newEvent['send_reminder']===false){
-                        $scope.newEvent['reminder_email']= "";
-                    }if($scope.newEvent['send_reminder']===true){
-                        if($scope.newEvent['reminder_email']===""){
-                            $scope.newEvent['send_reminder']=false;
+                    });
+                    if(dataSend['send_reminder']===false){
+                        dataSend['reminder_email']= "";
+                    }if(dataSend['send_reminder']===true){
+                        if(dataSend['reminder_email']===""){
+                            dataSend['send_reminder']=false;
                         }
                     }
 
                     var url = "/event.create";
-                    dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                    dataSubmit.submitData(dataSend, url).then(function (response) {
                         if (response.data.message == 'success') {
                             var id = response.data['event_id'];
                             var idArray = response.data['event_id_list'];
@@ -410,7 +412,7 @@ app.controller('createEvent',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         } else if (response.data.message == 'conflict') {
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({
@@ -418,8 +420,8 @@ app.controller('createEvent',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             }).then(function (response) {
-                                $scope.newEvent.ignore = true;
-                                dataSubmit.submitData($scope.newEvent, url).then(function (response) {
+                                dataSend.ignore = true;
+                                dataSubmit.submitData(dataSend, url).then(function (response) {
                                     if (response.data.message == 'success') {
                                         var id = response.data['event_id'];
                                         var idArray = response.data['event_id_list'];
