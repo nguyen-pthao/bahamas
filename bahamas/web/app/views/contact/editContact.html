@@ -272,7 +272,7 @@ and open the template in the editor.
                                         <div class="col-md-offset-1 col-md-2">
                                             <label>Send Notification</label>
                                             <div class="resend-email">
-                                                <input icheck-blue type="checkbox" class="flat-red" ng-model="editContact.notification">
+                                                <input icheck-custom="blue" type="checkbox" class="flat-red" ng-model="editContact.notification">
                                             </div>
                                         </div>
                                     </div>                      
@@ -499,7 +499,7 @@ and open the template in the editor.
                                                 <div class="col-md-3" ng-show="(isAdmin || isTeamManager) && email['is_verified'] == 'No'">
                                                     <label>Resend verification email</label>
                                                     <div class="resend-email">
-                                                        <input icheck-blue type="checkbox" ng-model="email['resend']" class="flat-red">
+                                                        <input icheck-custom='blue' type="checkbox" ng-model="email['resend']" class="flat-red">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-offset-1 col-md-5">
@@ -2640,12 +2640,6 @@ and open the template in the editor.
             $('window').on('popstate', function () {
                 $('#profilephoto').modal('hide');
             });
-//            $('document').ready(function(){
-//                //Flat red color scheme for iCheck
-//                $('input[type="checkbox"].flat-red').iCheck({
-//                    checkboxClass: 'icheckbox_flat-green'
-//                });        
-//            });
         </script>
     </body>
 </html>
