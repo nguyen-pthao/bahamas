@@ -14,15 +14,6 @@ app.controller('pastEventsPS',
                     $state.go(user);
                 };
 
-                $scope.loadTeamList = function () {
-                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
-                        $scope.teamList = response.data.teamAffiliationList;
-                        $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
-                        $scope.teamList.unshift({'teamAffiliation': 'ALL'});
-                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
-                    })
-                };
-
                 $scope.addRemarks = function ($event, part) {
                     $rootScope.participant = part;
                     var modalInstance = $uibModal.open({
@@ -48,8 +39,22 @@ app.controller('pastEventsPS',
                     session.setSession('contactToDisplayCid', part['contact_id']);
                     $state.go(url);
                 };
+                
+                $scope.teamFilterChanged = function(){
+                    localStorageService.set('PastEventsParticipationTeamFilter', $scope.teamFilter);
+                    $scope.retrieveEvents();
+                };
 
                 $scope.retrieveEvents = function () {
+                    $scope.teamFilter = localStorageService.get('PastEventsParticipationTeamFilter');
+                    if($scope.teamFilter == null){
+                        $scope.teamFilter = "ALL";
+                    }
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
+                        $scope.teamList = response.data.teamAffiliationList;
+                        $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                        $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                    })
                     var filter;
                     if ($scope.teamFilter == "ALL") {
                         filter = "";

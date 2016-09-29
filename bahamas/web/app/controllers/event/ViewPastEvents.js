@@ -16,18 +16,23 @@ app.controller('viewPastEvents',
                 }
                 $scope.backHome = function () {
                     $state.go(user);
+                };       
+                
+                $scope.teamFilterChanged = function(){
+                    localStorageService.set('PastEventsTeamFilter', $scope.teamFilter);
+                    $scope.retrieveEvents();
                 };
                 
-                $scope.loadTeamList = function(){
+                $scope.retrieveEvents = function () {
+                    $scope.teamFilter = localStorageService.get('PastEventsTeamFilter');
+                    if($scope.teamFilter == null){
+                        $scope.teamFilter = "ALL";
+                    }
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
                         $scope.teamList = response.data.teamAffiliationList;
                         $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
                         $scope.teamList.unshift({'teamAffiliation': 'ALL'});
-                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
                     })
-                };
-                
-                $scope.retrieveEvents = function () {
                     var filter;
                     if($scope.teamFilter == "ALL"){
                         filter = "";

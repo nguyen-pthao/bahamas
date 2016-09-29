@@ -68,8 +68,8 @@ and open the template in the editor.
                             </div>
                             <div class='col-md-2' ng-hide="isNovice">
                                 <label>Select Team:</label>
-                                <div ng-init="loadTeamList()">
-                                    <select name="teamList" class="form-control"  ng-change="retrieveEvents()" ng-model="teamFilter">
+                                <div>
+                                    <select name="teamList" class="form-control"  ng-change="teamFilterChanged()" ng-model="teamFilter">
                                         <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
                                     </select>     
                                 </div>

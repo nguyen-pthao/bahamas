@@ -14,15 +14,6 @@ app.controller('upcomingEventPS',
                     $state.go(user);
                 };
 
-                $scope.loadTeamList = function () {
-                    loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
-                        $scope.teamList = response.data.teamAffiliationList;
-                        $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
-                        $scope.teamList.unshift({'teamAffiliation': 'ALL'});
-                        $scope.teamFilter = $scope.teamList[0].teamAffiliation;
-                    })
-                };
-
                 $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
@@ -66,8 +57,22 @@ app.controller('upcomingEventPS',
                         size: "md"
                     });
                 };
-
+                
+                $scope.teamFilterChanged = function(){
+                    localStorageService.set('UpcomingEventsParticipationTeamFilter', $scope.teamFilter);
+                    $scope.retrieveEvents();
+                };
+                
                 $scope.retrieveEvents = function () {
+                    $scope.teamFilter = localStorageService.get('UpcomingEventsParticipationTeamFilter');
+                    if($scope.teamFilter == null){
+                        $scope.teamFilter = "ALL";
+                    }
+                    loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
+                        $scope.teamList = response.data.teamAffiliationList;
+                        $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
+                        $scope.teamList.unshift({'teamAffiliation': 'ALL'});
+                    })
                     var filter;
                     if ($scope.teamFilter == "ALL") {
                         filter = "";
