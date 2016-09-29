@@ -190,54 +190,7 @@ app.controller('pageController',
                         eventResize: $scope.alertOnResize
                     }
                 };
-
-//                $scope.eventSources = [
-//                    {
-//                        events: [
-//                            {
-//                                title: 'BasketBall Training',
-//                                start: '2016-09-08'
-//                            },
-//                            {
-//                                title: 'TWC2 Meeting',
-//                                start: '2016-09-08',
-//                                end: '2016-09-09'
-//                            },
-//                            {
-//                                title: 'UAT testing',
-//                                start: '2016-09-05T06:41:35.536Z',
-//                                end: '2016-09-06T06:41:35.536Z',
-//                                state: '.viewIndivEvent',
-//                                eventId: 13
-//                            }
-//                        ],
-////                        color: 'black', // an option!
-////                        textColor: 'yellow' // an option!
-//                    },
-//                    {
-//                        events: [
-//                            {
-//                                title: 'Netball Training',
-//                                start: '2016-09-08'
-//                            },
-//                            {
-//                                title: 'UFC 202',
-//                                start: '2016-09-07',
-//                                end: '2016-09-09'
-//                            },
-//                            {
-//                                title: 'IPPT',
-//                                start: '2016-09-05T06:41:35.536Z',
-//                                end: '2016-09-06T06:41:35.536Z',
-//                                state: '.viewIndivEvent',
-//                                eventId: 13
-//                            }
-//                        ],
-//                        color: 'green', // an option!
-//                        textColor: 'white' // an option!
-//                    }
-//                ];
-
+                
                 $scope.$on('IdleStart', function () {
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/refreshToken.html',
@@ -325,8 +278,6 @@ app.controller('pageController',
                         className: 'ngdialog-theme-default',
                         scope: $scope
                     }).then(function (response) {
-//                        $timeout.cancel($scope.logoutTimer);
-//                        $timeout.cancel($scope.tokenTimer);
                         session.terminateSession();
                         localStorageService.clearAll();
                         $state.go('login');

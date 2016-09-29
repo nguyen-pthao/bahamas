@@ -48,7 +48,7 @@ app.controller('pastEventsPS',
                 $scope.retrieveEvents = function () {
                     $scope.teamFilter = localStorageService.get('PastEventsParticipationTeamFilter');
                     if($scope.teamFilter == null){
-                        $scope.teamFilter = "ALL";
+                        $scope.teamFilter = "MY TEAMS";
                     }
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function(response){
                         $scope.teamList = response.data.teamAffiliationList;
