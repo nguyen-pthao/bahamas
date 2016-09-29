@@ -30,12 +30,13 @@ app.controller('editEvent',
                             if(obj.verified==="true"){
                                 $scope.verifiedEmail.push(obj.email);
                             }
-                        })
-                    })
-                }
+                        });
+                    });
+                };
                 
                 var eventId = localStorageService.get('eventId');
-
+                $scope.editEvent = {};
+                
                 $scope.map = {center: {latitude: 1.355865, longitude: 103.819129}, zoom: 10, options: {scrollwheel: false}, control: {}};
                 $scope.marker = {coords: {latitude: '', longitude: ''}, id: 1};
                 $scope.searchbox = {template: './style/ngTemplate/searchbox.tpl.html', events: {places_changed: function (searchBox) {
@@ -99,7 +100,7 @@ app.controller('editEvent',
                                 $scope.selectedTeams.push({
                                     'teamAffiliation': teamObj.teamAffiliation,
                                     'selected': false
-                                })
+                                });
                             });
                             $scope.eventInfo['event_team_affiliation']['teams_affiliated'].forEach(function (name) {
                                 $scope.selectedTeams.forEach(function (team) {
@@ -109,9 +110,9 @@ app.controller('editEvent',
                                 });
                             });
                         });
-                    })
-
-                }
+                    });
+                };
+                
                 $scope.$watch("editEvent['event_start_date']", function () {
                     if (angular.isUndefined($scope.editEvent['event_start_date']) || $scope.editEvent['event_start_date'] === "") {
                         $scope.dayOfStartDate = "";

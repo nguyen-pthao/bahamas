@@ -12,9 +12,18 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.loadPermissionLevelList = function () {
             loadPermissionLevel.retrievePermissionLevel().then(function (response) {
                 $scope.permissionLevelList = response.data.permissionLevelList;
+                if (!$scope.isTeamManager && !$scope.isAdmin) {
+                    for (var pms in $scope.permissionLevelList) {
+                        if ($scope.permissionLevelList[pms].permissionLevel == 'Team manager') {
+                            $scope.permissionLevelList.splice(pms, 1);
+                        }
+                    }
+                }
             });
         };
+        
         var permission = session.getSession('userType');
+        
         //team join
         $scope.addingTeam = false;
         $scope.addingPreference = false;

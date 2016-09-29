@@ -242,7 +242,7 @@ and open the template in the editor.
                                             <div class="box">
                                                 <label>Select Team Affiliation</label><span class="required">*</span>
                                                 <div ng-repeat="team in selectedTeams track by $index">
-                                                    <input type="checkbox" ng-model="team['selected']"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
+                                                    <input icheck-custom="green" type="checkbox" ng-model="team['selected']"/><span style="margin-left: 10px;">{{team.teamAffiliation}}</span>
                                                 </div>
                                             </div>
                                         </div>
