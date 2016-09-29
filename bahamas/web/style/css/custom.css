@@ -13,7 +13,13 @@ and open the template in the editor.
 html,
 body {
     height: 100%;
+/*    font-family:  'Roboto Slab', serif !important;
+    font-size: 14px;*/
 }
+/*
+@font-face {
+    font-family: 'Tangerine', cursive !important;
+}*/
 
 .bold {
     font-weight: 600;
