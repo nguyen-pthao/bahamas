@@ -238,7 +238,7 @@ public class EventDAO {
         return errorMsg;
     }
     
-    public ArrayList<Event> retrieveAllEvents() {
+    public ArrayList<Event> retrieveAllEventsWithStringTeams() {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -246,11 +246,14 @@ public class EventDAO {
         try {
             eventList = new ArrayList<Event>();
             conn = ConnectionManager.getConnection();
+            /*
             stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
                     + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                     + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                     + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER FROM EVENT ORDER BY DATE(EVENT_START_DATE) DESC, TIME(Event_TIME_START) DESC");
-
+            */
+            stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, E.EVENT_ID, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER, T1.TEAMS FROM EVENT E LEFT OUTER JOIN (SELECT EVENT_ID, GROUP_CONCAT(CONCAT(TEAM_NAME)SEPARATOR ' | ') as TEAMS FROM EVENT_AFFILIATION GROUP BY EVENT_ID) AS T1 ON E.EVENT_ID = T1.EVENT_ID");
+                    
             rs = stmt.executeQuery();
             while (rs.next()) {
                 String createdBy = rs.getString(1);
@@ -280,8 +283,9 @@ public class EventDAO {
                 int contactId = rs.getInt(20);
                 String email = rs.getString(21);
                 int participantNumber = rs.getInt(22);
+                String teams = rs.getString(23);
                 
-                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus, remarks, contactId, email, participantNumber);
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus, remarks, contactId, email, participantNumber, teams);
                 eventList.add(event);      
             }
         } catch (ParseException ex) {
@@ -471,6 +475,66 @@ public class EventDAO {
                 String reminderEmail = rs.getString(21);
                 int participantNumber = rs.getInt(22);
                 Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus, remarks, contactId, reminderEmail, participantNumber);
+                eventList.add(event);      
+            }
+        } catch (ParseException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(EventDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve event from database data", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return eventList;
+    }
+    
+    public ArrayList<Event> retrieveAllEvents() {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        ArrayList<Event> eventList = null;
+        try {
+            eventList = new ArrayList<Event>();
+            conn = ConnectionManager.getConnection();
+            
+            stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
+                    + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
+                    + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
+                    + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_ID, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER FROM EVENT ORDER BY DATE(EVENT_START_DATE) DESC, TIME(Event_TIME_START) DESC");
+           
+            
+                    
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                String createdBy = rs.getString(1);
+                String dateStr1 = rs.getString(2);
+                Date dateCreated = datetime.parse(dateStr1);
+                String eventTitle = rs.getString(3);
+                String address = rs.getString(4);
+                String zipcode = rs.getString(5);
+                String dateStr2 = rs.getString(6);
+                Date eventStartDate = datetime.parse(dateStr2);
+                String dateStr3 = rs.getString(7);
+                Date eventEndDate = datetime.parse(dateStr3);
+                String dateStr4 = rs.getString(8);
+                Date eventTimeStart = datetime.parse(dateStr4);
+                String dateStr5 = rs.getString(9);
+                Date eventTimeEnd = datetime.parse(dateStr5);
+                boolean sendReminder = rs.getBoolean(10);
+                String eventDescription = rs.getString(11);
+                int minimumParticipation = rs.getInt(12);
+                String eventClassName = rs.getString(13);
+                String eventLocationName = rs.getString(14);
+                String eventLng = rs.getString(15);
+                String eventLat = rs.getString(16);
+                int eventID = rs.getInt(17);
+                String eventStatus = rs.getString(18);
+                String remarks = rs.getString(19);
+                int contactId = rs.getInt(20);
+                String email = rs.getString(21);
+                int participantNumber = rs.getInt(22);
+                
+                Event event = new Event(eventID, eventStartDate, eventEndDate, eventTimeStart, eventTimeEnd, eventTitle, address, zipcode, eventDescription, minimumParticipation, sendReminder, eventClassName, eventLocationName, eventLat, eventLng, dateCreated, createdBy, eventStatus, remarks, contactId, email, participantNumber);
                 eventList.add(event);      
             }
         } catch (ParseException ex) {
