@@ -226,8 +226,10 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         }
                                                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || contactTemp.getContactId() == contact.getContactId()) {
                                                             role.addProperty("participant_name", (contactTemp.getName() + "(" + tempUsername + ")"));
+                                                            role.addProperty("canRemark", true);
                                                         } else {
                                                             role.addProperty("participant_name", (contactTemp.getName()));
+                                                            role.addProperty("canRemark", false);
                                                         }
                                                         role.addProperty("canRemove", true);
                                                         role.addProperty("remarks", eventParticipantTemp.getRemarks());
@@ -250,11 +252,13 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                         role.add("eventParticipantservice_comment", new JsonPrimitive(""));
                                                         role.addProperty("award_hours", "");
                                                     }
+                                                    /*
                                                     if (contactTemp.getContactId() == contact.getContactId()) {
                                                         role.addProperty("canRemark", true);
                                                     } else {
                                                         role.addProperty("canRemark", false);
                                                     }
+                                                    */
                                                     roleParticipentArray.add(role);
                                                     //roleJson.add("event_participant", roleParticipentArray);
 
