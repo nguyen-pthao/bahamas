@@ -30,6 +30,7 @@ import java.io.PrintWriter;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -110,16 +111,17 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                         //Get all teams this user has
                         ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(contact.getContactId());
                         for (TeamJoin teamJoin : teamJoinList) {
-                            if(contact.isIsNovice()){
-                                hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
+                            //if(contact.isIsNovice()){
+                            //    hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
                             //} else if(teamJoin.getPermission() != null){
-                            } else {
+                            //} else {
                                 hmTeamPermission.put(teamJoin.getTeamName(), teamJoin.getPermission());
-                            }
+                            //}
                         }
 
                         EventDAO eventDAO = new EventDAO();
-                        ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
+                        //ArrayList<Event> eventList = eventDAO.retrieveAllEvents();
+                        ArrayList<Event> eventList = eventDAO.retrieveAllEventsWithStringTeams();
                         SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
                         SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                         JsonArray eventArray = new JsonArray();
@@ -185,8 +187,10 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
                                             jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                             jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
-                                            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                             HashMap<String, String> eventTeamsHM = new HashMap<String, String>();
+                                            ArrayList<String> teamsInEvent = null;
+                                            /*
+                                            EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(event.getEventId());
                                             if (eventAffiliation != null) {
                                                 String teamTemp = "";
                                                 ArrayList<String> teamnameList = eventAffiliation.getTeamArray();
@@ -200,6 +204,22 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             } else {
                                                 jsonContactObj.addProperty("team", "");
                                             }
+                                            */
+                                            
+                                            if(event.getTeamInStr() != null){
+                                                jsonContactObj.addProperty("team", event.getTeamInStr());
+                                                //ArrayList<String> tempList = new  ArrayList<String>(Arrays.asList(event.getTeamInStr().split(",")));
+                                                String tempTeam = event.getTeamInStr().replaceAll("\\s","");
+                                                teamsInEvent = new  ArrayList<String>(Arrays.asList(tempTeam.split("\\|")));
+                                                Iterator iter = teamsInEvent.iterator();
+                                                while(iter.hasNext()){
+                                                    String teamTeamName = (String)iter.next();
+                                                    eventTeamsHM.put(teamTeamName, teamTeamName);
+                                                }
+                                            } else {
+                                                jsonContactObj.addProperty("team", "");
+                                            }
+                                            
                                             jsonContactObj.addProperty("event_class", event.getEventClassName());
                                             jsonContactObj.addProperty("event_location", event.getEventLocationName());
                                             jsonContactObj.addProperty("event_status", event.getEventStatus());
@@ -208,8 +228,9 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                 jsonContactObj.addProperty("canDelete", true);
                                                 jsonContactObj.addProperty("canJoin", true);
                                             } else {
-                                                if (eventAffiliation != null) {
-                                                    ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
+                                                if (event.getTeamInStr() != null) {
+                                                //if (eventAffiliation != null) {
+                                                //    ArrayList<String> teamsInEvent = eventAffiliation.getTeamArray();
                                                     if (teamsInEvent != null && !teamsInEvent.isEmpty()) {
                                                         boolean marked = false;
                                                         for (String eventTeam : teamsInEvent) {

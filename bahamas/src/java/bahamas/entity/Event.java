@@ -35,7 +35,15 @@ public class Event {
     private int contactId;
     private String reminderEmail;
     private int participantNumber;
-   
+    private String teamInStr;
+
+    public String getTeamInStr() {
+        return teamInStr;
+    }
+
+    public void setTeamInStr(String teamInStr) {
+        this.teamInStr = teamInStr;
+    }
     private ArrayList<Contact> participants;
     private ArrayList<EventRoleAssignment> roleList;
     private ArrayList<EventAffiliation> teamAffliated;
@@ -105,7 +113,7 @@ public class Event {
         this.remarks = remarks;
         this.reminderEmail = reminderEmail;
     }
-
+    
     public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus, String remarks, int contactId, String reminderEmail, int participantNumber) {
         this.eventId = eventId;
         this.eventStartDate = eventStartDate;
@@ -129,6 +137,33 @@ public class Event {
         this.contactId = contactId;
         this.reminderEmail = reminderEmail;
         this.participantNumber = participantNumber;
+    }
+
+    //for retrieveAllEventsWithStringTeams use only
+    public Event(int eventId, Date eventStartDate, Date eventEndDate, Date eventStartTime, Date eventEndTime, String eventTitle, String address, String zipcode, String eventDescription, int minimumParticipation, boolean sendReminder, String eventClassName, String eventLocationName, String eventLat, String eventLng, Date dateCreated, String createdBy, String eventStatus, String remarks, int contactId, String reminderEmail, int participantNumber, String teamInStr) {
+        this.eventId = eventId;
+        this.eventStartDate = eventStartDate;
+        this.eventEndDate = eventEndDate;
+        this.eventStartTime = eventStartTime;
+        this.eventEndTime = eventEndTime;
+        this.eventTitle = eventTitle;
+        this.address = address;
+        this.zipcode = zipcode;
+        this.eventDescription = eventDescription;
+        this.minimumParticipation = minimumParticipation;
+        this.sendReminder = sendReminder;
+        this.eventClassName = eventClassName;
+        this.eventLocationName = eventLocationName;
+        this.eventLat = eventLat;
+        this.eventLng = eventLng;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.eventStatus = eventStatus;
+        this.remarks = remarks;
+        this.contactId = contactId;
+        this.reminderEmail = reminderEmail;
+        this.participantNumber = participantNumber;
+        this.teamInStr = teamInStr;
     }
 
     public String getReminderEmail() {
