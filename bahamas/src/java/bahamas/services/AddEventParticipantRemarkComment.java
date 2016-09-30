@@ -80,7 +80,7 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String roleId = Validator.containsBlankField(jobject.get("role_id"));
                 String remarks = Validator.containsBlankField(jobject.get("remarks"));
-                //String eventId = Validator.containsBlankField(jobject.get("event_id"));
+                String contactId = Validator.containsBlankField(jobject.get("contact_id"));
                 String participantId = "";
                 String awardHours = "";
                 if(jobject.has("participant_id")){
@@ -105,7 +105,7 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }else{
-                        if(remarks == null || roleId == null || participantId == null){
+                        if(remarks == null || roleId == null || participantId == null || contactId == null){
                             json.addProperty("message", "error");
                             if(remarks == null){
                                 jsonErrorMsgArray.add(new JsonPrimitive("Missing remarks"));
@@ -115,6 +115,9 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                             }
                             if(participantId == null){
                                 jsonErrorMsgArray.add(new JsonPrimitive("Missing participant ID"));
+                            }
+                            if(contactId == null){
+                                jsonErrorMsgArray.add(new JsonPrimitive("Missing contact ID"));
                             }
                             json.add("errorMsg", jsonErrorMsgArray);
                             out.println(gson.toJson(json));
@@ -132,17 +135,16 @@ public class AddEventParticipantRemarkComment extends HttpServlet {
                             }
                         }else{
                             //user adding his/her remark for the event
-                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), contact.getContactId());
-                            
+                            eventParticipant = EventParticipantDAO.retrieveParticipantbyRoleIDContactID(Integer.parseInt(roleId), Integer.parseInt(contactId));
                             eventParticipant.setRemarks(remarks);
                         }
                         
                         //EventParticipant eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
                         if(EventParticipantDAO.updateEventRole(eventParticipant)){
                             if(!participantId.isEmpty()){
-                                AuditLogDAO.insertAuditLog(username, "Add service comment", "Add service comment under contact: Contact ID: " + contact.getContactId());
+                                AuditLogDAO.insertAuditLog(username, "Add service comment", "Add service comment under contact: Contact ID: " + contactId);
                             }else{
-                                AuditLogDAO.insertAuditLog(username, "Add remarks", "Add remarks under contact: Contact ID: " + contact.getContactId());
+                                AuditLogDAO.insertAuditLog(username, "Add remarks", "Add remarks under contact: Contact ID: " + contactId);
                             }
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
