@@ -27,7 +27,7 @@ public class EventParticipantDAO {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-
+        
         int result = 0;
 
         try {
@@ -318,11 +318,8 @@ public class EventParticipantDAO {
                 int roleID = rs.getInt(3);
                 int eventID = rs.getInt(4);
                 String createdBy = rs.getString(5);
-                String dateCreatedStr = rs.getString(6);
-                Date dateCreated = null;
-                if (dateCreatedStr != null && !dateCreatedStr.isEmpty()) {
-                    dateCreated = date.parse(dateCreatedStr);
-                }
+                String dateStr = rs.getString(6);
+                Date dateCreated = datetime.parse(dateStr);
                 boolean pullout = rs.getBoolean(7);
                 String datePulloutStr = rs.getString(8);
                 Date datepullout = null;

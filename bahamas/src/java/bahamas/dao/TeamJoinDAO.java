@@ -360,7 +360,7 @@ public class TeamJoinDAO {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         ArrayList<TeamJoin> teamJoinList;
         teamJoinList = new ArrayList<TeamJoin>();
-
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             conn = ConnectionManager.getConnection();
 
@@ -374,7 +374,8 @@ public class TeamJoinDAO {
             while (rs.next()) {
                 int cid = rs.getInt(1);
                 String teamName = rs.getString(2);
-                Date dateCreated = sdf.parse(rs.getString(3));
+                String dateStr = rs.getString(3);
+                Date dateCreated = datetime.parse(dateStr);
                 String createdBy = rs.getString(4);
                 String explainIfOthers = rs.getString(5);
                 String subTeam = rs.getString(6);

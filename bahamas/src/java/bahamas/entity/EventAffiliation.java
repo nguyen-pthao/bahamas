@@ -34,6 +34,7 @@ public class EventAffiliation {
         this.eventID = eventID;
         this.createdBy = createdBy;
         this.explainIfOthers = explainIfOthers;
+        this.dateCreated = dateCreated;
         this.dateObsolete = dateObsolete;
         this.teamName = teamName;
     }

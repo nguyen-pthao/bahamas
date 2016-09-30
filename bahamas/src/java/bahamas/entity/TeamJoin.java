@@ -64,6 +64,7 @@ public class TeamJoin {
         this.contactId = contactId;
         this.teamName = teamName;
         this.createdBy = createdBy;
+        this.dateCreated = dateCreated;
         this.explainIfOthers = explainIfOthers;
         this.subTeam = subTeam;
         this.dateObsolete = dateObsolete;

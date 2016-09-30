@@ -31,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Darryl Mok
  */
-@WebServlet(name = "ExportTeamAffliation", urlPatterns = {"/export.teamaffliation"})
+@WebServlet(name = "ExportTeamAffliation", urlPatterns = {"/export.teamaffiliation"})
 public class ExportTeamAffliation extends HttpServlet {
 
     /**

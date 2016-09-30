@@ -138,7 +138,7 @@ public class EventAffiliationDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         ArrayList<EventAffiliation> eventAffiliationList = new ArrayList<EventAffiliation>();
         
         try {
@@ -152,7 +152,8 @@ public class EventAffiliationDAO {
                     String eventID = rs.getString(1);
                     String team = rs.getString(2);
                     String createdBy = rs.getString(3);
-                    Date dateCreated = sdf.parse(rs.getString(4));
+                    String dateStr = rs.getString(4);
+                    Date dateCreated = datetime.parse(dateStr);
                     String explainIfOthers = rs.getString(5);
                     String dateString = rs.getString(6);
                     Date dateObsolete = null;
