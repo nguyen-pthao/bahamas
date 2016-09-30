@@ -833,6 +833,9 @@ public class RetrieveContactCurrent extends HttpServlet {
         } else {
             jsonContactObj.addProperty("training", "");
         }
+        
+        
+        jsonContactObj.addProperty("notification", contact.isNotification());
 
         return jsonContactObj;
     }

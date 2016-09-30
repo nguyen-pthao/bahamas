@@ -128,7 +128,7 @@ public class RetrieveContact extends HttpServlet {
                 
 
                 //ContactDAO contactDAO = new ContactDAO();
-                ArrayList<Contact> contactList = contactList = contactDAO.retrieveAllContactWithEmailPhone();
+                ArrayList<Contact> contactList = contactDAO.retrieveAllContactWithEmailPhone();
                 for(Contact contactTemp:contactList){
                     contactidContactHM.put(contactTemp.getContactId(), contactTemp);
                 }
@@ -216,8 +216,8 @@ public class RetrieveContact extends HttpServlet {
                 permissionLevel = "Associate";
             }
 
-            String emailStr = "";
-            String phoneStr = "";
+            //String emailStr = "";
+            //String phoneStr = "";
             String name = c.getName();
             String altName = c.getAltName();
             String contactType = c.getContactType();
