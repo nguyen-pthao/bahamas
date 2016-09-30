@@ -222,41 +222,41 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
         $scope.addTeam = function () {
             var url = AppAPI.addTeamJoin;
             $scope.newTeam['contact_id'] = $scope.contactToEditCID;
-//            if ($scope.editMode == 'true') {
-//                dataSubmit.submitData($scope.newTeam, url).then(function (response) {
-//                    if (response.data.message == 'success') {
-//                        $scope.submitNewTeam.submittedTeam = true;
-//                        $scope.submitNewTeam.message = $scope.successMsg;
-//                        $scope.retrieveFunc();
-//                        $scope.newTeam = angular.copy($scope.copyTeam);
-//                        $scope.form.editTeamForm.$setValidity();
-//                        $timeout(function () {
-//                            $scope.submitNewTeam.submittedTeam = false;
-//                        }, 1000);
-//                        //can set $scope.addingPhone = false if wanting to hide
-//                        $scope.addingTeam = false;
-//                    } else {
-//                        if (Array.isArray(response.data.message)) {
-//                            $scope.errorMessages = response.data.message;
-//                            ngDialog.openConfirm({
-//                                template: './style/ngTemplate/errorMessage.html',
-//                                className: 'ngdialog-theme-default',
-//                                scope: $scope
-//                            });
-//                        } else {
-//                            $scope.errorMessages = [];
-//                            $scope.errorMessages.push(response.data.message);
-//                            ngDialog.openConfirm({
-//                                template: './style/ngTemplate/errorMessage.html',
-//                                className: 'ngdialog-theme-default',
-//                                scope: $scope
-//                            });
-//                        }
-//                    }
-//                }, function () {
-//                    window.alert("Fail to send request!");
-//                });
-//            } else {
+            if ($scope.editMode == 'true' && !$scope.addingPreference) {
+                dataSubmit.submitData($scope.newTeam, url).then(function (response) {
+                    if (response.data.message == 'success') {
+                        $scope.submitNewTeam.submittedTeam = true;
+                        $scope.submitNewTeam.message = $scope.successMsg;
+                        $scope.retrieveFunc();
+                        $scope.newTeam = angular.copy($scope.copyTeam);
+                        $scope.form.editTeamForm.$setValidity();
+                        $timeout(function () {
+                            $scope.submitNewTeam.submittedTeam = false;
+                        }, 1000);
+                        //can set $scope.addingPhone = false if wanting to hide
+                        $scope.addingTeam = false;
+                    } else {
+                        if (Array.isArray(response.data.message)) {
+                            $scope.errorMessages = response.data.message;
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            });
+                        } else {
+                            $scope.errorMessages = [];
+                            $scope.errorMessages.push(response.data.message);
+                            ngDialog.openConfirm({
+                                template: './style/ngTemplate/errorMessage.html',
+                                className: 'ngdialog-theme-default',
+                                scope: $scope
+                            });
+                        }
+                    }
+                }, function () {
+                    window.alert("Fail to send request!");
+                });
+            } else {
                 teamPreference['contact_id'] = $scope.contactToEditCID;
                 teamPreference.team = $scope.teamPref.team1;
                 dataSubmit.submitData(teamPreference, url).then(function (response) {
@@ -343,6 +343,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                             $scope.addingTeam = false;
                         }
                     } else {
+                        
                         if (Array.isArray(response.data.message)) {
                             $scope.errorMessages = response.data.message;
                             ngDialog.openConfirm({
@@ -363,7 +364,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                 }, function () {
                     window.alert("Fail to send request!");
                 });
-//            }
+            }
         };
         
         $scope.openedTeamJoin = [];
