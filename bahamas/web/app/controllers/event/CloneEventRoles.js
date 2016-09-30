@@ -35,44 +35,39 @@ app.controller('cloneEventRoles',
                     }
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
-                        $scope.newEventInfo = response.data;
-                        $scope.newRoles = {
-                            'event_id': eventId,
-                            'event_id_list': eventIdArray,
-                            'roleArray': [
-                                {'role1': '', 'description1': ''},
-                                {'role2': '', 'description2': ''},
-                                {'role3': '', 'description3': ''}
-                            ]
-                        }
-                        var number = 1;
-                        var numberRoles = 0;
-                        $scope.numberOfRoles = [];
-                        angular.forEach($scope.newEventInfo['event_role'], function (obj) {
-                            $scope.numberOfRoles.push(number);
-                            var nameOfRole = 'role' + number;
-                            var nameOfDesc = 'description' + number;
-                            number = number + 1;
-                            $scope.newRoles['roleArray'][numberRoles][nameOfRole] = obj['event_role'];
-                            $scope.newRoles['roleArray'][numberRoles][nameOfDesc] = obj['event_desc'];
-                            numberRoles = numberRoles + 1;
-                        })
-                        $scope.numberOfRoles.pop();
+                          $scope.newEventInfo = response.data;
+                          $scope.newRoles = {
+                              'event_id': eventId,
+                              'event_id_list': eventIdArray,
+                              'roleArray': []
+                          }
+                          $scope.numberOfRoles = [];
+                          var count = 1;
+                          angular.forEach($scope.newEventInfo['event_role'], function(obj){
+                              if(count == 1){
+                                  var nameOfRole = 'role' + count;
+                                  var nameOfDesc = 'description' + count;
+                                  count = count + 1;
+                                  var roleObj = {};
+                                  roleObj[nameOfRole] = obj['event_role'];
+                                  roleObj[nameOfDesc] = obj['event_desc'];
+                                  $scope.newRoles['roleArray'].push(roleObj);
+                              }else{
+                                  var nameOfRole = 'role' + count;
+                                  var nameOfDesc = 'description' + count;
+                                  var roleObj = {};
+                                  roleObj[nameOfRole] = obj['event_role'];
+                                  roleObj[nameOfDesc] = obj['event_desc'];
+                                  $scope.newRoles['roleArray'].push(roleObj);
+                                  $scope.numberOfRoles.push(count);
+                                  count = count + 1;
+                              }
+                          })
                     })
                 }
-
-//                $scope.newRoles = {
-//                    'event_id': eventId,
-//                    'event_id_list': eventIdArray,
-//                    'roleArray': [
-//                        {'role1': '', 'description1': ''},
-//                        {'role2': '', 'description2': ''},
-//                        {'role3': '', 'description3': ''}
-//                    ]
-//                }
-
-
+                
                 $scope.submitRoles = function () {
+                    console.log($scope.newRoles);
                     $scope.error = false;
 //                    var size = Object.keys($scope.newRoles).length / 2;
                     var size = $scope.newRoles['roleArray'].length;
@@ -111,8 +106,7 @@ app.controller('cloneEventRoles',
                         });
                     }
                 }
-
-//                $scope.numberOfRoles = ;
+                
                 $scope.addNumberOfRoles = function () {
                     var roleIntoNewRoles = "role" + ($scope.numberOfRoles.length + 2);
                     var descriptionIntoNewRoles = "description" + ($scope.numberOfRoles.length + 2);

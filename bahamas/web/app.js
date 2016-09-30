@@ -133,6 +133,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/cloneEventAffiliation.html',
                 controller: 'cloneEventAffiliation'
             })
+            .state('admin.editPastEvent', {
+                url: '/editPastEvent',
+                templateUrl: 'app/views/event/editPastEvent.html',
+                controller: 'editPastEvent'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
@@ -308,6 +313,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/cloneEventAffiliation.html',
                 controller: 'cloneEventAffiliation'
             })
+            .state('teammanager.editPastEvent', {
+                url: '/editPastEvent',
+                templateUrl: 'app/views/event/editPastEvent.html',
+                controller: 'editPastEvent'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -403,6 +413,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/cloneEventAffiliation.html',
                 controller: 'cloneEventAffiliation'
             })
+            .state('eventleader.editPastEvent', {
+                url: '/editPastEvent',
+                templateUrl: 'app/views/event/editPastEvent.html',
+                controller: 'editPastEvent'
+            })
             .state('unauthorised', {
                 url: '/unauthorised',
                 templateUrl: 'unauthorised.html',
@@ -447,10 +462,10 @@ app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $stat
 
         if (window.location.hostname == 'localhost') {
             $rootScope.commonUrl = 'http://localhost:8084/bahamas';
-        }else {
+        } else {
             //actual server
 //            $rootScope.commonUrl = 'https://rms.twc2.org.sg/bahamas';
-            
+
             //development server
             $rootScope.commonUrl = 'https://rmsdev.twc2.org.sg/bahamas';
         }

@@ -318,6 +318,7 @@ app.controller('RemarkInstanceCtrl', function ($scope, $rootScope, $uibModalInst
         $scope.toAddRemarks = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
+            'contact_id': part['contact_id'],
             'remarks': $scope.input
         };
         var urlToAddRemarks = '/event.addeventremarks';

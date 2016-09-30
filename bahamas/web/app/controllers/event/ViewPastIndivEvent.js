@@ -60,7 +60,7 @@ app.controller('viewPastIndivEvent',
                 }
 
                 $scope.editEvent = function () {
-                    var url = user + '.editEvent';
+                    var url = user + '.editPastEvent';
                     localStorageService.set('eventId', eventId);
                     $state.go(url);
                 };
@@ -93,11 +93,11 @@ app.controller('RemarkIndivInstanceCtrl', function ($scope, $rootScope, $uibModa
     $scope.ok = function () {
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        }
-        ;
+        };
         $scope.toAddRemarks = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
+            'contact_id': part['contact_id'],
             'remarks': $scope.input
         };
         var urlToAddRemarks = '/event.addeventremarks';
@@ -128,8 +128,7 @@ app.controller('ServiceCommentIndivInstanceCtrl', function ($scope, $rootScope, 
     $scope.ok = function () {
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        }
-        ;
+        };
         $scope.toAddServiceComment = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],

@@ -234,7 +234,7 @@ app.controller('viewPastEvents',
                 };
 
                 $scope.edit = function ($event, event) {
-                    var url = user + '.editEvent';
+                    var url = user + '.editPastEvent';
                     var eventid = event['event_id'];
                     localStorageService.set('eventId', eventid);
                     $state.go(url);
