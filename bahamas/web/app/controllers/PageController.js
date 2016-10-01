@@ -289,7 +289,6 @@ app.controller('pageController',
                             $scope.eventSources.push(joinedObj);
                             $scope.eventSources.push(pastObj);
                         }
-                        console.log($scope.eventSources);
                     });
                 };
 
@@ -389,65 +388,4 @@ app.controller('pageController',
                         }
                     });
                 });
-//                $scope.eventSources = [
-//                    {
-//                        'events': [
-//                            {
-//                                'end': '2016-10-05T04:00Z',
-//                                'eventId': 275,
-//                                'start': "2016-10-04T03:00Z",
-//                                'state': ".viewIndivEvent",
-//                                'title': "Interview workers for website, Friday"
-//                            }
-//                        ]
-//                    },
-//                    {
-//                        'events': [
-//                            {
-//                                'end': '2016-10-04T04:00Z',
-//                                'eventId': 275,
-//                                'start': "2016-10-03T03:00Z",
-//                                'state': ".viewIndivEvent",
-//                                'title': "Interview workers for website, Friday"
-//                            }
-//                        ],
-//                        'textColor': "yellow",
-//                        'color': "black"
-//                    },
-//                    {
-//                        'events': [
-//                            {
-//                                'end': '2016-10-07T04:00Z',
-//                                'eventId': 275,
-//                                'start': "2016-10-06T03:00Z",
-//                                'state': ".viewIndivEvent",
-//                                'title': "Interview workers for website, Friday"
-//                            }
-//                        ],
-//                        'textColor': "white",
-//                        'color': "green"
-//                    }
-//                ];
-//                $scope.eventSources = [];
-//                $scope.retrieveCalendar = function () {
-//                    var urlToGetEvents = '/event.retrieve.homepage';
-//                    $scope.toGetEvents = {
-//                        'token': session.getSession('token')
-//                    };
-//                    dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
-//                        if (response.data.message == 'success') {
-//                            $scope.eventSources.length = 0;
-//                            var eventsCreated = response.data.eventsCreated;
-//                            var eventsJoined = response.data.eventsJoined;
-//                            var pastEvents = response.data.pastEvents;
-//                            var createdObj = {'events': eventsCreated};
-//                            var joinedObj = {'events': eventsJoined, 'color': 'green', 'textColor': 'white'};
-//                            var pastObj = {'events': pastEvents, 'color': 'black', 'textColor': 'yellow'};
-//                            $scope.eventSources.push(createdObj);
-//                            $scope.eventSources.push(joinedObj);
-//                            $scope.eventSources.push(pastObj);
-//                        }
-//                        console.log($scope.eventSources);
-//                    });
-//                };
             }]);
