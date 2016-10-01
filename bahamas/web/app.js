@@ -450,7 +450,7 @@ app.config([
     function (uiGmapGoogleMapApiProvider) {
         uiGmapGoogleMapApiProvider.configure({
             key: 'AIzaSyCQeF9t1XxpfqEsfYcX4t03Gd_H7PcKC0Y',
-            v: '3.23',
+            v: '3.26',
             libraries: 'places,geometry,visualization,weather'
         });
     }
