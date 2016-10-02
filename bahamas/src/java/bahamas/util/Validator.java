@@ -17,6 +17,7 @@ import com.mysql.jdbc.StringUtils;
 import java.math.BigDecimal;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -151,8 +152,11 @@ public class Validator {
 
     public static double isDoubleValid(JsonElement e) {
         if (e != null && !e.isJsonNull()) {
+            
             try {
-                return truncateDecimal(e.getAsDouble(), 2).doubleValue();
+                String value = e.getAsString().substring(0, e.getAsString().indexOf(".")+ 3);                
+                double x = Double.parseDouble(value);             
+                return truncateDecimal(x,2).doubleValue();
             } catch (Exception ex) {
                 errorList.add("Please enter a valid value");
                 return 0;
