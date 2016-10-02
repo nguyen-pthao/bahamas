@@ -105,9 +105,10 @@ public class Login extends HttpServlet {
 
                         if (PasswordHash.verify(password, contact.getPassword(), contact.getSalt())
                                 && !contact.isDeactivated()) {
-
+                            
+                            ContactDAO.updateLastLogin(username);
                             AuditLogDAO.insertAuditLog(username, "LOGIN", "Login into system");
-
+                                            
                             String token = Authenticator.signedToken(username);
                             json.addProperty("message", "success");
                             json.addProperty("token", token);

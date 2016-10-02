@@ -461,7 +461,7 @@ public class ContactDAO {
         }
         return null;
     }
-    
+
     public ArrayList<Contact> retrieveAllDonor() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -519,7 +519,7 @@ public class ContactDAO {
         }
         return contactList;
     }
-    
+
     public ArrayList<Contact> retrieveAllCurrentMember() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -577,7 +577,7 @@ public class ContactDAO {
         }
         return contactList;
     }
-    
+
     public ArrayList<Contact> retrieveAllExpiredMember() {
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -595,10 +595,10 @@ public class ContactDAO {
                     + "FROM CONTACT C, MEMBERSHIP M "
                     + "WHERE C.CONTACT_ID = M.CONTACT_ID AND END_MEMBERSHIP < CURDATE() "
                     + "GROUP BY C.CONTACT_ID");
-            */
-            
+             */
+
             stmt = conn.prepareStatement("SELECT CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS, NOTIFICATION FROM CONTACT WHERE CONTACT_ID IN (SELECT CONTACT_ID FROM MEMBERSHIP WHERE CONTACT_ID NOT IN (SELECT DISTINCT CONTACT_ID FROM MEMBERSHIP M WHERE END_MEMBERSHIP >= CURDATE()))");
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -648,24 +648,24 @@ public class ContactDAO {
         ResultSet rs = null;
         String teamQuery = "";
         contactList = new ArrayList<Contact>();
-        if(teamNameList != null && !teamNameList.isEmpty()){
-            
-                for(int i=0; i < teamNameList.size()-1; i++){
-                    teamQuery += "\"" + teamNameList.get(i) + "\", ";
-                }
-                teamQuery += "\"" + teamNameList.get(teamNameList.size()-1) + "\"";
-            
+        if (teamNameList != null && !teamNameList.isEmpty()) {
+
+            for (int i = 0; i < teamNameList.size() - 1; i++) {
+                teamQuery += "\"" + teamNameList.get(i) + "\", ";
+            }
+            teamQuery += "\"" + teamNameList.get(teamNameList.size() - 1) + "\"";
+
         }
         try {
             conn = ConnectionManager.getConnection();
-            
+
             stmt = conn.prepareStatement("SELECT DISTINCT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
                     + "DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, "
                     + "NOTIFICATION FROM CONTACT C, TEAM_JOIN T "
                     + "WHERE C.CONTACT_ID = T.CONTACT_ID AND TEAM_NAME IN (" + teamQuery + ") AND "
                     + "PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE)");
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -708,6 +708,7 @@ public class ContactDAO {
         }
         return contactList;
     }
+
     /*
     public ArrayList<Contact> retrieveAllContactInATeam(String teamName) {
         Connection conn = null;
@@ -766,8 +767,8 @@ public class ContactDAO {
         }
         return contactList;
     }
-    */
-    
+     */
+
     //return everything
     //SELECT * FROM (SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, C.NOTIFICATION, E.EMAIL FROM CONTACT C LEFT OUTER JOIN EMAIL E ON C.CONTACT_ID = E.CONTACT_ID) AS T1 LEFT OUTER JOIN (SELECT C.CONTACT_ID, COUNTRY_CODE, PHONE_NUMBER FROM CONTACT C LEFT OUTER JOIN PHONE P ON C.CONTACT_ID = P.CONTACT_ID) AS T2 ON T1.CONTACT_ID = T2.CONTACT_ID ORDER BY T1.CONTACT_ID
     public ArrayList<Contact> retrieveAllContactWithEmailPhone() {
@@ -780,7 +781,7 @@ public class ContactDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT C.CONTACT_ID,CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,DEACTIVATED,C.DATE_CREATED,C.CREATED_BY,NAME,ALT_NAME,C.EXPLAIN_IF_OTHER,PROFESSION,JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,C.REMARKS, C.NOTIFICATION, EMAIL_LIST, PHONE_LIST, EMAIL_LIST2 FROM CONTACT C LEFT OUTER JOIN (SELECT C.CONTACT_ID, GROUP_CONCAT(CONCAT(EMAIL)SEPARATOR ' | ') AS EMAIL_LIST, GROUP_CONCAT(CONCAT(NAME,'<',EMAIL,'>') SEPARATOR '; ') AS EMAIL_LIST2 FROM CONTACT C, EMAIL E WHERE C.CONTACT_ID = E.CONTACT_ID AND IF(E.DATE_OBSOLETE IS NOT NULL,E.DATE_OBSOLETE >= CURDATE(),TRUE) GROUP BY CONTACT_ID) AS T1 ON C.CONTACT_ID = T1.CONTACT_ID LEFT OUTER JOIN (SELECT C.CONTACT_ID, GROUP_CONCAT(CONCAT('+' ,COUNTRY_CODE,'-',PHONE_NUMBER)SEPARATOR ' | ') AS PHONE_LIST FROM CONTACT C, PHONE P WHERE C.CONTACT_ID = P.CONTACT_ID AND IF(P.DATE_OBSOLETE IS NOT NULL,P.DATE_OBSOLETE >= CURDATE(),TRUE) GROUP BY CONTACT_ID) AS T2 ON C.CONTACT_ID = T2.CONTACT_ID");
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -811,7 +812,7 @@ public class ContactDAO {
                 String phoneList = rs.getString(24);
                 String emailList2 = rs.getString(25);
 
-                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification,emailList,phoneList,emailList2);
+                Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification, emailList, phoneList, emailList2);
                 contactList.add(contact);
 
             }
@@ -826,5 +827,29 @@ public class ContactDAO {
         }
         return contactList;
     }
-    
+
+    public static boolean updateLastLogin(String username) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("UPDATE CONTACT SET LAST_LOGIN=? WHERE USERNAME=?");
+
+            stmt.setTimestamp(1, new java.sql.Timestamp(new java.util.Date().getTime()));
+            stmt.setString(2, username);
+
+            return stmt.executeUpdate() == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+
+    }
+
 }
