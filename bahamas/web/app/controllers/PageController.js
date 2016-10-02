@@ -210,7 +210,30 @@ app.controller('pageController',
                 $scope.$on('IdleEnd', function () {
                     ngDialog.closeAll();
                 });
-
+                
+                $scope.retrieveCalendar = function (){
+                    //to get eventsources
+                    $scope.eventSources = [];
+                    var urlToGetEvents = '/event.retrieve.homepage';
+                    $scope.toGetEvents = {
+                        'token': session.getSession('token')
+                    };
+                    dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
+                        if (response.data.message == 'success') {
+                            $scope.eventSources.length = 0;
+                            var eventsCreated = response.data.eventsCreated;
+                            var eventsJoined = response.data.eventsJoined;
+                            var pastEvents = response.data.pastEvents;
+                            var createdObj = {'events': eventsCreated};
+                            var joinedObj = {'events': eventsJoined, 'color': 'green', 'textColor': 'white'};
+                            var pastObj = {'events': pastEvents, 'color': 'black', 'textColor': 'yellow'};
+                            $scope.eventSources.push(createdObj);
+                            $scope.eventSources.push(joinedObj);
+                            $scope.eventSources.push(pastObj);
+                        }
+                    });
+                };
+                
                 $scope.populatePage = function () {
                     Idle.watch();
                     $scope.name = '';
@@ -270,26 +293,6 @@ app.controller('pageController',
                             });
                         };
                     }
-                    //to get eventsources
-                    $scope.eventSources = [];
-                    var urlToGetEvents = '/event.retrieve.homepage';
-                    $scope.toGetEvents = {
-                        'token': session.getSession('token')
-                    };
-                    dataSubmit.submitData($scope.toGetEvents, urlToGetEvents).then(function (response) {
-                        if (response.data.message == 'success') {
-                            $scope.eventSources.length = 0;
-                            var eventsCreated = response.data.eventsCreated;
-                            var eventsJoined = response.data.eventsJoined;
-                            var pastEvents = response.data.pastEvents;
-                            var createdObj = {'events': eventsCreated};
-                            var joinedObj = {'events': eventsJoined, 'color': 'green', 'textColor': 'white'};
-                            var pastObj = {'events': pastEvents, 'color': 'black', 'textColor': 'yellow'};
-                            $scope.eventSources.push(createdObj);
-                            $scope.eventSources.push(joinedObj);
-                            $scope.eventSources.push(pastObj);
-                        }
-                    });
                 };
 
                 $scope.logout = function () {
