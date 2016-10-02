@@ -160,6 +160,7 @@ public class Report extends HttpServlet {
             store.addProperty("Date of last participation *unverified", temp.get(3));
             store.addProperty("Number of sign-ups within this period", temp.get(4));
             store.addProperty("Cumulative number of awarded hours within this period", temp.get(5));
+            store.addProperty("Last Logged in Date", temp.get(6));
 
             records.add(store);
         }

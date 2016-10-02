@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +25,8 @@ import java.util.logging.Logger;
  * @author HUXLEY
  */
 public class ReportDAO {
+
+    private static SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
 
     public ReportDAO() {
     }
@@ -37,7 +40,7 @@ public class ReportDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID,c.NAME, c.USERNAME, MIN(DATE(e.DATE_CREATED)), "
-                    + "MAX(DATE(e.DATE_CREATED)) FROM CONTACT c, TEAM_JOIN t, EVENT_PARTICIPANT e "
+                    + "MAX(DATE(e.DATE_CREATED)), c.LAST_LOGIN FROM CONTACT c, TEAM_JOIN t, EVENT_PARTICIPANT e "
                     + "WHERE c.CONTACT_ID=t.CONTACT_ID "
                     + "AND e.CONTACT_ID=c.CONTACT_ID AND PULLOUT=FALSE AND TEAM_NAME = ? "
                     + "GROUP BY c.CONTACT_ID,c.NAME, c.USERNAME");
@@ -51,12 +54,18 @@ public class ReportDAO {
                 String username = rs.getString(3);
                 String firstParticapationDate = rs.getString(4);
                 String lastParticapationDate = rs.getString(5);
+                Date lastLogin = rs.getTimestamp(6);
+                String lastLoginValue = "";
+                if (lastLogin != null) {
+                    lastLoginValue = format.format(lastLogin);
+                }
 
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add(name);
                 temp.add(username);
                 temp.add(firstParticapationDate);
                 temp.add(lastParticapationDate);
+                temp.add(lastLoginValue);
 
                 resultMap.put(contact_id, temp);
             }
@@ -82,8 +91,11 @@ public class ReportDAO {
 
                     ArrayList<String> temp = resultMap.get(contact_id);
                     if (temp != null) {
+                        String store = temp.get(temp.size() - 1);
+                        temp.remove(temp.size() - 1);
                         temp.add(String.valueOf(numOfSignUp));
                         temp.add(String.valueOf(hoursServed));
+                        temp.add(store);
                     }
 
                 }
@@ -161,7 +173,7 @@ public class ReportDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT DATE(EVENT_START_DATE), EVENT_TITLE, "
-                    + "e.CREATED_BY, PARTICIPANT_NUMBER, EVENT_STATUS FROM EVENT e, EVENT_AFFILIATION ea " 
+                    + "e.CREATED_BY, PARTICIPANT_NUMBER, EVENT_STATUS FROM EVENT e, EVENT_AFFILIATION ea "
                     + "WHERE e.EVENT_ID=ea.EVENT_ID AND TEAM_NAME=? AND DATE(EVENT_START_DATE) "
                     + "BETWEEN ? AND ? ORDER BY DATE(EVENT_START_DATE)");
 
@@ -173,12 +185,12 @@ public class ReportDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                String DateOfEvent = rs.getString(1);              
+                String DateOfEvent = rs.getString(1);
                 String eventTitle = rs.getString(2);
                 String eventCreator = rs.getString(3);
                 String numOfParticipants = String.valueOf(rs.getInt(4));
                 String status = rs.getString(5);
-               
+
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add(DateOfEvent);
                 temp.add(eventTitle);
