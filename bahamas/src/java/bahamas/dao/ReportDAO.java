@@ -26,7 +26,8 @@ import java.util.logging.Logger;
  */
 public class ReportDAO {
 
-    private static SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+    private static SimpleDateFormat formatTime = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
+    private static SimpleDateFormat formatDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
 
     public ReportDAO() {
     }
@@ -57,7 +58,7 @@ public class ReportDAO {
                 Date lastLogin = rs.getTimestamp(6);
                 String lastLoginValue = "";
                 if (lastLogin != null) {
-                    lastLoginValue = format.format(lastLogin);
+                    lastLoginValue = formatTime.format(lastLogin);
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
@@ -121,7 +122,8 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT DATE(ep.DATE_CREATED), TEAM_NAME, EVENT_TITLE, ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
+            stmt = conn.prepareStatement("SELECT DATE(ep.DATE_CREATED), TEAM_NAME, EVENT_TITLE, "
+                    + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
                     + "TEAM_JOIN T, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
                     + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
                     + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? AND TEAM_NAME=? "
@@ -136,14 +138,19 @@ public class ReportDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                String DateOfEventSignUp = rs.getString(1);
+                Date dateOfEventSignUp = rs.getDate(1);
+                String eventSignUpDate = "";
+                if (dateOfEventSignUp != null) {
+                    eventSignUpDate = formatDate.format(dateOfEventSignUp);
+                }
+
                 String teamName = rs.getString(2);
                 String eventTitle = rs.getString(3);
                 String role = rs.getString(4);
                 String hours = String.valueOf(rs.getInt(5));
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(DateOfEventSignUp);
+                temp.add(eventSignUpDate);
                 temp.add(teamName);
                 temp.add(eventTitle);
                 temp.add(role);
@@ -185,18 +192,358 @@ public class ReportDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                String DateOfEvent = rs.getString(1);
+                Date DateOfEvent = rs.getDate(1);
+                String dateOfEvent = "";
+                if (DateOfEvent != null) {
+                    dateOfEvent = formatDate.format(DateOfEvent);
+                }
+
                 String eventTitle = rs.getString(2);
                 String eventCreator = rs.getString(3);
                 String numOfParticipants = String.valueOf(rs.getInt(4));
                 String status = rs.getString(5);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(DateOfEvent);
+                temp.add(dateOfEvent);
                 temp.add(eventTitle);
                 temp.add(eventCreator);
                 temp.add(numOfParticipants);
                 temp.add(status);
+
+                resultMap.put(++counter, temp);
+            }
+
+            return resultMap;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return resultMap;
+    }
+
+    public static HashMap<Integer, ArrayList<String>> summaryCurrentMembership(Date reference, String membershipType) {
+        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            if (membershipType != null) {
+                stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                        + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
+                        + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
+                        + "AND END_MEMBERSHIP AND MEMBERSHIP_CLASS_NAME=?");
+                
+            } else {
+                stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                        + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
+                        + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
+                        + "AND END_MEMBERSHIP");
+            }
+
+            stmt.setDate(1, new java.sql.Date(reference.getTime()));
+            stmt.setString(2, membershipType);
+
+            int counter = 0;
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                String name = rs.getString(1);
+                String membershipClass = rs.getString(2);
+
+                Date startDate = rs.getDate(3);
+                String membershipStart = "";
+                if (startDate != null) {
+                    membershipStart = formatDate.format(startDate);
+                }
+
+                Date endDate = rs.getDate(4);
+                String membershipEnd = "";
+                if (endDate != null) {
+                    membershipEnd = formatDate.format(endDate);
+                }
+
+                String subscriptionAmt = String.valueOf(rs.getDouble(5));
+
+                Date rDate = rs.getDate(6);
+                String receiptDate = "";
+                if (rDate != null) {
+                    receiptDate = formatDate.format(rDate);
+                }
+
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(name);
+                temp.add(membershipClass);
+                temp.add(membershipStart);
+                temp.add(membershipEnd);
+                temp.add(subscriptionAmt);
+                temp.add(receiptDate);
+
+                resultMap.put(++counter, temp);
+            }
+
+            return resultMap;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return resultMap;
+    }
+
+    public static HashMap<Integer, ArrayList<String>> summaryMembership(Date start, Date end) {
+        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                    + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
+                    + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND DATE(m.DATE_CREATED) BETWEEN ? "
+                    + "AND ?");
+
+            stmt.setDate(1, new java.sql.Date(start.getTime()));
+            stmt.setDate(2, new java.sql.Date(end.getTime()));
+
+            int counter = 0;
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                String name = rs.getString(1);
+                String membershipClass = rs.getString(2);
+
+                Date startDate = rs.getDate(3);
+                String membershipStart = "";
+                if (startDate != null) {
+                    membershipStart = formatDate.format(startDate);
+                }
+
+                Date endDate = rs.getDate(4);
+                String membershipEnd = "";
+                if (endDate != null) {
+                    membershipEnd = formatDate.format(endDate);
+                }
+
+                String subscriptionAmt = String.valueOf(rs.getDouble(5));
+
+                Date rDate = rs.getDate(6);
+                String receiptDate = "";
+                if (rDate != null) {
+                    receiptDate = formatDate.format(rDate);
+                }
+
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(name);
+                temp.add(membershipClass);
+                temp.add(membershipStart);
+                temp.add(membershipEnd);
+                temp.add(subscriptionAmt);
+                temp.add(receiptDate);
+
+                resultMap.put(++counter, temp);
+            }
+
+            return resultMap;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return resultMap;
+    }
+
+    public static HashMap<Integer, ArrayList<String>> individualMembership(int cid, Date start, Date end) {
+        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                    + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
+                    + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND m.CONTACT_ID=? AND DATE(m.DATE_CREATED) BETWEEN ? "
+                    + "AND ?");
+
+            stmt.setInt(1, cid);
+            stmt.setDate(2, new java.sql.Date(start.getTime()));
+            stmt.setDate(3, new java.sql.Date(end.getTime()));
+
+            int counter = 0;
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                String membershipClass = rs.getString(1);
+
+                Date startDate = rs.getDate(2);
+                String membershipStart = "";
+                if (startDate != null) {
+                    membershipStart = formatDate.format(startDate);
+                }
+
+                Date endDate = rs.getDate(3);
+                String membershipEnd = "";
+                if (endDate != null) {
+                    membershipEnd = formatDate.format(endDate);
+                }
+
+                String subscriptionAmt = String.valueOf(rs.getDouble(4));
+
+                Date rDate = rs.getDate(5);
+                String receiptDate = "";
+                if (rDate != null) {
+                    receiptDate = formatDate.format(rDate);
+                }
+
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(membershipClass);
+                temp.add(membershipStart);
+                temp.add(membershipEnd);
+                temp.add(subscriptionAmt);
+                temp.add(receiptDate);
+
+                resultMap.put(++counter, temp);
+            }
+
+            return resultMap;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return resultMap;
+    }
+
+    public static HashMap<Integer, ArrayList<String>> summaryDonations(String paymentMode, Date start, Date end) {
+        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+
+            if (paymentMode != null) {
+                stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, c.NAME, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
+                        + "RECEIPT_NUMBER, DONOR_INSTRUCTIONS, SUBAMOUNT_1, SUBAMOUNT_2, SUBAMOUNT_3 "
+                        + "FROM DONATION d, CONTACT c WHERE d.CONTACT_ID=c.CONTACT_ID AND PAYMENT_MODE_NAME=? "
+                        + "AND DATE_RECEIVED BETWEEN ? AND ?");
+            } else {
+                stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, c.NAME, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
+                        + "RECEIPT_NUMBER, DONOR_INSTRUCTIONS, SUBAMOUNT_1, SUBAMOUNT_2, SUBAMOUNT_3 "
+                        + "FROM DONATION d, CONTACT c WHERE d.CONTACT_ID=c.CONTACT_ID "
+                        + "AND DATE_RECEIVED BETWEEN ? AND ?");
+            }
+
+            stmt.setString(1, paymentMode);
+            stmt.setDate(2, new java.sql.Date(start.getTime()));
+            stmt.setDate(3, new java.sql.Date(end.getTime()));
+
+            int counter = 0;
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                Date rDate = rs.getDate(1);
+                String receivedDate = "";
+                if (rDate != null) {
+                    receivedDate = formatDate.format(rDate);
+                }
+
+                String name = rs.getString(2);
+                String donationAmt = String.valueOf(rs.getDouble(3));
+                String paymentM = rs.getString(4);
+                String receiptNum = rs.getString(5);
+                String donorInstruc = rs.getString(6);
+                String subAmt1 = String.valueOf(rs.getDouble(7));
+                String subAmt2 = String.valueOf(rs.getDouble(8));
+                String subAmt3 = String.valueOf(rs.getDouble(9));
+
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(receivedDate);
+                temp.add(name);
+                temp.add(donationAmt);
+                temp.add(paymentM);
+                temp.add(receiptNum);
+                temp.add(donorInstruc);
+                temp.add(subAmt1);
+                temp.add(subAmt2);
+                temp.add(subAmt3);
+
+                resultMap.put(++counter, temp);
+            }
+
+            return resultMap;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return resultMap;
+    }
+
+    public static HashMap<Integer, ArrayList<String>> individualDonations(int cid, Date start, Date end) {
+        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, c.NAME, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
+                    + "RECEIPT_NUMBER, DONOR_INSTRUCTIONS, SUBAMOUNT_1, SUBAMOUNT_2, SUBAMOUNT_3 "
+                    + "FROM DONATION d, CONTACT c WHERE d.CONTACT_ID=c.CONTACT_ID AND d.CONTACT_ID=? "
+                    + "AND DATE_RECEIVED BETWEEN ? AND ?");
+
+            stmt.setInt(1, cid);
+            stmt.setDate(2, new java.sql.Date(start.getTime()));
+            stmt.setDate(3, new java.sql.Date(end.getTime()));
+
+            int counter = 0;
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                Date rDate = rs.getDate(1);
+                String receivedDate = "";
+                if (rDate != null) {
+                    receivedDate = formatDate.format(rDate);
+                }
+
+                String donationAmt = String.valueOf(rs.getDouble(2));
+                String paymentM = rs.getString(3);
+                String receiptNum = rs.getString(4);
+                String donorInstruc = rs.getString(5);
+                String subAmt1 = String.valueOf(rs.getDouble(6));
+                String subAmt2 = String.valueOf(rs.getDouble(7));
+                String subAmt3 = String.valueOf(rs.getDouble(8));
+
+                ArrayList<String> temp = new ArrayList<String>();
+                temp.add(receivedDate);
+                temp.add(donationAmt);
+                temp.add(paymentM);
+                temp.add(receiptNum);
+                temp.add(donorInstruc);
+                temp.add(subAmt1);
+                temp.add(subAmt2);
+                temp.add(subAmt3);
 
                 resultMap.put(++counter, temp);
             }
