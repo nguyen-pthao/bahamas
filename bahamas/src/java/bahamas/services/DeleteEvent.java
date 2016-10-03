@@ -102,7 +102,7 @@ public class DeleteEvent extends HttpServlet {
                         return;
                     } else {
 
-                        if (!cDAO.retrieveContactByUsername(username).isIsAdmin() && !contact.getUsername().equals(username)) {
+                        if (!contact.isIsAdmin()) {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
                             return;

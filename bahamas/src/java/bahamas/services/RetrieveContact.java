@@ -197,7 +197,6 @@ public class RetrieveContact extends HttpServlet {
 
         JsonArray contactArray = new JsonArray();
         JsonObject jsonContactObj;
-        final long startTime = System.currentTimeMillis();
         for (Contact c : contactList) {
 
             //ArrayList<Email> emailList = EmailDAO.retrieveAllEmail(c);
@@ -341,7 +340,11 @@ public class RetrieveContact extends HttpServlet {
                 jsonContactObj.addProperty("email", "");
             }
             jsonContactObj.addProperty("contact_type", contactType);
-            jsonContactObj.addProperty("permission_level", permissionLevel);
+            if(c.getUsername() == null){
+                jsonContactObj.addProperty("permission_level", " - ");
+            } else {
+                jsonContactObj.addProperty("permission_level", permissionLevel);
+            }
             jsonContactObj.addProperty("cid", c.getContactId());
             if(tempContact.getSendEmailFormat() != null){
                 sendEmailList += tempContact.getSendEmailFormat() + "; ";
@@ -349,8 +352,6 @@ public class RetrieveContact extends HttpServlet {
             contactArray.add(jsonContactObj);
 
         }
-        final long endTime = System.currentTimeMillis();
-        System.out.println("Total execution time: " + (endTime - startTime));
         return contactArray;
     }
 

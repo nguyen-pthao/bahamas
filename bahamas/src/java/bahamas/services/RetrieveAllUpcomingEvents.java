@@ -225,7 +225,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                             jsonContactObj.addProperty("event_status", event.getEventStatus());
                                             if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getCreatedBy().equals(contact.getUsername())) {
                                                 jsonContactObj.addProperty("canEdit", true);
-                                                jsonContactObj.addProperty("canDelete", true);
+                                                //jsonContactObj.addProperty("canDelete", true);
                                                 jsonContactObj.addProperty("canJoin", true);
                                             } else {
                                                 if (event.getTeamInStr() != null) {
@@ -239,19 +239,19 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                                 String permision = hmTeamPermission.get(eventTeam);
                                                                 if (permision != null && permision.equals("Event leader")) {
                                                                     jsonContactObj.addProperty("canEdit", true);
-                                                                    jsonContactObj.addProperty("canDelete", true);
+                                                                    //jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
                                                                     break;
                                                                 } else if (permision != null && permision.equals("Associate")) {
                                                                     jsonContactObj.addProperty("canEdit", false);
-                                                                    jsonContactObj.addProperty("canDelete", false);
+                                                                    //jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
                                                                     break;
                                                                 } else if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")){
                                                                     jsonContactObj.addProperty("canEdit", false);
-                                                                    jsonContactObj.addProperty("canDelete", false);
+                                                                    //jsonContactObj.addProperty("canDelete", false);
                                                                     jsonContactObj.addProperty("canJoin", true);
                                                                     marked = true;
                                                                     break;
@@ -260,19 +260,24 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                                                         }
                                                         if (!marked) {
                                                             jsonContactObj.addProperty("canEdit", false);
-                                                            jsonContactObj.addProperty("canDelete", false);
+                                                            //jsonContactObj.addProperty("canDelete", false);
                                                             jsonContactObj.addProperty("canJoin", false);
                                                         }
                                                     } else {
                                                         jsonContactObj.addProperty("canEdit", false);
-                                                        jsonContactObj.addProperty("canDelete", false);
+                                                        //jsonContactObj.addProperty("canDelete", false);
                                                         jsonContactObj.addProperty("canJoin", false);
                                                     }
                                                 } else {
                                                     jsonContactObj.addProperty("canEdit", false);
-                                                    jsonContactObj.addProperty("canDelete", false);
+                                                    //jsonContactObj.addProperty("canDelete", false);
                                                     jsonContactObj.addProperty("canJoin", false);
                                                 }
+                                            }
+                                            if (contact.isIsAdmin() ){
+                                                jsonContactObj.addProperty("canDelete", true);
+                                            } else {
+                                                jsonContactObj.addProperty("canDelete", false);
                                             }
                                             ArrayList<EventParticipant> eventParticipantList = EventParticipantDAO.retrieveEventParticipantbyEventID(event.getEventId());
                                             int partNumber = 0;
