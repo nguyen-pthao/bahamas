@@ -51,8 +51,8 @@ and open the template in the editor.
                                             <span ng-show="eventForm.eventStartDate.$error.required && eventForm.eventStartDate.$touched" class="error">Event Start Date is required.</span>
                                         </div>
                                         <div class="col-md-3" style="padding:0px;">
-                                            <label>Start Time</label><span class="required">*</span>
-                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
+                                            <label>Start Time</label><span class="required">*</span><span>(24H)</span>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime' show-meridian="false"></div>
                                             <span ng-show="eventForm.eventStartTime.$error.required && eventForm.eventStartTime.$touched" class="error">Start Time is required.<br></span>
                                             <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventStartTime.$touched" class="error">Start Time cannot be after End Time.</span>-->
                                         </div>
@@ -68,8 +68,8 @@ and open the template in the editor.
                                             <span ng-show="(newEvent['event_start_date'] > newEvent['event_end_date']) && eventForm.eventEndDate.$touched" class="error">End Date cannot be before Start Date.</span>
                                         </div>
                                         <div class="col-md-3" style="padding: 0px">
-                                            <label>End Time</label><span class="required">*</span>
-                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
+                                            <label>End Time</label><span class="required">*</span><span>(24H)</span>
+                                            <div uib-timepicker ng-required="true" ng-model="newEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime' show-meridian="false"></div>
                                             <span ng-show="eventForm.eventEndTime.$error.required && eventForm.eventEndTime.$touched" class="error">End Time is required.<br></span>
                                             <!--                                            <span ng-show="(newEvent['event_start_date'] == newEvent['event_end_date']) && (newEvent['event_time_start'] >= newEvent['event_time_end']) && eventForm.eventEndTime.$touched" class="error">End Time cannot be before Start Time.</span>-->
                                         </div>
