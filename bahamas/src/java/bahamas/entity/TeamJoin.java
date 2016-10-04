@@ -51,6 +51,7 @@ public class TeamJoin {
     public TeamJoin(Contact contact, String teamName, Date dateCreated, String createdBy, String explainIfOthers, String subTeam, Date dateObsolete, String remarks, String permission) {
         this.contact = contact;
         this.teamName = teamName;
+        this.dateCreated = dateCreated;
         this.createdBy = createdBy;
         this.explainIfOthers = explainIfOthers;
         this.subTeam = subTeam;

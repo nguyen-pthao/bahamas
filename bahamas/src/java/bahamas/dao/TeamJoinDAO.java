@@ -48,7 +48,7 @@ public class TeamJoinDAO {
             while (rs.next()) {
 
                 String teamName = rs.getString(1);
-                Date dateCreated = sdf.parse(rs.getString(2));
+                Date dateCreated = rs.getTimestamp(2);
                 String createdBy = rs.getString(3);
                 String explainIfOthers = rs.getString(4);
                 String subTeam = rs.getString(5);
@@ -106,7 +106,7 @@ public class TeamJoinDAO {
             while (rs.next()) {
 
                 String teamName = rs.getString(1);
-                Date dateCreated = sdf.parse(rs.getString(2));
+                Date dateCreated = rs.getTimestamp(2);
                 String createdBy = rs.getString(3);
                 String explainIfOthers = rs.getString(4);
                 String subTeam = rs.getString(5);
