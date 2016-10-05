@@ -95,7 +95,7 @@ app.controller('editContact',
                     retrieveContactByCid, retrieveOwnContactInfo) {
 
                 var permission = session.getSession('userType');
-
+                
                 //viewing mode: false for own contact and true for other people contact
                 $scope.editMode = session.getSession('otherContact');
 
@@ -169,10 +169,13 @@ app.controller('editContact',
 
 //PAGES TRANSITION
                 var toContact = '';
+                var viewContact = '';
                 if ($scope.authorised && $scope.editMode == 'true') {
                     toContact = permission + '.viewIndivContact';
+                    viewContact = permission + "/viewIndivContact";
                 } else {
                     toContact = permission + '.profile';
+                    viewContact = permission + "/profile";
                 }
                 var homepage = permission;
                 var toContacts = permission + '.viewContacts';
@@ -180,12 +183,15 @@ app.controller('editContact',
                 $scope.backHome = function () {
                     $state.go(homepage);
                 };
+                $scope.userLoggedIn = permission;
                 $scope.viewContact = function () {
                     $state.go(toContact);
                 };
+                $scope.userViewContact = viewContact;
                 $scope.viewAllContacts = function () {
                     $state.go(toContacts);
                 };
+                $scope.userViewContacts = permission + "/" + 'viewContacts';
 
 //CALL DROPDOWN LIST SERVICES (shared by different tabs)
                 $scope.loadPaymentModeList = function () {

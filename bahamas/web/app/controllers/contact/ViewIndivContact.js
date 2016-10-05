@@ -15,12 +15,13 @@ app.filter('verifiedFilter', function () {
         } else {
             return 'No';
         }
-    }
+    };
 });
 
 app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveContactByCid', function ($scope, session, $state, retrieveContactByCid) {
         $scope.contactToDisplayCid = session.getSession('contactToDisplayCid');
         $scope.permission = session.getSession('userType');
+        
         $scope.ownContactCid = angular.fromJson(session.getSession('contact')).cid;
         if (session.getSession('teams') === 'undefined') {
             var contactToRetrieve = {
@@ -272,7 +273,8 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         $scope.viewContacts = function () {
             $state.go(toAllContacts);
         };
-
+        $scope.userViewContacts = $scope.permission + "/" + 'viewContacts';
+        $scope.userViewContact = $scope.permission + "/" + 'viewIndivContact';
         $scope.editContact = function () {
             session.setSession('otherContact', 'true');
             $state.go(editContact);

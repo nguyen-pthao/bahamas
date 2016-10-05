@@ -14,26 +14,27 @@ app.controller('cloneEvent',
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-
+                $scope.userLoggedIn = user;
+                
                 $scope.regex = '\\d+';
 
                 $scope.loadEventStatusList = function () {
                     loadEventStatus.retrieveEventStatus().then(function (response) {
                         $scope.eventStatusList = response.data.eventStatusList;
-                    })
-                }
+                    });
+                };
 
                 $scope.loadEventLocationList = function () {
                     loadEventLocation.retrieveEventLocation().then(function (response) {
                         $scope.eventLocationList = response.data.eventLocationList;
-                    })
-                }
+                    });
+                };
 
                 $scope.loadEventClassList = function () {
                     loadEventClass.retrieveEventClass().then(function (response) {
                         $scope.eventClassList = response.data.eventClassList;
-                    })
-                }
+                    });
+                };
                 
                 $scope.retrieveContact = function(){
                     $scope.toRetrieve = {
@@ -46,9 +47,9 @@ app.controller('cloneEvent',
                             if(obj.verified==="true"){
                                 $scope.verifiedEmail.push(obj.email);
                             }
-                        })
-                    })
-                }
+                        });
+                    });
+                };
 
                 $scope.endDaily = 'isOccurence';
                 $scope.endWeekly = 'isOccurence';
@@ -94,7 +95,7 @@ app.controller('cloneEvent',
                     $scope.toRetrieve = {
                         'token': session.getSession('token'),
                         'eventId': eventIdToClone
-                    }
+                    };
                     var url = '/event.retrieveindiv';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.eventInfo = response.data;
@@ -161,15 +162,15 @@ app.controller('cloneEvent',
                 $scope.openStart = function () {
                     $timeout(function () {
                         $scope.openedStart = true;
-                    })
-                }
+                    });
+                };
 
 
                 $scope.openEnd = function () {
                     $timeout(function () {
                         $scope.openedEnd = true;
-                    })
-                }
+                    });
+                };
 
                 $scope.dateOptionsRepeat = {
                     formatYeat: 'yy',
@@ -181,20 +182,20 @@ app.controller('cloneEvent',
                 $scope.openRepeatDaily = function () {
                     $timeout(function () {
                         $scope.openedRepeatDaily = true;
-                    })
-                }
+                    });
+                };
 
                 $scope.openRepeatWeekly = function () {
                     $timeout(function () {
                         $scope.openedRepeatWeekly = true;
-                    })
-                }
+                    });
+                };
 
                 $scope.openRepeatMonthly = function () {
                     $timeout(function () {
                         $scope.openedRepeatMonthly = true;
-                    })
-                }
+                    });
+                };
 
                 function getDayClass(data) {
                     var date = data.date,
@@ -239,7 +240,7 @@ app.controller('cloneEvent',
                         }
                     }
                     $scope.newEvent['event_end_date'] = $scope.newEvent['event_start_date'];
-                })
+                });
 
                 $scope.$watch("newEvent['event_end_date']", function () {
                     if (angular.isUndefined($scope.newEvent['event_end_date']) || $scope.newEvent['event_end_date'] === "") {
@@ -262,7 +263,7 @@ app.controller('cloneEvent',
                             $scope.dayOfEndDate = "Saturday";
                         }
                     }
-                })
+                });
 
                 $scope.daysChosen = {
                     'Su': false,
@@ -307,7 +308,7 @@ app.controller('cloneEvent',
                             $scope.map.zoom = 10;
                         }, 0);
                     }
-                })
+                });
                 $scope.marker = {coords: {latitude: '', longitude: ''}, id: 1};
                 $scope.searchbox = {template: './style/ngTemplate/searchbox.tpl.html', events: {places_changed: function (searchBox) {
                             $scope.newEvent['event_lat'] = searchBox.getPlaces()[0].geometry.location.lat();
@@ -325,7 +326,7 @@ app.controller('cloneEvent',
                             $scope.newEvent['address'] = value.address;
                             $scope.newEvent['zipcode'] = value.zipcode;
                         }
-                    })
+                    });
                 };
                 //--end of location change function--
 
@@ -392,7 +393,7 @@ app.controller('cloneEvent',
                         if (value === true) {
                             $scope.newEvent['repeat']['repeat_on'].push(key);
                         }
-                    })
+                    });
                     
                     if($scope.newEvent['send_reminder']===false){
                         $scope.newEvent['reminder_email']= "";
@@ -417,7 +418,7 @@ app.controller('cloneEvent',
                                 template: './style/ngTemplate/errorMessage.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         } else if (response.data.message == 'conflict') {
                             $scope.errorMessages = response.data.errorMsg;
                             ngDialog.openConfirm({

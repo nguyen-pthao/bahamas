@@ -18,11 +18,12 @@ app.controller('viewContacts',
                 $scope.backHome = function () {
                     $state.go(user);
                 };
-
+                $scope.userLoggedIn = user;
                 $scope.viewContact = function () {
                     $state.reload(currentState);
                 };
-
+                $scope.userViewContacts = user + "/" + 'viewContacts';
+                
                 $scope.loadTeamList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
@@ -37,7 +38,7 @@ app.controller('viewContacts',
                             $scope.teamList.unshift({'teamAffiliation': 'ALL'});
                         }
                         $scope.teamFilter = $scope.teamList[0].teamAffiliation;
-                    })
+                    });
                 };
 
                 $scope.retrieveAllContacts = function () {
@@ -157,6 +158,7 @@ app.controller('viewContacts',
 
                         $scope.foo = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
+                            
                             var contactCid = contact.cid;
                             session.setSession('contactToDisplayCid', contactCid);
                             $state.go(toURL);

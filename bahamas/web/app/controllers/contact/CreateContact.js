@@ -13,9 +13,12 @@ app.controller('createContact',
             function ($scope, $state, session, dataSubmit, loadCountries, loadContactType, loadTeamAffiliation, loadPermissionLevel, loadLanguage, loadLSAClass, $filter, $timeout, ngDialog) {
 //PAGES TRANSITION
                 var user = session.getSession('userType');
+                $scope.userLoggedIn = user;
                 var viewContact = user + '.viewContacts';
+                $scope.userViewContacts = user + "/" + 'viewContacts';
                 var currentState = user + '.addContact';
-
+                $scope.userCurrentState = user + '/' + 'addContact';
+                
                 $scope.backHome = function () {
                     $state.go(user);
                 };

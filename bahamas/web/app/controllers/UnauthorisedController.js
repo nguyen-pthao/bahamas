@@ -7,12 +7,12 @@
 var app = angular.module('bahamas');
 
 app.controller('unauthorisedController',
-        ['$scope', 'session', '$state', 'localStorageService', '$http', '$rootScope', '$timeout',
-            function ($scope, session, $state, localStorageService, $http, $rootScope, $timeout) {
+        ['$scope', 'session', '$state', 'localStorageService', '$rootScope', '$timeout',
+            function ($scope, session, $state, localStorageService, $rootScope, $timeout) {
 
                 $scope.previousPage = function () {
                     $state.go($rootScope.previousState);
-                }
+                };
 
                 $scope.toLogin = function () {
                     $timeout.cancel($scope.logoutTimer);
@@ -20,6 +20,6 @@ app.controller('unauthorisedController',
                     session.terminateSession();
                     localStorageService.clearAll();
                     $state.go('login');
-                }
+                };
 
             }]);
