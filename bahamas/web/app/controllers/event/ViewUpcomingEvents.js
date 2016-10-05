@@ -58,6 +58,7 @@ app.controller('viewUpcomingEvents',
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 50;
                         $scope.allFilteredEvents = $scope.allEventInfo;
+                        $scope.allFilteredEvents.reverse();
                         $scope.isAll = false;
                         var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
@@ -67,10 +68,9 @@ app.controller('viewUpcomingEvents',
                         $scope.$watch('currentPage + itemsPerPage', function () {
                             var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
                             var end = begin + parseInt($scope.itemsPerPage);
-
                             $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
                         });
-
+                        
                         $scope.itemsPerPageChanged = function () {
                             if ($scope.itemsPerPage == 'toAll') {
                                 $scope.itemsPerPage = $scope.allFilteredEvents.length;
@@ -296,7 +296,7 @@ app.controller('viewUpcomingEvents',
                 };
 
                 $scope.predicate = '';
-                $scope.reverse = true;
+                $scope.reverse = false;
 
                 $scope.order = function (predicate) {
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
