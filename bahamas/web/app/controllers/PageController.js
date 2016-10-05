@@ -170,7 +170,7 @@ app.controller('pageController',
         ['$scope', 'session', '$state', 'ngDialog', 'loadAllContacts', 'localStorageService', 'Idle', 'dataSubmit', '$timeout', 'Upload',
             function ($scope, session, $state, ngDialog, loadAllContacts, localStorageService, Idle, dataSubmit, $timeout, Upload) {
                 var user = session.getSession('userType');
-
+                $scope.userLoggedIn = user;
                 $scope.uiConfig = {
                     calendar: {
 //                        height: 500,

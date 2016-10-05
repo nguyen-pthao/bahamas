@@ -63,6 +63,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/dataManagement/import.html',
                 controller: 'import'
             })
+            .state('admin.report', {
+                url: '/report',
+                templateUrl: 'app/views/report/report.html',
+                controller: 'report'
+            })
             .state('admin.globalSettings', {
                 url: '/globalSettings',
                 templateUrl: 'app/views/settings/globalSettings.html',

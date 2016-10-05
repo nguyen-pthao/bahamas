@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    </head>
+    <body>
+        <div class="content-wrapper inner-content-wrapper" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="#/admin" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a> Report </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <section class="content">
+                <div class="box">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Export Files </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Export Files">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-12 padding-bottom">
+                            <div class="col-md-5 form-group">
+                                <label>File Name (Optional)</label>
+                                <input type='text' class="form-control" name="filename">
+                            </div>
+                            <div class="col-md-offset-2 col-md-5">
+                                <label>Select data table to be exported</label>
+                                <select class="form-control" ng-model="selectedReport">
+                                    <option value="trial0" selected>trial0</option>
+                                    <option value="trial1">trial1</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <center>
+                                    <button class="btn btn-link uppercase bold" ng-click="report()"><i class="glyphicon glyphicon-floppy-disk"></i> Generate data table</button>
+                                </center>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="resultData != '' && !error">
+                            <span class="uppercase bold pull-left">{{selectedExport}} TABLE</span>
+                            <span class="pull-right">
+                                    <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+                            </span>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="table-horizontal-scroll" id="report">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr>
+                                            <th>=SUM(1+2)</th>
+                                            <th>=SUM(1+2)</th>
+                                            <th>=SUM(1+2)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>=(4/2)</td>
+                                            <td>=(4*2)</td>
+                                            <td>=SUM(12+3*4)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <center>
+                                <label class="uppercase"></label>
+                            </center>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </body>
+</html>
+

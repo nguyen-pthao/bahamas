@@ -13,7 +13,6 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
         };
         
         $scope.fileName = '';
-        //$scope.defaultFilename = '';
         $scope.selectedExport = 'contact';
         $scope.resultData = '';
         $scope.error = false;
@@ -42,19 +41,10 @@ app.controller('export', ['$scope', 'session', '$state', 'dataSubmit', function 
                         var currentTime = new Date();
                         var addDate = '_' + currentTime.getFullYear() + '-' + (currentTime.getMonth() + 1) + '-' + currentTime.getDate();
                         var addHour = '_' + currentTime.getHours() + '.' + currentTime.getMinutes() + '.' + currentTime.getSeconds();
-//                        console.log(currentTime);
-//                        console.log(currentTime.getDate());
-//                        console.log(currentTime.getMonth());
-//                        console.log(currentTime.getFullYear());
-//                        console.log(currentTime.getHours());
-//                        console.log(currentTime.getMinutes());
-//                        console.log(currentTime.getSeconds());
 
                         $scope.fileName += addDate;
                         $scope.fileName += addHour;
                     }
-                    //console.log($scope.resultData);
-                    //console.log($scope.tableHeader);
                 } else {
                     $scope.error = true;
                     $scope.resultData = result.message;
