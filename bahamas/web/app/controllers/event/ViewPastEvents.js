@@ -53,6 +53,7 @@ app.controller('viewPastEvents',
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 50;
                         $scope.allFilteredEvents = $scope.allEventInfo;
+                        $scope.allFilteredEvents.reverse();
                         $scope.isAll = false;
                         var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
@@ -284,7 +285,7 @@ app.controller('viewPastEvents',
                 };
 
                 $scope.predicate = '';
-                $scope.reverse = true;
+                $scope.reverse = false;
 
                 $scope.order = function (predicate) {
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;

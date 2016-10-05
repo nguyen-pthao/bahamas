@@ -77,13 +77,13 @@ and open the template in the editor.
                                         <span ng-show="(editEvent['event_start_date'] > editEvent['event_end_date']) && editEventForm.eventEndDate.$touched" class="error">End Date cannot be before Start Date.</span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h4 class="bold">Start Time<span class="required">*</span></h4>
-                                        <div uib-timepicker ng-required="true" ng-model="editEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime'></div>
+                                        <h4 class="bold">Start Time<span class="required">*</span><span>(24H)</span></h4>
+                                        <div uib-timepicker ng-required="true" ng-model="editEvent['event_time_start']" mousewheel='false' show-spinners='false' name='eventStartTime' show-meridian="false"></div>
                                         <span ng-show="editEventForm.eventStartTime.$error.required && editEventForm.eventStartTime.$touched" class="error">Start Time is required.<br></span>
                                     </div>
                                     <div class="col-sm-6">
-                                        <h4 class="bold">End Time<span class="required">*</span></h4>
-                                        <div uib-timepicker ng-required="true" ng-model="editEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime'></div>
+                                        <h4 class="bold">End Time<span class="required">*</span><span>(24H)</span></h4>
+                                        <div uib-timepicker ng-required="true" ng-model="editEvent['event_time_end']" mousewheel='false' show-spinners='false' name='eventEndTime' show-meridian="false"></div>
                                         <span ng-show="editEventForm.eventEndTime.$error.required && editEventForm.eventEndTime.$touched" class="error">End Time is required.<br></span>
                                     </div>
                                     <div class="col-sm-6">

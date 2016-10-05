@@ -27,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Locale;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -127,7 +128,7 @@ public class Report extends HttpServlet {
                             return;
                         }
 
-                        HashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryTeamParticipants(team, startDate, endDate);
+                        LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryTeamParticipants(team, startDate, endDate);
                         json.addProperty("Team", team);
                         json.addProperty("Start Date", format.format(startDate));
                         json.addProperty("End Date", format.format(endDate));
@@ -143,7 +144,7 @@ public class Report extends HttpServlet {
         }
     }
 
-    private void processSummaryTeamParticipants(HashMap<Integer, ArrayList<String>> resultMap, JsonObject json) {
+    private void processSummaryTeamParticipants(LinkedHashMap<Integer, ArrayList<String>> resultMap, JsonObject json) {
 
         JsonArray records = new JsonArray();
         int counter = 0;

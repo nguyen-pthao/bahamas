@@ -106,6 +106,7 @@ app.controller('viewContacts',
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 100;
                         $scope.allFilteredContacts = $scope.allContactInfo;
+                        $scope.allFilteredContacts.reverse();
                         $scope.isAll = false;
                         $scope.itemsPerPageChanged = function () {
                             if ($scope.itemsPerPage == 'toAll') {
@@ -217,7 +218,7 @@ app.controller('viewContacts',
                 };
 
                 $scope.predicate = '';
-                $scope.reverse = true;
+                $scope.reverse = false;
 
                 $scope.order = function (predicate) {
                     $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;

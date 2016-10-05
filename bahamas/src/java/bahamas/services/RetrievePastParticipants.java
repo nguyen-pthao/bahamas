@@ -66,6 +66,7 @@ public class RetrievePastParticipants extends HttpServlet {
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
             SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+            SimpleDateFormat day = new SimpleDateFormat("EEE");
 
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -160,7 +161,7 @@ public class RetrievePastParticipants extends HttpServlet {
 
                                         jsonContactObj.addProperty("event_id", event.getEventId());
                                         jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                        String eventInfo = date.format(event.getEventStartDate()) + ", " + time.format(event.getEventStartTime()) + ", " + event.getEventLocationName();
+                                        String eventInfo = date.format(event.getEventStartDate()) + " (" + day.format(event.getEventStartDate()) + "), " + time.format(event.getEventStartTime()) + ", " + event.getEventLocationName();
                                         jsonContactObj.addProperty("event_info", eventInfo);
                                         jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));

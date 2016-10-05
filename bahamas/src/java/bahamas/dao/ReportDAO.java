@@ -14,7 +14,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.Locale;
 import java.util.logging.Level;
@@ -32,8 +32,8 @@ public class ReportDAO {
     public ReportDAO() {
     }
 
-    public static HashMap<Integer, ArrayList<String>> summaryTeamParticipants(String team, Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> summaryTeamParticipants(String team, Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -114,8 +114,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> individualParticipant(int cid, String team, Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> individualParticipant(int cid, String team, Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -171,8 +171,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> summaryEvents(String team, Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> summaryEvents(String team, Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -225,8 +225,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> summaryCurrentMembership(Date reference, String membershipType) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> summaryCurrentMembership(Date reference, String membershipType) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -299,8 +299,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> summaryMembership(Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> summaryMembership(Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -365,8 +365,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> individualMembership(int cid, Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> individualMembership(int cid, Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -430,8 +430,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> summaryDonations(String paymentMode, Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> summaryDonations(String paymentMode, Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -500,8 +500,8 @@ public class ReportDAO {
         return resultMap;
     }
 
-    public static HashMap<Integer, ArrayList<String>> individualDonations(int cid, Date start, Date end) {
-        HashMap<Integer, ArrayList<String>> resultMap = new HashMap<Integer, ArrayList<String>>();
+    public static LinkedHashMap<Integer, ArrayList<String>> individualDonations(int cid, Date start, Date end) {
+        LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
