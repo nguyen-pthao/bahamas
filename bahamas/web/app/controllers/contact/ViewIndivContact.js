@@ -89,6 +89,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
             //contact info
             $scope.dateCreated = $scope.contactInfo['date_created'];
             $scope.name = $scope.contactInfo['name'];
+            $scope.cid = $scope.contactInfo['other_cid'];
             $scope.altName = $scope.contactInfo['alt_name'];
             $scope.contactType = $scope.contactInfo['contact_type'];
             $scope.explainIfOther = $scope.contactInfo['explain_if_other'];
