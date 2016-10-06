@@ -135,11 +135,14 @@
                                     <li><a ui-sref="admin.createEvent"><i class="fa fa-plus-square"></i><span> Create Event</span></a></li>               
                                 </ul>
                             </li> 
-                            <!-- Report information -->
+                            <!-- Report -->
                             <li class="treeview">
                                 <a href="">
-                                    <i class="fa fa-file-text"></i> <span>Report</span>
+                                    <i class="fa fa-file-text"></i> <span>Report</span> <i class="fa fa-angle-left pull-right"></i>
                                 </a>
+                                <ul class="treeview-menu">
+                                    <li><a ui-sref="admin.report"><i class="fa fa-download"></i><span> Report </span></a></li>
+                                </ul>
                             </li>
                             <!-- Import/Export -->
                             <li class="treeview">
@@ -149,15 +152,6 @@
                                 <ul class="treeview-menu">
                                     <li><a ui-sref="admin.import"><i class="fa fa-download"></i><span> Import Files </span></a></li>
                                     <li><a ui-sref="admin.export"><i class="fa fa-upload"></i><span> Export Files </span></a></li>
-                                </ul>
-                            </li>
-                            <!-- Report -->
-                            <li class="treeview">
-                                <a href="">
-                                    <i class="fa fa-files-o"></i> <span>Report</span> <i class="fa fa-angle-left pull-right"></i>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a ui-sref="admin.report"><i class="fa fa-download"></i><span> Report </span></a></li>
                                 </ul>
                             </li>
                             <!-- User Management -->
