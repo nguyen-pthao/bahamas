@@ -152,11 +152,16 @@ public class Validator {
 
     public static double isDoubleValid(JsonElement e) {
         if (e != null && !e.isJsonNull()) {
-            
+
             try {
-                String value = e.getAsString().substring(0, e.getAsString().indexOf(".")+ 3);                
-                double x = Double.parseDouble(value);             
-                return truncateDecimal(x,2).doubleValue();
+
+                String value = e.getAsString();
+                if (value.contains(".")) {
+                    value = e.getAsString().substring(0, e.getAsString().indexOf(".") + 3);
+                }
+                
+                double x = Double.parseDouble(value);
+                return truncateDecimal(x, 2).doubleValue();
             } catch (Exception ex) {
                 errorList.add("Please enter a valid value");
                 return 0;
@@ -639,19 +644,18 @@ public class Validator {
     public static boolean validEventRoleDescription(String eventRoleDescription) {
         return (eventRoleDescription.length() >= 0 && eventRoleDescription.length() <= 200);
     }
-    
 
     public static boolean validEventLeaderPosition(int contactId, int eventId) {
         ContactDAO contactDAO = new ContactDAO();
         Contact contact = contactDAO.retrieveContactById(contactId);
         boolean isEventLeader = false;
         EventAffiliation eventAffiliation = EventAffiliationDAO.retrieveAllEventAffiliation(eventId);
-        if(contact != null && eventAffiliation != null){
+        if (contact != null && eventAffiliation != null) {
             ArrayList<String> teamNameList = eventAffiliation.getTeamArray();
             Iterator iter = teamNameList.iterator();
-            while(iter.hasNext()){
+            while (iter.hasNext()) {
                 String teamName = (String) iter.next();
-                if(RoleCheckDAO.checkRole(contactId, teamName, "eventleader")){
+                if (RoleCheckDAO.checkRole(contactId, teamName, "eventleader")) {
                     isEventLeader = true;
                 }
             }
