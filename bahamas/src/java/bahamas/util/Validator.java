@@ -156,10 +156,26 @@ public class Validator {
             try {
 
                 String value = e.getAsString();
+                String pattern1 = "^[0-9]*\\.[0-9]{2}$";
+                String pattern2 = "^[0-9]*\\.[0-9][0-9]$";
+                String pattern3 = "^[0-9]*\\.[0-9]{1}$";
+                String pattern4 = "^[0-9]*\\.[0-9]$";
+
+                Pattern p1 = Pattern.compile(pattern1);
+                Pattern p2 = Pattern.compile(pattern2);
+                Pattern p3 = Pattern.compile(pattern3);
+                Pattern p4 = Pattern.compile(pattern4);
+
                 if (value.contains(".")) {
-                    value = e.getAsString().substring(0, e.getAsString().indexOf(".") + 3);
+                    boolean twoDP = p1.matcher(value).matches() || p2.matcher(value).matches();
+                    boolean oneDP = p3.matcher(value).matches() || p4.matcher(value).matches();
+                    if (twoDP) {
+                        value = e.getAsString().substring(0, e.getAsString().indexOf(".") + 3);
+                    } else if (oneDP) {
+                        value = e.getAsString().substring(0, e.getAsString().indexOf(".") + 2);
+                    }
                 }
-                
+
                 double x = Double.parseDouble(value);
                 return truncateDecimal(x, 2).doubleValue();
             } catch (Exception ex) {
