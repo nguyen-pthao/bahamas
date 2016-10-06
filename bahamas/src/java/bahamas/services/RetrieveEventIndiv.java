@@ -231,11 +231,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                             role.addProperty("participant_name", (contactTemp.getName()));
                                                             role.addProperty("canRemark", false);
                                                         }
-                                                        if(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || event.getContactId() == contact.getContactId()){
-                                                            role.addProperty("canRemove", true);
-                                                        } else {
-                                                            role.addProperty("canRemove", false);
-                                                        }
+                                                        role.addProperty("canRemove", true);
                                                         role.addProperty("remarks", eventParticipantTemp.getRemarks());
                                                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || Validator.validEventLeaderPosition(contact.getContactId(), Integer.parseInt(eventId))) {
                                                             role.addProperty("canAppreciate", true);
@@ -360,7 +356,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 //check of the user has joined this event
                                 //EventParticipantDAO.retrieveParticipantbyEventIDRoleID(,eventId);
                                 json.addProperty("canEdit", true);
-                                json.addProperty("canDelete", true);
+                                //json.addProperty("canDelete", true);
                                 if (canJoinDisable) {
                                     json.addProperty("canJoin", false);
                                 } else {
@@ -379,12 +375,12 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                 String permision = hmTeamPermission.get(eventTeam);
                                                 if (permision == null && event.getEventClassName().trim().toLowerCase().equals("basic training")) {
                                                     json.addProperty("canEdit", false);
-                                                    json.addProperty("canDelete", false);
+                                                    //json.addProperty("canDelete", false);
                                                     json.addProperty("canJoin", true);
                                                     marked = true;
                                                 } else if (permision != null && permision.equals("Event leader")) {
                                                     json.addProperty("canEdit", true);
-                                                    json.addProperty("canDelete", true);
+                                                    //json.addProperty("canDelete", true);
                                                     if (canJoinDisable) {
                                                         json.addProperty("canJoin", false);
                                                     } else {
@@ -393,7 +389,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                     marked = true;
                                                 } else if (permision != null && permision.equals("Associate")) {
                                                     json.addProperty("canEdit", false);
-                                                    json.addProperty("canDelete", false);
+                                                    //json.addProperty("canDelete", false);
                                                     if (canJoinDisable) {
                                                         json.addProperty("canJoin", false);
                                                     } else {
@@ -405,17 +401,17 @@ public class RetrieveEventIndiv extends HttpServlet {
                                         }
                                         if (!marked) {
                                             json.addProperty("canEdit", false);
-                                            json.addProperty("canDelete", false);
+                                            //json.addProperty("canDelete", false);
                                             json.addProperty("canJoin", false);
                                         }
                                     } else {
                                         json.addProperty("canEdit", false);
-                                        json.addProperty("canDelete", false);
+                                        //json.addProperty("canDelete", false);
                                         json.addProperty("canJoin", false);
                                     }
                                 } else {
                                     json.addProperty("canEdit", false);
-                                    json.addProperty("canDelete", false);
+                                    //json.addProperty("canDelete", false);
                                     json.addProperty("canJoin", false);
                                 }
                                 json.addProperty("canAddParticipants", false);
@@ -432,6 +428,11 @@ public class RetrieveEventIndiv extends HttpServlet {
                                 json.addProperty("isCreator", true);
                             } else {
                                 json.addProperty("isCreator", false);
+                            }
+                            if(contact.isIsAdmin()){
+                                json.addProperty("canDelete", true);
+                            }else{
+                                json.addProperty("canDelete", false);
                             }
                             Iterator iter = emailHM.keySet().iterator();
                             while (iter.hasNext()) {
