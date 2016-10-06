@@ -482,6 +482,10 @@ app.run(['$rootScope', 'session', '$state', function ($rootScope, session, $stat
                 event.preventDefault();
                 $state.go('login');
             }
+            if (permission == 'notFound' && session.getSession('userType') != null) {
+                event.preventDefault();
+                $state.go(session.getSession('userType'));
+            }
             if (permission === 'novice') {
                 if (session.getSession('userType') !== 'novice' && session.getSession('userType') != null) {
                     event.preventDefault();
