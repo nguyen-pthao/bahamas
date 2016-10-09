@@ -141,9 +141,7 @@ public class Report extends HttpServlet {
                         Contact c = cDAO.retrieveContactById(contactId);
 
                         if (c == null) {
-                            json.addProperty("message", "invalid contact id");
-                            out.println(gson.toJson(json));
-                            return;
+                            Validator.getErrorList().add("Invalid contact id");
                         }
 
                         String team = Validator.containsBlankField(jobject.get("team"));
@@ -244,9 +242,7 @@ public class Report extends HttpServlet {
                         Contact c = cDAO.retrieveContactById(contactId);
 
                         if (c == null) {
-                            json.addProperty("message", "invalid contact id");
-                            out.println(gson.toJson(json));
-                            return;
+                            Validator.getErrorList().add("Invalid contact id");
                         }
 
                         Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
@@ -316,9 +312,7 @@ public class Report extends HttpServlet {
                         Contact c = cDAO.retrieveContactById(contactId);
 
                         if (c == null) {
-                            json.addProperty("message", "invalid contact id");
-                            out.println(gson.toJson(json));
-                            return;
+                            Validator.getErrorList().add("Invalid contact id");
                         }
 
                         Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
