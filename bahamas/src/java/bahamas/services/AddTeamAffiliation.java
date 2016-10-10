@@ -18,6 +18,7 @@ import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
+import bahamas.util.InAppNotificationSender;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -165,43 +166,15 @@ public class AddTeamAffiliation extends HttpServlet {
 
                             HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
                             ContactDAO contactDAO = new ContactDAO();
-                            /*
-                            ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
-                            if (contactList != null && !contactList.isEmpty()) {
-                                Iterator iter = contactList.iterator();
-                                while (iter.hasNext()) {
-                                    Contact tempContact = (Contact) iter.next();
-                                    ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(tempContact.getContactId());
-                                    if (teamJoinList != null && !teamJoinList.isEmpty()) {
-                                        Iterator iter2 = teamJoinList.iterator();
-                                        while (iter2.hasNext()) {
-                                            TeamJoin teamJoinTemp = (TeamJoin) iter2.next();
-                                            if (teamHM.containsKey(teamJoinTemp.getTeamName())) {
-                                                cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            */
                             ArrayList<Contact> contactList = contactDAO.retrieveAllContactInTeams(teamName);
                             for(Contact tempContact : contactList){
                                 cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
                             }
-
-                            for (int tempContactId : cidNamePairHM.keySet()) {
-                                if (eventIdJsonArray.size() == 1) {
-                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()){
-                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "\"" + event.getEventTitle() + "\" event has been created. Click to view event.");
-                                        AppNotificationDAO.addAppNotification(appNotification);
-                                    }
-                                } else {
-                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()){
-                                        AppNotification appNotification = new AppNotification(tempContactId, null, ".viewUpcomingEvents", "\"" + event.getEventTitle() + "\" events have been created. Click to view events.");
-                                        AppNotificationDAO.addAppNotification(appNotification);
-                                    }
-                                }
-                            }
+                            
+                            new Thread(() -> {
+                                    // Send notification in a separate thread
+                                    InAppNotificationSender.createEventNotification(cidNamePairHM, eventIdJsonArray, event.getEventId(), event.getEventTitle(), contact);
+                                }).start();
 
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

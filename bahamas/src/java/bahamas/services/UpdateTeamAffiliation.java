@@ -168,35 +168,7 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                 for(Contact tempContact : contactList){
                                     cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
                                 }
-                                /*
-                                ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
-                                
-                                if (contactList != null && !contactList.isEmpty()) {
-                                    Iterator iter = contactList.iterator();
-                                    while (iter.hasNext()) {
-                                        Contact tempContact = (Contact) iter.next();
-                                        ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.retrieveAllTeamJoinCID(tempContact.getContactId());
-                                        if (teamJoinList != null && !teamJoinList.isEmpty()) {
-                                            Iterator iter2 = teamJoinList.iterator();
-                                            while (iter2.hasNext()) {
-                                                TeamJoin teamJoinTemp = (TeamJoin) iter2.next();
-                                                if (teamHM.containsKey(teamJoinTemp.getTeamName())) {
-                                                    cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                */
-                                
-                                /*
-                                for (int tempContactId : cidNamePairHM.keySet()) {
-                                    if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()) {
-                                        AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
-                                        AppNotificationDAO.addAppNotification(appNotification);
-                                    }
-                                }
-                                */
+
                                 new Thread(() -> {
                                     // Send notification in a separate thread
                                     InAppNotificationSender.updateDetailsNotification(cidNamePairHM, event.getEventId(), event.getEventTitle(), contact);
