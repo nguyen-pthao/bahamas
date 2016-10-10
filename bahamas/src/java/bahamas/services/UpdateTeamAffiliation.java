@@ -5,19 +5,18 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
-import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
+import bahamas.util.InAppNotificationSender;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,10 +28,8 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -167,7 +164,13 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                 }
                                 HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
                                 ContactDAO contactDAO = new ContactDAO();
+                                ArrayList<Contact> contactList = contactDAO.retrieveAllContactInTeams(teamName);
+                                for(Contact tempContact : contactList){
+                                    cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
+                                }
+                                /*
                                 ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
+                                
                                 if (contactList != null && !contactList.isEmpty()) {
                                     Iterator iter = contactList.iterator();
                                     while (iter.hasNext()) {
@@ -184,12 +187,21 @@ public class UpdateTeamAffiliation extends HttpServlet {
                                         }
                                     }
                                 }
+                                */
+                                
+                                /*
                                 for (int tempContactId : cidNamePairHM.keySet()) {
                                     if (contactDAO.retrieveContactById(tempContactId).getUsername() != null && tempContactId != contact.getContactId()) {
                                         AppNotification appNotification = new AppNotification(tempContactId, event.getEventId(), ".viewIndivEvent", "Event \"" + event.getEventTitle() + "\" has been updated. Click to view event.");
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
                                 }
+                                */
+                                new Thread(() -> {
+                                    // Send notification in a separate thread
+                                    InAppNotificationSender.updateDetailsNotification(cidNamePairHM, event.getEventId(), event.getEventTitle(), contact);
+                                }).start();
+                                
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;

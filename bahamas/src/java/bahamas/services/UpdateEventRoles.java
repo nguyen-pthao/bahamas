@@ -5,19 +5,16 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AppNotificationDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EventAffiliationDAO;
 import bahamas.dao.EventDAO;
 import bahamas.dao.EventRoleAssignmentDAO;
-import bahamas.dao.TeamJoinDAO;
-import bahamas.entity.AppNotification;
 import bahamas.entity.Contact;
 import bahamas.entity.Event;
 import bahamas.entity.EventAffiliation;
-import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
+import bahamas.util.InAppNotificationSender;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,7 +27,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -134,6 +130,11 @@ public class UpdateEventRoles extends HttpServlet {
                                 }
                                 HashMap<Integer, String> cidNamePairHM = new HashMap<Integer, String>();
                                 ContactDAO contactDAO = new ContactDAO();
+                                ArrayList<Contact> contactList = contactDAO.retrieveAllContactInTeams(eventAffiliation.getTeamArray());
+                                for(Contact tempContact : contactList){
+                                    cidNamePairHM.put(tempContact.getContactId(), tempContact.getName());
+                                }
+                                /*
                                 ArrayList<Contact> contactList = contactDAO.retrieveAllContact();
                                 if (contactList != null && !contactList.isEmpty()) {
                                     Iterator iter = contactList.iterator();
@@ -157,6 +158,11 @@ public class UpdateEventRoles extends HttpServlet {
                                         AppNotificationDAO.addAppNotification(appNotification);
                                     }
                                 }
+                                */
+                                new Thread(() -> {
+                                    // Send notification in a separate thread
+                                    InAppNotificationSender.updateDetailsNotification(cidNamePairHM, event.getEventId(), event.getEventTitle(), contact);
+                                }).start();
                                 json.addProperty("message", "success");
                                 out.println(gson.toJson(json));
                                 return;

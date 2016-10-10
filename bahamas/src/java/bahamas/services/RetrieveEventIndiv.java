@@ -110,7 +110,6 @@ public class RetrieveEventIndiv extends HttpServlet {
                 SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                 SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
-                boolean canSeeUsername = false;
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
@@ -338,6 +337,7 @@ public class RetrieveEventIndiv extends HttpServlet {
                                                     role.addProperty("participant_name", (contactTemp.getName() + "(" + tempUsername + ")"));
                                                     role.addProperty("contact_id", contactTemp.getContactId());
                                                     role.addProperty("reason", eventParticipant.getReason());
+                                                    role.addProperty("date_created", date2.format(eventParticipant.getDatepullout()));
                                                     withdrawnParticipentArray.add(role);
                                                 }
                                             }
