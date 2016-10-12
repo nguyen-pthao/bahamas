@@ -1,14 +1,15 @@
+package bahamas.services;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package bahamas.services;
-
 import bahamas.dao.ContactDAO;
 import bahamas.dao.RoleCheckDAO;
-import bahamas.dao.SearchContactDAO;
+import bahamas.dao.SearchEventDAO;
 import bahamas.entity.Contact;
+import bahamas.entity.Event;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
@@ -20,7 +21,12 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -31,8 +37,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "SearchContact", urlPatterns = {"/contact.search"})
-public class SearchContact extends HttpServlet {
+@WebServlet(urlPatterns = {"/event.search"})
+public class SearchEvent extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -73,13 +79,14 @@ public class SearchContact extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String name = Validator.containsBlankField(jobject.get("name"));
-                String altname = Validator.containsBlankField(jobject.get("altname"));
-                String nationality = Validator.containsBlankField(jobject.get("nationality"));
-                String team = Validator.containsBlankField(jobject.get("team"));
-                String appreciation = Validator.containsBlankField(jobject.get("appreciation"));
-                String language = Validator.containsBlankField(jobject.get("language"));
-                String skill = Validator.containsBlankField(jobject.get("skill"));
+                String eventTitle = Validator.containsBlankField(jobject.get("event_title"));
+                String event_location = Validator.containsBlankField(jobject.get("event_location"));
+                Date startDateStr = Validator.isDateValid(jobject.get("start_date"), "start_date");
+                Date endDateStr = Validator.isDateValid(jobject.get("end_date"), "end_date");
+                String teamAffiliation = Validator.containsBlankField(jobject.get("team_affiliation"));
+                String participant = Validator.containsBlankField(jobject.get("participant"));
+                boolean otherLocation = jobject.get("is_other_location").getAsBoolean();
+
                 String username = Authenticator.verifyToken(token);
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -87,57 +94,65 @@ public class SearchContact extends HttpServlet {
                 } else {
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
+                    SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                     if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
-                        HashMap<Integer, Contact> contactHM = null;
-                        if (name != null || altname != null || nationality != null) {
-                            contactHM = SearchContactDAO.searchContactByNameAltnameNationality(name, altname, nationality);
-                        }
-                        if (contactHM == null && team != null) {
-                            contactHM = SearchContactDAO.searchContactByTeam(team);
-                        } else if (contactHM != null && team != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByTeam(team);
-                            contactHM.keySet().retainAll(tempHM.keySet());
-                        }
-                        if (contactHM == null && appreciation != null) {
-                            contactHM = SearchContactDAO.searchContactByAppreciationGesture(appreciation);
-                        } else if (contactHM != null && appreciation != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByAppreciationGesture(appreciation);
-                            contactHM.keySet().retainAll(tempHM.keySet());
-                        }
-                        if (contactHM == null && language != null) {
-                            contactHM = SearchContactDAO.searchContactByLanguageName(language);
-                        } else if (contactHM != null && language != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByLanguageName(language);
-                            contactHM.keySet().retainAll(tempHM.keySet());
-                        }
-                        if (contactHM == null && skill != null) {
-                            contactHM = SearchContactDAO.searchContactBySkillName(skill);
-                        } else if (contactHM != null && skill != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactBySkillName(skill);
-                            contactHM.keySet().retainAll(tempHM.keySet());
-                        }
-                        json.addProperty("message", "success");
-                        JsonArray contactArray = new JsonArray();
-                        JsonObject jsonContactObj;
-                        for (int tempContactId : contactHM.keySet()) {
-                            Contact tempContact = contactHM.get(tempContactId);
-                            String tempUsername = "No username";
-                            if(tempContact.getUsername() != null){
-                                tempUsername = tempContact.getUsername();
+                        HashMap<Integer, Event> eventHM = null;
+                        try {
+                            if (eventTitle != null || event_location != null || startDateStr != null || endDateStr != null) {
+                                if (!otherLocation) {
+                                    if (startDateStr != null && endDateStr != null) {
+                                        eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
+                                    } else {
+                                        eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, null, null);
+                                    }
+                                } else {
+                                    if (startDateStr != null && endDateStr != null) {
+                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, event_location, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
+                                    } else {
+                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, event_location, null, null);
+                                    }
+                                }
                             }
-                            jsonContactObj = new JsonObject();
-                            jsonContactObj.addProperty("contactid", tempContact.getContactId());
-                            jsonContactObj.addProperty("name", tempContact.getName() + " (" + tempUsername + ")");
-                            contactArray.add(jsonContactObj);
+
+                            if (eventHM == null && teamAffiliation != null) {
+                                eventHM = SearchEventDAO.searchEventByTeam(teamAffiliation);
+                            } else if (eventHM != null && teamAffiliation != null) {
+                                HashMap<Integer, Event> tempHM = SearchEventDAO.searchEventByTeam(teamAffiliation);
+                                eventHM.keySet().retainAll(tempHM.keySet());
+                            }
+
+                            if (eventHM == null && participant != null) {
+                                eventHM = SearchEventDAO.searchEventByParticipant(participant);
+                            } else if (eventHM != null && participant != null) {
+                                HashMap<Integer, Event> tempHM = SearchEventDAO.searchEventByParticipant(participant);
+                                eventHM.keySet().retainAll(tempHM.keySet());
+                            }
+
+                            json.addProperty("message", "success");
+                            JsonArray eventtArray = new JsonArray();
+                            JsonObject jsonEventObj;
+                            for (int tempEventId : eventHM.keySet()) {
+                                Event tempEvent = eventHM.get(tempEventId);
+                                jsonEventObj = new JsonObject();
+                                jsonEventObj.addProperty("eventid", tempEvent.getEventId());
+                                jsonEventObj.addProperty("event_title", tempEvent.getEventTitle());
+                                eventtArray.add(jsonEventObj);
+                            }
+
+                            json.add("event", eventtArray);
+                            out.println(gson.toJson(json));
+
+                        } catch (ParseException ex) {
+                            Logger.getLogger(SearchEvent.class.getName()).log(Level.SEVERE, null, ex);
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
                         }
-                        json.add("contact", contactArray);
-                        out.println(gson.toJson(json));
+
                     } else {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                     }
                 }
-
             }
         }
     }
