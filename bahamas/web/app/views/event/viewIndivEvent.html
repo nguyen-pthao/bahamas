@@ -206,8 +206,9 @@ and open the template in the editor.
                                         <tr>
                                             <th width="5%" style="color: #005384">S/N</th>
                                             <th width="20%" style='color: #005384'>Role</th>
-                                            <th width="20%" style='color: #005384'>Participant</th>
-                                            <th width="55%" style="color: #005384">Reason</th>
+                                            <th width="15%" style='color: #005384'>Participant</th>
+                                            <th width="50%" style="color: #005384">Reason</th>
+                                            <th width="10" style="color: #005384">Withdrawn Date</th>
                                             <!--<th width="15%"></th>-->
                                         </tr>
                                     </thead>
@@ -217,6 +218,7 @@ and open the template in the editor.
                                             <td>{{wp['role']}}</td>
                                             <td>{{wp['participant_name']}}</td>
                                             <td>{{wp['reason']}}</td>
+                                            <td><center>{{wp['date_created']}}</center></td>
                                             <!--<td><center><span><a href="" ng-click="revert($event,wp)">Revert</a></span>-->
                                             </center></td>
                                         </tr>
