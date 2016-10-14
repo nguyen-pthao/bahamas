@@ -155,13 +155,21 @@ app.controller('viewContacts',
                                 $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
                             });
                         });
-
-                        $scope.foo = function ($event, contact) {
+                        
+//                        $scope.trial = function($event) {
+//                            if($event.which == 3) {
+//                                console.log("hello babe");
+//                            }
+//                        };
+                        
+                        $scope.viewContact = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
-                            
+                            $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
                             var contactCid = contact.cid;
                             session.setSession('contactToDisplayCid', contactCid);
-                            $state.go(toURL);
+                            if($event.which == 1) {
+                                $state.go(toURL);
+                            }
                         };
 
                         $scope.editContact = function ($event, contact) {

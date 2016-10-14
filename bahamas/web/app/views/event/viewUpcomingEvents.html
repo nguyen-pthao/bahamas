@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href="" ng-click=""> Events </a><i class="fa fa-chevron-right small"></i> <a> Upcoming Events </a></li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href=""> Events </a><i class="fa fa-chevron-right small"></i> <a> Upcoming Events </a></li>
                     </ol>                    
                 </h3>
             </section>
@@ -105,7 +105,7 @@ and open the template in the editor.
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
-                                        <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
+                                        <td><a href="#/{{viewIndivEvent}}" ng-mousedown="viewEvent($event, event)">{{event['event_title']}}</a></td>
                                         <td>{{event['event_start_date']}}</td>
                                         <td>{{event['event_time_start']}}</td>
                                         <td>{{event['event_location']}}</td>
@@ -116,19 +116,19 @@ and open the template in the editor.
                                         <td>
                                 <center>
                                     <span>
-                                        <a href="" uib-tooltip-placement="top" uib-tooltip="View" ng-click="foo($event, event)">
+                                        <a href="#/{{viewIndivEvent}}" uib-tooltip-placement="top" uib-tooltip="View" ng-mousedown="viewEvent($event, event)">
                                             <i class="fa fa-eye fa-lg" aria-hidden="true" style='color: #0d1957'></i>
                                         </a>
                                     </span>
                                     &nbsp;
                                     <span ng-if='event["canEdit"]'>
-                                        <a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="edit($event, event)">
+                                        <a href="#/{{editIndivEvent}}" uib-tooltip-placement="top" uib-tooltip="Edit" ng-mousedown="edit($event, event)">
                                             <i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i>
                                         </a>
                                     </span>
                                     &nbsp;
                                     <span ng-if="canClone">
-                                        <a href="" uib-tooltip-placement="top" uib-tooltip="Clone Event" ng-click="cloneEvent($event, event)">
+                                        <a href="#/{{cloneIndivEvent}}" uib-tooltip-placement="top" uib-tooltip="Clone Event" ng-mousedown="cloneEvent($event, event)">
                                             <i class="fa fa-clone fa-lg" aria-hidden="true" style='color: #0d1957'></i>
                                         </a>
                                     </span>

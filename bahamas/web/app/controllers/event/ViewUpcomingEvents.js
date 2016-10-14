@@ -237,7 +237,7 @@ app.controller('viewUpcomingEvents',
 
                         return '';
                     }
-                }
+                };
                 
                 $scope.deleteEvent = function ($event, event) {
                     var toURL = user + ".viewUpcomingEvents";
@@ -246,7 +246,7 @@ app.controller('viewUpcomingEvents',
                     var toDelete = {
                         'token': session.getSession('token'),
                         'event_id': eventid
-                    }
+                    };
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/deletePrompt.html',
                         className: 'ngdialog-theme-default',
@@ -260,7 +260,7 @@ app.controller('viewUpcomingEvents',
                                     scope: $scope
                                 }).then(function (response) {
                                     $state.reload(toURL);
-                                })
+                                });
                             } else {
                                 $scope.error = response.data.message;
                                 ngDialog.openConfirm({
@@ -275,24 +275,33 @@ app.controller('viewUpcomingEvents',
                     });
                 };
 
-                $scope.foo = function ($event, event) {
+                $scope.viewEvent = function ($event, event) {
                     var url = user + '.viewIndivEvent';
+                    $scope.viewIndivEvent = user + '/viewIndivEvent';
                     session.setSession('eventIdToDisplay', event['event_id']);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
                 
                 $scope.cloneEvent = function($event, event){
                     var id = event['event_id'];
                     localStorageService.set('eventIdToClone', id);
                     var url = user + '.cloneEvent';
-                    $state.go(url);
+                    $scope.cloneIndivEvent = user + '/cloneEvent';
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
                 
                 $scope.edit = function ($event, event) {
                     var url = user + '.editEvent';
+                    $scope.editIndivEvent = user + '/editEvent';
                     var eventid = event['event_id'];
                     localStorageService.set('eventId', eventid);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
 
                 $scope.predicate = '';

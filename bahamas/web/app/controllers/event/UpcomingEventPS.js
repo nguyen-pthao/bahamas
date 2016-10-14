@@ -16,8 +16,11 @@ app.controller('upcomingEventPS',
 
                 $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
+                    $scope.viewIndivContact = user + '/viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
                 
                 $scope.joinRole = function ($event, role) {
@@ -42,10 +45,10 @@ app.controller('upcomingEventPS',
                                 }).then(function (response) {
                                     var current = user + '.eventParticipationSummary';
                                     $state.go(current, {}, {reload: true});
-                                })
+                                });
                             }
-                        })
-                    })
+                        });
+                    });
                 };
                 
                 $scope.removeParticipant = function ($event, participant) {
@@ -72,7 +75,7 @@ app.controller('upcomingEventPS',
                         $scope.teamList = response.data.teamAffiliationList;
                         $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
                         $scope.teamList.unshift({'teamAffiliation': 'ALL'});
-                    })
+                    });
                     var filter;
                     if ($scope.teamFilter == "ALL") {
                         filter = "";
@@ -200,7 +203,7 @@ app.controller('upcomingEventPS',
                                 $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
                             });
                         });
-                    })
+                    });
                     var start = null;
 //                    start.setHours(00, 00, 00, 000);
                     var d = null;
@@ -278,12 +281,15 @@ app.controller('upcomingEventPS',
 
                         return '';
                     }
-                }
+                };
 
-                $scope.foo = function ($event, event) {
+                $scope.viewEvent = function ($event, event) {
                     var url = user + '.viewIndivEvent';
+                    $scope.viewIndivEvent = user + '/viewIndivEvent';
                     session.setSession('eventIdToDisplay', event['event_id']);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
 
                 $scope.edit = function ($event, event) {

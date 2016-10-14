@@ -100,7 +100,7 @@ and open the template in the editor.
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
-                                        <td><a href="" ng-click="foo($event, event)">{{event['event_title']}}</a></td>
+                                        <td><a href="#/{{viewIndivEvent}}" ng-mousedown="viewEvent($event, event)">{{event['event_title']}}</a></td>
                                         <td>{{event['event_info']}}</td>
                                         <td style="padding:0px;">
                                             <table class="table table-bordered" style="max-width: 100%; margin:0px;">
@@ -119,7 +119,7 @@ and open the template in the editor.
                                                                             <span ng-show="part['canRemove'] && isAssociate"><a href="" uib-tooltip-placement="top" uib-tooltip="Withdraw" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span>
                                                                             <span ng-show="part['canRemove'] && !isAssociate"><a href="" uib-tooltip-placement="top" uib-tooltip="Remove Participant" ng-click="removeParticipant($event, part)"><i class="fa fa-user-times fa-lg" aria-hidden="true" style='color: #ac2925'></i></a></span>
                                                                             &nbsp;
-                                                                            <a href="" ng-click="toContact($event, part)">{{part['participant_name']}}</a>
+                                                                            <a href="#/{{viewIndivContact}}" ng-mousedown="toContact($event, part)">{{part['participant_name']}}</a>
                                                                         </td>
                                                                     </tr>
                                                                 </tbody>

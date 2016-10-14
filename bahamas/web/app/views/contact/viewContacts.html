@@ -86,7 +86,7 @@ and open the template in the editor.
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
-                                        <td width="25%"><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
+                                        <td width="25%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, contact)">{{contact.name}}</a></td>
                                         <td width="20%">{{contact.phone}}</td>
                                         <td width="20%">{{contact.email}}</td>
                                         <td width="10%">{{contact['contact_type']}}</td>

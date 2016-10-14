@@ -36,8 +36,11 @@ app.controller('pastEventsPS',
 
                 $scope.toContact = function ($event, part) {
                     var url = user + '.viewIndivContact';
+                    $scope.viewIndivContact = user + '/viewIndivContact';
                     session.setSession('contactToDisplayCid', part['contact_id']);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
                 
                 $scope.teamFilterChanged = function(){
@@ -54,7 +57,7 @@ app.controller('pastEventsPS',
                         $scope.teamList = response.data.teamAffiliationList;
                         $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
                         $scope.teamList.unshift({'teamAffiliation': 'ALL'});
-                    })
+                    });
                     var filter;
                     if ($scope.teamFilter == "ALL") {
                         filter = "";
@@ -171,7 +174,7 @@ app.controller('pastEventsPS',
                                 $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
                             });
                         });
-                    })
+                    });
                     var end = new Date();
                     end.setHours(23, 59, 59, 999);
                     var d = null;
@@ -248,12 +251,15 @@ app.controller('pastEventsPS',
 
                         return '';
                     }
-                }
+                };
 
-                $scope.foo = function ($event, event) {
+                $scope.viewEvent = function ($event, event) {
                     var url = user + '.viewPastIndivEvent';
+                    $scope.viewIndivEvent = user + '/viewPastIndivEvent';
                     session.setSession('eventIdToDisplay', event['event_id']);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
 
                 $scope.edit = function ($event, event) {
@@ -270,7 +276,7 @@ app.controller('pastEventsPS',
                     var toDelete = {
                         'token': session.getSession('token'),
                         'event_id': eventid
-                    }
+                    };
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/deletePrompt.html',
                         className: 'ngdialog-theme-default',
@@ -284,7 +290,7 @@ app.controller('pastEventsPS',
                                     scope: $scope
                                 }).then(function (response) {
                                     $state.reload(toURL);
-                                })
+                                });
                             } else {
                                 $scope.error = response.data.message;
                                 ngDialog.openConfirm({

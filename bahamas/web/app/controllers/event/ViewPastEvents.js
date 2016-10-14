@@ -149,7 +149,7 @@ app.controller('viewPastEvents',
                                 $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
                             });
                         });
-                    })
+                    });
                     var end = new Date();
                     end.setHours(23, 59, 59, 999);
                     var d = null;
@@ -226,26 +226,35 @@ app.controller('viewPastEvents',
 
                         return '';
                     }
-                }
+                };
 
-                $scope.foo = function ($event, event) {
+                $scope.viewEvent = function ($event, event) {
                     var url = user + '.viewPastIndivEvent';
+                    $scope.viewIndivEvent = user + '/viewPastIndivEvent';
                     session.setSession('eventIdToDisplay', event['event_id']);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
 
                 $scope.edit = function ($event, event) {
                     var url = user + '.editPastEvent';
+                    $scope.editIndivEvent = user + '/editPastEvent';
                     var eventid = event['event_id'];
                     localStorageService.set('eventId', eventid);
-                    $state.go(url);
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
                 
                 $scope.cloneEvent = function($event, event){
                     var id = event['event_id'];
                     localStorageService.set('eventIdToClone', id);
                     var url = user + '.cloneEvent';
-                    $state.go(url);
+                    $scope.cloneIndivEvent = user + '/cloneEvent';
+                    if($event.which == 1) {
+                        $state.go(url);
+                    }
                 };
 
                 $scope.deleteEvent = function ($event, event) {
@@ -255,7 +264,7 @@ app.controller('viewPastEvents',
                     var toDelete = {
                         'token': session.getSession('token'),
                         'event_id': eventid
-                    }
+                    };
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/deletePrompt.html',
                         className: 'ngdialog-theme-default',
