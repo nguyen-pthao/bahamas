@@ -54,7 +54,7 @@ app.controller('search', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
         $scope.submitSearchContact = function () {
             $scope.searchContact.token = session.getSession('token');
             var url = '/contact.search';
-            dataSubmit.submitData($scope.searchContact, url).then(function (response) {
+            $scope.myPromise = dataSubmit.submitData($scope.searchContact, url).then(function (response) {
                 if (response.data.message == "success") {
                     $scope.returnContacts = response.data.contact;
                 } else {
@@ -128,7 +128,7 @@ app.controller('search', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
             $scope.searchEvent.start_date = $scope.tempStartDate.valueOf();
             $scope.searchEvent.end_date = $scope.tempEndDate.valueOf();
             var url = '/event.search';
-            dataSubmit.submitData($scope.searchEvent, url).then(function (response) {
+            $scope.myPromise = dataSubmit.submitData($scope.searchEvent, url).then(function (response) {
                 if (response.data.message == "success") {
                     $scope.returnEvents = response.data.event;
                 } else {
