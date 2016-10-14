@@ -75,5 +75,7 @@ var AppAPI = {
     'eventClassList': '/eventclasslist',
     'eventLocationList': '/eventlocationlist',
 // Import Contact API
-    'importContacts': '/contact.import'
+    'importContacts': '/contact.import',
+//Generate Report
+    'generateReport': '/report'
 };

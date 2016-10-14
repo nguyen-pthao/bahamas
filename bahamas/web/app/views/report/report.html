@@ -20,9 +20,9 @@ and open the template in the editor.
             <section class="content">
                 <div class="box">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Export Files </h3>
+                        <h3 class="box-title uppercase"> Report </h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Export Files">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Report">
                                 <i class="fa fa-chevron-up"></i></button>
                         </div>
                     </div>
@@ -33,15 +33,93 @@ and open the template in the editor.
                                 <input type='text' class="form-control" name="filename">
                             </div>
                             <div class="col-md-offset-2 col-md-5">
-                                <label>Select data table to be exported</label>
+                                <label>Select report</label>
                                 <select class="form-control" ng-model="selectedReport">
-                                    <option value="trial0" selected>trial0</option>
-                                    <option value="trial1">trial1</option>
+                                    <option value="summary_team_participants" selected>Summary Team Participants</option>
+                                    <option value="summary_events">Summary Events</option>
+                                    <option value="summary_membership_period">Summary Membership Period</option>
+                                    <option value="summary_donations">Summary Donations</option>
+                                    <option value="current_membership">Current Membership</option>
                                 </select>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12 no-padding-left" ng-show="selectedReport != ''">
+                                <div class="row" ng-show="selectedReport == 'summary_team_participants'">
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                                            <label>Team</label><span class="required">*</span>
+                                            <select class="form-control" ng-model="team" name='additionalteam'>
+                                                <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-5">
+                                            <label>Start date</label><span class="required">*</span>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon btn" ng-click="openStart($index)">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-offset-2 col-md-5">
+                                            <label>End date</label><span class="required">*</span>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon btn" ng-click="openEnd($index)">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="selectedReport == 'summary_events'">
+                                        <div class="form-group col-md-12">
+                                        <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                                            <label>Team</label><span class="required">*</span>
+                                            <select class="form-control" ng-model="team" name='additionalteam'>
+                                                <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-5">
+                                            <label>Start date</label><span class="required">*</span>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon btn" ng-click="openStart($index)">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-offset-2 col-md-5">
+                                            <label>End date</label><span class="required">*</span>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon btn" ng-click="openEnd($index)">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="selectedReport == 'summary_membership_period'">
+                                    <div class="col-md-12">
+                                        
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="selectedReport == 'summary_donations'">
+                                    <div class="col-md-12">
+                                        
+                                    </div>
+                                </div>
+                                <div class="row" ng-show="selectedReport == 'current_membership'">
+                                    <div class="col-md-12">
+                                        
+                                    </div>
+                                </div>
                                 <center>
-                                    <button class="btn btn-link uppercase bold" ng-click="report()"><i class="glyphicon glyphicon-floppy-disk"></i> Generate data table</button>
+                                    <button class="btn btn-link uppercase bold" ng-click="generateReport()">Generate report</button>
                                 </center>
                             </div>
                         </div>
@@ -54,18 +132,19 @@ and open the template in the editor.
                         <div class="col-md-12">
                             <div class="table-horizontal-scroll" id="report">
                                 <table class="table table-bordered table-striped export-table">
-                                    <thead>
+                                    <thead ng-repeat="thead in header">
                                         <tr>
-                                            <th>=SUM(1+2)</th>
-                                            <th>=SUM(1+2)</th>
-                                            <th>=SUM(1+2)</th>
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-bind='result[thead]' ng-hide='thead == "Records"'></span>
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>=(4/2)</td>
-                                            <td>=(4*2)</td>
-                                            <td>=SUM(12+3*4)</td>
+                                            <th ng-repeat="theader in tableHeader"><span ng-bind="theader"></span></th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records">
+                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
                                         </tr>
                                     </tbody>
                                 </table>

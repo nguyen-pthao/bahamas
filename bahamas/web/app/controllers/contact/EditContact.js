@@ -581,7 +581,7 @@ app.controller('editContact',
                 //define general return message
                 $scope.successMsg = "Successfully saved!";
 
-                //datepickerrrrr
+                //datepicker
                 $scope.today = function () {
                     $scope.dt = new Date();
                 };
