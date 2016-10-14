@@ -6,12 +6,11 @@
 
 var app = angular.module('bahamas');
 
-app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout) {
+app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode) {
 
         $scope.selectedReport = "";
         $scope.team = '';
         $scope.paymentMode = '';
-        
         
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
@@ -28,6 +27,11 @@ app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
             });
         };
         
+        $scope.loadPaymentModeList = function () {
+            loadPaymentMode.retrievePaymentMode().then(function (response) {
+                $scope.paymentModeList = response.data.paymentModeList;
+            });
+        };
         //datepicker
         $scope.today = function () {
             $scope.dt = new Date();
@@ -86,6 +90,7 @@ app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
         
         $scope.startdate = '';
         $scope.enddate = '';
+        $scope.result = '';
         
         $scope.generateReport = function() {
             var datasend = {};
@@ -113,6 +118,7 @@ app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
             }
             
             datasend['team'] = $scope.team;
+            datasend['payment_mode'] = $scope.paymentMode;
             var url = AppAPI.generateReport;
             dataSubmit.submitData(datasend, url).then(function (response) {
                 $scope.result = response.data;
