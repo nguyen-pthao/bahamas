@@ -42,7 +42,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "Report", urlPatterns = {"/report"})
 public class Report extends HttpServlet {
 
-    SimpleDateFormat format = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+    SimpleDateFormat formatDate = new SimpleDateFormat("dd-MMM-yyyy", Locale.ENGLISH);
+    SimpleDateFormat formatTime = new SimpleDateFormat("dd-MMM-yyyy HH:mm:ss", Locale.ENGLISH);
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -130,8 +131,9 @@ public class Report extends HttpServlet {
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryTeamParticipants(team, startDate, endDate);
                         json.addProperty("Team", team);
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processSummaryTeamParticipants(resultMap, json);
 
@@ -169,10 +171,11 @@ public class Report extends HttpServlet {
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.individualParticipant(contactId, team, startDate, endDate);
                         json.addProperty("User", String.valueOf(contactId));
                         json.addProperty("Team", team);
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
                         json.addProperty("Name", c.getName());
                         json.addProperty("NRIC/FIN", c.getNric());
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processIndividualParticipant(resultMap, json);
 
@@ -202,9 +205,10 @@ public class Report extends HttpServlet {
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryEvents(team, startDate, endDate);
                         json.addProperty("Team", team);
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
-
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
+                        
                         processSummaryEvents(resultMap, json);
 
                     } else if (reportType.equalsIgnoreCase("summary_membership_period")) {
@@ -231,8 +235,9 @@ public class Report extends HttpServlet {
                         }
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryMembership(startDate, endDate);
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processSummaryMembership(resultMap, json);
 
@@ -268,10 +273,11 @@ public class Report extends HttpServlet {
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.individualMembership(contactId, startDate, endDate);
                         json.addProperty("User", String.valueOf(contactId));
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
                         json.addProperty("Name", c.getName());
                         json.addProperty("NRIC/FIN", c.getNric());
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processIndividualMembership(resultMap, json);
 
@@ -300,9 +306,10 @@ public class Report extends HttpServlet {
                         }
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryDonations(paymentMode, startDate, endDate);
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
                         json.addProperty("Payment mode", paymentMode);
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processSummaryDonations(resultMap, json);
 
@@ -338,10 +345,11 @@ public class Report extends HttpServlet {
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.individualDonations(contactId, startDate, endDate);
                         json.addProperty("Donor", String.valueOf(contactId));
-                        json.addProperty("Start Date", format.format(startDate));
-                        json.addProperty("End Date", format.format(endDate));
+                        json.addProperty("Start Date", formatDate.format(startDate));
+                        json.addProperty("End Date", formatDate.format(endDate));
                         json.addProperty("Name", c.getName());
                         json.addProperty("NRIC/FIN", c.getNric());
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processIndividualDonations(resultMap, json);
 
@@ -364,8 +372,9 @@ public class Report extends HttpServlet {
 
                         LinkedHashMap<Integer, ArrayList<String>> resultMap = ReportDAO.summaryCurrentMembership(refDate, membershipType);
 
-                        json.addProperty("Reference date", format.format(refDate));
+                        json.addProperty("Reference date", formatDate.format(refDate));
                         json.addProperty("Membership type", membershipType);
+                        json.addProperty("Date Created", formatTime.format(new java.util.Date()));
 
                         processCurrentMembership(resultMap, json);
 

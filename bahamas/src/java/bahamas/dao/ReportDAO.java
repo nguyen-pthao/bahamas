@@ -238,7 +238,7 @@ public class ReportDAO {
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                         + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
                         + "AND END_MEMBERSHIP AND MEMBERSHIP_CLASS_NAME=?");
-                
+
             } else {
                 stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
@@ -268,7 +268,7 @@ public class ReportDAO {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = String.valueOf(rs.getDouble(5));
+                String subscriptionAmt = rs.getString(5);
 
                 Date rDate = rs.getDate(6);
                 String receiptDate = "";
@@ -334,7 +334,7 @@ public class ReportDAO {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = String.valueOf(rs.getDouble(5));
+                String subscriptionAmt = rs.getString(5);
 
                 Date rDate = rs.getDate(6);
                 String receiptDate = "";
@@ -400,7 +400,7 @@ public class ReportDAO {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = String.valueOf(rs.getDouble(4));
+                String subscriptionAmt = rs.getString(4);
 
                 Date rDate = rs.getDate(5);
                 String receiptDate = "";
@@ -466,13 +466,13 @@ public class ReportDAO {
                 }
 
                 String name = rs.getString(2);
-                String donationAmt = String.valueOf(rs.getDouble(3));
+                String donationAmt = rs.getString(3);
                 String paymentM = rs.getString(4);
                 String receiptNum = rs.getString(5);
                 String donorInstruc = rs.getString(6);
-                String subAmt1 = String.valueOf(rs.getDouble(7));
-                String subAmt2 = String.valueOf(rs.getDouble(8));
-                String subAmt3 = String.valueOf(rs.getDouble(9));
+                String subAmt1 = rs.getString(7);
+                String subAmt2 = rs.getString(8);
+                String subAmt3 = rs.getString(9);
 
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add(receivedDate);
@@ -527,13 +527,13 @@ public class ReportDAO {
                     receivedDate = formatDate.format(rDate);
                 }
 
-                String donationAmt = String.valueOf(rs.getDouble(2));
+                String donationAmt = rs.getString(2);
                 String paymentM = rs.getString(3);
                 String receiptNum = rs.getString(4);
                 String donorInstruc = rs.getString(5);
-                String subAmt1 = String.valueOf(rs.getDouble(6));
-                String subAmt2 = String.valueOf(rs.getDouble(7));
-                String subAmt3 = String.valueOf(rs.getDouble(8));
+                String subAmt1 = rs.getString(6);
+                String subAmt2 = rs.getString(7);
+                String subAmt3 = rs.getString(8);
 
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add(receivedDate);
