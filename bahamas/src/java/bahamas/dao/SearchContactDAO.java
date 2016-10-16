@@ -54,6 +54,7 @@ public class SearchContactDAO {
                     prepareStatement += "AND ALT_NAME LIKE ? ";
                 } else {
                     prepareStatement += " WHERE ALT_NAME LIKE ? ";
+                    isFirst = false;
                 }
             }
             if (nationalityValue != null) {
