@@ -55,7 +55,7 @@ and open the template in the editor.
                                             <span ng-show="searchContactForm.ifOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
                                         </div>
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-6" ng-if="isAuthorised">
                                         <h4 class="bold">Appreciation Gesture</h4>
                                         <input type='text' ng-model='searchContact.appreciation' ng-maxlength='500' name='appreciation' class='form-control'>
                                         <span ng-show="searchContactForm.appreciation.$error.maxlength" class="error">Input for 'Appreciation' is too long.</span>

@@ -99,6 +99,15 @@
                         <!-- sidebar menu: : style can be found in sidebar.less -->
                         <ul class="sidebar-menu">
                             <li class="header" style="text-align:center; color: whitesmoke; font-size: 14px"> Relationship Management System </li>
+                            <li class="treeview">
+                                <a href="">
+                                    <i class="fa fa-search"></i> <span>Search</span> <i class="fa fa-angle-left pull-right"></i>
+                                </a>
+                                <ul class="treeview-menu" style="padding: 10px">
+                                    <li><a ui-sref="eventleader.searchContacts"><i class="fa fa-users"></i><span> Search Contacts</span></a></li>
+                                    <li><a ui-sref="eventleader.searchEvents"><i class="fa fa-calendar"></i><span> Search Events</span></a></li>
+                                </ul>          
+                            </li>
                             <!-- Contact information -->
                             <li class="treeview">
                                 <a href="">

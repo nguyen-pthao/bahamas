@@ -8,7 +8,10 @@ var app = angular.module('bahamas');
 
 app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', '$timeout', 'ngDialog', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, $timeout, ngDialog) {
         var user = session.getSession('userType');
-
+        $scope.isAuthorised = true;
+        if(user === 'associate'){
+            $scope.isAuthorised = false;
+        };
         //FOR CONTACTS
 
         $scope.searchContact = {
