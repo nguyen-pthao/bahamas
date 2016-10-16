@@ -24,36 +24,36 @@ import java.util.logging.Logger;
 public class SearchContactDAO {
 
     private static SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-    
+
     public static HashMap<Integer, Contact> searchContactByNameAltnameNationality(String nameValue, String altNameValue, String nationalityValue) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                     + "FROM CONTACT WHERE NAME LIKE ? AND ALT_NAME LIKE ? AND NATIONALITY LIKE ?");
-            
-            if(nameValue == null){
+
+            if (nameValue == null) {
                 stmt.setString(1, "%");
-            }else{
-                stmt.setString(1, "%"+nameValue+"%");
+            } else {
+                stmt.setString(1, "%" + nameValue + "%");
             }
-            if(altNameValue == null){
+            if (altNameValue == null) {
                 stmt.setString(2, "%");
-            }else{
-                stmt.setString(2, "%"+altNameValue+"%");
+            } else {
+                stmt.setString(2, "%" + altNameValue + "%");
             }
-            if(nationalityValue == null){
+            if (nationalityValue == null) {
                 stmt.setString(3, "%");
-            }else{
-                stmt.setString(3, "%"+nationalityValue+"%");
+            } else {
+                stmt.setString(3, "%" + nationalityValue + "%");
             }
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -82,7 +82,7 @@ public class SearchContactDAO {
                 boolean notification = rs.getBoolean(22);
 
                 Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
-                contactHM.put(contactId,contact);
+                contactHM.put(contactId, contact);
 
             }
 
@@ -97,22 +97,29 @@ public class SearchContactDAO {
 
         return contactHM;
     }
-    
-    public static HashMap<Integer, Contact> searchContactByTeam(String team) {
+
+    public static HashMap<Integer, Contact> searchContactByTeam(String team, boolean otherTeam) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
-                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM TEAM_JOIN WHERE TEAM_NAME = ? AND PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
 
-            stmt.setString(1, team);
-            
+            if (otherTeam) {
+                stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                        + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                        + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                        + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM TEAM_JOIN WHERE EXPLAIN_IF_OTHER LIKE ? AND PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
+            } else {
+                stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                        + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                        + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                        + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM TEAM_JOIN WHERE TEAM_NAME LIKE ? AND PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
+            }
+            stmt.setString(1, "%"+team+"%");
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -141,7 +148,7 @@ public class SearchContactDAO {
                 boolean notification = rs.getBoolean(22);
 
                 Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
-                contactHM.put(contactId,contact);
+                contactHM.put(contactId, contact);
 
             }
 
@@ -156,13 +163,13 @@ public class SearchContactDAO {
 
         return contactHM;
     }
-    
+
     public static HashMap<Integer, Contact> searchContactByAppreciationGesture(String appreciationGesture) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
@@ -170,8 +177,8 @@ public class SearchContactDAO {
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                     + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM APPRECIATION WHERE APPRECIATION_GESTURE LIKE ?)");
 
-            stmt.setString(1, "%"+appreciationGesture+"%");
-            
+            stmt.setString(1, "%" + appreciationGesture + "%");
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -200,7 +207,7 @@ public class SearchContactDAO {
                 boolean notification = rs.getBoolean(22);
 
                 Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
-                contactHM.put(contactId,contact);
+                contactHM.put(contactId, contact);
 
             }
 
@@ -215,13 +222,13 @@ public class SearchContactDAO {
 
         return contactHM;
     }
-    
+
     public static HashMap<Integer, Contact> searchContactByLanguageName(String languageName) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
@@ -230,7 +237,7 @@ public class SearchContactDAO {
                     + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM LANGUAGE_ASSIGNMENT WHERE LANGUAGE_NAME = ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
 
             stmt.setString(1, languageName);
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -259,7 +266,7 @@ public class SearchContactDAO {
                 boolean notification = rs.getBoolean(22);
 
                 Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
-                contactHM.put(contactId,contact);
+                contactHM.put(contactId, contact);
 
             }
 
@@ -274,13 +281,13 @@ public class SearchContactDAO {
 
         return contactHM;
     }
-    
+
     public static HashMap<Integer, Contact> searchContactBySkillName(String skillName) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
-        
+
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
@@ -289,7 +296,7 @@ public class SearchContactDAO {
                     + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM SKILL_ASSIGNMENT WHERE SKILL_NAME = ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE) )");
 
             stmt.setString(1, skillName);
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -318,7 +325,7 @@ public class SearchContactDAO {
                 boolean notification = rs.getBoolean(22);
 
                 Contact contact = new Contact(contactId, contactType, username, password, salt, isAdmin, isNovice, deactivated, dateCreated, createdBy, name, altName, explainIfOther, profession, jobTitle, nric, gender, nationality, dateOfBirth, profilePic, remarks, notification);
-                contactHM.put(contactId,contact);
+                contactHM.put(contactId, contact);
 
             }
 
@@ -333,5 +340,5 @@ public class SearchContactDAO {
 
         return contactHM;
     }
-    
+
 }

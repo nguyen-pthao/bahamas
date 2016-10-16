@@ -77,6 +77,7 @@ public class SearchContact extends HttpServlet {
                 String altname = Validator.containsBlankField(jobject.get("altname"));
                 String nationality = Validator.containsBlankField(jobject.get("nationality"));
                 String team = Validator.containsBlankField(jobject.get("team"));
+                String ifOther = Validator.containsBlankField(jobject.get("ifOther"));
                 String appreciation = Validator.containsBlankField(jobject.get("appreciation"));
                 String language = Validator.containsBlankField(jobject.get("language"));
                 String skill = Validator.containsBlankField(jobject.get("skill"));
@@ -93,9 +94,18 @@ public class SearchContact extends HttpServlet {
                             contactHM = SearchContactDAO.searchContactByNameAltnameNationality(name, altname, nationality);
                         }
                         if (contactHM == null && team != null) {
-                            contactHM = SearchContactDAO.searchContactByTeam(team);
+                            if(team.equalsIgnoreCase("other")){
+                                contactHM = SearchContactDAO.searchContactByTeam(ifOther, true);
+                            } else {
+                                contactHM = SearchContactDAO.searchContactByTeam(team, false);
+                            }
                         } else if (contactHM != null && team != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByTeam(team);
+                            HashMap<Integer, Contact> tempHM = null;
+                            if(team.equalsIgnoreCase("other")){
+                                tempHM = SearchContactDAO.searchContactByTeam(ifOther, true);
+                            } else {
+                                tempHM = SearchContactDAO.searchContactByTeam(team, false);
+                            }
                             contactHM.keySet().retainAll(tempHM.keySet());
                         }
                         if (contactHM == null && appreciation != null) {

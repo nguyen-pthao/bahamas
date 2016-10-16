@@ -129,7 +129,7 @@ public class SearchEventDAO {
                         + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                         + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                         + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER, EVENT_ID "
-                        + "FROM EVENT WHERE EVENT_TITLE LIKE ? AND ADDRESS = ?");
+                        + "FROM EVENT WHERE EVENT_TITLE LIKE ? AND ADDRESS LIKE ?");
                 if(eventTitleValue == null){
                     stmt.setString(1, "%");
                 }else{
@@ -142,7 +142,7 @@ public class SearchEventDAO {
                         + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                         + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                         + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER, EVENT_ID "
-                        + "FROM EVENT WHERE EVENT_TITLE LIKE ? AND ADDRESS = ? AND EVENT_START_DATE BETWEEN ? AND ?");
+                        + "FROM EVENT WHERE EVENT_TITLE LIKE ? AND ADDRESS LIKE ? AND EVENT_START_DATE BETWEEN ? AND ?");
                 stmt.setString(1, "%" + eventTitleValue + "%");
                 stmt.setString(2, "%" + addressValue + "%");
                 stmt.setDate(3, new java.sql.Date(startDate.getTime()));

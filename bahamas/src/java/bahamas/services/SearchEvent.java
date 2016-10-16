@@ -85,7 +85,8 @@ public class SearchEvent extends HttpServlet {
                 Date endDateStr = Validator.isDateValid(jobject.get("end_date"), "end_date");
                 String teamAffiliation = Validator.containsBlankField(jobject.get("team_affiliation"));
                 String participant = Validator.containsBlankField(jobject.get("participant"));
-                boolean otherLocation = jobject.get("is_other_location").getAsBoolean();
+                String ifLocationOther = Validator.containsBlankField(jobject.get("if_location_other"));
+                
 
                 String username = Authenticator.verifyToken(token);
                 if (username == null) {
@@ -98,8 +99,8 @@ public class SearchEvent extends HttpServlet {
                     if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                         HashMap<Integer, Event> eventHM = null;
                         try {
-                            if (eventTitle != null || event_location != null || startDateStr != null || endDateStr != null) {
-                                if (!otherLocation) {
+                            if (event_location != null && (eventTitle != null || startDateStr != null || endDateStr != null)) {
+                                if (!event_location.equalsIgnoreCase("other")) {
                                     if (startDateStr != null && endDateStr != null) {
                                         eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
                                     } else {
@@ -107,14 +108,14 @@ public class SearchEvent extends HttpServlet {
                                     }
                                 } else {
                                     if (startDateStr != null && endDateStr != null) {
-                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, event_location, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
+                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, ifLocationOther, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
                                     } else {
-                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, event_location, null, null);
+                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, ifLocationOther, null, null);
                                     }
                                 }
                             }
 
-                            if (eventHM == null && teamAffiliation != null) {
+                            if (eventHM == null && teamAffiliation != null && !teamAffiliation.equalsIgnoreCase("other")) {
                                 eventHM = SearchEventDAO.searchEventByTeam(teamAffiliation);
                             } else if (eventHM != null && teamAffiliation != null) {
                                 HashMap<Integer, Event> tempHM = SearchEventDAO.searchEventByTeam(teamAffiliation);
