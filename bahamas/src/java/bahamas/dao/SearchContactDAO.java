@@ -30,30 +30,55 @@ public class SearchContactDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
-
+        boolean isFirst = true;
+        String prepareStatement = "Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                    + "FROM CONTACT";
+        
+        
         try {
             conn = ConnectionManager.getConnection();
+            /*
             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
                     + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
                     + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                     + "FROM CONTACT WHERE NAME LIKE ? AND ALT_NAME LIKE ? AND NATIONALITY LIKE ?");
-
-            if (nameValue == null) {
-                stmt.setString(1, "%");
-            } else {
-                stmt.setString(1, "%" + nameValue + "%");
+            */
+            if (nameValue != null) {
+                prepareStatement += " WHERE NAME LIKE ? ";
+                isFirst = false;
             }
-            if (altNameValue == null) {
-                stmt.setString(2, "%");
-            } else {
-                stmt.setString(2, "%" + altNameValue + "%");
+            if (altNameValue != null) {
+                if(!isFirst){
+                    prepareStatement += "AND ALT_NAME LIKE ? ";
+                } else {
+                    prepareStatement += " WHERE ALT_NAME LIKE ? ";
+                }
             }
-            if (nationalityValue == null) {
-                stmt.setString(3, "%");
-            } else {
-                stmt.setString(3, "%" + nationalityValue + "%");
+            if (nationalityValue != null) {
+                if(!isFirst){
+                    prepareStatement += "AND NATIONALITY LIKE ? ";
+                } else {
+                    prepareStatement += " WHERE NATIONALITY LIKE ? ";
+                }
             }
-
+            
+            stmt = conn.prepareStatement(prepareStatement);
+            int count = 1;
+            if (nameValue != null) {
+                stmt.setString(count, "%" + nameValue + "%");
+                count++;
+            }
+            if (altNameValue != null) {
+                stmt.setString(count, "%" + altNameValue + "%");
+                count++;
+            }
+            if (nationalityValue != null) {
+                stmt.setString(count, "%" + nationalityValue + "%");
+            }
+            
+            
             rs = stmt.executeQuery();
             while (rs.next()) {
 

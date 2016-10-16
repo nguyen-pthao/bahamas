@@ -25,6 +25,7 @@ public class EmailGenerator {
     private static String USERNAME = "";
     private static String PASSWORD = "";
     private static String LOCATION = "";
+    private static String SMTP = "";
 
     public static void init() {
         try {
@@ -35,6 +36,7 @@ public class EmailGenerator {
             USERNAME = props.getProperty("email.username");
             PASSWORD = props.getProperty("email.password");
             LOCATION = props.getProperty("email.location");
+            SMTP = props.getProperty("email.smtp");
 
         } catch (Exception ex) {
             String message = "Unable to load '" + PROPS_FILENAME + "'.";
@@ -64,7 +66,7 @@ public class EmailGenerator {
     public static boolean sendEmail(String email, String[] args) {
         init();
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.host", SMTP);
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class",
                 "javax.net.ssl.SSLSocketFactory");
@@ -104,7 +106,7 @@ public class EmailGenerator {
     public static boolean verifyEmail(String email, String name, String hashID) {
         init();
         Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.host", SMTP);
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class",
                 "javax.net.ssl.SSLSocketFactory");

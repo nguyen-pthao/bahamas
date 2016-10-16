@@ -20,6 +20,7 @@ import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -129,15 +130,24 @@ public class SearchContact extends HttpServlet {
                         json.addProperty("message", "success");
                         JsonArray contactArray = new JsonArray();
                         JsonObject jsonContactObj;
+                        ContactDAO contactDAO = new ContactDAO();
+                        ArrayList<Contact> contactList = contactDAO.retrieveAllContactWithEmailPhone();
+                        HashMap<Integer, Contact> contactidContactHM = new HashMap<Integer, Contact>();
+                        for(Contact contactTemp:contactList){
+                            contactidContactHM.put(contactTemp.getContactId(), contactTemp);
+                        }
+                        
                         for (int tempContactId : contactHM.keySet()) {
                             Contact tempContact = contactHM.get(tempContactId);
-                            String tempUsername = "No username";
-                            if(tempContact.getUsername() != null){
-                                tempUsername = tempContact.getUsername();
-                            }
                             jsonContactObj = new JsonObject();
                             jsonContactObj.addProperty("contactid", tempContact.getContactId());
-                            jsonContactObj.addProperty("name", tempContact.getName() + " (" + tempUsername + ")");
+                            jsonContactObj.addProperty("name", tempContact.getName());
+                            jsonContactObj.addProperty("contacttype", tempContact.getContactType());
+                            if(contactidContactHM.get(tempContactId).getEmailStrList() != null){
+                                jsonContactObj.addProperty("email", contactidContactHM.get(tempContactId).getEmailStrList());
+                            } else {
+                                jsonContactObj.addProperty("email", "");
+                            }
                             contactArray.add(jsonContactObj);
                         }
                         json.add("contact", contactArray);
