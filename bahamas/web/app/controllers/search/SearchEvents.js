@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', 'loadEventLocation', '$timeout', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, loadEventLocation, $timeout) {
+app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', 'loadEventLocation', '$timeout', 'ngDialog', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, loadEventLocation, $timeout, ngDialog) {
         var user = session.getSession('userType');
 
         //FOR EVENTS
@@ -51,7 +51,10 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
                 if (response.data.message == "success") {
                     $scope.returnEvents = response.data.event;
                 } else {
-                    alert('Unable to establish connection!');
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/searchFailed.html',
+                        className: 'ngdialog-theme-default'
+                    });
                 };
             });
         };
