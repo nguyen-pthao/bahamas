@@ -10,23 +10,17 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
         var user = session.getSession('userType');
 
         //FOR EVENTS
-
-
         $scope.searchEvent = {
             'event_title': '',
             'event_location': '',
             'start_date': '',
+            'if_location_other': '',
             'end_date': '',
             'team_affiliation': '',
-            'if_team_other': '',
             'participant': '',
-            'is_other_location': false,
             'token': ''
         };
 
-        $scope.tempLocation = '';
-        $scope.tempLocationIfOther = '';
-        $scope.tempTeamIfOther = '';
         $scope.retrieveEventLocation = function () {
             loadEventLocation.retrieveEventLocation().then(function (response) {
                 $scope.locationList = response.data.eventLocationList;
@@ -34,44 +28,24 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
             });
         };
 
-        $scope.locationChanged = function () {
-            if ($scope.tempLocation == 'Other') {
-                $scope.searchEvent.is_other_location = true;
-            } else {
-                $scope.searchEvent.is_other_location = false;
-            }
-            ;
-        };
-
-        $scope.teamChanged = function () {
-            if ($scope.searchEvent.team_affiliation != 'Other') {
-                $scope.searchEvent.if_team_other = '';
-            }
-            ;
-        };
-
         $scope.tempStartDate = "";
         $scope.tempEndDate = "";
 
         $scope.submitSearchEvent = function () {
             $scope.searchEvent.token = session.getSession('token');
-            if ($scope.searchEvent.is_other_location === true) {
-                $scope.searchEvent.event_location = $scope.tempLocationIfOther;
-            } else {
-                $scope.searchEvent.event_location = $scope.tempLocation;
-            }
-            ;
-
             $scope.searchEvent.start_date = $scope.tempStartDate.valueOf();
             $scope.searchEvent.end_date = $scope.tempEndDate.valueOf();
+            if ($scope.searchEvent.event_location != "Other") {
+                $scope.searchEvent.if_location_other = "";
+            }
+            ;
             var url = '/event.search';
             $scope.myPromise = dataSubmit.submitData($scope.searchEvent, url).then(function (response) {
                 if (response.data.message == "success") {
                     $scope.returnEvents = response.data.event;
                 } else {
                     alert('Unable to establish connection!');
-                }
-                ;
+                };
             });
         };
 

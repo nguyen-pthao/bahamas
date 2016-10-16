@@ -34,13 +34,13 @@ and open the template in the editor.
                                     <div class="col-sm-6">
                                         <h4 class="bold">Location</h4>
                                         <div ng-init="retrieveEventLocation()">
-                                            <select name="eventLocation" class="form-control" ng-model="tempLocation" ng-change="locationChanged()">
+                                            <select name="eventLocation" class="form-control" ng-model="searchEvent.event_location" ng-change="locationChanged()">
                                                 <option ng-repeat="location in locationList">{{location.eventLocation}}</option>
                                             </select>     
                                         </div>
                                         <div ng-show='searchEvent.event_location == "Other"'>
                                             <h4 class="bold">If 'Other'</h4>
-                                            <input type="text" ng-model="tempLocationIfOther" ng-maxlength="200" name="eventIfOther" class="form-control">
+                                            <input type="text" ng-model="searchEvent.if_location_other" ng-maxlength="200" name="eventIfOther" class="form-control">
                                             <span ng-show="searchEventForm.eventIfOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
                                         </div>
                                     </div>
