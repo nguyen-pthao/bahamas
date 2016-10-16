@@ -135,7 +135,13 @@ public class SearchEventDAO {
                 }else{
                     stmt.setString(1, "%" + eventTitleValue + "%");
                 }
-                stmt.setString(2, "%" + addressValue + "%");
+                if(addressValue == null){
+                    stmt.setString(2, "%");
+                }else{
+                    stmt.setString(2, "%" + addressValue + "%");
+                }
+                
+                
             } else {
 
                 stmt = conn.prepareStatement("SELECT CREATED_BY, DATE_CREATED, EVENT_TITLE, "
@@ -143,8 +149,18 @@ public class SearchEventDAO {
                         + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                         + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER, EVENT_ID "
                         + "FROM EVENT WHERE EVENT_TITLE LIKE ? AND ADDRESS LIKE ? AND EVENT_START_DATE BETWEEN ? AND ?");
-                stmt.setString(1, "%" + eventTitleValue + "%");
-                stmt.setString(2, "%" + addressValue + "%");
+              
+                if(eventTitleValue == null){
+                    stmt.setString(1, "%");
+                }else{
+                    stmt.setString(1, "%" + eventTitleValue + "%");
+                }
+                if(addressValue == null){
+                    stmt.setString(2, "%");
+                }else{
+                    stmt.setString(2, "%" + addressValue + "%");
+                }
+                
                 stmt.setDate(3, new java.sql.Date(startDate.getTime()));
                 stmt.setDate(4, new java.sql.Date(endDate.getTime()));
             }
@@ -205,7 +221,7 @@ public class SearchEventDAO {
                     + "ADDRESS, ZIPCODE, EVENT_START_DATE, EVENT_END_DATE, EVENT_TIME_START, EVENT_TIME_END, SEND_REMINDER, "
                     + "EVENT_DESCRIPTION, MINIMUM_PARTICIPATIONS, EVENT_CLASS_NAME, EVENT_LOCATION_NAME, "
                     + "EVENT_LOCATION_LONGITUDE, EVENT_LOCATION_LATITUDE, EVENT_STATUS, REMARKS, CONTACT_ID, EMAIL, PARTICIPANT_NUMBER, EVENT_ID "
-                    + "FROM EVENT WHERE EVENT_ID IN (SELECT DISTINCT EVENT_ID FROM EVENT_AFFILIATION WHERE TEAM_NAME = ?");
+                    + "FROM EVENT WHERE EVENT_ID IN (SELECT DISTINCT EVENT_ID FROM EVENT_AFFILIATION WHERE TEAM_NAME = ? )");
             stmt.setString(1, teamValue);
             
             rs = stmt.executeQuery();

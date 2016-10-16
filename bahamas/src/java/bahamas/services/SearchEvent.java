@@ -99,8 +99,8 @@ public class SearchEvent extends HttpServlet {
                     if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                         HashMap<Integer, Event> eventHM = null;
                         try {
-                            if (event_location != null && (eventTitle != null || startDateStr != null || endDateStr != null)) {
-                                if (!event_location.equalsIgnoreCase("other")) {
+                            //if (event_location != null && (eventTitle != null || startDateStr != null || endDateStr != null)) {
+                                if (event_location != null && !event_location.equalsIgnoreCase("other")) {
                                     if (startDateStr != null && endDateStr != null) {
                                         eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
                                     } else {
@@ -113,7 +113,7 @@ public class SearchEvent extends HttpServlet {
                                         eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, ifLocationOther, null, null);
                                     }
                                 }
-                            }
+                            //}
 
                             if (eventHM == null && teamAffiliation != null && !teamAffiliation.equalsIgnoreCase("other")) {
                                 eventHM = SearchEventDAO.searchEventByTeam(teamAffiliation);
