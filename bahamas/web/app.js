@@ -143,10 +143,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/editPastEvent.html',
                 controller: 'editPastEvent'
             })
-            .state('admin.search', {
-                url: '/search',
-                templateUrl: 'app/views/search/search.html',
-                controller: 'search'
+            .state('admin.searchContacts', {
+                url: '/searchContacts',
+                templateUrl: 'app/views/search/searchContacts.html',
+                controller: 'searchContacts'
+            })
+            .state('admin.searchEvents', {
+                url: '/searchEvents',
+                templateUrl: 'app/views/search/searchEvents.html',
+                controller: 'searchEvents'
             })
             .state('novice', {
                 url: '/novice',
@@ -227,6 +232,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/viewPastIndivEvent',
                 templateUrl: 'app/views/event/viewPastIndivEvent.html',
                 controller: 'viewPastIndivEvent'
+            })
+            .state('associate.searchContacts', {
+                url: '/searchContacts',
+                templateUrl: 'app/views/search/searchContacts.html',
+                controller: 'searchContacts'
+            })
+            .state('associate.searchEvents', {
+                url: '/searchEvents',
+                templateUrl: 'app/views/search/searchEvents.html',
+                controller: 'searchEvents'
             })
             .state('teammanager', {
                 url: '/teammanager',
@@ -328,6 +343,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/editPastEvent.html',
                 controller: 'editPastEvent'
             })
+            .state('teammanager.searchContacts', {
+                url: '/searchContacts',
+                templateUrl: 'app/views/search/searchContacts.html',
+                controller: 'searchContacts'
+            })
+            .state('teammanager.searchEvents', {
+                url: '/searchEvents',
+                templateUrl: 'app/views/search/searchEvents.html',
+                controller: 'searchEvents'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -427,6 +452,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/editPastEvent',
                 templateUrl: 'app/views/event/editPastEvent.html',
                 controller: 'editPastEvent'
+            })
+            .state('eventleader.searchContacts', {
+                url: '/searchContacts',
+                templateUrl: 'app/views/search/searchContacts.html',
+                controller: 'searchContacts'
+            })
+            .state('eventleader.searchEvents', {
+                url: '/searchEvents',
+                templateUrl: 'app/views/search/searchEvents.html',
+                controller: 'searchEvents'
             })
             .state('unauthorised', {
                 url: '/unauthorised',

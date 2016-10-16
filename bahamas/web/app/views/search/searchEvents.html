@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper inner-content-wrapper" id="view-indiv-event" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb" style="margin-bottom: 0px;">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a href=""> Search </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="box" style="margin-top:20px;">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> Search through <b>events</b> </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">
+                            <form role="form" ng-submit='submitSearchEvent()' name='searchEventForm'>
+                                <div class="row col-sm-12">
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Event Title</h4>
+                                        <input type="text" ng-model="searchEvent.event_title" ng-maxlength="200" name="eventTitle" class="form-control">
+                                        <span ng-show="searchEventForm.eventTitle.$error.maxlength" class='error'>Input for 'Event Title' is too long.</span>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Location</h4>
+                                        <div ng-init="retrieveEventLocation()">
+                                            <select name="eventLocation" class="form-control" ng-model="searchEvent.event_location" ng-change="locationChanged()">
+                                                <option ng-repeat="location in locationList">{{location.eventLocation}}</option>
+                                            </select>     
+                                        </div>
+                                        <div ng-show='searchEvent.event_location == "Other"'>
+                                            <h4 class="bold">If 'Other'</h4>
+                                            <input type="text" ng-model="searchEvent.if_location_other" ng-maxlength="200" name="eventIfOther" class="form-control">
+                                            <span ng-show="searchEventForm.eventIfOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Start Date</h4>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon btn" ng-click="openStart()">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="eventStartDate" class="form-control white-background" ng-click="openStart()" uib-datepicker-popup="{{format}}" ng-model="tempStartDate" is-open="openedStart" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">End Date</h4>
+                                        <div class="input-group date">
+                                            <div class="input-group-addon btn" ng-click="openEnd()">
+                                                <i class="fa fa-calendar"></i>
+                                            </div>
+                                            <input type="text" name="eventEndDate" class="form-control white-background" ng-click="openEnd()" uib-datepicker-popup="{{format}}" ng-model="tempEndDate" is-open="openedEnd" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Team Affiliation</h4>
+                                        <div ng-init="retrieveTeamList()">
+                                            <select name="team" class="form-control" ng-model="searchEvent.team_affiliation" ng-change="teamChanged()">
+                                                <option ng-repeat="team in teamAffiliationList">{{team.teamAffiliation}}</option>
+                                            </select>     
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <h4 class="bold">Participant Name</h4>
+                                        <input type="text" ng-model="searchEvent.participant" ng-maxlength="50" name="participant" class="form-control">
+                                        <span ng-show="searchEventForm.participant.$error.maxlength" class='error'>Input for 'Participant Name' is too long.</span>
+                                    </div>
+                                </div>
+                                <div class="box-footer">
+                                    <center><button class="btn btn-link uppercase bold" type="submit" 
+                                                    ng-disabled="">
+                                            <b>Search Event</b>
+                                        </button></center>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <div class="box green-box">
+                            <div class="table-horizontal-scroll">
+                                <table class="table table-bordered table-striped" style="max-width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%" style="color: #005384">Event ID</th>
+                                            <th width="20%" style='color: #005384'>Event Title</th>
+                                            <th width="30%" style='color: #005384'>Start Date</th>
+                                            <th width="40%" style='color: #005384'>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="re in returnEvents track by $index">
+                                            <td>{{re['eventid']}}</td>
+                                            <td><a href="" ng-click="goToEvent($event, re)">{{re['event_title']}}</a></td>
+                                            <td>{{re['startdate']}}</td>
+                                            <td>{{re['event_status']}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>
+

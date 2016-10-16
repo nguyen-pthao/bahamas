@@ -13,13 +13,14 @@ def send_email( from_address,to_address,min,current,event_title,created_by,event
 		msg = MIMEMultipart()
 		msg['From'] = fromaddr
 		msg['To'] = toaddr
+		msg['Cc'] = ccaddr
 		msg['Subject'] = "Bahamas, Event Alert on minimum participation"
 		
 		body = "Dear " + created_by + ",\n\n" + "Your event " + event_title + " on " + event_date + " have minimum participation of " + min + ' while current participation is ' + current + '.'
 		
 		msg.attach(MIMEText(body, 'plain'))
 		
-		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server = smtplib.SMTP_SSL(email_smtp, email_port)
 		server.ehlo()
 		server.login(email_username,email_password) 
 		server.sendmail(fromaddr, toaddr, msg.as_string())
@@ -33,6 +34,9 @@ def send_email( from_address,to_address,min,current,event_title,created_by,event
 
 now = datetime.datetime.now()
 
+#/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/
+#C:/Java/twc/bahamas/build/web/WEB-INF/classes/
+
 email_props_file = '/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/email.properties'
 db_props_file = '/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/connection.properties'
 
@@ -42,6 +46,8 @@ try:
 	config.read(email_props_file)
 	email_username = config.get('Email','email.username')
 	email_password = config.get('Email','email.password')
+	email_smtp = config.get('Email','email.smtp')
+	email_port = config.get('Email','email.port')
 
 	config.read(db_props_file)
 	db_host = config.get('Connection','db.host')

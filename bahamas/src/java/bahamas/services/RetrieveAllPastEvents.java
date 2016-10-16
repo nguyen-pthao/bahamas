@@ -120,6 +120,7 @@ public class RetrieveAllPastEvents extends HttpServlet {
                         ArrayList<Event> eventList = eventDAO.retrieveAllEventsASC();
                         SimpleDateFormat date = new SimpleDateFormat("dd-MMM-yyyy");
                         SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
+                        SimpleDateFormat day = new SimpleDateFormat("EEE");
                         JsonArray eventArray = new JsonArray();
                         JsonObject jsonContactObj;
                         if (eventList != null) {
@@ -138,7 +139,7 @@ public class RetrieveAllPastEvents extends HttpServlet {
                                         jsonContactObj = new JsonObject();
                                         jsonContactObj.addProperty("event_id", event.getEventId());
                                         jsonContactObj.addProperty("event_title", event.getEventTitle());
-                                        jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()));
+                                        jsonContactObj.addProperty("event_start_date", date.format(event.getEventStartDate()) + " (" + day.format(event.getEventStartDate()) + ")");
                                         jsonContactObj.addProperty("event_end_date", date.format(event.getEventEndDate()));
                                         jsonContactObj.addProperty("event_time_start", time.format(event.getEventStartTime()));
                                         //jsonContactObj.addProperty("event_time_end", time.format(event.getEventEndTime()));
