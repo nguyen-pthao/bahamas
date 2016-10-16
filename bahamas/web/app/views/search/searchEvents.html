@@ -18,100 +18,6 @@ and open the template in the editor.
             </section>
             <!-- Main content -->
             <section class="content">
-                <!--Box to show event details--> 
-                <div class="box" style="margin-top:20px;">
-                    <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> Search through <b>contacts</b> </h3>
-                    </div>
-                    <div class="box-body">
-                        <div class="box blue-box">
-                            <form role="form" ng-submit='submitSearchContact()' name='searchContactForm'>
-                                <div class="row col-sm-12">
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Name</h4>
-                                        <input type="text" ng-model="searchContact.name" ng-maxlength="50" name="name" class="form-control">
-                                        <span ng-show="searchContactForm.name.$error.maxlength" class='error'>Input for 'Name' is too long.</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Alt Name</h4>
-                                        <input type='text' ng-model='searchContact.altname' ng-maxlength='50' name='altname' class='form-control'>
-                                        <span ng-show="searchContactForm.altname.$error.maxlength" class="error">Input for 'Alt Name' is too long.</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Nationality</h4>
-                                        <input type="text" ng-model="searchContact.nationality" ng-maxlength="20" name="nationality" class="form-control">
-                                        <span ng-show="searchContactForm.nationality.$error.maxlength" class='error'>Input for 'Nationality' is too long.</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Team</h4>
-                                        <div ng-init="retrieveTeamList()">
-                                            <select name="team" class="form-control" ng-model="searchContact.team" ng-change='setOther()'>
-                                                <option ng-repeat="team in teamAffiliationList">{{team.teamAffiliation}}</option>
-                                            </select>     
-                                        </div>
-                                        <div ng-show='searchContact.team == "Other"'>
-                                            <h4 class="bold">If 'Other'</h4>
-                                            <input type="text" ng-model="searchContact.ifOther" ng-maxlength="200" name="ifOther" class="form-control">
-                                            <span ng-show="searchContactForm.ifOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Appreciation Gesture</h4>
-                                        <input type='text' ng-model='searchContact.appreciation' ng-maxlength='500' name='appreciation' class='form-control'>
-                                        <span ng-show="searchContactForm.appreciation.$error.maxlength" class="error">Input for 'Appreciation' is too long.</span>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Language</h4>
-                                        <div ng-init="retrieveLanguageList()">
-                                            <select name="language" class="form-control" ng-model="searchContact.language">
-                                                <option ng-repeat="language in languageList">{{language.language}}</option>
-                                            </select>     
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <h4 class="bold">Skills & Assets</h4>
-                                        <div ng-init="retrieveLSAList()">
-                                            <select name="skill" class="form-control" ng-model="searchContact.skill">
-                                                <option ng-repeat="lsa in lsaList">{{lsa.lsaClass}}</option>
-                                            </select>     
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="box-footer">
-                                    <center><button class="btn btn-link uppercase bold" type="submit" 
-                                                    ng-disabled="searchContactForm.name.$error.maxlength || searchContactForm.altname.$error.maxlength || searchContactForm.nationality.$error.maxlength
-                                                                        || searchContactForm.ifOther.$error.maxlength || searchContactForm.appreciation.$error.maxlength">
-                                            <b>Search Contact</b>
-                                        </button></center>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="box-body">
-                        <div class="box blue-box">
-                            <div class="table-horizontal-scroll">
-                                <table class="table table-bordered table-striped" style="max-width: 100%">
-                                    <thead>
-                                        <tr>
-                                            <th width="10%" style="color: #005384">Contact ID</th>
-                                            <th width="20%" style='color: #005384'>Name</th>
-                                            <th width="30%" style='color: #005384'>*Other Info TBC*</th>
-                                            <th width="40%" style='color: #005384'>*Other Info TBC*</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="rc in returnContacts track by $index">
-                                            <td>{{rc['contactid']}}</td>
-                                            <td><a href="" ng-click="goToContact($event, rc)">{{rc['name']}}</a></td>
-                                            <td>TBC hehe</td>
-                                            <td>TBC hoho</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
                 <div class="box" style="margin-top:20px;">
                     <div class="box-header with-border" data-widget="collapse">
                         <h3 class="box-title uppercase"> Search through <b>events</b> </h3>
@@ -162,11 +68,6 @@ and open the template in the editor.
                                             <select name="team" class="form-control" ng-model="searchEvent.team_affiliation" ng-change="teamChanged()">
                                                 <option ng-repeat="team in teamAffiliationList">{{team.teamAffiliation}}</option>
                                             </select>     
-                                        </div>
-                                        <div ng-show='searchEvent.team_affiliation == "Other"'>
-                                            <h4 class="bold">If 'Other'</h4>
-                                            <input type="text" ng-model="searchEvent.if_team_other" ng-maxlength="200" name="eventTeamIfOther" class="form-control">
-                                            <span ng-show="searchEventForm.eventTeamIfOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">

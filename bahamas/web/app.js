@@ -143,10 +143,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/editPastEvent.html',
                 controller: 'editPastEvent'
             })
-            .state('admin.search', {
-                url: '/search',
-                templateUrl: 'app/views/search/search.html',
-                controller: 'search'
+            .state('admin.searchContacts', {
+                url: '/searchContacts',
+                templateUrl: 'app/views/search/searchContacts.html',
+                controller: 'searchContacts'
+            })
+            .state('admin.searchEvents', {
+                url: '/searchEvents',
+                templateUrl: 'app/views/search/searchEvents.html',
+                controller: 'searchEvents'
             })
             .state('novice', {
                 url: '/novice',
