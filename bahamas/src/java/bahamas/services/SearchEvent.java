@@ -86,7 +86,7 @@ public class SearchEvent extends HttpServlet {
                 String teamAffiliation = Validator.containsBlankField(jobject.get("team_affiliation"));
                 String participant = Validator.containsBlankField(jobject.get("participant"));
                 String ifLocationOther = Validator.containsBlankField(jobject.get("if_location_other"));
-                
+                SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
 
                 String username = Authenticator.verifyToken(token);
                 if (username == null) {
@@ -96,22 +96,25 @@ public class SearchEvent extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
                     SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+                    SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
+                    SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
                     if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                         HashMap<Integer, Event> eventHM = null;
                         try {
                             //if (event_location != null && (eventTitle != null || startDateStr != null || endDateStr != null)) {
+                                Date startdate = null;
+                                Date enddate = null;
+                                if (startDateStr != null) {
+                                    startdate = date.parse(date.format(startDateStr));
+                                }
+                                if (endDateStr != null) {
+                                    enddate = date.parse(date.format(endDateStr));
+                                }
                                 if (event_location != null && !event_location.equalsIgnoreCase("other")) {
-                                    if (startDateStr != null && endDateStr != null) {
-                                        eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
-                                    } else {
-                                        eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, null, null);
-                                    }
+                                    eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, startdate, enddate, true);
                                 } else {
-                                    if (startDateStr != null && endDateStr != null) {
-                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, ifLocationOther, date.parse(date.format(startDateStr)), date.parse(date.format(endDateStr)));
-                                    } else {
-                                        eventHM = SearchEventDAO.searchEventByTitleOtherlocationDate(eventTitle, ifLocationOther, null, null);
-                                    }
+                                    eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, ifLocationOther, startdate, enddate, false);
+                                    
                                 }
                             //}
 
@@ -132,11 +135,24 @@ public class SearchEvent extends HttpServlet {
                             json.addProperty("message", "success");
                             JsonArray eventtArray = new JsonArray();
                             JsonObject jsonEventObj;
+                            Date currentDateTime = new Date();
+                            Date currentDate = date2.parse(date2.format(currentDateTime));
+                            Date currentTime = time.parse(time.format(currentDateTime));
+                            
                             for (int tempEventId : eventHM.keySet()) {
                                 Event tempEvent = eventHM.get(tempEventId);
                                 jsonEventObj = new JsonObject();
                                 jsonEventObj.addProperty("eventid", tempEvent.getEventId());
                                 jsonEventObj.addProperty("event_title", tempEvent.getEventTitle());
+                                jsonEventObj.addProperty("startdate", sdf.format(tempEvent.getEventStartDate()));
+                                Date eventEndDate = date2.parse(date2.format(tempEvent.getEventEndDate()));
+                                Date eventEndTime = time.parse(time.format(tempEvent.getEventEndTime()));
+                                if (eventEndDate.after(currentDate) || (eventEndDate.equals(currentDate) && eventEndTime.after(currentTime))) {
+                                    jsonEventObj.addProperty("ispast", false);
+                                }else{
+                                    jsonEventObj.addProperty("ispast", true);
+                                }
+                                jsonEventObj.addProperty("event_status", tempEvent.getEventStatus());
                                 eventtArray.add(jsonEventObj);
                             }
 
