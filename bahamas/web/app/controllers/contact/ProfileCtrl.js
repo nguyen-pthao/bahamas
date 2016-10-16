@@ -16,7 +16,7 @@ app.controller('profileCtrl', ['$scope', 'session', '$state', 'retrieveOwnContac
         
         $scope.userType = session.getSession('userType');
         $scope.showEdit = true;
-        if($scope.userType == 'novice'){
+        if($scope.userType == 'novice' || $scope.userType == 'associate'){
             $scope.showEdit = false;
         }
         
