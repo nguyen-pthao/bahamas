@@ -98,7 +98,7 @@ public class SearchEvent extends HttpServlet {
                     SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
                     SimpleDateFormat date2 = new SimpleDateFormat("dd-MMM-yyyy");
                     SimpleDateFormat time = new SimpleDateFormat("hh:mm a");
-                    if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                    if (!contact.isIsNovice()) {
                         HashMap<Integer, Event> eventHM = null;
                         try {
                             //if (event_location != null && (eventTitle != null || startDateStr != null || endDateStr != null)) {
