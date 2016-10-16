@@ -95,16 +95,16 @@ and open the template in the editor.
                                         <tr>
                                             <th width="10%" style="color: #005384">Contact ID</th>
                                             <th width="20%" style='color: #005384'>Name</th>
-                                            <th width="30%" style='color: #005384'>*Other Info TBC*</th>
-                                            <th width="40%" style='color: #005384'>*Other Info TBC*</th>
+                                            <th width="30%" style='color: #005384'>Contact Type</th>
+                                            <th width="40%" style='color: #005384'>Email</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="rc in returnContacts track by $index">
                                             <td>{{rc['contactid']}}</td>
                                             <td><a href="" ng-click="goToContact($event, rc)">{{rc['name']}}</a></td>
-                                            <td>TBC hehe</td>
-                                            <td>TBC hoho</td>
+                                            <td>{{rc['contact_type']}}</td>
+                                            <td>{{rc['email']}}</td>
                                         </tr>
                                     </tbody>
                                 </table>
