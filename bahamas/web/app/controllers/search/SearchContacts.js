@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', '$timeout', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, $timeout) {
+app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', '$timeout', 'ngDialog', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, $timeout, ngDialog) {
         var user = session.getSession('userType');
 
         //FOR CONTACTS
@@ -58,9 +58,11 @@ app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', '
                 if (response.data.message == "success") {
                     $scope.returnContacts = response.data.contact;
                 } else {
-                    alert('Unable to establish connection!');
-                }
-                ;
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/searchFailed.html',
+                        className: 'ngdialog-theme-default'
+                    });
+                };
             });
         };
 
