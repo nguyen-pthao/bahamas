@@ -27,6 +27,13 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
                 $scope.locationList.unshift({eventLocation: ''});
             });
         };
+        
+        $scope.retrieveTeamList = function () {
+            loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
+                $scope.teamAffiliationList = response.data.teamAffiliationList;
+                $scope.teamAffiliationList.unshift({teamAffiliation: ''})
+            });
+        };
 
         $scope.tempStartDate = "";
         $scope.tempEndDate = "";
