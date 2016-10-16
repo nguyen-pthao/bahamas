@@ -60,7 +60,12 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
         };
 
         $scope.goToEvent = function ($event, re) {
-            var url = user + '.viewIndivEvent';
+            if(re['ispast'] === true){
+                var statePath = ".viewPastIndivEvent";
+            }else{
+                var statePath = ".viewIndivEvent";
+            };
+            var url = user + statePath;
             session.setSession('eventIdToDisplay', re['eventid']);
             $state.go(url);
         };
