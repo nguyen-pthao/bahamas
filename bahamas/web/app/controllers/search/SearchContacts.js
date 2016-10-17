@@ -8,7 +8,10 @@ var app = angular.module('bahamas');
 
 app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', '$timeout', 'ngDialog', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, $timeout, ngDialog) {
         var user = session.getSession('userType');
-
+        $scope.isAuthorised = true;
+        if(user === 'associate'){
+            $scope.isAuthorised = false;
+        };
         //FOR CONTACTS
 
         $scope.searchContact = {
@@ -20,6 +23,8 @@ app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', '
             'language': '',
             'skill': '',
             'ifOther': '',
+            'if_language_other': '',
+            'if_skill_other': '',
             'token': ''
         };
 
@@ -30,11 +35,22 @@ app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', '
             });
         };
 
-        $scope.setOther = function () {
+        $scope.setTeamOther = function () {
             if ($scope.searchContact.team != 'Other') {
                 $scope.searchContact.ifOther = '';
-            }
-            ;
+            };
+        };
+        
+        $scope.setLanguageOther = function () {
+            if ($scope.searchContact.language != 'Other') {
+                $scope.searchContact.if_language_other = '';
+            };
+        };
+        
+        $scope.setSkillOther = function () {
+            if ($scope.searchContact.skill != 'Other') {
+                $scope.searchContact.if_skill_other = '';
+            };
         };
 
         $scope.retrieveLanguageList = function () {

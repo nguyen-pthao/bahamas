@@ -82,6 +82,8 @@ public class SearchContact extends HttpServlet {
                 String appreciation = Validator.containsBlankField(jobject.get("appreciation"));
                 String language = Validator.containsBlankField(jobject.get("language"));
                 String skill = Validator.containsBlankField(jobject.get("skill"));
+                String otherLanguage = Validator.containsBlankField(jobject.get("if_language_other"));
+                String otherSkill = Validator.containsBlankField(jobject.get("if_skill_other"));
                 String username = Authenticator.verifyToken(token);
                 if (username == null) {
                     json.addProperty("message", "invalid token");
@@ -89,7 +91,8 @@ public class SearchContact extends HttpServlet {
                 } else {
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
-                    if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                    //if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                    if (!contact.isIsNovice()) {
                         HashMap<Integer, Contact> contactHM = null;
                         if (name != null || altname != null || nationality != null) {
                             contactHM = SearchContactDAO.searchContactByNameAltnameNationality(name, altname, nationality);
@@ -109,23 +112,43 @@ public class SearchContact extends HttpServlet {
                             }
                             contactHM.keySet().retainAll(tempHM.keySet());
                         }
-                        if (contactHM == null && appreciation != null) {
-                            contactHM = SearchContactDAO.searchContactByAppreciationGesture(appreciation);
-                        } else if (contactHM != null && appreciation != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByAppreciationGesture(appreciation);
-                            contactHM.keySet().retainAll(tempHM.keySet());
+                        if(!contact.isIsNovice()){
+                            if (contactHM == null && appreciation != null) {
+                                contactHM = SearchContactDAO.searchContactByAppreciationGesture(appreciation);
+                            } else if (contactHM != null && appreciation != null) {
+                                HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByAppreciationGesture(appreciation);
+                                contactHM.keySet().retainAll(tempHM.keySet());
+                            }
                         }
                         if (contactHM == null && language != null) {
-                            contactHM = SearchContactDAO.searchContactByLanguageName(language);
+                            if(language.equalsIgnoreCase("other")){
+                                contactHM = SearchContactDAO.searchContactByLanguageName(otherLanguage, true);
+                            } else {
+                                contactHM = SearchContactDAO.searchContactByLanguageName(language, false);
+                            }
                         } else if (contactHM != null && language != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByLanguageName(language);
-                            contactHM.keySet().retainAll(tempHM.keySet());
+                            if(language.equalsIgnoreCase("other")){
+                                HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByLanguageName(otherLanguage, true);
+                                contactHM.keySet().retainAll(tempHM.keySet());
+                            } else {
+                                HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactByLanguageName(language, false);
+                                contactHM.keySet().retainAll(tempHM.keySet());
+                            }
                         }
                         if (contactHM == null && skill != null) {
-                            contactHM = SearchContactDAO.searchContactBySkillName(skill);
+                            if(skill.equalsIgnoreCase("other")){
+                                contactHM = SearchContactDAO.searchContactBySkillName(otherSkill, true);
+                            } else {
+                                contactHM = SearchContactDAO.searchContactBySkillName(skill, false);
+                            }
                         } else if (contactHM != null && skill != null) {
-                            HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactBySkillName(skill);
-                            contactHM.keySet().retainAll(tempHM.keySet());
+                            if(skill.equalsIgnoreCase("other")){
+                                HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactBySkillName(otherSkill, true);
+                                contactHM.keySet().retainAll(tempHM.keySet());
+                            }else {
+                                HashMap<Integer, Contact> tempHM = SearchContactDAO.searchContactBySkillName(skill, false);
+                                contactHM.keySet().retainAll(tempHM.keySet());
+                            }
                         }
                         json.addProperty("message", "success");
                         JsonArray contactArray = new JsonArray();

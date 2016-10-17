@@ -93,16 +93,16 @@ and open the template in the editor.
                                         <tr>
                                             <th width="10%" style="color: #005384">Event ID</th>
                                             <th width="20%" style='color: #005384'>Event Title</th>
-                                            <th width="30%" style='color: #005384'>*Other Info TBC*</th>
-                                            <th width="40%" style='color: #005384'>*Other Info TBC*</th>
+                                            <th width="30%" style='color: #005384'>Start Date</th>
+                                            <th width="40%" style='color: #005384'>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="re in returnEvents track by $index">
                                             <td>{{re['eventid']}}</td>
                                             <td><a href="" ng-click="goToEvent($event, re)">{{re['event_title']}}</a></td>
-                                            <td>TBC hehe</td>
-                                            <td>TBC hoho</td>
+                                            <td>{{re['startdate']}}</td>
+                                            <td>{{re['event_status']}}</td>
                                         </tr>
                                     </tbody>
                                 </table>

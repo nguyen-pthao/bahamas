@@ -32,38 +32,38 @@ public class SearchContactDAO {
         HashMap<Integer, Contact> contactHM = new HashMap<Integer, Contact>();
         boolean isFirst = true;
         String prepareStatement = "Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
-                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "FROM CONTACT";
-        
-        
+                + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                + "FROM CONTACT";
+
         try {
             conn = ConnectionManager.getConnection();
             /*
-            stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
-                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "FROM CONTACT WHERE NAME LIKE ? AND ALT_NAME LIKE ? AND NATIONALITY LIKE ?");
-            */
+             stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+             + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+             + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+             + "FROM CONTACT WHERE NAME LIKE ? AND ALT_NAME LIKE ? AND NATIONALITY LIKE ?");
+             */
             if (nameValue != null) {
                 prepareStatement += " WHERE NAME LIKE ? ";
                 isFirst = false;
             }
             if (altNameValue != null) {
-                if(!isFirst){
+                if (!isFirst) {
                     prepareStatement += "AND ALT_NAME LIKE ? ";
                 } else {
                     prepareStatement += " WHERE ALT_NAME LIKE ? ";
+                    isFirst = false;
                 }
             }
             if (nationalityValue != null) {
-                if(!isFirst){
+                if (!isFirst) {
                     prepareStatement += "AND NATIONALITY LIKE ? ";
                 } else {
                     prepareStatement += " WHERE NATIONALITY LIKE ? ";
                 }
             }
-            
+
             stmt = conn.prepareStatement(prepareStatement);
             int count = 1;
             if (nameValue != null) {
@@ -77,8 +77,7 @@ public class SearchContactDAO {
             if (nationalityValue != null) {
                 stmt.setString(count, "%" + nationalityValue + "%");
             }
-            
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -143,7 +142,7 @@ public class SearchContactDAO {
                         + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
                         + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM TEAM_JOIN WHERE TEAM_NAME LIKE ? AND PERMISSION IS NOT NULL AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
             }
-            stmt.setString(1, "%"+team+"%");
+            stmt.setString(1, "%" + team + "%");
 
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -248,7 +247,7 @@ public class SearchContactDAO {
         return contactHM;
     }
 
-    public static HashMap<Integer, Contact> searchContactByLanguageName(String languageName) {
+    public static HashMap<Integer, Contact> searchContactByLanguageName(String languageName, boolean isOtherLanguage) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -256,12 +255,19 @@ public class SearchContactDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
-                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM LANGUAGE_ASSIGNMENT WHERE LANGUAGE_NAME = ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
-
-            stmt.setString(1, languageName);
+            if (isOtherLanguage) {
+                stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                        + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                        + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                        + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM LANGUAGE_ASSIGNMENT WHERE EXPLAIN_IF_OTHER LIKE ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
+                stmt.setString(1, "%" + languageName + "%");
+            } else {
+                stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                        + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                        + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                        + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM LANGUAGE_ASSIGNMENT WHERE LANGUAGE_NAME = ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE))");
+                stmt.setString(1, languageName);
+            }
 
             rs = stmt.executeQuery();
             while (rs.next()) {
@@ -307,7 +313,7 @@ public class SearchContactDAO {
         return contactHM;
     }
 
-    public static HashMap<Integer, Contact> searchContactBySkillName(String skillName) {
+    public static HashMap<Integer, Contact> searchContactBySkillName(String skillName, boolean isOtherSkill) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -315,12 +321,21 @@ public class SearchContactDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
-                    + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
-                    + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
-                    + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM SKILL_ASSIGNMENT WHERE SKILL_NAME = ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE) )");
+            if (isOtherSkill) {
+                stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                        + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                        + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                        + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM SKILL_ASSIGNMENT WHERE EXPLAIN_IF_OTHER LIKE ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE) )");
+                stmt.setString(1, "%" + skillName + "%");
 
-            stmt.setString(1, skillName);
+            } else {
+                stmt = conn.prepareStatement("Select CONTACT_ID, CONTACT_TYPE,USERNAME,PASSWORD,SALT,ISADMIN,ISNOVICE,"
+                        + "DEACTIVATED,DATE_CREATED,CREATED_BY,NAME,ALT_NAME,EXPLAIN_IF_OTHER,PROFESSION,"
+                        + "JOB_TITLE,NRIC_FIN,GENDER,NATIONALITY,DATE_OF_BIRTH,PROFILE_PIC,REMARKS,NOTIFICATION "
+                        + "FROM CONTACT WHERE CONTACT_ID IN ( SELECT DISTINCT CONTACT_ID FROM SKILL_ASSIGNMENT WHERE SKILL_NAME = ? AND IF(DATE_OBSOLETE IS NOT NULL,DATE_OBSOLETE >= CURDATE(),TRUE) )");
+                stmt.setString(1, skillName);
+
+            }
 
             rs = stmt.executeQuery();
             while (rs.next()) {

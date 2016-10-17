@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', 'loadEventLocation', '$timeout', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, loadEventLocation, $timeout) {
+app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', 'loadLanguage', 'loadLSAClass', 'loadEventLocation', '$timeout', 'ngDialog', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, loadLanguage, loadLSAClass, loadEventLocation, $timeout, ngDialog) {
         var user = session.getSession('userType');
 
         //FOR EVENTS
@@ -40,6 +40,12 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
 
         $scope.submitSearchEvent = function () {
             $scope.searchEvent.token = session.getSession('token');
+            if($scope.tempStartDate === null){
+                $scope.tempStartDate = "";
+            };
+            if($scope.tempEndDate === null){
+                $scope.tempEndDate = "";
+            };
             $scope.searchEvent.start_date = $scope.tempStartDate.valueOf();
             $scope.searchEvent.end_date = $scope.tempEndDate.valueOf();
             if ($scope.searchEvent.event_location != "Other") {
@@ -51,13 +57,21 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
                 if (response.data.message == "success") {
                     $scope.returnEvents = response.data.event;
                 } else {
-                    alert('Unable to establish connection!');
+                    ngDialog.openConfirm({
+                        template: './style/ngTemplate/searchFailed.html',
+                        className: 'ngdialog-theme-default'
+                    });
                 };
             });
         };
 
         $scope.goToEvent = function ($event, re) {
-            var url = user + '.viewIndivEvent';
+            if(re['ispast'] === true){
+                var statePath = ".viewPastIndivEvent";
+            }else{
+                var statePath = ".viewIndivEvent";
+            };
+            var url = user + statePath;
             session.setSession('eventIdToDisplay', re['eventid']);
             $state.go(url);
         };
