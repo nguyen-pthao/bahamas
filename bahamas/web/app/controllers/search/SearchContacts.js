@@ -23,7 +23,7 @@ app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', '
             'language': '',
             'skill': '',
             'ifOther': '',
-            'if_location_other': '',
+            'if_language_other': '',
             'if_skill_other': '',
             'token': ''
         };
