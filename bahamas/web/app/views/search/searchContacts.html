@@ -45,12 +45,12 @@ and open the template in the editor.
                                     <div class="col-sm-6">
                                         <h4 class="bold">Team</h4>
                                         <div ng-init="retrieveTeamList()">
-                                            <select name="team" class="form-control" ng-model="searchContact.team" ng-change='setOther()'>
+                                            <select name="team" class="form-control" ng-model="searchContact.team" ng-change='setTeamOther()'>
                                                 <option ng-repeat="team in teamAffiliationList">{{team.teamAffiliation}}</option>
                                             </select>     
                                         </div>
                                         <div ng-show='searchContact.team == "Other"'>
-                                            <h4 class="bold">If 'Other'</h4>
+                                            <h4 class="bold">If Team 'Other'</h4>
                                             <input type="text" ng-model="searchContact.ifOther" ng-maxlength="200" name="ifOther" class="form-control">
                                             <span ng-show="searchContactForm.ifOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
                                         </div>
@@ -63,17 +63,27 @@ and open the template in the editor.
                                     <div class="col-sm-6">
                                         <h4 class="bold">Language</h4>
                                         <div ng-init="retrieveLanguageList()">
-                                            <select name="language" class="form-control" ng-model="searchContact.language">
+                                            <select name="language" class="form-control" ng-model="searchContact.language" ng-change='setLanguageOther()'>
                                                 <option ng-repeat="language in languageList">{{language.language}}</option>
                                             </select>     
+                                        </div>
+                                        <div ng-show='searchContact.language == "Other"'>
+                                            <h4 class="bold">If Language 'Other'</h4>
+                                            <input type="text" ng-model="searchContact.if_location_other" ng-maxlength="200" name="ifLocationOther" class="form-control">
+                                            <span ng-show="searchContactForm.ifLocationOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
                                         </div>
                                     </div>
                                     <div class="col-sm-6">
                                         <h4 class="bold">Skills & Assets</h4>
                                         <div ng-init="retrieveLSAList()">
-                                            <select name="skill" class="form-control" ng-model="searchContact.skill">
+                                            <select name="skill" class="form-control" ng-model="searchContact.skill" ng-change='setSkillOther()'>
                                                 <option ng-repeat="lsa in lsaList">{{lsa.lsaClass}}</option>
                                             </select>     
+                                        </div>
+                                        <div ng-show='searchContact.skill == "Other"'>
+                                            <h4 class="bold">If Skill 'Other'</h4>
+                                            <input type="text" ng-model="searchContact.if_skill_other" ng-maxlength="200" name="ifSkillOther" class="form-control">
+                                            <span ng-show="searchContactForm.ifSkillOther.$error.maxlength" class='error'>Input for 'If 'Other' is too long.</span>
                                         </div>
                                     </div>
                                 </div>

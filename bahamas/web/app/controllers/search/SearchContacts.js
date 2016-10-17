@@ -23,6 +23,8 @@ app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', '
             'language': '',
             'skill': '',
             'ifOther': '',
+            'if_location_other': '',
+            'if_skill_other': '',
             'token': ''
         };
 
@@ -33,11 +35,22 @@ app.controller('searchContacts', ['$scope', 'session', '$state', 'dataSubmit', '
             });
         };
 
-        $scope.setOther = function () {
+        $scope.setTeamOther = function () {
             if ($scope.searchContact.team != 'Other') {
                 $scope.searchContact.ifOther = '';
-            }
-            ;
+            };
+        };
+        
+        $scope.setLanguageOther = function () {
+            if ($scope.searchContact.language != 'Other') {
+                $scope.searchContact.if_language_other = '';
+            };
+        };
+        
+        $scope.setSkillOther = function () {
+            if ($scope.searchContact.skill != 'Other') {
+                $scope.searchContact.if_skill_other = '';
+            };
         };
 
         $scope.retrieveLanguageList = function () {
