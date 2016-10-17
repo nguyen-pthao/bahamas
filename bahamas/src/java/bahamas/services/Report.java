@@ -106,7 +106,7 @@ public class Report extends HttpServlet {
 
                     String reportType = Validator.containsBlankField(jobject.get("report_type"));
 
-                    if (reportType.equalsIgnoreCase("summary_team_participants")) {
+                    if (reportType.equalsIgnoreCase("summary_report_of_team_participants")) {
                         String team = Validator.containsBlankField(jobject.get("team"));
                         Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
                         Date endDate = Validator.isDateValid(jobject.get("end_date"), "end date");
@@ -137,7 +137,7 @@ public class Report extends HttpServlet {
 
                         processSummaryTeamParticipants(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("individual_participant")) {
+                    } else if (reportType.equalsIgnoreCase("individual_participant_report")) {
 
                         int contactId = Validator.isIntValid(jobject.get("contact_id"));
                         Contact c = cDAO.retrieveContactById(contactId);
@@ -179,7 +179,7 @@ public class Report extends HttpServlet {
 
                         processIndividualParticipant(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("summary_events")) {
+                    } else if (reportType.equalsIgnoreCase("summary_report_of_events")) {
 
                         String team = Validator.containsBlankField(jobject.get("team"));
                         Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
@@ -211,7 +211,7 @@ public class Report extends HttpServlet {
                         
                         processSummaryEvents(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("summary_membership_period")) {
+                    } else if (reportType.equalsIgnoreCase("summary_report_of_memberships_by_time_period")) {
 
                         Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
                         Date endDate = Validator.isDateValid(jobject.get("end_date"), "end date");
@@ -241,7 +241,7 @@ public class Report extends HttpServlet {
 
                         processSummaryMembership(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("individual_membership")) {
+                    } else if (reportType.equalsIgnoreCase("individual_membership_report")) {
 
                         int contactId = Validator.isIntValid(jobject.get("contact_id"));
                         Contact c = cDAO.retrieveContactById(contactId);
@@ -281,7 +281,7 @@ public class Report extends HttpServlet {
 
                         processIndividualMembership(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("summary_donations")) {
+                    } else if (reportType.equalsIgnoreCase("summary_report_of_donations_by_time_period")) {
 
                         String paymentMode = Validator.containsBlankField(jobject.get("payment_mode"));
                         Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
@@ -313,7 +313,7 @@ public class Report extends HttpServlet {
 
                         processSummaryDonations(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("individual_donation")) {
+                    } else if (reportType.equalsIgnoreCase("individual_donor_report")) {
 
                         int contactId = Validator.isIntValid(jobject.get("contact_id"));
                         Contact c = cDAO.retrieveContactById(contactId);
@@ -353,7 +353,7 @@ public class Report extends HttpServlet {
 
                         processIndividualDonations(resultMap, json);
 
-                    } else if (reportType.equalsIgnoreCase("current_membership")) {
+                    } else if (reportType.equalsIgnoreCase("summary_report_of_current_memberships")) {
 
                         String membershipType = Validator.containsBlankField(jobject.get("membership_type"));
                         Date refDate = Validator.isDateValid(jobject.get("ref_date"), "reference date");
@@ -384,7 +384,7 @@ public class Report extends HttpServlet {
                         return;
                     }
 
-                    AuditLogDAO.insertAuditLog(username, "Generate Report", reportType);
+                    AuditLogDAO.insertAuditLog(username, "Generate Report", reportType.toUpperCase());
                     out.println(gson.toJson(json));
 
                 }
