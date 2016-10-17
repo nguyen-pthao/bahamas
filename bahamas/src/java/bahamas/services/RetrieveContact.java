@@ -7,13 +7,9 @@ package bahamas.services;
 
 
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.PhoneDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.TeamJoinDAO;
 import bahamas.entity.Contact;
-import bahamas.entity.Email;
-import bahamas.entity.Phone;
 import bahamas.entity.TeamJoin;
 import bahamas.util.Authenticator;
 import bahamas.util.Validator;
@@ -27,10 +23,8 @@ import is203.JWTException;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.logging.Level;
@@ -68,7 +62,6 @@ public class RetrieveContact extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             JsonObject json = new JsonObject();
             Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
-            //String email = "";
             
             //Retrieve the json string as a reader 
             StringBuilder sb = new StringBuilder();
@@ -88,7 +81,6 @@ public class RetrieveContact extends HttpServlet {
             if (jsonLine == null || jsonLine.isEmpty()) {
                 json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
-
             } else {
 
                 //Parse json object
@@ -125,19 +117,14 @@ public class RetrieveContact extends HttpServlet {
                         teamNameList.add(teamJoin.getTeamName());
                     }
                 }
-                
 
-                //ContactDAO contactDAO = new ContactDAO();
                 ArrayList<Contact> contactList = contactDAO.retrieveAllContactWithEmailPhone();
                 for(Contact contactTemp:contactList){
                     contactidContactHM.put(contactTemp.getContactId(), contactTemp);
                 }
 
                 if (teamNameFilter.isEmpty()) {
-                    //contactList = contactDAO.retrieveAllContact();
-                    //for(Contact contactTemp:contactList){
-                    //    contactidContactHM.put(contactTemp.getContactId(), contactTemp);
-                    //}
+                    //to nothing
                 } else if (teamNameFilter.equals("my_team")) {
                     contactList = contactDAO.retrieveAllContactInTeams(teamNameList);
                 } else if (teamNameFilter.equals("donors")) {
@@ -155,7 +142,6 @@ public class RetrieveContact extends HttpServlet {
                 if (!contactList.isEmpty() && !contact.isIsNovice()) {
 
                     json.addProperty("message", "success");
-
                     if (contact.isIsAdmin()) {
                         JsonArray contactArray = retrieveAll(contactList, true);
                         json.add("contact", contactArray);
@@ -171,25 +157,17 @@ public class RetrieveContact extends HttpServlet {
                         JsonArray contactArray = retrieveAll(contactList, false);
                         json.add("contact", contactArray);
                     }
-                    //Iterator iter = emailHM.keySet().iterator();
-                    //while (iter.hasNext()) {
-                    //    email += " " + (String) iter.next();
-                    //}
-                    //json.addProperty("emailList", email);
                     json.addProperty("emailList", sendEmailList);
                     out.println(gson.toJson(json));
                     sendEmailList = "";
                     //emailHM.clear();
                 } else {
-                    //json.addProperty("message", "fail");
                     json.addProperty("contact", "");
                     json.addProperty("emailList", "");
                     out.println(gson.toJson(json));
                     sendEmailList = "";
                 }
-
             }
-
         }
     }
 
@@ -203,20 +181,20 @@ public class RetrieveContact extends HttpServlet {
             //ArrayList<Phone> phoneList = PhoneDAO.retrieveAllPhone(c);
 
             String permissionLevel = "";
-            if (c.isIsNovice()) {
-                permissionLevel = "Novice";
-            } else if (c.isIsAdmin()) {
-                permissionLevel = "Admin";
-            } else if (RoleCheckDAO.checkRole(c.getContactId(), "teammanager")) {
-                permissionLevel = "Team Manager";
-            } else if (RoleCheckDAO.checkRole(c.getContactId(), "eventleader")) {
-                permissionLevel = "Event Leader";
-            } else if (RoleCheckDAO.checkRole(c.getContactId(), "associate")) {
-                permissionLevel = "Associate";
+            if(c.getUsername() != null && !c.getUsername().isEmpty()){
+                if (c.isIsNovice()) {
+                    permissionLevel = "Novice";
+                } else if (c.isIsAdmin()) {
+                    permissionLevel = "Admin";
+                } else if (RoleCheckDAO.checkRole(c.getContactId(), "teammanager")) {
+                    permissionLevel = "Team Manager";
+                } else if (RoleCheckDAO.checkRole(c.getContactId(), "eventleader")) {
+                    permissionLevel = "Event Leader";
+                } else if (RoleCheckDAO.checkRole(c.getContactId(), "associate")) {
+                    permissionLevel = "Associate";
+                }
             }
 
-            //String emailStr = "";
-            //String phoneStr = "";
             String name = c.getName();
             String altName = c.getAltName();
             String contactType = c.getContactType();
@@ -258,82 +236,17 @@ public class RetrieveContact extends HttpServlet {
             if (remarks == null) {
                 remarks = "";
             }
-            
-            /*
-            if (!emailList.isEmpty()) {
-
-                try {
-                    Date todayDate = new Date();
-                    Date todayDateWithoutTime = sdf.parse(sdf.format(todayDate));
-                    ArrayList<String> emailDisplayList = new ArrayList<String>();
-                    for (int i = 0; i < emailList.size(); i++) {
-                        Email email = emailList.get(i);
-                        Date ObsDateWithoutTime = null;
-                        if (email.getDateObsolete() != null) {
-                            ObsDateWithoutTime = sdf.parse(sdf.format(email.getDateObsolete()));
-                        }
-                        if (email.getDateObsolete() != null && !ObsDateWithoutTime.equals(todayDateWithoutTime) && !ObsDateWithoutTime.before(todayDateWithoutTime)) {
-                            emailDisplayList.add(email.getEmail());
-                        } else if (email.getDateObsolete() == null) {
-                            emailDisplayList.add(email.getEmail());
-                        }
-                    }
-                    if (!emailDisplayList.isEmpty()) {
-                        for (int i = 0; i < emailDisplayList.size() - 1; i++) {
-                            emailStr += emailDisplayList.get(i) + " | ";
-                            emailHM.put(c.getName() + "<" + emailDisplayList.get(i) + ">;", c.getName() + "<" + emailDisplayList.get(i) + ">;");
-                        }
-                        emailStr += emailDisplayList.get(emailDisplayList.size() - 1);
-                        emailHM.put(c.getName() + "<" + emailDisplayList.get(emailDisplayList.size() - 1) + ">;", c.getName() + "<" + emailDisplayList.get(emailDisplayList.size() - 1) + ">;");
-                    }
-
-                } catch (ParseException ex) {
-                    Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (!phoneList.isEmpty()) {
-                try {
-                    Date todayDate = new Date();
-                    Date todayDateWithoutTime = sdf.parse(sdf.format(todayDate));
-                    ArrayList<String> phoneDisplayList = new ArrayList<String>();
-                    for (int i = 0; i < phoneList.size(); i++) {
-                        Phone phone = phoneList.get(i);
-                        Date ObsDateWithoutTime = null;
-                        if (phone.getDateObsolete() != null) {
-                            ObsDateWithoutTime = sdf.parse(sdf.format(phone.getDateObsolete()));
-                        }
-                        if (phone.getDateObsolete() != null && !ObsDateWithoutTime.equals(todayDateWithoutTime) && !ObsDateWithoutTime.before(todayDateWithoutTime)) {
-                            phoneDisplayList.add("+" + phone.getCountryCode() + "-" + phone.getPhoneNumber());
-                        } else if (phone.getDateObsolete() == null) {
-                            phoneDisplayList.add("+" + phone.getCountryCode() + "-" + phone.getPhoneNumber());
-                        }
-                    }
-                    if (!phoneDisplayList.isEmpty()) {
-                        for (int i = 0; i < phoneDisplayList.size() - 1; i++) {
-                            phoneStr += phoneDisplayList.get(i) + " | ";
-                        }
-                        phoneStr += phoneDisplayList.get(phoneDisplayList.size() - 1);
-                    }
-
-                } catch (ParseException ex) {
-                    Logger.getLogger(RetrieveContact.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            */
 
             jsonContactObj = new JsonObject();
             jsonContactObj.addProperty("name", name);
             Contact tempContact = contactidContactHM.get(c.getContactId());
             if (unlock) {
-                //jsonContactObj.addProperty("phone", phoneStr);
                 if(tempContact.getPhoneStrList() != null){
                     jsonContactObj.addProperty("phone", tempContact.getPhoneStrList());
                 }else{
                     jsonContactObj.addProperty("phone", "");
                 }
             }
-            //jsonContactObj.addProperty("email", emailStr);
             if(tempContact.getEmailStrList() != null){
                     jsonContactObj.addProperty("email", tempContact.getEmailStrList());
             }else{
