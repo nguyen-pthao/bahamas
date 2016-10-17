@@ -111,9 +111,9 @@ public class SearchEvent extends HttpServlet {
                                     enddate = date.parse(date.format(endDateStr));
                                 }
                                 if (event_location != null && !event_location.equalsIgnoreCase("other")) {
-                                    eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, startdate, enddate, true);
+                                    eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, event_location, startdate, enddate, false);
                                 } else {
-                                    eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, ifLocationOther, startdate, enddate, false);
+                                    eventHM = SearchEventDAO.searchEventByTitleLocationDate(eventTitle, ifLocationOther, startdate, enddate, true);
                                     
                                 }
                             //}
