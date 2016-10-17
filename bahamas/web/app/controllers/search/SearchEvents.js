@@ -40,6 +40,12 @@ app.controller('searchEvents', ['$scope', 'session', '$state', 'dataSubmit', 'lo
 
         $scope.submitSearchEvent = function () {
             $scope.searchEvent.token = session.getSession('token');
+            if($scope.tempStartDate === null){
+                $scope.tempStartDate = "";
+            };
+            if($scope.tempEndDate === null){
+                $scope.tempEndDate = "";
+            };
             $scope.searchEvent.start_date = $scope.tempStartDate.valueOf();
             $scope.searchEvent.end_date = $scope.tempEndDate.valueOf();
             if ($scope.searchEvent.event_location != "Other") {
