@@ -92,6 +92,7 @@ public class RetrieveAllUpcomingEvents extends HttpServlet {
                 String username = Authenticator.verifyToken(token);
                 if (jobject.has("teamFilter")) {
                     teamNameFilter = jobject.get("teamFilter").getAsString();
+                    teamNameFilter = teamNameFilter.replaceAll("\\s","");
                 }
 
                 if (username == null) {
