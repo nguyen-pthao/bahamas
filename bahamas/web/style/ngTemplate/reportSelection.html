@@ -1,0 +1,169 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close">
+        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+    </button>
+    <h3 class="modal-title">{{selectedReport}}</h3>
+</div>
+<div>
+    <form name="reportForm">
+        <div class="row" ng-show="selectedReport == 'summary_team_participants'">
+            <div class="form-group col-md-12">
+                <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                    <label>Team</label><span class="required">*</span>
+                    <select class="form-control" ng-model="team" name='team1' empty>
+                        <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-5">
+                    <label>Start date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openStart($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate1" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <label>End date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openEnd($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate1" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="selectedReport == 'summary_events'">
+            <div class="form-group col-md-12">
+                <div class="col-md-5" ng-init="loadTeamAffiliationList()">
+                    <label>Team</label><span class="required">*</span>
+                    <select class="form-control" ng-model="team" name='team2' empty>
+                        <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-5">
+                    <label>Start date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openStart($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate2" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <label>End date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openEnd($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate2" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="selectedReport == 'summary_membership_period'">
+            <div class="form-group col-md-12">
+                <div class="col-md-5">
+                    <label>Start date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openStart($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate3" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <label>End date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openEnd($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate3" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="selectedReport == 'summary_donations'">
+            <div class="form-group col-md-12">
+                <div class="col-md-5" ng-init="loadPaymentModeList()">
+                    <label>Payment mode</label><span class="required">*</span>
+                    <select class="form-control" ng-model="paymentMode" name='paymentMode' empty>
+                        <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-5">
+                    <label>Start date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openStart($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate4" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <label>End date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openEnd($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate4" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="selectedReport == 'current_membership'">
+            <div class="form-group col-md-12">
+                <div class="col-md-5" ng-init="loadMembershipList()">
+                    <label>Membership type</label><span class="required">*</span>
+                    <select ng-model="membershipType" name="membershipType" class="form-control" empty>
+                        <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
+                    </select>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <label>Reference date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openRef($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="refdate" ng-click="openRef($index)" uib-datepicker-popup="{{format}}" is-open="openedRef[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="refdate" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <center>
+                <button class="btn btn-warning" type="button"
+                        ng-show="selectedReport == 'summary_team_participants'"
+                        ng-disabled="(reportForm.team1.$invalid || reportForm.startdate1.$invalid || reportForm.enddate1.$invalid)"
+                        ng-click="ok()">Generate report</button>
+
+                <button class="btn btn-warning" type="button"
+                        ng-show="selectedReport == 'summary_events'"
+                        ng-disabled="(reportForm.team2.$invalid || reportForm.startdate2.$invalid || reportForm.enddate2.$invalid)"
+                        ng-click="ok()">Generate report</button>
+
+                <button class="btn btn-warning" type="button"
+                        ng-show="selectedReport == 'summary_membership_period'"
+                        ng-disabled="(reportForm.startdate3.$invalid || reportForm.enddate3.$invalid)"
+                        ng-click="ok()">Generate report</button>
+
+                <button class="btn btn-warning" type="button"
+                        ng-show="selectedReport == 'summary_donations'"
+                        ng-disabled="(reportForm.paymentMode.$invalid || reportForm.startdate4.$invalid || reportForm.enddate4.$invalid)"
+                        ng-click="ok()">Generate report</button>
+
+                <button class="btn btn-warning" type="button"
+                        ng-show="selectedReport == 'current_membership'"
+                        ng-disabled="(reportForm.membershipType.$invalid || reportForm.refdate.$invalid)"
+                        ng-click="ok()">Generate report</button>
+            </center>
+        </div>
+    </form>
+</div>

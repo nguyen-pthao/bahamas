@@ -222,7 +222,7 @@ app.controller('viewContacts',
                                 template: './style/ngTemplate/emailList.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
-                            })
+                            });
                         };
                     });
                 };

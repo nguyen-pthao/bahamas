@@ -6,17 +6,18 @@
 
 var app = angular.module('bahamas');
 
-app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', 'loadMembershipClass', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode, loadMembershipClass) {
+app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', 'loadMembershipClass', '$uibModal',
+    function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode, loadMembershipClass, $uibModal) {
 
         $scope.selectedReport = '';
         $scope.team = '';
         $scope.paymentMode = '';
         $scope.membershipType = '';
-        
+
         $scope.startdate = '';
         $scope.enddate = '';
         $scope.refdate = '';
-        
+
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                 $scope.teamAffiliationList = response.data.teamAffiliationList;
@@ -31,7 +32,7 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 }
             });
         };
-        
+
         $scope.loadPaymentModeList = function () {
             loadPaymentMode.retrievePaymentMode().then(function (response) {
                 $scope.paymentModeList = response.data.paymentModeList;
@@ -82,8 +83,8 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
         }
         $scope.format = 'dd MMM yyyy';
         $scope.altInputFormats = ['M!/d!/yyyy'];
-        
-        
+
+
         $scope.openedStart = [];
         $scope.openStart = function (index) {
             $timeout(function () {
@@ -97,31 +98,51 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 $scope.openedEnd[index] = true;
             });
         };
-        
+
         $scope.openedRef = [];
         $scope.openRef = function (index) {
             $timeout(function () {
                 $scope.openedRef[index] = true;
             });
         };
-        
+
         //watch for change
-        $scope.$watch('selectedReport', function() {
-            $scope.team = '';
-            $scope.paymentMode = '';
-            $scope.membershipType = '';
-            $scope.startdate = '';
-            $scope.enddate = '';
-            $scope.refdate = '';
+        $scope.$watch('selectedReport', function () {
+            if ($scope.selectedReport != '') {
+                $scope.team = '';
+                $scope.paymentMode = '';
+                $scope.membershipType = '';
+                $scope.startdate = '';
+                $scope.enddate = '';
+                $scope.refdate = '';
+
+                var modalInstance = $uibModal.open({
+                    animation: true,
+                    templateUrl: './style/ngTemplate/reportSelection.html',
+                    scope: $scope,
+                    controller: function () {
+                        $scope.ok = function(){
+                            modalInstance.dismiss('cancel');
+                            generateReport();
+                        };
+                        $scope.cancel = function () {
+                            modalInstance.dismiss('cancel');
+                        };
+                    },
+                    backdrop: 'static',
+                    keyboard: false,
+                    size: "md"
+                });
+                
+            }
         });
-        
         $scope.result = '';
-        
-        $scope.generateReport = function() {
+
+        var generateReport = function () {
             var datasend = {};
             datasend['token'] = session.getSession('token');
             datasend['report_type'] = $scope.selectedReport;
-            
+
             if ($scope.startdate == null) {
                 datasend['start_date'] = '';
             } else if (angular.isUndefined($scope.startdate)) {
@@ -131,7 +152,7 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             } else {
                 datasend['start_date'] = $scope.startdate.valueOf() + "";
             }
-            
+
             if ($scope.enddate == null) {
                 datasend['end_date'] = '';
             } else if (angular.isUndefined($scope.enddate)) {
@@ -141,7 +162,7 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             } else {
                 datasend['end_date'] = $scope.enddate.valueOf() + "";
             }
-            
+
             datasend['team'] = $scope.team;
             datasend['payment_mode'] = $scope.paymentMode;
             var url = AppAPI.generateReport;
@@ -151,30 +172,28 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 $scope.header = Object.keys($scope.result);
                 console.log($scope.result);
                 //console.log($scope.header);
-                
+
                 $scope.tableHeader = [];
-                
+
                 $scope.records = $scope.result.Records;
                 //console.log(records);
                 if ($scope.records.length > 0) {
                     $scope.tableHeader = Object.keys($scope.records[0]);
                 }
                 //console.log($scope.tableHeader);
-                
-            }, function() {
+
+            }, function () {
                 window.alert("Fail to send request!");
             });
         };
-        
-        
+
+
         $scope.exportData = function () {
             var table = document.getElementById('report').innerHTML;
             //console.log(table);
             table = '\uFEFF' + table;
-            //var contentEncoded = textEncoder.encode(table);
             var blob = new Blob([table], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;"
-                        //type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=windows-1252;"
             });
             saveAs(blob, "trial.xls");
         };
