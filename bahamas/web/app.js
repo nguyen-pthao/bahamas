@@ -158,6 +158,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/search/searchEvents.html',
                 controller: 'searchEvents'
             })
+            .state('admin.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/userManagement/userManagement.html',
+                controller: 'userManagementCtrl'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',

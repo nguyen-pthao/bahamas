@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <body>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper inner-content-wrapper" id="view-all-contacts"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> User Management</li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="box" ng-init="retrieveList()">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> User Management </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View All Contacts">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">                        
+<!--                        <div class="row col-md-12">
+                            <div class="col-md-2">
+                                <label>
+                                    Show Entries:
+                                </label>
+                                <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
+                                    <option>100</option>
+                                    <option>300</option>
+                                    <option>500</option>
+                                    <option>700</option>
+                                    <option>900</option>
+                                    <option value="toAll">All</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Select Filter:</label>
+                                <div ng-init="loadTeamList()">
+                                    <select name="teamList" class="form-control" ng-change="retrieveAllContacts()" ng-model="teamFilter">
+                                        <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
+                                    </select>     
+                                </div>
+                            </div>
+                            <div class="col-md-2" ng-if="canEmailList">
+                                <br>
+                                <button type="button" class="btn btn-primary" ng-click="generateEmailList()"><span>
+                                <i class="fa fa-envelope-o fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                            </span> Email List</button>
+                            </div>
+                            <div class="col-md-4">
+                                <label>Search:</label>
+                                <input type="text" class="form-control" placeholder="Search Contacts" ng-model="searchContacts"/>
+                            </div>
+                        </div>-->
+                        <p style="margin-bottom: 0px">
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredContacts.length}}</span> 
+                            &nbsp;&nbsp;
+                            <span> <label> Entries per page: </label>&nbsp;</span>
+                            <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
+                            <span ng-show="isAll" style="color: red">All</span>
+                            &nbsp;&nbsp;
+                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitContacts.length}}</span> 
+                        </p>
+                        <div class="table-horizontal-scroll">
+                            <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
+                                        <th ng-if="isAuthorised"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
+                                        <td width="25%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, contact)">{{contact.name}}</a></td>
+                                        <td width="20%">{{contact.phone}}</td>
+                                        <td width="20%">{{contact.email}}</td>
+                                        <td width="10%">{{contact['contact_type']}}</td>
+                                        <td width="15%">{{contact['permission_level']}}</td>
+                                        <td width="10%" ng-if="isAuthorised"><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
+                                        <th ng-if="isAuthorised"></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div>
+                            <div style='float: right'>
+                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                            </div>
+                            <br/>
+                            <div style='float: left'>
+                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- view contact ends -->
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+    </body>
+</html>
