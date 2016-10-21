@@ -28,85 +28,124 @@ and open the template in the editor.
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body">                        
-<!--                        <div class="row col-md-12">
+                        <div class="row col-md-12">
                             <div class="col-md-2">
                                 <label>
                                     Show Entries:
                                 </label>
                                 <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
-                                    <option>100</option>
-                                    <option>300</option>
-                                    <option>500</option>
-                                    <option>700</option>
-                                    <option>900</option>
+                                    <option>50</option>
+                                    <option>150</option>
+                                    <option>250</option>
+                                    <option>350</option>
+                                    <option>450</option>
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
                             <div class="col-md-4">
-                                <label>Select Filter:</label>
-                                <div ng-init="loadTeamList()">
-                                    <select name="teamList" class="form-control" ng-change="retrieveAllContacts()" ng-model="teamFilter">
-                                        <option ng-repeat="team in teamList">{{team.teamAffiliation}}</option>
-                                    </select>     
-                                </div>
-                            </div>
-                            <div class="col-md-2" ng-if="canEmailList">
-                                <br>
-                                <button type="button" class="btn btn-primary" ng-click="generateEmailList()"><span>
-                                <i class="fa fa-envelope-o fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
-                            </span> Email List</button>
+                                <label>
+                                    'User Created' Start:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="temp1Date" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start" ng-change="temp1Changed()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
                             </div>
                             <div class="col-md-4">
-                                <label>Search:</label>
-                                <input type="text" class="form-control" placeholder="Search Contacts" ng-model="searchContacts"/>
+                                <label>
+                                    'User Created' End:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" ng-model="temp2Date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date End" ng-change="temp2Changed()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
                             </div>
-                        </div>-->
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-2">
+                                <label>Search:</label>
+                                <input type="text" class="form-control" placeholder="Search Users" ng-model="searchUsers"/>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    'Last Login' Start:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open3()" uib-datepicker-popup="{{format}}" ng-model="temp3Date" is-open="opened3" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start" ng-change="temp3Changed()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-4">
+                                <label>
+                                    'Last Login' End:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open4()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="temp4Date" is-open="opened4" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="temp4Changed()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
                         <p style="margin-bottom: 0px">
-                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredContacts.length}}</span> 
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredUsers.length}}</span> 
                             &nbsp;&nbsp;
                             <span> <label> Entries per page: </label>&nbsp;</span>
                             <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
                             <span ng-show="isAll" style="color: red">All</span>
                             &nbsp;&nbsp;
-                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitContacts.length}}</span> 
+                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitUsers.length}}</span> 
                         </p>
                         <div class="table-horizontal-scroll">
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
+                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
                                         <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
-                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
-                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
-                                        <th ng-if="isAuthorised"></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
+                                        <th><a href="" ng-click="order('username')" style='color: #005384'>Username</a></th>
+                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Create User Date</a></th>
+                                        <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
+                                        <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
-                                        <td width="25%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, contact)">{{contact.name}}</a></td>
-                                        <td width="20%">{{contact.phone}}</td>
-                                        <td width="20%">{{contact.email}}</td>
-                                        <td width="10%">{{contact['contact_type']}}</td>
-                                        <td width="15%">{{contact['permission_level']}}</td>
-                                        <td width="10%" ng-if="isAuthorised"><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                    <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
+                                        <td width="5%">{{user.cid}}</td>
+                                        <td width="15%">{{user.name}}</td>
+                                        <td width="30%">{{user.email}}</td>
+                                        <td width="15%">{{user.username}}</td>
+                                        <td width="10%">{{user.user_date_created}}</td>
+                                        <td width="10%">{{user.last_login}}</td>
+                                        <td width="10%" ng-show="user.deactivated">Deactivated</td>
+                                        <td width="10%" ng-hide="user.deactivated">Active</td>
+                                        <td width="5%" ng-show="user.cancheck"><center><input type="checkbox"></center></td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
+                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
                                         <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
-                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
-                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
-                                        <th ng-if="isAuthorised"></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
+                                        <th><a href="" ng-click="order('username')" style='color: #005384'>Username</a></th>
+                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Create User Date</a></th>
+                                        <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
+                                        <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
+                                        <th></th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                         <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                                <uib-pagination total-items="totalItems" boundary-links="true" force-ellipses="true" max-size="maxSize" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>

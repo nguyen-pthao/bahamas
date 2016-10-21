@@ -106,6 +106,7 @@ app.controller('viewContacts',
 
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 100;
+                        $scope.maxSize = 5;
                         $scope.allFilteredContacts = $scope.allContactInfo;
                         $scope.allFilteredContacts.reverse();
                         $scope.isAll = false;
