@@ -19,35 +19,47 @@ and open the template in the editor.
             </section>
             <section class="content">
                 <div class="box">
-                    <div class="box-header with-border" data-widget="collapse">
+                    <div class="box-header with-border">
                         <h3 class="box-title uppercase"> Report </h3>
-                        <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Report">
-                                <i class="fa fa-chevron-up"></i></button>
-                        </div>
+                        <!--                        <div class="box-tools pull-right">
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                                                            Select report
+                                                        </button>
+                                                        <ul class="dropdown-menu" role="menu">
+                                                            <li><a href="">A1</a></li>
+                                                            <li><a href="">A1</a></li>
+                                                            <li><a href="">A1</a></li>
+                                                            <li><a href="">A1</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>-->
                     </div>
                     <div class="box-body">
                         <div class="col-md-12 padding-bottom">
-                            <div class="col-md-5 form-group">
-                                <label>File Name (Optional)</label>
-                                <input type='text' class="form-control" name="filename">
-                            </div>
-                            <div class="col-md-offset-2 col-md-5">
+                            <!--                            <div class="col-md-5 form-group">
+                                                            <label>File Name (Optional)</label>
+                                                            <input type='text' class="form-control" name="filename">
+                                                        </div>-->
+                            <div class="col-md-5">
                                 <label>Select report</label>
                                 <select class="form-control" ng-model="selectedReport">
-                                    <option value="summary_team_participants" selected>Summary Team Participants</option>
-                                    <option value="summary_events">Summary Events</option>
-                                    <option value="summary_membership_period">Summary Membership Period</option>
-                                    <option value="summary_donations">Summary Donations</option>
-                                    <option value="current_membership">Current Membership</option>
+                                    <option value="" selected></option>
+                                    <option value="summary_team_participants">Summary Report of TEAM PARTICIPANTS</option>
+                                    <option value="summary_events">Summary Report of EVENTS</option>
+                                    <option value="summary_membership_period">Summary Report of MEMBERSHIPS by Time Period</option>
+                                    <option value="summary_donations">Summary Report of DONATIONS by Time Period</option>
+                                    <option value="current_membership">Summary Report of CURRENT MEMBERSHIP</option>
                                 </select>
                             </div>
-                            <div class="col-md-12 no-padding-left" ng-show="selectedReport != ''">
+                        </div>
+                        <div class="col-md-12" ng-show="selectedReport != ''">
+                            <form name="reportForm">
                                 <div class="row" ng-show="selectedReport == 'summary_team_participants'">
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                             <label>Team</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="team" name='additionalteam'>
+                                            <select class="form-control" ng-model="team" name='team1' empty>
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
                                         </div>
@@ -59,7 +71,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openStart($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate1" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -68,7 +80,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openEnd($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate1" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                     </div>
@@ -77,7 +89,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                                             <label>Team</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="team" name='additionalteam'>
+                                            <select class="form-control" ng-model="team" name='team2' empty>
                                                 <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                                             </select>
                                         </div>
@@ -89,7 +101,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openStart($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate2" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -98,7 +110,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openEnd($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate2" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                     </div>
@@ -111,7 +123,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openStart($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate3" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -120,7 +132,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openEnd($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate3" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                     </div>
@@ -129,7 +141,7 @@ and open the template in the editor.
                                     <div class="form-group col-md-12">
                                         <div class="col-md-5" ng-init="loadPaymentModeList()">
                                             <label>Payment mode</label><span class="required">*</span>
-                                            <select class="form-control" ng-model="paymentMode" name='additionalteam'>
+                                            <select class="form-control" ng-model="paymentMode" name='paymentMode' empty>
                                                 <option ng-repeat="paymentMode in paymentModeList">{{paymentMode.paymentMode}}</option>
                                             </select>
                                         </div>
@@ -141,7 +153,7 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openStart($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate4" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                         <div class="col-md-offset-2 col-md-5">
@@ -150,24 +162,61 @@ and open the template in the editor.
                                                 <div class="input-group-addon btn" ng-click="openEnd($index)">
                                                     <i class="fa fa-calendar"></i>
                                                 </div>
-                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly>
+                                                <input type='text' ng-model="enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate4" class="form-control pull-right white-background" readonly empty>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row" ng-show="selectedReport == 'current_membership'">
-                                    <div class="col-md-12">
-                                        
+                                    <div class="form-group col-md-12">
+                                        <div class="col-md-5" ng-init="loadMembershipList()">
+                                            <label>Membership type</label><span class="required">*</span>
+                                            <select ng-model="membershipType" name="membershipType" class="form-control" empty>
+                                                <option ng-repeat='membershipClass in membershipList'>{{membershipClass.membershipClass}}</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-offset-2 col-md-5">
+                                            <label>Reference date</label><span class="required">*</span>
+                                            <div class="input-group date">
+                                                <div class="input-group-addon btn" ng-click="openRef($index)">
+                                                    <i class="fa fa-calendar"></i>
+                                                </div>
+                                                <input type='text' ng-model="refdate" ng-click="openRef($index)" uib-datepicker-popup="{{format}}" is-open="openedRef[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="refdate" class="form-control pull-right white-background" readonly empty>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <center>
-                                    <button class="btn btn-link uppercase bold" ng-click="generateReport()">Generate report</button>
+                                    <button class="btn btn-link uppercase bold"
+                                            ng-show="selectedReport == 'summary_team_participants'"
+                                            ng-disabled="(reportForm.team1.$invalid || reportForm.startdate1.$invalid || reportForm.enddate1.$invalid)"
+                                            ng-click="generateReport()">Generate report</button>
+                                    
+                                    <button class="btn btn-link uppercase bold"
+                                            ng-show="selectedReport == 'summary_events'"
+                                            ng-disabled="(reportForm.team2.$invalid || reportForm.startdate2.$invalid || reportForm.enddate2.$invalid)"
+                                            ng-click="generateReport()">Generate report</button>
+                                    
+                                    <button class="btn btn-link uppercase bold"
+                                            ng-show="selectedReport == 'summary_membership_period'"
+                                            ng-disabled="(reportForm.startdate3.$invalid || reportForm.enddate3.$invalid)"
+                                            ng-click="generateReport()">Generate report</button>
+                                    
+                                    <button class="btn btn-link uppercase bold"
+                                            ng-show="selectedReport == 'summary_donations'"
+                                            ng-disabled="(reportForm.paymentMode.$invalid || reportForm.startdate4.$invalid || reportForm.enddate4.$invalid)"
+                                            ng-click="generateReport()">Generate report</button>
+                                    
+                                    <button class="btn btn-link uppercase bold"
+                                            ng-show="selectedReport == 'current_membership'"
+                                            ng-disabled="(reportForm.membershipType.$invalid || reportForm.refdate.$invalid)"
+                                            ng-click="generateReport()">Generate report</button>
                                 </center>
-                            </div>
+                            </form>
                         </div>
                         <div class="col-md-12" ng-show="result != ''">
                             <span class="pull-right">
-                                    <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+                                <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file"></i> EXPORT TO EXCEL</button>
                             </span>
                         </div>
                         <div class="col-md-12">

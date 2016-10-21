@@ -63,10 +63,15 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/dataManagement/import.html',
                 controller: 'import'
             })
-            .state('admin.report', {
-                url: '/report',
-                templateUrl: 'app/views/report/report.html',
-                controller: 'report'
+            .state('admin.generalReport', {
+                url: '/generalReport',
+                templateUrl: 'app/views/report/generalReport.html',
+                controller: 'generalReport'
+            })
+            .state('admin.individualReport', {
+                url: '/individualReport',
+                templateUrl: 'app/views/report/individualReport.html',
+                controller: 'individualReport'
             })
             .state('admin.globalSettings', {
                 url: '/globalSettings',
@@ -197,11 +202,6 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/profile',
                 templateUrl: 'app/views/contact/profile.html',
                 controller: 'profileCtrl'
-            })
-            .state('associate.editContact', {
-                url: '/editContact',
-                templateUrl: 'app/views/contact/editContact.html',
-                controller: 'editContact'
             })
             .state('associate.viewUpcomingEvents', {
                 url: '/viewUpcomingEvents',

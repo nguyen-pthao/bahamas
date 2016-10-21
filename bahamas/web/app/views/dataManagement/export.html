@@ -28,11 +28,7 @@ and open the template in the editor.
                     </div>
                     <div class="box-body">
                         <div class="col-md-12 padding-bottom">
-                            <div class="col-md-5 form-group">
-                                <label>File Name (Optional)</label>
-                                <input type='text' class="form-control" ng-model="fileName" name="filename">
-                            </div>
-                            <div class="col-md-offset-2 col-md-5">
+                            <div class="col-md-5">
                                 <label>Select data table to be exported</label>
                                 <select class="form-control" ng-model="selectedExport">
                                     <option value="contact" selected>Contact</option>
@@ -51,6 +47,10 @@ and open the template in the editor.
                                     <option value="participant">Event Participants</option>
                                 </select>
                             </div>
+                            <div class="col-md-offset-2 col-md-5 form-group">
+                                <label>File Name (Optional)</label>
+                                <input type='text' class="form-control" ng-model="fileName" name="filename">
+                            </div>
                             <div class="col-md-12">
                                 <center>
                                     <button class="btn btn-link uppercase bold" ng-click="export()"><i class="glyphicon glyphicon-floppy-disk"></i> Generate data table</button>
@@ -60,7 +60,7 @@ and open the template in the editor.
                         <div class="col-md-12" ng-show="resultData != '' && !error">
                             <span class="uppercase bold pull-left">{{selectedExport}} TABLE</span>
                             <span class="pull-right">
-                                    <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file-excel-o"></i> Export to Excel</button>
+                                    <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file"></i>&nbsp; EXPORT TO EXCEL</button>
                             </span>
                         </div>
                         <div class="col-md-12">
@@ -68,12 +68,12 @@ and open the template in the editor.
                                 <table class="table table-bordered table-striped export-table">
                                     <thead>
                                         <tr>
-                                            <th ng-repeat="theader in tableHeader" style="background-color: #ffb299; border: 2px solid black">{{theader}}</th>
+                                            <th ng-repeat="theader in tableHeader">{{theader}}</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="obj in resultData">
-                                            <td ng-repeat="thead in tableHeader" style="border: 2px solid black;"><span ng-bind="obj[thead]"></span></td>
+                                            <td ng-repeat="thead in tableHeader"><span ng-bind="obj[thead]"></span></td>
                                         </tr>
                                     </tbody>
                                 </table>

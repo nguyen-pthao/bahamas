@@ -6,11 +6,16 @@
 
 var app = angular.module('bahamas');
 
-app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode) {
+app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', 'loadMembershipClass', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode, loadMembershipClass) {
 
-        $scope.selectedReport = "";
+        $scope.selectedReport = '';
         $scope.team = '';
         $scope.paymentMode = '';
+        $scope.membershipType = '';
+        
+        $scope.startdate = '';
+        $scope.enddate = '';
+        $scope.refdate = '';
         
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
@@ -30,6 +35,11 @@ app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
         $scope.loadPaymentModeList = function () {
             loadPaymentMode.retrievePaymentMode().then(function (response) {
                 $scope.paymentModeList = response.data.paymentModeList;
+            });
+        };
+        $scope.loadMembershipList = function () {
+            loadMembershipClass.retrieveMembershipClass().then(function (response) {
+                $scope.membershipList = response.data.membershipClassList;
             });
         };
         //datepicker
@@ -88,8 +98,23 @@ app.controller('report', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeam
             });
         };
         
-        $scope.startdate = '';
-        $scope.enddate = '';
+        $scope.openedRef = [];
+        $scope.openRef = function (index) {
+            $timeout(function () {
+                $scope.openedRef[index] = true;
+            });
+        };
+        
+        //watch for change
+        $scope.$watch('selectedReport', function() {
+            $scope.team = '';
+            $scope.paymentMode = '';
+            $scope.membershipType = '';
+            $scope.startdate = '';
+            $scope.enddate = '';
+            $scope.refdate = '';
+        });
+        
         $scope.result = '';
         
         $scope.generateReport = function() {
