@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -212,6 +213,11 @@ public class Validator {
             try {
                 if (!e.getAsString().isEmpty()) {
                     long date = Long.parseLong(e.getAsString());
+                    
+                    if(date < 0){
+                        date += TimeUnit.DAYS.toMillis(1);
+                    }
+                    
                     return new Date(date);
                 } else {
                     return null;

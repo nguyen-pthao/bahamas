@@ -13,7 +13,6 @@ def send_email( from_address,to_address,min,current,event_title,created_by,event
 		msg = MIMEMultipart()
 		msg['From'] = fromaddr
 		msg['To'] = toaddr
-		msg['Cc'] = ccaddr
 		msg['Subject'] = "Bahamas, Event Alert on minimum participation"
 		
 		body = "Dear " + created_by + ",\n\n" + "Your event " + event_title + " on " + event_date + " have minimum participation of " + min + ' while current participation is ' + current + '.'
@@ -37,8 +36,8 @@ now = datetime.datetime.now()
 #/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/
 #C:/Java/twc/bahamas/build/web/WEB-INF/classes/
 
-email_props_file = '/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/email.properties'
-db_props_file = '/var/lib/tomcat8/webapps/bahamas/WEB-INF/classes/connection.properties'
+email_props_file = 'C:/Java/twc/bahamas/build/web/WEB-INF/classes/email.properties'
+db_props_file = 'C:/Java/twc/bahamas/build/web/WEB-INF/classes/connection.properties'
 
 config = ConfigParser.RawConfigParser()
 
@@ -71,7 +70,7 @@ try:
 	#Prepare query
 	query = """SELECT EMAIL,MINIMUM_PARTICIPATIONS,PARTICIPANT_NUMBER,EVENT_TITLE,CREATED_BY, DATE(EVENT_START_DATE) as EVENT_DATE 
 	FROM EVENT WHERE CURDATE() < DATE(EVENT_START_DATE) AND DATE_ADD(CURDATE(), INTERVAL 3 DAY) >= DATE(EVENT_START_DATE)
-	AND PARTICIPANT_NUMBER < MINIMUM_PARTICIPATIONS AND SEND_REMINDER=TRUE AND EVENT_STATUS='Open'"""
+	AND PARTICIPANT_NUMBER < MINIMUM_PARTICIPATIONS AND SEND_REMINDER=TRUE AND EMAIL IS NOT NULL AND EVENT_STATUS='Open'"""
 
 	# execute SQL query using execute() method.
 	cursor.execute(query)

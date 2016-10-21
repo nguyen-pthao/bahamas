@@ -41,6 +41,15 @@ public class Contact {
     private String emailStrList;
     private String phoneStrList;
     private String sendEmailFormat;
+    private Date lastLogin;
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
 
     private ArrayList<Phone> phoneList = new ArrayList<Phone>();
     private ArrayList<Address> addressList = new ArrayList<Address>();
@@ -118,7 +127,7 @@ public class Contact {
             String createdBy, String name, String altName, String explainIfOther,
             String profession, String jobTitle, String nric, String gender,
             String nationality, Date dateOfBirth, String profilePic, String remarks,
-            boolean notification, String emailStrList, String phoneStrList, String sendEmailFormat) {
+            boolean notification, String emailStrList, String phoneStrList, String sendEmailFormat, Date lastLogin) {
         this.contactId = contactId;
         this.contactType = contactType;
         this.username = username;
@@ -144,6 +153,7 @@ public class Contact {
         this.emailStrList = emailStrList;
         this.phoneStrList = phoneStrList;
         this.sendEmailFormat = sendEmailFormat;
+        this.lastLogin = lastLogin;
     }
 
     //for import contacts
