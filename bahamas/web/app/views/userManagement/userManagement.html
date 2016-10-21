@@ -126,7 +126,7 @@ and open the template in the editor.
                                         <td width="10%">{{user.last_login}}</td>
                                         <td width="10%" ng-show="user.deactivated">Deactivated</td>
                                         <td width="10%" ng-hide="user.deactivated">Active</td>
-                                        <td width="5%" ng-show="user.cancheck"><center><input type="checkbox"></center></td>
+                                        <td width="5%" ng-show="user.cancheck"><center><input ng-model="userObj[user.cid]" icheck-custom="blue" type="checkbox"></center></td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
@@ -153,7 +153,26 @@ and open the template in the editor.
                             </div>
                         </div>
                     </div>
-                    <!-- view contact ends -->
+                    <div class="box-footer">
+                        <div class="row col-md-12">
+                            <div class="col-md-2">
+                                <button type="submit" ng-click="reactivateUsers()" class="btn btn-primary">
+                                <span>
+                                    <i class="fa fa-unlock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                </span>   
+                                Reactivate User(s)
+                            </button>
+                            </div>
+                            <div class="col-md-2">
+                                <button type="submit" ng-click="deactivateUsers()" class="btn btn-danger">
+                                <span>
+                                    <i class="fa fa-lock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                </span>   
+                                Deactivate User(s)
+                            </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
             <!-- /.content -->
