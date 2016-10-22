@@ -140,7 +140,11 @@ public class UserManagementRetrieveUsers extends HttpServlet {
                         }
                         jsonContactObj.addProperty("username", c.getUsername());
                         jsonContactObj.addProperty("user_date_created", sdf.format(c.getDateCreated()));
-                        jsonContactObj.addProperty("last_login", sdf.format(c.getLastLogin()));
+                        if(c.getLastLogin() != null){
+                            jsonContactObj.addProperty("last_login", sdf.format(c.getLastLogin()));
+                        } else {
+                            jsonContactObj.addProperty("last_login", "-");
+                        }
                         jsonContactObj.addProperty("deactivated", c.isDeactivated());
                         if (contact.isIsAdmin()) {
                             jsonContactObj.addProperty("cancheck", true);
