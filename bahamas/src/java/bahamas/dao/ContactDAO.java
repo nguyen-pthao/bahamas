@@ -869,7 +869,7 @@ public class ContactDAO {
                 + "GROUP BY CONTACT_ID) AS T1 ON C.CONTACT_ID = T1.CONTACT_ID "
                 + "LEFT OUTER JOIN (SELECT C.CONTACT_ID, GROUP_CONCAT(CONCAT('+' ,COUNTRY_CODE,'-',PHONE_NUMBER)SEPARATOR ' | ') AS PHONE_LIST "
                 + "FROM CONTACT C, PHONE P WHERE C.CONTACT_ID = P.CONTACT_ID AND IF(P.DATE_OBSOLETE IS NOT NULL,P.DATE_OBSOLETE >= CURDATE(),TRUE) "
-                + "GROUP BY CONTACT_ID) AS T2 ON C.CONTACT_ID = T2.CONTACT_ID";
+                + "GROUP BY CONTACT_ID) AS T2 ON C.CONTACT_ID = T2.CONTACT_ID AND USERNAME IS NOT NULL";
         boolean isFirst = true;
 
         if (userCreatedStartDateFencing != null && userCreatedEndDateFencing != null) {
@@ -917,7 +917,9 @@ public class ContactDAO {
                 statement += " AND DATE(LAST_LOGIN) <= ? ";
             }
         }
-
+        
+        statement = "SELECT * FROM (" + statement + ") AS TEMP WHERE USERNAME IS NOT NULL";
+        
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement(statement);
