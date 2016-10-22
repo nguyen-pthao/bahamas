@@ -871,29 +871,51 @@ public class ContactDAO {
                 + "FROM CONTACT C, PHONE P WHERE C.CONTACT_ID = P.CONTACT_ID AND IF(P.DATE_OBSOLETE IS NOT NULL,P.DATE_OBSOLETE >= CURDATE(),TRUE) "
                 + "GROUP BY CONTACT_ID) AS T2 ON C.CONTACT_ID = T2.CONTACT_ID";
         boolean isFirst = true;
-        if (userLoginStartDate != null) {
-            statement += " WHERE C.DATE_CREATED >= ?";
-            isFirst = false;
+
+        if (userCreatedStartDateFencing != null && userCreatedEndDateFencing != null) {
+            if (isFirst) {
+                statement += " WHERE DATE(C.DATE_CREATED) >= ? AND DATE(C.DATE_CREATED) <= ? ";
+                isFirst = false;
+            } else {
+                statement += " AND DATE(C.DATE_CREATED) >= ? AND DATE(C.DATE_CREATED) <= ? ";
+            }
+        } else if (userCreatedStartDateFencing != null) {
+            if (isFirst) {
+                statement += " WHERE DATE(C.DATE_CREATED) >= ? ";
+                isFirst = false;
+            } else {
+                statement += " AND DATE(C.DATE_CREATED) >= ? ";
+            }
+        } else if (userCreatedEndDateFencing != null) {
+            if (isFirst) {
+                statement += " WHERE DATE(C.DATE_CREATED) <= ? ";
+                isFirst = false;
+            } else {
+                statement += " AND DATE(C.DATE_CREATED) <= ? ";
+            }
         }
 
-        if (userCreatedEndDateFencing != null && !isFirst) {
-            statement += " AND C.DATE_CREATED <= ?";
-        } else if (userLoginStartDate == null && userCreatedStartDateFencing != null) {
-            statement += " WHERE C.DATE_CREATED <= ?";
-            isFirst = false;
-        }
-
-        if (userLoginStartDate != null && !isFirst) {
-            statement += " AND LAST_LOGIN >= ?";
-        } else if (userLoginStartDate == null && userCreatedStartDateFencing != null) {
-            statement += " WHERE LAST_LOGIN >= ?";
-            isFirst = false;
-        }
-
-        if (userLoginEndDate != null && !isFirst) {
-            statement += " AND LAST_LOGIN <= ?";
-        } else if (userLoginEndDate == null && userLoginEndDate != null) {
-            statement += " WHERE LAST_LOGIN <= ?";
+        if (userLoginStartDate != null && userLoginEndDate != null) {
+            if (isFirst) {
+                statement += " WHERE DATE(LAST_LOGIN) >= ? AND DATE(LAST_LOGIN) <= ? ";
+                isFirst = false;
+            } else {
+                statement += " AND DATE(LAST_LOGIN) >= ? AND DATE(LAST_LOGIN) <= ? ";
+            }
+        } else if (userLoginStartDate != null) {
+            if (isFirst) {
+                statement += " WHERE DATE(LAST_LOGIN) >= ? ";
+                isFirst = false;
+            } else {
+                statement += " AND DATE(LAST_LOGIN) >= ? ";
+            }
+        } else if (userLoginEndDate != null) {
+            if (isFirst) {
+                statement += " WHERE DATE(LAST_LOGIN) <= ? ";
+                isFirst = false;
+            } else {
+                statement += " AND DATE(LAST_LOGIN) <= ? ";
+            }
         }
 
         try {
@@ -901,20 +923,28 @@ public class ContactDAO {
             stmt = conn.prepareStatement(statement);
             int count = 1;
             try {
-                if (userCreatedStartDateFencing != null) {
+
+                if (userCreatedStartDateFencing != null && userCreatedEndDateFencing != null) {
                     stmt.setDate(count++, new java.sql.Date(userCreatedStartDateFencing.getTime()));
-                }
-                if (userCreatedEndDateFencing != null) {
+                    stmt.setDate(count++, new java.sql.Date(userCreatedEndDateFencing.getTime()));
+
+                } else if (userCreatedStartDateFencing != null) {
+                    stmt.setDate(count++, new java.sql.Date(userCreatedStartDateFencing.getTime()));
+                } else if (userCreatedEndDateFencing != null) {
                     stmt.setDate(count++, new java.sql.Date(userCreatedEndDateFencing.getTime()));
                 }
-                if (userLoginStartDate != null) {
+                if (userLoginStartDate != null && userLoginEndDate != null) {
                     stmt.setDate(count++, new java.sql.Date(userLoginStartDate.getTime()));
-                }
-                if (userLoginEndDate != null) {
+                    stmt.setDate(count++, new java.sql.Date(userLoginEndDate.getTime()));
+                } else if (userLoginStartDate != null) {
+                    stmt.setDate(count++, new java.sql.Date(userLoginStartDate.getTime()));
+                } else if (userLoginEndDate != null) {
                     stmt.setDate(count++, new java.sql.Date(userLoginEndDate.getTime()));
                 }
+
             } catch (SQLException ex) {
                 Logger.getLogger(ContactDAO.class.getName()).log(Level.SEVERE, null, ex);
+
             }
 
             rs = stmt.executeQuery();
@@ -992,7 +1022,7 @@ public class ContactDAO {
         return false;
 
     }
-    
+
     public boolean updateToActive(JsonArray contactIdJsonArray) {
         Connection conn = null;
         PreparedStatement stmt = null;
