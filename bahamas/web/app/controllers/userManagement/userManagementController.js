@@ -11,7 +11,13 @@ var app = angular.module('bahamas');
 app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$state', 'ngDialog', 'dataSubmit', '$timeout', 'localStorageService', function ($scope, session, filterFilter, $state, ngDialog, dataSubmit, $timeout, localStorageService) {
 
         var user = session.getSession('userType');
-
+        $scope.authorised = false;
+        if(user == "admin"){
+            $scope.authorised = true;
+        };
+        
+        
+        
         $scope.backHome = function () {
             $state.go(user);
         };

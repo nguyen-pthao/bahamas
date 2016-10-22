@@ -358,6 +358,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/search/searchEvents.html',
                 controller: 'searchEvents'
             })
+            .state('teammanager.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/userManagement/userManagement.html',
+                controller: 'userManagementCtrl'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -467,6 +472,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/searchEvents',
                 templateUrl: 'app/views/search/searchEvents.html',
                 controller: 'searchEvents'
+            })
+            .state('eventleader.userManagement', {
+                url: '/userManagement',
+                templateUrl: 'app/views/userManagement/userManagement.html',
+                controller: 'userManagementCtrl'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
