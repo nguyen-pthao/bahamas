@@ -6,8 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', 'loadMembershipClass', '$uibModal',
-    function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode, loadMembershipClass, $uibModal) {
+app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', 'loadMembershipClass', '$uibModal', 'orderByFilter', 'loadEventStatus',
+    function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode, loadMembershipClass, $uibModal, orderBy, loadEventStatus) {
 
         $scope.selectedReport = '';
         $scope.team = '';
@@ -17,7 +17,12 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
         $scope.startdate = '';
         $scope.enddate = '';
         $scope.refdate = '';
-
+        $scope.fileName = '';
+        
+        $scope.result = '';
+        $scope.startline = 0;
+        $scope.endline = 1000;
+        
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                 $scope.teamAffiliationList = response.data.teamAffiliationList;
@@ -43,6 +48,12 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 $scope.membershipList = response.data.membershipClassList;
             });
         };
+        $scope.loadEventStatusList = function () {
+            loadEventStatus.retrieveEventStatus().then(function (response) {
+                $scope.eventStatusList = response.data.eventStatusList;
+            });
+        };
+        
         //datepicker
         $scope.today = function () {
             $scope.dt = new Date();
@@ -105,8 +116,19 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 $scope.openedRef[index] = true;
             });
         };
+        
+        //orderBy for table header
+        $scope.predicate = '';
+        $scope.reverse = false;
 
-        //watch for change
+        $scope.order = function (predicate) {
+            $scope.reverse = ($scope.predicate === ('\u0022'+ predicate + '\u0022')) ? !$scope.reverse : false;
+            console.log($scope.predicate);
+            $scope.predicate = ('\u0022'+ predicate + '\u0022');
+            $scope.records = orderBy($scope.records, $scope.predicate, $scope.reverse);
+        };
+
+        //watch for change in the report selected
         $scope.$watch('selectedReport', function () {
             if ($scope.selectedReport != '') {
                 $scope.team = '';
@@ -136,7 +158,6 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 
             }
         });
-        $scope.result = '';
 
         var generateReport = function () {
             var datasend = {};
@@ -167,34 +188,80 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             datasend['payment_mode'] = $scope.paymentMode;
             var url = AppAPI.generateReport;
             dataSubmit.submitData(datasend, url).then(function (response) {
+                //remember to initialize $scope.function in html page
                 $scope.result = response.data;
                 $scope.header = [];
                 $scope.header = Object.keys($scope.result);
                 console.log($scope.result);
-                //console.log($scope.header);
 
                 $scope.tableHeader = [];
 
                 $scope.records = $scope.result.Records;
-                //console.log(records);
                 if ($scope.records.length > 0) {
                     $scope.tableHeader = Object.keys($scope.records[0]);
                 }
-                //console.log($scope.tableHeader);
-
+                //define start, end lines and formulae 
+                if($scope.selectedReport == 'summary_report_of_team_participants') {
+                    $scope.startline = (3 + $scope.header.length + 9 + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    
+                    $scope.zero = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "0")');
+                    $scope.one = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "1")');
+                    $scope.two = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "2")');
+                    $scope.three = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "3")');
+                    $scope.four = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "4")');
+                    $scope.five = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', ">=5")');
+                } else if($scope.selectedReport == 'summary_report_of_events') {
+                    $scope.startline = (3 + $scope.header.length + 4 + $scope.eventStatusList.length + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    
+                    for(var obj in $scope.eventStatusList) {
+                        var eventObj = $scope.eventStatusList[obj];
+                        eventObj['eventFormula'] = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "*' + eventObj['eventStatus'] + '*")');
+                    }
+                    
+                } else if($scope.selectedReport == 'summary_report_of_memberships_by_time_period') {
+                    $scope.startline = (3 + $scope.header.length + 5 + $scope.membershipList.length + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    
+                    $scope.uniqueContact = '=SUMPRODUCT(1/COUNTIF(B' + $scope.startline + ':B' + $scope.endline + ',B' + $scope.startline + ':B' + $scope.endline + '&""))';
+                    
+                    for(var obj in $scope.membershipList) {
+                        var membershipObj = $scope.membershipList[obj];
+                        membershipObj['membershipFormula'] = ('=COUNTIF(C' + $scope.startline + ':C' + $scope.endline + ', "*' + membershipObj['membershipClass'] + '*")');
+                    }
+                    
+                } else if($scope.selectedReport == 'summary_report_of_donations_by_time_period') {
+                    $scope.startline = (3 + $scope.header.length + 4 + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    $scope.totalAmount = '=SUM(D' + $scope.startline + ':D' + $scope.endline + ')';
+                    
+                } else if($scope.selectedReport == 'summary_report_of_current_memberships') {
+                    $scope.startline = (3 + $scope.header.length + 5 + $scope.membershipList.length + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    
+                    $scope.uniqueContact = '=SUMPRODUCT(1/COUNTIF(B' + $scope.startline + ':B' + $scope.endline + ',B' + $scope.startline + ':B' + $scope.endline + '&""))';
+                    
+                    for(var obj in $scope.membershipList) {
+                        var membershipObj = $scope.membershipList[obj];
+                        membershipObj['membershipFormula'] = ('=COUNTIF(C' + $scope.startline + ':C' + $scope.endline + ', "*' + membershipObj['membershipClass'] + '*")');
+                    }
+                }
             }, function () {
                 window.alert("Fail to send request!");
             });
         };
 
-
         $scope.exportData = function () {
-            var table = document.getElementById('report').innerHTML;
-            //console.log(table);
+            var table = document.getElementById($scope.selectedReport).innerHTML;
             table = '\uFEFF' + table;
             var blob = new Blob([table], {
                 type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;"
             });
-            saveAs(blob, "trial.xls");
+            if ($scope.fileName != '') {
+                saveAs(blob, $scope.fileName + ".xls");
+            } else {
+                saveAs(blob, $scope.selectedReport + ".xls");
+            }
         };
     }]);
