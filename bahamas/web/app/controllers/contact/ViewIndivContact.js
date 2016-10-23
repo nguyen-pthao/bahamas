@@ -65,7 +65,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         } else if ($scope.permission === 'eventleader') {
             $scope.isEL = true;
             $scope.editable = true;
-            $scope.permissionViewNricDob = true;
+            $scope.permissionViewNricDob = false;
         } else if ($scope.permission === 'associate') {
             $scope.isAssociate = true;
             $scope.permissionViewNricDob = false;

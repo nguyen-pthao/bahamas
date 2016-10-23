@@ -353,7 +353,7 @@ app.controller('editContact',
                     $scope.editContact['explain_if_other'] = contactToEdit['explain_if_other'];
                     $scope.editContact['profession'] = contactToEdit.profession;
                     $scope.editContact['job_title'] = contactToEdit['job_title'];
-                    if ($scope.isAdmin || ($scope.editMode == 'false')) {
+                    if ($scope.isAdmin || $scope.isTeamManager || ($scope.editMode == 'false')) {
                         $scope.editContact['nric_fin'] = contactToEdit['nric_fin'];
                     } else {
                         $scope.editContact['nric_fin'] = '';

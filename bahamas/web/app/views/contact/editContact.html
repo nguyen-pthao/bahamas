@@ -241,7 +241,7 @@ and open the template in the editor.
                                         <div class="col-md-4" ng-show="isAdmin || isTeamManager">
                                             <label>NRIC/FIN</label>
                                             <input type="text" ng-model="editContact['nric_fin']" name="nric" class="form-control" ng-pattern='nricRegex'>
-                                            <span ng-show='form.editPersonalForm.nric.$invalid && form.editPersonalForm.nric.$touched' class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
+                                            <span ng-show='form.editPersonalForm.nric.$invalid && form.editPersonalForm.nric.$touched' class='error'>Sample valid NRIC/FIN: S0927314N or G0293714M.</span>
                                         </div>    
                                         <div ng-class="{'col-md-offset-1' : (isAdmin || isTeamManager)}" class="col-md-2">
                                             <label>Gender</label>
@@ -269,7 +269,7 @@ and open the template in the editor.
                                                 <input type="text" uib-datepicker-popup="{{format}}" ng-click="open()" ng-model="editContact['date_of_birth']" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" class="form-control pull-right white-background" readonly>
                                             </div>
                                         </div>
-                                        <div class="col-md-offset-1 col-md-2">
+                                        <div class="col-md-offset-1 col-md-3">
                                             <label>Send Notification</label>
                                             <div class="resend-email">
                                                 <input icheck-custom="blue" type="checkbox" class="flat-red" ng-model="editContact.notification">
