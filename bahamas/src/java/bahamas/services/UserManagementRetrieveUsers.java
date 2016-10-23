@@ -102,7 +102,7 @@ public class UserManagementRetrieveUsers extends HttpServlet {
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
-                if (contact != null && (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager"))) {
+                if (contact != null && (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader"))) {
 
                     try {
                         if (userCreatedStartDate != null) {

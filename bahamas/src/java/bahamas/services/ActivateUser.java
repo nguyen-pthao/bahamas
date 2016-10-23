@@ -90,7 +90,7 @@ public class ActivateUser extends HttpServlet {
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
-                if (contact != null && (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager"))) {
+                if (contact != null && contact.isIsAdmin()) {
                     String contactIdStr = "";
                     for (int i = 0; i < contactIdJsonArray.size() - 1; i++) {
                         String contactIdTemp = contactIdJsonArray.get(i).getAsString();
