@@ -6,9 +6,209 @@
 
 var app = angular.module('bahamas');
 
-app.controller('individualReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', 'loadPaymentMode', 'loadMembershipClass', function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, loadPaymentMode, loadMembershipClass) {
+app.controller('individualReport', ['$scope', 'session', '$state', 'dataSubmit', 'loadTeamAffiliation', '$timeout', '$uibModal',
+    function ($scope, session, $state, dataSubmit, loadTeamAffiliation, $timeout, $uibModal) {
 
-        $scope.selectedReport = '';
+        $scope.permission = session.getSession('userType');
+        $scope.backHome = function () {
+            $state.go($scope.permission);
+        };
+        $scope.userViewContact = $scope.permission + "/" + 'viewIndivContact';
         
+        $scope.selectedReport = session.getSession('reportSelection');
+        
+        var cid = session.getSession('contactReport');
+        $scope.name = session.getSession('contactName');
+        
+        $scope.team = '';
+        $scope.startdate = '';
+        $scope.enddate = '';
+        $scope.fileName = '';
+        
+        $scope.result = '';
+        $scope.startline = 0;
+        $scope.endline = 1000;
+        
+        $scope.loadTeamAffiliationList = function () {
+            loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
+                $scope.teamAffiliationList = response.data.teamAffiliationList;
+                var other;
+                for (var obj in $scope.teamAffiliationList) {
+                    if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others' || $scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                        other = $scope.teamAffiliationList.splice(obj, 1);
+                    }
+                }
+                if (other != null && !angular.isUndefined(other)) {
+                    $scope.teamAffiliationList.push(other[0]);
+                }
+            });
+        };
+        
+        //datepicker
+        $scope.today = function () {
+            $scope.dt = new Date();
+        };
+        $scope.today();
 
+        $scope.clear = function () {
+            $scope.dt = null;
+        };
+
+        $scope.inlineOptions = {
+            customClass: getDayClass,
+            showWeeks: true
+        };
+
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            formatMonth: 'MMM',
+            formatDay: 'dd',
+            startingDay: 1
+        };
+
+        function getDayClass(data) {
+            var date = data.date,
+                    mode = data.mode;
+            if (mode === 'day') {
+                var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
+
+                for (var i = 0; i < $scope.events.length; i++) {
+                    var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
+
+                    if (dayToCheck === currentDay) {
+                        return $scope.events[i].status;
+                    }
+                }
+            }
+            return '';
+        }
+        $scope.format = 'dd MMM yyyy';
+        $scope.altInputFormats = ['M!/d!/yyyy'];
+
+        $scope.openedStart = [];
+        $scope.openStart = function (index) {
+            $timeout(function () {
+                $scope.openedStart[index] = true;
+            });
+        };
+
+        $scope.openedEnd = [];
+        $scope.openEnd = function (index) {
+            $timeout(function () {
+                $scope.openedEnd[index] = true;
+            });
+        };
+        
+        $scope.$watch('selectedReport', function () {
+            if ($scope.selectedReport != '') {
+                $scope.team = '';
+                $scope.startdate = '';
+                $scope.enddate = '';
+                
+                var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: './style/ngTemplate/individualReportSelection.html',
+                scope: $scope,
+                controller: function () {
+                    $scope.ok = function () {
+                        modalInstance.dismiss('cancel');
+                        //firsttime = false;
+                        generateReport();
+                    };
+                    $scope.cancel = function () {
+                        modalInstance.dismiss('cancel');
+                    };
+                },
+                backdrop: 'static',
+                keyboard: false,
+                size: "md"
+            });
+            }
+        });
+        
+        //orderBy for table header
+        $scope.predicate = '';
+        $scope.reverse = false;
+
+        $scope.order = function (predicate) {
+            $scope.reverse = ($scope.predicate === ('\u0022'+ predicate + '\u0022')) ? !$scope.reverse : false;
+            console.log($scope.predicate);
+            $scope.predicate = ('\u0022'+ predicate + '\u0022');
+            $scope.records = orderBy($scope.records, $scope.predicate, $scope.reverse);
+        };
+        
+        var generateReport = function () {
+            var datasend = {};
+            datasend['contact_id'] = cid;
+            datasend['token'] = session.getSession('token');
+            datasend['report_type'] = $scope.selectedReport;
+
+            if ($scope.startdate == null) {
+                datasend['start_date'] = '';
+            } else if (angular.isUndefined($scope.startdate)) {
+                datasend['start_date'] = '';
+            } else if (isNaN($scope.startdate)) {
+                datasend['start_date'] = '';
+            } else {
+                datasend['start_date'] = $scope.startdate.valueOf() + "";
+            }
+
+            if ($scope.enddate == null) {
+                datasend['end_date'] = '';
+            } else if (angular.isUndefined($scope.enddate)) {
+                datasend['end_date'] = '';
+            } else if (isNaN($scope.enddate)) {
+                datasend['end_date'] = '';
+            } else {
+                datasend['end_date'] = $scope.enddate.valueOf() + "";
+            }
+
+            datasend['team'] = $scope.team;
+            datasend['payment_mode'] = $scope.paymentMode;
+            var url = AppAPI.generateReport;
+            dataSubmit.submitData(datasend, url).then(function (response) {
+                //remember to initialize $scope.function in html page
+                $scope.result = response.data;
+                $scope.header = [];
+                $scope.header = Object.keys($scope.result);
+                console.log($scope.result);
+
+                $scope.tableHeader = [];
+
+                $scope.records = $scope.result.Records;
+                if ($scope.records.length > 0) {
+                    $scope.tableHeader = Object.keys($scope.records[0]);
+                }
+                
+                //define start, end lines and formulae 
+                if($scope.selectedReport == 'individual_membership_report') {
+                    $scope.startline = (3 + $scope.header.length + 6 + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    
+                    $scope.totalMAmount = '=SUM(E' + $scope.startline + ':E' + $scope.endline + ')';
+                    
+                } else if($scope.selectedReport == 'individual_donor_report') {
+                    $scope.startline = (3 + $scope.header.length + 5 + $scope.membershipList.length + 2);
+                    $scope.endline = ($scope.startline + $scope.records.length - 1);
+                    
+                    $scope.totalDAmount = '=SUM(C' + $scope.startline + ':C' + $scope.endline + ')';
+                }
+                
+            }, function () {
+                window.alert("Fail to send request!");
+            });
+        };
+        
+        $scope.exportData = function () {
+            var table = document.getElementById($scope.selectedReport).innerHTML;
+            table = '\uFEFF' + table;
+            var blob = new Blob([table], {
+                type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8;"
+            });
+            if ($scope.fileName != '') {
+                saveAs(blob, $scope.fileName + ".xls");
+            } else {
+                saveAs(blob, $scope.selectedReport + ".xls");
+            }
+        };
 }]);

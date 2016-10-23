@@ -6,11 +6,143 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="content-wrapper inner-content-wrapper" cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="#/admin" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> <a> Individual Report </a><i class="fa fa-chevron-right small"></i><a href="#/{{userViewContact}}"> {{name| uppercase}} </a></li>
+                    </ol>                    
+                </h3>
+            </section>
+            <section class="content">
+                <div class="box">
+                    <div class="box-header with-border">
+                        <h3 class="box-title uppercase">  Report </h3>
+                    </div>
+                    <div class="box-body">
+                        <div class="col-md-12 padding-bottom">
+                            <div class="col-md-5">
+                                <label>Select report</label>
+                                <select class="form-control" ng-model="selectedReport">
+<!--                                    <option value=""></option>-->
+<!--                                    <option value="all_individual_reports">All Individual Reports</option>-->
+                                    <option value="individual_participant_report">Individual PARTICIPANT Report</option>
+                                    <option value="individual_membership_report">Individual MEMBERSHIP Report</option>
+                                    <option value="individual_donor_report">Individual DONOR Report</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="result != '' && selectedReport != ''">
+                            <span class="pull-right">
+                                <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file"></i> EXPORT TO EXCEL</button>
+                            </span>
+                        </div>
+                        <div class="col-md-12" ng-show="selectedReport == 'individual_participant_report' && result != ''">
+                            <div class="table-horizontal-scroll" id="individual_participant_report">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">INDIVIDUAL PARTICIPANT REPORT</th></tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS: </th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="{{tableHeader.length}}">This is a report for <span ng-bind="name"></span></th>
+                                        </tr>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
+                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="selectedReport == 'individual_membership_report' && result != ''">
+                            <div class="table-horizontal-scroll" id="individual_membership_report">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">INDIVIDUAL MEMBERSHIP REPORT</th></tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS: </th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr ng-hide="true"><th></th></tr>
+                                        <tr ng-hide="true"><th>SUMMARY FOR THIS REPORT</th></tr>
+                                        <tr ng-hide="true"><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
+                                        <tr ng-hide="true"><th><span>Total amount of membership subscription: </span></th><th><span ng-bind="totalMAmount"></span></th></tr>
+                                        <tr ng-hide="true"><th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="{{tableHeader.length}}">This is a membership report for <span ng-bind="name"></span></th>
+                                        </tr>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
+                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-md-12" ng-show="selectedReport == 'individual_donor_report' && result != ''">
+                            <div class="table-horizontal-scroll" id="individual_donor_report">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">INDIVIDUAL PARTICIPANT REPORT</th></tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS: </th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr ng-hide="true"><th></th></tr>
+                                        <tr ng-hide="true"><th>SUMMARY FOR THIS REPORT</th></tr>
+                                        <tr ng-hide="true"><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
+                                        <tr ng-hide='true'><th><span>Total amount this donor: </span></th><th><span ng-bind='totalDAmount'></span></th></tr>
+                                        <tr ng-hide="true"><th></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="{{tableHeader.length}}">This is a donor report for <span ng-bind="name"></span></th>
+                                        </tr>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
+                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
     </body>
 </html>
+
+

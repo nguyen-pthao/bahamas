@@ -20,20 +20,7 @@ and open the template in the editor.
             <section class="content">
                 <div class="box">
                     <div class="box-header with-border">
-                        <h3 class="box-title uppercase"> Report </h3>
-                        <!--                        <div class="box-tools pull-right">
-                                                    <div class="btn-group">
-                                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-                                                            Select report
-                                                        </button>
-                                                        <ul class="dropdown-menu" role="menu">
-                                                            <li><a href="">A1</a></li>
-                                                            <li><a href="">A1</a></li>
-                                                            <li><a href="">A1</a></li>
-                                                            <li><a href="">A1</a></li>
-                                                        </ul>
-                                                    </div>
-                                                </div>-->
+                        <h3 class="box-title uppercase"> General Report </h3>
                     </div>
                     <div class="box-body">
                         <div class="col-md-12 padding-bottom">
@@ -49,7 +36,7 @@ and open the template in the editor.
                                 </select>
                             </div>
                         </div>
-                        <div class="col-md-12" ng-show="result != ''">
+                        <div class="col-md-12" ng-show="result != '' && selectedReport != ''">
                             <span class="pull-right">
                                 <button class="btn btn-link bold" ng-click="exportData()"><i class="fa fa-file"></i> EXPORT TO EXCEL</button>
                             </span>

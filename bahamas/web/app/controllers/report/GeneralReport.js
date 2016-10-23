@@ -22,6 +22,10 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
         $scope.result = '';
         $scope.startline = 0;
         $scope.endline = 1000;
+
+        $scope.backHome = function () {
+            $state.go(session.getSession('userType'));
+        };
         
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
@@ -155,7 +159,6 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                     keyboard: false,
                     size: "md"
                 });
-                
             }
         });
 

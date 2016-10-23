@@ -27,6 +27,7 @@ app.controller('viewContacts',
                 $scope.loadTeamList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
+                        
                         if (user === 'eventleader' || user === 'associate' || user === 'novice') {
                             $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
                             $scope.teamList.unshift({'teamAffiliation': 'ALL'});
@@ -181,6 +182,20 @@ app.controller('viewContacts',
                             $state.go(toURL);
                         };
 
+                        $scope.generateReport = function ($event, contact, selection) {
+                            session.setSession('contactReport', contact.cid);
+                            session.setSession('reportSelection', selection);
+                            session.setSession('contactName', contact.name);
+                            session.setSession('contactToDisplayCid', contact.cid);
+                            
+                            var toURL = $scope.userType + '.individualReport';
+                            $scope.viewReport = $scope.userType + '/individualReport';
+                            
+                            if($event.which == 1) {
+                                $state.go(toURL);
+                            }
+                        };
+
                         $scope.deleteContact = function ($event, contact) {
                             var toURL = $scope.userType + ".viewContacts";
                             var contactCid = contact.cid;
@@ -188,7 +203,7 @@ app.controller('viewContacts',
                             var toDelete = {
                                 'token': session.getSession('token'),
                                 'contact_id': contactCid
-                            }
+                            };
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/deletePrompt.html',
                                 className: 'ngdialog-theme-default',
@@ -202,7 +217,7 @@ app.controller('viewContacts',
                                             scope: $scope
                                         }).then(function (response) {
                                             $state.reload(toURL);
-                                        })
+                                        });
                                     } else {
                                         $scope.error = response.data.message;
                                         ngDialog.openConfirm({

@@ -55,8 +55,8 @@ and open the template in the editor.
                             <div class="col-md-2" ng-if="canEmailList">
                                 <br>
                                 <button type="button" class="btn btn-primary" ng-click="generateEmailList()"><span>
-                                <i class="fa fa-envelope-o fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
-                            </span> Email List</button>
+                                        <i class="fa fa-envelope-o fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                    </span> Email List</button>
                             </div>
                             <div class="col-md-4">
                                 <label>Search:</label>
@@ -91,7 +91,27 @@ and open the template in the editor.
                                         <td width="20%">{{contact.email}}</td>
                                         <td width="10%">{{contact['contact_type']}}</td>
                                         <td width="15%">{{contact['permission_level']}}</td>
-                                        <td width="10%" ng-if="isAuthorised"><center><span><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                        <td width="10%" ng-if="isAuthorised">
+                                            <div id="view-contacts">
+                                                <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)">
+                                                    <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
+                                                </button>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-box-tool dropdown-toggle" uib-tooltip-placement="top" uib-tooltip="Report" data-toggle="dropdown">
+                                                        <i class="fa fa-file-text fa-lg" aria-hidden="true" style='color: #008eb2'></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+<!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
+                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_participant_report')">Individual Participant Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_membership_report')">Individual Membership Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_donor_report')">Individual Donor Report</a></li>
+                                                    </ul>
+                                                </div>
+                                                <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete" ng-show="canDelete" ng-click="deleteContact($event, contact)">
+                                                    <i class="fa fa-trash fa-large" aria-hidden="true" style='color: #ef0606'></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -117,11 +137,31 @@ and open the template in the editor.
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
-                                        <td width="30%"><a href="" ng-click="foo($event, contact)">{{contact.name}}</a></td>
+                                        <td width="30%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, contact)">{{contact.name}}</a></td>
                                         <td width="20%">{{contact.email}}</td>
                                         <td width="20%">{{contact['contact_type']}}</td>
                                         <td width="20%">{{contact['permission_level']}}</td>
-                                        <td width="10%" ng-if="isAuthorised"><span><center><a href="" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)"><i class="fa fa-edit fa-lg" aria-hidden="true" style='color: #0d1957'></i> </a></span>&nbsp;<span ng-show="canDelete"><a href="" uib-tooltip-placement="top" uib-tooltip="Delete" ng-click="deleteContact($event, contact)"> <i class="fa fa-trash fa-lg" aria-hidden="true" style='color: #ef0606'></i></a></span></center></td>
+                                        <td width="10%" ng-if="isAuthorised">
+                                            <div id="view-contacts">
+                                                <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)">
+                                                    <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
+                                                </button>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-box-tool dropdown-toggle" uib-tooltip-placement="top" uib-tooltip="Report" data-toggle="dropdown">
+                                                        <i class="fa fa-file-text fa-lg" aria-hidden="true" style='color: #008eb2'></i>
+                                                    </button>
+                                                    <ul class="dropdown-menu" role="menu">
+<!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
+                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_participant_report')">Individual Participant Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_membership_report')">Individual Membership Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_donor_report')">Individual Donor Report</a></li>
+                                                    </ul>
+                                                </div>
+                                                <button ng-show="canDelete" type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete" ng-show="canDelete" ng-click="deleteContact($event, contact)">
+                                                    <i class="fa fa-trash fa-large" aria-hidden="true" style='color: #ef0606'></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>

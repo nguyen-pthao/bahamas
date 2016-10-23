@@ -676,3 +676,14 @@ div.wrapper > aside.main-sidebar {
 .past{
   background: black;
 }
+
+.fa-large {
+    font-size: 1.5em;
+    line-height: .75em;
+    vertical-align: -15%;
+}
+
+#view-contacts > div.btn-group > ul.dropdown-menu {
+    right: 0;
+    left: auto;
+}
