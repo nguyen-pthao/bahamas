@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close">
+        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+    </button>
+    <h3 class="modal-title">{{selectedReport}}</h3>
+</div>
+<div>
+    <form name="reportForm">
+        <div class="row">
+            <div class="form-group col-md-12" ng-init="loadMembershipList()">
+                <div class="col-md-5">
+                    <label>Start date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openStart($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="$parent.startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate3" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+                <div class="col-md-offset-2 col-md-5">
+                    <label>End date</label><span class="required">*</span>
+                    <div class="input-group date">
+                        <div class="input-group-addon btn" ng-click="openEnd($index)">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input type='text' ng-model="$parent.enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate3" class="form-control pull-right white-background" readonly empty>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-12">
+                    <label>Filename (Default value is the selected report name)</label>
+                </div>
+                <div class="col-md-5">
+                    <input type="text" class="form-control" ng-model="$parent.fileName">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <center>
+                <button class="btn btn-warning" type="button"
+                        ng-disabled="(reportForm.startdate3.$invalid || reportForm.enddate3.$invalid)"
+                        ng-click="ok()">Generate report</button>
+            </center>
+        </div>
+    </form>
+</div>

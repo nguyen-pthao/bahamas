@@ -15,7 +15,11 @@ app.controller('individualReport', ['$scope', 'session', '$state', 'dataSubmit',
         };
         $scope.userViewContact = $scope.permission + "/" + 'viewIndivContact';
         
-        $scope.selectedReport = session.getSession('reportSelection');
+        if(session.getSession('reportSelection') != null) { 
+            $scope.selectedReport = session.getSession('reportSelection');
+        } else {
+            $scope.selectedReport = '';
+        }   
         
         var cid = session.getSession('contactReport');
         $scope.name = session.getSession('contactName');
@@ -117,6 +121,7 @@ app.controller('individualReport', ['$scope', 'session', '$state', 'dataSubmit',
                     };
                     $scope.cancel = function () {
                         modalInstance.dismiss('cancel');
+                        $scope.selectedReport = '';
                     };
                 },
                 backdrop: 'static',

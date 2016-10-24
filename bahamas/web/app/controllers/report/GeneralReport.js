@@ -22,9 +22,10 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
         $scope.result = '';
         $scope.startline = 0;
         $scope.endline = 1000;
-
+        
+        $scope.permission = session.getSession('userType');
         $scope.backHome = function () {
-            $state.go(session.getSession('userType'));
+            $state.go($scope.permission);
         };
         
         $scope.loadTeamAffiliationList = function () {
@@ -45,11 +46,13 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
         $scope.loadPaymentModeList = function () {
             loadPaymentMode.retrievePaymentMode().then(function (response) {
                 $scope.paymentModeList = response.data.paymentModeList;
+                $scope.paymentModeList.unshift({"paymentMode": "All"});
             });
         };
         $scope.loadMembershipList = function () {
             loadMembershipClass.retrieveMembershipClass().then(function (response) {
                 $scope.membershipList = response.data.membershipClassList;
+                $scope.membershipList.unshift({"membershipClass": "All"});
             });
         };
         $scope.loadEventStatusList = function () {
@@ -141,10 +144,22 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 $scope.startdate = '';
                 $scope.enddate = '';
                 $scope.refdate = '';
-
+                var template = './style/ngTemplate/reportSelection.html';
+                
+                if($scope.selectedReport == 'summary_report_of_team_participants') {
+                    template = './style/ngTemplate/reportSelectionTeamParticipants.html';
+                } else if ($scope.selectedReport == 'summary_report_of_events') {
+                    template = './style/ngTemplate/reportSelectionEvents.html';
+                } else if ($scope.selectedReport == 'summary_report_of_memberships_by_time_period') {
+                    template = './style/ngTemplate/reportSelectionMemberships.html';
+                } else if ($scope.selectedReport == 'summary_report_of_donations_by_time_period') {
+                    template = './style/ngTemplate/reportSelectionDonations.html';
+                } else if ($scope.selectedReport == 'summary_report_of_current_memberships') {
+                    template = './style/ngTemplate/reportSelectionCurrentMemberships.html';
+                }
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: './style/ngTemplate/reportSelection.html',
+                    templateUrl: template,
                     scope: $scope,
                     controller: function () {
                         $scope.ok = function(){
@@ -153,6 +168,7 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                         };
                         $scope.cancel = function () {
                             modalInstance.dismiss('cancel');
+                            $scope.selectedReport = '';
                         };
                     },
                     backdrop: 'static',
@@ -186,9 +202,28 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             } else {
                 datasend['end_date'] = $scope.enddate.valueOf() + "";
             }
+            
+            if ($scope.refdate == null) {
+                datasend['ref_date'] = '';
+            } else if (angular.isUndefined($scope.refdate)) {
+                datasend['ref_date'] = '';
+            } else if (isNaN($scope.refdate)) {
+                datasend['ref_date'] = '';
+            } else {
+                datasend['ref_date'] = $scope.refdate.valueOf() + "";
+            }
 
             datasend['team'] = $scope.team;
-            datasend['payment_mode'] = $scope.paymentMode;
+            if($scope.paymentMode != 'All') {
+                datasend['payment_mode'] = $scope.paymentMode;
+            } else {
+                datasend['payment_mode'] = '';
+            }
+            if($scope.membershipType == '') {
+                datasend['membership_type'] = $scope.membershipType;
+            } else {
+                datasend['membership_type'] = '';
+            }
             var url = AppAPI.generateReport;
             dataSubmit.submitData(datasend, url).then(function (response) {
                 //remember to initialize $scope.function in html page

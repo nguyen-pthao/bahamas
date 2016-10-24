@@ -348,6 +348,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/event/editPastEvent.html',
                 controller: 'editPastEvent'
             })
+            .state('teammanager.generalReport', {
+                url: '/generalReport',
+                templateUrl: 'app/views/report/generalReport.html',
+                controller: 'generalReport'
+            })
+            .state('teammanager.individualReport', {
+                url: '/individualReport',
+                templateUrl: 'app/views/report/individualReport.html',
+                controller: 'individualReport'
+            })
             .state('teammanager.searchContacts', {
                 url: '/searchContacts',
                 templateUrl: 'app/views/search/searchContacts.html',

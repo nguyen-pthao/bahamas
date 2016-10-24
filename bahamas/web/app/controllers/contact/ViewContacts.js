@@ -84,15 +84,18 @@ app.controller('viewContacts',
                         $scope.allContactInfo = response.data.contact;
                         $scope.isAuthorised = true;
                         $scope.canDelete = false;
+                        $scope.canReport = false;
                         $scope.canEmailList = false;
                         $scope.takeNoColumns = 5;
                         $scope.userType = session.getSession('userType');
                         if ($scope.userType === 'admin') {
                             $scope.canDelete = true;
+                            $scope.canReport = true;
                             $scope.canEmailList = true;
                         }
                         if ($scope.userType === 'teammanager') {
                             $scope.canEmailList = true;
+                            $scope.canReport = true;
                         }
                         if ($scope.userType === 'associate') {
                             $scope.isAuthorised = false;

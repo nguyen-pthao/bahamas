@@ -96,15 +96,15 @@ and open the template in the editor.
                                                 <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)">
                                                     <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
                                                 </button>
-                                                <div class="btn-group">
+                                                <div class="btn-group dropdown">
                                                     <button type="button" class="btn btn-box-tool dropdown-toggle" uib-tooltip-placement="top" uib-tooltip="Report" data-toggle="dropdown">
                                                         <i class="fa fa-file-text fa-lg" aria-hidden="true" style='color: #008eb2'></i>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
 <!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
-                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_participant_report')">Individual Participant Report</a></li>
-                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_membership_report')">Individual Membership Report</a></li>
-                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_donor_report')">Individual Donor Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_participant_report')"><i class="fa fa-group"></i>Individual Participant Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_membership_report')"><i class="fa fa-navicon"></i>Individual Membership Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_donor_report')"><i class="fa fa-money"></i>Individual Donor Report</a></li>
                                                     </ul>
                                                 </div>
                                                 <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete" ng-show="canDelete" ng-click="deleteContact($event, contact)">
@@ -146,15 +146,15 @@ and open the template in the editor.
                                                 <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)">
                                                     <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
                                                 </button>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-box-tool dropdown-toggle" uib-tooltip-placement="top" uib-tooltip="Report" data-toggle="dropdown">
+                                                <div class="btn-group dropdown" ng-show="canReport">
+                                                    <button type="button" class="btn btn-box-tool dropdown-toggle" uib-tooltip-placement="top" uib-tooltip="Report" data-toggle="dropdown" data-hover="dropdown">
                                                         <i class="fa fa-file-text fa-lg" aria-hidden="true" style='color: #008eb2'></i>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
 <!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
-                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_participant_report')">Individual Participant Report</a></li>
-                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_membership_report')">Individual Membership Report</a></li>
-                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'individual_donor_report')">Individual Donor Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_participant_report')"><i class="fa fa-group"></i>Individual Participant Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_membership_report')"><i class="fa fa-navicon"></i>Individual Members<i class="fa fa-group"></i>Ihip Report</a></li>
+                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_donor_report')"><i class="fa fa-money"></i>Individual Donor Report</a></li>
                                                     </ul>
                                                 </div>
                                                 <button ng-show="canDelete" type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete" ng-show="canDelete" ng-click="deleteContact($event, contact)">

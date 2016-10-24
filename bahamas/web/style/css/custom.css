@@ -687,3 +687,7 @@ div.wrapper > aside.main-sidebar {
     right: 0;
     left: auto;
 }
+
+.dropdown:hover .dropdown-menu {
+    display: block;
+}

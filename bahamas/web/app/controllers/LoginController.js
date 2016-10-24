@@ -29,8 +29,7 @@ app.controller('loginController',
                         scope: $scope
                     });
                 }
-                
-                
+                 
                 $scope.error = false;
 //DEFINE AUTHORISED USER OBJECT
                 var authorisedUser = {

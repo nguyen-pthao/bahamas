@@ -22,9 +22,10 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         $scope.contactToDisplayCid = session.getSession('contactToDisplayCid');
         $scope.permission = session.getSession('userType');
         
+        var contactToRetrieve = {};
         $scope.ownContactCid = angular.fromJson(session.getSession('contact')).cid;
         if (session.getSession('teams') === 'undefined') {
-            var contactToRetrieve = {
+            contactToRetrieve = {
                 'token': session.getSession('token'),
                 'cid': $scope.ownContactCid,
                 'other_cid': $scope.contactToDisplayCid,
@@ -32,7 +33,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
                 'permission': $scope.permission
             };
         } else {
-            var contactToRetrieve = {
+            contactToRetrieve = {
                 'token': session.getSession('token'),
                 'cid': $scope.ownContactCid,
                 'other_cid': $scope.contactToDisplayCid,
@@ -276,8 +277,25 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         };
         $scope.userViewContacts = $scope.permission + "/" + 'viewContacts';
         $scope.userViewContact = $scope.permission + "/" + 'viewIndivContact';
-        $scope.editContact = function () {
+        
+        $scope.editContact = function ($event) {
             session.setSession('otherContact', 'true');
-            $state.go(editContact);
+            $scope.toEditContact = $scope.permission + '/editContact';
+            if($event.which == 1) {
+                $state.go(editContact);
+            }      
         };
+        
+        $scope.generateReport = function ($event) {
+            session.setSession('contactReport', $scope.ownContactCid);
+            session.setSession('contactName', $scope.name);
+
+            var toURL = $scope.userType + '.individualReport';
+            $scope.toViewReport = $scope.userType + '/individualReport';
+
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
+        };
+        
     }]);
