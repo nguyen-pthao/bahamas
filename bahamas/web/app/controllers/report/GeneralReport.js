@@ -168,7 +168,7 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                         };
                         $scope.cancel = function () {
                             modalInstance.dismiss('cancel');
-                            $scope.selectedReport = '';
+//                            $scope.selectedReport = '';
                         };
                     },
                     backdrop: 'static',
@@ -182,7 +182,8 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             var datasend = {};
             datasend['token'] = session.getSession('token');
             datasend['report_type'] = $scope.selectedReport;
-
+            datasend['user_type'] = $scope.permission;
+            
             if ($scope.startdate == null) {
                 datasend['start_date'] = '';
             } else if (angular.isUndefined($scope.startdate)) {
