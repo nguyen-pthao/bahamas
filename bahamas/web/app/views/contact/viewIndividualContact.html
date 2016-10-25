@@ -28,7 +28,7 @@ and open the template in the editor.
                             </button>
                             <ul class="dropdown-menu" role="menu">
                                 <li><a href="#/{{toEditContact}}" ng-mousedown="editContact($event)"><i class="fa fa-edit fa-lg"></i> Edit Contact</a></li>
-                                <li><a href="#/{{toViewReport}}" ng-mousedown="generateReport($event)"><i class="fa fa-file-text fa-lg"></i> Generate Report</a></li>
+                                <li ng-show="isAuthorised"><a href="#/{{toViewReport}}" ng-mousedown="generateReport($event)"><i class="fa fa-file-text fa-lg"></i> Generate Report</a></li>
                             </ul>
                         </div>
                     </div>
