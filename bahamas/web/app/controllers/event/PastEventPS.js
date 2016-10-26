@@ -74,7 +74,7 @@ app.controller('pastEventsPS',
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                         $scope.allEventInfo = response.data.event;
                         $scope.totalItems = $scope.allEventInfo.length;
-
+                        $scope.maxSize = 5;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 50;
                         $scope.allFilteredEvents = $scope.allEventInfo;
