@@ -239,6 +239,8 @@ public class ReportDAO {
                         + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
                         + "AND END_MEMBERSHIP AND MEMBERSHIP_CLASS_NAME=?");
 
+                stmt.setString(2, membershipType);
+
             } else {
                 stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
@@ -247,7 +249,6 @@ public class ReportDAO {
             }
 
             stmt.setDate(1, new java.sql.Date(reference.getTime()));
-            stmt.setString(2, membershipType);
 
             int counter = 0;
             rs = stmt.executeQuery();
@@ -309,7 +310,7 @@ public class ReportDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                     + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
-                    + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND DATE(m.DATE_CREATED) BETWEEN ? "
+                    + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND DATE(START_MEMBERSHIP) BETWEEN ? "
                     + "AND ?");
 
             stmt.setDate(1, new java.sql.Date(start.getTime()));
@@ -375,7 +376,7 @@ public class ReportDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                     + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
-                    + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND m.CONTACT_ID=? AND DATE(m.DATE_CREATED) BETWEEN ? "
+                    + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND m.CONTACT_ID=? AND DATE(START_MEMBERSHIP) BETWEEN ? "
                     + "AND ?");
 
             stmt.setInt(1, cid);
@@ -443,17 +444,21 @@ public class ReportDAO {
                 stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, c.NAME, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
                         + "RECEIPT_NUMBER, DONOR_INSTRUCTIONS, SUBAMOUNT_1, SUBAMOUNT_2, SUBAMOUNT_3 "
                         + "FROM DONATION d, CONTACT c WHERE d.CONTACT_ID=c.CONTACT_ID AND PAYMENT_MODE_NAME=? "
-                        + "AND DATE_RECEIVED BETWEEN ? AND ?");
+                        + "AND d.DATE_RECEIVED BETWEEN ? AND ?");
+
+                stmt.setString(1, paymentMode);
+                stmt.setDate(2, new java.sql.Date(start.getTime()));
+                stmt.setDate(3, new java.sql.Date(end.getTime()));
+
             } else {
                 stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, c.NAME, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
                         + "RECEIPT_NUMBER, DONOR_INSTRUCTIONS, SUBAMOUNT_1, SUBAMOUNT_2, SUBAMOUNT_3 "
                         + "FROM DONATION d, CONTACT c WHERE d.CONTACT_ID=c.CONTACT_ID "
-                        + "AND DATE_RECEIVED BETWEEN ? AND ?");
-            }
+                        + "AND d.DATE_RECEIVED BETWEEN ? AND ?");
 
-            stmt.setString(1, paymentMode);
-            stmt.setDate(2, new java.sql.Date(start.getTime()));
-            stmt.setDate(3, new java.sql.Date(end.getTime()));
+                stmt.setDate(1, new java.sql.Date(start.getTime()));
+                stmt.setDate(2, new java.sql.Date(end.getTime()));
+            }
 
             int counter = 0;
             rs = stmt.executeQuery();
