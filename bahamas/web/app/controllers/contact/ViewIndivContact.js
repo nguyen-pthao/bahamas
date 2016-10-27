@@ -287,7 +287,7 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
         };
         
         $scope.generateReport = function ($event) {
-            session.setSession('contactReport', $scope.ownContactCid);
+            session.setSession('contactReport', $scope.contactToDisplayCid);
             session.setSession('contactName', $scope.name);
 
             var toURL = $scope.userType + '.individualReport';
