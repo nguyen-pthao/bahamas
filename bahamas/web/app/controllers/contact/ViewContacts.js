@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 
-//author: Marcus Ong
-
 var app = angular.module('bahamas');
 
 app.controller('viewContacts',
@@ -23,11 +21,11 @@ app.controller('viewContacts',
                     $state.reload(currentState);
                 };
                 $scope.userViewContacts = user + "/" + 'viewContacts';
-                
+
                 $scope.loadTeamList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamList = response.data.teamAffiliationList;
-                        
+
                         if (user === 'eventleader' || user === 'associate' || user === 'novice') {
                             $scope.teamList.unshift({'teamAffiliation': 'MY TEAMS'});
                             $scope.teamList.unshift({'teamAffiliation': 'ALL'});
@@ -78,101 +76,72 @@ app.controller('viewContacts',
                             'teamFilter': filter
                         };
                     }
+
+                    var userType = session.getSession('userType');
+                    if (userType === 'admin') {
+                        $scope.canSeePhone = true;
+                        $scope.canDelete = true;
+                        $scope.canReport = true;
+                        $scope.canEmailList = true;
+                    } else if (userType === 'teammanager') {
+                        $scope.canSeePhone = true;
+                        $scope.canDelete = false;
+                        $scope.canReport = true;
+                        $scope.canEmailList = true;
+                    } else if (userType === 'eventleader') {
+                        $scope.canSeePhone = true;
+                        $scope.canDelete = false;
+                        $scope.canReport = false;
+                        $scope.canEmailList = false;
+                    } else if (userType === 'associate') {
+                        $scope.canSeePhone = false;
+                        $scope.canDelete = false;
+                        $scope.canReport = false;
+                        $scope.canEmailList = false;
+                    };
                     //for headers
                     //var allContactObjKey = [];
                     $scope.myPromise = loadAllContacts.retrieveAllContacts(contactToRetrieve).then(function (response) {
                         $scope.allContactInfo = response.data.contact;
-                        $scope.isAuthorised = true;
-                        $scope.canDelete = false;
-                        $scope.canReport = false;
-                        $scope.canEmailList = false;
-                        $scope.takeNoColumns = 5;
-                        $scope.userType = session.getSession('userType');
-                        if ($scope.userType === 'admin') {
-                            $scope.canDelete = true;
-                            $scope.canReport = true;
-                            $scope.canEmailList = true;
-                        }
-                        if ($scope.userType === 'teammanager') {
-                            $scope.canEmailList = true;
-                            $scope.canReport = true;
-                        }
-                        if ($scope.userType === 'associate') {
-                            $scope.isAuthorised = false;
-                            $scope.takeNoColumns = 4;
-                        } else if ($scope.userType === 'eventleader') {
-                            $scope.isAuthorised = true;
-                            $scope.showFive = true;
-                        } else {
-                            $scope.showFive = true;
-                        }
-                        $scope.totalItems = $scope.allContactInfo.length;
-
-                        $scope.currentPage = 1;
+                        $scope.filteredContacts = $scope.allContactInfo;
+                        $scope.totalItems = $scope.filteredContacts.length;
+                        $scope.currentPage = 0;
+                        $scope.currentPageIncrement = 1;
+                        $scope.$watch('currentPageIncrement', function () {
+                            $scope.currentPage = $scope.currentPageIncrement - 1;
+                        });
                         $scope.itemsPerPage = 100;
                         $scope.maxSize = 5;
-                        $scope.allFilteredContacts = $scope.allContactInfo;
-                        $scope.allFilteredContacts.reverse();
-                        $scope.isAll = false;
+                        $scope.propertyName = '';
+                        $scope.reverse = true;
+                        $scope.sortBy = function (propertyName) {
+                            $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+                            $scope.propertyName = propertyName;
+                        };
+                        $scope.totalPages = function () {
+                            return Math.ceil($scope.filteredContacts.length / $scope.itemsPerPage);
+                        };
                         $scope.itemsPerPageChanged = function () {
                             if ($scope.itemsPerPage == 'toAll') {
-                                $scope.itemsPerPage = $scope.allFilteredContacts.length;
+                                $scope.itemsPerPage = $scope.filteredContacts.length;
                                 $scope.isAll = true;
                             } else {
                                 $scope.isAll = false;
                             }
-                            $scope.allFilteredContacts = filterFilter($scope.allContactInfo, $scope.searchContacts);
-                            var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
-                            $scope.totalPages = Math.ceil(total);
-                            if ($scope.totalPages === 0) {
-                                $scope.totalPages = 1;
-                            }
-                            $scope.$watch('currentPage + itemsPerPage', function () {
-                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                                var end = begin + parseInt($scope.itemsPerPage);
-                                $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
-                            });
                         };
-
-                        var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
-                        $scope.totalPages = Math.ceil(total);
-                        if ($scope.totalPages === 0) {
-                            $scope.totalPages = 1;
-                        }
-                        $scope.$watch('currentPage + itemsPerPage', function () {
-                            var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                            var end = begin + parseInt($scope.itemsPerPage);
-
-                            $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
-                        });
-
                         $scope.$watch('searchContacts', function (term) {
-                            $scope.allFilteredContacts = filterFilter($scope.allContactInfo, term);
-                            $scope.totalItems = $scope.allFilteredContacts.length;
-                            var total = $scope.allFilteredContacts.length / $scope.itemsPerPage;
-                            $scope.totalPages = Math.ceil(total);
-                            if ($scope.totalPages === 0) {
-                                $scope.totalPages = 1;
-                            }
-                            $scope.$watch('currentPage + itemsPerPage', function () {
-                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                                var end = begin + parseInt($scope.itemsPerPage);
-                                $scope.splitContacts = $scope.allFilteredContacts.slice(begin, end);
-                            });
+                            $scope.allContactInfoTemp = $scope.allContactInfo;
+                            $scope.filteredContacts = filterFilter($scope.allContactInfoTemp, term);
+                            $scope.totalItems = $scope.filteredContacts.length;
                         });
-                        
-//                        $scope.trial = function($event) {
-//                            if($event.which == 3) {
-//                                console.log("hello babe");
-//                            }
-//                        };
-                        
+
+
                         $scope.viewContact = function ($event, contact) {
                             var toURL = $scope.userType + ".viewIndivContact";
                             $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
                             var contactCid = contact.cid;
                             session.setSession('contactToDisplayCid', contactCid);
-                            if($event.which == 1) {
+                            if ($event.which == 1) {
                                 $state.go(toURL);
                             }
                         };
@@ -190,11 +159,11 @@ app.controller('viewContacts',
                             session.setSession('reportSelection', selection);
                             session.setSession('contactName', contact.name);
                             session.setSession('contactToDisplayCid', contact.cid);
-                            
+
                             var toURL = $scope.userType + '.individualReport';
                             $scope.viewReport = $scope.userType + '/individualReport';
-                            
-                            if($event.which == 1) {
+
+                            if ($event.which == 1) {
                                 $state.go(toURL);
                             }
                         };
@@ -245,13 +214,15 @@ app.controller('viewContacts',
                         };
                     });
                 };
-
-                $scope.predicate = '';
-                $scope.reverse = false;
-
-                $scope.order = function (predicate) {
-                    $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
-                    $scope.predicate = predicate;
-                };
-
             }]);
+
+app.filter('startFrom', function () {
+    return function (input, start) {
+        start = +start; //parse to int
+        if (angular.isUndefined(input)) {
+            return null;
+        } else {
+            return input.slice(start);
+        }
+    }
+});

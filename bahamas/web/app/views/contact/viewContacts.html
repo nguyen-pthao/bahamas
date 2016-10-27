@@ -64,34 +64,32 @@ and open the template in the editor.
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
-                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredContacts.length}}</span> 
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{filteredContacts.length}}</span> 
                             &nbsp;&nbsp;
                             <span> <label> Entries per page: </label>&nbsp;</span>
                             <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
                             <span ng-show="isAll" style="color: red">All</span>
-                            &nbsp;&nbsp;
-                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitContacts.length}}</span> 
                         </p>
                         <div class="table-horizontal-scroll">
-                            <table id="example1" class="table table-bordered table-striped" ng-show="showFive" style="max-width: 100%">
+                            <table id="contactTable" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
-                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
-                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
-                                        <th ng-if="isAuthorised"></th>
+                                        <th><a href="" ng-click="sortBy('name')" style='color: #005384'>Name</a></th>
+                                        <th ng-if="canSeePhone"><a href="" ng-click="sortBy('phone')" style='color: #005384'>Phone</a></th>
+                                        <th><a href="" ng-click="sortBy('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="sortBy('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="sortBy('permission_level')" style='color: #005384'>Permission Level</a></th>
+                                        <th ng-if="canSeePhone"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
+                                    <tr ng-repeat="contact in filteredContacts | orderBy:propertyName:reverse | startFrom:currentPage*itemsPerPage | limitTo: itemsPerPage">
                                         <td width="25%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, contact)">{{contact.name}}</a></td>
-                                        <td width="20%">{{contact.phone}}</td>
+                                        <td ng-if="canSeePhone" width="20%">{{contact.phone}}</td>
                                         <td width="20%">{{contact.email}}</td>
                                         <td width="10%">{{contact['contact_type']}}</td>
                                         <td width="15%">{{contact['permission_level']}}</td>
-                                        <td width="10%" ng-if="isAuthorised">
+                                        <td ng-if="canSeePhone" width="10%">
                                             <div id="view-contacts">
                                                 <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)">
                                                     <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
@@ -101,7 +99,7 @@ and open the template in the editor.
                                                         <i class="fa fa-file-text fa-lg" aria-hidden="true" style='color: #008eb2'></i>
                                                     </button>
                                                     <ul class="dropdown-menu" role="menu">
-<!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
+                                                        <!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
                                                         <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_participant_report')"><i class="fa fa-group"></i>Individual Participant Report</a></li>
                                                         <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_membership_report')"><i class="fa fa-navicon"></i>Individual Membership Report</a></li>
                                                         <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_donor_report')"><i class="fa fa-money"></i>Individual Donor Report</a></li>
@@ -116,72 +114,23 @@ and open the template in the editor.
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('phone')" style='color: #005384'>Phone</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
-                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
-                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
-                                        <th ng-if="isAuthorised"></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                            <table id="example1" class="table table-bordered table-striped" ng-hide="showFive" style="max-width: 100%">
-                                <thead>
-                                    <tr>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
-                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
-                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
-                                        <th ng-if="isAuthorised"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="contact in splitContacts| orderBy:predicate:reverse">
-                                        <td width="30%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, contact)">{{contact.name}}</a></td>
-                                        <td width="20%">{{contact.email}}</td>
-                                        <td width="20%">{{contact['contact_type']}}</td>
-                                        <td width="20%">{{contact['permission_level']}}</td>
-                                        <td width="10%" ng-if="isAuthorised">
-                                            <div id="view-contacts">
-                                                <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit" ng-click="editContact($event, contact)">
-                                                    <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
-                                                </button>
-                                                <div class="btn-group dropdown" ng-show="canReport">
-                                                    <button type="button" class="btn btn-box-tool dropdown-toggle" uib-tooltip-placement="top" uib-tooltip="Report" data-toggle="dropdown" data-hover="dropdown">
-                                                        <i class="fa fa-file-text fa-lg" aria-hidden="true" style='color: #008eb2'></i>
-                                                    </button>
-                                                    <ul class="dropdown-menu" role="menu">
-<!--                                                        <li><a href="#/{{viewReport}}" ng-click="generateReport($event, contact, 'all_individual_reports')">All Individual Reports</a></li>-->
-                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_participant_report')"><i class="fa fa-group"></i>Individual Participant Report</a></li>
-                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_membership_report')"><i class="fa fa-navicon"></i>Individual Members<i class="fa fa-group"></i>Ihip Report</a></li>
-                                                        <li><a href="#/{{viewReport}}" ng-mousedown="generateReport($event, contact, 'individual_donor_report')"><i class="fa fa-money"></i>Individual Donor Report</a></li>
-                                                    </ul>
-                                                </div>
-                                                <button ng-show="canDelete" type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete" ng-show="canDelete" ng-click="deleteContact($event, contact)">
-                                                    <i class="fa fa-trash fa-large" aria-hidden="true" style='color: #ef0606'></i>
-                                                </button>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Email</a></th>
-                                        <th><a href="" ng-click="order('contact_type')" style='color: #005384'>Contact Type</a></th>
-                                        <th><a href="" ng-click="order('permission_level')" style='color: #005384'>Permission Level</a></th>
-                                        <th ng-if="isAuthorised"></th>
+                                        <th><a href="" ng-click="sortBy('name')" style='color: #005384'>Name</a></th>
+                                        <th ng-if="canSeePhone"><a href="" ng-click="sortBy('phone')" style='color: #005384'>Phone</a></th>
+                                        <th><a href="" ng-click="sortBy('email')" style='color: #005384'>Email</a></th>
+                                        <th><a href="" ng-click="sortBy('contact_type')" style='color: #005384'>Contact Type</a></th>
+                                        <th><a href="" ng-click="sortBy('permission_level')" style='color: #005384'>Permission Level</a></th>
+                                        <th ng-if="canSeePhone"></th>
                                     </tr>
                                 </tfoot>
                             </table>
                         </div>
                         <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
+                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPageIncrement" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>
-                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                                <pre>Page: {{currentPage +1}} / {{totalPages()}}</pre>
                             </div>
                         </div>
                     </div>
