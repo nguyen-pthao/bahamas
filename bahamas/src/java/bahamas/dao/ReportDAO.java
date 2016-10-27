@@ -43,7 +43,8 @@ public class ReportDAO {
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID,c.NAME, c.USERNAME, MIN(DATE(e.DATE_CREATED)), "
                     + "MAX(DATE(e.DATE_CREATED)), c.LAST_LOGIN FROM CONTACT c, TEAM_JOIN t, EVENT_PARTICIPANT e "
                     + "WHERE c.CONTACT_ID=t.CONTACT_ID "
-                    + "AND e.CONTACT_ID=c.CONTACT_ID AND PULLOUT=FALSE AND TEAM_NAME = ? "
+                    + "AND e.CONTACT_ID=c.CONTACT_ID AND t.CONTACT_ID=e.CONTACT_ID "
+                    + "AND PERMISSION IS NOT NULL AND PULLOUT=FALSE AND TEAM_NAME = ? "
                     + "GROUP BY c.CONTACT_ID,c.NAME, c.USERNAME");
 
             stmt.setString(1, team);
