@@ -407,6 +407,9 @@ div.text-vertical-center > a.hyperlink:hover {
 aside.control-sidebar.control-sidebar-dark-control-sidebar-open,
 div.wrapper > aside.main-sidebar {
     position: fixed;
+    top: 0;
+    bottom: 0;
+    overflow-y:scroll;
 }
     
 @media(min-width: 768px) {
