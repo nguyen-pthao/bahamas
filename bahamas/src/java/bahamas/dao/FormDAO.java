@@ -118,7 +118,7 @@ public class FormDAO {
         return false;
     }
 
-    public static LinkedHashMap<Integer, ArrayList<String>> retrieveAllForm() {
+    public static LinkedHashMap<Integer, ArrayList<String>> retrieveForm() {
         LinkedHashMap<Integer, ArrayList<String>> results = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
@@ -138,14 +138,14 @@ public class FormDAO {
                 String startTime = datetime.format(rs.getTimestamp(3));
                 String endTime = datetime.format(rs.getTimestamp(4));
 
-                ArrayList<String> formList = new ArrayList<String>();             
+                ArrayList<String> formList = new ArrayList<String>();
                 formList.add(createdBy);
-                formList.add(code);           
+                formList.add(code);
                 formList.add(startTime);
                 formList.add(endTime);
-                
+
                 results.put(counter++, formList);
-             
+
             }
 
             return results;
@@ -159,6 +159,34 @@ public class FormDAO {
 
         return results;
 
+    }
+
+    public static int checkForm(String code) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        int id = 0;
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT FORM_ID FROM FORM "
+                    + "WHERE CODE=? AND NOW() BETWEEN START_DATE_TIME AND END_DATE_TIME "
+                    + "ORDER BY DATE_CREATED DESC");
+
+            stmt.setString(1, code);
+            rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt(1);
+            }
+            
+            return id;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return id;
     }
 
 }

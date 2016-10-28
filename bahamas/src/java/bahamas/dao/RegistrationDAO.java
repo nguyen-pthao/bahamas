@@ -26,7 +26,7 @@ public class RegistrationDAO {
     private static SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
     public static boolean addRegistration(int form_id, int contact_id, String name, String nric_fin, String nationality,
-            Date dob, String gender, String profession, String jobTitle, String remarks, String countryCode,
+            Date dob, String gender, String profession, String jobTitle, String remarks, int countryCode,
             String phoneNumber, String email, String language, String proficiency, String skillName, String teamName,
             boolean first, boolean second, boolean requestUser) {
         Connection conn = null;
@@ -55,7 +55,7 @@ public class RegistrationDAO {
             stmt.setString(9, profession);
             stmt.setString(10, jobTitle);
             stmt.setString(11, remarks);
-            stmt.setString(12, countryCode);
+            stmt.setInt(12, countryCode);
             stmt.setString(13, phoneNumber);
             stmt.setString(14, email);
             stmt.setString(15, language);
