@@ -76,7 +76,7 @@ public class ReportDAO {
             while (iter.hasNext()) {
 
                 stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNT(CONTACT_ID),"
-                        + "SUM(HOURS_SERVED) from EVENT_PARTICIPANT where CONTACT_ID=? "
+                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT WHERE CONTACT_ID=? "
                         + "AND DATE(DATE_CREATED) BETWEEN "
                         + "? AND ? GROUP BY CONTACT_ID");
 
@@ -125,7 +125,7 @@ public class ReportDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT DATE(ep.DATE_CREATED), TEAM_NAME, EVENT_TITLE, "
                     + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
-                    + "TEAM_JOIN T, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
+                    + "TEAM_JOIN t, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
                     + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
                     + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? AND TEAM_NAME=? "
                     + "AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
