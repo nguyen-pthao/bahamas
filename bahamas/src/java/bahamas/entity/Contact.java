@@ -90,7 +90,7 @@ public class Contact {
         this.remarks = remarks;
 
     }
-    
+
     public Contact(int contactId, String contactType, String username,
             String password, String salt, boolean admin, boolean novice, boolean deactivated, Date dateCreated,
             String createdBy, String name, String altName, String explainIfOther,
@@ -153,6 +153,38 @@ public class Contact {
         this.emailStrList = emailStrList;
         this.phoneStrList = phoneStrList;
         this.sendEmailFormat = sendEmailFormat;
+        this.lastLogin = lastLogin;
+    }
+
+    //For UserManagement
+    public Contact(int contactId, String contactType, String username,
+            String password, String salt, boolean admin, boolean novice, boolean deactivated, Date dateCreated,
+            String createdBy, String name, String altName, String explainIfOther,
+            String profession, String jobTitle, String nric, String gender,
+            String nationality, Date dateOfBirth, String profilePic, String remarks,
+            boolean notification, Date lastLogin) {
+        this.contactId = contactId;
+        this.contactType = contactType;
+        this.username = username;
+        this.password = password;
+        this.salt = salt;
+        this.isAdmin = admin;
+        this.isNovice = novice;
+        this.deactivated = deactivated;
+        this.dateCreated = dateCreated;
+        this.createdBy = createdBy;
+        this.name = name;
+        this.altName = altName;
+        this.explainIfOther = explainIfOther;
+        this.profession = profession;
+        this.jobTitle = jobTitle;
+        this.nric = nric;
+        this.gender = gender;
+        this.nationality = nationality;
+        this.dateOfBirth = dateOfBirth;
+        this.profilePic = profilePic;
+        this.remarks = remarks;
+        this.notification = notification;
         this.lastLogin = lastLogin;
     }
 
@@ -481,7 +513,5 @@ public class Contact {
     public void setSendEmailFormat(String sendEmailFormat) {
         this.sendEmailFormat = sendEmailFormat;
     }
-    
-    
-    
+
 }
