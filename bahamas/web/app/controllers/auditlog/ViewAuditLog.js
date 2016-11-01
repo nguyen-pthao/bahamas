@@ -49,6 +49,7 @@ app.controller('viewAuditLog',
                         $scope.totalFilteredItems = $scope.allFiltered.length;
                         $scope.currentPage = 1;
                         $scope.itemsPerPage = 30;
+                        $scope.maxSize = 5;
                         var total = $scope.totalFilteredItems / $scope.itemsPerPage;
                         $scope.totalPages = Math.ceil(total);
                         if ($scope.totalPages === 0) {
