@@ -18,7 +18,9 @@ public class UserManagement {
 
     public UserManagement(Contact contact, String teams, String email) {
         this.contact = contact;
-        this.teamList = teams.split("\\|");
+        if(teams != null){
+            this.teamList = teams.split("\\|");
+        }
         this.email = email;
     }
 

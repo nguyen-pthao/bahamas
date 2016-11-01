@@ -37,8 +37,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author tan.si.hao
  */
-@WebServlet(name = "UserManagementRetrieveUnverifiedContacts", urlPatterns = {"/usermanagement.retrieveunverifiedcontacts"})
-public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
+@WebServlet(name = "UserManagementRetrieveVerifiedContacts", urlPatterns = {"/usermanagement.retrieveverifiedcontacts"})
+public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
@@ -113,7 +113,7 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                 }
 
                 if (contact != null && (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader"))) {
-                    ArrayList<UserManagement> userManagementList = UserManagementDAO.retrieveAllUnverifiedContactsWithTeamPreference(userCreatedStartDate,userCreatedEndDate);
+                    ArrayList<UserManagement> userManagementList = UserManagementDAO.retrieveAllVerifiedContactsWithTeamPreference(userCreatedStartDate,userCreatedEndDate);
                     json.addProperty("message", "success");
                     JsonArray contactArray = new JsonArray();
                     JsonObject jsonContactObj;
@@ -126,8 +126,8 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                         jsonContactObj.addProperty("code", "");
                         jsonContactObj.addProperty("name", c.getName());
                         jsonContactObj.addProperty("email", userManagement.getEmail());
-
                         String teamArray[] = userManagement.getTeamList();
+                        
                         int count = 0;
                         for(int i = 0; i < teamArray.length; i++){
                             jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
