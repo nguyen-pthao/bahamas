@@ -87,23 +87,18 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
                                         <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
                                         <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
-                                        <th><a href="" ng-click="order('username')" style='color: #005384'>Username</a></th>
                                         <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Create User Date</a></th>
-                                        <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
-                                        <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
+                                        <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
-                                        <td width="5%">{{user.cid}}</td>
-                                        <td width="15%">{{user.name}}</td>
-                                        <td width="30%">{{user.email}}</td>
-                                        <td width="15%">{{user.username}}</td>
-                                        <td width="10%">{{user.user_date_created}}</td>
-                                        <td width="10%">{{user.last_login}}</td>
-                                        <td width="10%" ng-show="user.deactivated">Deactivated</td>
-                                        <td width="10%" ng-hide="user.deactivated">Active</td>
+                                        <td width="10%">{{user.cid}}</td>
+                                        <td width="20%">{{user.name}}</td>
+                                        <td width="35%">{{user.email}}</td>
+                                        <td width="20%">{{user.user_date_created}}</td>
+                                        <td width="10%">{{user.authentication_code}}</td>
                                         <td width="5%" ng-show="user.cancheck"><center><input ng-model="userObj[user.cid]" icheck-custom="blue" type="checkbox"></center></td>
                                 </tr>
                                 </tbody>
@@ -112,10 +107,8 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
                                         <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
                                         <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
-                                        <th><a href="" ng-click="order('username')" style='color: #005384'>Username</a></th>
                                         <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Create User Date</a></th>
-                                        <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
-                                        <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
+                                        <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>

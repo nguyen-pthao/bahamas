@@ -131,6 +131,7 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             var url = '/usermanagement.retrieveunverifiedcontacts';
             $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                 $scope.allUsers = response.data.user;
+                console.log($scope.allUsers);
                 $scope.userObj = {};
                 angular.forEach($scope.allUsers, function (obj) {
                     $scope.userObj[obj.cid] = false;
