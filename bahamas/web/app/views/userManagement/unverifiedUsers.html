@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> User Management <i class="fa fa-chevron-right small"></i> Activate/Deactivate</li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> User Management <i class="fa fa-chevron-right small"></i> Unverified Users</li>
                     </ol>                    
                 </h3>
             </section>
@@ -29,7 +29,7 @@ and open the template in the editor.
                     <!-- /.box-header -->
                     <div class="box-body">                        
                         <div class="row col-md-12">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label>
                                     Show Entries:
                                 </label>
@@ -42,7 +42,13 @@ and open the template in the editor.
                                     <option value="toAll">All</option>
                                 </select>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <label>Search:</label>
+                                <input type="text" class="form-control" placeholder="Search Users" ng-model="searchUsers"/>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-6">
                                 <label>
                                     'User Created' Start:
                                 </label>
@@ -53,7 +59,7 @@ and open the template in the editor.
                                     </span>
                                 </p>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label>
                                     'User Created' End:
                                 </label>
@@ -61,34 +67,6 @@ and open the template in the editor.
                                     <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" ng-model="temp2Date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date End" ng-change="temp2Changed()"/>
                                     <span class="input-group-btn">
                                         <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row col-md-12">
-                            <div class="col-md-4">
-                                <label>Search:</label>
-                                <input type="text" class="form-control" placeholder="Search Users" ng-model="searchUsers"/>
-                            </div>
-                            <div class="col-md-4">
-                                <label>
-                                    'Last Login' Start:
-                                </label>
-                                <p class="input-group">
-                                    <input type="text" class="form-control" ng-click="open3()" uib-datepicker-popup="{{format}}" ng-model="temp3Date" is-open="opened3" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start" ng-change="temp3Changed()"/>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open3()"><i class="glyphicon glyphicon-calendar"></i></button>
-                                    </span>
-                                </p>
-                            </div>
-                            <div class="col-md-4">
-                                <label>
-                                    'Last Login' End:
-                                </label>
-                                <p class="input-group">
-                                    <input type="text" class="form-control" ng-click="open4()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="temp4Date" is-open="opened4" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" ng-change="temp4Changed()"/>
-                                    <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open4()"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
@@ -153,7 +131,7 @@ and open the template in the editor.
                             </div>
                         </div>
                     </div>
-                    <div ng-if="authorised" class="box-footer">
+<!--                    <div ng-if="authorised" class="box-footer">
                         <div class="row col-md-12">
                             <div class="col-md-2">
                                 <button type="submit" ng-click="reactivateUsers()" class="btn btn-primary">
@@ -172,7 +150,7 @@ and open the template in the editor.
                             </button>
                             </div>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </section>
             <!-- /.content -->

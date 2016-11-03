@@ -163,6 +163,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/userManagement/userManagement.html',
                 controller: 'userManagementCtrl'
             })
+            .state('admin.unverifiedUsers', {
+                url: '/unverifiedUsers',
+                templateUrl: 'app/views/userManagement/unverifiedUsers.html',
+                controller: 'unverifiedUsersCtrl'
+            })
+            .state('admin.verifiedUsers', {
+                url: '/verifiedUsers',
+                templateUrl: 'app/views/userManagement/verifiedUsers.html',
+                controller: 'verifiedUsersCtrl'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',
