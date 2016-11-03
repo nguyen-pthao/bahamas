@@ -96,7 +96,7 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                     out.println(gson.toJson(json));
                     return;
                 }
-                
+
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
@@ -112,7 +112,7 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                 }
 
                 if (contact != null && (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader"))) {
-                    ArrayList<UserManagement> userManagementList = UserManagementDAO.retrieveAllUnverifiedContactsWithTeamPreference(userCreatedStartDate,userCreatedEndDate);
+                    ArrayList<UserManagement> userManagementList = UserManagementDAO.retrieveAllUnverifiedContactsWithTeamPreference(userCreatedStartDate, userCreatedEndDate);
                     json.addProperty("message", "success");
                     JsonArray contactArray = new JsonArray();
                     JsonObject jsonContactObj;
@@ -128,18 +128,23 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
 
                         String teamArray[] = userManagement.getTeamList();
                         int count = 0;
-                        for(int i = 0; i < teamArray.length; i++){
-                            jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
-                            count++;
+                        if (teamArray != null) {
+                            for (int i = 0; i < teamArray.length; i++) {
+                                jsonContactObj.addProperty("team" + (i + 1), teamArray[i]);
+                                count++;
+                                if (count == 3) {
+                                    break;
+                                }
+                            }
                         }
-                        if(count == 0){
+                        if (count == 0) {
                             jsonContactObj.addProperty("team1", "");
                             jsonContactObj.addProperty("team2", "");
                             jsonContactObj.addProperty("team3", "");
-                        } else if (count == 1){
+                        } else if (count == 1) {
                             jsonContactObj.addProperty("team2", "");
                             jsonContactObj.addProperty("team3", "");
-                        } else if (count == 2){
+                        } else if (count == 2) {
                             jsonContactObj.addProperty("team3", "");
                         }
 

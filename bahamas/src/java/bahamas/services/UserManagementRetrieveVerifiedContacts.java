@@ -131,6 +131,9 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                         for(int i = 0; i < teamArray.length; i++){
                             jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
                             count++;
+                            if (count == 3){
+                                break;
+                            }
                         }
                         if(count == 0){
                             jsonContactObj.addProperty("team1", "");
