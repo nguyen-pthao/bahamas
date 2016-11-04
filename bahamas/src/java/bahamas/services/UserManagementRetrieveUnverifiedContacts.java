@@ -79,7 +79,6 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String authenticationCode = Validator.containsBlankField(jobject.get("authenticationcode"));
                 Date userCreatedStartDate = Validator.isDateValid(jobject.get("user_create_startdate"), "user_create_date");
                 Date userCreatedEndDate = Validator.isDateValid(jobject.get("user_create_enddate"), "user_create_enddate");
                 SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
@@ -97,7 +96,7 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                     out.println(gson.toJson(json));
                     return;
                 }
-                
+
                 ContactDAO contactDAO = new ContactDAO();
                 Contact contact = contactDAO.retrieveContactByUsername(username);
 
@@ -113,7 +112,7 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                 }
 
                 if (contact != null && (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader"))) {
-                    ArrayList<UserManagement> userManagementList = UserManagementDAO.retrieveAllUnverifiedContactsWithTeamPreference(userCreatedStartDate,userCreatedEndDate);
+                    ArrayList<UserManagement> userManagementList = UserManagementDAO.retrieveAllUnverifiedContactsWithTeamPreference(userCreatedStartDate, userCreatedEndDate);
                     json.addProperty("message", "success");
                     JsonArray contactArray = new JsonArray();
                     JsonObject jsonContactObj;
@@ -123,24 +122,29 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                         jsonContactObj = new JsonObject();
                         jsonContactObj.addProperty("cid", c.getContactId());
                         jsonContactObj.addProperty("user_date_created", sdf.format(c.getDateCreated()));
-                        jsonContactObj.addProperty("code", "");
+                        jsonContactObj.addProperty("authentication_code", "");
                         jsonContactObj.addProperty("name", c.getName());
                         jsonContactObj.addProperty("email", userManagement.getEmail());
 
                         String teamArray[] = userManagement.getTeamList();
                         int count = 0;
-                        for(int i = 0; i < teamArray.length; i++){
-                            jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
-                            count++;
+                        if (teamArray != null) {
+                            for (int i = 0; i < teamArray.length; i++) {
+                                jsonContactObj.addProperty("team" + (i + 1), teamArray[i]);
+                                count++;
+                                if (count == 3) {
+                                    break;
+                                }
+                            }
                         }
-                        if(count == 0){
+                        if (count == 0) {
                             jsonContactObj.addProperty("team1", "");
                             jsonContactObj.addProperty("team2", "");
                             jsonContactObj.addProperty("team3", "");
-                        } else if (count == 1){
+                        } else if (count == 1) {
                             jsonContactObj.addProperty("team2", "");
                             jsonContactObj.addProperty("team3", "");
-                        } else if (count == 2){
+                        } else if (count == 2) {
                             jsonContactObj.addProperty("team3", "");
                         }
 

@@ -79,7 +79,6 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String authenticationCode = Validator.containsBlankField(jobject.get("authenticationcode"));
                 Date userCreatedStartDate = Validator.isDateValid(jobject.get("user_create_startdate"), "user_create_date");
                 Date userCreatedEndDate = Validator.isDateValid(jobject.get("user_create_enddate"), "user_create_enddate");
                 SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
@@ -123,7 +122,7 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                         jsonContactObj = new JsonObject();
                         jsonContactObj.addProperty("cid", c.getContactId());
                         jsonContactObj.addProperty("user_date_created", sdf.format(c.getDateCreated()));
-                        jsonContactObj.addProperty("code", "");
+                        jsonContactObj.addProperty("authentication_code", "");
                         jsonContactObj.addProperty("name", c.getName());
                         jsonContactObj.addProperty("email", userManagement.getEmail());
                         String teamArray[] = userManagement.getTeamList();
@@ -132,6 +131,9 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                         for(int i = 0; i < teamArray.length; i++){
                             jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
                             count++;
+                            if (count == 3){
+                                break;
+                            }
                         }
                         if(count == 0){
                             jsonContactObj.addProperty("team1", "");
