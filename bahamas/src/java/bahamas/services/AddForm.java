@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -7,8 +7,7 @@ package bahamas.services;
 
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.EmailDAO;
-import bahamas.dao.RegistrationDAO;
+import bahamas.dao.FormDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
@@ -23,9 +22,7 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,8 +33,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "AddRemoteRegistration", urlPatterns = {"/remoteregistration.add"})
-public class AddRemoteRegistration extends HttpServlet {
+@WebServlet(name = "AddForm", urlPatterns = {"/form.add"})
+public class AddForm extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -75,77 +72,79 @@ public class AddRemoteRegistration extends HttpServlet {
                 out.println(gson.toJson(json));
 
             } else {
-
+                //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                int formId = Validator.isIntValid(jobject.get("form_id"));
-                int contactId = Validator.isIntValid(jobject.get("contact_id"));
-                String name = Validator.containsBlankField(jobject.get("name"));
-                String profession = Validator.containsBlankField(jobject.get("profession"));
-                String jobTitle = Validator.containsBlankField(jobject.get("job_title"));
-                String nric = Validator.containsBlankField(jobject.get("nric_fin"));
-                String gender = Validator.containsBlankField(jobject.get("gender"));
-                String nationality = Validator.containsBlankField(jobject.get("nationality"));
-                Date dob = Validator.isDateValid(jobject.get("date_of_birth"), "date of birth");
-                String remarks = Validator.containsBlankField(jobject.get("remarks"));
-                String language = Validator.containsBlankField(jobject.get("language"));
-                String speakWrite = Validator.containsBlankField(jobject.get("speak_write"));
-                String email = Validator.containsBlankField(jobject.get("email"));
+                String token = Validator.containsBlankField(jobject.get("token"));
+                String username = Authenticator.verifyToken(token);
 
-                if (email != null) {
-                    if (EmailDAO.emailExist(email)) {
-                        Validator.getErrorList().add("Email already exists");
-                    } else if (!Validator.validEmail(email)) {
-                        Validator.getErrorList().add("Invalid email format");
-                    }
-                }
-
-                int countryCode = Validator.isIntValid(jobject.get("country_code"));
-                String phoneNumber = Validator.containsBlankField(jobject.get("phone_number"));
-                String team = Validator.containsBlankField(jobject.get("team"));
-                String skillsAsset = Validator.containsBlankField(jobject.get("skill_asset"));
-
-                boolean first = Validator.isBooleanValid(jobject.get("first"));
-                boolean second = Validator.isBooleanValid(jobject.get("second"));
-                boolean requestUser = Validator.isBooleanValid(jobject.get("request_user"));
-
-                if (!Validator.getErrorList().isEmpty()) {
-                    JsonArray errorArray = new JsonArray();
-                    for (String s : Validator.getErrorList()) {
-                        JsonPrimitive o = new JsonPrimitive(s);
-                        errorArray.add(o);
-                    }
-                    Validator.getErrorList().clear();
-                    json.add("message", errorArray);
-                    out.println(gson.toJson(json));
-                    return;
-                }
-
-                if (formId == 0) {
-                    json.addProperty("message", "invalid authentication code");
-                    out.println(gson.toJson(json));
-                    return;
-                }
-
-                if (RegistrationDAO.addRegistration(formId, contactId, name, nric,
-                        nationality, dob, gender, profession, jobTitle, remarks,
-                        countryCode, phoneNumber, email, language, speakWrite, skillsAsset,
-                        team, first, second, requestUser)) {
-
-                    json.addProperty("message", "success");
+                if (username == null) {
+                    json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
 
                 } else {
-                    json.addProperty("message", "failure insert into system");
-                    out.println(gson.toJson(json));
-                }
 
+                    ContactDAO cDAO = new ContactDAO();
+                    Contact user = cDAO.retrieveContactByUsername(username);
+                    String userType = Validator.containsBlankField(jobject.get("user_type"));
+                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                        json.addProperty("message", "fail");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
+                    String code = Validator.containsBlankField(jobject.get("code"));
+
+                    if (code == null) {
+                        json.addProperty("message", "code cannot be empty");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
+                    Date startDate = Validator.isDateValid(jobject.get("start_date"), "start date");
+                    Date endDate = Validator.isDateValid(jobject.get("end_date"), "end date");
+
+                    if (startDate != null && endDate != null) {
+                        if (endDate.before(startDate) || !startDate.before(endDate)) {
+                            Validator.getErrorList().add("Start date must be before end date");
+                        }
+                    }
+
+                    if (!Validator.getErrorList().isEmpty()) {
+                        JsonArray errorArray = new JsonArray();
+                        for (String s : Validator.getErrorList()) {
+                            JsonPrimitive o = new JsonPrimitive(s);
+                            errorArray.add(o);
+                        }
+                        Validator.getErrorList().clear();
+                        json.add("message", errorArray);
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+                    
+                    if(FormDAO.createFormCheck(code, startDate, endDate)){
+                        json.addProperty("message", "duplicate form exist for the same code and time window");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
+                    if (FormDAO.addForm(code, startDate, endDate, username)) {
+                        AuditLogDAO.insertAuditLog(username, "ADD FORM", "Add form for remote registrations");
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
+
+                    } else {
+                        json.addProperty("message", "failure insert into system");
+                        out.println(gson.toJson(json));
+                    }
+
+                }
             }
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

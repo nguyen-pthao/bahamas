@@ -126,19 +126,21 @@ public class FormDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT CREATED_BY, CODE"
+            stmt = conn.prepareStatement("SELECT FORM_ID,CREATED_BY, CODE"
                     + ", START_DATE_TIME, END_DATE_TIME FROM FORM ");
 
             rs = stmt.executeQuery();
             int counter = 1;
             while (rs.next()) {
-
-                String createdBy = rs.getString(1);
-                String code = rs.getString(2);
-                String startTime = datetime.format(rs.getTimestamp(3));
-                String endTime = datetime.format(rs.getTimestamp(4));
+                
+                String id = rs.getString(1);
+                String createdBy = rs.getString(2);
+                String code = rs.getString(3);
+                String startTime = datetime.format(rs.getTimestamp(4));
+                String endTime = datetime.format(rs.getTimestamp(5));
 
                 ArrayList<String> formList = new ArrayList<String>();
+                formList.add(id);
                 formList.add(createdBy);
                 formList.add(code);
                 formList.add(startTime);
@@ -161,32 +163,67 @@ public class FormDAO {
 
     }
 
-    public static int checkForm(String code) {
+    public static String[] checkCodeForm(String code) {
         Connection conn = null;
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        int id = 0;
+        String[] temp = new String[2];
+       
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT FORM_ID FROM FORM "
+            stmt = conn.prepareStatement("SELECT FORM_ID,CREATED_BY FROM FORM "
                     + "WHERE CODE=? AND NOW() BETWEEN START_DATE_TIME AND END_DATE_TIME "
                     + "ORDER BY DATE_CREATED DESC");
 
             stmt.setString(1, code);
             rs = stmt.executeQuery();
             if (rs.next()) {
-                id = rs.getInt(1);
+                temp[0] = rs.getString(1);
+                temp[1] = rs.getString(2);
             }
-            
-            return id;
+
+            return temp;
 
         } catch (SQLException ex) {
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
         }
-        return id;
+        return temp;
+    }
+
+    public static boolean createFormCheck(String code, Date start, Date end) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        boolean exist = false;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT COUNT(FORM_ID) FROM FORM "
+                    + "WHERE CODE=? AND (? BETWEEN START_DATE_TIME AND END_DATE_TIME "
+                    + "OR ? BETWEEN START_DATE_TIME AND END_DATE_TIME)");
+
+            stmt.setString(1, code);
+            stmt.setTimestamp(2, new java.sql.Timestamp(start.getTime()));
+            stmt.setTimestamp(3, new java.sql.Timestamp(end.getTime()));
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+                int count = rs.getInt(1);
+                if (count >= 1) {
+                    exist = true;
+                }
+            }
+            return exist;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return exist;
     }
 
 }

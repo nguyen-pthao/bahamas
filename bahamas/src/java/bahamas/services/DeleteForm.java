@@ -5,8 +5,9 @@
  */
 package bahamas.services;
 
+import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
-import bahamas.dao.RegistrationDAO;
+import bahamas.dao.FormDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.entity.Contact;
 import bahamas.util.Authenticator;
@@ -17,12 +18,10 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -33,8 +32,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "RetrieveRemoteRegistration", urlPatterns = {"/remoteregistration.retrieve"})
-public class RetrieveRemoteRegistration extends HttpServlet {
+@WebServlet(name = "DeleteForm", urlPatterns = {"/form.delete"})
+public class DeleteForm extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -72,6 +71,7 @@ public class RetrieveRemoteRegistration extends HttpServlet {
                 out.println(gson.toJson(json));
 
             } else {
+                //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
@@ -81,6 +81,7 @@ public class RetrieveRemoteRegistration extends HttpServlet {
                 if (username == null) {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
+
                 } else {
 
                     ContactDAO cDAO = new ContactDAO();
@@ -92,34 +93,36 @@ public class RetrieveRemoteRegistration extends HttpServlet {
                         return;
                     }
 
-                    LinkedHashMap<Integer, ArrayList<String>> results = RegistrationDAO.retrieveAllRegistration();
-                    JsonArray records = new JsonArray();
+                    int formId = Validator.isIntValid(jobject.get("form_id"));
 
-                    Iterator<Integer> iter = results.keySet().iterator();
-                    while (iter.hasNext()) {
-                        JsonObject store = new JsonObject();
-                        ArrayList<String> temp = results.get(iter.next());
-                        store.addProperty("Registration Id", temp.get(0));
-                        store.addProperty("Date/Time stamp", temp.get(1));
-                        store.addProperty("Authentication code", temp.get(2));
-                        store.addProperty("Contact ID", temp.get(3));
-                        store.addProperty("Name as per Remote form", temp.get(4));
-                        store.addProperty("Name as per Contacts table", temp.get(5));
-                        store.addProperty("NRIC as per Remote form", temp.get(6));
-                        store.addProperty("NRIC as per Contacts table", temp.get(7));
-                        store.addProperty("Email address as per Remote form", temp.get(8));
-                        store.addProperty("First Checkbox", temp.get(9));
-                        store.addProperty("Second Checkbox", temp.get(10));
-                        store.addProperty("Request User", temp.get(11));
-
-                        records.add(store);
+                    if (!Validator.getErrorList().isEmpty()) {
+                        JsonArray errorArray = new JsonArray();
+                        for (String s : Validator.getErrorList()) {
+                            JsonPrimitive o = new JsonPrimitive(s);
+                            errorArray.add(o);
+                        }
+                        Validator.getErrorList().clear();
+                        json.add("message", errorArray);
+                        out.println(gson.toJson(json));
+                        return;
                     }
 
-                    json.add("Records", records);
-                    out.println(gson.toJson(json));
+                    if (formId == 0) {
+                        json.addProperty("message", "invalid form id");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
+
+                    if (FormDAO.deleteForm(formId)) {
+                        AuditLogDAO.insertAuditLog(username, "DELETE FORM", "Delete form for remote registrations");
+                        json.addProperty("message", "success");
+                        out.println(gson.toJson(json));
+                    } else {
+                        json.addProperty("message", "failure delete into system");
+                        out.println(gson.toJson(json));
+                    }
                 }
             }
-
         }
     }
 

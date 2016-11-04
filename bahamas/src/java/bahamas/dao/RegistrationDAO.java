@@ -86,30 +86,41 @@ public class RegistrationDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT r.DATE_CREATED, CODE, "
-                    + "CONTACT_ID,NAME,NRIC_FIN,FIRST_CHECK,"
-                    + "SECOND_CHECK FROM REGISTRATION ");
+            stmt = conn.prepareStatement("SELECT REGISTRATION_ID,r.DATE_CREATED, CODE, "
+                    + "r.CONTACT_ID, r.NAME, c.NAME, r.NRIC_FIN, c.NRIC_FIN, EMAIL, FIRST_CHECK, "
+                    + "SECOND_CHECK, REQUEST_USER FROM REGISTRATION r, CONTACT c, FORM f WHERE r.CONTACT_ID=c.CONTACT_ID "
+                    + "AND f.FORM_ID=r.FORM_ID");
 
             int counter = 1;
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                String dateCreated = datetime.format(rs.getTimestamp(1));
-                String code = rs.getString(2);
-                String cid = rs.getString(3);
-                String name = rs.getString(4);
-                String nric = rs.getString(5);
-                String first_check = String.valueOf(rs.getBoolean(6));
-                String second_check = String.valueOf(rs.getBoolean(7));
+                String id = rs.getString(1);
+                String dateCreated = datetime.format(rs.getTimestamp(2));
+                String code = rs.getString(3);
+                String cid = rs.getString(4);
+                String rname = rs.getString(5);
+                String cname = rs.getString(6);
+                String rnric = rs.getString(7);
+                String cnric = rs.getString(8);
+                String email = rs.getString(9);
+                String first_check = String.valueOf(rs.getBoolean(10));
+                String second_check = String.valueOf(rs.getBoolean(11));
+                String user_check = String.valueOf(rs.getBoolean(12));
 
                 ArrayList<String> formList = new ArrayList<String>();
+                formList.add(id);
                 formList.add(dateCreated);
                 formList.add(code);
                 formList.add(cid);
-                formList.add(name);
-                formList.add(nric);
+                formList.add(rname);
+                formList.add(cname);
+                formList.add(rnric);
+                formList.add(cnric);
+                formList.add(email);
                 formList.add(first_check);
                 formList.add(second_check);
+                formList.add(user_check);
 
                 results.put(counter++, formList);
             }
@@ -126,4 +137,63 @@ public class RegistrationDAO {
         return results;
 
     }
+
+    public static boolean deleteRegistration(int registrationId) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        int result = 0;
+
+        try {
+            //get database connection
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("DELETE FROM REGISTRATION WHERE REGISTRATION_ID=?");
+
+            stmt.setInt(1, registrationId);
+
+            result = stmt.executeUpdate();
+
+            return result == 1;
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+        return false;
+    }
+
+    public static String retrieveCode(int cid) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        String code = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CODE "
+                    + "FROM REGISTRATION r, CONTACT c, FORM f WHERE c.CONTACT_ID=? AND "
+                    + "r.CONTACT_ID=c.CONTACT_ID AND f.FORM_ID=r.FORM_ID");
+
+            stmt.setInt(1, cid);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                code = rs.getString(1);
+
+            }
+
+            return code;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return code;
+    }
+
 }
