@@ -17,12 +17,14 @@ import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -78,6 +80,7 @@ public class ResendEmailVerification extends HttpServlet {
 
                 String token = Validator.containsBlankField(jobject.get("token"));
                 String targetContactId = Validator.containsBlankField(jobject.get("other_cid"));
+                JsonArray contactIdJsonArray = jobject.get("contact_id_list").getAsJsonArray();
                 String email = Validator.containsBlankField(jobject.get("email"));
                 String username = Authenticator.verifyToken(token);
 
@@ -85,27 +88,52 @@ public class ResendEmailVerification extends HttpServlet {
                     json.addProperty("message", "invalid token");
                     out.println(gson.toJson(json));
                 } else {
-                    
+
                     ContactDAO cDAO = new ContactDAO();
                     Contact contact = cDAO.retrieveContactByUsername(username);
-                    Contact targetContact = cDAO.retrieveContactById(Integer.parseInt(targetContactId));
-
-                    if (contact == null || targetContact == null || email == null) {
-                        json.addProperty("message", "fail");
-                        out.println(gson.toJson(json));
-                    } else {
-                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
-                            String hashID = PasswordHash.generateRandomString(64);
-                            if (EmailDAO.updateEmailVerificationId(Integer.parseInt(targetContactId), email, hashID)) {
-                                AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | TO Contact ID: " + targetContact.getContactId() + ", " + email);
+                    if (targetContactId != null) {
+                        Contact targetContact = cDAO.retrieveContactById(Integer.parseInt(targetContactId));
+                        if (contact == null || targetContact == null || email == null) {
+                            json.addProperty("message", "fail");
+                            out.println(gson.toJson(json));
+                        } else {
+                            if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                                String hashID = PasswordHash.generateRandomString(64);
+                                if (EmailDAO.updateEmailVerificationId(Integer.parseInt(targetContactId), email, hashID)) {
+                                    AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | TO Contact ID: " + targetContact.getContactId() + ", " + email);
                                     new Thread(() -> {
                                         // Send EmailGenerator in a separate thread
                                         EmailGenerator.verifyEmail(email, targetContact.getName(), hashID);
                                     }).start();
-                                json.addProperty("message", "success");
+                                    json.addProperty("message", "success");
+                                    out.println(gson.toJson(json));
+                                }
+                            } else {
+                                json.addProperty("message", "fail");
                                 out.println(gson.toJson(json));
                             }
-
+                        }
+                    } else if (contactIdJsonArray != null) {
+                        if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
+                            for (int i = 0; i < contactIdJsonArray.size() - 1; i++) {
+                                String contactIdTemp = contactIdJsonArray.get(i).getAsString();
+                                Contact targetContact = cDAO.retrieveContactById(Integer.parseInt(contactIdTemp));
+                                if (targetContact != null) {
+                                    String hashID = PasswordHash.generateRandomString(64);
+                                    ArrayList<Email> unverifiedEmailList = EmailDAO.retrieveAllUnverifiedEmail(Integer.parseInt(contactIdTemp));
+                                    for (Email tempEmail : unverifiedEmailList) {
+                                        if (EmailDAO.updateEmailVerificationId(Integer.parseInt(targetContactId), tempEmail.getEmail(), hashID)) {
+                                            AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | TO Contact ID: " + targetContact.getContactId() + ", " + tempEmail.getEmail());
+                                            new Thread(() -> {
+                                                // Send EmailGenerator in a separate thread
+                                                EmailGenerator.verifyEmail(email, targetContact.getName(), hashID);
+                                            }).start();
+                                        }
+                                    }
+                                }
+                            }
+                            json.addProperty("message", "success");
+                            out.println(gson.toJson(json));
                         } else {
                             json.addProperty("message", "fail");
                             out.println(gson.toJson(json));
