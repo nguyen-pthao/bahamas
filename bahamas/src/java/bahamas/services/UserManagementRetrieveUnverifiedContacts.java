@@ -6,6 +6,7 @@
 package bahamas.services;
 
 import bahamas.dao.ContactDAO;
+import bahamas.dao.RegistrationDAO;
 import bahamas.dao.RoleCheckDAO;
 import bahamas.dao.UserManagementDAO;
 import bahamas.entity.Contact;
@@ -122,7 +123,12 @@ public class UserManagementRetrieveUnverifiedContacts extends HttpServlet {
                         jsonContactObj = new JsonObject();
                         jsonContactObj.addProperty("cid", c.getContactId());
                         jsonContactObj.addProperty("user_date_created", sdf.format(c.getDateCreated()));
-                        jsonContactObj.addProperty("authentication_code", "");
+                        String code = RegistrationDAO.retrieveCode(c.getContactId());
+                        if(code != null){
+                            jsonContactObj.addProperty("authentication_code", code);
+                        } else {
+                            jsonContactObj.addProperty("authentication_code", "");
+                        }
                         jsonContactObj.addProperty("name", c.getName());
                         jsonContactObj.addProperty("email", userManagement.getEmail());
 
