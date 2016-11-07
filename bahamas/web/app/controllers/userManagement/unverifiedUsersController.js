@@ -34,7 +34,39 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             $scope.retrieveList();
         };
 
-        $scope.deactivateUsers = function () {
+        $scope.resendEmail = function () {
+            $scope.toResendList = [];
+            angular.forEach($scope.userObj, function(value, key){
+               if(value == true){
+                   var keyString = key + "";
+                   $scope.toResendList.push(keyString);
+               } 
+            });
+            console.log($scope.toResendList);
+            $scope.toResend = {
+                'token': session.getSession('token'),
+                'contact_id_list': $scope.toResendList
+            };
+            var url = '/email.resendverification';
+            ngDialog.openConfirm({
+                template: './style/ngTemplate/resendConfirm.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            }).then(function (response) {
+                $scope.myPromise = dataSubmit.submitData($scope.toResend, url).then(function (response) {
+                    if (response.data.message == "success") {
+                        ngDialog.openConfirm({
+                            template: './style/ngTemplate/resendSuccess.html',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        }).then(function (response) {
+                            $state.reload();
+                        });
+                    } else {
+                        //display error message;
+                    };
+                });
+            })
 //            $scope.toDeactivateList = [];
 //            angular.forEach($scope.userObj, function (value, key) {
 //                if (value == true) {
@@ -56,40 +88,6 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
 //                    if (response.data.message == "success") {
 //                        ngDialog.openConfirm({
 //                            template: './style/ngTemplate/deactivationSuccess.html',
-//                            className: 'ngdialog-theme-default',
-//                            scope: $scope
-//                        }).then(function (response) {
-//                            $state.reload();
-//                        });
-//                    } else {
-//                        //display error message;
-//                    };
-//                });
-//            })
-        };
-
-        $scope.reactivateUsers = function () {
-//            $scope.toReactivateList = [];
-//            angular.forEach($scope.userObj, function (value, key) {
-//                if (value == true) {
-//                    var keyString = key + "";
-//                    $scope.toReactivateList.push(keyString);
-//                }
-//            });
-//            $scope.toReactivate = {
-//                'token': session.getSession('token'),
-//                'contact_id_list': $scope.toReactivateList
-//            };
-//            var url = '/user.activate';
-//            ngDialog.openConfirm({
-//                template: './style/ngTemplate/activationConfirm.html',
-//                className: 'ngdialog-theme-default',
-//                scope: $scope
-//            }).then(function (response) {
-//                $scope.myPromise = dataSubmit.submitData($scope.toReactivate, url).then(function (response) {
-//                    if (response.data.message == "success") {
-//                        ngDialog.openConfirm({
-//                            template: './style/ngTemplate/activationSuccess.html',
 //                            className: 'ngdialog-theme-default',
 //                            scope: $scope
 //                        }).then(function (response) {

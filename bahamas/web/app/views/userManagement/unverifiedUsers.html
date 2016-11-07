@@ -50,7 +50,7 @@ and open the template in the editor.
                         <div class="row col-md-12">
                             <div class="col-md-6">
                                 <label>
-                                    'User Created' Start:
+                                    Contact Created Start:
                                 </label>
                                 <p class="input-group">
                                     <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="temp1Date" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start" ng-change="temp1Changed()"/>
@@ -61,7 +61,7 @@ and open the template in the editor.
                             </div>
                             <div class="col-md-6">
                                 <label>
-                                    'User Created' End:
+                                    Contact Created End:
                                 </label>
                                 <p class="input-group">
                                     <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" ng-model="temp2Date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date End" ng-change="temp2Changed()"/>
@@ -87,7 +87,7 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
                                         <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
                                         <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
-                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Create User Date</a></th>
+                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
                                         <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
                                         <th></th>
                                     </tr>
@@ -107,7 +107,7 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
                                         <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
                                         <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
-                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Create User Date</a></th>
+                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
                                         <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
                                         <th></th>
                                     </tr>
@@ -124,26 +124,16 @@ and open the template in the editor.
                             </div>
                         </div>
                     </div>
-<!--                    <div ng-if="authorised" class="box-footer">
-                        <div class="row col-md-12">
-                            <div class="col-md-2">
-                                <button type="submit" ng-click="reactivateUsers()" class="btn btn-primary">
+                    <div ng-if="authorised" class="box-footer">
+                        <center>
+                            <button type="submit" ng-click="resendEmail()" class="btn btn-primary">
                                 <span>
-                                    <i class="fa fa-unlock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                    <i class="fa fa-envelope fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
                                 </span>   
-                                Reactivate User(s)
+                                Resend Verification Email
                             </button>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" ng-click="deactivateUsers()" class="btn btn-danger">
-                                <span>
-                                    <i class="fa fa-lock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
-                                </span>   
-                                Deactivate User(s)
-                            </button>
-                            </div>
-                        </div>
-                    </div>-->
+                        </center>
+                    </div>
                 </div>
             </section>
             <!-- /.content -->
