@@ -122,6 +122,7 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                         Contact c = userManagement.getContact();
                         jsonContactObj = new JsonObject();
                         jsonContactObj.addProperty("cid", c.getContactId());
+                        jsonContactObj.addProperty("name", c.getName());
                         jsonContactObj.addProperty("user_date_created", sdf.format(c.getDateCreated()));
                         String code = RegistrationDAO.retrieveCode(c.getContactId());
                         if(code != null){
