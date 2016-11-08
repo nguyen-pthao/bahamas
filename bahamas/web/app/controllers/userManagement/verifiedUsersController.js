@@ -34,60 +34,29 @@ app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$stat
             $scope.retrieveList();
         };
 
-        $scope.resendEmail = function () {
-            $scope.toResendList = [];
-            angular.forEach($scope.userObj, function(value, key){
-               if(value == true){
-                   var keyString = key + "";
-                   $scope.toResendList.push(keyString);
-               } 
-            });
-            console.log($scope.toResendList);
-            $scope.toResend = {
-                'token': session.getSession('token'),
-                'contact_id_list': $scope.toResendList
-            };
-            var url = '/email.resendverification';
-            ngDialog.openConfirm({
-                template: './style/ngTemplate/resendConfirm.html',
-                className: 'ngdialog-theme-default',
-                scope: $scope
-            }).then(function (response) {
-                $scope.myPromise = dataSubmit.submitData($scope.toResend, url).then(function (response) {
-                    if (response.data.message == "success") {
-                        ngDialog.openConfirm({
-                            template: './style/ngTemplate/resendSuccess.html',
-                            className: 'ngdialog-theme-default',
-                            scope: $scope
-                        }).then(function (response) {
-                            $state.reload();
-                        });
-                    } else {
-                        //display error message;
-                    };
-                });
-            })
-//            $scope.toDeactivateList = [];
-//            angular.forEach($scope.userObj, function (value, key) {
-//                if (value == true) {
-//                    var keyString = key + "";
-//                    $scope.toDeactivateList.push(keyString);
-//                }
+//        $scope.resendEmail = function () {
+//            $scope.toResendList = [];
+//            angular.forEach($scope.userObj, function(value, key){
+//               if(value == true){
+//                   var keyString = key + "";
+//                   $scope.toResendList.push(keyString);
+//               } 
 //            });
-//            $scope.toDeactivate = {
+//            console.log($scope.toResendList);
+//            $scope.toResend = {
 //                'token': session.getSession('token'),
-//                'contact_id_list': $scope.toDeactivateList
+//                'contact_id_list': $scope.toResendList
 //            };
-//            var url = '/user.deactivate';
+//            var url = '/email.resendverification';
 //            ngDialog.openConfirm({
-//                template: './style/ngTemplate/deactivationConfirm.html',
+//                template: './style/ngTemplate/resendConfirm.html',
 //                className: 'ngdialog-theme-default',
 //                scope: $scope
 //            }).then(function (response) {
-//                $scope.myPromise = dataSubmit.submitData($scope.toDeactivate, url).then(function (response) {
+//                $scope.myPromise = dataSubmit.submitData($scope.toResend, url).then(function (response) {
 //                    if (response.data.message == "success") {
 //                        ngDialog.openConfirm({
-//                            template: './style/ngTemplate/deactivationSuccess.html',
+//                            template: './style/ngTemplate/resendSuccess.html',
 //                            className: 'ngdialog-theme-default',
 //                            scope: $scope
 //                        }).then(function (response) {
@@ -98,15 +67,15 @@ app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$stat
 //                    };
 //                });
 //            })
-        };
+//        };
 
         $scope.retrieveList = function () {
-            if (localStorageService.get('verifiedUsersFilter1') == null || angular.isUndefined(localStorageService.get('unverifiedUsersFilter1'))) {
+            if (localStorageService.get('verifiedUsersFilter1') == null || angular.isUndefined(localStorageService.get('verifiedUsersFilter1'))) {
                 $scope.temp1Date = "";
             } else {
                 $scope.temp1Date = new Date(localStorageService.get('verifiedUsersFilter1'));
             };
-            if (localStorageService.get('verifiedUsersFilter2') == null || angular.isUndefined(localStorageService.get('unverifiedUsersFilter2'))) {
+            if (localStorageService.get('verifiedUsersFilter2') == null || angular.isUndefined(localStorageService.get('verifiedUsersFilter2'))) {
                 $scope.temp2Date = "";
             } else {
                 $scope.temp2Date = new Date(localStorageService.get('verifiedUsersFilter2'));
