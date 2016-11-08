@@ -80,7 +80,7 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
                 String token = Validator.containsBlankField(jobject.get("token"));
-                Date userCreatedStartDate = Validator.isDateValid(jobject.get("user_create_startdate"), "user_create_date");
+                Date userCreatedStartDate = Validator.isDateValid(jobject.get("user_create_startdate"), "user_create_startdate");
                 Date userCreatedEndDate = Validator.isDateValid(jobject.get("user_create_enddate"), "user_create_enddate");
                 SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MMM-yyyy");
                 SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
