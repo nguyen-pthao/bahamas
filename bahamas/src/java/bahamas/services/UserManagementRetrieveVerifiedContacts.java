@@ -135,11 +135,13 @@ public class UserManagementRetrieveVerifiedContacts extends HttpServlet {
                         String teamArray[] = userManagement.getTeamList();
                         
                         int count = 0;
-                        for(int i = 0; i < teamArray.length; i++){
-                            jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
-                            count++;
-                            if (count == 3){
-                                break;
+                        if(teamArray != null){
+                            for(int i = 0; i < teamArray.length; i++){
+                                jsonContactObj.addProperty("team" + (i+1), teamArray[i]);
+                                count++;
+                                if (count == 3){
+                                    break;
+                                }
                             }
                         }
                         if(count == 0){
