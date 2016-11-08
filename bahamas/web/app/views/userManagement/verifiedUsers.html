@@ -99,7 +99,8 @@ and open the template in the editor.
                                         <td width="35%">{{user.email}}</td>
                                         <td width="20%">{{user.user_date_created}}</td>
                                         <td width="10%">{{user.authentication_code}}</td>
-                                        <td width="5%" ng-show="user.cancheck"><center><input ng-model="userObj[user.cid]" icheck-custom="blue" type="checkbox"></center></td>
+                                        <!--<td width="5%" ng-show="user.cancheck"><center><input ng-model="userObj[user.cid]" icheck-custom="blue" type="checkbox"></center></td>-->
+                                        <td width="5%" ng-show="user.cancheck"><button type="submit" ng-click="" class="btn btn-primary">Assign</button></td>
                                 </tr>
                                 </tbody>
                                 <tfoot>
