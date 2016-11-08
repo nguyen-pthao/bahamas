@@ -142,16 +142,22 @@
                                     <li><a ui-sref="eventleader.createEvent"><i class="fa fa-plus-square"></i><span> Create Event</span></a></li>                  
                                 </ul>
                             </li> 
-                            <!-- User Management -->
+                            <!-- Profile -->
                             <li class="treeview">
                                 <a ui-sref="eventleader.profile">
                                     <i class="glyphicon glyphicon-user"></i> <span> My Profile</span> 
                                 </a>             
                             </li>
+                            <!-- User Management -->
                             <li class="treeview">
-                                <a ui-sref="eventleader.userManagement">
-                                    <i class="fa fa-user-md" ></i> <span>User Management</span>
+                                <a href="">
+                                    <i class="fa fa-user-md" ></i> <span>User Management</span> <i class="fa fa-angle-left pull-right"></i>
                                 </a>
+                                <ul class="treeview-menu">
+                                    <li><a ui-sref="eventleader.userManagement"><i class="fa fa-user"></i><span> Activate/Deactivate </span></a></li>
+                                    <li><a ui-sref="eventleader.unverifiedUsers"><i class="fa fa-envelope"></i><span> Unverified Users </span></a></li>
+                                    <li><a ui-sref="eventleader.verifiedUsers"><i class="fa fa-envelope-o"></i><span> Verified Users </span></a></li>
+                                </ul>
                             </li>
                         </ul>
                     </section>
