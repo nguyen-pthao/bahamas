@@ -5,12 +5,138 @@ To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
     <body>
-        <div>TODO write content</div>
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper inner-content-wrapper" id="view-all-contacts"  cg-busy="{promise:myPromise,templateUrl:'./style/ngTemplate/cgBusy.html',minDuration:700}">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <h3>
+                    <ol class="breadcrumb">
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> User Management <i class="fa fa-chevron-right small"></i> Verified Users</li>
+                    </ol>                    
+                </h3>
+            </section>
+            <!-- Main content -->
+            <section class="content">
+                <div class="box" ng-init="retrieveList()">
+                    <div class="box-header with-border" data-widget="collapse">
+                        <h3 class="box-title uppercase"> User Management </h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View All Contacts">
+                                <i class="fa fa-chevron-up"></i></button>
+                        </div>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">                        
+                        <div class="row col-md-12">
+                            <div class="col-md-6">
+                                <label>
+                                    Show Entries:
+                                </label>
+                                <select class="form-control" ng-model="itemsPerPage" ng-change="itemsPerPageChanged()">
+                                    <option>50</option>
+                                    <option>150</option>
+                                    <option>250</option>
+                                    <option>350</option>
+                                    <option>450</option>
+                                    <option value="toAll">All</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label>Search:</label>
+                                <input type="text" class="form-control" placeholder="Search Users" ng-model="searchUsers"/>
+                            </div>
+                        </div>
+                        <div class="row col-md-12">
+                            <div class="col-md-6">
+                                <label>
+                                    Contact Created Start:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="temp1Date" is-open="opened1" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start" ng-change="temp1Changed()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <label>
+                                    Contact Created End:
+                                </label>
+                                <p class="input-group">
+                                    <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" ng-model="temp2Date" is-open="opened2" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date End" ng-change="temp2Changed()"/>
+                                    <span class="input-group-btn">
+                                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                        <p style="margin-bottom: 0px">
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredUsers.length}}</span> 
+                            &nbsp;&nbsp;
+                            <span> <label> Entries per page: </label>&nbsp;</span>
+                            <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
+                            <span ng-show="isAll" style="color: red">All</span>
+                            &nbsp;&nbsp;
+                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitUsers.length}}</span> 
+                        </p>
+                        <div class="table-horizontal-scroll">
+                            <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
+                                <thead>
+                                    <tr>
+                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Unverified Email</a></th>
+                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
+                                        <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
+                                        <td width="10%">{{user.cid}}</td>
+                                        <td width="20%">{{user.name}}</td>
+                                        <td width="35%">{{user.email}}</td>
+                                        <td width="20%">{{user.user_date_created}}</td>
+                                        <td width="10%">{{user.authentication_code}}</td>
+                                        <td width="5%" ng-show="user.cancheck"><center><input ng-model="userObj[user.cid]" icheck-custom="blue" type="checkbox"></center></td>
+                                </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
+                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Unverified Email</a></th>
+                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
+                                        <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div>
+                            <div style='float: right'>
+                                <uib-pagination total-items="totalItems" boundary-links="true" force-ellipses="true" max-size="maxSize" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                            </div>
+                            <br/>
+                            <div style='float: left'>
+                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="authorised" class="box-footer">
+                        <center>
+                            <button type="submit" ng-click="resendEmail()" class="btn btn-primary">
+                                <span>
+                                    <i class="fa fa-envelope fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                </span>   
+                                Send Verification Email
+                            </button>
+                        </center>
+                    </div>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
     </body>
 </html>

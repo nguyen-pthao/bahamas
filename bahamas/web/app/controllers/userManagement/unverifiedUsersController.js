@@ -67,37 +67,6 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                     };
                 });
             })
-//            $scope.toDeactivateList = [];
-//            angular.forEach($scope.userObj, function (value, key) {
-//                if (value == true) {
-//                    var keyString = key + "";
-//                    $scope.toDeactivateList.push(keyString);
-//                }
-//            });
-//            $scope.toDeactivate = {
-//                'token': session.getSession('token'),
-//                'contact_id_list': $scope.toDeactivateList
-//            };
-//            var url = '/user.deactivate';
-//            ngDialog.openConfirm({
-//                template: './style/ngTemplate/deactivationConfirm.html',
-//                className: 'ngdialog-theme-default',
-//                scope: $scope
-//            }).then(function (response) {
-//                $scope.myPromise = dataSubmit.submitData($scope.toDeactivate, url).then(function (response) {
-//                    if (response.data.message == "success") {
-//                        ngDialog.openConfirm({
-//                            template: './style/ngTemplate/deactivationSuccess.html',
-//                            className: 'ngdialog-theme-default',
-//                            scope: $scope
-//                        }).then(function (response) {
-//                            $state.reload();
-//                        });
-//                    } else {
-//                        //display error message;
-//                    };
-//                });
-//            })
         };
 
         $scope.retrieveList = function () {
