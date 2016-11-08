@@ -383,6 +383,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/userManagement/userManagement.html',
                 controller: 'userManagementCtrl'
             })
+            .state('teammanager.unverifiedUsers', {
+                url: '/unverifiedUsers',
+                templateUrl: 'app/views/userManagement/unverifiedUsers.html',
+                controller: 'unverifiedUsersCtrl'
+            })
+            .state('teammanager.verifiedUsers', {
+                url: '/verifiedUsers',
+                templateUrl: 'app/views/userManagement/verifiedUsers.html',
+                controller: 'verifiedUsersCtrl'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -497,6 +507,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/userManagement',
                 templateUrl: 'app/views/userManagement/userManagement.html',
                 controller: 'userManagementCtrl'
+            })
+            .state('eventleader.unverifiedUsers', {
+                url: '/unverifiedUsers',
+                templateUrl: 'app/views/userManagement/unverifiedUsers.html',
+                controller: 'unverifiedUsersCtrl'
+            })
+            .state('eventleader.verifiedUsers', {
+                url: '/verifiedUsers',
+                templateUrl: 'app/views/userManagement/verifiedUsers.html',
+                controller: 'verifiedUsersCtrl'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
