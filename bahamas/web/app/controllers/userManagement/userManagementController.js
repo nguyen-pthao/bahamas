@@ -12,12 +12,13 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
 
         var user = session.getSession('userType');
         $scope.authorised = false;
-        if(user == "admin"){
+        if (user == "admin") {
             $scope.authorised = true;
-        };
-        
-        
-        
+        }
+        ;
+
+
+
         $scope.backHome = function () {
             $state.go(user);
         };
@@ -42,6 +43,16 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
         $scope.temp4Changed = function () {
             localStorageService.set('userMgmtFilter4', $scope.temp4Date);
             $scope.retrieveList();
+        };
+
+        $scope.viewContact = function ($event, user) {
+            var toURL = $scope.userType + ".viewIndivContact";
+            $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
+            var contactCid = user.cid;
+            session.setSession('contactToDisplayCid', contactCid);
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
         };
 
         $scope.deactivateUsers = function () {
@@ -73,7 +84,8 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
                         });
                     } else {
                         //display error message;
-                    };
+                    }
+                    ;
                 });
             })
         };
@@ -107,7 +119,8 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
                         });
                     } else {
                         //display error message;
-                    };
+                    }
+                    ;
                 });
             })
         };

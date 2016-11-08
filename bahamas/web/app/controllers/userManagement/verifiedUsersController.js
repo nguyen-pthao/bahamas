@@ -8,16 +8,17 @@
 
 var app = angular.module('bahamas');
 
-app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$state', 'ngDialog', 'dataSubmit', '$timeout', 'localStorageService', function ($scope, session, filterFilter, $state, ngDialog, dataSubmit, $timeout, localStorageService) {
+app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$state', 'ngDialog', 'dataSubmit', '$timeout', 'localStorageService', '$uibModal', function ($scope, session, filterFilter, $state, ngDialog, dataSubmit, $timeout, localStorageService, $uibModal) {
 
         var user = session.getSession('userType');
         $scope.authorised = false;
-        if(user == "admin"){
+        if (user == "admin") {
             $scope.authorised = true;
-        };
-        
-        
-        
+        }
+        ;
+
+
+
         $scope.backHome = function () {
             $state.go(user);
         };
@@ -34,52 +35,76 @@ app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$stat
             $scope.retrieveList();
         };
 
-//        $scope.resendEmail = function () {
-//            $scope.toResendList = [];
-//            angular.forEach($scope.userObj, function(value, key){
-//               if(value == true){
-//                   var keyString = key + "";
-//                   $scope.toResendList.push(keyString);
-//               } 
-//            });
-//            console.log($scope.toResendList);
-//            $scope.toResend = {
-//                'token': session.getSession('token'),
-//                'contact_id_list': $scope.toResendList
-//            };
-//            var url = '/email.resendverification';
-//            ngDialog.openConfirm({
-//                template: './style/ngTemplate/resendConfirm.html',
-//                className: 'ngdialog-theme-default',
-//                scope: $scope
-//            }).then(function (response) {
-//                $scope.myPromise = dataSubmit.submitData($scope.toResend, url).then(function (response) {
-//                    if (response.data.message == "success") {
-//                        ngDialog.openConfirm({
-//                            template: './style/ngTemplate/resendSuccess.html',
-//                            className: 'ngdialog-theme-default',
-//                            scope: $scope
-//                        }).then(function (response) {
-//                            $state.reload();
-//                        });
-//                    } else {
-//                        //display error message;
-//                    };
-//                });
-//            })
-//        };
+        $scope.viewContact = function ($event, user) {
+            var toURL = $scope.userType + ".viewIndivContact";
+            $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
+            var contactCid = user.cid;
+            session.setSession('contactToDisplayCid', contactCid);
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
+        };
+
+        $scope.showAssignModal = function (user) {
+            $scope.selectedUser = user;
+            var modalInstance = $uibModal.open({
+                animation: true,
+                templateUrl: './style/ngTemplate/assignUsernamePassword.html',
+                scope: $scope,
+                controller: function () {
+                    $scope.username = "";
+                    $scope.password = "";
+                    $scope.generatePassword = function () {
+                        var a = Math.floor((Math.random() * 10) + 10);
+                        $scope.password = Math.random().toString(36).substring(2, a);
+                    };
+                    $scope.ok = function () {
+                        $scope.toSubmit = {
+                            'contact_id': $scope.selectedUser.cid,
+                            'email': $scope.selectedUser.email,
+                            'password': $scope.password,
+                            'token': session.getSession('token'),
+                            'user_type': $scope.userType,
+                            'username': $scope.username
+                        };
+                        var url = '/user.update';
+                        dataSubmit.submitData($scope.toSubmit, url).then(function (response) {
+                            if (response.data.message == 'success') {
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/editSuccessful.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
+                                }).then(function(response){
+                                   $state.reload();
+                                });
+                            } else {
+                                alert('bye');
+                            }
+                        })
+                    };
+                    $scope.cancel = function () {
+                        modalInstance.dismiss('cancel');
+                    };
+                },
+                backdrop: 'static',
+                keyboard: false,
+                size: "md"
+            });
+        };
 
         $scope.retrieveList = function () {
             if (localStorageService.get('verifiedUsersFilter1') == null || angular.isUndefined(localStorageService.get('verifiedUsersFilter1'))) {
                 $scope.temp1Date = "";
             } else {
                 $scope.temp1Date = new Date(localStorageService.get('verifiedUsersFilter1'));
-            };
+            }
+            ;
             if (localStorageService.get('verifiedUsersFilter2') == null || angular.isUndefined(localStorageService.get('verifiedUsersFilter2'))) {
                 $scope.temp2Date = "";
             } else {
                 $scope.temp2Date = new Date(localStorageService.get('verifiedUsersFilter2'));
-            };
+            }
+            ;
             $scope.toRetrieve = {
                 "token": session.getSession('token'),
                 "user_create_startdate": "",
@@ -89,20 +114,17 @@ app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$stat
                 $scope.toRetrieve.user_create_startdate = "";
             } else {
                 $scope.toRetrieve.user_create_startdate = $scope.temp1Date.valueOf();
-            };
+            }
+            ;
             if ($scope.temp2Date == "" || angular.isUndefined($scope.temp2Date) || $scope.temp2Date == null) {
                 $scope.toRetrieve.user_create_enddate = "";
             } else {
                 $scope.toRetrieve.user_create_enddate = $scope.temp2Date.valueOf();
-            };
+            }
+            ;
             var url = '/usermanagement.retrieveverifiedcontacts';
             $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                 $scope.allUsers = response.data.user;
-                console.log($scope.allUsers);
-                $scope.userObj = {};
-                angular.forEach($scope.allUsers, function (obj) {
-                    $scope.userObj[obj.cid] = false;
-                });
                 $scope.totalItems = $scope.allUsers.length;
                 $scope.maxSize = 5;
                 $scope.currentPage = 1;

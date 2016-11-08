@@ -12,7 +12,7 @@ and open the template in the editor.
             <section class="content-header">
                 <h3>
                     <ol class="breadcrumb">
-                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> User Management <i class="fa fa-chevron-right small"></i> Unverified Users</li>
+                        <li><i class="fa fa-home"></i><a href="" ng-click="backHome()"> Homepage </a><i class="fa fa-chevron-right small"></i> User Management <i class="fa fa-chevron-right small"></i> Unverified Contacts</li>
                     </ol>                    
                 </h3>
             </section>
@@ -20,7 +20,7 @@ and open the template in the editor.
             <section class="content">
                 <div class="box" ng-init="retrieveList()">
                     <div class="box-header with-border" data-widget="collapse">
-                        <h3 class="box-title uppercase"> User Management </h3>
+                        <h3 class="box-title uppercase"> Unverified Contacts </h3>
                         <div class="box-tools pull-right">
                             <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="View All Contacts">
                                 <i class="fa fa-chevron-up"></i></button>
@@ -95,7 +95,7 @@ and open the template in the editor.
                                 <tbody>
                                     <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
                                         <td width="10%">{{user.cid}}</td>
-                                        <td width="20%">{{user.name}}</td>
+                                        <td width="20%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, user)">{{user.name}}</a></td>
                                         <td width="35%">{{user.email}}</td>
                                         <td width="20%">{{user.user_date_created}}</td>
                                         <td width="10%">{{user.authentication_code}}</td>

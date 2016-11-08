@@ -119,7 +119,7 @@ and open the template in the editor.
                                 <tbody>
                                     <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
                                         <td width="5%">{{user.cid}}</td>
-                                        <td width="15%">{{user.name}}</td>
+                                        <td width="15%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, user)">{{user.name}}</a></td>
                                         <td width="30%">{{user.email}}</td>
                                         <td width="15%">{{user.username}}</td>
                                         <td width="10%">{{user.user_date_created}}</td>

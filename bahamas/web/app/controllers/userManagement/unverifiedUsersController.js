@@ -33,7 +33,17 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             localStorageService.set('unverifiedUsersFilter2', $scope.temp2Date);
             $scope.retrieveList();
         };
-
+        
+         $scope.viewContact = function ($event, user) {
+            var toURL = $scope.userType + ".viewIndivContact";
+            $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
+            var contactCid = user.cid;
+            session.setSession('contactToDisplayCid', contactCid);
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
+        };
+        
         $scope.resendEmail = function () {
             $scope.toResendList = [];
             angular.forEach($scope.userObj, function(value, key){
@@ -42,7 +52,6 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                    $scope.toResendList.push(keyString);
                } 
             });
-            console.log($scope.toResendList);
             $scope.toResend = {
                 'token': session.getSession('token'),
                 'contact_id_list': $scope.toResendList
@@ -98,7 +107,6 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             var url = '/usermanagement.retrieveunverifiedcontacts';
             $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                 $scope.allUsers = response.data.user;
-                console.log($scope.allUsers);
                 $scope.userObj = {};
                 angular.forEach($scope.allUsers, function (obj) {
                     $scope.userObj[obj.cid] = false;
