@@ -14,8 +14,7 @@ app.controller('verifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$stat
         $scope.authorised = false;
         if (user == "admin") {
             $scope.authorised = true;
-        }
-        ;
+        };
 
 
 

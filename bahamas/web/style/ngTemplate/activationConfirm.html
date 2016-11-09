@@ -1,6 +1,14 @@
 <div class="ngdialog-message">
     <h3><b>Are you sure you want to reactivate user(s):</b></h3>
-    <span ng-repeat="user in toReactivateList track by $index">{{user}}&nbsp;</span>
+    <!--<span ng-repeat="user in toReactivateNameList track by $index">{{user}}&nbsp;</span>-->
+    <div>
+        <ul>
+            <li ng-repeat="user in toReactivateNameList track by $index">
+                {{user}}
+            </li>
+        </ul>
+    </div>
+
     <div class="ngdialog-buttons" style="padding-top: 20px;">
         <button type="button" class="ngdialog-button ngdialog-button-default" ng-click="closeThisDialog()">No</button>
         <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm()">Yes</button>

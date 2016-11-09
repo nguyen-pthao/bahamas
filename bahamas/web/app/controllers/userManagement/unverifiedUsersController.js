@@ -12,12 +12,23 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
 
         var user = session.getSession('userType');
         $scope.authorised = false;
-        if(user == "admin"){
+        if (user == "admin") {
             $scope.authorised = true;
         };
-        
-        
-        
+
+        $scope.checkAll = false;
+        $scope.checkAllFn = function () {
+            if ($scope.checkAll === true) {
+                angular.forEach($scope.userObj, function (value, key) {
+                    $scope.userObj[key] = true;
+                });
+            } else {
+                angular.forEach($scope.userObj, function (value, key) {
+                    $scope.userObj[key] = false;
+                });
+            }
+        };
+
         $scope.backHome = function () {
             $state.go(user);
         };
@@ -33,8 +44,8 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             localStorageService.set('unverifiedUsersFilter2', $scope.temp2Date);
             $scope.retrieveList();
         };
-        
-         $scope.viewContact = function ($event, user) {
+
+        $scope.viewContact = function ($event, user) {
             var toURL = $scope.userType + ".viewIndivContact";
             $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
             var contactCid = user.cid;
@@ -43,14 +54,17 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                 $state.go(toURL);
             }
         };
-        
+
         $scope.resendEmail = function () {
             $scope.toResendList = [];
-            angular.forEach($scope.userObj, function(value, key){
-               if(value == true){
-                   var keyString = key + "";
-                   $scope.toResendList.push(keyString);
-               } 
+            $scope.toResendNameList = [];
+            angular.forEach($scope.userObj, function (value, key) {
+                if (value == true) {
+                    var keyString = key + "";
+                    $scope.toResendList.push(keyString);
+                    var nameDisplay = $scope.userObjName[key];
+                    $scope.toResendNameList.push(nameDisplay);
+                }
             });
             $scope.toResend = {
                 'token': session.getSession('token'),
@@ -83,12 +97,14 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                 $scope.temp1Date = "";
             } else {
                 $scope.temp1Date = new Date(localStorageService.get('unverifiedUsersFilter1'));
-            };
+            }
+            ;
             if (localStorageService.get('unverifiedUsersFilter2') == null || angular.isUndefined(localStorageService.get('unverifiedUsersFilter2'))) {
                 $scope.temp2Date = "";
             } else {
                 $scope.temp2Date = new Date(localStorageService.get('unverifiedUsersFilter2'));
-            };
+            }
+            ;
             $scope.toRetrieve = {
                 "token": session.getSession('token'),
                 "user_create_startdate": "",
@@ -98,18 +114,22 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                 $scope.toRetrieve.user_create_startdate = "";
             } else {
                 $scope.toRetrieve.user_create_startdate = $scope.temp1Date.valueOf();
-            };
+            }
+            ;
             if ($scope.temp2Date == "" || angular.isUndefined($scope.temp2Date) || $scope.temp2Date == null) {
                 $scope.toRetrieve.user_create_enddate = "";
             } else {
                 $scope.toRetrieve.user_create_enddate = $scope.temp2Date.valueOf();
-            };
+            }
+            ;
             var url = '/usermanagement.retrieveunverifiedcontacts';
             $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                 $scope.allUsers = response.data.user;
                 $scope.userObj = {};
+                $scope.userObjName = {};
                 angular.forEach($scope.allUsers, function (obj) {
                     $scope.userObj[obj.cid] = false;
+                    $scope.userObjName[obj.cid] = obj.name;
                 });
                 $scope.totalItems = $scope.allUsers.length;
                 $scope.maxSize = 5;

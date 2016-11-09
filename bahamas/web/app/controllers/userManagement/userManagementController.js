@@ -17,8 +17,19 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
         }
         ;
 
-
-
+        $scope.checkAll = false;
+        $scope.checkAllFn = function () {
+            if ($scope.checkAll === true) {
+                angular.forEach($scope.userObj, function (value, key) {
+                    $scope.userObj[key] = true;
+                });
+            } else {
+                angular.forEach($scope.userObj, function (value, key) {
+                    $scope.userObj[key] = false;
+                });
+            }
+        };
+        
         $scope.backHome = function () {
             $state.go(user);
         };
@@ -57,10 +68,13 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
 
         $scope.deactivateUsers = function () {
             $scope.toDeactivateList = [];
+            $scope.toDeactivateNameList = [];
             angular.forEach($scope.userObj, function (value, key) {
                 if (value == true) {
                     var keyString = key + "";
                     $scope.toDeactivateList.push(keyString);
+                    var nameDisplay = $scope.userObjName[key];
+                    $scope.toDeactivateNameList.push(nameDisplay);
                 }
             });
             $scope.toDeactivate = {
@@ -92,10 +106,13 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
 
         $scope.reactivateUsers = function () {
             $scope.toReactivateList = [];
+            $scope.toReactivateNameList = [];
             angular.forEach($scope.userObj, function (value, key) {
                 if (value == true) {
                     var keyString = key + "";
                     $scope.toReactivateList.push(keyString);
+                    var nameDisplay = $scope.userObjName[key];
+                    $scope.toReactivateNameList.push(nameDisplay);
                 }
             });
             $scope.toReactivate = {
@@ -185,8 +202,10 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
             $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
                 $scope.allUsers = response.data.user;
                 $scope.userObj = {};
+                $scope.userObjName = {};
                 angular.forEach($scope.allUsers, function (obj) {
                     $scope.userObj[obj.cid] = false;
+                    $scope.userObjName[obj.cid] = obj.name;
                 });
                 $scope.totalItems = $scope.allUsers.length;
                 $scope.maxSize = 5;

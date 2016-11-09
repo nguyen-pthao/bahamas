@@ -113,7 +113,7 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
                                         <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
                                         <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
-                                        <th></th>
+                                        <th><center><input ng-model="checkAll" ng-change="checkAllFn()" icheck-custom="blue" type="checkbox"></center></th>
                                     </tr>
                                 </thead>
                                 <tbody>
