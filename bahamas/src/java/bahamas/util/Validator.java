@@ -40,7 +40,7 @@ public class Validator {
     private static Pattern pattern;
     private static Matcher matcher;
 
-    private static final String DATE_FORMAT = "MM/dd/yyyy";
+    private static final String DATE_FORMAT = "dd/MM/yyyy";
     private static final String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
     private static ArrayList<String> errorList = new ArrayList<String>();
 
@@ -213,11 +213,11 @@ public class Validator {
             try {
                 if (!e.getAsString().isEmpty()) {
                     long date = Long.parseLong(e.getAsString());
-                    
-                    if(date < 0){
+
+                    if (date < 0) {
                         date += TimeUnit.DAYS.toMillis(1);
                     }
-                    
+
                     return new Date(date);
                 } else {
                     return null;
@@ -250,6 +250,34 @@ public class Validator {
             }
         }
         return null;
+    }
+
+    public static Date isBirthdayValid(JsonElement e, String field) {
+
+        if (e != null && !e.isJsonNull()) {
+            try {
+                if (!e.getAsString().isEmpty()) {
+                    String birthday = e.getAsString();
+                    if (birthday.length() == DATE_FORMAT.length()) {
+
+                        SimpleDateFormat format = new SimpleDateFormat(DATE_FORMAT);
+                        format.setLenient(false);
+                        return format.parse(birthday);
+                    } else {
+                        errorList.add(field + " field error!");
+                        return null;
+                    }
+                } else {
+                    return null;
+                }
+            } catch (ParseException | NullPointerException | ClassCastException | IllegalStateException | NumberFormatException exp) {
+                errorList.add(field + " field error!");
+                return null;
+            }
+        }
+        errorList.add(field + " field error!");
+        return null;
+
     }
 
     /**

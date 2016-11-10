@@ -111,7 +111,7 @@ public class UpdateContact extends HttpServlet {
 
                     if (userType.equals("admin") || userType.equals("teammanager")) {
                         c.setNric(Validator.containsBlankField(jobject.get("nric_fin")));
-                        c.setDateOfBirth(Validator.isDateValid(jobject.get("date_of_birth"), "date of birth"));
+                        c.setDateOfBirth(Validator.isBirthdayValid(jobject.get("date_of_birth"), "date of birth"));
                     }
 
                     if (!Validator.getErrorList().isEmpty()) {

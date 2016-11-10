@@ -67,12 +67,13 @@ try:
     conn = mysql.connector.connect(user=db_user,password=db_password,database=db_name,host=db_host,port=db_port)
 
     # prepare a cursor object using cursor() method
-    cursor = conn.cursor(buffered=True)
-
+    cursor = conn.cursor()
+	inner_cursor = conn.cursor()
+	
     #Prepare query
     query = """SELECT EVENT_ID,EMAIL,MINIMUM_PARTICIPATIONS,PARTICIPANT_NUMBER,EVENT_TITLE,CREATED_BY, DATE(EVENT_START_DATE) as EVENT_DATE 
     FROM EVENT WHERE CURDATE() < DATE(EVENT_START_DATE) AND DATE_ADD(CURDATE(), INTERVAL 3 DAY) >= DATE(EVENT_START_DATE)
-    AND PARTICIPANT_NUMBER < MINIMUM_PARTICIPATIONS AND SEND_REMINDER=TRUE AND EMAIL IS NOT NULL AND EVENT_STATUS='Open'"""
+    AND PARTICIPANT_NUMBER < MINIMUM_PARTICIPATIONS AND SEND_REMINDER=TRUE AND EMAIL IS NOT NULL"""
 
     # execute SQL query using execute() method.
     cursor.execute(query)
@@ -93,7 +94,7 @@ try:
             created_by = str(row[5])
             date = str(row[6])
             
-            inner_cursor = conn.cursor()
+            
             query2 = """SELECT DISTINCT EMAIL FROM TEAM_JOIN tj, EMAIL e WHERE tj.CONTACT_ID=e.CONTACT_ID AND 
             PERMISSION='Team manager' AND TEAM_NAME IN (SELECT TEAM_NAME FROM EVENT_AFFILIATION WHERE EVENT_ID = %s)
             AND EMAIL <> '%s'""" % (event_id,email)

@@ -87,7 +87,7 @@ public class AddRemoteRegistration extends HttpServlet {
                 String nric = Validator.containsBlankField(jobject.get("nric_fin"));
                 String gender = Validator.containsBlankField(jobject.get("gender"));
                 String nationality = Validator.containsBlankField(jobject.get("nationality"));
-                Date dob = Validator.isDateValid(jobject.get("date_of_birth"), "date of birth");
+                Date dob = Validator.isBirthdayValid(jobject.get("date_of_birth"), "date of birth");
                 String remarks = Validator.containsBlankField(jobject.get("remarks"));
                 String language = Validator.containsBlankField(jobject.get("language"));
                 String speakWrite = Validator.containsBlankField(jobject.get("speak_write"));
