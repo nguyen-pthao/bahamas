@@ -20,17 +20,7 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
             status: false,
             message: ''
         };
-//        $scope.$watch('editContact["date_of_birth"]', function(){
-//            var string = $scope.editContact['date_of_birth'] + "";
-//           console.log(string); 
-//           var d = $scope.editContact['date_of_birth'];
-//           var dDate = d.getDate();
-//           console.log(dDate);
-//           var dMonth = d.getMonth() + 1;
-//           console.log(dMonth);
-//           var dYear = d.getFullYear();
-//           console.log(dYear);
-//        });
+        
         $scope.editTheContact = function () {
             $scope.editContact['token'] = session.getSession('token');
             //if ($scope.editMode == 'true') {

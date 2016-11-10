@@ -126,7 +126,6 @@ app.controller('createContact',
                             $scope.result.message = true;
                             $scope.result.deliver = 'Thank you for your time. Would you like to add additional information to your contact?';
                             $scope.result.contactId = response.data['contact_id'];
-//                            console.log($scope.result.contactId);
                         } else {
                             $scope.result.message = false;
                             $scope.result.deliver = 'It seems that there is error in your form. We would be much appreciated if you could spend time checking through all the data again.';
