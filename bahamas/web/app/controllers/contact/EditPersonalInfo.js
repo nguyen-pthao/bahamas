@@ -20,6 +20,17 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
             status: false,
             message: ''
         };
+//        $scope.$watch('editContact["date_of_birth"]', function(){
+//            var string = $scope.editContact['date_of_birth'] + "";
+//           console.log(string); 
+//           var d = $scope.editContact['date_of_birth'];
+//           var dDate = d.getDate();
+//           console.log(dDate);
+//           var dMonth = d.getMonth() + 1;
+//           console.log(dMonth);
+//           var dYear = d.getFullYear();
+//           console.log(dYear);
+//        });
         $scope.editTheContact = function () {
             $scope.editContact['token'] = session.getSession('token');
             //if ($scope.editMode == 'true') {
@@ -36,7 +47,18 @@ app.controller('EditPersonalInfo', ['$scope', 'session', 'ngDialog', '$timeout',
             } else if (isNaN($scope.editContact['date_of_birth'])) {
                 $scope.editContact['date_of_birth'] = '';
             } else {
-                $scope.editContact['date_of_birth'] = $scope.editContact['date_of_birth'].valueOf() + "";
+//                $scope.editContact['date_of_birth'] = $scope.editContact['date_of_birth'].valueOf() + "";
+                var day = $scope.editContact['date_of_birth'].getDate() + "";
+                var month = ($scope.editContact['date_of_birth'].getMonth() + 1) + "";
+                var year = $scope.editContact['date_of_birth'].getFullYear() + "";
+                if(day.length < 2){
+                    day = '0' + day;
+                }
+                if(month.length < 2){
+                    month = '0' + month;
+                }
+                var ds = day + '/' + month + '/' + year;
+                $scope.editContact['date_of_birth'] = ds;
             }
             //to be modified
             var url = AppAPI.updateContact;

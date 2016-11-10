@@ -18,7 +18,7 @@ app.controller('createContact',
                 $scope.userViewContacts = user + "/" + 'viewContacts';
                 var currentState = user + '.addContact';
                 $scope.userCurrentState = user + '/' + 'addContact';
-                
+
                 $scope.backHome = function () {
                     $state.go(user);
                 };
@@ -109,7 +109,7 @@ app.controller('createContact',
                     'date_of_birth': '',
                     'remarks': '',
                     'notification': false
-                };                
+                };
 //DECLARE RESULT OBJECT 
                 $scope.result = {
                     message: false,
@@ -214,7 +214,7 @@ app.controller('createContact',
                             list.splice(position, 1);
                             $scope.teamAffiliationList1 = list;
                             //$scope.additionalContactInfo.teamInfo.team2 = '';
-                            if(choice == $scope.additionalContactInfo.teamInfo.team2) {
+                            if (choice == $scope.additionalContactInfo.teamInfo.team2) {
                                 $scope.additionalContactInfo.teamInfo.team2 = '';
                             }
                             if ($scope.additionalContactInfo.teamInfo.team3 != '' && choice == $scope.additionalContactInfo.teamInfo.team3) {
@@ -462,7 +462,17 @@ app.controller('createContact',
                     } else if ($scope.dob === null) {
                         $scope.contactInfo['date_of_birth'] = "";
                     } else {
-                        $scope.contactInfo['date_of_birth'] = $scope.dob.valueOf() + "";
+                        var day = $scope.dob.getDate() + "";
+                        var month = ($scope.dob.getMonth() + 1) + "";
+                        var year = $scope.dob.getFullYear() + "";
+                        if (day.length < 2) {
+                            day = '0' + day;
+                        }
+                        if (month.length < 2) {
+                            month = '0' + month;
+                        }
+                        var ds = day + '/' + month + '/' + year;
+                        $scope.contactInfo['date_of_birth'] = ds;
                     }
                 });
 

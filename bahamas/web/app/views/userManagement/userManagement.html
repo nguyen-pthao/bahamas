@@ -114,7 +114,7 @@ and open the template in the editor.
                                         <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
                                         <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
                                         <th><center><input ng-model="checkAll" ng-change="checkAllFn()" icheck-custom="blue" type="checkbox"></center></th>
-                                    </tr>
+                                </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
@@ -157,19 +157,19 @@ and open the template in the editor.
                         <div class="row col-md-12">
                             <div class="col-md-2">
                                 <button type="submit" ng-click="reactivateUsers()" class="btn btn-primary">
-                                <span>
-                                    <i class="fa fa-unlock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
-                                </span>   
-                                Reactivate User(s)
-                            </button>
+                                    <span>
+                                        <i class="fa fa-unlock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                    </span>   
+                                    Reactivate User(s)
+                                </button>
                             </div>
                             <div class="col-md-2">
                                 <button type="submit" ng-click="deactivateUsers()" class="btn btn-danger">
-                                <span>
-                                    <i class="fa fa-lock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
-                                </span>   
-                                Deactivate User(s)
-                            </button>
+                                    <span>
+                                        <i class="fa fa-lock fa-lg" aria-hidden="true" style='color: white; margin-right:5px'></i>
+                                    </span>   
+                                    Deactivate User(s)
+                                </button>
                             </div>
                         </div>
                     </div>
