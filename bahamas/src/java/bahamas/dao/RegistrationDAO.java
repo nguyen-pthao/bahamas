@@ -195,5 +195,66 @@ public class RegistrationDAO {
 
         return code;
     }
+    
+    public static LinkedHashMap<Integer, ArrayList<String>> retrieveRegistration(int formId) {
+        LinkedHashMap<Integer, ArrayList<String>> results = new LinkedHashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT REGISTRATION_ID,r.DATE_CREATED, CODE, "
+                    + "r.CONTACT_ID, r.NAME, c.NAME, r.NRIC_FIN, c.NRIC_FIN, EMAIL, FIRST_CHECK, "
+                    + "SECOND_CHECK, REQUEST_USER FROM REGISTRATION r, CONTACT c, FORM f WHERE r.CONTACT_ID=c.CONTACT_ID "
+                    + "AND f.FORM_ID=r.FORM_ID AND r.FORM_ID=?");
+
+            int counter = 1;
+            stmt.setInt(1, formId);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                String id = rs.getString(1);
+                String dateCreated = datetime.format(rs.getTimestamp(2));
+                String code = rs.getString(3);
+                String cid = rs.getString(4);
+                String rname = rs.getString(5);
+                String cname = rs.getString(6);
+                String rnric = rs.getString(7);
+                String cnric = rs.getString(8);
+                String email = rs.getString(9);
+                String first_check = String.valueOf(rs.getBoolean(10));
+                String second_check = String.valueOf(rs.getBoolean(11));
+                String user_check = String.valueOf(rs.getBoolean(12));
+
+                ArrayList<String> formList = new ArrayList<String>();
+                formList.add(id);
+                formList.add(dateCreated);
+                formList.add(code);
+                formList.add(cid);
+                formList.add(rname);
+                formList.add(cname);
+                formList.add(rnric);
+                formList.add(cnric);
+                formList.add(email);
+                formList.add(first_check);
+                formList.add(second_check);
+                formList.add(user_check);
+
+                results.put(counter++, formList);
+            }
+
+            return results;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return results;
+
+    }
 
 }

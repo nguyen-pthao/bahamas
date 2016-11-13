@@ -127,12 +127,12 @@ public class FormDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT FORM_ID,CREATED_BY, CODE"
-                    + ", START_DATE_TIME, END_DATE_TIME FROM FORM ");
+                    + ", START_DATE_TIME, END_DATE_TIME FROM FORM ORDER BY DATE_CREATED DESC");
 
             rs = stmt.executeQuery();
             int counter = 1;
             while (rs.next()) {
-                
+
                 String id = rs.getString(1);
                 String createdBy = rs.getString(2);
                 String code = rs.getString(3);
@@ -168,7 +168,7 @@ public class FormDAO {
         PreparedStatement stmt = null;
         ResultSet rs = null;
         String[] temp = new String[2];
-       
+
         try {
             //get database connection
             conn = ConnectionManager.getConnection();
@@ -224,6 +224,52 @@ public class FormDAO {
             ConnectionManager.close(conn, stmt, rs);
         }
         return exist;
+    }
+
+    public static LinkedHashMap<Integer, ArrayList<String>> retrieveIndividualForm(String username) {
+        LinkedHashMap<Integer, ArrayList<String>> results = new LinkedHashMap<Integer, ArrayList<String>>();
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT FORM_ID,CREATED_BY, CODE"
+                    + ", START_DATE_TIME, END_DATE_TIME FROM FORM WHERE CREATED_BY=? ORDER BY DATE_CREATED DESC");
+
+            stmt.setString(1, username);
+            rs = stmt.executeQuery();         
+            int counter = 1;
+            while (rs.next()) {
+
+                String id = rs.getString(1);
+                String createdBy = rs.getString(2);
+                String code = rs.getString(3);
+                String startTime = datetime.format(rs.getTimestamp(4));
+                String endTime = datetime.format(rs.getTimestamp(5));
+
+                ArrayList<String> formList = new ArrayList<String>();
+                formList.add(id);
+                formList.add(createdBy);
+                formList.add(code);
+                formList.add(startTime);
+                formList.add(endTime);
+
+                results.put(counter++, formList);
+
+            }
+
+            return results;
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve PHONE from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return results;
+
     }
 
 }
