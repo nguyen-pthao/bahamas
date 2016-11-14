@@ -77,5 +77,12 @@ var AppAPI = {
 // Import Contact API
     'importContacts': '/contact.import',
 //Generate Report
-    'generateReport': '/report'
+    'generateReport': '/report',
+//Remote Registration
+    'retrieveAllForm': '/form.retrieve',
+    'retrieveForm': '/form.retrieve.individual',
+    'updateForm': '/form.update',
+    'deleteForm': '/form.delete',
+    'addForm': '/form.add',
+    'verifyForm': '/form.verify'
 };

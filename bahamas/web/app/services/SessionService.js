@@ -5,7 +5,7 @@
  */
 var app = angular.module('bahamas');
 
-app.factory('session', ['$window', function ($window) {
+app.factory('session', [function () {
 
     return {
         setSession: function(key, value) {

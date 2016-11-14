@@ -173,6 +173,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/userManagement/verifiedUsers.html',
                 controller: 'verifiedUsersCtrl'
             })
+            .state('admin.formManagement', {
+                url: '/formManagement',
+                templateUrl: 'app/views/remoteRegistration/formManagement.html',
+                controller: 'formManagement'
+            })        
+            .state('admin.remoteRegistration', {
+                url: '/remoteRegistration',
+                templateUrl: 'app/views/remoteRegistration/remoteRegistration.html',
+                controller: 'remoteRegistration'
+            })
             .state('novice', {
                 url: '/novice',
                 templateUrl: 'app/views/novice.html',

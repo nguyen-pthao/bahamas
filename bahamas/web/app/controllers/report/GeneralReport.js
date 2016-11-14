@@ -65,15 +65,9 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
         $scope.today = function () {
             $scope.dt = new Date();
         };
-        $scope.today();
 
         $scope.clear = function () {
             $scope.dt = null;
-        };
-
-        $scope.inlineOptions = {
-            customClass: getDayClass,
-            showWeeks: true
         };
 
         $scope.dateOptions = {
@@ -83,25 +77,8 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             startingDay: 1
         };
 
-        function getDayClass(data) {
-            var date = data.date,
-                    mode = data.mode;
-            if (mode === 'day') {
-                var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-                for (var i = 0; i < $scope.events.length; i++) {
-                    var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-                    if (dayToCheck === currentDay) {
-                        return $scope.events[i].status;
-                    }
-                }
-            }
-            return '';
-        }
         $scope.format = 'dd MMM yyyy';
         $scope.altInputFormats = ['M!/d!/yyyy'];
-
 
         $scope.openedStart = [];
         $scope.openStart = function (index) {
