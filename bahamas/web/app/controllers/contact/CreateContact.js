@@ -222,10 +222,11 @@ app.controller('createContact',
                                 $scope.teamAffiliationList2 = list2;
                             }
                         }
-                    } else {
-                        $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-                        $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-                    }
+                    } 
+//                    else {
+//                        $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+//                        $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+//                    }
                 });
 //watch for change in team list 2
                 $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
@@ -247,6 +248,7 @@ app.controller('createContact',
                         }
                     } else {
                         $scope.additionalContactInfo.teamInfo.team3 = '';
+                        $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
                     }
                 });
 //DEFINE COPYCAT FOR RE-SUBMIT
@@ -485,11 +487,6 @@ app.controller('createContact',
                     $scope.dt = null;
                 };
 
-                $scope.inlineOptions = {
-                    customClass: getDayClass,
-                    showWeeks: true
-                };
-
                 $scope.dateOptions = {
                     formatYear: 'yy',
                     formatMonth: 'MMM',
@@ -501,26 +498,9 @@ app.controller('createContact',
                 $scope.open = function () {
                     $timeout(function () {
                         $scope.opened = true;
-                    })
-                }
-
-                function getDayClass(data) {
-                    var date = data.date,
-                            mode = data.mode;
-                    if (mode === 'day') {
-                        var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-                        for (var i = 0; i < $scope.events.length; i++) {
-                            var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-                            if (dayToCheck === currentDay) {
-                                return $scope.events[i].status;
-                            }
-                        }
-                    }
-
-                    return '';
-                }
+                    });
+                };
+                
                 $scope.format = 'dd MMM yyyy';
                 $scope.altInputFormats = ['M!/d!/yyyy'];
             }]);

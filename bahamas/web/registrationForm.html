@@ -6,11 +6,29 @@ and open the template in the editor.
 -->
 <html>
     <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div id="form-container">
+                    <div class="page-header text-center">
+                        <h1 style="margin-bottom: 30px">TWC2 Remote Registration</h1>
+                        <div id="status-buttons" class="text-center">
+                            <a ui-sref-active="active" ui-sref=".contact"><span>1</span> Contact Information</a>
+                            <a ui-sref-active="active" ui-sref=".phoneEmail"><span>2</span> Phone & Email Address</a>
+                            <a ui-sref-active="active" ui-sref=".languageSkill"><span>3</span> Languages & Skills</a>
+                            <a ui-sref-active="active" ui-sref=".teamPreferences"><span>4</span> Team Preferences</a>
+                        </div>
+                    </div>
+                    <form id="signup-form" name="registration">
+                        <div id="form-views" ui-view>
+                            
+                        </div>
+                    </form>
+                </div>
+                <pre>
+                </pre>
+            </div>
+        </div>
     </body>
 </html>

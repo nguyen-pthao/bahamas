@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <div class="row col-md-offset-1 col-md-10" style="padding-top: 15px">
+            <div class="form-group">
+                <input icheck-custom="blue" type="checkbox" class="flat-red" ng-model="formData.first">
+                &nbsp;
+                <label>
+                    I declare that the information submitted is truthful.
+                </label>
+            </div>
+            <div class="form-group">
+                <input icheck-custom="blue" type="checkbox" class="flat-red" ng-model="formData.second">
+                &nbsp;
+                <label>
+                    I have read and/or have been advised of TWC2's code of conduct for volunteers and I agree to abide by it.
+                </label>
+            </div>
+            <div class="form-group">
+                <input icheck-custom="blue" type="checkbox" class="flat-red" ng-model="formData['request_user']" checked>
+                &nbsp;
+                <label>
+                    I request user access to TWC2's Bahamas volunteering system.
+                </label>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-offset-5 col-xs-2" style="padding-top: 15px">
+                <button class="btn btn-block btn-primary" 
+                   ng-disabled="!formData.first || !formData.second || !formData['request_user']" ng-click="processForm()">
+                    Submit &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </body>
+</html>

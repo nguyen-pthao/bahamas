@@ -12,23 +12,6 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         var token = session.getSession('token');
         $scope.permission = session.getSession('userType');
         
-        //general datasend
-        var datasend = {
-            'token': token,
-            'user_type': $scope.permission
-        };
-        
-        $scope.formChoice = 'retrieveAllForm';
-        $scope.formRetrieve = function() {
-            var url = AppAPI[$scope.formChoice];
-            dataSubmit.submitData(datasend, url).then(function (response) {
-                console.log(response);
-                $scope.result = response.data.Records;
-            }, function() {
-                window.alert("Fail to send request!");
-            });
-        };
-        
         //datepicker
         $scope.today = function () {
             $scope.dt = new Date();
@@ -67,7 +50,30 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         $scope.enddate = '';
         $scope.starttime = '';
         $scope.endtime = '';
-        
+                
+        //general datasend
+        var datasend = {
+            'token': token,
+            'user_type': $scope.permission
+        };
+        //form retrieve
+        $scope.formChoice = 'retrieveAllForm';
+        $scope.formRetrieve = function() {
+            var url = AppAPI[$scope.formChoice];
+            dataSubmit.submitData(datasend, url).then(function (response) {
+                console.log(response);
+                $scope.result = response.data.Records;
+            }, function() {
+                window.alert("Fail to send request!");
+            });
+        };
+        //watch for change in form choice
+        $scope.$watch('formChoice', function() {
+            if($scope.formChoice == 'retrieveAllForm' || $scope.formChoice == 'retrieveForm') {
+                $scope.formRetrieve();
+            }
+        });
+        //add new form
         $scope.newForm = function() {
             var modalInstance = $uibModal.open({
                 animation: true,
@@ -134,4 +140,13 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
             });
         };
         
+        //generate authentication code
+        $scope.generateCode = function () {
+            $scope.code = Math.random().toString(36).substring(2, 8);
+        };
+        
+        //edit form
+        
+        
+        //delete form
     }]);

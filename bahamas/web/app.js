@@ -6,7 +6,7 @@
 'use strict';
 
 var app = angular.module('bahamas',
-        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload', 'ui.calendar']);
+        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload', 'ui.calendar', 'registration']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -537,6 +537,10 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/notFound',
                 templateUrl: 'notFound.html',
                 controller: 'unfoundController'
+            })
+            .state('registration', {
+                url: '/registration',
+                templateUrl: 'registration.html'
             });
 
 });

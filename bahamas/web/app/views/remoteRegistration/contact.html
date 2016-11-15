@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    </head>
+    <body>
+        <div class="row col-md-offset-2 col-md-8" style="padding-top: 15px">
+            <div class="form-group">
+                <label>Name</label><span class="required">*</span>
+                <input type="text" class="form-control" name="name" ng-model="formData.name" ng-required="true">
+                <span ng-show="registration.name.$invalid && registration.name.$touched" class='error'>Input field name is required.</span>
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px;">
+                <div class="col-md-4" style="padding: 0px">
+                    <label>NRIC/FIN</label><span class="required">*</span>
+                    <input type="text" ng-model="formData['nric_fin']" ng-pattern="nricRegex" name="nricfin" class="form-control" ng-required="true">
+                    <span ng-show="registration.nricfin.$invalid && registration.nricfin.$touched" class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
+                </div>    
+                <div class="col-md-offset-1 col-md-2" style="padding: 0px">
+                    <label>Gender</label><span class="required">*</span>
+                    <select ng-model="formData.gender" class="form-control" ng-required="true">
+                        <option value="M">Male</option>
+                        <option value="F">Female</option>
+                        <option value="O">Other</option>
+                    </select> 
+                </div>  
+                <div class="col-md-offset-1 col-md-4" style="padding: 0px">
+                    <label>Nationality</label><span class="required">*</span>
+                    <input type="text" ng-model="formData.nationality" ng-pattern="nationalityRegex" ng-maxlength="20" class="form-control" name="nationality" ng-required="true">
+                    <span ng-show="registration.nationality.$invalid && registration.nationality.$touched" class='error'>Invalid nationality.</span>
+                    <span ng-show="registration.nationality.$error.maxlength" class='error'>Input field nationality is too long.</span>
+                </div>    
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px;">
+                <label>Date of birth</label><span class="required">*</span>
+                <div class="input-group date">
+                    <div class="input-group-addon btn" ng-click="open()">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                    <input type="text" class="form-control white-background" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" ng-required="true" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Profession</label><span class="required">*</span>
+                <input type="text" ng-model="formData.profession" ng-maxlength="200" name="profession" class="form-control" spellcheck="true" ng-required="true"> 
+                <span ng-show="registration.profession.$invalid && registration.profession.$touched" class='error'>Input field professional is required.</span>
+                <span ng-show="registration.profession.$error.maxlength" class='error'>Input field profession is too long.</span>
+            </div>
+            <div class="form-group">
+                <label>Job title</label>
+                <input type="text" ng-model="formData['job_title']" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
+                <span ng-show="registration.jobtitle.$error.maxlength" class='error'>Input field job title is too long.</span>
+            </div>
+            <label>Remarks</label>
+            <textarea class="custom-remarks" ng-model="formData.remarks" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+            <span ng-show="registration.remarks.$error.maxlength" class='error'>Input field remarks is too long.</span>
+        </div>    
+        <div class="form-group row">
+            <div class="col-xs-offset-5 col-xs-2" style="padding-top: 15px">
+                <a ui-sref="register.phoneEmail" class="btn btn-block btn-primary" 
+                   ng-disabled="registration.name.$invalid || registration.nricfin.$invalid || registration.gender.$invalid || registration.nationality.$invalid || registration.dob.$invalid || registration.profession.$invalid">
+                    Next Section &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

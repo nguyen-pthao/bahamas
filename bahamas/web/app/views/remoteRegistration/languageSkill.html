@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    </head>
+    <body>
+        <div class="row col-md-offset-2 col-md-8" style="padding-top: 15px">
+            <div class="form-group col-md-12" style="padding: 0px" ng-init="loadLanguageList()">
+                <div class="col-md-8">
+                    <label>Language 1</label><span class="required">*</span>
+                    <select class="form-control" ng-model="formData.language" ng-required="true" name="language">
+                        <option ng-repeat="language in languageList">{{language.language}}</option>
+                    </select>
+                    <span ng-show="registration.language.$invalid && registration.language.$touched" class='error'>Language is required.</span>
+                </div>
+                <div class="col-md-offset-1 col-md-3">
+                    <label>Speak/Write?</label><span class="required">*</span>
+                    <select class="form-control" ng-model="formData['speak_write']" name="spreakWrite" ng-required="true">
+                        <option value="speak only">Speak only</option>
+                        <option value="speak and write">Speak and write</option>
+                    </select>
+                    <span ng-show="registration.spreakWrite.$invalid && registration.spreakWrite.$touched" class='error'>Speak/Write is required.</span>
+                </div>
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px">
+                <div class="col-md-8">
+                    <label>Language 2</label>
+                    <select class="form-control" ng-model="languageInfo.language1" name="language1">
+                        <option ng-repeat="language in languageList1">{{language.language}}</option>
+                    </select>     
+                </div>
+                <div class="col-md-offset-1 col-md-3">
+                    <label>Speak/Write?</label>
+                    <select class="form-control" ng-model="languageInfo['speak_write_1']">
+                        <option value="speak only">Speak only</option>
+                        <option value="speak and write">Speak and write</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px">
+                <div class="col-md-8">
+                    <label>Language 3</label>
+                    <select class="form-control" ng-model="languageInfo.language2" name="language2">
+                        <option ng-repeat="language in languageList2">{{language.language}}</option>
+                    </select>     
+                </div>
+                <div class="col-md-offset-1 col-md-3">
+                    <label>Speak/Write?</label>
+                    <select class="form-control" ng-model="languageInfo['speak_write_2']">
+                        <option value="speak only">Speak only</option>
+                        <option value="speak and write">Speak and write</option>
+                    </select> 
+                </div>
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px" ng-init="loadLSAList()">
+                <div class="col-md-8">
+                    <label>Skills or Assets 1</label><span class="required">*</span>
+                    <select class="form-control" ng-model="formData['skill_asset']" name="skillAsset">
+                        <option ng-repeat="lsa in LSAList">{{lsa.lsaClass}}</option>
+                    </select>
+                    <span ng-show="registration.skillAsset.$invalid && registration.skillAsset.$touched" class='error'>Skill & Asset is required.</span>
+                </div>
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px">
+                <div class="col-md-8">
+                    <label>Skills or Assets 2</label>
+                    <select class="form-control" ng-model="skillInfo['skill1']" name="skillAsset1">
+                        <option ng-repeat="lsa in LSAList1">{{lsa.lsaClass}}</option>
+                    </select>     
+                </div>
+            </div>
+            <div class="form-group col-md-12" style="padding: 0px">
+                <div class="col-md-8">
+                    <label>Skills or Assets 3</label>
+                    <select class="form-control" ng-model="skillInfo['skill1']" name="skillAsset2">
+                        <option ng-repeat="lsa in LSAList2">{{lsa.lsaClass}}</option>
+                    </select>     
+                </div>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-offset-5 col-xs-2" style="padding-top: 15px">
+                <a ui-sref="register.teamPreferences" class="btn btn-block btn-primary" 
+                   ng-disabled="registration.language.$invalid || registration.spreakWrite.$invalid || registration.skillAsset.$invalid">
+                    Next Section &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+    </head>
+    <body>
+        <div class="row col-md-offset-2 col-md-8" style="padding-top: 15px">
+            <div class="form-group col-md-12" style="padding: 0px">
+                <div class="col-md-3" style="padding: 0px" ng-init="loadCountryCodes()">
+                    <label>Country code</label><span class="required">*</span>
+                    <input type="number" step="1" class="form-control" ng-model="formData['country_code']" ng-required="true" ng-change="updateCountryNames(formData['country_code'])" name="countrycode">            
+                    <span>{{newCountryName}}</span>
+                    <span ng-show="registration.countrycode.$error.required && registration.countrycode.$dirty" class="error">Country code is required.</span>
+                </div>
+                <div class="col-md-offset-3 col-md-6" style="padding: 0px">
+                    <label>Phone number</label><span class="required">*</span>
+                    <input type="text" ng-model="formData['phone_number']" ng-pattern="phoneRegex" ng-maxlength='20' ng-minlength="0" ng-required="true" name="phonenumber" class="form-control">
+                    <span ng-show="registration.phonenumber.$error.pattern && registration.phonenumber.$touched" class='error'>Invalid phone number.</span>
+                    <span ng-show="registration.phonenumber.$error.required && registration.phonenumber.$dirty" class='error'>Phone number is required.</span>
+                    <span ng-show="registration.phonenumber.$error.maxlength" class='error'>Input field phone number is too long.</span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Email</label><span class="required">*</span>
+                <input type="email" ng-model="additionalContactInfo.emailInfo.email" ng-pattern="emailRegex" ng-maxlength='50' ng-required="true" name="email" class="form-control">
+                <span ng-show="registration.email.$error.pattern && registration.email.$touched" class='error'>Invalid email.</span>
+                <span ng-show="registration.email.$error.required && registration.email.$dirty" class='error'>Email is required.</span>
+                <span ng-show="registration.email.$error.maxlength" class='error'>Input field email is too long.</span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-xs-offset-5 col-xs-2" style="padding-top: 15px">
+                <a ui-sref="register.languageSkill" class="btn btn-block btn-primary" 
+                   ng-disabled="registration.countrycode.$invalid || registration.phonenumber.$invalid || registration.email.$invalid">
+                    Next Section &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

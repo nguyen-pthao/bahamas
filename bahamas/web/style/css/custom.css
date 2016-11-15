@@ -724,3 +724,59 @@ div.wrapper > aside.main-sidebar {
 .dropdown:hover .dropdown-menu {
     display: block;
 }
+
+/* form styling */
+#form-container { 
+    background: #ffffff; 
+    margin-bottom: 20px;
+    border-radius: 5px; 
+}
+
+#form-container .page-header { 
+    background: rgb(255, 255, 255); 
+    margin: 0; 
+    padding: 30px; 
+    border-top-left-radius: 5px; 
+    border-top-right-radius: 5px; 
+}
+
+/* numbered buttons */
+#status-buttons { 
+    
+}
+
+#signup-form {
+    font-size: 14px;
+}
+
+#status-buttons a { 
+    color: #000000; 
+    display: inline-block; 
+    font-size: 18px; 
+    margin-right: 30px; 
+    margin-left: 30px;
+    text-align: center; 
+    text-transform: uppercase; 
+    font-weight: 600;
+}
+
+#status-buttons a:hover { 
+    text-decoration:none; 
+}
+
+/* we will style the span as the circled number */
+#status-buttons span { 
+    background: rgba(132, 140, 150, 0.48); 
+    display: block; 
+    height: 50px; 
+    margin: 0 auto 15px; 
+    padding-top: 12px; 
+    width: 50px; 
+    border-radius: 50%; 
+}
+
+/* active buttons turn light green-blue*/
+#status-buttons a.active span   { 
+    background: #3c88d6; 
+    color: #fffc00;
+}

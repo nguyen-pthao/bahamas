@@ -591,11 +591,6 @@ app.controller('editContact',
                     $scope.dt = null;
                 };
 
-                $scope.inlineOptions = {
-                    customClass: getDayClass,
-                    showWeeks: true
-                };
-
                 $scope.dateOptions = {
                     formatYear: 'yy',
                     formatMonth: 'MMM',
@@ -603,22 +598,6 @@ app.controller('editContact',
                     startingDay: 1
                 };
 
-                function getDayClass(data) {
-                    var date = data.date,
-                            mode = data.mode;
-                    if (mode === 'day') {
-                        var dayToCheck = new Date(date).setHours(0, 0, 0, 0);
-
-                        for (var i = 0; i < $scope.events.length; i++) {
-                            var currentDay = new Date($scope.events[i].date).setHours(0, 0, 0, 0);
-
-                            if (dayToCheck === currentDay) {
-                                return $scope.events[i].status;
-                            }
-                        }
-                    }
-                    return '';
-                }
                 $scope.format = 'dd MMM yyyy';
                 $scope.altInputFormats = ['M!/d!/yyyy'];
 

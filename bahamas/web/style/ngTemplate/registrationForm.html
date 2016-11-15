@@ -12,6 +12,7 @@
                     <label>Activation Code</label><span class="required">*</span>
                     <input type="text" class="form-control" ng-model="$parent.code" name="code" empty>
                     <span ng-show="remoteRegistration.code.$error.empty && remoteRegistration.code.$dirty" class='error'>Activation code is required.</span>
+                    <button type="button" class="btn btn-link no-padding-left" ng-click="generateCode()">Generate 6-digits authentication code</button>
                 </div>
             </div>
             <div class="form-group col-md-12">

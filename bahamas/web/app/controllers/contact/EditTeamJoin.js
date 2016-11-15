@@ -186,10 +186,11 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                         $scope.teamAffiliationList2 = list2;
                     }
                 }
-            } else {
-                $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-                $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-            }
+            } 
+//            else {
+//                $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+//                $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+//            }
         });
 //watch for change in team list 2
         $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
@@ -211,6 +212,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                 }
             } else {
                 $scope.teamPref.team3 = '';
+                $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
             }
         });
         $scope.copyTeam = angular.copy($scope.newTeam);
