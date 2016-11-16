@@ -94,9 +94,7 @@ public class AddRemoteRegistration extends HttpServlet {
                 String email = Validator.containsBlankField(jobject.get("email"));
 
                 if (email != null) {
-                    if (EmailDAO.emailExist(email)) {
-                        Validator.getErrorList().add("Email already exists");
-                    } else if (!Validator.validEmail(email)) {
+                    if (!Validator.validEmail(email)) {
                         Validator.getErrorList().add("Invalid email format");
                     }
                 }
