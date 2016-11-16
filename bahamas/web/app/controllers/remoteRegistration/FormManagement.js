@@ -6,8 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', '$timeout', 
-    function ($scope, session, $state, dataSubmit, $uibModal, $timeout) {
+app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', '$timeout', 'ngDialog', 'orderByFilter',
+    function ($scope, session, $state, dataSubmit, $uibModal, $timeout, ngDialog, orderBy) {
         
         var token = session.getSession('token');
         $scope.permission = session.getSession('userType');
@@ -50,7 +50,18 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         $scope.enddate = '';
         $scope.starttime = '';
         $scope.endtime = '';
-                
+              
+        //orderBy for table header
+        $scope.predicate = '';
+        $scope.reverse = false;
+
+        $scope.order = function (predicate) {
+            $scope.reverse = ($scope.predicate === ('\u0022'+ predicate + '\u0022')) ? !$scope.reverse : false;
+            console.log($scope.predicate);
+            $scope.predicate = ('\u0022'+ predicate + '\u0022');
+            $scope.records = orderBy($scope.records, $scope.predicate, $scope.reverse);
+        };
+        
         //general datasend
         var datasend = {
             'token': token,
@@ -61,8 +72,11 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         $scope.formRetrieve = function() {
             var url = AppAPI[$scope.formChoice];
             dataSubmit.submitData(datasend, url).then(function (response) {
-                console.log(response);
-                $scope.result = response.data.Records;
+                $scope.resultData = response.data.Records;
+                if($scope.resultData != '') {
+                    $scope.tableHeader = Object.keys($scope.resultData[0]);
+                }
+                console.log($scope.tableHeader);
             }, function() {
                 window.alert("Fail to send request!");
             });
@@ -123,7 +137,13 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                             
                             datasend['code'] = $scope.code;
                             dataSubmit.submitData(datasend, url).then(function(response) {
-                                console.log(response);
+                                if (response.data.message == 'success') {
+                                    ngDialog.openConfirm({
+                                        template: './style/ngTemplate/addSuccess.html',
+                                        className: 'ngdialog-theme-default',
+                                        scope: $scope
+                                    });
+                                }
                             }, function() {
                                 window.alert("Fail to send request!");
                             });

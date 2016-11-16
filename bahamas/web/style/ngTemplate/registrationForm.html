@@ -10,8 +10,10 @@
             <div class="form-group col-md-12">
                 <div class="col-md-5">
                     <label>Activation Code</label><span class="required">*</span>
-                    <input type="text" class="form-control" ng-model="$parent.code" name="code" empty>
+                    <input type="text" class="form-control" ng-model="$parent.code" name="code" empty ng-maxlength='6' ng-minlength='6'>
                     <span ng-show="remoteRegistration.code.$error.empty && remoteRegistration.code.$dirty" class='error'>Activation code is required.</span>
+                    <span ng-show="remoteRegistration.code.$error.maxlength && remoteRegistration.code.$dirty" class='error'>Activation code can only have 6 digits.</span>
+                    <span ng-show="remoteRegistration.code.$error.minlength && remoteRegistration.code.$dirty" class='error'>Activation code needs to have 6 digits.</span>
                     <button type="button" class="btn btn-link no-padding-left" ng-click="generateCode()">Generate 6-digits authentication code</button>
                 </div>
             </div>
@@ -51,6 +53,7 @@
                 <button class="btn btn-link" type="button"
                         ng-disabled="remoteRegistration.code.$invalid || remoteRegistration.startdate.$invalid || remoteRegistration.enddate.$invalid || remoteRegistration.starttime.$invalid || remoteRegistration.endtime.$invalid"
                         ng-click="activate()">Activate Remote Registration Form</button>
+                <br>
             </center>
         </div>
     </form>

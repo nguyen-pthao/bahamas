@@ -63,6 +63,38 @@ and open the template in the editor.
                                 <input type="text" class="form-control" placeholder="Search Forms" ng-model="searchForm"/>
                             </div>
                         </div>
+                        <div class="table-horizontal-scroll col-md-12" ng-show='resultData != ""'>
+                            <table class="table table-bordered table-striped">
+                                <thead>
+                                    <tr>
+                                        <th ng-repeat="tableHead in tableHeader">
+                                            <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="result in resultData| orderBy:predicate:reverse">
+                                        <td ng-repeat="tInfo in tableHeader">{{result[tInfo]}}</td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <th ng-repeat="tableHead in tableHeader">
+                                            <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                        </th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+<!--                        <div>
+                            <div style='float: right'>
+                                <uib-pagination total-items="totalFilteredItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
+                            </div>
+                            <br/>
+                            <div style='float: left'>
+                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                            </div>
+                        </div>-->
                     </div>
                 </div>
             </section>

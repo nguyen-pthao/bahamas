@@ -84,5 +84,8 @@ var AppAPI = {
     'updateForm': '/form.update',
     'deleteForm': '/form.delete',
     'addForm': '/form.add',
-    'verifyForm': '/form.verify'
+    'verifyForm': '/form.verify',
+    'deleteRegistration': '/remoteregistration.delete',
+    'retrieveRegistration': '/remoteregistration.retrieve',
+    'retrieveCurrentRegistration': '/remoteregistration.retrieve.individual'
 };
