@@ -66,6 +66,7 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
             'token': token,
             'user_type': $scope.permission
         };
+        
         //form retrieve
         $scope.formChoice = 'retrieveAllForm';
         $scope.formRetrieve = function() {
@@ -80,6 +81,7 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                 window.alert("Fail to send request!");
             });
         };
+        
         //watch for change in form choice
         $scope.$watch('formChoice', function() {
             if($scope.formChoice == 'retrieveAllForm' || $scope.formChoice == 'retrieveForm') {

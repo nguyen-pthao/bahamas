@@ -11,18 +11,18 @@ and open the template in the editor.
         <div class="row col-md-offset-2 col-md-8" style="padding-top: 15px">
             <div class="form-group">
                 <label>Name</label><span class="required">*</span>
-                <input type="text" class="form-control" name="name" ng-model="formData.name" ng-required="true">
+                <input type="text" class="form-control" name="name" ng-model="$parent.formData.name" ng-required="true">
                 <span ng-show="registration.name.$invalid && registration.name.$touched" class='error'>Input field name is required.</span>
             </div>
             <div class="form-group col-md-12" style="padding: 0px;">
                 <div class="col-md-4" style="padding: 0px">
                     <label>NRIC/FIN</label><span class="required">*</span>
-                    <input type="text" ng-model="formData['nric_fin']" ng-pattern="nricRegex" name="nricfin" class="form-control" ng-required="true">
+                    <input type="text" ng-model="$parent.formData['nric_fin']" ng-pattern="nricRegex" name="nricfin" class="form-control" ng-required="true">
                     <span ng-show="registration.nricfin.$invalid && registration.nricfin.$touched" class='error'>Sample valid NRIC/FIN: S0927314N or G0293714T.</span>
                 </div>    
                 <div class="col-md-offset-1 col-md-2" style="padding: 0px">
                     <label>Gender</label><span class="required">*</span>
-                    <select ng-model="formData.gender" class="form-control" ng-required="true">
+                    <select ng-model="$parent.formData.gender" class="form-control" ng-required="true">
                         <option value="M">Male</option>
                         <option value="F">Female</option>
                         <option value="O">Other</option>
@@ -30,7 +30,7 @@ and open the template in the editor.
                 </div>  
                 <div class="col-md-offset-1 col-md-4" style="padding: 0px">
                     <label>Country of citizenship</label><span class="required">*</span>
-                    <input type="text" ng-model="formData.nationality" ng-pattern="nationalityRegex" ng-maxlength="20" class="form-control" name="nationality" ng-required="true">
+                    <input type="text" ng-model="$parent.formData.nationality" ng-pattern="nationalityRegex" ng-maxlength="20" class="form-control" name="nationality" ng-required="true">
                     <span ng-show="registration.nationality.$invalid && registration.nationality.$touched" class='error'>Invalid nationality.</span>
                     <span ng-show="registration.nationality.$error.maxlength" class='error'>Input field nationality is too long.</span>
                 </div>    
@@ -46,17 +46,17 @@ and open the template in the editor.
             </div>
             <div class="form-group">
                 <label>Profession</label><span class="required">*</span>
-                <input type="text" ng-model="formData.profession" ng-maxlength="200" name="profession" class="form-control" spellcheck="true" ng-required="true"> 
+                <input type="text" ng-model="$parent.formData.profession" ng-maxlength="200" name="profession" class="form-control" spellcheck="true" ng-required="true"> 
                 <span ng-show="registration.profession.$invalid && registration.profession.$touched" class='error'>Input field professional is required.</span>
                 <span ng-show="registration.profession.$error.maxlength" class='error'>Input field profession is too long.</span>
             </div>
             <div class="form-group">
                 <label>Job title</label>
-                <input type="text" ng-model="formData['job_title']" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
+                <input type="text" ng-model="$parent.formData['job_title']" ng-maxlength="50" name="jobtitle" class="form-control" spellcheck="true">
                 <span ng-show="registration.jobtitle.$error.maxlength" class='error'>Input field job title is too long.</span>
             </div>
             <label>Remarks</label>
-            <textarea class="custom-remarks" ng-model="formData.remarks" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
+            <textarea class="custom-remarks" ng-model="$parent.formData.remarks" ng-maxlength="1000" name="remarks" contenteditable="true" spellcheck="true"></textarea>
             <span ng-show="registration.remarks.$error.maxlength" class='error'>Input field remarks is too long.</span>
         </div>    
         <div class="form-group row">
