@@ -58,11 +58,10 @@ and open the template in the editor.
             </div>
             <div class="form-group col-md-12" style="padding: 0px" ng-init="loadLSAList()">
                 <div class="col-md-8">
-                    <label>Skills or Assets 1</label><span class="required">*</span>
+                    <label>Skills or Assets 1</label>
                     <select class="form-control" ng-model="formData['skill_asset']" name="skillAsset">
                         <option ng-repeat="lsa in LSAList">{{lsa.lsaClass}}</option>
                     </select>
-                    <span ng-show="registration.skillAsset.$invalid && registration.skillAsset.$touched" class='error'>Skill & Asset is required.</span>
                 </div>
             </div>
             <div class="form-group col-md-12" style="padding: 0px">

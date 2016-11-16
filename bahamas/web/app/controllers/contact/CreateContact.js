@@ -42,6 +42,11 @@ app.controller('createContact',
                 $scope.loadTeamAffiliationList = function () {
                     loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                         $scope.teamAffiliationList = response.data.teamAffiliationList;
+                        for (var obj in $scope.teamAffiliationList) {
+                            if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others' || $scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                                $scope.teamAffiliationList.splice(obj, 1);
+                            }
+                        }
                     });
                 };
 

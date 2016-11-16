@@ -79,6 +79,11 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
         $scope.loadLanguageList = function () {
             loadLanguage.retrieveLanguage().then(function (response) {
                 $scope.languageList = response.data.languageList;
+                for (var obj in $scope.languageList) {
+                    if ($scope.languageList[obj].language == 'Others' || $scope.languageList[obj].language == 'Other') {
+                        $scope.languageList.splice(obj, 1);
+                    }
+                }
             });
         };
 
@@ -86,6 +91,11 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
         $scope.loadLSAList = function () {
             loadLSAClass.retrieveLSAClass().then(function (response) {
                 $scope.LSAList = response.data.lsaClassList;
+                for (var obj in $scope.LSAList) {
+                    if ($scope.LSAList[obj].lsaClass == 'Others' || $scope.LSAList[obj].lsaClass == 'Other') {
+                        $scope.LSAList.splice(obj, 1);
+                    }
+                }
             });
         };
 
@@ -93,6 +103,11 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                 $scope.teamAffiliationList = response.data.teamAffiliationList;
+                for (var obj in $scope.teamAffiliationList) {
+                    if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others' || $scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
+                        $scope.teamAffiliationList.splice(obj, 1);
+                    }
+                }
             });
         };
 

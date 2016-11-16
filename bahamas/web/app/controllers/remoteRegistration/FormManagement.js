@@ -46,18 +46,17 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         };
         
         $scope.code = '';
-        $scope.startdate = '';
-        $scope.enddate = '';
-        $scope.starttime = '';
-        $scope.endtime = '';
-              
+        $scope.startdate = new Date();
+        $scope.enddate = new Date($scope.startdate.setHours($scope.startdate.getHours() + 2));
+        $scope.starttime = Date.now();
+        $scope.endtime = $scope.enddate.getTime();
+        
         //orderBy for table header
         $scope.predicate = '';
         $scope.reverse = false;
 
         $scope.order = function (predicate) {
             $scope.reverse = ($scope.predicate === ('\u0022'+ predicate + '\u0022')) ? !$scope.reverse : false;
-            console.log($scope.predicate);
             $scope.predicate = ('\u0022'+ predicate + '\u0022');
             $scope.records = orderBy($scope.records, $scope.predicate, $scope.reverse);
         };
@@ -112,6 +111,7 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                                 tempEndTime = '';
                             } else if ($scope.endtime != null || $scope.endtime != '') {
                                 tempEndTime = $scope.endtime.valueOf() + "";
+                                console.log(tempEndTime);
                                 $scope.enddate.setTime(tempEndTime);
                             }
                             

@@ -50,7 +50,6 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
 
         $scope.order = function (predicate) {
             $scope.reverse = ($scope.predicate === ('\u0022'+ predicate + '\u0022')) ? !$scope.reverse : false;
-            console.log($scope.predicate);
             $scope.predicate = ('\u0022'+ predicate + '\u0022');
             $scope.records = orderBy($scope.records, $scope.predicate, $scope.reverse);
         };

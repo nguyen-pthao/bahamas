@@ -403,6 +403,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 templateUrl: 'app/views/userManagement/verifiedUsers.html',
                 controller: 'verifiedUsersCtrl'
             })
+            .state('teammanager.formManagement', {
+                url: '/formManagement',
+                templateUrl: 'app/views/remoteRegistration/formManagement.html',
+                controller: 'formManagement'
+            })        
+            .state('teammanager.remoteRegistration', {
+                url: '/remoteRegistration',
+                templateUrl: 'app/views/remoteRegistration/remoteRegistration.html',
+                controller: 'remoteRegistration'
+            })
             .state('eventleader', {
                 url: '/eventleader',
                 templateUrl: 'app/views/eventleader.html',
@@ -527,6 +537,16 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/verifiedUsers',
                 templateUrl: 'app/views/userManagement/verifiedUsers.html',
                 controller: 'verifiedUsersCtrl'
+            })
+            .state('eventleader.formManagement', {
+                url: '/formManagement',
+                templateUrl: 'app/views/remoteRegistration/formManagement.html',
+                controller: 'formManagement'
+            })        
+            .state('eventleader.remoteRegistration', {
+                url: '/remoteRegistration',
+                templateUrl: 'app/views/remoteRegistration/remoteRegistration.html',
+                controller: 'remoteRegistration'
             })
             .state('unauthorised', {
                 url: '/unauthorised',
