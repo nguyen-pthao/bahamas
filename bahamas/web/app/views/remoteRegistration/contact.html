@@ -29,7 +29,7 @@ and open the template in the editor.
                     </select> 
                 </div>  
                 <div class="col-md-offset-1 col-md-4" style="padding: 0px">
-                    <label>Nationality</label><span class="required">*</span>
+                    <label>Country of citizenship</label><span class="required">*</span>
                     <input type="text" ng-model="formData.nationality" ng-pattern="nationalityRegex" ng-maxlength="20" class="form-control" name="nationality" ng-required="true">
                     <span ng-show="registration.nationality.$invalid && registration.nationality.$touched" class='error'>Invalid nationality.</span>
                     <span ng-show="registration.nationality.$error.maxlength" class='error'>Input field nationality is too long.</span>
