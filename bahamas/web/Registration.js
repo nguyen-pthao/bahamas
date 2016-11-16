@@ -24,7 +24,8 @@ app.config(function ($stateProvider, $urlRouterProvider) {
             })
             .state('register.contact', {
                 url: '/contact',
-                templateUrl: 'app/views/remoteRegistration/contact.html'
+                templateUrl: 'app/views/remoteRegistration/contact.html',
+                controller: 'registrationController'
             })
             .state('register.phoneEmail', {
                 url: '/phoneEmail',

@@ -41,7 +41,7 @@ and open the template in the editor.
                     <div class="input-group-addon btn" ng-click="open()">
                         <i class="fa fa-calendar"></i>
                     </div>
-                    <input type="text" class="form-control white-background" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="dob" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" ng-required="true" readonly>
+                    <input type="text" class="form-control white-background" ng-click="open()" uib-datepicker-popup="{{format}}" ng-model="$parent.dob" is-open="opened" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="dob" ng-required="true" readonly>
                 </div>
             </div>
             <div class="form-group">

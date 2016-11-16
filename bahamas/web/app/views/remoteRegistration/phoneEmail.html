@@ -26,7 +26,7 @@ and open the template in the editor.
             </div>
             <div class="form-group">
                 <label>Email</label><span class="required">*</span>
-                <input type="email" ng-model="additionalContactInfo.emailInfo.email" ng-pattern="emailRegex" ng-maxlength='50' ng-required="true" name="email" class="form-control">
+                <input type="email" ng-model="formData.email" ng-pattern="emailRegex" ng-maxlength='50' ng-required="true" name="email" class="form-control">
                 <span ng-show="registration.email.$error.pattern && registration.email.$touched" class='error'>Invalid email.</span>
                 <span ng-show="registration.email.$error.required && registration.email.$dirty" class='error'>Email is required.</span>
                 <span ng-show="registration.email.$error.maxlength" class='error'>Input field email is too long.</span>
