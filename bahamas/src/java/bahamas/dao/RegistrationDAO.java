@@ -39,10 +39,10 @@ public class RegistrationDAO {
             //get database connection
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("INSERT INTO REGISTRATION (FORM_ID,CONTACT_ID,"
-                    + "DATE_CREATED,NAME,NRIC_FIN,NATIONALITY,DATE_OF_BIRTH,GENDER,PROFESSION,JOB_TITLE,REMARKS"
+                    + "DATE_CREATED,NAME,NRIC_FIN,NATIONALITY,DATE_OF_BIRTH,GENDER,PROFESSION,JOB_TITLE,REMARKS,"
                     + "COUNTRY_CODE,PHONE_NUMBER,EMAIL,LANGUAGE_NAME,PROFICIENCY,SKILL_NAME,TEAM_NAME,FIRST_CHECK,"
                     + "SECOND_CHECK,REQUEST_USER)"
-                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+                    + " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
             stmt.setInt(1, form_id);
             stmt.setInt(2, contact_id);
