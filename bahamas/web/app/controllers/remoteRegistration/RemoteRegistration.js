@@ -6,7 +6,7 @@
 
 var app = angular.module('bahamas');
 
-app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit', function ($scope, session, $state, dataSubmit) {
+app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', function ($scope, session, $state, dataSubmit, $uibModal) {
         
         var token = session.getSession('token');
         $scope.permission = session.getSession('userType');
@@ -60,10 +60,15 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
             'user_type': $scope.permission
         };
         //form retrieve
-        $scope.registrationChoice = 'retrieveRegistration';
+        if($scope.permission != 'eventleader') {
+            $scope.registrationChoice = 'retrieveRegistration';
+        } else {
+            $scope.registrationChoice = 'retrieveCurrentRegistration';
+        }
+        
         $scope.registrationRetrieve = function() {
             var url = AppAPI[$scope.registrationChoice];
-            dataSubmit.submitData(datasend, url).then(function (response) {
+            $scope.myPromise = dataSubmit.submitData(datasend, url).then(function (response) {
                 $scope.resultData = response.data.Records;
                 if($scope.resultData != '') {
                     $scope.tableHeader = Object.keys($scope.resultData[0]);
@@ -80,7 +85,7 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
             if($scope.registrationChoice == 'retrieveCurrentRegistration') {
                 var modalInstance = $uibModal.open({
                     animation: true,
-                    templateUrl: './style/ngTemplate/registrationForm.html',
+                    templateUrl: './style/ngTemplate/registrationSessionRetrieve.html',
                     scope: $scope,
                     controller: function () {
                         $scope.activate = function () {

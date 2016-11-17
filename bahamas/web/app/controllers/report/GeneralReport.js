@@ -197,13 +197,13 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             } else {
                 datasend['payment_mode'] = '';
             }
-            if($scope.membershipType == '') {
+            if($scope.membershipType != '') {
                 datasend['membership_type'] = $scope.membershipType;
             } else {
                 datasend['membership_type'] = '';
             }
             var url = AppAPI.generateReport;
-            dataSubmit.submitData(datasend, url).then(function (response) {
+            $scope.myPromise = dataSubmit.submitData(datasend, url).then(function (response) {
                 //remember to initialize $scope.function in html page
                 $scope.result = response.data;
                 $scope.header = [];
