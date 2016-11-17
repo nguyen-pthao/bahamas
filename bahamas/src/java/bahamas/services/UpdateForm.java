@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "UpdateForm", urlPatterns = {"/form.update"})
+@WebServlet(urlPatterns = {"/form.update"})
 public class UpdateForm extends HttpServlet {
 
     /**

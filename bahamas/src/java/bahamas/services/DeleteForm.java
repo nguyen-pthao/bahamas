@@ -32,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "DeleteForm", urlPatterns = {"/form.delete"})
+@WebServlet(urlPatterns = {"/form.delete"})
 public class DeleteForm extends HttpServlet {
 
     /**
