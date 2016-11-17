@@ -8,8 +8,8 @@ and open the template in the editor.
     <head>
     </head>
     <body>
-        <div class="row col-md-offset-2 col-md-8" style="padding-top: 15px">
-            <div class="form-group col-md-12" style="padding: 0px" ng-init="loadLanguageList()">
+        <div class="row col-sm-offset-1 col-sm-10" style="padding-top: 15px">
+            <div class="form-group col-md-12" style="padding-left: 0; padding-right: 0" ng-init="loadLanguageList()">
                 <div class="col-md-8">
                     <label>Language 1</label><span class="required">*</span>
                     <select class="form-control" ng-model="formData.language" ng-required="true" name="language">
@@ -25,7 +25,7 @@ and open the template in the editor.
                     <span ng-show="registration.spreakWrite.$invalid && registration.spreakWrite.$touched" class='error'>Speak/Write is required.</span>
                 </div>
             </div>
-            <div class="form-group col-md-12" style="padding: 0px">
+            <div class="form-group col-md-12" style="padding-left: 0; padding-right: 0">
                 <div class="col-md-8">
                     <label>Language 2</label>
                     <select class="form-control" ng-model="languageInfo.language1" name="language1">
@@ -39,7 +39,7 @@ and open the template in the editor.
                     </select> 
                 </div>
             </div>
-            <div class="form-group col-md-12" style="padding: 0px">
+            <div class="form-group col-md-12" style="padding-left: 0; padding-right: 0">
                 <div class="col-md-8">
                     <label>Language 3</label>
                     <select class="form-control" ng-model="languageInfo.language2" name="language2">
@@ -53,7 +53,7 @@ and open the template in the editor.
                     </select> 
                 </div>
             </div>
-            <div class="form-group col-md-12" style="padding: 0px" ng-init="loadLSAList()">
+            <div class="form-group col-md-12" style="padding-left: 0; padding-right: 0" ng-init="loadLSAList()">
                 <div class="col-md-8">
                     <label>Skills or Assets 1</label>
                     <select class="form-control" ng-model="formData['skill_asset']" name="skillAsset">
@@ -61,7 +61,7 @@ and open the template in the editor.
                     </select>
                 </div>
             </div>
-            <div class="form-group col-md-12" style="padding: 0px">
+            <div class="form-group col-md-12" style="padding-left: 0; padding-right: 0">
                 <div class="col-md-8">
                     <label>Skills or Assets 2</label>
                     <select class="form-control" ng-model="skillInfo['skill1']" name="skillAsset1">
@@ -69,7 +69,7 @@ and open the template in the editor.
                     </select>     
                 </div>
             </div>
-            <div class="form-group col-md-12" style="padding: 0px">
+            <div class="form-group col-md-12" style="padding-left: 0; padding-right: 0">
                 <div class="col-md-8">
                     <label>Skills or Assets 3</label>
                     <select class="form-control" ng-model="skillInfo['skill2']" name="skillAsset2">
@@ -78,12 +78,12 @@ and open the template in the editor.
                 </div>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-xs-offset-5 col-xs-2" style="padding-top: 15px">
-                <a ui-sref="register.teamPreferences" class="btn btn-block btn-primary" 
+        <div class="form-group row" style="padding: 15px">
+            <div class="col-sm-offset-4 col-sm-4">
+                <button ui-sref="register.teamPreferences" class="btn btn-block btn-primary" 
                    ng-disabled="registration.language.$invalid || registration.spreakWrite.$invalid || registration.skillAsset.$invalid">
                     Next Section &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
-                </a>
+                </button>
             </div>
         </div>
     </body>

@@ -775,8 +775,41 @@ div.wrapper > aside.main-sidebar {
     border-radius: 50%; 
 }
 
-/* active buttons turn light green-blue*/
+/* active buttons turn blue*/
 #status-buttons a.active span   { 
     background: #3c88d6; 
     color: #fffc00;
+}
+
+#registration-header {
+    margin-bottom: 30px;
+}
+
+@media (max-width: 570px) {
+    #registration-header {
+        margin-bottom: 10px;
+        margin-top: 0px;
+    }    
+}
+
+@media (max-width: 768px) {
+    #status-buttons a { 
+        color: #000000; 
+        display: inline-block; 
+        font-size: 14px; 
+        margin-right: 10px; 
+        margin-left: 10px;
+        text-align: center; 
+        text-transform: uppercase; 
+        font-weight: 600;
+    }  
+    #status-buttons span { 
+        background: rgba(132, 140, 150, 0.48); 
+        display: block; 
+        height: 30px; 
+        margin: 0 auto 15px; 
+        padding-top: 5px; 
+        width: 30px; 
+        border-radius: 50%; 
+    }
 }

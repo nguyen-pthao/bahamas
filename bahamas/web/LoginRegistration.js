@@ -21,7 +21,7 @@ app.controller('loginRegisterController', ['$scope', 'session', '$state', 'dataS
 //STORE AUTHORISED CODE INFO IN SESSION SERVICE
                     session.setSession('remoteToken', result.token);
                     session.setSession('formId', result['form_id']);
-                    $state.go('register');
+                    $state.go('register.contact');
                 } else {
                     $scope.error = true;
                 }

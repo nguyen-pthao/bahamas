@@ -493,7 +493,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                                     });
                                                                 }
                                                             }, function () {
-                                                                window.alert("Fail to send request!");
+                                                                window.alert("Fail to connect to server to add the third language!");
                                                             });
                                                         }
                                                     } else {
@@ -505,21 +505,215 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                         });
                                                     }
                                                 }, function () {
-                                                    window.alert("Fail to send request!");
+                                                    window.alert("Fail to connect to server to add the second language!");
                                                 });
                                             }
-                                            
-                                            
+                                            //ADD SKILL
+                                            if ($scope.formData.skill_asset != '') {
+                                                dataSubmit.submitData(skillData, skill_url).then(function (response) {
+                                                    if (response.data.message == 'success') {
+                                                        //ADD SECOND SKILL
+                                                        if ($scope.skillInfo.skill1 != '') {
+                                                            skillData.skill_asset = $scope.skillInfo.skill1;
+                                                            dataSubmit.submitData(skillData, skill_url).then(function (response) {
+                                                                if (response.data.message == 'success') {
+                                                                    //ADD THIRD SKILL
+                                                                    if ($scope.skillInfo.skill2 != '') {
+                                                                        skillData.skill_asset = $scope.skillInfo.skill2;
+                                                                        dataSubmit.submitData(skillData, skill_url).then(function (response) {
+                                                                            if (response.data.message != 'success') {
+                                                                                $scope.errorMessages = response.data.message;
+                                                                                ngDialog.openConfirm({
+                                                                                    template: './style/ngTemplate/errorMessage.html',
+                                                                                    className: 'ngdialog-theme-default',
+                                                                                    scope: $scope
+                                                                                });
+                                                                            }
+                                                                        }, function () {
+                                                                            window.alert("Fail to connect to server to add the third skill!");
+                                                                        });
+                                                                    }
+                                                                } else {
+                                                                    $scope.errorMessages = response.data.message;
+                                                                    ngDialog.openConfirm({
+                                                                        template: './style/ngTemplate/errorMessage.html',
+                                                                        className: 'ngdialog-theme-default',
+                                                                        scope: $scope
+                                                                    });
+                                                                }
+                                                            }, function () {
+                                                                window.alert("Fail to connect to server to add the second skill!");
+                                                            });
+                                                        }
+                                                        //ADD TEAM
+                                                        dataSubmit.submitData(teamData, team_url).then(function (response) {
+                                                            if (response.data.message == 'success') {
+                                                                //ADD SECOND TEAM
+                                                                if ($scope.teamPreference.team1 != '') {
+                                                                    teamData = $scope.teamPreference.team1;
+                                                                    dataSubmit.submitData(teamData, team_url).then(function (response) {
+                                                                        if (response.data.message == 'success') {
+                                                                            //ADD THIRD TEAM
+                                                                            if ($scope.teamPreference.team2 != '') {
+                                                                                teamData = $scope.teamPreference.team1;
+                                                                                dataSubmit.submitData(teamData, team_url).then(function (response) {
+                                                                                    if (response.data.message != 'success') {
+                                                                                        $scope.errorMessages = response.data.message;
+                                                                                        ngDialog.openConfirm({
+                                                                                            template: './style/ngTemplate/errorMessage.html',
+                                                                                            className: 'ngdialog-theme-default',
+                                                                                            scope: $scope
+                                                                                        });
+                                                                                    }
+                                                                                }, function () {
+                                                                                    window.alert("Fail to connect to server to add the third team preference!");
+                                                                                });
+                                                                            }
+                                                                        } else {
+                                                                            $scope.errorMessages = response.data.message;
+                                                                            ngDialog.openConfirm({
+                                                                                template: './style/ngTemplate/errorMessage.html',
+                                                                                className: 'ngdialog-theme-default',
+                                                                                scope: $scope
+                                                                            });
+                                                                        }
+                                                                    }, function () {
+                                                                        window.alert("Fail to connect to server to add the second team preference!");
+                                                                    });
+                                                                }
+                                                                //ADD REGISTRY
+                                                                $scope.formData.contact_id = contactId;
+                                                                dataSubmit.submitData($scope.formData, register_url).then(function (response) {
+                                                                    if (response.data.message == 'success') {
+                                                                        ngDialog.openConfirm({
+                                                                            template: './style/ngTemplate/addSuccess.html',
+                                                                            className: 'ngdialog-theme-default',
+                                                                            scope: $scope
+                                                                        }).then(function () {
+                                                                            $state.go('register');
+                                                                        });
+                                                                    } else {
+                                                                        $scope.errorMessages = response.data.message;
+                                                                        ngDialog.openConfirm({
+                                                                            template: './style/ngTemplate/errorMessage.html',
+                                                                            className: 'ngdialog-theme-default',
+                                                                            scope: $scope
+                                                                        });
+                                                                    }
+                                                                }, function () {
+                                                                    window.alert("Fail to connect to server to record registration!");
+                                                                });
+                                                            } else {
+                                                                $scope.errorMessages = response.data.message;
+                                                                ngDialog.openConfirm({
+                                                                    template: './style/ngTemplate/errorMessage.html',
+                                                                    className: 'ngdialog-theme-default',
+                                                                    scope: $scope
+                                                                }).then(function () {
+                                                                    $state.go('register.teamPreferences');
+                                                                });
+                                                            }
+                                                        }, function () {
+                                                            window.alert("Fail to connect to server to add the first team preference!");
+                                                        });
+                                                    } else {
+                                                        $scope.errorMessages = response.data.message;
+                                                        ngDialog.openConfirm({
+                                                            template: './style/ngTemplate/errorMessage.html',
+                                                            className: 'ngdialog-theme-default',
+                                                            scope: $scope
+                                                        }).then(function () {
+                                                            $state.go('register.languageSkill');
+                                                        });
+                                                    }
+                                                }, function () {
+                                                    window.alert("Fail to connect to server to add the first skill!");
+                                                });
+                                            } else {
+                                                //ADD TEAM
+                                                dataSubmit.submitData(teamData, team_url).then(function (response) {
+                                                    if (response.data.message == 'success') {
+                                                        //ADD SECOND TEAM
+                                                        if ($scope.teamPreference.team1 != '') {
+                                                            teamData = $scope.teamPreference.team1;
+                                                            dataSubmit.submitData(teamData, team_url).then(function (response) {
+                                                                if (response.data.message == 'success') {
+                                                                    //ADD THIRD TEAM
+                                                                    if ($scope.teamPreference.team2 != '') {
+                                                                        teamData = $scope.teamPreference.team1;
+                                                                        dataSubmit.submitData(teamData, team_url).then(function (response) {
+                                                                            if (response.data.message != 'success') {
+                                                                                $scope.errorMessages = response.data.message;
+                                                                                ngDialog.openConfirm({
+                                                                                    template: './style/ngTemplate/errorMessage.html',
+                                                                                    className: 'ngdialog-theme-default',
+                                                                                    scope: $scope
+                                                                                });
+                                                                            }
+                                                                        }, function () {
+                                                                            window.alert("Fail to connect to server to add the third team preference!");
+                                                                        });
+                                                                    }
+                                                                } else {
+                                                                    $scope.errorMessages = response.data.message;
+                                                                    ngDialog.openConfirm({
+                                                                        template: './style/ngTemplate/errorMessage.html',
+                                                                        className: 'ngdialog-theme-default',
+                                                                        scope: $scope
+                                                                    });
+                                                                }
+                                                            }, function () {
+                                                                window.alert("Fail to connect to server to add the second team preference!");
+                                                            });
+                                                        }
+                                                        //ADD REGISTRY
+                                                        $scope.formData.contact_id = contactId;
+                                                        dataSubmit.submitData($scope.formData, register_url).then(function (response) {
+                                                            if (response.data.message == 'success') {
+                                                                ngDialog.openConfirm({
+                                                                    template: './style/ngTemplate/addSuccess.html',
+                                                                    className: 'ngdialog-theme-default',
+                                                                    scope: $scope
+                                                                }).then(function () {
+                                                                    $state.go('register');
+                                                                });
+                                                            } else {
+                                                                $scope.errorMessages = response.data.message;
+                                                                ngDialog.openConfirm({
+                                                                    template: './style/ngTemplate/errorMessage.html',
+                                                                    className: 'ngdialog-theme-default',
+                                                                    scope: $scope
+                                                                });
+                                                            }
+                                                        }, function () {
+                                                            window.alert("Fail to connect to server to record registration!");
+                                                        });
+                                                    } else {
+                                                        $scope.errorMessages = response.data.message;
+                                                        ngDialog.openConfirm({
+                                                            template: './style/ngTemplate/errorMessage.html',
+                                                            className: 'ngdialog-theme-default',
+                                                            scope: $scope
+                                                        }).then(function() {
+                                                            $state.go('register.teamPreferences');
+                                                        });
+                                                    }
+                                                }, function () {
+                                                    window.alert("Fail to connect to server to add the first team preference!");
+                                                });
+                                            }
                                         } else {
                                             $scope.errorMessages = response.data.message;
                                             ngDialog.openConfirm({
                                                 template: './style/ngTemplate/errorMessage.html',
                                                 className: 'ngdialog-theme-default',
                                                 scope: $scope
+                                            }).then(function () {
+                                                $state.go('register.languageSkill');
                                             });
                                         }
                                     }, function () {
-                                        window.alert("Fail to send request!");
+                                        window.alert("Fail to connect to server to add the first language!");
                                     });
                                 } else {
                                     $scope.errorMessages = response.data.message;
@@ -547,134 +741,8 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                     }, function () {
                         window.alert("Fail to connect to server to add phone number!");
                     });
-
-
-
-
-
-                    //var submittedLSA = false;
-                    if ($scope.formData.skill_asset != '') {
-                        dataSubmit.submitData(skillData, skill_url).then(function (response) {
-                            if (response.data.message == 'success') {
-
-                                if ($scope.skillInfo.skill1 != '') {
-                                    skillData.skill_asset = $scope.skillInfo.skill1;
-
-                                    dataSubmit.submitData(skillData, skill_url).then(function (response) {
-                                        if (response.data.message == 'success') {
-                                            if ($scope.skillInfo.skill2 != '') {
-                                                skillData.skill_asset = $scope.skillInfo.skill2;
-                                                dataSubmit.submitData(skillData, skill_url).then(function (response) {
-                                                    if (response.data.message == 'success') {
-                                                        //submittedLSA = true;
-                                                    } else {
-                                                        $scope.errorMessages = response.data.message;
-                                                        ngDialog.openConfirm({
-                                                            template: './style/ngTemplate/errorMessage.html',
-                                                            className: 'ngdialog-theme-default',
-                                                            scope: $scope
-                                                        });
-                                                    }
-                                                }, function () {
-                                                    window.alert("Fail to send request!");
-                                                });
-                                            }
-                                        } else {
-                                            $scope.errorMessages = response.data.message;
-                                            ngDialog.openConfirm({
-                                                template: './style/ngTemplate/errorMessage.html',
-                                                className: 'ngdialog-theme-default',
-                                                scope: $scope
-                                            });
-                                        }
-                                    }, function () {
-                                        window.alert("Fail to send request!");
-                                    });
-                                }
-                            } else {
-                                $scope.errorMessages = response.data.message;
-                                ngDialog.openConfirm({
-                                    template: './style/ngTemplate/errorMessage.html',
-                                    className: 'ngdialog-theme-default',
-                                    scope: $scope
-                                });
-                            }
-                        }, function () {
-                            window.alert("Fail to send request!");
-                        });
-                    }
-
-
-                    var submittedTeam = false;
-                    dataSubmit.submitData(teamData, team_url).then(function (response) {
-                        if (response.data.message == 'success') {
-                            //submittedTeam = true;
-                            if ($scope.teamPreference.team1 != '') {
-
-                                teamData = $scope.teamPreference.team1;
-                                dataSubmit.submitData(teamData, team_url).then(function (response) {
-                                    if (response.data.message == 'success') {
-                                        if ($scope.teamPreference.team2 != '') {
-                                            teamData = $scope.teamPreference.team1;
-                                            dataSubmit.submitData(teamData, team_url).then(function (response) {
-                                                if (response.data.message == 'success') {
-                                                    //submittedTeam = true;
-                                                } else {
-                                                    $scope.errorMessages = response.data.message;
-                                                    ngDialog.openConfirm({
-                                                        template: './style/ngTemplate/errorMessage.html',
-                                                        className: 'ngdialog-theme-default',
-                                                        scope: $scope
-                                                    });
-                                                }
-                                            }, function () {
-                                                window.alert("Fail to send request!");
-                                            });
-                                        }
-                                    } else {
-                                        $scope.errorMessages = response.data.message;
-                                        ngDialog.openConfirm({
-                                            template: './style/ngTemplate/errorMessage.html',
-                                            className: 'ngdialog-theme-default',
-                                            scope: $scope
-                                        });
-                                    }
-                                }, function () {
-                                    window.alert("Fail to send request!");
-                                });
-                            }
-                        } else {
-                            $scope.errorMessages = response.data.message;
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/errorMessage.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            });
-                        }
-                    }, function () {
-                        window.alert("Fail to send request!");
-                    });
-
-                    //if (submittedPhone && submittedEmail && submittedLanguage && submittedLSA && submittedTeam) {
-
-                    $scope.formData.contact_id = contactId;
-                    dataSubmit.submitData($scope.formData, register_url).then(function (response) {
-                        if (response.data.message == 'success') {
-                            window.alert("success");
-                            $state.reload('register');
-                        } else {
-                            $scope.errorMessages = response.data.message;
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/errorMessage.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            });
-                        }
-                    }, function () {
-                        window.alert("Fail to send request!");
-                    });
                 }
-            }, function (response) {
+            }, function () {
                 window.alert("Fail to connect to server to save contact details!");
             });
         };

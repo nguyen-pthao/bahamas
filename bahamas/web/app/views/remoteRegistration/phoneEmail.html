@@ -8,8 +8,8 @@ and open the template in the editor.
     <head>
     </head>
     <body>
-        <div class="row col-md-offset-2 col-md-8" style="padding-top: 15px">
-            <div class="form-group col-md-12" style="padding: 0px">
+        <div class="row col-sm-offset-1 col-sm-10" style="padding-top: 15px">
+            <div class="form-group col-md-12">
                 <div class="col-md-3" style="padding: 0px" ng-init="loadCountryCodes()">
                     <label>Country code</label><span class="required">*</span>
                     <input type="number" step="1" class="form-control" ng-model="formData['country_code']" ng-required="true" ng-change="updateCountryNames(formData['country_code'])" name="countrycode">            
@@ -24,7 +24,7 @@ and open the template in the editor.
                     <span ng-show="registration.phonenumber.$error.maxlength" class='error'>Input field phone number is too long.</span>
                 </div>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-12">
                 <label>Email</label><span class="required">*</span>
                 <input type="email" ng-model="formData.email" ng-pattern="emailRegex" ng-maxlength='50' ng-required="true" name="email" class="form-control">
                 <span ng-show="registration.email.$error.pattern && registration.email.$touched" class='error'>Invalid email.</span>
@@ -32,12 +32,12 @@ and open the template in the editor.
                 <span ng-show="registration.email.$error.maxlength" class='error'>Input field email is too long.</span>
             </div>
         </div>
-        <div class="form-group row">
-            <div class="col-xs-offset-5 col-xs-2" style="padding-top: 15px">
-                <a ui-sref="register.languageSkill" class="btn btn-block btn-primary" 
+        <div class="form-group row" style="padding: 15px">
+            <div class="col-sm-offset-4 col-sm-4">
+                <button ui-sref="register.languageSkill" class="btn btn-block btn-primary" 
                    ng-disabled="registration.countrycode.$invalid || registration.phonenumber.$invalid || registration.email.$invalid">
                     Next Section &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
-                </a>
+                </button>
             </div>
         </div>
     </body>

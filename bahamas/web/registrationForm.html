@@ -9,31 +9,30 @@ and open the template in the editor.
     </head>
     <body>
         <div class="row">
-            <div class="col-sm-10 col-sm-offset-1">
-                <div id="form-container">
-                    <div class="page-header text-center">
-                        <h1 style="margin-bottom: 30px">TWC2 Remote Registration</h1>
-                        <div id="status-buttons" class="text-center">
-                            <a ui-sref-active="active" ui-sref=".contact"><span>1</span> Contact Information</a>
-                            <a ui-sref-active="active" ui-sref=".phoneEmail"><span>2</span> Phone & Email Address</a>
-                            <a ui-sref-active="active" ui-sref=".languageSkill"><span>3</span> Languages & Skills</a>
-                            <a ui-sref-active="active" ui-sref=".teamPreferences"><span>4</span> Team Preferences</a>
+            <div id="form-container">
+                <div class="page-header text-center">
+                    <div  class="col-sm-offset-1 col-sm-10">
+                        <h1 id="registration-header">TWC2 Remote Registration</h1>
+                    </div>
+                    <div id="status-buttons" class="text-center">
+                        <a ui-sref-active="active" ui-sref=".contact"><span>1</span> Contact Information</a>
+                        <a ui-sref-active="active" ui-sref=".phoneEmail"><span>2</span> Phone & Email Address</a>
+                        <a ui-sref-active="active" ui-sref=".languageSkill"><span>3</span> Languages & Skills</a>
+                        <a ui-sref-active="active" ui-sref=".teamPreferences"><span>4</span> Team Preferences</a>
+                    </div>
+                </div>
+                <form id="signup-form" name="registration">
+                    <div class="col-sm-offset-1 col-sm-10" id="form-views" ui-view>
+                        <div class="text-center">
+                            <br>
+                            THANK YOU FOR YOUR INFORMATION <br>
+                            You can visit BAHAMAS system by <a ui-sref-active="active" ui-sref="login">click here to login to Bahamas</a>. <br>
+                            Or you can register another record by <a ui-sref-active="active" ui-sref=".contact"> click here </a>.
                         </div>
                     </div>
-                    <form id="signup-form" name="registration">
-                        <div id="form-views" ui-view>
-                            <div class="text-center">
-                                <br>
-                                Welcome to TWC2 <br>
-                                To be inserted Terms and Conditions <br>
-                                <a ui-sref-active="active" ui-sref=".contact"> Click to start registration </a>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <pre>
-                </pre>
+                </form>
             </div>
+            <div class="row col-sm-offset-2 col-sm-8"> <pre> </pre> </div>
         </div>
     </body>
 </html>
