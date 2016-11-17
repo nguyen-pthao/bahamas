@@ -47,7 +47,7 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         
         $scope.code = '';
         $scope.startdate = new Date(new Date().setSeconds(00));
-        $scope.enddate = new Date($scope.startdate.setHours($scope.startdate.getHours() + 2));
+        $scope.enddate = new Date(new Date(new Date().setSeconds(00)).setHours($scope.startdate.getHours() + 2));
         $scope.starttime = $scope.startdate.getTime();
         $scope.endtime = $scope.enddate.getTime();
         
