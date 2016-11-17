@@ -72,44 +72,52 @@ and open the template in the editor.
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
-                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredUsers.length}}</span> 
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{filteredUsers.length}}</span> 
                             &nbsp;&nbsp;
                             <span> <label> Entries per page: </label>&nbsp;</span>
                             <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
                             <span ng-show="isAll" style="color: red">All</span>
                             &nbsp;&nbsp;
-                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitUsers.length}}</span> 
                         </p>
                         <div class="table-horizontal-scroll">
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email</a></th>
-                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
-                                        <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
+                                        <th><a href="" ng-click="sortBy('cid')" style='color: #005384'>CID</a></th>
+                                        <th><a href="" ng-click="sortBy('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="sortBy('email')" style='color: #005384'>Verified Email</a></th>
+                                        <th><a href="" ng-click="sortBy('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
+                                        <th><a href="" ng-click="sortBy('team1')" style='color: #005384'>Team 1</a></th>
+                                        <th><a href="" ng-click="sortBy('team2')" style='color: #005384'>Team 2</a></th>
+                                        <th><a href="" ng-click="sortBy('team3')" style='color: #005384'>Team 3</a></th>
+                                        <th><a href="" ng-click="sortBy('authentication_code')" style='color: #005384'>Authentication Code</a></th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
+                                    <tr ng-repeat="user in filteredUsers | orderBy:propertyName:reverse | startFrom:currentPage*itemsPerPage | limitTo: itemsPerPage">
                                         <td width="10%">{{user.cid}}</td>
                                         <td width="20%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, user)">{{user.name}}</a></td>
-                                        <td width="35%">{{user.email}}</td>
-                                        <td width="20%">{{user.user_date_created}}</td>
-                                        <td width="10%">{{user.authentication_code}}</td>
+                                        <td width="20%">{{user.email}}</td>
+                                        <td width="10%">{{user.user_date_created}}</td>
+                                        <td width="10%">{{user.team1}}</td>
+                                        <td width="10%">{{user.team2}}</td>
+                                        <td width="10%">{{user.team3}}</td>
+                                        <td width="5%">{{user.authentication_code}}</td>
                                         <!--<td width="5%" ng-show="user.cancheck"><center><input ng-model="userObj[user.cid]" icheck-custom="blue" type="checkbox"></center></td>-->
                                         <td width="5%" ng-show="user.cancheck"><button type="submit" ng-click="showAssignModal(user)" class="btn btn-default">Assign</button></td>
-                                </tr>
+                                    </tr>
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email</a></th>
-                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
-                                        <th><a href="" ng-click="order('authentication_code')" style='color: #005384'>Authentication Code</a></th>
+                                        <th><a href="" ng-click="sortBy('cid')" style='color: #005384'>CID</a></th>
+                                        <th><a href="" ng-click="sortBy('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="sortBy('email')" style='color: #005384'>Verified Email</a></th>
+                                        <th><a href="" ng-click="sortBy('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
+                                        <th><a href="" ng-click="sortBy('team1')" style='color: #005384'>Team 1</a></th>
+                                        <th><a href="" ng-click="sortBy('team2')" style='color: #005384'>Team 2</a></th>
+                                        <th><a href="" ng-click="sortBy('team3')" style='color: #005384'>Team 3</a></th>
+                                        <th><a href="" ng-click="sortBy('authentication_code')" style='color: #005384'>Authentication Code</a></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
@@ -117,11 +125,11 @@ and open the template in the editor.
                         </div>
                         <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalItems" boundary-links="true" force-ellipses="true" max-size="maxSize" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                                <uib-pagination total-items="totalItems" boundary-links="true" force-ellipses="true" max-size="maxSize" items-per-page="itemsPerPage" ng-model="currentPageIncrement" ng-change="pageChanged()"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>
-                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                                <pre>Page: {{currentPage + 1}} / {{totalPages()}}</pre>
                             </div>
                         </div>
                     </div>
