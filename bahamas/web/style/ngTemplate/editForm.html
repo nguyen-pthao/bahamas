@@ -2,7 +2,7 @@
     <button type="button" class="close" ng-click="cancel()" aria-label="Close">
         <span aria-hidden="true"><i class="fa fa-close"></i></span>
     </button>
-    <h3 class="modal-title">Activate Remote Registration Form</h3>
+    <h3 class="modal-title">Edit Remote Registration Form</h3>
 </div>
 <div>
     <form name="remoteRegistration">
@@ -10,7 +10,7 @@
             <div class="form-group col-md-12">
                 <div class="col-md-5">
                     <label>Activation Code</label><span class="required">*</span>
-                    <input type="text" class="form-control" ng-model="$parent.code" name="code" empty ng-maxlength='6' ng-minlength='6'>
+                    <input type="text" class="form-control" ng-model="$parent.formCode" name="code" empty ng-maxlength='6' ng-minlength='6'>
                     <span ng-show="remoteRegistration.code.$error.empty && remoteRegistration.code.$touched" class='error'>Activation code is required.</span>
                     <span ng-show="remoteRegistration.code.$error.maxlength && remoteRegistration.code.$touched" class='error'>Activation code can only have 6 digits.</span>
                     <span ng-show="remoteRegistration.code.$error.minlength && remoteRegistration.code.$touched" class='error'>Activation code needs to have 6 digits.</span>
@@ -24,12 +24,12 @@
                         <div class="input-group-addon btn" ng-click="openStart($index)">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type='text' ng-required="true" ng-model="$parent.startdate" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly empty>
+                        <input type='text' ng-required="true" ng-model="$parent.formStart" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly empty>
                     </div>
                 </div>
                 <div class="col-md-offset-2 col-md-5">
                     <label>Start Time</label><span class="required">*</span><span>(24H)</span>
-                    <div uib-timepicker ng-required="true" ng-model="$parent.startdate" mousewheel='true' show-spinners='false' show-meridian="false" show-seconds="false" name="starttime"></div>
+                    <div uib-timepicker ng-required="true" ng-model="$parent.formStart" mousewheel='true' show-spinners='false' show-meridian="false" show-seconds="false" name="starttime"></div>
                 </div>
             </div>
             <div class="form-group col-md-12">
@@ -39,13 +39,13 @@
                         <div class="input-group-addon btn" ng-click="openEnd($index)">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type='text' ng-required="true" ng-model="$parent.enddate" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly empty>
+                        <input type='text' ng-required="true" ng-model="$parent.formEnd" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly empty>
                     </div>
-                    <span ng-show="($parent.startdate > $parent.enddate) && remoteRegistration.enddate.$touched" class="error">Start Date cannot be after End Date.</span>
+                    <span ng-show="($parent.formStart > $parent.formEnd) && remoteRegistration.enddate.$touched" class="error">Start Date cannot be after End Date.</span>
                 </div>
                 <div class="col-md-offset-2 col-md-5">
                     <label>End Time</label><span class="required">*</span><span>(24H)</span>
-                    <div uib-timepicker ng-required="true" ng-model="$parent.enddate" mousewheel='true' show-spinners='false' show-meridian="false" show-seconds="false" name="endtime"></div>
+                    <div uib-timepicker ng-required="true" ng-model="$parent.formEnd" mousewheel='true' show-spinners='false' show-meridian="false" show-seconds="false" name="endtime"></div>
                 </div>
             </div>
         </div>
@@ -53,7 +53,7 @@
             <center>
                 <button class="btn btn-link" type="button"
                         ng-disabled="remoteRegistration.code.$invalid || remoteRegistration.startdate.$invalid || remoteRegistration.enddate.$invalid || remoteRegistration.starttime.$invalid || remoteRegistration.endtime.$invalid"
-                        ng-click="activate()">Activate Remote Registration Form</button>
+                        ng-click="update()">Update Registration Form</button>
                 <br>
             </center>
         </div>

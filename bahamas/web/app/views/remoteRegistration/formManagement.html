@@ -70,11 +70,22 @@ and open the template in the editor.
                                         <th ng-repeat="tableHead in tableHeader">
                                             <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
                                         </th>
+                                        <th style='color: #005384'>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="result in resultData| orderBy:predicate:reverse">
                                         <td ng-repeat="tInfo in tableHeader">{{result[tInfo]}}</td>
+                                        <td>
+                                            <div id="view-contacts">
+                                                <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit Form" ng-click="editForm($event, result)">
+                                                    <i class="fa fa-edit fa-large" aria-hidden="true" style='color: #0d1957'></i>
+                                                </button>
+                                                <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete Form" ng-click="deleteForm($event, result)">
+                                                    <i class="fa fa-trash fa-large" aria-hidden="true" style='color: #ef0606'></i>
+                                                </button>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                                 <tfoot>
@@ -82,6 +93,7 @@ and open the template in the editor.
                                         <th ng-repeat="tableHead in tableHeader">
                                             <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
                                         </th>
+                                        <th style='color: #005384'>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>

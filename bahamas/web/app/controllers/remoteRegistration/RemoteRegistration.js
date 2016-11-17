@@ -6,7 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', function ($scope, session, $state, dataSubmit, $uibModal) {
+app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', 'ngDialog', 
+    function ($scope, session, $state, dataSubmit, $uibModal, ngDialog) {
         
         var token = session.getSession('token');
         $scope.permission = session.getSession('userType');
@@ -104,5 +105,35 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
             }
         });
         
-        
+        $scope.deleteRegistry = function($event, registry) {
+            var url = AppAPI.deleteRegistration;
+            datasend['registration_id'] = registry['Registration Id'];
+            
+            ngDialog.openConfirm({
+                template: './style/ngTemplate/deletePrompt.html',
+                className: 'ngdialog-theme-default',
+                scope: $scope
+            }).then(function () {
+                dataSubmit.submitData(datasend, url).then(function (response) {
+                    if (response.data.message == 'success') {
+                        ngDialog.openConfirm({
+                            template: './style/ngTemplate/deleteSuccess.html',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        }).then(function () {
+                            $state.reload();
+                        });
+                    } else {
+                        $scope.errorMessages = response.data.message;
+                        ngDialog.openConfirm({
+                            template: './style/ngTemplate/deleteFailure.html',
+                            className: 'ngdialog-theme-default',
+                            scope: $scope
+                        });
+                    }
+                }, function() {
+                    window.alert("Fail to send request!");
+                });
+            });
+        };    
     }]);
