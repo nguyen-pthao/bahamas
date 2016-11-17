@@ -36,15 +36,6 @@ app.controller('individualReport', ['$scope', 'session', '$state', 'dataSubmit',
         $scope.loadTeamAffiliationList = function () {
             loadTeamAffiliation.retrieveTeamAffiliation().then(function (response) {
                 $scope.teamAffiliationList = response.data.teamAffiliationList;
-                var other;
-                for (var obj in $scope.teamAffiliationList) {
-                    if ($scope.teamAffiliationList[obj].teamAffiliation == 'Others' || $scope.teamAffiliationList[obj].teamAffiliation == 'Other') {
-                        other = $scope.teamAffiliationList.splice(obj, 1);
-                    }
-                }
-                if (other != null && !angular.isUndefined(other)) {
-                    $scope.teamAffiliationList.push(other[0]);
-                }
             });
         };
         

@@ -20,8 +20,7 @@ and open the template in the editor.
                 <div class="col-md-offset-1 col-md-3">
                     <label>Speak/Write?</label><span class="required">*</span>
                     <select class="form-control" ng-model="formData['speak_write']" name="spreakWrite" ng-required="true">
-                        <option value="speak only">Speak only</option>
-                        <option value="speak and write">Speak and write</option>
+                        <option ng-repeat="choice in speakWriteList">{{choice.choice}}</option>
                     </select>
                     <span ng-show="registration.spreakWrite.$invalid && registration.spreakWrite.$touched" class='error'>Speak/Write is required.</span>
                 </div>
@@ -36,8 +35,7 @@ and open the template in the editor.
                 <div class="col-md-offset-1 col-md-3">
                     <label>Speak/Write?</label>
                     <select class="form-control" ng-model="languageInfo['speak_write_1']">
-                        <option value="speak only">Speak only</option>
-                        <option value="speak and write">Speak and write</option>
+                        <option ng-repeat="choice in speakWriteList1">{{choice.choice}}</option>
                     </select> 
                 </div>
             </div>
@@ -51,8 +49,7 @@ and open the template in the editor.
                 <div class="col-md-offset-1 col-md-3">
                     <label>Speak/Write?</label>
                     <select class="form-control" ng-model="languageInfo['speak_write_2']">
-                        <option value="speak only">Speak only</option>
-                        <option value="speak and write">Speak and write</option>
+                        <option ng-repeat="choice in speakWriteList2">{{choice.choice}}</option>
                     </select> 
                 </div>
             </div>

@@ -181,6 +181,7 @@ app.controller('EditTeamJoin', ['$scope', 'session', 'ngDialog', '$timeout', 'da
                         $scope.teamPref.team2 = '';
                     }
                     if ($scope.teamPref.team3 != '' && choice == $scope.teamPref.team3) {
+                        $scope.teamPref.team3 = ''; 
                         var list2 = angular.copy($scope.teamAffiliationList1);
                         list2.splice(position, 1);
                         $scope.teamAffiliationList2 = list2;
