@@ -27,7 +27,7 @@ and open the template in the editor.
                             <div class="col-md-3">
                                 <label>Select registration sessions to be retrieved</label> 
                                 <select class="form-control" ng-model="registrationChoice">
-                                    <option value="retrieveRegistration" selected>All Registration Session</option>
+                                    <option value="retrieveRegistration" ng-hide="permission == 'eventleader'">All Registration Session</option>
                                     <option value="retrieveCurrentRegistration">Single Registration Session</option>
                                 </select>
                             </div>

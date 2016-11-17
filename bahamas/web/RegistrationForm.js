@@ -33,7 +33,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
             second: false,
             'request_user': true
         };
-
+//        var copycat = angular.copy($scope.formData);
         $scope.languageInfo = {
             language1: '',
             'speak_write_1': '',
@@ -506,55 +506,57 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
 
                     var skill_url = "/skill.add";
                     //var submittedLSA = false;
-                    dataSubmit.submitData(skillData, skill_url).then(function (response) {
-                        if (response.data.message == 'success') {
-                            
-                            if($scope.skillInfo.skill1 != '') {
-                                skillData.skill_asset = $scope.skillInfo.skill1;
-                                
-                                dataSubmit.submitData(skillData, skill_url).then(function (response) {
-                                    if (response.data.message == 'success') {
-                                        if($scope.skillInfo.skill2 != '') {
-                                            skillData.skill_asset = $scope.skillInfo.skill2;
-                                            dataSubmit.submitData(skillData, skill_url).then(function (response) {
-                                                if (response.data.message == 'success') {
-                                                    //submittedLSA = true;
-                                                } else {
-                                                    $scope.errorMessages = response.data.message;
-                                                    ngDialog.openConfirm({
-                                                        template: './style/ngTemplate/errorMessage.html',
-                                                        className: 'ngdialog-theme-default',
-                                                        scope: $scope
-                                                    });
-                                                }
-                                            }, function() {
-                                                window.alert("Fail to send request!");
+                    if($scope.formData.skill_asset != '') {
+                        dataSubmit.submitData(skillData, skill_url).then(function (response) {
+                            if (response.data.message == 'success') {
+
+                                if($scope.skillInfo.skill1 != '') {
+                                    skillData.skill_asset = $scope.skillInfo.skill1;
+
+                                    dataSubmit.submitData(skillData, skill_url).then(function (response) {
+                                        if (response.data.message == 'success') {
+                                            if($scope.skillInfo.skill2 != '') {
+                                                skillData.skill_asset = $scope.skillInfo.skill2;
+                                                dataSubmit.submitData(skillData, skill_url).then(function (response) {
+                                                    if (response.data.message == 'success') {
+                                                        //submittedLSA = true;
+                                                    } else {
+                                                        $scope.errorMessages = response.data.message;
+                                                        ngDialog.openConfirm({
+                                                            template: './style/ngTemplate/errorMessage.html',
+                                                            className: 'ngdialog-theme-default',
+                                                            scope: $scope
+                                                        });
+                                                    }
+                                                }, function() {
+                                                    window.alert("Fail to send request!");
+                                                });
+                                            }
+                                        } else {
+                                            $scope.errorMessages = response.data.message;
+                                            ngDialog.openConfirm({
+                                                template: './style/ngTemplate/errorMessage.html',
+                                                className: 'ngdialog-theme-default',
+                                                scope: $scope
                                             });
                                         }
-                                    } else {
-                                        $scope.errorMessages = response.data.message;
-                                        ngDialog.openConfirm({
-                                            template: './style/ngTemplate/errorMessage.html',
-                                            className: 'ngdialog-theme-default',
-                                            scope: $scope
-                                        });
-                                    }
-                                }, function() {
-                                    window.alert("Fail to send request!");
+                                    }, function() {
+                                        window.alert("Fail to send request!");
+                                    });
+                                }
+                            } else {
+                                $scope.errorMessages = response.data.message;
+                                ngDialog.openConfirm({
+                                    template: './style/ngTemplate/errorMessage.html',
+                                    className: 'ngdialog-theme-default',
+                                    scope: $scope
                                 });
                             }
-                        } else {
-                            $scope.errorMessages = response.data.message;
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/errorMessage.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            });
-                        }
-                    }, function () {
-                        window.alert("Fail to send request!");
-                    });
-
+                        }, function () {
+                            window.alert("Fail to send request!");
+                        });
+                    }
+                    
                     var team_url = "/teamjoin.add";
                     var submittedTeam = false;
                     dataSubmit.submitData(teamData, team_url).then(function (response) {
@@ -612,7 +614,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                     dataSubmit.submitData($scope.formData, register_url).then(function (response) {
                         if (response.data.message == 'success') {
                             window.alert("success");
-                            $state.go('register');
+                            $state.reload('register');
                         } else {
                             $scope.errorMessages = response.data.message;
                             ngDialog.openConfirm({
