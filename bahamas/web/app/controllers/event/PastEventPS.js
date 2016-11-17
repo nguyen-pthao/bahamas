@@ -47,6 +47,22 @@ app.controller('pastEventsPS',
                     localStorageService.set('PastEventsParticipationTeamFilter', $scope.teamFilter);
                     $scope.retrieveEvents();
                 };
+                
+                $scope.dateStartChanged = function () {
+                    if (angular.isUndefined($scope.dateStart)) {
+                        localStorageService.set('PastEventsParticipationDateStartFilter', null);
+                    } else {
+                        localStorageService.set('PastEventsParticipationDateStartFilter', $scope.dateStart);
+                    }
+                };
+
+                $scope.dateEndChanged = function () {
+                    if (angular.isUndefined($scope.dateEnd)) {
+                        localStorageService.set('PastEventsParticipationDateEndFilter', null);
+                    } else {
+                        localStorageService.set('PastEventsParticipationDateEndFilter', $scope.dateEnd);
+                    }
+                };
 
                 $scope.retrieveEvents = function () {
                     $scope.teamFilter = localStorageService.get('PastEventsParticipationTeamFilter');
@@ -72,7 +88,19 @@ app.controller('pastEventsPS',
                     };
                     var url = '/event.pastparticipants';
                     $scope.myPromise = dataSubmit.submitData($scope.toRetrieve, url).then(function (response) {
-                        
+                        if (localStorageService.get('PastEventsParticipationDateStartFilter') === null) {
+                            $scope.dateStart = '';
+                        } else {
+                            $scope.dateStart = new Date(localStorageService.get('PastEventsParticipationDateStartFilter'));
+                            $scope.dateStart.setHours(00, 00, 00, 000);
+                        }
+                        if (localStorageService.get('PastEventsParticipationDateEndFilter') === null) {
+                            var end = new Date();
+                            end.setHours(23, 59, 59, 999);
+                            $scope.dateEnd = end;
+                        } else {
+                            $scope.dateEnd = new Date(localStorageService.get('PastEventsParticipationDateEndFilter'));
+                        }
                         $scope.allEventInfo = response.data.event;
                         $scope.filteredEvents = $scope.allEventInfo;
                         $scope.totalItems = $scope.filteredEvents.length;
@@ -126,108 +154,6 @@ app.controller('pastEventsPS',
                             $scope.filteredEvents = filterFilter($scope.allFilteredEventsTime, $scope.searchEvents);
                             $scope.totalItems = $scope.filteredEvents.length;
                         });
-//                        $scope.allEventInfo = response.data.event;
-//                        $scope.totalItems = $scope.allEventInfo.length;
-//                        $scope.maxSize = 5;
-//                        $scope.currentPage = 1;
-//                        $scope.itemsPerPage = 50;
-//                        $scope.allFilteredEvents = $scope.allEventInfo;
-//                        $scope.allFilteredEvents.reverse();
-//                        $scope.isAll = false;
-//                        var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-//                        $scope.totalPages = Math.ceil(total);
-//                        if ($scope.totalPages === 0) {
-//                            $scope.totalPages = 1;
-//                        }
-//                        $scope.$watch('currentPage + itemsPerPage', function () {
-//                            var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-//                            var end = begin + parseInt($scope.itemsPerPage);
-//
-//                            $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-//                        });
-//
-//                        $scope.itemsPerPageChanged = function () {
-//                            if ($scope.itemsPerPage == 'toAll') {
-//                                $scope.itemsPerPage = $scope.allFilteredEvents.length;
-//                                $scope.isAll = true;
-//                            } else {
-//                                $scope.isAll = false;
-//                            }
-//
-//                            var newArray = [];
-//                            angular.forEach($scope.allEventInfo, function (obj) {
-//                                var startDate = new Date(obj['event_start_date']);
-//                                if (startDate >= $scope.dateStart && startDate <= $scope.dateEnd) {
-//                                    newArray.push(obj);
-//                                }
-//                            });
-//                            $scope.allFilteredEventsTime = newArray;
-//                            $scope.allFilteredEvents = filterFilter($scope.allFilteredEventsTime, $scope.searchEvents);
-//                            var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-//                            $scope.totalPages = Math.ceil(total);
-//                            if ($scope.totalPages === 0) {
-//                                $scope.totalPages = 1;
-//                            }
-//                            $scope.$watch('currentPage + itemsPerPage', function () {
-//                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-//                                var end = begin + parseInt($scope.itemsPerPage);
-//                                $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-//                            });
-//                        };
-//
-//                        $scope.$watch('searchEvents', function (term) {
-//                            var newArray = [];
-//                            angular.forEach($scope.allEventInfo, function (obj) {
-//                                var startDate = new Date(obj['event_start_date']);
-//                                if (startDate >= $scope.dateStart && startDate <= $scope.dateEnd) {
-//                                    newArray.push(obj);
-//                                }
-//                            });
-//                            $scope.allFilteredEventsTime = newArray;
-//
-//                            $scope.allFilteredEvents = filterFilter($scope.allFilteredEventsTime, term);
-//                            $scope.totalItems = $scope.allFilteredEvents.length;
-//                            var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-//                            $scope.totalPages = Math.ceil(total);
-//                            if ($scope.totalPages === 0) {
-//                                $scope.totalPages = 1;
-//                            }
-//                            $scope.$watch('currentPage + itemsPerPage', function () {
-//                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-//                                var end = begin + parseInt($scope.itemsPerPage);
-//                                $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-//                            });
-//                        });
-//
-//                        $scope.$watch('dateStart + dateEnd', function () {
-//                            var newArray = [];
-//                            if (angular.isUndefined($scope.dateStart)) {
-//                                $scope.dateStart = null;
-//                            }
-//                            if (angular.isUndefined($scope.dateEnd)) {
-//                                var end = new Date();
-//                                end.setHours(23, 59, 59, 999);
-//                                $scope.dateEnd = end;
-//                            }
-//                            angular.forEach($scope.allEventInfo, function (obj) {
-//                                var startDate = new Date(obj['event_start_date']);
-//                                if (startDate >= $scope.dateStart && startDate <= $scope.dateEnd) {
-//                                    newArray.push(obj);
-//                                }
-//                            });
-//                            $scope.allFilteredEventsTime = newArray;
-//                            $scope.allFilteredEvents = filterFilter($scope.allFilteredEventsTime, $scope.searchEvents);
-//                            var total = $scope.allFilteredEvents.length / $scope.itemsPerPage;
-//                            $scope.totalPages = Math.ceil(total);
-//                            if ($scope.totalPages === 0) {
-//                                $scope.totalPages = 1;
-//                            }
-//                            $scope.$watch('currentPage + itemsPerPage', function () {
-//                                var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-//                                var end = begin + parseInt($scope.itemsPerPage);
-//                                $scope.splitEvents = $scope.allFilteredEvents.slice(begin, end);
-//                            });
-//                        });
                     });
                     var end = new Date();
                     end.setHours(23, 59, 59, 999);
