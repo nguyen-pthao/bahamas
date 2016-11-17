@@ -41,10 +41,10 @@ public class ReportDAO {
         try {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID,c.NAME, c.USERNAME, MIN(DATE(e.DATE_CREATED)), "
-                    + "MAX(DATE(e.DATE_CREATED)), c.LAST_LOGIN FROM CONTACT c, TEAM_JOIN t, EVENT_PARTICIPANT e "
-                    + "WHERE c.CONTACT_ID=t.CONTACT_ID "
-                    + "AND e.CONTACT_ID=c.CONTACT_ID AND t.CONTACT_ID=e.CONTACT_ID "
-                    + "AND PERMISSION IS NOT NULL AND PULLOUT=FALSE AND TEAM_NAME = ? "
+                    + "MAX(DATE(e.EVENT_END_DATE)), c.LAST_LOGIN FROM CONTACT c, EVENT_AFFILIATION ea, "
+                    + "EVENT_PARTICIPANT ep, EVENT e, TEAM_JOIN tj WHERE c.CONTACT_ID=ep.CONTACT_ID "
+                    + "AND ea.EVENT_ID=ep.EVENT_ID AND e.EVENT_ID=ep.EVENT_ID "
+                    + "AND PERMISSION IS NOT NULL AND PULLOUT=FALSE AND ea.TEAM_NAME = ? "
                     + "GROUP BY c.CONTACT_ID,c.NAME, c.USERNAME");
 
             stmt.setString(1, team);
@@ -123,17 +123,32 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT DATE(ep.DATE_CREATED), TEAM_NAME, EVENT_TITLE, "
-                    + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
-                    + "TEAM_JOIN t, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
-                    + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
-                    + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? AND TEAM_NAME=? "
-                    + "AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
 
-            stmt.setInt(1, cid);
-            stmt.setString(2, team);
-            stmt.setDate(3, new java.sql.Date(start.getTime()));
-            stmt.setDate(4, new java.sql.Date(end.getTime()));
+            if (team != null) {
+                stmt = conn.prepareStatement("SELECT DATE(e.EVENT_START_DATE), ea.TEAM_NAME, EVENT_TITLE, "
+                        + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
+                        + "EVENT_AFFILIATION ea, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
+                        + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
+                        + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? AND ea.TEAM_NAME=? "
+                        + "AND ea.EVENT_ID=e.EVENT_ID AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
+
+                stmt.setInt(1, cid);
+                stmt.setString(2, team);
+                stmt.setDate(3, new java.sql.Date(start.getTime()));
+                stmt.setDate(4, new java.sql.Date(end.getTime()));
+
+            } else {
+                stmt = conn.prepareStatement("SELECT DATE(e.EVENT_START_DATE), ea.TEAM_NAME, EVENT_TITLE, "
+                        + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
+                        + "EVENT_AFFILIATION ea, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
+                        + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
+                        + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? "
+                        + "AND ea.EVENT_ID=e.EVENT_ID AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
+
+                stmt.setInt(1, cid);
+                stmt.setDate(2, new java.sql.Date(start.getTime()));
+                stmt.setDate(3, new java.sql.Date(end.getTime()));
+            }
 
             int counter = 0;
             rs = stmt.executeQuery();
@@ -533,16 +548,18 @@ public class ReportDAO {
                     receivedDate = formatDate.format(rDate);
                 }
 
-                String donationAmt = rs.getString(2);
-                String paymentM = rs.getString(3);
-                String receiptNum = rs.getString(4);
-                String donorInstruc = rs.getString(5);
-                String subAmt1 = rs.getString(6);
-                String subAmt2 = rs.getString(7);
-                String subAmt3 = rs.getString(8);
+                String name = rs.getString(2);
+                String donationAmt = rs.getString(3);
+                String paymentM = rs.getString(4);
+                String receiptNum = rs.getString(5);
+                String donorInstruc = rs.getString(6);
+                String subAmt1 = rs.getString(7);
+                String subAmt2 = rs.getString(8);
+                String subAmt3 = rs.getString(9);
 
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add(receivedDate);
+                temp.add(name);
                 temp.add(donationAmt);
                 temp.add(paymentM);
                 temp.add(receiptNum);
