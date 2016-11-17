@@ -164,12 +164,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'userManagementCtrl'
             })
             .state('admin.unverifiedUsers', {
-                url: '/unverifiedUsers',
+                url: '/unverifiedContacts',
                 templateUrl: 'app/views/userManagement/unverifiedUsers.html',
                 controller: 'unverifiedUsersCtrl'
             })
             .state('admin.verifiedUsers', {
-                url: '/verifiedUsers',
+                url: '/verifiedContacts',
                 templateUrl: 'app/views/userManagement/verifiedUsers.html',
                 controller: 'verifiedUsersCtrl'
             })
@@ -394,12 +394,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'userManagementCtrl'
             })
             .state('teammanager.unverifiedUsers', {
-                url: '/unverifiedUsers',
+                url: '/unverifiedContacts',
                 templateUrl: 'app/views/userManagement/unverifiedUsers.html',
                 controller: 'unverifiedUsersCtrl'
             })
             .state('teammanager.verifiedUsers', {
-                url: '/verifiedUsers',
+                url: '/verifiedContacts',
                 templateUrl: 'app/views/userManagement/verifiedUsers.html',
                 controller: 'verifiedUsersCtrl'
             })
@@ -529,12 +529,12 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 controller: 'userManagementCtrl'
             })
             .state('eventleader.unverifiedUsers', {
-                url: '/unverifiedUsers',
+                url: '/unverifiedContacts',
                 templateUrl: 'app/views/userManagement/unverifiedUsers.html',
                 controller: 'unverifiedUsersCtrl'
             })
             .state('eventleader.verifiedUsers', {
-                url: '/verifiedUsers',
+                url: '/verifiedContacts',
                 templateUrl: 'app/views/userManagement/verifiedUsers.html',
                 controller: 'verifiedUsersCtrl'
             })

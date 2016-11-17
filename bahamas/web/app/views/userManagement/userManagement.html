@@ -94,30 +94,29 @@ and open the template in the editor.
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
-                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredUsers.length}}</span> 
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{filteredUsers.length}}</span> 
                             &nbsp;&nbsp;
                             <span> <label> Entries per page: </label>&nbsp;</span>
                             <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
                             <span ng-show="isAll" style="color: red">All</span>
                             &nbsp;&nbsp;
-                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitUsers.length}}</span> 
                         </p>
                         <div class="table-horizontal-scroll">
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
-                                        <th><a href="" ng-click="order('username')" style='color: #005384'>Username</a></th>
-                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
-                                        <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
-                                        <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
+                                        <th><a href="" ng-click="sortBy('cid')" style='color: #005384'>CID</a></th>
+                                        <th><a href="" ng-click="sortBy('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="sortBy('email')" style='color: #005384'>Verified Email(s)</a></th>
+                                        <th><a href="" ng-click="sortBy('username')" style='color: #005384'>Username</a></th>
+                                        <th><a href="" ng-click="sortBy('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
+                                        <th><a href="" ng-click="sortBy('last_login')" style='color: #005384'>Most recent login</a></th>
+                                        <th><a href="" ng-click="sortBy('deactivated')" style='color: #005384'>Status</a></th>
                                         <th><center><input ng-model="checkAll" ng-change="checkAllFn()" icheck-custom="blue" type="checkbox"></center></th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="user in splitUsers| orderBy:predicate:reverse">
+                                    <tr ng-repeat="user in filteredUsers | orderBy:propertyName:reverse | startFrom:currentPage*itemsPerPage | limitTo: itemsPerPage">
                                         <td width="5%">{{user.cid}}</td>
                                         <td width="15%"><a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, user)">{{user.name}}</a></td>
                                         <td width="30%">{{user.email}}</td>
@@ -131,13 +130,13 @@ and open the template in the editor.
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th><a href="" ng-click="order('cid')" style='color: #005384'>CID</a></th>
-                                        <th><a href="" ng-click="order('name')" style='color: #005384'>Name</a></th>
-                                        <th><a href="" ng-click="order('email')" style='color: #005384'>Verified Email(s)</a></th>
-                                        <th><a href="" ng-click="order('username')" style='color: #005384'>Username</a></th>
-                                        <th><a href="" ng-click="order('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
-                                        <th><a href="" ng-click="order('last_login')" style='color: #005384'>Most recent login</a></th>
-                                        <th><a href="" ng-click="order('deactivated')" style='color: #005384'>Status</a></th>
+                                        <th><a href="" ng-click="sortBy('cid')" style='color: #005384'>CID</a></th>
+                                        <th><a href="" ng-click="sortBy('name')" style='color: #005384'>Name</a></th>
+                                        <th><a href="" ng-click="sortBy('email')" style='color: #005384'>Verified Email(s)</a></th>
+                                        <th><a href="" ng-click="sortBy('username')" style='color: #005384'>Username</a></th>
+                                        <th><a href="" ng-click="sortBy('user_date_created')" style='color: #005384'>Contact Created Date</a></th>
+                                        <th><a href="" ng-click="sortBy('last_login')" style='color: #005384'>Most recent login</a></th>
+                                        <th><a href="" ng-click="sortBy('deactivated')" style='color: #005384'>Status</a></th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
@@ -145,11 +144,11 @@ and open the template in the editor.
                         </div>
                         <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalItems" boundary-links="true" force-ellipses="true" max-size="maxSize" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()"></uib-pagination>
+                                <uib-pagination total-items="totalItems" boundary-links="true" force-ellipses="true" max-size="maxSize" items-per-page="itemsPerPage" ng-model="currentPageIncrement" ng-change="pageChanged()"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>
-                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                                <pre>Page: {{currentPage + 1}} / {{totalPages()}}</pre>
                             </div>
                         </div>
                     </div>

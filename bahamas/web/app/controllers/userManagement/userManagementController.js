@@ -29,7 +29,7 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
                 });
             }
         };
-        
+
         $scope.backHome = function () {
             $state.go(user);
         };
@@ -207,65 +207,38 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
                     $scope.userObj[obj.cid] = false;
                     $scope.userObjName[obj.cid] = obj.name;
                 });
-                $scope.totalItems = $scope.allUsers.length;
-                $scope.maxSize = 5;
-                $scope.currentPage = 1;
-                $scope.itemsPerPage = 100;
-                $scope.allFilteredUsers = $scope.allUsers;
-                $scope.isAll = false;
-                var total = $scope.allFilteredUsers.length / $scope.itemsPerPage;
-                $scope.totalPages = Math.ceil(total);
-                if ($scope.totalPages === 0) {
-                    $scope.totalPages = 1;
-                }
-                $scope.$watch('currentPage + itemsPerPage', function () {
-                    var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                    var end = begin + parseInt($scope.itemsPerPage);
-
-                    $scope.splitUsers = $scope.allFilteredUsers.slice(begin, end);
+                $scope.filteredUsers = $scope.allUsers;
+                $scope.totalItems = $scope.filteredUsers.length;
+                $scope.currentPage = 0;
+                $scope.currentPageIncrement = 1;
+                $scope.$watch('currentPageIncrement', function () {
+                    $scope.currentPage = $scope.currentPageIncrement - 1;
                 });
+                $scope.itemsPerPage = 100;
+                $scope.maxSize = 5;
+                $scope.propertyName = '';
+                $scope.reverse = true;
+                $scope.sortBy = function (propertyName) {
+                    $scope.reverse = ($scope.propertyName === propertyName) ? !$scope.reverse : false;
+                    $scope.propertyName = propertyName;
+                };
+                $scope.totalPages = function () {
+                    return Math.ceil($scope.filteredUsers.length / $scope.itemsPerPage);
+                };
                 $scope.itemsPerPageChanged = function () {
                     if ($scope.itemsPerPage == 'toAll') {
-                        $scope.itemsPerPage = $scope.allFilteredUsers.length;
+                        $scope.itemsPerPage = $scope.filteredUsers.length;
                         $scope.isAll = true;
                     } else {
                         $scope.isAll = false;
                     }
-                    $scope.allFilteredUsers = filterFilter($scope.allUsers, $scope.searchUsers);
-                    var total = $scope.allFilteredUsers.length / $scope.itemsPerPage;
-                    $scope.totalPages = Math.ceil(total);
-                    if ($scope.totalPages === 0) {
-                        $scope.totalPages = 1;
-                    }
-                    $scope.$watch('currentPage + itemsPerPage', function () {
-                        var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                        var end = begin + parseInt($scope.itemsPerPage);
-                        $scope.splitUsers = $scope.allFilteredUsers.slice(begin, end);
-                    });
                 };
                 $scope.$watch('searchUsers', function (term) {
-                    $scope.allFilteredUsers = filterFilter($scope.allUsers, term);
-                    $scope.totalItems = $scope.allFilteredUsers.length;
-                    var total = $scope.allFilteredUsers.length / $scope.itemsPerPage;
-                    $scope.totalPages = Math.ceil(total);
-                    if ($scope.totalPages === 0) {
-                        $scope.totalPages = 1;
-                    }
-                    $scope.$watch('currentPage + itemsPerPage', function () {
-                        var begin = ($scope.currentPage - 1) * $scope.itemsPerPage;
-                        var end = begin + parseInt($scope.itemsPerPage);
-                        $scope.splitUsers = $scope.allFilteredUsers.slice(begin, end);
-                    });
+                    $scope.allUsersInfoTemp = $scope.allUsers;
+                    $scope.filteredUsers = filterFilter($scope.allUsersInfoTemp, term);
+                    $scope.totalItems = $scope.filteredUsers.length;
                 });
             });
-
-            $scope.predicate = '';
-            $scope.reverse = false;
-
-            $scope.order = function (predicate) {
-                $scope.reverse = ($scope.predicate === predicate) ? !$scope.reverse : false;
-                $scope.predicate = predicate;
-            };
 
         };
 
@@ -337,3 +310,14 @@ app.controller('userManagementCtrl', ['$scope', 'session', 'filterFilter', '$sta
         //----- end of datepicker settings-----
 
     }]);
+
+app.filter('startFrom', function () {
+    return function (input, start) {
+        start = +start; //parse to int
+        if (angular.isUndefined(input)) {
+            return null;
+        } else {
+            return input.slice(start);
+        }
+    }
+});      
