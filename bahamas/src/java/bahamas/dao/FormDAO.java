@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class FormDAO {
 
-    private static SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private static SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm");
     private static SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
 
     public static boolean addForm(String code, Date startTime, Date endTime, String createdBy) {
