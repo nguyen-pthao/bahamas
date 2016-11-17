@@ -138,7 +138,7 @@ public class UpdateForm extends HttpServlet {
                     }
 
                     if (FormDAO.updateForm(formId, code, startDate, endDate)) {
-                        AuditLogDAO.insertAuditLog(username, "UPDATE FORM", "Update form for remote registrations");
+                        AuditLogDAO.insertAuditLog(username, "UPDATE FORM", "Update form for remote registrations under form_id: " + formId);
                         json.addProperty("message", "success");
                         out.println(gson.toJson(json));
 

@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "VerifyCode", urlPatterns = {"/form.verify"})
+@WebServlet(urlPatterns = {"/form.verify"})
 public class VerifyCode extends HttpServlet {
     
     

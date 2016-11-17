@@ -129,7 +129,8 @@ public class AddTeamAffiliation extends HttpServlet {
                             }
 
                             if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
-                                if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                //if (RoleCheckDAO.checkRole(contact.getContactId(), "teammanager") || RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
+                                if (RoleCheckDAO.checkRole(contact.getContactId(), "eventleader")) {
                                     ArrayList<TeamJoin> teamJoinList = TeamJoinDAO.validTeamJoin(contact.getContactId());
                                     for (TeamJoin teamJoin : teamJoinList) {
                                         if (teamHM.containsKey(teamJoin.getTeamName())) {
@@ -138,7 +139,7 @@ public class AddTeamAffiliation extends HttpServlet {
                                         }
                                     }
                                 }
-                                if (!contact.isIsAdmin() && !teamIncluded) {
+                                if (!(contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) && !teamIncluded) {
                                     json.addProperty("message", "error");
                                     errorMsg.add(new JsonPrimitive("Your team should also be selected."));
                                     json.add("errorMsg", errorMsg);
