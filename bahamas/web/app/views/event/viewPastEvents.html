@@ -80,31 +80,30 @@ and open the template in the editor.
                             </div>
                         </div>
                         <p style="margin-bottom: 0px">
-                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{allFilteredEvents.length}}</span> 
+                            <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{filteredEvents.length}}</span> 
                             &nbsp;&nbsp;
                             <span> <label> Entries per page: </label>&nbsp;</span>
                             <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
                             <span ng-show="isAll" style="color: red">All</span>
                             &nbsp;&nbsp;
-                            <span> <label> Entries in page: </label>&nbsp;</span><span style="color: red">{{splitEvents.length}}</span> 
                         </p>
                         <div class="table-horizontal-scroll">
                             <table id="example1" class="table table-bordered table-striped" style="max-width: 100%">
                                 <thead>
                                     <tr>
-                                        <th width="20%"><a href="" ng-click="order('event_title')" style='color: #005384'>Event Title</a></th>
-                                        <th width="10%"><a href="" ng-click="order('event_start_date')" style='color: #005384'>Start Date</a></th>
-                                        <th width="10%"><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
-                                        <th width="10%"><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
-                                        <th width="10%"><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
-                                        <th width="10%"><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
-                                        <th width="10%"><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
+                                        <th width="20%"><a href="" ng-click="sortBy('event_title')" style='color: #005384'>Event Title</a></th>
+                                        <th width="10%"><a href="" ng-click="sortBy('event_start_date')" style='color: #005384'>Start Date</a></th>
+                                        <th width="10%"><a href="" ng-click="sortBy('event_time_start')" style='color: #005384'>Start Time</a></th>
+                                        <th width="10%"><a href="" ng-click="sortBy('event_location')" style='color: #005384'>Location</a></th>
+                                        <th width="10%"><a href="" ng-click="sortBy('event_class')" style='color: #005384'>Event Class</a></th>
+                                        <th width="10%"><a href="" ng-click="sortBy('team')" style='color: #005384'>Teams</a></th>
+                                        <th width="10%"><a href="" ng-click="sortBy('event_status')" style='color: #005384'>Status</a></th>
                                         <th width="5%" style="color: #005384">Total Participants</th>
                                         <th width="15%"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="event in splitEvents| orderBy:predicate:reverse">
+                                    <tr ng-repeat="event in filteredEvents | orderBy:propertyName:reverse | startFrom:currentPage*itemsPerPage | limitTo: itemsPerPage">
                                         <td><a href="#/{{viewIndivEvent}}" ng-mousedown="viewEvent($event, event)">{{event['event_title']}}</a></td>
                                         <td>{{event['event_start_date']}}</td>
                                 <td>{{event['event_time_start']}}</td>
@@ -144,14 +143,14 @@ and open the template in the editor.
                                 </tbody>
                                 <tfoot>
                                     <tr>
-                                        <th><a href="" ng-click="order('event_tile')" style='color: #005384'>Event Title</a></th>
-                                        <th><a href="" ng-click="order('event_start_date')" style='color: #005384'>Start Date</a></th>
-                                        <th><a href="" ng-click="order('event_time_start')" style='color: #005384'>Start Time</a></th>
-                                        <th><a href="" ng-click="order('event_location')" style='color: #005384'>Location</a></th>
-                                        <th><a href="" ng-click="order('event_class')" style='color: #005384'>Event Class</a></th>
-                                        <th><a href="" ng-click="order('team')" style='color: #005384'>Teams</a></th>
-                                        <th><a href="" ng-click="order('event_status')" style='color: #005384'>Status</a></th>
-                                        <th>Total Participants</th>
+                                        <th><a href="" ng-click="sortBy('event_tile')" style='color: #005384'>Event Title</a></th>
+                                        <th><a href="" ng-click="sortBy('event_start_date')" style='color: #005384'>Start Date</a></th>
+                                        <th><a href="" ng-click="sortBy('event_time_start')" style='color: #005384'>Start Time</a></th>
+                                        <th><a href="" ng-click="sortBy('event_location')" style='color: #005384'>Location</a></th>
+                                        <th><a href="" ng-click="sortBy('event_class')" style='color: #005384'>Event Class</a></th>
+                                        <th><a href="" ng-click="sortBy('team')" style='color: #005384'>Teams</a></th>
+                                        <th><a href="" ng-click="sortBy('event_status')" style='color: #005384'>Status</a></th>
+                                        <th style="color: #005384">Total Participants</th>
                                         <th></th>
                                     </tr>
                                 </tfoot>
@@ -159,11 +158,11 @@ and open the template in the editor.
                         </div>
                         <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
+                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPageIncrement" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>
-                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                                <pre>Page: {{currentPage +1}} / {{totalPages()}}</pre>
                             </div>
                         </div>
                     </div>
