@@ -555,13 +555,14 @@ public class Report extends HttpServlet {
             JsonObject store = new JsonObject();
             store.addProperty("Serial Number", String.valueOf(++counter));
             store.addProperty("Date received", temp.get(0));
-            store.addProperty("Donation amount", temp.get(1));
-            store.addProperty("Payment mode", temp.get(2));
-            store.addProperty("Receipt number", temp.get(3));
-            store.addProperty("Donor instructions", temp.get(4));
-            store.addProperty("Sub amount 1", temp.get(5));
-            store.addProperty("Sub amount 2", temp.get(6));
-            store.addProperty("Sub amount 3", temp.get(7));
+            store.addProperty("Name", temp.get(1));
+            store.addProperty("Donation amount", temp.get(2));
+            store.addProperty("Payment mode", temp.get(3));
+            store.addProperty("Receipt number", temp.get(4));
+            store.addProperty("Donor instructions", temp.get(5));
+            store.addProperty("Sub amount 1", temp.get(6));
+            store.addProperty("Sub amount 2", temp.get(7));
+            store.addProperty("Sub amount 3", temp.get(8));
 
             records.add(store);
         }
