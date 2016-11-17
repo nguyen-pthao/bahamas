@@ -42,9 +42,9 @@ public class ReportDAO {
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID,c.NAME, c.USERNAME, MIN(DATE(e.DATE_CREATED)), "
                     + "MAX(DATE(e.EVENT_END_DATE)), c.LAST_LOGIN FROM CONTACT c, EVENT_AFFILIATION ea, "
-                    + "EVENT_PARTICIPANT ep, EVENT e, TEAM_JOIN tj WHERE c.CONTACT_ID=ep.CONTACT_ID "
+                    + "EVENT_PARTICIPANT ep, EVENT e WHERE c.CONTACT_ID=ep.CONTACT_ID "
                     + "AND ea.EVENT_ID=ep.EVENT_ID AND e.EVENT_ID=ep.EVENT_ID "
-                    + "AND PERMISSION IS NOT NULL AND PULLOUT=FALSE AND ea.TEAM_NAME = ? "
+                    + "AND PULLOUT=FALSE AND ea.TEAM_NAME = ? "
                     + "GROUP BY c.CONTACT_ID,c.NAME, c.USERNAME");
 
             stmt.setString(1, team);
@@ -76,11 +76,12 @@ public class ReportDAO {
             while (iter.hasNext()) {
 
                 stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNT(CONTACT_ID),"
-                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT WHERE CONTACT_ID=? "
-                        + "AND DATE(DATE_CREATED) BETWEEN "
+                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea WHERE CONTACT_ID=? "
+                        + "AND ea.EVENT_ID=ep.EVENT_ID AND ea.TEAM_NAME = ? AND DATE(ep.DATE_CREATED) BETWEEN "
                         + "? AND ? GROUP BY CONTACT_ID");
 
                 stmt.setInt(1, iter.next());
+                stmt.setString(2, team);
                 stmt.setDate(2, new java.sql.Date(start.getTime()));
                 stmt.setDate(3, new java.sql.Date(end.getTime()));
 
@@ -128,9 +129,9 @@ public class ReportDAO {
                 stmt = conn.prepareStatement("SELECT DATE(e.EVENT_START_DATE), ea.TEAM_NAME, EVENT_TITLE, "
                         + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
                         + "EVENT_AFFILIATION ea, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
-                        + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
-                        + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? AND ea.TEAM_NAME=? "
-                        + "AND ea.EVENT_ID=e.EVENT_ID AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
+                        + "ep.EVENT_ID=e.EVENT_ID AND ea.EVENT_ID=e.EVENT_ID AND "
+                        + "r.ROLE_ID=ep.ROLE_ID AND r.EVENT_ID=e.EVENT_ID AND ep.CONTACT_ID= ? AND ea.TEAM_NAME=? "
+                        + "AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
 
                 stmt.setInt(1, cid);
                 stmt.setString(2, team);
@@ -141,9 +142,9 @@ public class ReportDAO {
                 stmt = conn.prepareStatement("SELECT DATE(e.EVENT_START_DATE), ea.TEAM_NAME, EVENT_TITLE, "
                         + "ROLE_NAME, HOURS_SERVED FROM EVENT_PARTICIPANT ep,"
                         + "EVENT_AFFILIATION ea, EVENT e, EVENT_ROLE_ASSIGNMENT r WHERE "
-                        + "ep.CONTACT_ID = t.CONTACT_ID AND ep.EVENT_ID=e.EVENT_ID AND "
-                        + "r.ROLE_ID=ep.ROLE_ID AND ep.CONTACT_ID= ? "
-                        + "AND ea.EVENT_ID=e.EVENT_ID AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
+                        + "ep.EVENT_ID=e.EVENT_ID AND ea.EVENT_ID=e.EVENT_ID AND "
+                        + "r.ROLE_ID=ep.ROLE_ID AND r.EVENT_ID=e.EVENT_ID AND ep.CONTACT_ID= ? "
+                        + "AND DATE(ep.DATE_CREATED) BETWEEN ? AND ? ORDER BY DATE(ep.DATE_CREATED)");
 
                 stmt.setInt(1, cid);
                 stmt.setDate(2, new java.sql.Date(start.getTime()));
