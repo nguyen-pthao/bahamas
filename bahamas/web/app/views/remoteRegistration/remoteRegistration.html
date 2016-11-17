@@ -22,11 +22,12 @@ and open the template in the editor.
                     <div class="box-header with-border">
                         <h3 class="box-title uppercase"> Remote Registration Management </h3>
                     </div>
-                    <div class="box-body" ng-init="registrationRetrieve()">
+                    <div class="box-body">
                         <div class="col-md-12">
                             <div class="col-md-3">
                                 <label>Select registration sessions to be retrieved</label> 
                                 <select class="form-control" ng-model="registrationChoice">
+                                    <option value="" selected></option>
                                     <option value="retrieveRegistration" ng-hide="permission == 'eventleader'">All Registration Session</option>
                                     <option value="retrieveCurrentRegistration">Single Registration Session</option>
                                 </select>
