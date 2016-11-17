@@ -150,7 +150,7 @@ app.controller('individualReport', ['$scope', 'session', '$state', 'dataSubmit',
             datasend['team'] = $scope.team;
             datasend['payment_mode'] = $scope.paymentMode;
             var url = AppAPI.generateReport;
-            dataSubmit.submitData(datasend, url).then(function (response) {
+            $scope.myPromise = dataSubmit.submitData(datasend, url).then(function (response) {
                 //remember to initialize $scope.function in html page
                 $scope.result = response.data;
                 $scope.header = [];

@@ -144,8 +144,11 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                                         template: './style/ngTemplate/addSuccess.html',
                                         className: 'ngdialog-theme-default',
                                         scope: $scope
+                                    }).then(function() {
+                                        $state.reload();
                                     });
                                 }
+                                
                             }, function() {
                                 window.alert("Fail to send request!");
                             });
