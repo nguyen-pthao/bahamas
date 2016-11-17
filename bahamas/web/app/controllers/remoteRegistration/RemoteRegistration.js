@@ -60,10 +60,11 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
             'user_type': $scope.permission
         };
         //form retrieve
+
         if($scope.permission != 'eventleader') {
             $scope.registrationChoice = 'retrieveRegistration';
         } else {
-            $scope.registrationChoice = 'retrieveCurrentRegistration';
+            $scope.registrationChoice = '';
         }
         
         $scope.registrationRetrieve = function() {
