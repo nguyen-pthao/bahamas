@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "AddForm", urlPatterns = {"/form.add"})
+@WebServlet(urlPatterns = {"/form.add"})
 public class AddForm extends HttpServlet {
 
     /**

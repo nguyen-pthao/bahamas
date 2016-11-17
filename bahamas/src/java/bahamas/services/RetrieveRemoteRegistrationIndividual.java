@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "RetrieveRemoteRegistration", urlPatterns = {"/remoteregistration.retrieve.individual"})
+@WebServlet(urlPatterns = {"/remoteregistration.retrieve.individual"})
 public class RetrieveRemoteRegistrationIndividual extends HttpServlet {
 
     /**
