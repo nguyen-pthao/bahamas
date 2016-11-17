@@ -34,7 +34,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author HUXLEY
  */
-@WebServlet(name = "RetrieveForm", urlPatterns = {"/form.retrieve.individual"})
+@WebServlet(urlPatterns = {"/form.retrieve.individual"})
 public class RetrieveFormIndiv extends HttpServlet {
 
     /**
