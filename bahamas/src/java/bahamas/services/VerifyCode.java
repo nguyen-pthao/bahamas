@@ -41,7 +41,7 @@ public class VerifyCode extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
+        response.setContentType("application/JSON;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
             JsonObject json = new JsonObject();
@@ -65,7 +65,7 @@ public class VerifyCode extends HttpServlet {
             if (jsonLine == null || jsonLine.isEmpty()) {
                 json.addProperty("message", "fail");
                 out.println(gson.toJson(json));
-
+                return;
             } else {
                 //Parse json object
                 JsonElement jelement = new JsonParser().parse(jsonLine);
