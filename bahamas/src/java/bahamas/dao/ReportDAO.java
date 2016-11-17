@@ -530,7 +530,7 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, c.NAME, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
+            stmt = conn.prepareStatement("SELECT d.DATE_RECEIVED, DONATION_AMOUNT, PAYMENT_MODE_NAME, "
                     + "RECEIPT_NUMBER, DONOR_INSTRUCTIONS, SUBAMOUNT_1, SUBAMOUNT_2, SUBAMOUNT_3 "
                     + "FROM DONATION d, CONTACT c WHERE d.CONTACT_ID=c.CONTACT_ID AND d.CONTACT_ID=? "
                     + "AND DATE_RECEIVED BETWEEN ? AND ?");
@@ -548,19 +548,17 @@ public class ReportDAO {
                 if (rDate != null) {
                     receivedDate = formatDate.format(rDate);
                 }
-
-                String name = rs.getString(2);
-                String donationAmt = rs.getString(3);
-                String paymentM = rs.getString(4);
-                String receiptNum = rs.getString(5);
-                String donorInstruc = rs.getString(6);
-                String subAmt1 = rs.getString(7);
-                String subAmt2 = rs.getString(8);
-                String subAmt3 = rs.getString(9);
+              
+                String donationAmt = rs.getString(2);
+                String paymentM = rs.getString(3);
+                String receiptNum = rs.getString(4);
+                String donorInstruc = rs.getString(5);
+                String subAmt1 = rs.getString(6);
+                String subAmt2 = rs.getString(7);
+                String subAmt3 = rs.getString(8);
 
                 ArrayList<String> temp = new ArrayList<String>();
                 temp.add(receivedDate);
-                temp.add(name);
                 temp.add(donationAmt);
                 temp.add(paymentM);
                 temp.add(receiptNum);
