@@ -222,6 +222,7 @@ app.controller('createContact',
                                 $scope.additionalContactInfo.teamInfo.team2 = '';
                             }
                             if ($scope.additionalContactInfo.teamInfo.team3 != '' && choice == $scope.additionalContactInfo.teamInfo.team3) {
+                                $scope.additionalContactInfo.teamInfo.team3 = '';
                                 var list2 = angular.copy($scope.teamAffiliationList1);
                                 list2.splice(position, 1);
                                 $scope.teamAffiliationList2 = list2;
