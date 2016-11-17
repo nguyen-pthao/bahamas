@@ -46,9 +46,9 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         };
         
         $scope.code = '';
-        $scope.startdate = new Date();
+        $scope.startdate = new Date(new Date().setSeconds(00));
         $scope.enddate = new Date($scope.startdate.setHours($scope.startdate.getHours() + 2));
-        $scope.starttime = Date.now();
+        $scope.starttime = $scope.startdate.getTime();
         $scope.endtime = $scope.enddate.getTime();
         
         //orderBy for table header
@@ -113,7 +113,6 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                                 tempEndTime = '';
                             } else if ($scope.endtime != null || $scope.endtime != '') {
                                 tempEndTime = $scope.endtime.valueOf() + "";
-                                console.log(tempEndTime);
                                 $scope.enddate.setTime(tempEndTime);
                             }
                             
