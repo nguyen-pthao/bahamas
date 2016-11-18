@@ -8,12 +8,10 @@
 var app = angular.module('forgotPassword', ['ngDialog'])
         .controller('ForgotPassCtrl', ['$scope', '$http', 'ngDialog', function ($scope, $http, ngDialog) {
                 $scope.toResetPassword = {
-                    username: '',
                     email: ''
                 };
 
                 $scope.sendInfo = function () {
-                    console.log($scope.toResetPassword);
                     $http({
                         method: 'POST',
                         url: 'https://rmsdev.twc2.org.sg/bahamas/password.forgot',
@@ -28,11 +26,7 @@ var app = angular.module('forgotPassword', ['ngDialog'])
                                 window.location = "https://rmsdev.twc2.org.sg";
                             })
                         } else {
-                            ngDialog.openConfirm({
-                                template: './style/ngTemplate/passwordResetFailure.html',
-                                className: 'ngdialog-theme-default',
-                                scope: $scope
-                            });
+                            alert('connection error');
                         }
                     });
                 };
