@@ -40,14 +40,20 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT c.CONTACT_ID,c.NAME, c.USERNAME, MIN(DATE(e.DATE_CREATED)), "
+            stmt = conn.prepareStatement("SELECT c.CONTACT_ID,c.NAME, c.USERNAME, MIN(DATE(e.EVENT_START_DATE)), "
                     + "MAX(DATE(e.EVENT_END_DATE)), c.LAST_LOGIN FROM CONTACT c, EVENT_AFFILIATION ea, "
                     + "EVENT_PARTICIPANT ep, EVENT e WHERE c.CONTACT_ID=ep.CONTACT_ID "
                     + "AND ea.EVENT_ID=ep.EVENT_ID AND e.EVENT_ID=ep.EVENT_ID "
-                    + "AND PULLOUT=FALSE AND ea.TEAM_NAME = ? "
+                    + "AND PULLOUT=FALSE AND ea.TEAM_NAME = ? AND (DATE(e.EVENT_START_DATE) "
+                    + "BETWEEN ? AND ? OR DATE(e.EVENT_END_DATE) BETWEEN ? AND ?)"
                     + "GROUP BY c.CONTACT_ID,c.NAME, c.USERNAME");
 
             stmt.setString(1, team);
+            stmt.setDate(2, new java.sql.Date(start.getTime()));
+            stmt.setDate(3, new java.sql.Date(end.getTime()));
+            stmt.setDate(4, new java.sql.Date(start.getTime()));
+            stmt.setDate(5, new java.sql.Date(end.getTime()));
+            
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -548,7 +554,7 @@ public class ReportDAO {
                 if (rDate != null) {
                     receivedDate = formatDate.format(rDate);
                 }
-              
+
                 String donationAmt = rs.getString(2);
                 String paymentM = rs.getString(3);
                 String receiptNum = rs.getString(4);
