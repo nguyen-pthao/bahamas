@@ -550,12 +550,12 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                             if (response.data.message == 'success') {
                                                                 //ADD SECOND TEAM
                                                                 if ($scope.teamPreference.team1 != '') {
-                                                                    teamData = $scope.teamPreference.team1;
+                                                                    teamData.team = $scope.teamPreference.team1;
                                                                     dataSubmit.submitData(teamData, team_url).then(function (response) {
                                                                         if (response.data.message == 'success') {
                                                                             //ADD THIRD TEAM
                                                                             if ($scope.teamPreference.team2 != '') {
-                                                                                teamData = $scope.teamPreference.team1;
+                                                                                teamData.team = $scope.teamPreference.team2;
                                                                                 dataSubmit.submitData(teamData, team_url).then(function (response) {
                                                                                     if (response.data.message != 'success') {
                                                                                         $scope.errorMessages = response.data.message;
@@ -590,6 +590,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                                             className: 'ngdialog-theme-default',
                                                                             scope: $scope
                                                                         }).then(function () {
+                                                                            $state.reload('register');
                                                                             $state.go('register');
                                                                         });
                                                                     } else {
@@ -635,12 +636,12 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                     if (response.data.message == 'success') {
                                                         //ADD SECOND TEAM
                                                         if ($scope.teamPreference.team1 != '') {
-                                                            teamData = $scope.teamPreference.team1;
+                                                            teamData.team = $scope.teamPreference.team1;
                                                             dataSubmit.submitData(teamData, team_url).then(function (response) {
                                                                 if (response.data.message == 'success') {
                                                                     //ADD THIRD TEAM
                                                                     if ($scope.teamPreference.team2 != '') {
-                                                                        teamData = $scope.teamPreference.team1;
+                                                                        teamData.team = $scope.teamPreference.team2;
                                                                         dataSubmit.submitData(teamData, team_url).then(function (response) {
                                                                             if (response.data.message != 'success') {
                                                                                 $scope.errorMessages = response.data.message;
@@ -675,6 +676,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                                     className: 'ngdialog-theme-default',
                                                                     scope: $scope
                                                                 }).then(function () {
+                                                                    $state.reload('register');
                                                                     $state.go('register');
                                                                 });
                                                             } else {
