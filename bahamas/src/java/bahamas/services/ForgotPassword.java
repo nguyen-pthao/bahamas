@@ -5,13 +5,11 @@
  */
 package bahamas.services;
 
-import bahamas.dao.AddressDAO;
 import bahamas.dao.AuditLogDAO;
 import bahamas.dao.ContactDAO;
 import bahamas.dao.EmailDAO;
 import bahamas.entity.Contact;
 import bahamas.entity.Email;
-import bahamas.util.Authenticator;
 import bahamas.util.EmailGenerator;
 import bahamas.util.PasswordHash;
 import bahamas.util.Validator;
@@ -25,7 +23,6 @@ import com.google.gson.JsonPrimitive;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -66,14 +63,14 @@ public class ForgotPassword extends HttpServlet {
                     sb.append(line);
                 }
             } catch (Exception e) {
-                json.addProperty("message", "fail");
+                json.addProperty("message", "success");
                 out.println(gson.toJson(json));
                 return;
             }
 
             String jsonLine = sb.toString();
             if (jsonLine == null || jsonLine.isEmpty()) {
-                json.addProperty("message", "fail");
+                json.addProperty("message", "success");
                 out.println(gson.toJson(json));
 
             } else {
@@ -123,27 +120,22 @@ public class ForgotPassword extends HttpServlet {
                                 // Send EmailGenerator in a separate thread
                                 EmailGenerator.sendEmail(e.getEmail(), temp);
                             }).start();
-
                             AuditLogDAO.insertAuditLog(c.getUsername(), "UPDATE CONTACT", "Update Contact forgot password under contact: Contact ID: " + c.getContactId());
-
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                             return;
                         } else {
-                            json.addProperty("message", "failure to update into system");
+                            json.addProperty("message", "success");
                             out.println(gson.toJson(json));
                             return;
                         }
-
                     }
                 } else {
-                    json.addProperty("message", "invalid forgot password request");
+                    json.addProperty("message", "success");
                     out.println(gson.toJson(json));
                     return;
                 }
-
             }
-
         }
     }
 
