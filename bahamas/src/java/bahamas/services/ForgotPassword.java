@@ -118,7 +118,7 @@ public class ForgotPassword extends HttpServlet {
                         if (ContactDAO.updateUser(c)) {
                             new Thread(() -> {
                                 // Send EmailGenerator in a separate thread
-                                EmailGenerator.sendEmail(e.getEmail(), temp);
+                                EmailGenerator.forgetEmail(e.getEmail(), temp);
                             }).start();
                             AuditLogDAO.insertAuditLog(c.getUsername(), "UPDATE CONTACT", "Update Contact forgot password under contact: Contact ID: " + c.getContactId());
                             json.addProperty("message", "success");

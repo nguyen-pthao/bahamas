@@ -105,6 +105,47 @@ public class EmailGenerator {
         return true;
     }
 
+    public static boolean forgetEmail(String email, String[] args) {
+        init();
+        Properties props = new Properties();
+        props.put("mail.smtp.host", SMTP);
+        props.put("mail.smtp.socketFactory.port", PORT);
+        props.put("mail.smtp.socketFactory.class",
+                "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.port", PORT);
+
+        Session session = Session.getDefaultInstance(props,
+                new javax.mail.Authenticator() {
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(USERNAME, PASSWORD);
+            }
+        });
+
+        try {
+
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(USERNAME));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
+            message.setSubject("TWC2 Bahamas - Login Details");
+            message.setText("Dear " + args[0] + ","
+                    + "\n\n This is your new password! You may now log in at "
+                    + LOCATION + " using the information below:"
+                    + "\n\n Username: " + args[1] + "\n Password: " + args[2]
+                    + "\n\n You may also change your password once you've logged in."
+                    + "\n\n Regards," + "\n TWC2 Team");
+
+            Transport.send(message);
+            System.out.println("Sent message successfully....");
+
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    
     public static boolean verifyEmail(String email, String name, String hashID) {
         init();
         Properties props = new Properties();
