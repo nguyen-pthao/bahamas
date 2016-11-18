@@ -72,6 +72,7 @@ public class ReportDAO {
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
+                addEmptyString(temp, String.valueOf(contact_id));
                 addEmptyString(temp, name);
                 addEmptyString(temp, username);
                 addEmptyString(temp, firstParticapationDate);
@@ -215,7 +216,7 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT DATE(EVENT_START_DATE), EVENT_TITLE, "
+            stmt = conn.prepareStatement("SELECT e.EVENT_ID, DATE(EVENT_START_DATE), EVENT_TITLE, "
                     + "e.CREATED_BY, PARTICIPANT_NUMBER, EVENT_STATUS FROM EVENT e, EVENT_AFFILIATION ea "
                     + "WHERE e.EVENT_ID=ea.EVENT_ID AND TEAM_NAME=? AND DATE(EVENT_START_DATE) "
                     + "BETWEEN ? AND ? ORDER BY DATE(EVENT_START_DATE)");
@@ -227,19 +228,21 @@ public class ReportDAO {
             int counter = 0;
             rs = stmt.executeQuery();
             while (rs.next()) {
-
-                Date DateOfEvent = rs.getDate(1);
+                
+                int eventId = rs.getInt(1);
+                Date DateOfEvent = rs.getDate(2);
                 String dateOfEvent = "";
                 if (DateOfEvent != null) {
                     dateOfEvent = formatDate.format(DateOfEvent);
                 }
 
-                String eventTitle = rs.getString(2);
-                String eventCreator = rs.getString(3);
-                String numOfParticipants = String.valueOf(rs.getInt(4));
-                String status = rs.getString(5);
+                String eventTitle = rs.getString(3);
+                String eventCreator = rs.getString(4);
+                String numOfParticipants = String.valueOf(rs.getInt(5));
+                String status = rs.getString(6);
 
                 ArrayList<String> temp = new ArrayList<String>();
+                addEmptyString(temp, String.valueOf(eventId));
                 addEmptyString(temp, dateOfEvent);
                 addEmptyString(temp, eventTitle);
                 addEmptyString(temp, eventCreator);
@@ -270,7 +273,7 @@ public class ReportDAO {
         try {
             conn = ConnectionManager.getConnection();
             if (membershipType != null) {
-                stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                         + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
                         + "AND END_MEMBERSHIP AND MEMBERSHIP_CLASS_NAME=?");
@@ -278,7 +281,7 @@ public class ReportDAO {
                 stmt.setString(2, membershipType);
 
             } else {
-                stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                         + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
                         + "AND END_MEMBERSHIP");
@@ -289,31 +292,33 @@ public class ReportDAO {
             int counter = 0;
             rs = stmt.executeQuery();
             while (rs.next()) {
+                
+                int contactId = rs.getInt(1);
+                String name = rs.getString(2);
+                String membershipClass = rs.getString(3);
 
-                String name = rs.getString(1);
-                String membershipClass = rs.getString(2);
-
-                Date startDate = rs.getDate(3);
+                Date startDate = rs.getDate(4);
                 String membershipStart = "";
                 if (startDate != null) {
                     membershipStart = formatDate.format(startDate);
                 }
 
-                Date endDate = rs.getDate(4);
+                Date endDate = rs.getDate(5);
                 String membershipEnd = "";
                 if (endDate != null) {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = rs.getString(5);
+                String subscriptionAmt = rs.getString(6);
 
-                Date rDate = rs.getDate(6);
+                Date rDate = rs.getDate(7);
                 String receiptDate = "";
                 if (rDate != null) {
                     receiptDate = formatDate.format(rDate);
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
+                addEmptyString(temp, String.valueOf(contactId));
                 addEmptyString(temp, name);
                 addEmptyString(temp, membershipClass);
                 addEmptyString(temp, membershipStart);
@@ -344,7 +349,7 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+            stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                     + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                     + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND DATE(START_MEMBERSHIP) BETWEEN ? "
                     + "AND ?");
@@ -355,31 +360,33 @@ public class ReportDAO {
             int counter = 0;
             rs = stmt.executeQuery();
             while (rs.next()) {
+                
+                int contactId = rs.getInt(1);
+                String name = rs.getString(2);
+                String membershipClass = rs.getString(3);
 
-                String name = rs.getString(1);
-                String membershipClass = rs.getString(2);
-
-                Date startDate = rs.getDate(3);
+                Date startDate = rs.getDate(4);
                 String membershipStart = "";
                 if (startDate != null) {
                     membershipStart = formatDate.format(startDate);
                 }
 
-                Date endDate = rs.getDate(4);
+                Date endDate = rs.getDate(5);
                 String membershipEnd = "";
                 if (endDate != null) {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = rs.getString(5);
+                String subscriptionAmt = rs.getString(6);
 
-                Date rDate = rs.getDate(6);
+                Date rDate = rs.getDate(7);
                 String receiptDate = "";
                 if (rDate != null) {
                     receiptDate = formatDate.format(rDate);
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
+                addEmptyString(temp, String.valueOf(contactId));
                 addEmptyString(temp, name);
                 addEmptyString(temp, membershipClass);
                 addEmptyString(temp, membershipStart);

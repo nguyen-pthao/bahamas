@@ -403,13 +403,14 @@ public class Report extends HttpServlet {
 
             JsonObject store = new JsonObject();
             store.addProperty("Serial Number", String.valueOf(++counter));
-            store.addProperty("Contact Name", temp.get(0));
-            store.addProperty("Username", temp.get(1));
-            store.addProperty("Event Date of 1st participation", temp.get(2));
-            store.addProperty("Date of last participation *unverified", temp.get(3));
-            store.addProperty("Number of sign-ups within this period", temp.get(4));
-            store.addProperty("Cumulative number of awarded hours within this period", temp.get(5));
-            store.addProperty("Last Logged in Date", temp.get(6));
+            store.addProperty("Contact id", temp.get(0));
+            store.addProperty("Contact Name", temp.get(1));
+            store.addProperty("Username", temp.get(2));
+            store.addProperty("Event Date of 1st participation", temp.get(3));
+            store.addProperty("Date of last participation *unverified", temp.get(4));
+            store.addProperty("Number of sign-ups within this period", temp.get(5));
+            store.addProperty("Cumulative number of awarded hours within this period", temp.get(6));
+            store.addProperty("Last Logged in Date", temp.get(7));
 
             records.add(store);
         }
@@ -435,7 +436,7 @@ public class Report extends HttpServlet {
             store.addProperty("Role", temp.get(3));
             store.addProperty("Hours awarded", temp.get(4));
             store.addProperty("Service comment", temp.get(5));
-            
+
             records.add(store);
         }
 
@@ -454,11 +455,12 @@ public class Report extends HttpServlet {
 
             JsonObject store = new JsonObject();
             store.addProperty("Serial Number", String.valueOf(++counter));
-            store.addProperty("Date of event", temp.get(0));
-            store.addProperty("Title of event", temp.get(1));
-            store.addProperty("Event created by", temp.get(2));
-            store.addProperty("Number of participants", temp.get(3));
-            store.addProperty("Status of event", temp.get(4));
+            store.addProperty("Event id", temp.get(0));
+            store.addProperty("Date of event", temp.get(1));
+            store.addProperty("Title of event", temp.get(2));
+            store.addProperty("Event created by", temp.get(3));
+            store.addProperty("Number of participants", temp.get(4));
+            store.addProperty("Status of event", temp.get(5));
 
             records.add(store);
         }
@@ -478,12 +480,13 @@ public class Report extends HttpServlet {
 
             JsonObject store = new JsonObject();
             store.addProperty("Serial Number", String.valueOf(++counter));
-            store.addProperty("Name of contact", temp.get(0));
-            store.addProperty("Membership class", temp.get(1));
-            store.addProperty("Membership start date", temp.get(2));
-            store.addProperty("Membership end date", temp.get(3));
-            store.addProperty("Subscription amount", temp.get(4));
-            store.addProperty("Date of receipt", temp.get(5));
+            store.addProperty("Contact id", temp.get(0));
+            store.addProperty("Name of contact", temp.get(1));
+            store.addProperty("Membership class", temp.get(2));
+            store.addProperty("Membership start date", temp.get(3));
+            store.addProperty("Membership end date", temp.get(4));
+            store.addProperty("Subscription amount", temp.get(5));
+            store.addProperty("Date of receipt", temp.get(6));
 
             records.add(store);
         }
@@ -582,12 +585,13 @@ public class Report extends HttpServlet {
 
             JsonObject store = new JsonObject();
             store.addProperty("Serial Number", String.valueOf(++counter));
-            store.addProperty("Name of contact", temp.get(0));
-            store.addProperty("Membership class", temp.get(1));
-            store.addProperty("Memberhsip start date", temp.get(2));
-            store.addProperty("Membership end date", temp.get(3));
-            store.addProperty("Subscription amount", temp.get(4));
-            store.addProperty("Date of receipt", temp.get(5));
+            store.addProperty("Contact id", temp.get(0));
+            store.addProperty("Name of contact", temp.get(1));
+            store.addProperty("Membership class", temp.get(2));
+            store.addProperty("Memberhsip start date", temp.get(3));
+            store.addProperty("Membership end date", temp.get(4));
+            store.addProperty("Subscription amount", temp.get(5));
+            store.addProperty("Date of receipt", temp.get(6));
 
             records.add(store);
         }
