@@ -83,7 +83,7 @@ public class ReportDAO {
 
                 stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNT(CONTACT_ID),"
                         + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea WHERE CONTACT_ID=? "
-                        + "AND ea.EVENT_ID=ep.EVENT_ID AND ea.TEAM_NAME = ? AND DATE(ep.DATE_CREATED) BETWEEN "
+                        + "AND ea.EVENT_ID=ep.EVENT_ID AND PULLOUT=FALSE AND ea.TEAM_NAME = ? AND DATE(ep.DATE_CREATED) BETWEEN "
                         + "? AND ? GROUP BY CONTACT_ID");
 
                 stmt.setInt(1, iter.next());
