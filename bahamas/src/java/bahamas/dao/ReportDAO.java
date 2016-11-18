@@ -82,8 +82,8 @@ public class ReportDAO {
 
                 stmt.setInt(1, iter.next());
                 stmt.setString(2, team);
-                stmt.setDate(2, new java.sql.Date(start.getTime()));
-                stmt.setDate(3, new java.sql.Date(end.getTime()));
+                stmt.setDate(3, new java.sql.Date(start.getTime()));
+                stmt.setDate(4, new java.sql.Date(end.getTime()));
 
                 rs = stmt.executeQuery();
                 while (rs.next()) {

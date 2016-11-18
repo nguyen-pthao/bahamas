@@ -74,10 +74,10 @@ public class FormDAO {
                     + "CODE=?,START_DATE_TIME=?,END_DATE_TIME=? "
                     + "WHERE FORM_ID=?");
 
-            stmt.setInt(1, id);
-            stmt.setString(2, code);
-            stmt.setTimestamp(3, new java.sql.Timestamp(startTime.getTime()));
-            stmt.setTimestamp(4, new java.sql.Timestamp(endTime.getTime()));
+            stmt.setString(1, code);
+            stmt.setTimestamp(2, new java.sql.Timestamp(startTime.getTime()));
+            stmt.setTimestamp(3, new java.sql.Timestamp(endTime.getTime()));
+            stmt.setInt(4, id);
 
             result = stmt.executeUpdate();
 
