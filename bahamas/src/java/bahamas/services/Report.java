@@ -113,7 +113,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -152,7 +152,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -187,7 +187,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -208,7 +208,7 @@ public class Report extends HttpServlet {
                         json.addProperty("Start Date", formatDate.format(startDate));
                         json.addProperty("End Date", formatDate.format(endDate));
                         json.addProperty("Date Created", formatTime.format(new java.util.Date()));
-                        
+
                         processSummaryEvents(resultMap, json);
 
                     } else if (reportType.equalsIgnoreCase("summary_report_of_memberships_by_time_period")) {
@@ -218,7 +218,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -255,7 +255,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -289,7 +289,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -327,7 +327,7 @@ public class Report extends HttpServlet {
 
                         if (startDate != null && endDate != null) {
                             if (endDate.before(startDate) || !startDate.before(endDate)) {
-                                Validator.getErrorList().add("Membership start date must be before membership end date");
+                                Validator.getErrorList().add("start date must be before end date");
                             }
                         }
 
@@ -434,7 +434,8 @@ public class Report extends HttpServlet {
             store.addProperty("Event Title", temp.get(2));
             store.addProperty("Role", temp.get(3));
             store.addProperty("Hours awarded", temp.get(4));
-
+            store.addProperty("Service comment", temp.get(5));
+            
             records.add(store);
         }
 
