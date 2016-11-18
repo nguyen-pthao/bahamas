@@ -10,7 +10,7 @@
             <div class="form-group col-md-12">
                 <div class="col-md-5" ng-init="loadTeamAffiliationList()">
                     <label>Team</label><span class="required">*</span>
-                    <select class="form-control" ng-model="$parent.team" name='team2'>
+                    <select class="form-control" ng-model="$parent.team" name='team2' empty>
                         <option ng-repeat="teamAffiliation in teamAffiliationList">{{teamAffiliation.teamAffiliation}}</option>
                     </select>
                 </div>
