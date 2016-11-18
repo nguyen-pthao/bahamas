@@ -98,7 +98,7 @@ and open the template in the editor.
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="event in filteredEvents | orderBy:propertyName:reverse | startFrom:currentPage*itemsPerPage | limitTo: itemsPerPage">
+                                    <tr ng-repeat="event in filteredEvents| orderBy:propertyName:reverse | startFrom:currentPage * itemsPerPage | limitTo: itemsPerPage">
                                         <td><a href="#/{{viewIndivEvent}}" ng-mousedown="viewEvent($event, event)">{{event['event_title']}}</a></td>
                                         <td>{{event['event_info']}}</td>
                                         <td style="padding:0px;">
@@ -113,31 +113,29 @@ and open the template in the editor.
                                                                         <td>
                                                                             <a href="#/{{viewIndivContact}}" ng-mousedown="toContact($event, part)">{{part['participant_name']}}</a>
                                                                         </td>
-                                                                        <td>
-                                                                <center>
-                                                                    <span ng-if="part['canRemark']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Remarks" ng-click="addRemarks($event, part)"><i class="fa fa-comment fa-lg" aria-hidden="true" style='color: #0d1957'></i></a>&nbsp;</span>
-                                                                    <span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Service Comment" ng-click="addServiceComment($event, part)"><i class="fa fa-comments-o fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
-                                                                </center>
+                                                                        <td style="text-align: right">
+                                                                            <span ng-if="part['canRemark']"><a href="" uib-tooltip-placement="top" uib-tooltip="Add Remarks" ng-click="addRemarks($event, part)"><i class="fa fa-comment fa-lg" aria-hidden="true" style='color: #0d1957'></i></a>&nbsp;</span>
+                                                                            <span ng-if="part['canAppreciate']"><a href="" uib-tooltip-placement="top" uib-tooltip="Service Comment" ng-click="addServiceComment($event, part)"><i class="fa fa-comments-o fa-lg" aria-hidden="true" style='color: #0d1957'></i></a></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </td>
+                                        <td>{{event['totalParticipant']}}</td>
                                     </tr>
                                 </tbody>
-                            </table>
-                            </td>
-                            <td>{{event['totalParticipant']}}</td>
-                            </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th><a href="" ng-click="sortBy('event_title')" style='color: #005384'>Event Title</a></th>
-                                    <th><a href="" ng-click="sortBy('event_info')" style='color: #005384'>Event Info</a></th>
-                                    <th style="color:#005384;">Roles/Participation</th>
-                                    <th style="color:#005384;">Total Participants</th>
-                                </tr>
-                            </tfoot>
+                                <tfoot>
+                                    <tr>
+                                        <th><a href="" ng-click="sortBy('event_title')" style='color: #005384'>Event Title</a></th>
+                                        <th><a href="" ng-click="sortBy('event_info')" style='color: #005384'>Event Info</a></th>
+                                        <th style="color:#005384;">Roles/Participation</th>
+                                        <th style="color:#005384;">Total Participants</th>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div>
