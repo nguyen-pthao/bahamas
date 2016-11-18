@@ -94,25 +94,25 @@ app.directive('onErrorSrc', function () {
 //    };
 //});
 
-app.directive('icheckCustom', function($timeout, $parse) {
+app.directive('icheckCustom', function ($timeout, $parse) {
     return {
         require: 'ngModel',
-        link: function($scope, element, $attrs, ngModel) {
-            return $timeout(function() {
+        link: function ($scope, element, $attrs, ngModel) {
+            return $timeout(function () {
                 var value;
                 value = $attrs['value'];
 
-                $scope.$watch($attrs['ngModel'], function(newValue){
+                $scope.$watch($attrs['ngModel'], function (newValue) {
                     $(element).iCheck('update');
                 });
-                
+
                 var elem;
-                if($attrs.icheckCustom == 'red') {
+                if ($attrs.icheckCustom == 'red') {
                     elem = $(element).iCheck({
                         checkboxClass: 'icheckbox_square-red',
                         radioClass: 'iradio_square-red'
                     });
-                } else if($attrs.icheckCustom == 'blue') {
+                } else if ($attrs.icheckCustom == 'blue') {
                     elem = $(element).iCheck({
                         checkboxClass: 'icheckbox_square-blue',
                         radioClass: 'iradio_square-blue'
@@ -148,15 +148,15 @@ app.directive('icheckCustom', function($timeout, $parse) {
                         radioClass: 'iradio_square-aero'
                     });
                 }
-                
-                return elem.on('ifChanged', function(event) {
+
+                return elem.on('ifChanged', function (event) {
                     if ($(element).attr('type') === 'checkbox' && $attrs['ngModel']) {
-                        $scope.$apply(function() {
+                        $scope.$apply(function () {
                             return ngModel.$setViewValue(event.target.checked);
                         });
                     }
                     if ($(element).attr('type') === 'radio' && $attrs['ngModel']) {
-                        return $scope.$apply(function() {
+                        return $scope.$apply(function () {
                             return ngModel.$setViewValue(value);
                         });
                     }
@@ -190,7 +190,7 @@ app.controller('pageController',
                         eventResize: $scope.alertOnResize
                     }
                 };
-                
+
                 $scope.$on('IdleStart', function () {
                     ngDialog.openConfirm({
                         template: './style/ngTemplate/refreshToken.html',
@@ -210,8 +210,8 @@ app.controller('pageController',
                 $scope.$on('IdleEnd', function () {
                     ngDialog.closeAll();
                 });
-                
-                $scope.retrieveCalendar = function (){
+
+                $scope.retrieveCalendar = function () {
                     //to get eventsources
                     $scope.eventSources = [];
                     var urlToGetEvents = '/event.retrieve.homepage';
@@ -233,7 +233,7 @@ app.controller('pageController',
                         }
                     });
                 };
-                
+
                 $scope.populatePage = function () {
                     Idle.watch();
                     $scope.name = '';
@@ -296,9 +296,19 @@ app.controller('pageController',
                 };
 
                 $scope.logout = function () {
-                        session.terminateSession();
-                        localStorageService.clearAll();
-                        $state.go('login');
+                    session.terminateSession();
+                    localStorageService.clearAll();
+                    $state.go('login');
+                };
+
+                $scope.clearNotifications = function () {
+                    $scope.toClearNotifications = {
+                        'token': session.getSession('token')
+                    };
+                    var urlToClearNotifications = '/clearall.notification';
+                    dataSubmit.submitData($scope.toClearNotifications, urlToClearNotifications).then(function(){
+                        $state.reload();
+                    });
                 };
 
                 $scope.retrieveAllContacts = function () {
