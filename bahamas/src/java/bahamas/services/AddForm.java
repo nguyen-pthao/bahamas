@@ -1,4 +1,4 @@
-    /*
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -88,7 +88,8 @@ public class AddForm extends HttpServlet {
                     ContactDAO cDAO = new ContactDAO();
                     Contact user = cDAO.retrieveContactByUsername(username);
                     String userType = Validator.containsBlankField(jobject.get("user_type"));
-                    if (!user.isIsAdmin() && !userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType)) {
+                    if (!user.isIsAdmin() && (!userType.equals("teammanager") && !RoleCheckDAO.checkRole(user.getContactId(), userType))
+                            && (!userType.equals("eventleader") && !RoleCheckDAO.checkRole(user.getContactId(), userType))) {
                         json.addProperty("message", "fail");
                         out.println(gson.toJson(json));
                         return;
@@ -122,8 +123,8 @@ public class AddForm extends HttpServlet {
                         out.println(gson.toJson(json));
                         return;
                     }
-                    
-                    if(FormDAO.createFormCheck(code, startDate, endDate)){
+
+                    if (FormDAO.createFormCheck(code, startDate, endDate)) {
                         json.addProperty("message", "duplicate form exist for the same code and time window");
                         out.println(gson.toJson(json));
                         return;

@@ -28,8 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(urlPatterns = {"/form.verify"})
 public class VerifyCode extends HttpServlet {
-    
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -74,14 +73,20 @@ public class VerifyCode extends HttpServlet {
                 String code = Validator.containsBlankField(jobject.get("code"));
                 String[] temp = FormDAO.checkCodeForm(code);
 
-                if (Integer.parseInt(temp[0]) > 0) {
-                    json.addProperty("message", "success authorized access to registration form");
-                    json.addProperty("form_id", temp[0]);
-                    
-                    String token = Authenticator.signedToken(temp[1]);
-                    json.addProperty("token", token);
-                    
-                    out.println(gson.toJson(json));
+                if (temp.length != 0) {
+                    if (Integer.parseInt(temp[0]) > 0) {
+                        json.addProperty("message", "success authorized access to registration form");
+                        json.addProperty("form_id", temp[0]);
+
+                        String token = Authenticator.signedToken(temp[1]);
+                        json.addProperty("token", token);
+                        out.println(gson.toJson(json));
+                        return;
+                    } else {
+                        json.addProperty("message", "failed authorized access to registration form");
+                        out.println(gson.toJson(json));
+                        return;
+                    }
                 } else {
                     json.addProperty("message", "failed authorized access to registration form");
                     out.println(gson.toJson(json));
