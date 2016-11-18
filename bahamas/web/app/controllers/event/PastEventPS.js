@@ -328,8 +328,7 @@ app.controller('ServiceCommentInstanceCtrl', function ($scope, $rootScope, $uibM
     $scope.ok = function () {
         if (angular.isUndefined($scope.input)) {
             $scope.input = "";
-        }
-        ;
+        };
         $scope.toAddServiceComment = {
             'token': session.getSession('token'),
             'role_id': part['role_id'],
