@@ -72,10 +72,10 @@ public class ReportDAO {
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(name);
-                temp.add(username);
-                temp.add(firstParticapationDate);
-                temp.add(lastParticapationDate);
+                addEmptyString(temp, name);
+                addEmptyString(temp, username);
+                addEmptyString(temp, firstParticapationDate);
+                addEmptyString(temp, lastParticapationDate);
 
                 resultMap.put(contact_id, temp);
             }
@@ -83,12 +83,16 @@ public class ReportDAO {
             Iterator<Integer> iter = resultMap.keySet().iterator();
             while (iter.hasNext()) {
 
+                boolean toAdd = true;
+                int cid = iter.next();
+                ArrayList<String> temp = resultMap.get(cid);
+
                 stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNT(CONTACT_ID),"
                         + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea WHERE CONTACT_ID=? "
                         + "AND ea.EVENT_ID=ep.EVENT_ID AND PULLOUT=FALSE AND ea.TEAM_NAME = ? AND DATE(ep.DATE_CREATED) BETWEEN "
                         + "? AND ? GROUP BY CONTACT_ID");
 
-                stmt.setInt(1, iter.next());
+                stmt.setInt(1, cid);
                 stmt.setString(2, team);
                 stmt.setDate(3, new java.sql.Date(start.getTime()));
                 stmt.setDate(4, new java.sql.Date(end.getTime()));
@@ -100,13 +104,20 @@ public class ReportDAO {
                     int numOfSignUp = rs.getInt(2);
                     int hoursServed = rs.getInt(3);
 
-                    ArrayList<String> temp = resultMap.get(contact_id);
+                    temp = resultMap.get(contact_id);
                     if (temp != null) {
-                        temp.add(String.valueOf(numOfSignUp));
-                        temp.add(String.valueOf(hoursServed));
-                        temp.add(lastLoginValue);
+                        toAdd = false;
+                        addEmptyString(temp, String.valueOf(numOfSignUp));
+                        addEmptyString(temp, String.valueOf(hoursServed));
+                        addEmptyString(temp, lastLoginValue);
                     }
 
+                }
+
+                if (toAdd) {
+                    addEmptyString(temp, "0");
+                    addEmptyString(temp, "0");
+                    addEmptyString(temp, "");
                 }
             }
 
@@ -174,12 +185,12 @@ public class ReportDAO {
                 String serviceComment = rs.getString(6);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(eventSignUpDate);
-                temp.add(teamName);
-                temp.add(eventTitle);
-                temp.add(role);
-                temp.add(hours);
-                temp.add(serviceComment);
+                addEmptyString(temp, eventSignUpDate);
+                addEmptyString(temp, teamName);
+                addEmptyString(temp, eventTitle);
+                addEmptyString(temp, role);
+                addEmptyString(temp, hours);
+                addEmptyString(temp, serviceComment);
 
                 resultMap.put(++counter, temp);
             }
@@ -229,11 +240,11 @@ public class ReportDAO {
                 String status = rs.getString(5);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(dateOfEvent);
-                temp.add(eventTitle);
-                temp.add(eventCreator);
-                temp.add(numOfParticipants);
-                temp.add(status);
+                addEmptyString(temp, dateOfEvent);
+                addEmptyString(temp, eventTitle);
+                addEmptyString(temp, eventCreator);
+                addEmptyString(temp, numOfParticipants);
+                addEmptyString(temp, status);
 
                 resultMap.put(++counter, temp);
             }
@@ -303,12 +314,12 @@ public class ReportDAO {
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(name);
-                temp.add(membershipClass);
-                temp.add(membershipStart);
-                temp.add(membershipEnd);
-                temp.add(subscriptionAmt);
-                temp.add(receiptDate);
+                addEmptyString(temp, name);
+                addEmptyString(temp, membershipClass);
+                addEmptyString(temp, membershipStart);
+                addEmptyString(temp, membershipEnd);
+                addEmptyString(temp, subscriptionAmt);
+                addEmptyString(temp, receiptDate);
 
                 resultMap.put(++counter, temp);
             }
@@ -369,12 +380,12 @@ public class ReportDAO {
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(name);
-                temp.add(membershipClass);
-                temp.add(membershipStart);
-                temp.add(membershipEnd);
-                temp.add(subscriptionAmt);
-                temp.add(receiptDate);
+                addEmptyString(temp, name);
+                addEmptyString(temp, membershipClass);
+                addEmptyString(temp, membershipStart);
+                addEmptyString(temp, membershipEnd);
+                addEmptyString(temp, subscriptionAmt);
+                addEmptyString(temp, receiptDate);
 
                 resultMap.put(++counter, temp);
             }
@@ -435,11 +446,11 @@ public class ReportDAO {
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(membershipClass);
-                temp.add(membershipStart);
-                temp.add(membershipEnd);
-                temp.add(subscriptionAmt);
-                temp.add(receiptDate);
+                addEmptyString(temp, membershipClass);
+                addEmptyString(temp, membershipStart);
+                addEmptyString(temp, membershipEnd);
+                addEmptyString(temp, subscriptionAmt);
+                addEmptyString(temp, receiptDate);
 
                 resultMap.put(++counter, temp);
             }
@@ -505,15 +516,15 @@ public class ReportDAO {
                 String subAmt3 = rs.getString(9);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(receivedDate);
-                temp.add(name);
-                temp.add(donationAmt);
-                temp.add(paymentM);
-                temp.add(receiptNum);
-                temp.add(donorInstruc);
-                temp.add(subAmt1);
-                temp.add(subAmt2);
-                temp.add(subAmt3);
+                addEmptyString(temp, receivedDate);
+                addEmptyString(temp, name);
+                addEmptyString(temp, donationAmt);
+                addEmptyString(temp, paymentM);
+                addEmptyString(temp, receiptNum);
+                addEmptyString(temp, donorInstruc);
+                addEmptyString(temp, subAmt1);
+                addEmptyString(temp, subAmt2);
+                addEmptyString(temp, subAmt3);
 
                 resultMap.put(++counter, temp);
             }
@@ -566,14 +577,14 @@ public class ReportDAO {
                 String subAmt3 = rs.getString(8);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(receivedDate);
-                temp.add(donationAmt);
-                temp.add(paymentM);
-                temp.add(receiptNum);
-                temp.add(donorInstruc);
-                temp.add(subAmt1);
-                temp.add(subAmt2);
-                temp.add(subAmt3);
+                addEmptyString(temp, receivedDate);
+                addEmptyString(temp, donationAmt);
+                addEmptyString(temp, paymentM);
+                addEmptyString(temp, receiptNum);
+                addEmptyString(temp, donorInstruc);
+                addEmptyString(temp, subAmt1);
+                addEmptyString(temp, subAmt2);
+                addEmptyString(temp, subAmt3);
 
                 resultMap.put(++counter, temp);
             }
@@ -588,6 +599,17 @@ public class ReportDAO {
         }
 
         return resultMap;
+    }
+
+    public static void addEmptyString(ArrayList<String> temp, String value) {
+
+        if (value == null) {
+            String t = "";
+            temp.add(t);
+        } else {
+            temp.add(value);
+        }
+
     }
 
 }
