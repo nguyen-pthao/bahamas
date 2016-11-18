@@ -81,13 +81,13 @@ public class ForgotPassword extends HttpServlet {
                 JsonElement jelement = new JsonParser().parse(jsonLine);
                 JsonObject jobject = jelement.getAsJsonObject();
 
-                String username = Validator.containsBlankField(jobject.get("username"));
+                //String username = Validator.containsBlankField(jobject.get("username"));
                 String email = Validator.containsBlankField(jobject.get("email"));
-
+                /*
                 if (username == null) {
                     Validator.getErrorList().add("invalid username");
                 }
-
+                */
                 if (email == null || !Validator.validEmail(email)) {
                     Validator.getErrorList().add("invalid email");
                 }
@@ -106,7 +106,8 @@ public class ForgotPassword extends HttpServlet {
 
                 Email e = EmailDAO.retrieveEmail(email);
                 ContactDAO cDAO = new ContactDAO();
-                Contact c = cDAO.retrieveContactByUsername(username);
+                int contactId = EmailDAO.retrieveContactId(email);
+                Contact c = cDAO.retrieveContactById(contactId);
 
                 if (e != null && e.getVerified() && c != null) {
                     if (e.getContact().getContactId() == c.getContactId()) {
@@ -123,7 +124,7 @@ public class ForgotPassword extends HttpServlet {
                                 EmailGenerator.sendEmail(e.getEmail(), temp);
                             }).start();
 
-                            AuditLogDAO.insertAuditLog(username, "UPDATE CONTACT", "Update Contact forgot password under contact: Contact ID: " + c.getContactId());
+                            AuditLogDAO.insertAuditLog(c.getUsername(), "UPDATE CONTACT", "Update Contact forgot password under contact: Contact ID: " + c.getContactId());
 
                             json.addProperty("message", "success");
                             out.println(gson.toJson(json));

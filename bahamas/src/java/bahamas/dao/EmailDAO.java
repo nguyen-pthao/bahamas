@@ -414,5 +414,34 @@ public class EmailDAO {
 
         return emailList;
     }
+    
+    public static int retrieveContactId(String e) {
+        Connection conn = null;
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        SimpleDateFormat datetime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            conn = ConnectionManager.getConnection();
+            stmt = conn.prepareStatement("SELECT CONTACT_ID FROM EMAIL WHERE EMAIL = (?)");
+            stmt.setString(1, e);
+            rs = stmt.executeQuery();
+            while (rs.next()) {
+
+                int cid = rs.getInt(1);
+                return cid;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(RoleCheckDAO.class.getName()).log(Level.SEVERE, "Unable to retrieve EMAIL from database", ex);
+            ex.printStackTrace();
+        } finally {
+            ConnectionManager.close(conn, stmt, rs);
+        }
+
+        return 0;
+
+    }
 
 }
