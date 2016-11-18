@@ -590,8 +590,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                                             className: 'ngdialog-theme-default',
                                                                             scope: $scope
                                                                         }).then(function () {
-                                                                            $state.reload('register');
-                                                                            $state.go('register');
+                                                                            $state.go('register', {}, {reload: true});
                                                                         });
                                                                     } else {
                                                                         $scope.errorMessages = response.data.message;
@@ -676,8 +675,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                                                                     className: 'ngdialog-theme-default',
                                                                     scope: $scope
                                                                 }).then(function () {
-                                                                    $state.reload('register');
-                                                                    $state.go('register');
+                                                                    $state.go('register', {}, {reload: true});
                                                                 });
                                                             } else {
                                                                 $scope.errorMessages = response.data.message;
