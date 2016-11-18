@@ -6,7 +6,7 @@
 'use strict';
 
 var app = angular.module('bahamas',
-        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload', 'ui.calendar', 'registration']);
+        ['ui.router', 'ngAnimate', 'ngDialog', 'ui.bootstrap', 'cgBusy', 'LocalStorageModule', 'ngIdle', 'ui.tree', 'uiGmapgoogle-maps', 'ngFileUpload', 'ui.calendar', 'registration', 'forgotPassword']);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
@@ -17,6 +17,11 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/login',
                 templateUrl: 'login.html',
                 controller: 'loginController'
+            })
+            .state('forgotPassword', {
+                url: '/forgotPassword',
+                templateUrl: 'forgotPassword.html',
+                controller: 'ForgotPassCtrl'
             })
             .state('admin', {
                 url: '/admin',
@@ -177,7 +182,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/formManagement',
                 templateUrl: 'app/views/remoteRegistration/formManagement.html',
                 controller: 'formManagement'
-            })        
+            })
             .state('admin.remoteRegistration', {
                 url: '/remoteRegistration',
                 templateUrl: 'app/views/remoteRegistration/remoteRegistration.html',
@@ -407,7 +412,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/formManagement',
                 templateUrl: 'app/views/remoteRegistration/formManagement.html',
                 controller: 'formManagement'
-            })        
+            })
             .state('teammanager.remoteRegistration', {
                 url: '/remoteRegistration',
                 templateUrl: 'app/views/remoteRegistration/remoteRegistration.html',
@@ -542,7 +547,7 @@ app.config(function ($stateProvider, $urlRouterProvider) {
                 url: '/formManagement',
                 templateUrl: 'app/views/remoteRegistration/formManagement.html',
                 controller: 'formManagement'
-            })        
+            })
             .state('eventleader.remoteRegistration', {
                 url: '/remoteRegistration',
                 templateUrl: 'app/views/remoteRegistration/remoteRegistration.html',

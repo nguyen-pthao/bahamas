@@ -6,24 +6,21 @@
 'use strict';
 
 var app = angular.module('forgotPassword', ['ngDialog'])
-        .controller('ForgotPassCtrl', ['$scope', '$http', 'ngDialog', function ($scope, $http, ngDialog) {
+        .controller('ForgotPassCtrl', ['$scope', '$http', 'ngDialog', 'dataSubmit', '$state', function ($scope, $http, ngDialog, dataSubmit, $state) {
                 $scope.toResetPassword = {
                     email: ''
                 };
 
                 $scope.sendInfo = function () {
-                    $http({
-                        method: 'POST',
-                        url: 'https://rmsdev.twc2.org.sg/bahamas/password.forgot',
-                        data: JSON.stringify($scope.toResetPassword)
-                    }).then(function (response) {
+                    var url = '/password.forgot';
+                    dataSubmit.submitData($scope.toResetPassword, url).then(function (response) {
                         if (response.data.message == 'success') {
                             ngDialog.openConfirm({
                                 template: './style/ngTemplate/passwordResetSuccess.html',
                                 className: 'ngdialog-theme-default',
                                 scope: $scope
                             }).then(function (response) {
-                                window.location = "https://rmsdev.twc2.org.sg";
+                                $state.go('login');
                             })
                         } else {
                             alert('connection error');
