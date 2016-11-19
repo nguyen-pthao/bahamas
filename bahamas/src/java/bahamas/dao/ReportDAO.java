@@ -39,6 +39,9 @@ public class ReportDAO {
         ResultSet rs = null;
 
         try {
+
+            String lastLoginValue = "";
+
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, c.USERNAME, MIN(DATE(e.EVENT_START_DATE)), "
                     + "MAX(DATE(e.EVENT_END_DATE)), c.LAST_LOGIN FROM CONTACT c, EVENT_AFFILIATION ea, "
@@ -53,7 +56,7 @@ public class ReportDAO {
             stmt.setDate(3, new java.sql.Date(end.getTime()));
             stmt.setDate(4, new java.sql.Date(start.getTime()));
             stmt.setDate(5, new java.sql.Date(end.getTime()));
-            
+
             rs = stmt.executeQuery();
             while (rs.next()) {
 
@@ -63,7 +66,7 @@ public class ReportDAO {
                 String firstParticapationDate = rs.getString(4);
                 String lastParticapationDate = rs.getString(5);
                 Date lastLogin = rs.getTimestamp(6);
-                String lastLoginValue = "";
+
                 if (lastLogin != null) {
                     lastLoginValue = formatTime.format(lastLogin);
                 }
@@ -73,7 +76,6 @@ public class ReportDAO {
                 temp.add(username);
                 temp.add(firstParticapationDate);
                 temp.add(lastParticapationDate);
-                temp.add(lastLoginValue);
 
                 resultMap.put(contact_id, temp);
             }
@@ -100,11 +102,9 @@ public class ReportDAO {
 
                     ArrayList<String> temp = resultMap.get(contact_id);
                     if (temp != null) {
-                        String store = temp.get(temp.size() - 1);
-                        temp.remove(temp.size() - 1);
                         temp.add(String.valueOf(numOfSignUp));
                         temp.add(String.valueOf(hoursServed));
-                        temp.add(store);
+                        temp.add(lastLoginValue);
                     }
 
                 }
