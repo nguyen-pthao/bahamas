@@ -31,11 +31,30 @@ and open the template in the editor.
                 <span ng-show="registration.email.$error.required && registration.email.$dirty" class='error'>Email is required.</span>
                 <span ng-show="registration.email.$error.maxlength" class='error'>Input field email is too long.</span>
             </div>
+            <div class="form-group col-md-12">
+                <label>Address</label><span class="required">*</span>
+                <input type="text" ng-model="formData.address" ng-maxlength='1000' ng-required="true" name='address' class="form-control">
+                <span ng-show="registration.address.$error.required && registration.address.$dirty" class='error'>Address is required.</span>
+                <span ng-show="registration.address.$error.maxlength" class='error'>Input field address is too long.</span>
+            </div>
+            <div class="form-group col-md-12">
+                <div class="col-md-4" style="padding: 0px">
+                    <label>Zipcode</label>
+                    <input type="text" ng-model="formData.zipcode" ng-maxlength='20' name='zipcode' class="form-control">
+                    <span ng-show="registration.zipcode.$error.maxlength" class="error">Input field zipcode is too long.</span>
+                </div>
+                <div class="col-md-offset-1 col-md-7" style="padding: 0px" ng-init="loadCountryNames()">
+                    <label>Country</label>
+                    <select class="form-control" ng-model="formData.country">
+                        <option ng-repeat="country in countryNames">{{country.name}}</option>
+                    </select>
+                </div>
+            </div>
         </div>
         <div class="form-group row" style="padding: 15px">
             <div class="col-sm-offset-4 col-sm-4">
                 <button ui-sref="register.languageSkill" class="btn btn-block btn-primary" 
-                   ng-disabled="registration.countrycode.$invalid || registration.phonenumber.$invalid || registration.email.$invalid">
+                        ng-disabled="registration.countrycode.$invalid || registration.phonenumber.$invalid || registration.email.$invalid || registration.address.$invalid || registration.zipcode.$invalid">
                     Next Section &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
                 </button>
             </div>
