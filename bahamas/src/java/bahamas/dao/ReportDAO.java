@@ -36,11 +36,11 @@ public class ReportDAO {
         LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
         ResultSet rs = null;
+        ResultSet rs2 = null;
 
         try {
-
-            String lastLoginValue = "";
 
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, c.USERNAME, MIN(DATE(e.EVENT_START_DATE)), "
@@ -66,7 +66,7 @@ public class ReportDAO {
                 String firstParticapationDate = rs.getString(4);
                 String lastParticapationDate = rs.getString(5);
                 Date lastLogin = rs.getTimestamp(6);
-
+                String lastLoginValue = "";
                 if (lastLogin != null) {
                     lastLoginValue = formatTime.format(lastLogin);
                 }
@@ -77,6 +77,7 @@ public class ReportDAO {
                 addEmptyString(temp, username);
                 addEmptyString(temp, firstParticapationDate);
                 addEmptyString(temp, lastParticapationDate);
+                addEmptyString(temp, lastLoginValue);
 
                 resultMap.put(contact_id, temp);
             }
@@ -84,42 +85,42 @@ public class ReportDAO {
             Iterator<Integer> iter = resultMap.keySet().iterator();
             while (iter.hasNext()) {
 
-                boolean toAdd = true;
                 int cid = iter.next();
                 ArrayList<String> temp = resultMap.get(cid);
 
-                stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNT(CONTACT_ID),"
-                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea WHERE CONTACT_ID=? "
-                        + "AND ea.EVENT_ID=ep.EVENT_ID AND PULLOUT=FALSE AND ea.TEAM_NAME = ? AND DATE(ep.DATE_CREATED) BETWEEN "
-                        + "? AND ? GROUP BY CONTACT_ID");
+                stmt2 = conn.prepareStatement("SELECT ep.CONTACT_ID, COUNT(ep.CONTACT_ID),"
+                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea, EVENT e WHERE ep.CONTACT_ID=? "
+                        + "AND ea.EVENT_ID=ep.EVENT_ID AND e.EVENT_ID=ep.EVENT_ID AND PULLOUT=FALSE "
+                        + "AND ea.TEAM_NAME = ? AND DATE(e.EVENT_START_DATE) BETWEEN "
+                        + "? AND ? GROUP BY ep.CONTACT_ID");
 
-                stmt.setInt(1, cid);
-                stmt.setString(2, team);
-                stmt.setDate(3, new java.sql.Date(start.getTime()));
-                stmt.setDate(4, new java.sql.Date(end.getTime()));
+                stmt2.setInt(1, cid);
+                stmt2.setString(2, team);
+                stmt2.setDate(3, new java.sql.Date(start.getTime()));
+                stmt2.setDate(4, new java.sql.Date(end.getTime()));
 
-                rs = stmt.executeQuery();
-                while (rs.next()) {
+                rs2 = stmt2.executeQuery();
+                if (rs2.next()) {
 
-                    int contact_id = rs.getInt(1);
-                    int numOfSignUp = rs.getInt(2);
-                    int hoursServed = rs.getInt(3);
+                    int contact_id = rs2.getInt(1);
+                    int numOfSignUp = rs2.getInt(2);
+                    int hoursServed = rs2.getInt(3);
 
-                    temp = resultMap.get(contact_id);
-                    if (temp != null) {
-                        toAdd = false;
-                        addEmptyString(temp, String.valueOf(numOfSignUp));
-                        addEmptyString(temp, String.valueOf(hoursServed));
-                        addEmptyString(temp, lastLoginValue);
-                    }
+                    String lastLogin = temp.get(temp.size() - 1);
+                    temp.remove(temp.size() - 1);
+                    addEmptyString(temp, String.valueOf(numOfSignUp));
+                    addEmptyString(temp, String.valueOf(hoursServed));
+                    addEmptyString(temp, lastLogin);
 
-                }
-
-                if (toAdd) {
+                } else {
+                    String lastLogin = temp.get(temp.size() - 1);
+                    temp.remove(temp.size() - 1);
                     addEmptyString(temp, "0");
                     addEmptyString(temp, "0");
-                    addEmptyString(temp, "");
+                    addEmptyString(temp, lastLogin);
                 }
+
+               
             }
 
             return resultMap;
@@ -129,6 +130,7 @@ public class ReportDAO {
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
+            ConnectionManager.close(conn, stmt2, rs2);
         }
 
         return resultMap;
@@ -228,7 +230,7 @@ public class ReportDAO {
             int counter = 0;
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int eventId = rs.getInt(1);
                 Date DateOfEvent = rs.getDate(2);
                 String dateOfEvent = "";
@@ -292,7 +294,7 @@ public class ReportDAO {
             int counter = 0;
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int contactId = rs.getInt(1);
                 String name = rs.getString(2);
                 String membershipClass = rs.getString(3);
@@ -360,7 +362,7 @@ public class ReportDAO {
             int counter = 0;
             rs = stmt.executeQuery();
             while (rs.next()) {
-                
+
                 int contactId = rs.getInt(1);
                 String name = rs.getString(2);
                 String membershipClass = rs.getString(3);
