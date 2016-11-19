@@ -362,7 +362,7 @@ app.controller('editContact',
                     $scope.editContact['gender'] = contactToEdit.gender;
                     $scope.editContact['date_of_birth'] = new Date(contactToEdit['date_of_birth']);
                     $scope.editContact['remarks'] = contactToEdit.remarks;
-                    $scope.editContact['notification'] = false;
+                    $scope.editContact['notification'] = contactToEdit.notification;
                 };
                 //phone
                 var retrievePhoneInfo = function (contactToEdit) {
