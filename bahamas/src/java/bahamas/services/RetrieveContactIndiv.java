@@ -314,7 +314,7 @@ public class RetrieveContactIndiv extends HttpServlet {
         jsonContactObj.addProperty("alt_name", altName);
         jsonContactObj.addProperty("contact_type", contactType);
         jsonContactObj.addProperty("explain_if_other", explainIfOther);
-        jsonContactObj.addProperty("notification", Boolean.toString(contact.isNotification()));
+        jsonContactObj.addProperty("notification", contact.isNotification());
         if (isAdmin || isTeamMgt || isEventLead) {
 
             jsonContactObj.addProperty("profession", profession);
