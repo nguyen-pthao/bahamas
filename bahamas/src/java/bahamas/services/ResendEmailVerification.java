@@ -79,8 +79,14 @@ public class ResendEmailVerification extends HttpServlet {
                 JsonObject jobject = jelement.getAsJsonObject();
 
                 String token = Validator.containsBlankField(jobject.get("token"));
-                String targetContactId = Validator.containsBlankField(jobject.get("other_cid"));
-                JsonArray contactIdJsonArray = jobject.get("contact_id_list").getAsJsonArray();
+                String targetContactId = null;
+                JsonArray emailJsonArray = null;
+                if (jobject.has("other_cid")) {
+                    targetContactId = Validator.containsBlankField(jobject.get("other_cid"));
+                }
+                if (jobject.has("email_list")) {
+                    emailJsonArray = jobject.get("email_list").getAsJsonArray();
+                }
                 String email = Validator.containsBlankField(jobject.get("email"));
                 String username = Authenticator.verifyToken(token);
 
@@ -100,7 +106,7 @@ public class ResendEmailVerification extends HttpServlet {
                             if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
                                 String hashID = PasswordHash.generateRandomString(64);
                                 if (EmailDAO.updateEmailVerificationId(Integer.parseInt(targetContactId), email, hashID)) {
-                                    AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | TO Contact ID: " + targetContact.getContactId() + ", " + email);
+                                    AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | To Contact ID: " + targetContact.getContactId() + ", " + email);
                                     new Thread(() -> {
                                         // Send EmailGenerator in a separate thread
                                         EmailGenerator.verifyEmail(email, targetContact.getName(), hashID);
@@ -113,22 +119,20 @@ public class ResendEmailVerification extends HttpServlet {
                                 out.println(gson.toJson(json));
                             }
                         }
-                    } else if (contactIdJsonArray != null) {
+                    } else if (emailJsonArray != null) {
                         if (contact.isIsAdmin() || RoleCheckDAO.checkRole(contact.getContactId(), "teammanager")) {
-                            for (int i = 0; i < contactIdJsonArray.size() - 1; i++) {
-                                String contactIdTemp = contactIdJsonArray.get(i).getAsString();
-                                Contact targetContact = cDAO.retrieveContactById(Integer.parseInt(contactIdTemp));
+                            for (int i = 0; i < emailJsonArray.size(); i++) {
+                                String tempEmail = emailJsonArray.get(i).getAsString();
+                                int contactIdTemp = EmailDAO.retrieveContactId(tempEmail);
+                                Contact targetContact = cDAO.retrieveContactById(contactIdTemp);
                                 if (targetContact != null) {
                                     String hashID = PasswordHash.generateRandomString(64);
-                                    ArrayList<Email> unverifiedEmailList = EmailDAO.retrieveAllUnverifiedEmail(Integer.parseInt(contactIdTemp));
-                                    for (Email tempEmail : unverifiedEmailList) {
-                                        if (EmailDAO.updateEmailVerificationId(Integer.parseInt(targetContactId), tempEmail.getEmail(), hashID)) {
-                                            AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | TO Contact ID: " + targetContact.getContactId() + ", " + tempEmail.getEmail());
-                                            new Thread(() -> {
-                                                // Send EmailGenerator in a separate thread
-                                                EmailGenerator.verifyEmail(email, targetContact.getName(), hashID);
-                                            }).start();
-                                        }
+                                    if (EmailDAO.updateEmailVerificationId(contactIdTemp, tempEmail, hashID)) {
+                                        AuditLogDAO.insertAuditLog(username, "RESEND EMAIL VERIFICATION", "Send email under contact: Contact ID: " + contact.getContactId() + " | To Contact ID: " + targetContact.getContactId() + ", " + tempEmail);
+                                        new Thread(() -> {
+                                            // Send EmailGenerator in a separate thread
+                                            EmailGenerator.verifyEmail(tempEmail, targetContact.getName(), hashID);
+                                        }).start();
                                     }
                                 }
                             }
