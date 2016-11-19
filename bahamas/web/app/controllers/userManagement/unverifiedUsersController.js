@@ -60,9 +60,7 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             $scope.toResendNameList = [];
             angular.forEach($scope.userObj, function (value, key) {
                 if (value == true) {
-//                    var keyString = key + "";
-//                    $scope.toResendList.push(keyString);
-                    var emailKey = $scope.userObjEmail[key];
+                    var emailKey = key;
                     $scope.toResendList.push(emailKey);
                     var nameDisplay = $scope.userObjName[key];
                     $scope.toResendNameList.push(nameDisplay);
@@ -129,11 +127,9 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                 $scope.allUsers = response.data.user;
                 $scope.userObj = {};
                 $scope.userObjName = {};
-                $scope.userObjEmail = {};
                 angular.forEach($scope.allUsers, function (obj) {
-                    $scope.userObj[obj.cid] = false;
-                    $scope.userObjName[obj.cid] = obj.name;
-                    $scope.userObjEmail[obj.cid] = obj.email;
+                    $scope.userObj[obj.email] = false;
+                    $scope.userObjName[obj.email] = obj.name;
                 });
                 $scope.filteredUsers = $scope.allUsers;
                 $scope.totalItems = $scope.filteredUsers.length;
