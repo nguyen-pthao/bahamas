@@ -261,4 +261,14 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                 });
             });
         };
+        
+        $scope.viewRegistration = function($event, result) {
+            session.setSession('registrationView', result['Form Id']);
+            var toURL = $scope.userType + '.remoteRegistration';
+            $scope.viewSelectedRegistration = $scope.userType + '/remoteRegistration';
+
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
+        };
      }]);

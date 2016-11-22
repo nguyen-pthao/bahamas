@@ -22,7 +22,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
             nationality: '',
             'date_of_birth': '',
             remarks: '',
-            language: 'English',
+            language: '',
             speak_write: '',
             email: '',
             'country_code': 65,
@@ -87,6 +87,7 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                         $scope.languageList.splice(obj, 1);
                     }
                 }
+                $scope.formData.language = 'English';
             });
         };
 
@@ -199,7 +200,9 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                     }
                 }
                 if (position == -1) {
-                    $scope.languageList1 = angular.copy($scope.languageList);
+                    if(!angular.isUndefined($scope.languageList)) {
+                        $scope.languageList1 = angular.copy($scope.languageList);
+                    }
                 } else {
                     var list = angular.copy($scope.languageList);
                     list.splice(position, 1);
@@ -215,10 +218,10 @@ app.controller('registrationController', ['$scope', 'session', '$state', 'dataSu
                     }
                 }
             }
-//            else {
-//                $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
+            else {
+                $scope.teamAffiliationList1 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
 //                $scope.teamAffiliationList2 = [{teamAffiliation: '-------------------------------------------------'}, {teamAffiliation: '[Please choose the above option first.]'}];
-//            }
+            }
         });
         //watch for change in language list 2
         $scope.languageList2 = [{language: '-------------------------------------------------'}, {language: '[Please choose the above option first.]'}];

@@ -11,7 +11,6 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
         
         var token = session.getSession('token');
         $scope.permission = session.getSession('userType');
-        
         //datepicker
         $scope.today = function () {
             $scope.dt = new Date();
@@ -61,11 +60,14 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
             'user_type': $scope.permission
         };
         //form retrieve
-
-        if($scope.permission != 'eventleader') {
-            $scope.registrationChoice = 'retrieveRegistration';
+        if(session.getSession('registrationView') != null) {
+            $scope.registrationChoice = 'retrieveCurrentRegistration';
         } else {
-            $scope.registrationChoice = '';
+            if($scope.permission != 'eventleader') {
+                $scope.registrationChoice = 'retrieveRegistration';
+            } else {
+                $scope.registrationChoice = '';
+            }
         }
         
         $scope.registrationRetrieve = function() {
@@ -74,32 +76,40 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
                 $scope.resultData = response.data.Records;
                 if($scope.resultData != '') {
                     $scope.tableHeader = Object.keys($scope.resultData[0]);
+                } else {
+                    $scope.tableHeader = 'No record is found';
                 }
-                console.log($scope.tableHeader);
+                $scope.registrationChoice = '';
             }, function() {
                 window.alert("Fail to send request!");
             });
         };
         
+        
         $scope.form_id = '';
         //watch for change in form choice
         $scope.$watch('registrationChoice', function() {
             if($scope.registrationChoice == 'retrieveCurrentRegistration') {
-                var modalInstance = $uibModal.open({
-                    animation: true,
-                    templateUrl: './style/ngTemplate/registrationSessionRetrieve.html',
-                    scope: $scope,
-                    controller: function () {
-                        $scope.activate = function () {
-                            modalInstance.dismiss('cancel');
-                            datasend.form_id = $scope.form_id;
-                            $scope.registrationRetrieve();
-                        };
-                        $scope.cancel = function () {
-                            modalInstance.dismiss('cancel');
-                        };
-                    }
-                });
+                if(session.getSession('registrationView') == null) {
+                    var modalInstance = $uibModal.open({
+                        animation: true,
+                        templateUrl: './style/ngTemplate/registrationSessionRetrieve.html',
+                        scope: $scope,
+                        controller: function () {
+                            $scope.activate = function () {
+                                modalInstance.dismiss('cancel');
+                                datasend.form_id = $scope.form_id;
+                                $scope.registrationRetrieve();
+                            };
+                            $scope.cancel = function () {
+                                modalInstance.dismiss('cancel');
+                            };
+                        }
+                    });
+                } else {
+                    datasend.form_id = session.getSession('registrationView');
+                    $scope.registrationRetrieve();
+                }
             } else if ($scope.registrationChoice == 'retrieveRegistration') {
                 $scope.registrationRetrieve();
             }
@@ -135,5 +145,17 @@ app.controller('remoteRegistration', ['$scope', 'session', '$state', 'dataSubmit
                     window.alert("Fail to send request!");
                 });
             });
-        };    
+        }; 
+        
+        $scope.viewContact = function ($event, contact) {
+            var toURL = $scope.userType + ".viewIndivContact";
+            $scope.viewIndivContact = $scope.userType + '/viewIndivContact';
+            var contactCid = contact['Contact ID'];
+            session.setSession('contactToDisplayCid', contactCid);
+            
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
+        };
+        
     }]);

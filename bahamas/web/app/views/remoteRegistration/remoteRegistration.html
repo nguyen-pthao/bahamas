@@ -64,14 +64,19 @@ and open the template in the editor.
                                 <thead>
                                     <tr>
                                         <th ng-repeat="tableHead in tableHeader">
-                                            <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                            <a href="" ng-click="order(tableHead)" style='color: #005384'>
+                                                <span ng-bind="tableHead" ng-show="tableHead != 'Contact ID'"></span>
+                                            </a>
                                         </th>
                                         <th style='color: #005384'>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="result in resultData| orderBy:predicate:reverse">
-                                        <td ng-repeat="tInfo in tableHeader">{{result[tInfo]}}</td>
+                                        <td ng-repeat="tInfo in tableHeader">
+                                            <span ng-bind="result[tInfo]" ng-hide="(tInfo == 'Name as per Contacts table' || tInfo == 'Contact ID')"></span>
+                                            <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, result)" ng-show="tInfo == 'Name as per Contacts table'" uib-tooltip-placement="top" uib-tooltip="View Contact Details"><span ng-bind="result[tInfo]"></span></a>
+                                        </td>
                                         <td ng-show="permission == 'admin'">
                                             <div id="view-contacts">
                                                 <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Delete Registry" ng-click="deleteRegistry($event, result)">
@@ -84,12 +89,17 @@ and open the template in the editor.
                                 <tfoot>
                                     <tr>
                                         <th ng-repeat="tableHead in tableHeader">
-                                            <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                            <a href="" ng-click="order(tableHead)" style='color: #005384'>
+                                                <span ng-bind="tableHead" ng-show="tableHead != 'Contact ID'"></span>
+                                            </a>
                                         </th>
                                         <th style='color: #005384'>Action</th>
                                     </tr>
                                 </tfoot>
                             </table>
+                        </div>
+                        <div class="col-md-12" style="padding-top: 15px" ng-show="resultData == ''">
+                            <center><b><span ng-bind="tableHeader"></span></b></center>
                         </div>
 <!--                        <div>
                             <div style='float: right'>

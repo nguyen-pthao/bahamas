@@ -37,7 +37,11 @@ and open the template in the editor.
         <div class="form-group row" style="padding: 15px">
             <div class="col-sm-offset-4 col-sm-4">
                 <button class="btn btn-block btn-primary" 
-                   ng-disabled="!formData.first || !formData.second || !formData['request_user']" ng-click="processForm()">
+                   ng-disabled="!formData.first || !formData.second || !formData['request_user'] || 
+                   formData.name == '' || formData.nric_fin == '' || formData.gender == '' || formData.nationality == '' || formData.dob == '' || formData.profession == '' || formData.remarks.length > 1000 ||
+                   formData.country_code == '' || formData.phone_number == '' || formData.email == '' || formData.address == '' ||
+                   formData.team == '' || formData.speak_write == ''" 
+                   ng-click="processForm()">
                     Submit &nbsp;<span class="glyphicon glyphicon-circle-arrow-right"></span>
                 </button>
             </div>

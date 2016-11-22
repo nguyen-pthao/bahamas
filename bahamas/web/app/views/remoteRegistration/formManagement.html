@@ -27,7 +27,7 @@ and open the template in the editor.
                             </button>
                         </div>
                     </div>
-                    <div class="box-body" ng-init="formRetrieve()">
+                    <div class="box-body">
                         <div class="col-md-12">
                             <div class="col-md-3">
                                 <label>Select forms to be retrieved</label> 
@@ -75,7 +75,10 @@ and open the template in the editor.
                                 </thead>
                                 <tbody>
                                     <tr ng-repeat="result in resultData| orderBy:predicate:reverse">
-                                        <td ng-repeat="tInfo in tableHeader">{{result[tInfo]}}</td>
+                                        <td ng-repeat="tInfo in tableHeader">
+                                            <span ng-bind="result[tInfo]" ng-show="tInfo != 'Authentication code created'"></span>
+                                            <a href="#/{{viewSelectedRegistration}}" ng-mousedown="viewRegistration($event, result)" ng-show="tInfo == 'Authentication code created'" uib-tooltip-placement="top" uib-tooltip="View Registration"><span ng-bind="result[tInfo]"></span></a>
+                                        </td>
                                         <td>
                                             <div id="view-contacts">
                                                 <button type="button" class="btn btn-box-tool" uib-tooltip-placement="top" uib-tooltip="Edit Form" ng-click="editForm($event, result)">
