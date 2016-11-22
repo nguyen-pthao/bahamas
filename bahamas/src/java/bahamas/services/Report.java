@@ -402,7 +402,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Contact id", temp.get(0));
             store.addProperty("Contact Name", temp.get(1));
             store.addProperty("Username", temp.get(2));
@@ -429,7 +429,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Date of event (signed up)", temp.get(0));
             store.addProperty("Team", temp.get(1));
             store.addProperty("Event Title", temp.get(2));
@@ -454,7 +454,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Event id", temp.get(0));
             store.addProperty("Date of event", temp.get(1));
             store.addProperty("Title of event", temp.get(2));
@@ -479,7 +479,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Contact id", temp.get(0));
             store.addProperty("Name of contact", temp.get(1));
             store.addProperty("Membership class", temp.get(2));
@@ -505,7 +505,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Membership class", temp.get(0));
             store.addProperty("Membership start date", temp.get(1));
             store.addProperty("Membership end date", temp.get(2));
@@ -529,7 +529,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Date received", temp.get(0));
             store.addProperty("Name of contact (donor)", temp.get(1));
             store.addProperty("Donation amount", temp.get(2));
@@ -557,7 +557,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Date received", temp.get(0));
             store.addProperty("Donation amount", temp.get(1));
             store.addProperty("Payment mode", temp.get(2));
@@ -584,7 +584,7 @@ public class Report extends HttpServlet {
             ArrayList<String> temp = resultMap.get(num);
 
             JsonObject store = new JsonObject();
-            store.addProperty("Serial Number", String.valueOf(++counter));
+            store.addProperty("Serial Number", (++counter));
             store.addProperty("Contact id", temp.get(0));
             store.addProperty("Name of contact", temp.get(1));
             store.addProperty("Membership class", temp.get(2));

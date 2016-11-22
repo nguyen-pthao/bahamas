@@ -42,57 +42,111 @@ and open the template in the editor.
                             </span>
                         </div>
                         <div class="col-md-12" ng-show="selectedReport == 'summary_report_of_team_participants' && result != ''">
-                            <div class="table-horizontal-scroll" id="summary_report_of_team_participants">
+                            <div class="table-horizontal-scroll">
                                 <table class="table table-bordered table-striped export-table">
                                     <thead>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF TEAM PARTICIPANTS</th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
                                         <tr ng-repeat="thead in header">
                                             <th colspan="{{tableHeader.length}}">
                                                 <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-hide="true"><th></th></tr>
-                                        <tr ng-hide="true"><th>SUMMARY FOR THIS REPORT</th></tr>
-                                        <tr ng-hide="true"><th><span>Total number of participants (line items): </span></th><th><span ng-bind="records.length"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of participants with 0 sign-ups: </span></th><th><span ng-bind="zero"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of participants with 1 sign-ups: </span></th><th><span ng-bind="one"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of participants with 2 sign-ups: </span></th><th><span ng-bind="two"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of participants with 3 sign-ups: </span></th><th><span ng-bind="three"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of participants with 4 sign-ups: </span></th><th><span ng-bind="four"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of participants with 5 or more sign-ups: </span></th><th><span ng-bind="five"></span></th></tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <th ng-repeat="tableHead in tableHeader">
-                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>
+                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Contact id'"></span>
+                                                </a>
                                             </th>
                                         </tr>
                                         <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact id' || theader == 'Contact Name')"></span>
+                                                <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, obj)" ng-show="theader == 'Contact Name'" ng-disabled="theader != 'Contact Name'"><span ng-bind="obj[theader]"></span></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-horizontal-scroll" id="summary_report_of_team_participants" ng-hide="true">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF TEAM PARTICIPANTS</th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr><th></th></tr>
+                                        <tr><th>SUMMARY FOR THIS REPORT</th></tr>
+                                        <tr><th><span>Total number of participants (line items): </span></th><th><span ng-bind="records.length"></span></th></tr>
+                                        <tr><th><span>Number of participants with 0 sign-ups: </span></th><th><span ng-bind="zero"></span></th></tr>
+                                        <tr><th><span>Number of participants with 1 sign-ups: </span></th><th><span ng-bind="one"></span></th></tr>
+                                        <tr><th><span>Number of participants with 2 sign-ups: </span></th><th><span ng-bind="two"></span></th></tr>
+                                        <tr><th><span>Number of participants with 3 sign-ups: </span></th><th><span ng-bind="three"></span></th></tr>
+                                        <tr><th><span>Number of participants with 4 sign-ups: </span></th><th><span ng-bind="four"></span></th></tr>
+                                        <tr><th><span>Number of participants with 5 or more sign-ups: </span></th><th><span ng-bind="five"></span></th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <span ng-bind="tableHead" style='color: #005384'></span>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]"></span>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-md-12" ng-show="selectedReport == 'summary_report_of_events' && result != ''">
-                            <div class="table-horizontal-scroll" id="summary_report_of_events">
+                            <div class="table-horizontal-scroll">
                                 <table class="table table-bordered table-striped export-table">
                                     <thead>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF EVENTS</th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
                                         <tr ng-repeat="thead in header">
                                             <th colspan="{{tableHeader.length}}">
                                                 <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-hide="true"><th></th></tr>
-                                        <tr ng-hide="true"><th>SUMMARY FOR THIS REPORT</th></tr>
-                                        <tr ng-hide="true"><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of line items by 'Status of event'</span></th></tr>
-                                        <tr ng-hide='true' ng-repeat='eventStatus in eventStatusList'>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>
+                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Event id'"></span>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Event id' || theader == 'Title of event')"></span>
+                                                <a href="#/{{viewIndivEvent}}" ng-mousedown="viewEvent($event, obj)" ng-show="theader == 'Title of event'"><span ng-bind="obj[theader]"></span></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-horizontal-scroll" id="summary_report_of_events" ng-hide="true">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF EVENTS</th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr><th></th></tr>
+                                        <tr><th>SUMMARY FOR THIS REPORT</th></tr>
+                                        <tr><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
+                                        <tr><th><span>Number of line items by 'Status of event'</span></th></tr>
+                                        <tr ng-repeat='eventStatus in eventStatusList'>
                                             <th><span ng-bind='eventStatus.eventStatus'></span></th>
                                             <th><span ng-bind='eventStatus.eventFormula'></span></th>
                                         </tr>
@@ -100,34 +154,62 @@ and open the template in the editor.
                                     <tbody>
                                         <tr>
                                             <th ng-repeat="tableHead in tableHeader">
-                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                                <span ng-bind="tableHead" style='color: #005384'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                        <tr ng-repeat="obj in records">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]"></span>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                         <div class="col-md-12" ng-show="selectedReport == 'summary_report_of_memberships_by_time_period' && result != ''">
-                            <div class="table-horizontal-scroll" id="summary_report_of_memberships_by_time_period">
+                            <div class="table-horizontal-scroll">
                                 <table class="table table-bordered table-striped export-table">
                                     <thead>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF MEMBERSHIPS BY TIME PERIOD</th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
                                         <tr ng-repeat="thead in header">
                                             <th colspan="{{tableHeader.length}}">
                                                 <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-hide="true"><th></th></tr>
-                                        <tr ng-hide="true"><th>SUMMARY FOR THIS REPORT</th></tr>
-                                        <tr ng-hide="true"><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
-                                        <tr ng-hide='true'><th><span>Total number of unique contact names: </span></th><th><span ng-bind='uniqueContact'></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of line items by class</span></th></tr>
-                                        <tr ng-hide='true' ng-repeat='membership in membershipList'>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>
+                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Contact id'"></span>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact id' || theader == 'Name of contact')"></span>
+                                                <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, obj)" ng-show="theader == 'Name of contact'"><span ng-bind="obj[theader]"></span></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-horizontal-scroll" id="summary_report_of_memberships_by_time_period" ng-hide="true">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF MEMBERSHIPS BY TIME PERIOD</th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr><th></th></tr>
+                                        <tr><th>SUMMARY FOR THIS REPORT</th></tr>
+                                        <tr><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
+                                        <tr><th><span>Total number of unique contact names: </span></th><th><span ng-bind='uniqueContact'></span></th></tr>
+                                        <tr><th><span>Number of line items by class</span></th></tr>
+                                        <tr ng-repeat='membership in membershipList'>
                                             <th><span ng-bind='membership.membershipClass'></span></th>
                                             <th><span ng-bind='membership.membershipFormula'></span></th>
                                         </tr>
@@ -135,11 +217,13 @@ and open the template in the editor.
                                     <tbody>
                                         <tr>
                                             <th ng-repeat="tableHead in tableHeader">
-                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                                <span ng-bind="tableHead" style='color: #005384'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                        <tr ng-repeat="obj in records">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]"></span>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -176,23 +260,49 @@ and open the template in the editor.
                             </div>
                         </div>
                         <div class="col-md-12" ng-show="selectedReport == 'summary_report_of_current_memberships' && result != ''">
-                            <div class="table-horizontal-scroll" id="summary_report_of_current_memberships">
+                            <div class="table-horizontal-scroll">
                                 <table class="table table-bordered table-striped export-table">
                                     <thead>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF MEMBERSHIPS BY TIME PERIOD</th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}"></th></tr>
-                                        <tr ng-hide="true"><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
                                         <tr ng-repeat="thead in header">
                                             <th colspan="{{tableHeader.length}}">
                                                 <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-hide="true"><th></th></tr>
-                                        <tr ng-hide="true"><th>SUMMARY FOR THIS REPORT</th></tr>
-                                        <tr ng-hide="true"><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
-                                        <tr ng-hide='true'><th><span>Total number of unique contact names: </span></th><th><span ng-bind='uniqueContact'></span></th></tr>
-                                        <tr ng-hide="true"><th><span>Number of line items by class</span></th></tr>
-                                        <tr ng-hide='true' ng-repeat='membership in membershipList'>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th ng-repeat="tableHead in tableHeader">
+                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>
+                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Contact id'"></span>
+                                                </a>
+                                            </th>
+                                        </tr>
+                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact id' || theader == 'Name of contact')"></span>
+                                                <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, obj)" ng-show="theader == 'Name of contact'"><span ng-bind="obj[theader]"></span></a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-horizontal-scroll" id="summary_report_of_current_memberships" ng-hide="true">
+                                <table class="table table-bordered table-striped export-table">
+                                    <thead>
+                                        <tr><th colspan="{{tableHeader.length}}">SUMMARY REPORT OF MEMBERSHIPS BY TIME PERIOD</th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}"></th></tr>
+                                        <tr><th colspan="{{tableHeader.length}}">PARAMETERS FOR THIS REPORT</th></tr>
+                                        <tr ng-repeat="thead in header">
+                                            <th colspan="{{tableHeader.length}}">
+                                                <span ng-bind='thead'></span> : <span ng-if='thead != "Records"' ng-bind='result[thead]'></span><span ng-if='thead == "Records"' ng-bind='records.length'></span>
+                                            </th>
+                                        </tr>
+                                        <tr><th></th></tr>
+                                        <tr><th>SUMMARY FOR THIS REPORT</th></tr>
+                                        <tr><th><span>Total number of line items: </span></th><th><span ng-bind="records.length"></span></th></tr>
+                                        <tr><th><span>Total number of unique contact names: </span></th><th><span ng-bind='uniqueContact'></span></th></tr>
+                                        <tr><th><span>Number of line items by class</span></th></tr>
+                                        <tr ng-repeat='membership in membershipList'>
                                             <th><span ng-bind='membership.membershipClass'></span></th>
                                             <th><span ng-bind='membership.membershipFormula'></span></th>
                                         </tr>
@@ -200,11 +310,13 @@ and open the template in the editor.
                                     <tbody>
                                         <tr>
                                             <th ng-repeat="tableHead in tableHeader">
-                                                <a href="" ng-click="order(tableHead)" style='color: #005384'>{{tableHead}}</a>
+                                                <span ng-bind="tableHead" style='color: #005384'></span>
                                             </th>
                                         </tr>
-                                        <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader"><span ng-bind="obj[theader]"></span></td>
+                                        <tr ng-repeat="obj in records">
+                                            <td ng-repeat="theader in tableHeader">
+                                                <span ng-bind="obj[theader]"></span>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>

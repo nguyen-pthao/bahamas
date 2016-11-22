@@ -107,7 +107,6 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
 
         $scope.order = function (predicate) {
             $scope.reverse = ($scope.predicate === ('\u0022'+ predicate + '\u0022')) ? !$scope.reverse : false;
-            console.log($scope.predicate);
             $scope.predicate = ('\u0022'+ predicate + '\u0022');
             $scope.records = orderBy($scope.records, $scope.predicate, $scope.reverse);
         };
@@ -197,7 +196,7 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
             } else {
                 datasend['payment_mode'] = '';
             }
-            if($scope.membershipType != '') {
+            if($scope.membershipType != 'All') {
                 datasend['membership_type'] = $scope.membershipType;
             } else {
                 datasend['membership_type'] = '';
@@ -208,7 +207,6 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                 $scope.result = response.data;
                 $scope.header = [];
                 $scope.header = Object.keys($scope.result);
-                console.log($scope.result);
 
                 $scope.tableHeader = [];
 
@@ -221,30 +219,30 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                     $scope.startline = (3 + $scope.header.length + 9 + 2);
                     $scope.endline = ($scope.startline + $scope.records.length - 1);
                     
-                    $scope.zero = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "0")');
-                    $scope.one = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "1")');
-                    $scope.two = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "2")');
-                    $scope.three = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "3")');
-                    $scope.four = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "4")');
-                    $scope.five = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', ">=5")');
+                    $scope.zero = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', "0")');
+                    $scope.one = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', "1")');
+                    $scope.two = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', "2")');
+                    $scope.three = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', "3")');
+                    $scope.four = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', "4")');
+                    $scope.five = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', ">=5")');
                 } else if($scope.selectedReport == 'summary_report_of_events') {
                     $scope.startline = (3 + $scope.header.length + 4 + $scope.eventStatusList.length + 2);
                     $scope.endline = ($scope.startline + $scope.records.length - 1);
                     
                     for(var obj in $scope.eventStatusList) {
                         var eventObj = $scope.eventStatusList[obj];
-                        eventObj['eventFormula'] = ('=COUNTIF(F' + $scope.startline + ':F' + $scope.endline + ', "*' + eventObj['eventStatus'] + '*")');
+                        eventObj['eventFormula'] = ('=COUNTIF(G' + $scope.startline + ':G' + $scope.endline + ', "*' + eventObj['eventStatus'] + '*")');
                     }
                     
                 } else if($scope.selectedReport == 'summary_report_of_memberships_by_time_period') {
                     $scope.startline = (3 + $scope.header.length + 5 + $scope.membershipList.length + 2);
                     $scope.endline = ($scope.startline + $scope.records.length - 1);
                     
-                    $scope.uniqueContact = '=SUMPRODUCT(1/COUNTIF(B' + $scope.startline + ':B' + $scope.endline + ',B' + $scope.startline + ':B' + $scope.endline + '&""))';
+                    $scope.uniqueContact = '=SUMPRODUCT(1/COUNTIF(C' + $scope.startline + ':C' + $scope.endline + ',C' + $scope.startline + ':C' + $scope.endline + '&""))';
                     
                     for(var obj in $scope.membershipList) {
                         var membershipObj = $scope.membershipList[obj];
-                        membershipObj['membershipFormula'] = ('=COUNTIF(C' + $scope.startline + ':C' + $scope.endline + ', "*' + membershipObj['membershipClass'] + '*")');
+                        membershipObj['membershipFormula'] = ('=COUNTIF(D' + $scope.startline + ':D' + $scope.endline + ', "*' + membershipObj['membershipClass'] + '*")');
                     }
                     
                 } else if($scope.selectedReport == 'summary_report_of_donations_by_time_period') {
@@ -256,18 +254,44 @@ app.controller('generalReport', ['$scope', 'session', '$state', 'dataSubmit', 'l
                     $scope.startline = (3 + $scope.header.length + 5 + $scope.membershipList.length + 2);
                     $scope.endline = ($scope.startline + $scope.records.length - 1);
                     
-                    $scope.uniqueContact = '=SUMPRODUCT(1/COUNTIF(B' + $scope.startline + ':B' + $scope.endline + ',B' + $scope.startline + ':B' + $scope.endline + '&""))';
+                    $scope.uniqueContact = '=SUMPRODUCT(1/COUNTIF(C' + $scope.startline + ':C' + $scope.endline + ',C' + $scope.startline + ':C' + $scope.endline + '&""))';
                     
                     for(var obj in $scope.membershipList) {
                         var membershipObj = $scope.membershipList[obj];
-                        membershipObj['membershipFormula'] = ('=COUNTIF(C' + $scope.startline + ':C' + $scope.endline + ', "*' + membershipObj['membershipClass'] + '*")');
+                        membershipObj['membershipFormula'] = ('=COUNTIF(D' + $scope.startline + ':D' + $scope.endline + ', "*' + membershipObj['membershipClass'] + '*")');
                     }
                 }
+                
+//                if($scope.records.length > 0) {
+//                    angular.forEach($scope.records, function(recordObj) {
+//                        recordObj['Serial Number'] = parseInt(recordObj['Serial Number']);
+//                    });
+//                }
             }, function () {
                 window.alert("Fail to send request!");
             });
         };
-
+        
+        $scope.viewContact = function($event, contact) {
+            var toURL = $scope.permission + ".viewIndivContact";
+            $scope.viewIndivContact = $scope.permission + '/viewIndivContact';
+            var contactCid = contact['Contact id'];
+            session.setSession('contactToDisplayCid', contactCid);
+            
+            if ($event.which == 1) {
+                $state.go(toURL);
+            }
+        };
+        
+        $scope.viewEvent = function ($event, event) {
+            var url = $scope.permission + '.viewPastIndivEvent';
+            $scope.viewIndivEvent = $scope.permission + '/viewPastIndivEvent';
+            session.setSession('eventIdToDisplay', event['Event id']);
+            if ($event.which == 1) {
+                $state.go(url);
+            }
+        };
+        
         $scope.exportData = function () {
             var table = document.getElementById($scope.selectedReport).innerHTML;
             table = '\uFEFF' + table;
