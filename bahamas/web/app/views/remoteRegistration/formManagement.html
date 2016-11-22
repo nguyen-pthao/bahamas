@@ -41,9 +41,9 @@ and open the template in the editor.
                                     Date Start:
                                 </label>
                                 <p class="input-group">
-                                    <input type="text" class="form-control" ng-click="open1()" uib-datepicker-popup="{{format}}" ng-model="dateStart" is-open="popup1.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start"/>
+                                    <input type="text" class="form-control" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" ng-model="dateStart" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open1()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="openStart($index)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
@@ -52,9 +52,9 @@ and open the template in the editor.
                                     Date End:
                                 </label>
                                 <p class="input-group">
-                                    <input type="text" class="form-control" ng-click="open2()" uib-datepicker-popup="{{format}}" placeholder="Date End" ng-model="dateEnd" is-open="popup2.opened" datepicker-options="dateOptions" ng-required="true" close-text="Close" alt-input-formats="altInputFormats"/>
+                                    <input type="text" class="form-control" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" ng-model="dateEnd" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" placeholder="Date Start">
                                     <span class="input-group-btn">
-                                        <button type="button" class="btn btn-default" ng-click="open2()"><i class="glyphicon glyphicon-calendar"></i></button>
+                                        <button type="button" class="btn btn-default" ng-click="openEnd($index)"><i class="glyphicon glyphicon-calendar"></i></button>
                                     </span>
                                 </p>
                             </div>
@@ -62,6 +62,15 @@ and open the template in the editor.
                                 <label>Search:</label>
                                 <input type="text" class="form-control" placeholder="Search Forms" ng-model="searchForm"/>
                             </div>
+                        </div>
+                        <div class="col-md-12">
+                            <p>
+                                <span><label>Total Entries: </label>&nbsp;</span><span style="color: red">{{filteredForms.length}}</span> 
+                                &nbsp;&nbsp;
+                                <span> <label> Entries per page: </label>&nbsp;</span>
+                                <span ng-hide="isAll" style="color: red">{{itemsPerPage}}</span>
+                                <span ng-show="isAll" style="color: red">All</span>
+                            </p>
                         </div>
                         <div class="table-horizontal-scroll col-md-12" ng-show='resultData != ""'>
                             <table class="table table-bordered table-striped">
@@ -74,7 +83,7 @@ and open the template in the editor.
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr ng-repeat="result in resultData| orderBy:predicate:reverse">
+                                    <tr ng-repeat="result in filteredForms| orderBy:predicate:reverse | startFrom:currentPage*itemsPerPage | limitTo: itemsPerPage">
                                         <td ng-repeat="tInfo in tableHeader">
                                             <span ng-bind="result[tInfo]" ng-show="tInfo != 'Authentication code created'"></span>
                                             <a href="#/{{viewSelectedRegistration}}" ng-mousedown="viewRegistration($event, result)" ng-show="tInfo == 'Authentication code created'" uib-tooltip-placement="top" uib-tooltip="View Registration"><span ng-bind="result[tInfo]"></span></a>
@@ -101,15 +110,15 @@ and open the template in the editor.
                                 </tfoot>
                             </table>
                         </div>
-<!--                        <div>
+                        <div>
                             <div style='float: right'>
-                                <uib-pagination total-items="totalFilteredItems" items-per-page="itemsPerPage" ng-model="currentPage" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
+                                <uib-pagination total-items="totalItems" items-per-page="itemsPerPage" ng-model="currentPageIncrement" ng-change="pageChanged()" max-size="maxSize" boundary-link-numbers="true" force-ellipses="true"></uib-pagination>
                             </div>
                             <br/>
                             <div style='float: left'>
-                                <pre>Page: {{currentPage}} / {{totalPages}}</pre>
+                                <pre>Page: {{currentPage +1}} / {{totalPages()}}</pre>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
             </section>

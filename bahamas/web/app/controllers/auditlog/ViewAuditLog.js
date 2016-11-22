@@ -226,13 +226,6 @@ app.controller('viewAuditLog',
                         return '';
                     }
 
-                    $scope.exportData = function () {
-                        var blob = new Blob([document.getElementById('example1').innerHTML], {
-                            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8"
-                        });
-                        saveAs(blob, "AuditLog.xls");
-                    };
-
                 };
                 
             }]);

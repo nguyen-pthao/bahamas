@@ -53,15 +53,15 @@ and open the template in the editor.
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th ng-repeat="tableHead in tableHeader">
+                                            <th ng-repeat="tableHead in tableHeader" ng-show="tableHead != 'Contact id'">
                                                 <a href="" ng-click="order(tableHead)" style='color: #005384'>
-                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Contact id'"></span>
+                                                    <span ng-bind="tableHead"></span>
                                                 </a>
                                             </th>
                                         </tr>
                                         <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader">
-                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact id' || theader == 'Contact Name')"></span>
+                                            <td ng-repeat="theader in tableHeader" ng-hide="(theader == 'Contact id')">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact Name')"></span>
                                                 <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, obj)" ng-show="theader == 'Contact Name'" ng-disabled="theader != 'Contact Name'"><span ng-bind="obj[theader]"></span></a>
                                             </td>
                                         </tr>
@@ -116,15 +116,15 @@ and open the template in the editor.
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th ng-repeat="tableHead in tableHeader">
+                                            <th ng-repeat="tableHead in tableHeader" ng-show="tableHead != 'Event id'">
                                                 <a href="" ng-click="order(tableHead)" style='color: #005384'>
-                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Event id'"></span>
+                                                    <span ng-bind="tableHead"></span>
                                                 </a>
                                             </th>
                                         </tr>
                                         <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader">
-                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Event id' || theader == 'Title of event')"></span>
+                                            <td ng-repeat="theader in tableHeader" ng-hide="(theader == 'Event id')">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Title of event')"></span>
                                                 <a href="#/{{viewIndivEvent}}" ng-mousedown="viewEvent($event, obj)" ng-show="theader == 'Title of event'"><span ng-bind="obj[theader]"></span></a>
                                             </td>
                                         </tr>
@@ -178,15 +178,15 @@ and open the template in the editor.
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th ng-repeat="tableHead in tableHeader">
+                                            <th ng-repeat="tableHead in tableHeader" ng-show="tableHead != 'Contact id'">
                                                 <a href="" ng-click="order(tableHead)" style='color: #005384'>
-                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Contact id'"></span>
+                                                    <span ng-bind="tableHead"></span>
                                                 </a>
                                             </th>
                                         </tr>
                                         <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader">
-                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact id' || theader == 'Name of contact')"></span>
+                                            <td ng-repeat="theader in tableHeader" ng-hide="(theader == 'Contact id')">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Name of contact')"></span>
                                                 <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, obj)" ng-show="theader == 'Name of contact'"><span ng-bind="obj[theader]"></span></a>
                                             </td>
                                         </tr>
@@ -271,15 +271,15 @@ and open the template in the editor.
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <th ng-repeat="tableHead in tableHeader">
+                                            <th ng-repeat="tableHead in tableHeader" ng-show="tableHead != 'Contact id'">
                                                 <a href="" ng-click="order(tableHead)" style='color: #005384'>
-                                                    <span ng-bind="tableHead" ng-show="tableHead != 'Contact id'"></span>
+                                                    <span ng-bind="tableHead"></span>
                                                 </a>
                                             </th>
                                         </tr>
                                         <tr ng-repeat="obj in records| orderBy:predicate:reverse">
-                                            <td ng-repeat="theader in tableHeader">
-                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Contact id' || theader == 'Name of contact')"></span>
+                                            <td ng-repeat="theader in tableHeader" ng-hide="(theader == 'Contact id')">
+                                                <span ng-bind="obj[theader]" ng-hide="(theader == 'Name of contact')"></span>
                                                 <a href="#/{{viewIndivContact}}" ng-mousedown="viewContact($event, obj)" ng-show="theader == 'Name of contact'"><span ng-bind="obj[theader]"></span></a>
                                             </td>
                                         </tr>

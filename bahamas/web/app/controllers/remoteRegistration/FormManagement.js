@@ -6,8 +6,8 @@
 
 var app = angular.module('bahamas');
 
-app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', '$timeout', 'ngDialog', 'orderByFilter',
-    function ($scope, session, $state, dataSubmit, $uibModal, $timeout, ngDialog, orderBy) {
+app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '$uibModal', '$timeout', 'ngDialog', 'orderByFilter', 'filterFilter',
+    function ($scope, session, $state, dataSubmit, $uibModal, $timeout, ngDialog, orderBy, filterFilter) {
 
         var token = session.getSession('token');
         $scope.permission = session.getSession('userType');
@@ -44,7 +44,10 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
                 $scope.openedEnd[index] = true;
             });
         };
-
+        
+        $scope.dateStart = '';
+        $scope.dateEnd = '';
+        
         $scope.code = '';
         $scope.startdate = new Date(new Date().setSeconds(00));
         $scope.enddate = new Date(new Date(new Date().setSeconds(00)).setHours($scope.startdate.getHours() + 2));
@@ -69,12 +72,73 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
         $scope.formChoice = 'retrieveAllForm';
         $scope.formRetrieve = function () {
             var url = AppAPI[$scope.formChoice];
-            dataSubmit.submitData(datasend, url).then(function (response) {
+            $scope.myPromise = dataSubmit.submitData(datasend, url).then(function (response) {
                 $scope.resultData = response.data.Records;
                 if ($scope.resultData != '') {
                     $scope.tableHeader = Object.keys($scope.resultData[0]);
+                    
+                    $scope.filteredForms = $scope.resultData;
+                    $scope.totalItems = $scope.filteredForms.length;
+                    $scope.currentPage = 0;
+                    $scope.currentPageIncrement = 1;
+                    $scope.$watch('currentPageIncrement', function () {
+                        $scope.currentPage = $scope.currentPageIncrement - 1;
+                    });
+                    $scope.itemsPerPage = 100;
+                    $scope.maxSize = 5;
+                    $scope.propertyName = '';
+                    $scope.reverse = true;
+
+                    $scope.totalPages = function () {
+                        return Math.ceil($scope.filteredForms.length / $scope.itemsPerPage);
+                    };
+                    $scope.itemsPerPageChanged = function () {
+                        if ($scope.itemsPerPage == 'toAll') {
+                            $scope.itemsPerPage = $scope.filteredForms.length;
+                            $scope.isAll = true;
+                        } else {
+                            $scope.isAll = false;
+                        }
+                    };
+                    
+                    $scope.$watch('searchForm', function (term) {
+                        $scope.allFormsTemp = $scope.resultData;
+                        $scope.filteredForms = filterFilter($scope.allFormsTemp, term);
+                        $scope.totalItems = $scope.filteredForms.length;
+                    });
+                    
+                    $scope.$watch('dateStart + dateEnd', function () {
+                        
+                        var newArray = [];
+                        if (angular.isUndefined($scope.dateStart)) {
+                            var start = null;
+                            $scope.dateStart = start;
+                        }
+                        if (angular.isUndefined($scope.dateEnd) || $scope.dateEnd === null || $scope.dateEnd === '') {
+                            $scope.superFarDate = new Date(2050, 0, 1, 00, 00, 00, 0);
+                            angular.forEach($scope.resultData, function (obj) {
+                                var startDate = new Date(obj['Window start (date/time)']);
+                                if (startDate >= $scope.dateStart && startDate <= $scope.superFarDate) {
+                                    newArray.push(obj);
+                                }
+                            });
+                        } else {
+                            var datecheck = $scope.dateEnd;
+                            $scope.superFarDate = new Date(new Date().setDate(datecheck.getDate() + 1));
+                            angular.forEach($scope.resultData, function (obj) {
+                                var startDate = new Date(obj['Window start (date/time)']);
+                                var endDate = new Date(obj['Window end (date/time)']);
+                                if (startDate >= $scope.dateStart && endDate <= $scope.superFarDate) {
+                                    newArray.push(obj);
+                                }
+                            });
+                        }
+                        $scope.allFilteredFormTime = newArray;
+                        $scope.filteredForms = filterFilter($scope.allFilteredFormTime, $scope.searchForm);
+                        $scope.totalItems = $scope.filteredForms.length;
+                    });
                 }
-//                console.log($scope.tableHeader);
+
             }, function () {
                 window.alert("Fail to send request!");
             });
@@ -272,3 +336,14 @@ app.controller('formManagement', ['$scope', 'session', '$state', 'dataSubmit', '
             }
         };
      }]);
+
+app.filter('startFrom', function () {
+    return function (input, start) {
+        start = +start; //parse to int
+        if (angular.isUndefined(input)) {
+            return null;
+        } else {
+            return input.slice(start);
+        }
+    };
+});

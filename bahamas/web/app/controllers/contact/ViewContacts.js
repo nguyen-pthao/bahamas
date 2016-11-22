@@ -224,5 +224,5 @@ app.filter('startFrom', function () {
         } else {
             return input.slice(start);
         }
-    }
+    };
 });
