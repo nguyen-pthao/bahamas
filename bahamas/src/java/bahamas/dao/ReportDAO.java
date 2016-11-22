@@ -36,11 +36,11 @@ public class ReportDAO {
         LinkedHashMap<Integer, ArrayList<String>> resultMap = new LinkedHashMap<Integer, ArrayList<String>>();
         Connection conn = null;
         PreparedStatement stmt = null;
+        PreparedStatement stmt2 = null;
         ResultSet rs = null;
+        ResultSet rs2 = null;
 
         try {
-
-            String lastLoginValue = "";
 
             conn = ConnectionManager.getConnection();
             stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, c.USERNAME, MIN(DATE(e.EVENT_START_DATE)), "
@@ -66,16 +66,18 @@ public class ReportDAO {
                 String firstParticapationDate = rs.getString(4);
                 String lastParticapationDate = rs.getString(5);
                 Date lastLogin = rs.getTimestamp(6);
-
+                String lastLoginValue = "";
                 if (lastLogin != null) {
                     lastLoginValue = formatTime.format(lastLogin);
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(name);
-                temp.add(username);
-                temp.add(firstParticapationDate);
-                temp.add(lastParticapationDate);
+                addEmptyString(temp, String.valueOf(contact_id));
+                addEmptyString(temp, name);
+                addEmptyString(temp, username);
+                addEmptyString(temp, firstParticapationDate);
+                addEmptyString(temp, lastParticapationDate);
+                addEmptyString(temp, lastLoginValue);
 
                 resultMap.put(contact_id, temp);
             }
@@ -83,31 +85,42 @@ public class ReportDAO {
             Iterator<Integer> iter = resultMap.keySet().iterator();
             while (iter.hasNext()) {
 
-                stmt = conn.prepareStatement("SELECT CONTACT_ID, COUNT(CONTACT_ID),"
-                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea WHERE CONTACT_ID=? "
-                        + "AND ea.EVENT_ID=ep.EVENT_ID AND PULLOUT=FALSE AND ea.TEAM_NAME = ? AND DATE(ep.DATE_CREATED) BETWEEN "
-                        + "? AND ? GROUP BY CONTACT_ID");
+                int cid = iter.next();
+                ArrayList<String> temp = resultMap.get(cid);
 
-                stmt.setInt(1, iter.next());
-                stmt.setString(2, team);
-                stmt.setDate(3, new java.sql.Date(start.getTime()));
-                stmt.setDate(4, new java.sql.Date(end.getTime()));
+                stmt2 = conn.prepareStatement("SELECT ep.CONTACT_ID, COUNT(ep.CONTACT_ID),"
+                        + "SUM(HOURS_SERVED) FROM EVENT_PARTICIPANT ep, EVENT_AFFILIATION ea, EVENT e WHERE ep.CONTACT_ID=? "
+                        + "AND ea.EVENT_ID=ep.EVENT_ID AND e.EVENT_ID=ep.EVENT_ID AND PULLOUT=FALSE "
+                        + "AND ea.TEAM_NAME = ? AND DATE(e.EVENT_START_DATE) BETWEEN "
+                        + "? AND ? GROUP BY ep.CONTACT_ID");
 
-                rs = stmt.executeQuery();
-                while (rs.next()) {
+                stmt2.setInt(1, cid);
+                stmt2.setString(2, team);
+                stmt2.setDate(3, new java.sql.Date(start.getTime()));
+                stmt2.setDate(4, new java.sql.Date(end.getTime()));
 
-                    int contact_id = rs.getInt(1);
-                    int numOfSignUp = rs.getInt(2);
-                    int hoursServed = rs.getInt(3);
+                rs2 = stmt2.executeQuery();
+                if (rs2.next()) {
 
-                    ArrayList<String> temp = resultMap.get(contact_id);
-                    if (temp != null) {
-                        temp.add(String.valueOf(numOfSignUp));
-                        temp.add(String.valueOf(hoursServed));
-                        temp.add(lastLoginValue);
-                    }
+                    int contact_id = rs2.getInt(1);
+                    int numOfSignUp = rs2.getInt(2);
+                    int hoursServed = rs2.getInt(3);
 
+                    String lastLogin = temp.get(temp.size() - 1);
+                    temp.remove(temp.size() - 1);
+                    addEmptyString(temp, String.valueOf(numOfSignUp));
+                    addEmptyString(temp, String.valueOf(hoursServed));
+                    addEmptyString(temp, lastLogin);
+
+                } else {
+                    String lastLogin = temp.get(temp.size() - 1);
+                    temp.remove(temp.size() - 1);
+                    addEmptyString(temp, "0");
+                    addEmptyString(temp, "0");
+                    addEmptyString(temp, lastLogin);
                 }
+
+               
             }
 
             return resultMap;
@@ -117,6 +130,7 @@ public class ReportDAO {
             ex.printStackTrace();
         } finally {
             ConnectionManager.close(conn, stmt, rs);
+            ConnectionManager.close(conn, stmt2, rs2);
         }
 
         return resultMap;
@@ -174,12 +188,12 @@ public class ReportDAO {
                 String serviceComment = rs.getString(6);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(eventSignUpDate);
-                temp.add(teamName);
-                temp.add(eventTitle);
-                temp.add(role);
-                temp.add(hours);
-                temp.add(serviceComment);
+                addEmptyString(temp, eventSignUpDate);
+                addEmptyString(temp, teamName);
+                addEmptyString(temp, eventTitle);
+                addEmptyString(temp, role);
+                addEmptyString(temp, hours);
+                addEmptyString(temp, serviceComment);
 
                 resultMap.put(++counter, temp);
             }
@@ -204,7 +218,7 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT DATE(EVENT_START_DATE), EVENT_TITLE, "
+            stmt = conn.prepareStatement("SELECT e.EVENT_ID, DATE(EVENT_START_DATE), EVENT_TITLE, "
                     + "e.CREATED_BY, PARTICIPANT_NUMBER, EVENT_STATUS FROM EVENT e, EVENT_AFFILIATION ea "
                     + "WHERE e.EVENT_ID=ea.EVENT_ID AND TEAM_NAME=? AND DATE(EVENT_START_DATE) "
                     + "BETWEEN ? AND ? ORDER BY DATE(EVENT_START_DATE)");
@@ -217,23 +231,25 @@ public class ReportDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                Date DateOfEvent = rs.getDate(1);
+                int eventId = rs.getInt(1);
+                Date DateOfEvent = rs.getDate(2);
                 String dateOfEvent = "";
                 if (DateOfEvent != null) {
                     dateOfEvent = formatDate.format(DateOfEvent);
                 }
 
-                String eventTitle = rs.getString(2);
-                String eventCreator = rs.getString(3);
-                String numOfParticipants = String.valueOf(rs.getInt(4));
-                String status = rs.getString(5);
+                String eventTitle = rs.getString(3);
+                String eventCreator = rs.getString(4);
+                String numOfParticipants = String.valueOf(rs.getInt(5));
+                String status = rs.getString(6);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(dateOfEvent);
-                temp.add(eventTitle);
-                temp.add(eventCreator);
-                temp.add(numOfParticipants);
-                temp.add(status);
+                addEmptyString(temp, String.valueOf(eventId));
+                addEmptyString(temp, dateOfEvent);
+                addEmptyString(temp, eventTitle);
+                addEmptyString(temp, eventCreator);
+                addEmptyString(temp, numOfParticipants);
+                addEmptyString(temp, status);
 
                 resultMap.put(++counter, temp);
             }
@@ -259,7 +275,7 @@ public class ReportDAO {
         try {
             conn = ConnectionManager.getConnection();
             if (membershipType != null) {
-                stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                         + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
                         + "AND END_MEMBERSHIP AND MEMBERSHIP_CLASS_NAME=?");
@@ -267,7 +283,7 @@ public class ReportDAO {
                 stmt.setString(2, membershipType);
 
             } else {
-                stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+                stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                         + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                         + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND ? BETWEEN START_MEMBERSHIP "
                         + "AND END_MEMBERSHIP");
@@ -279,36 +295,38 @@ public class ReportDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                String name = rs.getString(1);
-                String membershipClass = rs.getString(2);
+                int contactId = rs.getInt(1);
+                String name = rs.getString(2);
+                String membershipClass = rs.getString(3);
 
-                Date startDate = rs.getDate(3);
+                Date startDate = rs.getDate(4);
                 String membershipStart = "";
                 if (startDate != null) {
                     membershipStart = formatDate.format(startDate);
                 }
 
-                Date endDate = rs.getDate(4);
+                Date endDate = rs.getDate(5);
                 String membershipEnd = "";
                 if (endDate != null) {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = rs.getString(5);
+                String subscriptionAmt = rs.getString(6);
 
-                Date rDate = rs.getDate(6);
+                Date rDate = rs.getDate(7);
                 String receiptDate = "";
                 if (rDate != null) {
                     receiptDate = formatDate.format(rDate);
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(name);
-                temp.add(membershipClass);
-                temp.add(membershipStart);
-                temp.add(membershipEnd);
-                temp.add(subscriptionAmt);
-                temp.add(receiptDate);
+                addEmptyString(temp, String.valueOf(contactId));
+                addEmptyString(temp, name);
+                addEmptyString(temp, membershipClass);
+                addEmptyString(temp, membershipStart);
+                addEmptyString(temp, membershipEnd);
+                addEmptyString(temp, subscriptionAmt);
+                addEmptyString(temp, receiptDate);
 
                 resultMap.put(++counter, temp);
             }
@@ -333,7 +351,7 @@ public class ReportDAO {
 
         try {
             conn = ConnectionManager.getConnection();
-            stmt = conn.prepareStatement("SELECT c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
+            stmt = conn.prepareStatement("SELECT c.CONTACT_ID, c.NAME, MEMBERSHIP_CLASS_NAME, START_MEMBERSHIP, "
                     + "END_MEMBERSHIP, SUBSCRIPTION_AMOUNT, RECEIPT_DATE FROM MEMBERSHIP m, "
                     + "CONTACT c WHERE m.CONTACT_ID=c.CONTACT_ID AND DATE(START_MEMBERSHIP) BETWEEN ? "
                     + "AND ?");
@@ -345,36 +363,38 @@ public class ReportDAO {
             rs = stmt.executeQuery();
             while (rs.next()) {
 
-                String name = rs.getString(1);
-                String membershipClass = rs.getString(2);
+                int contactId = rs.getInt(1);
+                String name = rs.getString(2);
+                String membershipClass = rs.getString(3);
 
-                Date startDate = rs.getDate(3);
+                Date startDate = rs.getDate(4);
                 String membershipStart = "";
                 if (startDate != null) {
                     membershipStart = formatDate.format(startDate);
                 }
 
-                Date endDate = rs.getDate(4);
+                Date endDate = rs.getDate(5);
                 String membershipEnd = "";
                 if (endDate != null) {
                     membershipEnd = formatDate.format(endDate);
                 }
 
-                String subscriptionAmt = rs.getString(5);
+                String subscriptionAmt = rs.getString(6);
 
-                Date rDate = rs.getDate(6);
+                Date rDate = rs.getDate(7);
                 String receiptDate = "";
                 if (rDate != null) {
                     receiptDate = formatDate.format(rDate);
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(name);
-                temp.add(membershipClass);
-                temp.add(membershipStart);
-                temp.add(membershipEnd);
-                temp.add(subscriptionAmt);
-                temp.add(receiptDate);
+                addEmptyString(temp, String.valueOf(contactId));
+                addEmptyString(temp, name);
+                addEmptyString(temp, membershipClass);
+                addEmptyString(temp, membershipStart);
+                addEmptyString(temp, membershipEnd);
+                addEmptyString(temp, subscriptionAmt);
+                addEmptyString(temp, receiptDate);
 
                 resultMap.put(++counter, temp);
             }
@@ -435,11 +455,11 @@ public class ReportDAO {
                 }
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(membershipClass);
-                temp.add(membershipStart);
-                temp.add(membershipEnd);
-                temp.add(subscriptionAmt);
-                temp.add(receiptDate);
+                addEmptyString(temp, membershipClass);
+                addEmptyString(temp, membershipStart);
+                addEmptyString(temp, membershipEnd);
+                addEmptyString(temp, subscriptionAmt);
+                addEmptyString(temp, receiptDate);
 
                 resultMap.put(++counter, temp);
             }
@@ -505,15 +525,15 @@ public class ReportDAO {
                 String subAmt3 = rs.getString(9);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(receivedDate);
-                temp.add(name);
-                temp.add(donationAmt);
-                temp.add(paymentM);
-                temp.add(receiptNum);
-                temp.add(donorInstruc);
-                temp.add(subAmt1);
-                temp.add(subAmt2);
-                temp.add(subAmt3);
+                addEmptyString(temp, receivedDate);
+                addEmptyString(temp, name);
+                addEmptyString(temp, donationAmt);
+                addEmptyString(temp, paymentM);
+                addEmptyString(temp, receiptNum);
+                addEmptyString(temp, donorInstruc);
+                addEmptyString(temp, subAmt1);
+                addEmptyString(temp, subAmt2);
+                addEmptyString(temp, subAmt3);
 
                 resultMap.put(++counter, temp);
             }
@@ -566,14 +586,14 @@ public class ReportDAO {
                 String subAmt3 = rs.getString(8);
 
                 ArrayList<String> temp = new ArrayList<String>();
-                temp.add(receivedDate);
-                temp.add(donationAmt);
-                temp.add(paymentM);
-                temp.add(receiptNum);
-                temp.add(donorInstruc);
-                temp.add(subAmt1);
-                temp.add(subAmt2);
-                temp.add(subAmt3);
+                addEmptyString(temp, receivedDate);
+                addEmptyString(temp, donationAmt);
+                addEmptyString(temp, paymentM);
+                addEmptyString(temp, receiptNum);
+                addEmptyString(temp, donorInstruc);
+                addEmptyString(temp, subAmt1);
+                addEmptyString(temp, subAmt2);
+                addEmptyString(temp, subAmt3);
 
                 resultMap.put(++counter, temp);
             }
@@ -588,6 +608,17 @@ public class ReportDAO {
         }
 
         return resultMap;
+    }
+
+    public static void addEmptyString(ArrayList<String> temp, String value) {
+
+        if (value == null) {
+            String t = "";
+            temp.add(t);
+        } else {
+            temp.add(value);
+        }
+
     }
 
 }

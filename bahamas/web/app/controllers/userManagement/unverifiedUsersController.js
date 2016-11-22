@@ -60,15 +60,15 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
             $scope.toResendNameList = [];
             angular.forEach($scope.userObj, function (value, key) {
                 if (value == true) {
-                    var keyString = key + "";
-                    $scope.toResendList.push(keyString);
+                    var emailKey = key;
+                    $scope.toResendList.push(emailKey);
                     var nameDisplay = $scope.userObjName[key];
                     $scope.toResendNameList.push(nameDisplay);
                 }
             });
             $scope.toResend = {
                 'token': session.getSession('token'),
-                'contact_id_list': $scope.toResendList
+                'email_list': $scope.toResendList
             };
             var url = '/email.resendverification';
             ngDialog.openConfirm({
@@ -128,8 +128,8 @@ app.controller('unverifiedUsersCtrl', ['$scope', 'session', 'filterFilter', '$st
                 $scope.userObj = {};
                 $scope.userObjName = {};
                 angular.forEach($scope.allUsers, function (obj) {
-                    $scope.userObj[obj.cid] = false;
-                    $scope.userObjName[obj.cid] = obj.name;
+                    $scope.userObj[obj.email] = false;
+                    $scope.userObjName[obj.email] = obj.name;
                 });
                 $scope.filteredUsers = $scope.allUsers;
                 $scope.totalItems = $scope.filteredUsers.length;

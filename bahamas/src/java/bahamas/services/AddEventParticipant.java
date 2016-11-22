@@ -131,10 +131,8 @@ public class AddEventParticipant extends HttpServlet {
                                 Contact contact1 = cDAO.retrieveContactById(targetContactid);
                                 if (contact1 != null) {
                                     eventParticipant = new EventParticipant(contact1.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), contact.getName(), false, null, null, 0, null, null);
-                                    participantNumber++;
                                 }
                                 if (contact1 != null && EventParticipantDAO.addEventParticipant(eventParticipant)) {
-                                    
                                     ContactDAO contactDAO = new ContactDAO();
                                     if (contactDAO.retrieveContactById(contact1.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
                                         AppNotification appNotification = new AppNotification(event.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", contact1.getName() + " joined " + date.format(event.getEventStartDate()) + " event \"" + event.getEventTitle() + "\". Click to view event.");
@@ -145,6 +143,7 @@ public class AddEventParticipant extends HttpServlet {
                                         AppNotificationDAO.addAppNotification(appNotification2);
                                     }
                                     AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact1.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
+                                    participantNumber++;
                                     //json.addProperty("message", "success");
                                     //out.println(gson.toJson(json));
                                 } else {
@@ -159,7 +158,6 @@ public class AddEventParticipant extends HttpServlet {
                             }
                         } else {
                             eventParticipant = new EventParticipant(contact.getContactId(), null, Integer.parseInt(roleId), Integer.parseInt(eventId), username, false, null, null, 0, null, null);
-                            participantNumber++;
                             if (EventParticipantDAO.addEventParticipant(eventParticipant)) {
                                 ContactDAO contactDAO = new ContactDAO();
                                 if (contactDAO.retrieveContactById(event.getContactId()).getUsername() != null && event.getContactId() != contact.getContactId()) {
@@ -169,6 +167,7 @@ public class AddEventParticipant extends HttpServlet {
                                 //AppNotification appNotification2 = new AppNotification(contact.getContactId(), Integer.parseInt(eventId), ".viewIndivEvent", "You have joined to event \"" + event.getEventTitle() + "\". Click to view event.");
                                 //AppNotificationDAO.addAppNotification(appNotification2);
                                 AuditLogDAO.insertAuditLog(username, "JOIN EVENT", "Join event under contact: Contact ID: " + contact.getContactId() + " | Event ID: " + eventId + " | Event role ID: " + roleId);
+                                participantNumber++;
                                 json.addProperty("message", "success");
                                 //out.println(gson.toJson(json));
                                 //return;
