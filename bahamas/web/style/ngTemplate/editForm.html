@@ -21,10 +21,10 @@
                 <div class="col-md-5">
                     <label>Start date</label><span class="required">*</span>
                     <div class="input-group date">
-                        <div class="input-group-addon btn" ng-click="openStart($index)">
+                        <div class="input-group-addon btn" ng-click="openStart(2)">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type='text' ng-required="true" ng-model="$parent.formStart" ng-click="openStart($index)" uib-datepicker-popup="{{format}}" is-open="openedStart[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly empty>
+                        <input type='text' ng-required="true" ng-model="$parent.formStart" ng-click="openStart(2)" uib-datepicker-popup="{{format}}" is-open="openedStart[2]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="startdate" class="form-control pull-right white-background" readonly empty>
                     </div>
                 </div>
                 <div class="col-md-offset-2 col-md-5">
@@ -36,10 +36,10 @@
                 <div class="col-md-5">
                     <label>End date</label><span class="required">*</span>
                     <div class="input-group date">
-                        <div class="input-group-addon btn" ng-click="openEnd($index)">
+                        <div class="input-group-addon btn" ng-click="openEnd(2)">
                             <i class="fa fa-calendar"></i>
                         </div>
-                        <input type='text' ng-required="true" ng-model="$parent.formEnd" ng-click="openEnd($index)" uib-datepicker-popup="{{format}}" is-open="openedEnd[$index]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly empty>
+                        <input type='text' ng-required="true" ng-model="$parent.formEnd" ng-click="openEnd(2)" uib-datepicker-popup="{{format}}" is-open="openedEnd[2]" datepicker-options="dateOptions" close-text="Close" alt-input-formats="altInputFormats" name="enddate" class="form-control pull-right white-background" readonly empty>
                     </div>
                     <span ng-show="($parent.formStart > $parent.formEnd) && remoteRegistration.enddate.$touched" class="error">Start Date cannot be after End Date.</span>
                 </div>

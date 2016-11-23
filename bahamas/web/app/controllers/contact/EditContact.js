@@ -342,6 +342,7 @@ app.controller('editContact',
                     if($scope.editUser.profile_pic == '') {
                         $scope.editUser.profile_pic = 'images/default.jpg';
                     }
+                    $scope.file = $scope.editUser.profile_pic;
                 };
                 //contact
                 var retrievePersonalInfo = function (contactToEdit) {

@@ -2602,20 +2602,17 @@ and open the template in the editor.
                         <h4 class="modal-title" id="profilePicture">Change Profile Picture</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="col-lg-12 padding-bottom">
-                            <div class="col-lg-6">
-                                <img class="img-responsive img-resize" id="profile-pic-modal" ng-src="{{editUser.profile_pic}}" on-error-src="images/default.jpg" alt="profile_picture">
-                            </div>
+                        <div class="col-md-12 padding-bottom">
                             <form>
-                                <div class="col-lg-6">
-                                    <div ngf-drop ngf-select ng-model="file" class="drop-box" 
+                                <div class="col-md-offset-3 col-md-6">
+                                    <div ngf-drop ngf-select ng-model="$parent.file" class="drop-box" 
                                          ngf-drag-over-class="'dragover'" ngf-multiple='false' 
                                          ngf-allow-dir='true' accept='image/*' 
                                          ngf-pattern="'image/*'" ngf-max-size="2MB">
-                                        <img class="img-responsive img-resize-1" ngf-thumbnail="file" id="myProfile">
+                                        <img class="img-responsive img-resize" ngf-thumbnail="file" id="myProfile">
                                         <div ng-hide='fileEmpty' class="file-upload">
                                             <span>Drop images here to upload</span>
-                                            <button class="btn btn-primary" ngf-select ng-model="file" ngf-multiple='false' accept='image/*'>Select Image</button>
+                                            <button class="btn btn-primary" ngf-select ng-model="$parent.file" ngf-multiple='false' accept='image/*'>Select Image</button>
                                         </div>
                                     </div>
                                 </div>
@@ -2624,7 +2621,7 @@ and open the template in the editor.
                     </div>
                     <div class="modal-footer profile-modal-footer">
                         <button ng-click="upload(file)" class="btn btn-primary pull-left" data-dismiss="modal">Upload</button>
-                        <button class="btn btn-warning pull-right" type="button" data-dismiss="modal">Cancel</button>
+                        <button class="btn btn-warning pull-right" type="button" data-dismiss="modal" ng-click="removeProfile()">Remove Profile Picture</button>
                     </div>
                 </div>
             </div>

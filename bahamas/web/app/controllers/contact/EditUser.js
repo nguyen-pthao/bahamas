@@ -12,6 +12,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
         //Edit profile picture
         //Upload image uses third-party library and thus require full URL
         $scope.fileEmpty = false;
+        
         $scope.$watch('file', function () {
             //console.log($scope.file);
             if (!angular.isUndefined($scope.file)) {
@@ -21,6 +22,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
 
         var url = $scope.commonUrl + AppAPI.uploadImage;
         $scope.upload = function (file) {
+            $scope.file = file;
             Upload.imageDimensions(file)
                     .then(function (dimensions) {
                         console.log(dimensions.width, dimensions.height);
@@ -96,6 +98,7 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
                             resetContact.profile_pic = '';
                             session.setSession('contact', angular.toJson(resetContact));
                             $scope.retrieveFunc();
+                            $state.reload();
                         });
                     } else {
                         window.alert("Fail to delete profile picture");
