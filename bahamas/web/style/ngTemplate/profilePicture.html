@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <button type="button" class="close" ng-click="cancel()" aria-label="Close">
+        <span aria-hidden="true"><i class="fa fa-close"></i></span>
+    </button>
+    <h4 class="modal-title" id="profilePicture">Change Profile Picture</h4>
+</div>
+<div class="modal-body">
+    <div class="col-md-12 padding-bottom">
+<!--        <div class="col-lg-6">
+            <img class="img-responsive img-resize" id="profile-pic-modal" ng-src="{{editUser.profile_pic}}" on-error-src="images/default.jpg" alt="profile_picture">
+        </div>-->
+        <form>
+            <div class="col-md-offset-3 col-md-6">
+                <div ngf-drop ngf-select ng-model="$parent.file" class="drop-box" 
+                     ngf-drag-over-class="'dragover'" ngf-multiple='false' 
+                     ngf-allow-dir='true' accept='image/*' 
+                     ngf-pattern="'image/*'" ngf-max-size="2MB">
+                    <img class="img-responsive img-resize" ngf-thumbnail="file" id="myProfile">
+                    <div ng-hide='$parent.fileEmpty' class="file-upload">
+                        <span>Drop images here to upload</span>
+                        <button class="btn btn-primary" ngf-select ng-model="$parent.file" ngf-multiple='false' accept='image/*'>Select Image</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer profile-modal-footer">
+    <button ng-click="upload(file)" class="btn btn-primary pull-left">Upload</button>
+    <button class="btn btn-warning pull-right" type="button" ng-click="removeProfile()">Remove Profile Picture</button>
+</div>

@@ -84,6 +84,9 @@ app.controller('viewIndivContact', ['$scope', 'session', '$state', 'retrieveCont
                 if ($scope.permission === 'admin') {
                     $scope.isUser = true;
                     $scope.profile = $scope.contactInfo.profile_pic;
+                    if($scope.profile == '') {
+                        $scope.profile = 'images/default.jpg';
+                    }
                 }
             }
 

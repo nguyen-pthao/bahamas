@@ -92,6 +92,9 @@ app.controller('EditUser', ['$scope', 'session', 'ngDialog', 'dataSubmit', 'Uplo
                             className: 'ngdialog-theme-default',
                             scope: $scope
                         }).then(function () {
+                            var resetContact = angular.fromJson(session.getSession('contact'));
+                            resetContact.profile_pic = '';
+                            session.setSession('contact', angular.toJson(resetContact));
                             $scope.retrieveFunc();
                         });
                     } else {
